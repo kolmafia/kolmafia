@@ -612,7 +612,7 @@ class CharPaneRequestTest {
   class FamiliarStatus {
     @Test
     void parsesCurrentFamiliar() throws JSONException {
-      try (var cleanups = new Cleanups(withFamiliar(FamiliarPool.MOSQUITO))) {
+      try (var _ = new Cleanups(withFamiliar(FamiliarPool.MOSQUITO))) {
         CharPaneRequest.parseStatus(json(html("request/test_status2.json")));
 
         assertThat(KoLCharacter.getFamiliar().getId(), is(326));
@@ -621,8 +621,7 @@ class CharPaneRequestTest {
 
     @Test
     void ignoresCurrentFamiliarInPokefam() throws JSONException {
-      try (var cleanups =
-          new Cleanups(withPath(Path.POKEFAM), withFamiliar(FamiliarPool.MOSQUITO))) {
+      try (var _ = new Cleanups(withPath(Path.POKEFAM), withFamiliar(FamiliarPool.MOSQUITO))) {
         CharPaneRequest.parseStatus(json(html("request/test_status2.json")));
 
         assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MOSQUITO));

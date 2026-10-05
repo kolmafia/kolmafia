@@ -210,11 +210,11 @@ public class PriceToAcquireTest {
   public void canMockIsPermittedMethod() {
     AdventureResult item = ItemPool.get(ItemPool.DRIVE_BY_SHOOTING, 0);
     Set<Integer> unpermitted = new HashSet<>();
-    try (var cleanups = mockIsPermittedMethod(unpermitted)) {
+    try (var _ = mockIsPermittedMethod(unpermitted)) {
       assertTrue(ConcoctionDatabase.isPermittedMethod(item));
     }
     unpermitted.add(item.getItemId());
-    try (var cleanups = mockIsPermittedMethod(unpermitted)) {
+    try (var _ = mockIsPermittedMethod(unpermitted)) {
       assertFalse(ConcoctionDatabase.isPermittedMethod(item));
     }
   }

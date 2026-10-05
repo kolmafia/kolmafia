@@ -94,7 +94,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class MaximizerTest {
   @Test
   void respectsCachedCombinationLimit() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("hardened slime hat"),
             withEquippableItem("bounty-hunting helmet"),
@@ -104,7 +104,7 @@ public class MaximizerTest {
       assertThat(Maximizer.combinationLimit, is(1L));
     }
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("hardened slime hat"),
             withEquippableItem("bounty-hunting helmet"),
@@ -769,7 +769,7 @@ public class MaximizerTest {
 
     @Test
     void duplicateTwoBeeRequirementDoesNotAllowAThirdBee() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.BEES_HATE_YOU),
               withEquippableItem("Buddy Bjorn"),
@@ -3781,7 +3781,7 @@ public class MaximizerTest {
   @Test
   void keepsCurrentEquipmentWhenCombinationLimitIsReached() {
     var watch = ItemPool.get("grandfather watch");
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withItem("Boots of Twilight Whispers"),
             withEquipped(Slot.ACCESSORY1, "Elf Guard insignia (general)"),
@@ -3802,7 +3802,7 @@ public class MaximizerTest {
   @Test
   void currentKeywordControlsWhetherEquippedItemsAreConsidered() {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withOverrideModifiers(ModifierType.ITEM, alternative, "Item Drop: +20"),
@@ -3850,7 +3850,7 @@ public class MaximizerTest {
       })
   void recognizesModifierAliases(String expression, String modifiers) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, modifiers),
             withOverrideModifiers(ModifierType.ITEM, alternative, "Meat Drop: +100"),
@@ -3878,7 +3878,7 @@ public class MaximizerTest {
   void anyResistanceScoresTotalResistanceAcrossElements(
       String variedModifiers, String concentratedModifiers, String expected, String unexpected) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, variedModifiers),
             withOverrideModifiers(ModifierType.ITEM, alternative, concentratedModifiers),
@@ -3893,7 +3893,7 @@ public class MaximizerTest {
   @Test
   void allResistanceModifierContributesToEveryElement() {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "All Resistance: +1"),
             withOverrideModifiers(ModifierType.ITEM, alternative, "Spooky Resistance: +4"),
@@ -3909,7 +3909,7 @@ public class MaximizerTest {
   @CsvSource({"any resistance, helmet turtle", "all resistance, bounty-hunting helmet"})
   void distinguishesAnyResistanceFromAllResistance(String expression, String expected) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Cold Resistance: +6"),
             withOverrideModifiers(ModifierType.ITEM, alternative, "All Resistance: +1"),
@@ -3925,7 +3925,7 @@ public class MaximizerTest {
       delimiter = '|',
       value = {"utensil | pasta spoon", "knife | asparagus knife", "accordion | aerogel accordion"})
   void honorsWeaponRequirements(String expression, String itemName) {
-    try (var cleanups = new Cleanups(withStats(100, 100, 100), withEquippableItem(itemName))) {
+    try (var _ = new Cleanups(withStats(100, 100, 100), withEquippableItem(itemName))) {
       assertTrue(maximize(expression + ", -tie"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, itemName)));
     }
@@ -3944,7 +3944,7 @@ public class MaximizerTest {
       String qualifier, String expected, String alternative) {
     int expectedId = ItemPool.get(expected).getItemId();
     int alternativeId = ItemPool.get(alternative).getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withStats(100, 100, 100),
             withOverrideModifiers(ModifierType.ITEM, expectedId, "Item Drop: +10"),
@@ -3960,7 +3960,7 @@ public class MaximizerTest {
   @ParameterizedTest
   @CsvSource({"ACCORDION_THIEF, true", "SEAL_CLUBBER, false"})
   void stolenAccordionRequirementRespectsClass(AscensionClass ascensionClass, boolean recommended) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(ascensionClass),
             withStats(100, 100, 100),
@@ -3988,14 +3988,14 @@ public class MaximizerTest {
       })
   void classRestrictedEquipmentIsRecommendedOnlyToItsClass(
       String itemName, AscensionClass requiredClass, AscensionClass otherClass, String expression) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(requiredClass), withStats(100, 100, 100), withEquippableItem(itemName))) {
       assertTrue(maximize(expression + ", -tie"));
       assertThat(getBoosts(), hasItem(recommends(itemName)));
     }
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(otherClass), withStats(100, 100, 100), withEquippableItem(itemName))) {
       assertTrue(maximize(expression + ", -tie"));
@@ -4007,7 +4007,7 @@ public class MaximizerTest {
   @ValueSource(strings = {"Cold", "Hot", "Sleaze", "Spooky", "Stench"})
   void elementalImmunityOutweighsOrdinaryStatsAndResistance(String element) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(
                 ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Muscle: +10, " + element + " Immunity"),
@@ -4025,7 +4025,7 @@ public class MaximizerTest {
   @ValueSource(strings = {"Cold", "Hot", "Sleaze", "Spooky", "Stench"})
   void elementalVulnerabilityOutweighsOrdinaryStats(String element) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(
                 ModifierType.ITEM,
@@ -4092,7 +4092,7 @@ public class MaximizerTest {
 
   @Test
   void coldPlumberExplainsWhyItCannotRecommendEquipment() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.PLUMBER),
             withPath(Path.PATH_OF_THE_PLUMBER),
@@ -4110,7 +4110,7 @@ public class MaximizerTest {
   })
   void silentHunterRecommendationDependsOnCharacterClass(
       AscensionClass ascensionClass, String expected, String unavailable) {
-    try (var cleanups = new Cleanups(withClass(ascensionClass), withSkill("Silent Hunter"))) {
+    try (var _ = new Cleanups(withClass(ascensionClass), withSkill("Silent Hunter"))) {
       assertTrue(maximize("initiative, -tie"));
 
       assertThat(getBoosts(), hasItem(recommendsEffect(expected)));
@@ -4122,7 +4122,7 @@ public class MaximizerTest {
   @CsvSource({"false, true", "true, false"})
   void noAdventuresPreferenceControlsAdventureCostEffects(
       boolean noAdventures, boolean recommended) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withAdventuresLeft(3),
             withItem(ItemPool.GONG),
@@ -4139,7 +4139,7 @@ public class MaximizerTest {
   @ParameterizedTest
   @CsvSource({"4, true", "5, false"})
   void dailyUsePreferenceControlsEffectSource(int buffsUsed, boolean recommended) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.PANTS, ItemPool.GREAT_PANTS), withProperty("_gapBuffs", buffsUsed))) {
       assertTrue(maximize("item drop"));
@@ -4153,7 +4153,7 @@ public class MaximizerTest {
 
   @Test
   void outfitWithoutANameKeepsTheCurrentlyWornOutfit() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOutfit(OutfitPool.WAR_FRAT_OUTFIT),
             withAdjustmentsRecalculated(),
@@ -4174,7 +4174,7 @@ public class MaximizerTest {
 
   @Test
   void outfitWithoutANameDoesNotForceAnOutfitWhenNoneIsWorn() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.HAT, "helmet turtle"),
             withEquipped(Slot.PANTS, "old sweatpants"),
@@ -4186,7 +4186,7 @@ public class MaximizerTest {
 
   @Test
   void negativeSwitchForSameFamiliarDoesNotCancelPositiveSwitch() {
-    try (var cleanups = withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY)) {
+    try (var _ = withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY)) {
       assertTrue(maximize("switch Baby Gravy Fairy, -switch Baby Gravy Fairy, item drop"));
 
       assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy"))));
@@ -4195,7 +4195,7 @@ public class MaximizerTest {
 
   @Test
   void negativeFamiliarSwitchIsUsedWhenPositiveSwitchIsUnavailable() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
             withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS))) {
@@ -4207,7 +4207,7 @@ public class MaximizerTest {
 
   @Test
   void positiveFamiliarSwitchTakesPriorityOverNegativeSwitch() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
             withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
@@ -4227,7 +4227,7 @@ public class MaximizerTest {
 
   @Test
   void moxiePlumberPrefersFancyBoots() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.PLUMBER),
             withPath(Path.PATH_OF_THE_PLUMBER),
@@ -4242,7 +4242,7 @@ public class MaximizerTest {
 
   @Test
   void recommendsWeaponAndOffhandSynergy() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withStats(100, 100, 100),
             withEquippableItem("lupine sword"),
@@ -4256,7 +4256,7 @@ public class MaximizerTest {
 
   @Test
   void recommendsThreeAccessorySynergy() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withStats(100, 100, 100),
             withEquippableItem("monstrous monocle"),
@@ -4275,7 +4275,7 @@ public class MaximizerTest {
   @ParameterizedTest
   @CsvSource({"DISCO_BANDIT, true", "SEAL_CLUBBER, false"})
   void doubleBarreledAvailabilityDependsOnClass(AscensionClass ascensionClass, boolean available) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withClass(ascensionClass), withProperty("barrelShrineUnlocked", true))) {
       assertTrue(maximize("ranged damage percent, -tie"));
 
@@ -4294,7 +4294,7 @@ public class MaximizerTest {
   })
   void motorbikeMufflerControlsRevEngineEffect(
       String muffler, String expression, String expected, String unavailable) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.AVATAR_OF_SNEAKY_PETE),
             withPath(Path.AVATAR_OF_SNEAKY_PETE),
@@ -4309,7 +4309,7 @@ public class MaximizerTest {
 
   @Test
   void turtleTamerCanChangeBlessing() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.TURTLE_TAMER), withSkill("Blessing of She-Who-Was"))) {
       assertTrue(maximize("mysticality, -tie"));
@@ -4320,7 +4320,7 @@ public class MaximizerTest {
 
   @Test
   void turtleTamerCanGainBoonMatchingCurrentBlessing() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.TURTLE_TAMER),
             withSkill("Spirit Boon"),
@@ -4333,7 +4333,7 @@ public class MaximizerTest {
 
   @Test
   void turtleTamerCanBecomeAvatarFromGloriousBlessing() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.TURTLE_TAMER),
             withSkill("Turtle Power"),
@@ -4346,7 +4346,7 @@ public class MaximizerTest {
 
   @Test
   void crownAndBjornUseDifferentFamiliars() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Crown of Thrones"),
             withEquippableItem("Buddy Bjorn"),
@@ -4374,7 +4374,7 @@ public class MaximizerTest {
         })
     void unavailableOutsideItsPath(String itemName, Path path, AscensionClass ascensionClass) {
       int itemId = ItemPool.get(itemName).getItemId();
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.SEAL_CLUBBER),
               withHardcore(),
@@ -4400,7 +4400,7 @@ public class MaximizerTest {
         })
     void availableInItsPath(String itemName, Path path, AscensionClass ascensionClass) {
       int itemId = ItemPool.get(itemName).getItemId();
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(path),
               withClass(ascensionClass),
@@ -4420,7 +4420,7 @@ public class MaximizerTest {
     @Test
     void chargedGarbageShirtBeatsAHigherUnchargedExperienceModifier() {
       int alternative = ItemPool.get("astral shirt").getItemId();
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill("Torso Awareness"),
               withProperty("garbageShirtCharge", 1),
@@ -4436,7 +4436,7 @@ public class MaximizerTest {
     @Test
     void dischargedGarbageShirtLosesToAHigherExperienceModifier() {
       int alternative = ItemPool.get("astral shirt").getItemId();
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill("Torso Awareness"),
               withProperty("garbageShirtCharge", 0),
@@ -4461,7 +4461,7 @@ public class MaximizerTest {
   void familiarCanWearItsSpecialEquipment(String familiarName, String itemName, String forcedItem) {
     int itemId = ItemPool.get(itemName).getItemId();
     int forcedItemId = ItemPool.get(forcedItem).getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarDatabase.getFamiliarId(familiarName), 400),
             withOverrideModifiers(ModifierType.ITEM, forcedItemId, "Item Drop: +20"),
@@ -4475,7 +4475,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationIncludesClosetRetrievalCommand() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withProperty("autoSatisfyWithCloset", true),
@@ -4494,12 +4494,12 @@ public class MaximizerTest {
 
   @Test
   void recommendationIncludesStashRetrievalCommand() {
-    try (var clanCleanup = withClan(1, "Test Clan")) {
+    try (var _ = withClan(1, "Test Clan")) {
       boolean hadClan = KoLCharacter.hasClan();
       KoLCharacter.setClan(true);
       ClanManager.setStashRetrieved();
 
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               new Cleanups(() -> KoLCharacter.setClan(hadClan)),
               withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
@@ -4520,7 +4520,7 @@ public class MaximizerTest {
 
   @Test
   void mallRecommendationIncludesAcquisitionText() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withProperty("autoSatisfyWithMall", true),
@@ -4535,7 +4535,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationIncludesPullCommand() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withInteractivity(false),
@@ -4553,7 +4553,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationAcquiresAndFoldsAccessibleEquipment() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +10"),
             withProperty("autoSatisfyWithCloset", true),
@@ -4579,7 +4579,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationPullsAndFoldsStoredEquipment() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +10"),
             withProperty("maximizerFoldables", true),
@@ -4605,7 +4605,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationBuysToStorageAndPullsEquipment() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withProperty("autoSatisfyWithMall", true),
@@ -4630,7 +4630,7 @@ public class MaximizerTest {
   @ParameterizedTest
   @ValueSource(strings = {"Drops Items", "Drops Meat"})
   void defaultTiebreakerPrefersSpecialEquipment(String specialModifier) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(
                 ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10, " + specialModifier),
@@ -4649,7 +4649,7 @@ public class MaximizerTest {
   @Test
   void defaultTiebreakerPrefersEquipmentWithARolloverEffect() {
     int oldSweatpants = ItemPool.OLD_SWEATPANTS;
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(
                 ModifierType.ITEM,
@@ -4665,7 +4665,7 @@ public class MaximizerTest {
 
   @Test
   void doubleFistedSkillCanPutRangedWeaponsInBothHands() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill("Double-Fisted Skull Smashing"),
             withOverrideModifiers(
@@ -4680,7 +4680,7 @@ public class MaximizerTest {
 
   @Test
   void hatTrickDoesNotRecommendTheNormalHatSlot() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.SEAL_CLUBBER),
             withPath(Path.HAT_TRICK),
@@ -4695,7 +4695,7 @@ public class MaximizerTest {
   @Test
   void speculativeSearchLeavesEquippedItemsUnchanged() {
     var equipped = ItemPool.get("helmet turtle");
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.HAT, equipped), withEquippableItem("bounty-hunting helmet"))) {
       assertTrue(maximize("item"));
@@ -4707,7 +4707,7 @@ public class MaximizerTest {
 
   @Test
   void emptyKeywordRecommendsKeepingOccupiedSlots() {
-    try (var cleanups = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
+    try (var _ = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
       assertTrue(maximize("empty"));
       assertThat(getBoosts(), contains(hasToString(containsString("keep hat: helmet turtle"))));
     }

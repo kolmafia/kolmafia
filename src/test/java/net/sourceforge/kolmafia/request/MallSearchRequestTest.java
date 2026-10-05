@@ -26,7 +26,7 @@ public class MallSearchRequestTest {
     mocked
         .when(() -> RequestLogger.updateSessionLog())
         .thenAnswer(
-            invocation -> {
+            _ -> {
               lastSessionLogLine = "";
               return false;
             });
@@ -44,7 +44,7 @@ public class MallSearchRequestTest {
 
   @Test
   public void canRegisterMallSearchRequests() {
-    try (var cleanups = mockRequestLogger()) {
+    try (var _ = mockRequestLogger()) {
 
       String url;
       boolean result;

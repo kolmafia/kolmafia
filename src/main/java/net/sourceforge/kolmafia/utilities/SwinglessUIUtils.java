@@ -12,7 +12,7 @@ public class SwinglessUIUtils {
       // interfaces
       new LockableListModel<>();
       isSwingAvailable = true;
-    } catch (NoClassDefFoundError e) {
+    } catch (NoClassDefFoundError _) {
       // if unable to do so, we are in a Swing-less environment
       isSwingAvailable = false;
     }

@@ -191,7 +191,7 @@ class DrinkItemRequestTest {
       ItemPool.BOTTLE_OF_WINE + ", false",
     })
     void jarlsbergOnlyAllowsCertainBooze(final int itemId, final boolean allowed) {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVATAR_OF_JARLSBERG),
               withClass(AscensionClass.AVATAR_OF_JARLSBERG),
@@ -210,7 +210,7 @@ class DrinkItemRequestTest {
       ItemPool.BOTTLE_OF_WINE + ", false",
     })
     void kolhsOnlyAllowsCertainBooze(final int itemId, final boolean allowed) {
-      try (var cleanups = new Cleanups(withPath(Path.KOLHS), withInebriety(0))) {
+      try (var _ = new Cleanups(withPath(Path.KOLHS), withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(itemId), allowed ? greaterThan(0) : is(0));
         if (!allowed) {
           assertThat(DrinkItemRequest.limiter, is("your unrefined palate"));
@@ -220,7 +220,7 @@ class DrinkItemRequestTest {
 
     @Test
     void vampyresCanOnlyDrinkBloodBooze() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.DARK_GYFFTE), withClass(AscensionClass.VAMPYRE), withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.VAMPAGNE), is(5));
@@ -231,7 +231,7 @@ class DrinkItemRequestTest {
 
     @Test
     void nonVampyresCannotDrinkBloodBooze() {
-      try (var cleanups = new Cleanups(withInebriety(0))) {
+      try (var _ = new Cleanups(withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.VAMPAGNE), is(0));
         assertThat(DrinkItemRequest.limiter, is("not being a Vampyre"));
       }
@@ -268,7 +268,7 @@ class DrinkItemRequestTest {
 
     @Test
     void correctlyIdentifyWhenInebrietyIsCausingLimit() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withInebriety(11),
               withProperty("_speakeasyDrinksDrunk", 1),
@@ -281,7 +281,7 @@ class DrinkItemRequestTest {
 
     @Test
     void correctlyIdentifyWhenDailyLimitIsCausingLimit() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withInebriety(11),
               withProperty("_speakeasyDrinksDrunk", 3),
@@ -294,7 +294,7 @@ class DrinkItemRequestTest {
 
     @Test
     void abilityToDrinkDrunkiBearIsNotAffectedByInebriety() {
-      try (var cleanups = new Cleanups(withInebriety(10), withFullness(0))) {
+      try (var _ = new Cleanups(withInebriety(10), withFullness(0))) {
         var max =
             DrinkItemRequest.maximumUses(ItemPool.GREEN_DRUNKI_BEAR, "green drunki-bear", 4, false);
         assertThat(max, is(3));
@@ -304,7 +304,7 @@ class DrinkItemRequestTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void limitExtendedForGreenBeerOnSSPD(final boolean sspd) {
-      try (var cleanups = new Cleanups(withDay(2023, Month.MAY, sspd ? 17 : 1), withInebriety(0))) {
+      try (var _ = new Cleanups(withDay(2023, Month.MAY, sspd ? 17 : 1), withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.GREEN_BEER), is(sspd ? 25 : 15));
       }
     }

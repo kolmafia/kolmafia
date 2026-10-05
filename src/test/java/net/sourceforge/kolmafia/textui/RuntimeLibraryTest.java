@@ -1272,12 +1272,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void baseReflectsCurrentPath() {
-      try (var cleanups = withPath(Path.YOU_ROBOT)) {
+      try (var _ = withPath(Path.YOU_ROBOT)) {
         assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 0.0\n"));
         assertThat(execute("numeric_modifier(\"Base\", \"PvP Fights\")"), is("Returned: 10.0\n"));
       }
 
-      try (var cleanups = withPath(Path.SLOW_AND_STEADY)) {
+      try (var _ = withPath(Path.SLOW_AND_STEADY)) {
         assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 100.0\n"));
       }
     }
@@ -3288,7 +3288,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     "seal tooth,0"
   })
   void shieldDrReturnsInnateDamageReduction(String item, int dr) {
-    try (var cleanups = withLevel(15)) {
+    try (var _ = withLevel(15)) {
       assertThat(execute("shield_dr($item[" + item + "])").trim(), is("Returned: " + dr));
     }
   }

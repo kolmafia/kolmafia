@@ -643,7 +643,7 @@ public class KoLCharacterTest {
   class Liberation {
     @Test
     void resizesOrganContentsAfterSmallPath() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("kingLiberated"),
               withPath(Path.SMALL),
@@ -657,7 +657,7 @@ public class KoLCharacterTest {
 
     @Test
     void liberatingKingEnablesStandardRestrictedSkills() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("kingLiberated"),
               withPath(Path.STANDARD),
@@ -673,7 +673,7 @@ public class KoLCharacterTest {
   class RoninBreak {
     @Test
     void breakingRoninEnablesStandardRestrictedSkills() {
-      try (var cleanups = new Cleanups(withRonin(true), withSkill(SkillPool.DRINKING_TO_DRINK))) {
+      try (var _ = new Cleanups(withRonin(true), withSkill(SkillPool.DRINKING_TO_DRINK))) {
         assertThat(KoLCharacter.getLiverCapacity(), is(14));
         KoLCharacter.setRonin(false);
         assertThat(KoLCharacter.getLiverCapacity(), is(15));

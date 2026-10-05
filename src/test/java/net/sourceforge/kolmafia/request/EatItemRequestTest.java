@@ -231,7 +231,7 @@ class EatItemRequestTest {
       ItemPool.TOAST + ", false",
     })
     void jarlsbergOnlyAllowsCertainFood(final int itemId, final boolean allowed) {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.AVATAR_OF_JARLSBERG),
               withClass(AscensionClass.AVATAR_OF_JARLSBERG),
@@ -250,7 +250,7 @@ class EatItemRequestTest {
       ItemPool.TOAST + ", false",
     })
     void zombieOnlyAllowsCertainFood(final int itemId, final boolean allowed) {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.ZOMBIE_SLAYER),
               withClass(AscensionClass.ZOMBIE_MASTER),
@@ -264,7 +264,7 @@ class EatItemRequestTest {
 
     @Test
     void vampyresCanOnlyEatBloodFood() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.DARK_GYFFTE),
               withClass(AscensionClass.VAMPYRE),
@@ -278,7 +278,7 @@ class EatItemRequestTest {
 
     @Test
     void nonVampyresCannotEatBloodFood() {
-      try (var cleanups = new Cleanups(withFullness(0))) {
+      try (var _ = new Cleanups(withFullness(0))) {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.BLOOD_SNOWCONE), is(0));
         assertThat(DrinkItemRequest.limiter, is("not being a Vampyre"));
       }
@@ -300,14 +300,14 @@ class EatItemRequestTest {
 
     @Test
     void magicalSausagesDayLimited() {
-      try (var cleanups = withProperty("_sausagesEaten", 3)) {
+      try (var _ = withProperty("_sausagesEaten", 3)) {
         assertThat(EatItemRequest.maximumUses(ItemPool.MAGICAL_SAUSAGE), is(20));
       }
     }
 
     @Test
     void cbbFoodsAreAscensionLimited() {
-      try (var cleanups = withProperty("deepDishOfLegendEaten", true)) {
+      try (var _ = withProperty("deepDishOfLegendEaten", true)) {
         assertThat(EatItemRequest.maximumUses(ItemPool.DEEP_DISH_OF_LEGEND), is(0));
         assertThat(EatItemRequest.limiter, is("lifetime limit"));
       }
@@ -316,7 +316,7 @@ class EatItemRequestTest {
 
   @Test
   void consumesLegendaryNoodles() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.TUBETTO_GELATTO),
             withFullness(1),

@@ -100,13 +100,13 @@ public class ScriptManager {
                 SVNURL repo;
                 try {
                   repo = SVNManager.workingCopyToSVNURL(p.toFile());
-                } catch (SVNException e) {
+                } catch (SVNException _) {
                   // not an SVN repo, continue
                   return;
                 }
                 installedScripts.add(new Script(p.getFileName().toString(), repo.toString(), p));
               });
-    } catch (IOException e) {
+    } catch (IOException _) {
       // failed to list folders, just continue
     }
 
@@ -125,7 +125,7 @@ public class ScriptManager {
                     new Script(
                         p.getFileName().toString(), details.repoUrl(), details.branchName(), p));
               });
-    } catch (IOException e) {
+    } catch (IOException _) {
       // failed to list folders, just continue
     }
   }

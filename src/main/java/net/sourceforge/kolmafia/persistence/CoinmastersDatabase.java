@@ -148,7 +148,7 @@ public class CoinmastersDatabase {
 
   private static Map<Integer, Integer> getOrMakeMap(
       final String key, final Map<String, Map<Integer, Integer>> map) {
-    return map.computeIfAbsent(key, k -> getNewMap());
+    return map.computeIfAbsent(key, _ -> getNewMap());
   }
 
   public static final Map<Integer, Integer> invert(final Map<Integer, Integer> map) {

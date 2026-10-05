@@ -238,7 +238,7 @@ public class MallSearchFrame extends GenericPanelFrame {
 
       MallSearchFrame.this.currentlyBuying = true;
 
-      try (Checkpoint checkpoint = new Checkpoint()) {
+      try (Checkpoint _ = new Checkpoint()) {
         KoLmafia.makePurchases(MallSearchFrame.results, purchases, count, false, 0);
       }
 

@@ -187,7 +187,7 @@ public class ChatBuffer {
     StringWriter writer = new StringWriter();
     try {
       kit.write(writer, doc, 0, doc.getLength());
-    } catch (Exception e) {
+    } catch (Exception _) {
     }
     String s = writer.toString();
     System.out.println("HTML = \"" + s + "\"");
@@ -416,7 +416,7 @@ public class ChatBuffer {
       if (!added.isEmpty()) {
         currentHTML.insertBeforeEnd(body, added);
       }
-    } catch (BadLocationException | IOException e) {
+    } catch (BadLocationException | IOException _) {
       return false;
     }
 
@@ -433,7 +433,7 @@ public class ChatBuffer {
     try {
       var bounds = displayPane.modelToView2D(element.getStartOffset());
       return bounds == null ? 0 : (int) bounds.getY();
-    } catch (BadLocationException e) {
+    } catch (BadLocationException _) {
       return 0;
     }
   }

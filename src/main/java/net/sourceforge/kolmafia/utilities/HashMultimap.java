@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class HashMultimap<V> extends HashMap<Integer, ArrayList<V>> {
   public final void put(int key, V value) {
-    ArrayList<V> curr = super.computeIfAbsent(key, k -> new ArrayList<>());
+    ArrayList<V> curr = super.computeIfAbsent(key, _ -> new ArrayList<>());
 
     curr.add(value);
     curr.trimToSize(); // minimize wasted space

@@ -289,7 +289,7 @@ public abstract class Function extends Symbol {
 
       message.append(" )");
       RequestLogger.printLine(message.toString());
-    } catch (Exception e) {
+    } catch (Exception _) {
       // If it fails, don't print the disabled message.
       // Which means, exiting here is okay.
     }

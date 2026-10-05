@@ -66,7 +66,7 @@ public class DataFileCache {
                 KoLConstants.MafiaState.ERROR, filename + " is not within KoLmafia's directories.");
             return null;
           }
-        } catch (IOException e) {
+        } catch (IOException _) {
           return null;
         }
       }
@@ -102,7 +102,7 @@ public class DataFileCache {
       }
 
       return file;
-    } catch (IOException e) {
+    } catch (IOException _) {
       return null;
     }
   }
@@ -130,7 +130,7 @@ public class DataFileCache {
 
         file = file.getParentFile();
       }
-    } catch (Exception e) {
+    } catch (Exception _) {
     }
 
     return false;
@@ -171,7 +171,7 @@ public class DataFileCache {
     if (input.exists()) {
       try {
         istream = new FileInputStream(input);
-      } catch (IOException e) {
+      } catch (IOException _) {
       }
     }
 
@@ -213,7 +213,7 @@ public class DataFileCache {
         }
 
         output.createNewFile();
-      } catch (Exception e) {
+      } catch (Exception _) {
         return DataTypes.FALSE_VALUE;
       }
     }
@@ -222,7 +222,7 @@ public class DataFileCache {
 
     try (FileOutputStream ostream = new FileOutputStream(output, append)) {
       ostream.write(data);
-    } catch (Exception e) {
+    } catch (Exception _) {
       return DataTypes.FALSE_VALUE;
     }
 
@@ -244,7 +244,7 @@ public class DataFileCache {
         // Otherwise load entire file back
         try (FileInputStream istream = new FileInputStream(output)) {
           cacheData = ByteBufferUtilities.read(istream);
-        } catch (IOException e) {
+        } catch (IOException _) {
           // If error, just don't cache
           cacheData = null;
         }

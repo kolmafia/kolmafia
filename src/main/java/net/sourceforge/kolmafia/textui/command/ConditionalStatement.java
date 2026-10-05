@@ -114,7 +114,7 @@ public abstract class ConditionalStatement extends AbstractCommand {
     try {
       leftValue = ConditionalStatement.lvalue(left);
       rightValue = ConditionalStatement.rvalue(left, right);
-    } catch (Exception e) {
+    } catch (Exception _) {
       // This should not happen.  Therefore, print
       // a stack trace for debug purposes.
 

@@ -90,7 +90,7 @@ public final class CrystalBallManager {
       try {
         CrystalBallManager.predictions.put(
             parts[1], new Prediction(Integer.parseInt(parts[0]), parts[1], parts[2]));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
       }
     }
   }

@@ -19,7 +19,7 @@ public class BuyCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       BuyCommand.buy(parameters);
     }
   }

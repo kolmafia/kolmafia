@@ -37,7 +37,7 @@ public class QuantumTerrariumRequestTest {
     mocked
         .when(() -> ApiRequest.updateStatus(anyBoolean()))
         .thenAnswer(
-            invocation -> {
+            _ -> {
               request.processResults();
               return null;
             });

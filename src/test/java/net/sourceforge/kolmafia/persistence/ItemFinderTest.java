@@ -238,7 +238,7 @@ public class ItemFinderTest {
       final String parameter,
       final int count,
       final boolean useInventory) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.SEAL_TOOTH),
             withItem(itemId, quantity),
@@ -274,7 +274,7 @@ public class ItemFinderTest {
   })
   void itShouldDetectParameterErrors(
       final String parameter, final boolean errorOnFailure, final String errorMessage) {
-    try (var cleanups = withContinuationState()) {
+    try (var _ = withContinuationState()) {
       var item = ItemFinder.getFirstMatchingItem(parameter, errorOnFailure, null, Match.ANY);
       assertThat(
           StaticEntity.getContinuationState(),
@@ -327,7 +327,7 @@ public class ItemFinderTest {
   })
   void itShouldNotFindItemsThatDontMatchTheirType(
       final String itemName, final Match matchType, final String message) {
-    try (var cleanups = new Cleanups(withContinuationState(), withProperty("_roboDrinks", ""))) {
+    try (var _ = new Cleanups(withContinuationState(), withProperty("_roboDrinks", ""))) {
       var item = ItemFinder.getFirstMatchingItem(itemName, true, null, matchType);
       assertThat(StaticEntity.getContinuationState(), is(MafiaState.ERROR));
       assertThat(item, nullValue());
@@ -736,7 +736,7 @@ public class ItemFinderTest {
   @ParameterizedTest
   @MethodSource("availableItemsProvider")
   public void itShouldPreferAvailableItems(String toBeParsed, int expectedItemId, Match matchType) {
-    try (var cleanups = withItem(expectedItemId)) {
+    try (var _ = withItem(expectedItemId)) {
       AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, matchType);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
       assertNotNull(item);
@@ -781,7 +781,7 @@ public class ItemFinderTest {
   @MethodSource("superstringsProvider")
   public void itShouldAvoidSuperstrings(
       String toBeParsed, int expectedItemId, Match matchType, int[] inventoryItemIds) {
-    try (var cleanups = withItems(inventoryItemIds)) {
+    try (var _ = withItems(inventoryItemIds)) {
       AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, matchType);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
       assertNotNull(item);
@@ -792,7 +792,7 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldReturnMeatcarWithCreateAndTPBM() {
-    try (var cleanups = withItem("tiny plastic bitchin' meatcar")) {
+    try (var _ = withItem("tiny plastic bitchin' meatcar")) {
       AdventureResult item = ItemFinder.getFirstMatchingItem("bitchin", false, null, Match.CREATE);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
       assertNotNull(item);
@@ -803,7 +803,7 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldReturnPayPhoneWithUse() {
-    try (var cleanups = withItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE)) {
+    try (var _ = withItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE)) {
       AdventureResult item =
           ItemFinder.getFirstMatchingItem("closed-circuit", false, null, Match.USE);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
@@ -820,7 +820,7 @@ public class ItemFinderTest {
   })
   public void itShouldNotAvoidUntradeableItemsInInventory(
       String toBeParsed, int expectedItemId, int unexpectedItemId) {
-    try (var cleanups = withItems(expectedItemId, unexpectedItemId)) {
+    try (var _ = withItems(expectedItemId, unexpectedItemId)) {
       AdventureResult item;
       item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
@@ -848,7 +848,7 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldReturnGemsWithEquip() {
-    try (var cleanups = withItem("Azurite")) {
+    try (var _ = withItem("Azurite")) {
       AdventureResult item = ItemFinder.getFirstMatchingItem("Azurite", Match.EQUIP);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
       assertNotNull(item);
@@ -859,7 +859,7 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldParseModeSuffixOnModeableItem() {
-    try (var cleanups = withItem(ItemPool.JURASSIC_PARKA)) {
+    try (var _ = withItem(ItemPool.JURASSIC_PARKA)) {
       var match =
           ItemFinder.getFirstMatchingItemWithMode("jurassic parka (spooky mode)", Match.EQUIP);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
@@ -872,7 +872,7 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldNotTreatRealItemNameEndingInModeAsMode() {
-    try (var cleanups = withItem("Jarlsberg's pan (Cosmic portal mode)")) {
+    try (var _ = withItem("Jarlsberg's pan (Cosmic portal mode)")) {
       var match =
           ItemFinder.getFirstMatchingItemWithMode(
               "jarlsberg's pan (cosmic portal mode)", Match.EQUIP);
@@ -891,7 +891,7 @@ public class ItemFinderTest {
     "magical mode"
   })
   public void itShouldErrorOnUnknownMode(String modeName) {
-    try (var cleanups = withItem(ItemPool.JURASSIC_PARKA)) {
+    try (var _ = withItem(ItemPool.JURASSIC_PARKA)) {
       var match =
           ItemFinder.getFirstMatchingItemWithMode("jurassic parka (" + modeName + ")", Match.EQUIP);
       assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
@@ -901,7 +901,7 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldErrorOnItemWithoutModes() {
-    try (var cleanups = withItem(ItemPool.MR_ACCESSORY)) {
+    try (var _ = withItem(ItemPool.MR_ACCESSORY)) {
       var match =
           ItemFinder.getFirstMatchingItemWithMode("Mr. Accessory (dinosaur mode)", Match.EQUIP);
       assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
@@ -911,7 +911,7 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldParseItemWithoutSayingMode() {
-    try (var cleanups = withItem(ItemPool.SNOW_SUIT)) {
+    try (var _ = withItem(ItemPool.SNOW_SUIT)) {
       var match = ItemFinder.getFirstMatchingItemWithMode("Snow Suit (nose)", Match.EQUIP);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
       assertNotNull(match);
@@ -924,7 +924,7 @@ public class ItemFinderTest {
   @ParameterizedTest
   @CsvSource({"nOsE", "nOSe mode", "NOse MOdE"})
   public void itShouldParseItemWithWeirdCapitalization(String modeName) {
-    try (var cleanups = withItem(ItemPool.SNOW_SUIT)) {
+    try (var _ = withItem(ItemPool.SNOW_SUIT)) {
       var match =
           ItemFinder.getFirstMatchingItemWithMode("SNOw suiT (" + modeName + ")", Match.EQUIP);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
@@ -937,7 +937,7 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldReturnNoModeWithoutSuffix() {
-    try (var cleanups = withItem(ItemPool.JURASSIC_PARKA)) {
+    try (var _ = withItem(ItemPool.JURASSIC_PARKA)) {
       var match = ItemFinder.getFirstMatchingItemWithMode("jurassic parka", Match.EQUIP);
       assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
       assertNotNull(match);

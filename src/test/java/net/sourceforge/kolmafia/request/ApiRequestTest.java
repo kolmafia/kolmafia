@@ -131,7 +131,7 @@ class ApiRequestTest {
   void refreshesSeveralThingsInOneRequest() {
     var builder = new FakeHttpClientBuilder();
 
-    try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder))) {
       ApiRequest.refresh(What.INVENTORY, What.CLOSET);
 
       var requests = builder.client.getRequests();
@@ -144,7 +144,7 @@ class ApiRequestTest {
   void updatesStatusFromApiAlone() {
     var builder = new FakeHttpClientBuilder();
 
-    try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder))) {
       ApiRequest.updateStatus();
 
       var requests = builder.client.getRequests();
@@ -157,7 +157,7 @@ class ApiRequestTest {
   void updatesStatusFromApiAndCharpaneInPokefam() {
     var builder = new FakeHttpClientBuilder();
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withHttpClientBuilder(builder), withPath(AscensionPath.Path.POKEFAM))) {
       ApiRequest.updateStatus();
 
@@ -170,8 +170,7 @@ class ApiRequestTest {
 
   @Test
   void parsesClosetAndStorageFromStatus() {
-    try (var cleanups =
-        new Cleanups(withMeatInCloset(0), withMeatInStorage(0), withPullsRemaining(0))) {
+    try (var _ = new Cleanups(withMeatInCloset(0), withMeatInStorage(0), withPullsRemaining(0))) {
       ApiRequest.parseStatus(json(html("request/test_status2.json")));
 
       assertThat(KoLCharacter.getClosetMeat(), is(54321L));

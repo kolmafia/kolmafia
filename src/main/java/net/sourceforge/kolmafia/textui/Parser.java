@@ -182,7 +182,7 @@ public class Parser {
         this.currentLine = this.currentLine.nextLine;
       }
       this.currentIndex = this.currentLine.offset;
-    } catch (Exception e) {
+    } catch (Exception _) {
       // If any part of the initialization fails,
       // then throw an exception.
 
@@ -190,7 +190,7 @@ public class Parser {
     } finally {
       try {
         this.istream.close();
-      } catch (IOException e) {
+      } catch (IOException _) {
       }
     }
   }
@@ -444,7 +444,7 @@ public class Parser {
             currentClass.getConstructor(File.class, InputStream.class, Map.class);
 
         return childConstructor.newInstance(scriptFile, stream, this.imports);
-      } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+      } catch (NoSuchMethodException | IllegalAccessException | InstantiationException _) {
         // Retry with the parent class
         // asSubclass is only here to correct the generic; we know we're still descendant of Parser
         currentClass = currentClass.getSuperclass().asSubclass(Parser.class);
@@ -4306,7 +4306,7 @@ public class Parser {
           int hex08 = Integer.parseInt(line.substring(i + 1, i + 3), 16);
           resultString.append((char) hex08);
           i += 2;
-        } catch (IndexOutOfBoundsException | NumberFormatException e) {
+        } catch (IndexOutOfBoundsException | NumberFormatException _) {
           Location errorLocation =
               this.makeLocation(
                   Parser.makeInlineRange(
@@ -4325,7 +4325,7 @@ public class Parser {
           int hex16 = Integer.parseInt(line.substring(i + 1, i + 5), 16);
           resultString.append((char) hex16);
           i += 4;
-        } catch (IndexOutOfBoundsException | NumberFormatException e) {
+        } catch (IndexOutOfBoundsException | NumberFormatException _) {
           Location errorLocation =
               this.makeLocation(
                   Parser.makeInlineRange(
@@ -4346,7 +4346,7 @@ public class Parser {
             resultString.append((char) octal);
             i += 2;
             break;
-          } catch (IndexOutOfBoundsException | NumberFormatException e) {
+          } catch (IndexOutOfBoundsException | NumberFormatException _) {
             Location errorLocation =
                 this.makeLocation(
                     Parser.makeInlineRange(
@@ -5695,7 +5695,7 @@ public class Parser {
                   directiveRange, "invalid 'since' format (21.09 was the final point release)"));
         }
       }
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException _) {
       sinceErrors.submitSyntaxError(this.error(directiveRange, "invalid 'since' format"));
     }
   }

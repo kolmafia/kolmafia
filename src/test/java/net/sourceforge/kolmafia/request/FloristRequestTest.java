@@ -33,28 +33,28 @@ public class FloristRequestTest {
 
   @Test
   public void unowned() {
-    try (var cleanups = new Cleanups(woodsOpen(), withProperty("ownsFloristFriar", false))) {
+    try (var _ = new Cleanups(woodsOpen(), withProperty("ownsFloristFriar", false))) {
       assertThat(FloristRequest.haveFlorist(), is(false));
     }
   }
 
   @Test
   public void unavailableWithoutWoods() {
-    try (var cleanups = new Cleanups(withProperty("ownsFloristFriar", true))) {
+    try (var _ = new Cleanups(withProperty("ownsFloristFriar", true))) {
       assertThat(FloristRequest.haveFlorist(), is(false));
     }
   }
 
   @Test
   public void available() {
-    try (var cleanups = new Cleanups(woodsOpen(), withProperty("ownsFloristFriar", true))) {
+    try (var _ = new Cleanups(woodsOpen(), withProperty("ownsFloristFriar", true))) {
       assertThat(FloristRequest.haveFlorist(), is(true));
     }
   }
 
   @Test
   public void unavailableIfRestricted() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             woodsOpen(),
             withProperty("ownsFloristFriar", true),
@@ -67,7 +67,7 @@ public class FloristRequestTest {
 
   @Test
   public void availableIfLoLReplicaEvenIfRestricted() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             woodsOpen(),
             withPath(Path.LEGACY_OF_LOATHING),
@@ -81,7 +81,7 @@ public class FloristRequestTest {
 
   @Test
   public void unavailableIfNoLoLReplica() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             woodsOpen(),
             withPath(Path.LEGACY_OF_LOATHING),
@@ -92,7 +92,7 @@ public class FloristRequestTest {
 
   @Test
   public void unavailableInBadMoon() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             woodsOpen(),
             withProperty("ownsFloristFriar", true),
@@ -104,7 +104,7 @@ public class FloristRequestTest {
 
   @Test
   public void unavailableInExploathing() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             woodsOpen(),
             withProperty("ownsFloristFriar", true),
@@ -115,7 +115,7 @@ public class FloristRequestTest {
 
   @Test
   public void setsBackwardsCompatibilityPreferences() {
-    try (var cleanups = new Cleanups(woodsOpen(), withProperty("ownsFloristFriar", true))) {
+    try (var _ = new Cleanups(woodsOpen(), withProperty("ownsFloristFriar", true))) {
       assertThat(FloristRequest.haveFlorist(), is(true));
       assertThat("floristFriarChecked", isSetTo(true));
       assertThat("floristFriarAvailable", isSetTo(true));

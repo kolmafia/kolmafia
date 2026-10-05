@@ -20,7 +20,7 @@ public class AcquireCommand extends AbstractCommand {
 
     AdventureResult[] items = ItemFinder.getMatchingItemList(parameters);
 
-    try (Checkpoint checkpoint = new Checkpoint(checking)) {
+    try (Checkpoint _ = new Checkpoint(checking)) {
       for (AdventureResult item : items) {
         if (checking) {
           RequestLogger.printLine(item + ": " + InventoryManager.simRetrieveItem(item, true));

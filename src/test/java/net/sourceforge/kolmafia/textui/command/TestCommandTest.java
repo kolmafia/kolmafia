@@ -55,7 +55,7 @@ public class TestCommandTest extends AbstractCommandTestBase {
         Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
         try {
           Files.delete(dest);
-        } catch (IOException e) {
+        } catch (IOException _) {
           // leave it
         }
       }

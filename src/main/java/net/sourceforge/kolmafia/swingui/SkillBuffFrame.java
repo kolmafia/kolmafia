@@ -224,7 +224,7 @@ public class SkillBuffFrame extends GenericFrame {
         return;
       }
 
-      try (Checkpoint checkpoint = new Checkpoint()) {
+      try (Checkpoint _ = new Checkpoint()) {
         for (int i = 0; i < targets.length && KoLmafia.permitsContinue(); ++i) {
           if (targets[i] != null) {
             RequestThread.postRequest(UseSkillRequest.getInstance(buffName, targets[i], buffCount));

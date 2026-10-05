@@ -82,7 +82,7 @@ public class ScriptManager {
     List<String> potentials;
     try {
       potentials = Files.readAllLines(dependencies);
-    } catch (IOException e) {
+    } catch (IOException _) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to read dependency file " + dependencies);
       return;
     }
@@ -142,7 +142,7 @@ public class ScriptManager {
     SVNURL repo;
     try {
       repo = SVNURL.parseURIEncoded(url);
-    } catch (SVNException e) {
+    } catch (SVNException _) {
       RequestLogger.printLine("Cannot parse \"" + url + "\" as SVN URL");
       return;
     }

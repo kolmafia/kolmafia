@@ -41,8 +41,7 @@ class MaximizerIncludeAllTest {
 
   @Test
   void explainsUnavailableGlobalOptions() {
-    try (var cleanups =
-        new Cleanups(withSign(ZodiacSign.NONE), withProperty("horseryAvailable", false))) {
+    try (var _ = new Cleanups(withSign(ZodiacSign.NONE), withProperty("horseryAvailable", false))) {
       maximizeAll("-combat, meat drop, monster level");
 
       assertThat(
@@ -82,7 +81,7 @@ class MaximizerIncludeAllTest {
 
   @Test
   void explainsUnavailableSkillSource() {
-    try (var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER))) {
+    try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER))) {
       maximizeAll("initiative");
 
       assertThat(

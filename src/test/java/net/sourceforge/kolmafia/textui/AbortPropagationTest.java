@@ -449,7 +449,7 @@ public class AbortPropagationTest {
      */
     @Test
     void abortPrintsOneStackTraceWhenPreferenceSet() {
-      try (var cleanups = withProperty("printStackOnAbort", true)) {
+      try (var _ = withProperty("printStackOnAbort", true)) {
         var run =
             runJs(
                 """
@@ -468,7 +468,7 @@ public class AbortPropagationTest {
 
     @Test
     void abortTraceUnwindingCleanlyCloses() {
-      try (var cleanups = withProperty("printStackOnAbort", true)) {
+      try (var _ = withProperty("printStackOnAbort", true)) {
         var first = runJs("cliExecute(\"jsq abort('Nested abort')\");");
         KoLmafia.forceContinue();
         var second = runJs("cliExecute(\"jsq abort('Nested abort')\");");
@@ -486,7 +486,7 @@ public class AbortPropagationTest {
      */
     @Test
     void abortUnwindsQuietlyByDefault() {
-      try (var cleanups = withProperty("printStackOnAbort", false)) {
+      try (var _ = withProperty("printStackOnAbort", false)) {
         var run =
             runJs(
                 """

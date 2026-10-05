@@ -175,7 +175,7 @@ public class KoLmafiaGUI {
     try {
       Class<?> frameClass = Class.forName(GenericFrame.class.getPackageName() + "." + frameName);
       KoLmafiaGUI.constructFrame(frameClass);
-    } catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException _) {
       // Can happen if preference file made by an earlier
       // version of KoLmafia and the frame has been renamed.
 

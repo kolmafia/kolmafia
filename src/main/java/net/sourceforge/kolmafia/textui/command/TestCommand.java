@@ -112,7 +112,7 @@ public class TestCommand extends AbstractCommand {
         BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o))) {
       w.write(data);
       w.flush();
-    } catch (Exception e) {
+    } catch (Exception _) {
     }
   }
 
@@ -986,7 +986,7 @@ public class TestCommand extends AbstractCommand {
       Object[] result;
       try {
         result = doc.evaluateXPath(xpath);
-      } catch (XPatherException e) {
+      } catch (XPatherException _) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "invalid xpath expression");
         return;
       }

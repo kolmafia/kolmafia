@@ -601,7 +601,7 @@ public class ResultProcessorTest {
 
     @Test
     void usingTurnsDecrementsEffectsButNotIntrinsics() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.INIGOS, 3), withIntrinsicEffect(EffectPool.CONFIDENCE))) {
         ResultProcessor.processAdventuresUsed(1);
@@ -612,7 +612,7 @@ public class ResultProcessorTest {
 
     @Test
     void usingLastTurnRemovesEffect() {
-      try (var cleanups = new Cleanups(withEffect(EffectPool.INIGOS, 1))) {
+      try (var _ = new Cleanups(withEffect(EffectPool.INIGOS, 1))) {
         ResultProcessor.processAdventuresUsed(1);
         assertFalse(KoLConstants.activeEffects.contains(INIGOS));
       }
@@ -620,7 +620,7 @@ public class ResultProcessorTest {
 
     @Test
     void halfAstralTickingDownKeepsAstralLimitMode() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 2), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.processAdventuresUsed(1);
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
@@ -629,7 +629,7 @@ public class ResultProcessorTest {
 
     @Test
     void cowrruptionDoesNotDecrementForCowPuncher() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.COW_PUNCHER), withEffect(EffectPool.COWRRUPTION, 5))) {
         ResultProcessor.processAdventuresUsed(1);
@@ -639,7 +639,7 @@ public class ResultProcessorTest {
 
     @Test
     void gainingCowrruptionAsCowPuncherGrantsSkill() {
-      try (var cleanups = new Cleanups(withClass(AscensionClass.COW_PUNCHER))) {
+      try (var _ = new Cleanups(withClass(AscensionClass.COW_PUNCHER))) {
         ResultProcessor.processResult(EffectPool.get(EffectPool.COWRRUPTION, 5));
         ResultProcessor.applyEffects();
         assertTrue(KoLCharacter.hasSkill(SkillPool.ABSORB_COWRRUPTION));
@@ -648,7 +648,7 @@ public class ResultProcessorTest {
 
     @Test
     void refreshingWithoutHalfAstralLeavesAstralLimitMode() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.setActiveEffects(List.of());
         assertFalse(KoLConstants.activeEffects.contains(HALF_ASTRAL));
@@ -658,7 +658,7 @@ public class ResultProcessorTest {
 
     @Test
     void refreshingWithHalfAstralKeepsAstralLimitMode() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.setActiveEffects(List.of(EffectPool.get(EffectPool.HALF_ASTRAL, 4)));
         assertThat(HALF_ASTRAL.getCount(KoLConstants.activeEffects), is(4));
@@ -668,7 +668,7 @@ public class ResultProcessorTest {
 
     @Test
     void gainingHalfAstralEntersAstralLimitMode() {
-      try (var cleanups = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
+      try (var _ = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
         ResultProcessor.processResult(EffectPool.get(EffectPool.HALF_ASTRAL, 5));
         ResultProcessor.applyEffects();
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
@@ -677,7 +677,7 @@ public class ResultProcessorTest {
 
     @Test
     void refreshingWithNewHalfAstralEntersAstralLimitMode() {
-      try (var cleanups = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
+      try (var _ = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
         ResultProcessor.setActiveEffects(List.of(EffectPool.get(EffectPool.HALF_ASTRAL, 5)));
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
       }
@@ -685,7 +685,7 @@ public class ResultProcessorTest {
 
     @Test
     void refreshingWithoutCowrruptionRemovesSkill() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.COW_PUNCHER),
               withEffect(EffectPool.COWRRUPTION, 5),
@@ -705,7 +705,7 @@ public class ResultProcessorTest {
 
     @Test
     void removingHalfAstralLeavesAstralLimitMode() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.removeEffect(HALF_ASTRAL);
         assertFalse(KoLConstants.activeEffects.contains(HALF_ASTRAL));
@@ -715,7 +715,7 @@ public class ResultProcessorTest {
 
     @Test
     void removingInactiveEffectDoesNothing() {
-      try (var cleanups = new Cleanups(withLimitMode(LimitMode.ASTRAL))) {
+      try (var _ = new Cleanups(withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.removeEffect(HALF_ASTRAL);
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
       }
@@ -723,7 +723,7 @@ public class ResultProcessorTest {
 
     @Test
     void enteringSorceressFightKeepsOnlyConfidence() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withIntrinsicEffect(EffectPool.CONFIDENCE),
               withEffect(EffectPool.HALF_ASTRAL, 5),

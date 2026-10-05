@@ -4227,7 +4227,7 @@ public abstract class RuntimeLibrary {
     }
 
     LinkedHashMap<String, StringBuilder> prefixMap =
-        batched.computeIfAbsent(cmd, k -> new LinkedHashMap<>());
+        batched.computeIfAbsent(cmd, _ -> new LinkedHashMap<>());
 
     String key = prefix == null ? "" : prefix;
     StringBuilder buf = prefixMap.get(key);
@@ -4645,7 +4645,7 @@ public abstract class RuntimeLibrary {
     Object[] result;
     try {
       result = doc.evaluateXPath(xpath.toString());
-    } catch (XPatherException e) {
+    } catch (XPatherException _) {
       throw controller.runtimeException("invalid xpath expression");
     }
 
@@ -4822,7 +4822,7 @@ public abstract class RuntimeLibrary {
         arg = val.intValue();
       }
       return new Value(String.format(fmt.toString(), arg));
-    } catch (IllegalFormatException e) {
+    } catch (IllegalFormatException _) {
       throw controller.runtimeException("Invalid format pattern");
     }
   }
@@ -4837,7 +4837,7 @@ public abstract class RuntimeLibrary {
       String string = value.toString();
       try {
         return new Value(StringUtilities.parseLongInternal1(string, true));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
       }
 
       // Try again with lax parsing
@@ -4848,7 +4848,7 @@ public abstract class RuntimeLibrary {
                 "The string \"" + string + "\" is not an integer; returning " + retval);
         RequestLogger.printLine(ex.getMessage());
         return new Value(retval);
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         // Even with lax parsing, we failed.
         Exception ex =
             controller.runtimeException(
@@ -4870,7 +4870,7 @@ public abstract class RuntimeLibrary {
       String string = value.toString();
       try {
         return new Value(StringUtilities.parseDouble(string));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         Exception ex =
             controller.runtimeException(
                 "The string \"" + string + "\" is not a float; returning 0.0");
@@ -9005,7 +9005,7 @@ public abstract class RuntimeLibrary {
     if (!(patternValue.content instanceof Pattern)) {
       try {
         patternValue.content = Pattern.compile(pattern, Pattern.DOTALL);
-      } catch (PatternSyntaxException e) {
+      } catch (PatternSyntaxException _) {
         throw controller.runtimeException("Invalid pattern syntax");
       }
     }
@@ -9023,7 +9023,7 @@ public abstract class RuntimeLibrary {
     Matcher m = (Matcher) matcher.rawValue();
     try {
       return new Value(m.start());
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException _) {
       throw controller.runtimeException("No match attempted or previous match failed");
     }
   }
@@ -9033,9 +9033,9 @@ public abstract class RuntimeLibrary {
     int index = (int) group.intValue();
     try {
       return new Value(m.start(index));
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException _) {
       throw controller.runtimeException("No match attempted or previous match failed");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException _) {
       throw controller.runtimeException(
           "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups");
     }
@@ -9045,7 +9045,7 @@ public abstract class RuntimeLibrary {
     Matcher m = (Matcher) matcher.rawValue();
     try {
       return new Value(m.end());
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException _) {
       throw controller.runtimeException("No match attempted or previous match failed");
     }
   }
@@ -9055,9 +9055,9 @@ public abstract class RuntimeLibrary {
     int index = (int) group.intValue();
     try {
       return new Value(m.end(index));
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException _) {
       throw controller.runtimeException("No match attempted or previous match failed");
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException _) {
       throw controller.runtimeException(
           "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups");
     }
@@ -9067,7 +9067,7 @@ public abstract class RuntimeLibrary {
     Matcher m = (Matcher) matcher.rawValue();
     try {
       return new Value(m.group());
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException _) {
       throw controller.runtimeException("No match attempted or previous match failed");
     }
   }
@@ -9081,7 +9081,7 @@ public abstract class RuntimeLibrary {
 
         try {
           return new Value(m.group(index));
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException _) {
           throw controller.runtimeException(
               "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups");
         }
@@ -9090,12 +9090,12 @@ public abstract class RuntimeLibrary {
 
         try {
           return new Value(m.group(name));
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException _) {
           throw controller.runtimeException(
               "Group " + name + " requested, but that group name was not found");
         }
       }
-    } catch (IllegalStateException e) {
+    } catch (IllegalStateException _) {
       throw controller.runtimeException("No match attempted or previous match failed");
     }
   }
@@ -9184,7 +9184,7 @@ public abstract class RuntimeLibrary {
         if (regex.content == null) {
           regex.content = p;
         }
-      } catch (PatternSyntaxException e) {
+      } catch (PatternSyntaxException _) {
         throw controller.runtimeException("Invalid pattern syntax");
       }
     }
@@ -9228,7 +9228,7 @@ public abstract class RuntimeLibrary {
         if (regex.content == null) {
           regex.content = p;
         }
-      } catch (PatternSyntaxException e) {
+      } catch (PatternSyntaxException _) {
         throw controller.runtimeException("Invalid pattern syntax");
       }
     }
@@ -10099,7 +10099,7 @@ public abstract class RuntimeLibrary {
         line++;
         result.aset(new Value(line), new Value(data), interpreter);
       }
-    } catch (Exception e) {
+    } catch (Exception _) {
       return result;
     }
 
@@ -10876,7 +10876,7 @@ public abstract class RuntimeLibrary {
       if (!SVNWCUtil.isWorkingCopyRoot(projectFile)) {
         return getRecInit(interpreter);
       }
-    } catch (SVNException e1) {
+    } catch (SVNException _) {
       return getRecInit(interpreter);
     }
     RecordType type = RuntimeLibrary.svnInfoRec;

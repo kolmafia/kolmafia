@@ -282,7 +282,7 @@ public class KoLmafiaTest {
     @Test
     public void keepsAdventuringWhenThereAreNoGoals() {
       var builder = new FakeHttpClientBuilder();
-      builder.client.setResponseFunc(req -> new FakeHttpResponse<>(200, "adventure.php"));
+      builder.client.setResponseFunc(_ -> new FakeHttpResponse<>(200, "adventure.php"));
       var client = builder.client;
 
       var cleanups =

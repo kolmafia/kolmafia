@@ -98,7 +98,7 @@ public class RecoveryManager {
 
     // Now, run the built-in behavior to take care of any loose ends.
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       if (isMoodCheck) {
         MoodManager.execute();
       }
@@ -141,7 +141,7 @@ public class RecoveryManager {
   private static Method getKoLCharacterMethod(String name) {
     try {
       return KoLCharacter.class.getMethod(name);
-    } catch (NoSuchMethodException e) {
+    } catch (NoSuchMethodException _) {
       System.out.println("Cannot find method KoLCharacter." + name + "()");
       return null;
     }
@@ -157,7 +157,7 @@ public class RecoveryManager {
   }
 
   public static boolean checkpointedRecoverHP(final long recover) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       return RecoveryManager.recoverHP(recover);
     }
   }
@@ -217,7 +217,7 @@ public class RecoveryManager {
    * Utility. The method which restores the character's current mana points above the given value.
    */
   public static boolean checkpointedRecoverMP(final long recover) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       return RecoveryManager.recoverMP(recover);
     }
   }

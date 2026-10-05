@@ -2580,7 +2580,7 @@ public class Player {
   public static Cleanups withNotAllowedInStandard(final RestrictedItemType type, final String key) {
     var lcKey = key.toLowerCase();
     var map = StandardRequest.getRestrictionMap();
-    map.computeIfAbsent(type, k -> new HashSet<>()).add(lcKey);
+    map.computeIfAbsent(type, _ -> new HashSet<>()).add(lcKey);
 
     return new Cleanups(
         () -> {
@@ -2963,7 +2963,7 @@ public class Player {
     File destinationFile = new File(KoLConstants.DATA_LOCATION, destinationName);
     try {
       Files.copy(sourceFile.toPath(), destinationFile.toPath());
-    } catch (FileAlreadyExistsException e) {
+    } catch (FileAlreadyExistsException _) {
       // Do nothing.  No message needed.
     } catch (IOException e) {
       System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");

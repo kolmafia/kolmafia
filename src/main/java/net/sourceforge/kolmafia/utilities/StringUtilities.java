@@ -64,7 +64,7 @@ public class StringUtilities {
     if (dateString != null) {
       try {
         return StringUtilities.DATE_FORMAT.parse(dateString).getTime();
-      } catch (Exception e) {
+      } catch (Exception _) {
         return 0;
       }
     }
@@ -78,7 +78,7 @@ public class StringUtilities {
   public static synchronized String formatDate(final Date date) {
     try {
       return StringUtilities.DATE_FORMAT.format(date);
-    } catch (Exception e) {
+    } catch (Exception _) {
       return "";
     }
   }
@@ -640,7 +640,7 @@ public class StringUtilities {
           RequestLogger.printLine(string + " is out of range, returning 0");
           return 0;
         }
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(string + " is out of range, returning 0");
         return 0;
       }
@@ -649,7 +649,7 @@ public class StringUtilities {
     if (StringUtilities.isNumeric(string)) {
       try {
         return Long.parseLong(string);
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(string + " is out of range, returning 0");
         return 0L;
       }
@@ -686,7 +686,7 @@ public class StringUtilities {
 
     try {
       return Long.parseLong(string);
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException _) {
       RequestLogger.printLine(string + " is out of range, returning 0");
       return 0L;
     }

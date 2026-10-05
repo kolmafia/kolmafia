@@ -23,7 +23,7 @@ class SpleenItemRequestTest {
   class MaximumUses {
     @Test
     void limitedBySpleenCapacity() {
-      try (var cleanups = withSpleenUse(0)) {
+      try (var _ = withSpleenUse(0)) {
         var max = SpleenItemRequest.maximumUses(ItemPool.SHADOW_PILL);
         assertThat(max, is(15));
       }
@@ -31,7 +31,7 @@ class SpleenItemRequestTest {
 
     @Test
     void onlyThreeTurkeyBlastersDaily() {
-      try (var cleanups = withProperty("_turkeyBlastersUsed", 2)) {
+      try (var _ = withProperty("_turkeyBlastersUsed", 2)) {
         var max = SpleenItemRequest.maximumUses(ItemPool.TURKEY_BLASTER);
         assertThat(max, is(1));
         assertThat(SpleenItemRequest.limiter, is("daily limit"));

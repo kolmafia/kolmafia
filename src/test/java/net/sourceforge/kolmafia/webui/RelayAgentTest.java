@@ -49,7 +49,7 @@ class RelayAgentTest {
   void readBrowserRequestWithHash() throws IOException {
     var cleanups = withPasswordHash("xxxx");
     try (cleanups) {
-      try (var outputStream = this.sendInput("GET /KoLmafia/sideCommand?pwd=xxxx HTTP/1.1")) {
+      try (var _ = this.sendInput("GET /KoLmafia/sideCommand?pwd=xxxx HTTP/1.1")) {
         assertThat(agent.readBrowserRequest(), is(true));
       }
     }

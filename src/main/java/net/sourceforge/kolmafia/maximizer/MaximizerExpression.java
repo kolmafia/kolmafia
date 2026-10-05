@@ -58,7 +58,7 @@ class MaximizerExpression {
   // an issue if the maximizer would choose the SCUBA gear to provide water-breathing, as it would
   // not consider a different mode for the Crown. e.g. "maximize sea, ml" would not consider the
   // "bear" mode for the hat. Something for someone to fix in the future.
-  final Map<Modeable, String> forcedModeables = Modeable.getStringMap(m -> "");
+  final Map<Modeable, String> forcedModeables = Modeable.getStringMap(_ -> "");
 
   /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
   final EnumMap<Slot, Integer> slots = new EnumMap<>(Slot.class);
@@ -439,7 +439,7 @@ class MaximizerExpression {
           this.bonuses.put(match.item(), new ItemBonus(weight, modes));
         } else {
           this.bonuses
-              .computeIfAbsent(match.item(), k -> new ItemBonus(0.0, new HashMap<>()))
+              .computeIfAbsent(match.item(), _ -> new ItemBonus(0.0, new HashMap<>()))
               .modes()
               .put(match.mode(), weight);
         }

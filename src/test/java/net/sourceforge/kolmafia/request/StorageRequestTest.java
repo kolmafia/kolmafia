@@ -226,7 +226,7 @@ public class StorageRequestTest {
   @Test
   public void itShouldKeepPulledItemsInInsertionOrder() {
     roninStoragePropertySetup();
-    try (var cleanup = withProperty("_roninStoragePulls")) {
+    try (var _ = withProperty("_roninStoragePulls")) {
       StorageRequest.addPulledItem(ItemPool.MACE_OF_THE_TORTOISE);
       StorageRequest.addPulledItem(ItemPool.FIVE_ALARM_SAUCEPAN);
       assertEquals(

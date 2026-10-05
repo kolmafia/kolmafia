@@ -200,7 +200,7 @@ public class FamiliarRequest extends GenericRequest {
       if (EquipmentManager.getEquipment(Slot.HAT).getItemId() != ItemPool.HATSEAT) {
         if (this.changeTo.equals(FamiliarData.NO_FAMILIAR)
             && !enthroned.equals(FamiliarData.NO_FAMILIAR)) {
-          try (Checkpoint checkpoint = new Checkpoint()) {
+          try (Checkpoint _ = new Checkpoint()) {
             RequestThread.postRequest(
                 new EquipmentRequest(ItemPool.get(ItemPool.HATSEAT, 1), Slot.HAT));
             RequestThread.postRequest(FamiliarRequest.enthroneRequest(FamiliarData.NO_FAMILIAR));
@@ -236,7 +236,7 @@ public class FamiliarRequest extends GenericRequest {
       if (EquipmentManager.getEquipment(Slot.CONTAINER).getItemId() != ItemPool.BUDDY_BJORN) {
         if (this.changeTo.equals(FamiliarData.NO_FAMILIAR)
             && !bjorned.equals(FamiliarData.NO_FAMILIAR)) {
-          try (Checkpoint checkpoint = new Checkpoint()) {
+          try (Checkpoint _ = new Checkpoint()) {
             RequestThread.postRequest(
                 new EquipmentRequest(ItemPool.get(ItemPool.BUDDY_BJORN, 1), Slot.CONTAINER));
             RequestThread.postRequest(FamiliarRequest.bjornifyRequest(FamiliarData.NO_FAMILIAR));

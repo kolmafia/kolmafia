@@ -60,7 +60,7 @@ public class PrefixMap<T> extends TreeMap<String, T> {
   public T get(String key) {
     try {
       return super.get(super.headMap(key + EXACT_SUFFIX).lastKey());
-    } catch (NoSuchElementException e) {
+    } catch (NoSuchElementException _) {
       return null;
     }
   }
@@ -69,7 +69,7 @@ public class PrefixMap<T> extends TreeMap<String, T> {
   private T getBelow(String key) {
     try {
       return super.get(super.headMap(key).lastKey());
-    } catch (NoSuchElementException e) {
+    } catch (NoSuchElementException _) {
       return null;
     }
   }

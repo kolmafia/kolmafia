@@ -27,7 +27,7 @@ plugins {
 }
 
 checkstyle {
-  toolVersion = "12.1.0"
+  toolVersion = "14.3.0"
 }
 
 repositories {
@@ -331,6 +331,7 @@ java {
 
 tasks.withType<Checkstyle>().configureEach {
   maxHeapSize = "2g"
+  exclude("ca/**", "com/**", "darrylbu/**", "net/java/**")
 }
 
 tasks.withType<JavaCompile>().configureEach {

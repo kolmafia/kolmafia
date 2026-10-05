@@ -624,7 +624,7 @@ class PreferencesTest {
         try {
           reset.join(1000);
           resetDailies.join(1000);
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException _) {
           fail("deadlock encountered");
         }
         // If we got here, we did not deadlock.

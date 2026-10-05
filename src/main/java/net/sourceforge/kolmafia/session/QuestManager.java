@@ -1864,7 +1864,7 @@ public class QuestManager {
       return;
     }
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       (new EquipmentRequest(EquipmentDatabase.getOutfit(OutfitPool.MINING_OUTFIT))).run();
       RequestThread.postRequest(goatlet);
     }

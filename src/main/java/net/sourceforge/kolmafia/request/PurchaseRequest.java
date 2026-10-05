@@ -218,7 +218,7 @@ public abstract class PurchaseRequest extends GenericRequest
 
     // Make sure we are wearing the appropriate outfit, if necessary
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       if (this.ensureProperAttire()) {
         this.makePurchase();
       }

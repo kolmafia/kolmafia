@@ -85,7 +85,7 @@ public class MomRequest extends GenericRequest {
       return;
     }
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       this.equip();
       KoLmafia.updateDisplay("Visiting Mom...");
       super.run();

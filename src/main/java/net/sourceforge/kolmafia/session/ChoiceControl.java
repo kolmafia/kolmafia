@@ -4767,7 +4767,7 @@ public abstract class ChoiceControl {
             .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
     // Update the map
-    map.compute(mid, (k, v) -> (v == null ? 0 : v) + increment);
+    map.compute(mid, (_, v) -> (v == null ? 0 : v) + increment);
 
     // Encode the map back into a string, removing any monsters for whom we have fewer than one eggs
     var updated =
@@ -6726,7 +6726,7 @@ public abstract class ChoiceControl {
             var monsterName = MonsterDatabase.getMonsterName(Integer.parseInt(monsterIdString));
             Preferences.setInteger("bodyguardCharge", 0);
             Preferences.setString("bodyguardChatMonster", monsterName);
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException _) {
             break;
           }
         }
@@ -6739,7 +6739,7 @@ public abstract class ChoiceControl {
           String item = request.getFormField("a");
           try {
             ResultProcessor.removeItem(Integer.parseInt(item));
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException _) {
             break;
           }
         }
@@ -6751,7 +6751,7 @@ public abstract class ChoiceControl {
           String item = request.getFormField("iid");
           try {
             ResultProcessor.removeItem(Integer.parseInt(item));
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException _) {
             break;
           }
         }

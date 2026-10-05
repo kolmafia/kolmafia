@@ -100,7 +100,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsEffect() {
-    try (var cleanups = withEffect(EffectPool.SYNTHESIS_COLLECTION)) {
+    try (var _ = withEffect(EffectPool.SYNTHESIS_COLLECTION)) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
     }
     assertThat(output(), containsDebugRow("Effect", "Synthesis: Collection", 150.0, 150.0));
@@ -108,7 +108,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsEquipment() {
-    try (var cleanups = withEquipped(Slot.HAT, ItemPool.WAD_OF_TAPE)) {
+    try (var _ = withEquipped(Slot.HAT, ItemPool.WAD_OF_TAPE)) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
     }
     assertThat(output(), containsDebugRow("Item", "wad of used tape", 15.0, 15.0));
@@ -116,7 +116,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsAllResistanceForIndividualElement() {
-    try (var cleanups = withEquipped(Slot.HAT, "tin foil hat")) {
+    try (var _ = withEquipped(Slot.HAT, "tin foil hat")) {
       evaluateDebugModifiers("sleaze res");
     }
     assertThat(output(), containsDebugRow("Item", "tin foil hat", 2.0, 2.0));
@@ -124,7 +124,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsPassiveSkill() {
-    try (var cleanups = withSkill(SkillPool.COSMIC_UNDERSTANDING)) {
+    try (var _ = withSkill(SkillPool.COSMIC_UNDERSTANDING)) {
       evaluateDebugModifiers(DoubleModifier.MP_PCT);
       assertThat(output(), containsDebugRow("Skill", "Cosmic Ugnderstanding", 5.0, 5.0));
     }
@@ -132,7 +132,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsMCD() {
-    try (var cleanups = withMCD(10)) {
+    try (var _ = withMCD(10)) {
       evaluateDebugModifiers(DoubleModifier.MONSTER_LEVEL);
     }
     assertThat(output(), containsDebugRow("Mcd", "Monster Control Device", 10.0, 10.0));
@@ -140,7 +140,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsSign() {
-    try (var cleanups = withSign(ZodiacSign.PACKRAT)) {
+    try (var _ = withSign(ZodiacSign.PACKRAT)) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
     }
     assertThat(output(), containsDebugRow("Sign", "Packrat", 10.0, 10.0));
@@ -148,7 +148,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsSquint() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.HAT, ItemPool.WAD_OF_TAPE),
             withEffect(EffectPool.STEELY_EYED_SQUINT))) {
@@ -160,7 +160,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsMultipleInOneRow() {
-    try (var cleanups = withEffect(EffectPool.AVATAR_OF_SHE_WHO_WAS)) {
+    try (var _ = withEffect(EffectPool.AVATAR_OF_SHE_WHO_WAS)) {
       evaluateDebugModifiers("Resistance");
     }
     assertThat(output().split("<tr>"), arrayWithSize(3));
@@ -176,7 +176,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsLoc() {
-    try (var cleanups = withLocation("The Briniest Deepests")) {
+    try (var _ = withLocation("The Briniest Deepests")) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
     }
     assertThat(output(), containsDebugRow("Loc", "The Briniest Deepests", -75.0, -75.0));
@@ -184,7 +184,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsZone() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withLocation("Shadow Rift (Desert Beach)"), withEffect(EffectPool.SPIRIT_OF_TAKING))) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
@@ -194,7 +194,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsStatDay() {
-    try (var cleanups = new Cleanups(withInteractivity(true), withDay(2023, Month.JULY, 10))) {
+    try (var _ = new Cleanups(withInteractivity(true), withDay(2023, Month.JULY, 10))) {
       evaluateDebugModifiers(DoubleModifier.MUS_EXPERIENCE_PCT);
     }
     assertThat(output(), containsDebugRow("Event", "Muscle Day", 25.0, 25.0));
@@ -202,7 +202,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsOutfit() {
-    try (var cleanups = withOutfit(OutfitPool.WAR_FRAT_OUTFIT)) {
+    try (var _ = withOutfit(OutfitPool.WAR_FRAT_OUTFIT)) {
       evaluateDebugModifiers(DoubleModifier.SLEAZE_DAMAGE);
       assertThat(output(), containsDebugRow("Outfit", "Frat Warrior Fatigues", 15.0, 15.0));
     }
@@ -210,7 +210,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsElVibrato() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOutfit(OutfitPool.VIBRATO_RELICS),
             withAscensions(1),
@@ -223,7 +223,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsFakeHands() {
-    try (var cleanups = withFakeHands(10)) {
+    try (var _ = withFakeHands(10)) {
       evaluateDebugModifiers(DoubleModifier.WEAPON_DAMAGE);
       assertThat(output(), containsDebugRow("Fake Hands", "fake hand (10)", -10.0, -10.0));
     }
@@ -231,7 +231,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsBrimstone() {
-    try (var cleanups = withEquipped(ItemPool.BRIMSTONE_BERET)) {
+    try (var _ = withEquipped(ItemPool.BRIMSTONE_BERET)) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
       assertThat(output(), containsDebugRow("Outfit", "Brimstone", 2.0, 2.0));
     }
@@ -239,7 +239,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsCloathing() {
-    try (var cleanups = withEquipped(ItemPool.POCKET_SQUARE)) {
+    try (var _ = withEquipped(ItemPool.POCKET_SQUARE)) {
       evaluateDebugModifiers(DoubleModifier.MUS_PCT);
       assertThat(output(), containsDebugRow("Outfit", "Cloathing", 2.0, 2.0));
     }
@@ -247,7 +247,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsCampground() {
-    try (var cleanups = withCampgroundItem(ItemPool.CLOCKWORK_MAID)) {
+    try (var _ = withCampgroundItem(ItemPool.CLOCKWORK_MAID)) {
       evaluateDebugModifiers(DoubleModifier.ADVENTURES);
       assertThat(output(), containsDebugRow("Item", "clockwork maid", 8.0, 8.0));
     }
@@ -255,7 +255,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsDwelling() {
-    try (var cleanups = withDwelling(ItemPool.NEWBIESPORT_TENT)) {
+    try (var _ = withDwelling(ItemPool.NEWBIESPORT_TENT)) {
       evaluateDebugModifiers(DoubleModifier.BASE_RESTING_HP);
       assertThat(output(), containsDebugRow("Item", "Newbiesport™ tent", 9.0, 9.0));
     }
@@ -263,7 +263,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsRonaldPhase() {
-    try (var cleanups = withDay(2023, Month.JANUARY, 3)) {
+    try (var _ = withDay(2023, Month.JANUARY, 3)) {
       evaluateDebugModifiers(DoubleModifier.RESTING_MP_PCT);
       assertThat(output(), containsDebugRow("Event", "Moons (Ronald full)", 100.0, 100.0));
     }
@@ -271,7 +271,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsGrimacePhase() {
-    try (var cleanups = withDay(2023, Month.JANUARY, 15)) {
+    try (var _ = withDay(2023, Month.JANUARY, 15)) {
       evaluateDebugModifiers(DoubleModifier.RESTING_HP_PCT);
       assertThat(output(), containsDebugRow("Event", "Moons (Grimace full)", 100.0, 100.0));
     }
@@ -279,7 +279,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsChateau() {
-    try (var cleanups = withChateau(ItemPool.CHATEAU_SKYLIGHT)) {
+    try (var _ = withChateau(ItemPool.CHATEAU_SKYLIGHT)) {
       evaluateDebugModifiers(DoubleModifier.ADVENTURES);
       assertThat(output(), containsDebugRow("Item", "artificial skylight", 3.0, 3.0));
     }
@@ -287,7 +287,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsSynergy() {
-    try (var cleanups = withAllEquipped(ItemPool.BEWITCHING_BOOTS, ItemPool.BITTER_BOWTIE)) {
+    try (var _ = withAllEquipped(ItemPool.BEWITCHING_BOOTS, ItemPool.BITTER_BOWTIE)) {
       evaluateDebugModifiers(DoubleModifier.MEATDROP);
       assertThat(output(), containsDebugRow("Item", "bewitching boots", 10.0, 10.0));
       assertThat(output(), containsDebugRow("Item", "bitter bowtie", 10.0, 20.0));
@@ -298,7 +298,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsFamiliar() {
-    try (var cleanups = withFamiliar(FamiliarPool.WOIM, 400)) {
+    try (var _ = withFamiliar(FamiliarPool.WOIM, 400)) {
       evaluateDebugModifiers(DoubleModifier.INITIATIVE);
       assertThat(output(), containsDebugRow("Familiar", "Oily Woim", 40.0, 40.0));
     }
@@ -306,7 +306,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsThrall() {
-    try (var cleanups = withThrall(SkillPool.BIND_SPICE_GHOST, 10)) {
+    try (var _ = withThrall(SkillPool.BIND_SPICE_GHOST, 10)) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
       assertThat(output(), containsDebugRow("Thrall", "Spice Ghost", 20.0, 20.0));
     }
@@ -314,7 +314,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsBallroom() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withAscensions(1),
             withProperty("lastQuartetAscension", 1),
@@ -326,7 +326,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsMummery() {
-    try (var cleanups = withProperty("_mummeryMods", "Item Drop: +25")) {
+    try (var _ = withProperty("_mummeryMods", "Item Drop: +25")) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
       assertThat(output(), containsDebugRow("Mummery", "_mummeryMods", 25.0, 25.0));
     }
@@ -334,7 +334,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsInventory() {
-    try (var cleanups = withItems(ItemPool.FISHING_POLE, ItemPool.ANTIQUE_TACKLEBOX)) {
+    try (var _ = withItems(ItemPool.FISHING_POLE, ItemPool.ANTIQUE_TACKLEBOX)) {
       evaluateDebugModifiers(DoubleModifier.FISHING_SKILL);
       assertThat(output(), containsDebugRow("Inventory Item", "fishin' pole", 20.0, 20.0));
       assertThat(output(), containsDebugRow("Inventory Item", "antique tacklebox", 5.0, 25.0));
@@ -343,7 +343,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsBoomBox() {
-    try (var cleanups = withProperty("boomBoxSong", "Total Eclipse of Your Meat")) {
+    try (var _ = withProperty("boomBoxSong", "Total Eclipse of Your Meat")) {
       evaluateDebugModifiers(DoubleModifier.MEATDROP);
       assertThat(output(), containsDebugRow("Boom Box", "Total Eclipse of Your Meat", 30.0, 30.0));
     }
@@ -351,7 +351,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsAutumnaton() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.AUTUMNATON),
             withProperty("autumnatonQuestLocation", "Noob Cave"),
@@ -365,7 +365,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsFlorist() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("ownsFloristFriar", true),
             withQuestProgress(QuestDatabase.Quest.LARVA, QuestDatabase.STARTED),
@@ -377,7 +377,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsHorsery() {
-    try (var cleanups = withProperty("_horsery", "dark horse")) {
+    try (var _ = withProperty("_horsery", "dark horse")) {
       evaluateDebugModifiers(DoubleModifier.COMBAT_RATE);
       assertThat(output(), containsDebugRow("Horsery", "dark horse", -5.0, -5.0));
     }
@@ -385,7 +385,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsVote() {
-    try (var cleanups = withProperty("_voteModifier", "Item Drop: +10")) {
+    try (var _ = withProperty("_voteModifier", "Item Drop: +10")) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
       assertThat(output(), containsDebugRow("Local Vote", "_voteModifier", 10.0, 10.0));
     }
@@ -393,7 +393,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsGenerated() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.GENERATED, "_userMods", "Item Drop: +50"),
             withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"))) {
@@ -405,7 +405,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsHoboPower() {
-    try (var cleanups = withEquipped(ItemPool.HODGMANS_LOBSTERSKIN_PANTS)) {
+    try (var _ = withEquipped(ItemPool.HODGMANS_LOBSTERSKIN_PANTS)) {
       evaluateDebugModifiers(DoubleModifier.HOBO_POWER);
       assertThat(output(), containsDebugRow("Item", "Hodgman's lobsterskin pants", 25.0, 25.0));
       assertThat(Modifiers.hoboPower, equalTo(25.0));
@@ -414,7 +414,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsSmithsness() {
-    try (var cleanups = withEffect(EffectPool.MERRY_SMITHSNESS)) {
+    try (var _ = withEffect(EffectPool.MERRY_SMITHSNESS)) {
       evaluateDebugModifiers(DoubleModifier.SMITHSNESS);
       assertThat(output(), containsDebugRow("Effect", "Merry Smithsness", 25.0, 25.0));
       assertThat(Modifiers.smithsness, equalTo(25.0));
@@ -423,7 +423,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsSlimeHatesIt() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withLocation("The Slime Tube"), withEquipped(ItemPool.GRISLY_SHIELD))) {
       evaluateDebugModifiers(DoubleModifier.MONSTER_LEVEL);
       assertThat(output(), containsDebugRow("Outfit", "Slime Hatred", 45.0, 45.0));
@@ -432,7 +432,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsPath() {
-    try (var cleanups = withPath(AscensionPath.Path.YOU_ROBOT)) {
+    try (var _ = withPath(AscensionPath.Path.YOU_ROBOT)) {
       evaluateDebugModifiers(DoubleModifier.ENERGY);
       assertThat(output(), containsDebugRow("Path", "You, Robot", 1.0, 1.0));
     }
@@ -440,7 +440,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsSneakyPeteMotorbike() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.AVATAR_OF_SNEAKY_PETE),
             withClass(AscensionClass.AVATAR_OF_SNEAKY_PETE),
@@ -455,7 +455,7 @@ public class DebugModifiersTest {
     var oldRads = KoLCharacter.getRadSickness();
     KoLCharacter.setRadSickness(100);
     var radCleanups = new Cleanups(() -> KoLCharacter.setRadSickness(oldRads));
-    try (var cleanups = new Cleanups(withPath(AscensionPath.Path.NUCLEAR_AUTUMN), radCleanups)) {
+    try (var _ = new Cleanups(withPath(AscensionPath.Path.NUCLEAR_AUTUMN), radCleanups)) {
       evaluateDebugModifiers(DoubleModifier.MUS);
       assertThat(output(), containsDebugRow("Path", "Rads", -100.0, -100.0));
     }
@@ -463,7 +463,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsBorisMinstrel() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.AVATAR_OF_BORIS),
             withClass(AscensionClass.AVATAR_OF_BORIS))) {
@@ -471,7 +471,7 @@ public class DebugModifiersTest {
       var oldInstrument = KoLCharacter.getCurrentInstrument();
       KoLCharacter.setMinstrelLevel(5);
       KoLCharacter.setCurrentInstrument(ItemPool.get(ItemPool.CLANCY_LUTE, 1));
-      try (var minstrelCleanups =
+      try (var _ =
           new Cleanups(
               () -> {
                 KoLCharacter.setMinstrelLevel(oldLevel);
@@ -488,7 +488,7 @@ public class DebugModifiersTest {
     var oldCompanion = KoLCharacter.getCompanion();
     KoLCharacter.setCompanion(CharPaneRequest.Companion.EGGMAN);
     var companionCleanups = new Cleanups(() -> KoLCharacter.setCompanion(oldCompanion));
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.AVATAR_OF_JARLSBERG),
             withClass(AscensionClass.AVATAR_OF_JARLSBERG),
@@ -503,7 +503,7 @@ public class DebugModifiersTest {
     EdServantData.initialize();
     EdServantData.testSetupEdServant("Maid", "xxx", 196);
     var servantCleanups = new Cleanups(EdServantData::initialize);
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.ACTUALLY_ED_THE_UNDYING),
             withClass(AscensionClass.ED),
@@ -515,7 +515,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsGelatinousNoobAbsorbs() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.GELATINOUS_NOOB),
             withOverrideModifiers(
@@ -530,8 +530,7 @@ public class DebugModifiersTest {
     var oldMask = KoLCharacter.getMask();
     KoLCharacter.setMask("protest mask");
     var maskCleanups = new Cleanups(() -> KoLCharacter.setMask(oldMask));
-    try (var cleanups =
-        new Cleanups(withPath(AscensionPath.Path.DISGUISES_DELIMIT), maskCleanups)) {
+    try (var _ = new Cleanups(withPath(AscensionPath.Path.DISGUISES_DELIMIT), maskCleanups)) {
       evaluateDebugModifiers(DoubleModifier.MONSTER_LEVEL);
       assertThat(output(), containsDebugRow("Mask", "protest mask", 30.0, 30.0));
     }
@@ -539,7 +538,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsEnsorcel() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.VAMPYRE),
             withEquipped(ItemPool.VAMPYRIC_CLOAKE),
@@ -555,7 +554,7 @@ public class DebugModifiersTest {
   @Test
   void listsRobot() {
     var robotCleanups = new Cleanups(YouRobotManager::reset);
-    try (var cleanups = new Cleanups(withPath(AscensionPath.Path.YOU_ROBOT), robotCleanups)) {
+    try (var _ = new Cleanups(withPath(AscensionPath.Path.YOU_ROBOT), robotCleanups)) {
       YouRobotManager.reset();
       YouRobotManager.testInstallUpgrade(YouRobotManager.RobotUpgrade.IMPROVED_OPTICAL_PROCESSING);
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
@@ -565,7 +564,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsVykea() {
-    try (var cleanups = withVykea(VYKEACompanionType.COUCH, 5)) {
+    try (var _ = withVykea(VYKEACompanionType.COUCH, 5)) {
       evaluateDebugModifiers(DoubleModifier.MEATDROP);
       assertThat(output(), containsDebugRow("Vykea", "Couch", 50.0, 50.0));
     }
@@ -573,7 +572,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsWaterLevelExp() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withPath(AscensionPath.Path.HEAVY_RAINS), withLocation("Noob Cave"))) {
       evaluateDebugModifiers(DoubleModifier.EXPERIENCE);
       assertThat(output(), containsDebugRow("Path", "Water Level*10/3", 16.67, 16.67));
@@ -582,7 +581,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsStatExpNormal() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withLocation("Noob Cave"),
             withClass(AscensionClass.SEAL_CLUBBER),
@@ -598,7 +597,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsStatExpTuned() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withLocation("Noob Cave"),
             withClass(AscensionClass.SEAL_CLUBBER),
@@ -611,7 +610,7 @@ public class DebugModifiersTest {
   @ParameterizedTest
   @CsvSource({"_hareAdv,Wild Hare", "_gibbererAdv,Squamous Gibberer"})
   void listsFamiliarAdventures(String preference, String familiar) {
-    try (var cleanups = new Cleanups(withProperty(preference, 6))) {
+    try (var _ = new Cleanups(withProperty(preference, 6))) {
       evaluateDebugModifiers(DoubleModifier.ADVENTURES);
       assertThat(output(), containsDebugRow("Base", "", 40.0, 40.0));
       assertThat(output(), containsDebugRow("Familiar", familiar, 6.0, 46.0));
@@ -620,7 +619,7 @@ public class DebugModifiersTest {
 
   @Test
   void discoNapGivesFreeRests() {
-    try (var cleanups = withSkill(SkillPool.DISCO_NAP)) {
+    try (var _ = withSkill(SkillPool.DISCO_NAP)) {
       evaluateDebugModifiers(DoubleModifier.FREE_RESTS);
       assertThat(output(), containsDebugRow("Skill", "Disco Nap", 1.0, 1.0));
     }

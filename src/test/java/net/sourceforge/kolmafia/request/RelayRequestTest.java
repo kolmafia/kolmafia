@@ -112,7 +112,7 @@ public class RelayRequestTest {
     public static void beforeAll() throws IOException {
       try {
         Files.createDirectory(Paths.get("relay"));
-      } catch (FileAlreadyExistsException e) {
+      } catch (FileAlreadyExistsException _) {
       }
     }
 

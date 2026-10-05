@@ -120,7 +120,7 @@ public class Script implements Comparable<Script> {
       String id;
       try {
         id = SVNManager.getRepoId(this.repo);
-      } catch (SVNException e) {
+      } catch (SVNException _) {
         // nothing we can do
         return;
       }
@@ -128,7 +128,7 @@ public class Script implements Comparable<Script> {
       if (Files.isDirectory(potentialPath)) {
         try {
           SVNManager.workingCopyToSVNURL(potentialPath.toFile());
-        } catch (SVNException e) {
+        } catch (SVNException _) {
           // not an SVN repo
           return;
         }

@@ -731,13 +731,13 @@ public abstract class ClanManager {
   }
 
   public static void addToRumpus(final String it) {
-    ClanManager.clanRumpus.computeIfAbsent(ClanManager.clanId, (id) -> new ArrayList<>()).add(it);
+    ClanManager.clanRumpus.computeIfAbsent(ClanManager.clanId, (_) -> new ArrayList<>()).add(it);
   }
 
   public static void removeFromRumpus(final String it) {
     ClanManager.clanRumpus.computeIfPresent(
         ClanManager.clanId,
-        (id, list) -> {
+        (_, list) -> {
           list.remove(it);
           return list;
         });

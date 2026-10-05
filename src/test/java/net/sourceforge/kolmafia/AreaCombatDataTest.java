@@ -130,7 +130,7 @@ public class AreaCombatDataTest {
 
   @Test
   public void nonstatefulDataWithNonzeroCombatRate() {
-    try (var cleanup = withEffect(EffectPool.TAUNT_OF_HORUS)) {
+    try (var _ = withEffect(EffectPool.TAUNT_OF_HORUS)) {
       Map<MonsterData, Double> appearanceRates =
           AdventureDatabase.getAreaCombatData("Sonofa Beach").getMonsterData();
       assertThat(appearanceRates, hasEntry(MonsterDatabase.findMonster("lobsterfrogman"), 30.0));

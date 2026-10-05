@@ -176,7 +176,7 @@ class HolidayDatabaseTest {
     })
     @ParameterizedTest
     void getHoliday(final int year, final int month, final int day, final String holiday) {
-      try (var cleanups = withDay(year, Month.of(month), day)) {
+      try (var _ = withDay(year, Month.of(month), day)) {
         assertThat(HolidayDatabase.getHoliday(), is(holiday));
       }
     }
@@ -188,7 +188,7 @@ class HolidayDatabaseTest {
     })
     @ParameterizedTest
     void getHolidays(final int year, final int month, final int day, final String holiday) {
-      try (var cleanups = withDay(year, Month.of(month), day)) {
+      try (var _ = withDay(year, Month.of(month), day)) {
         assertThat(HolidayDatabase.getHolidays(), containsInAnyOrder(holiday.split(" / ")));
       }
     }

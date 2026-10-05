@@ -267,7 +267,7 @@ public class ItemDatabase {
   }
 
   private static ItemData getOrCreateItemData(final int itemId) {
-    return ItemDatabase.itemDataById.computeIfAbsent(itemId, id -> new ItemData());
+    return ItemDatabase.itemDataById.computeIfAbsent(itemId, _ -> new ItemData());
   }
 
   /**
@@ -659,7 +659,7 @@ public class ItemDatabase {
               .filter(word -> !word.isEmpty())
               .map((word) -> word.substring(0, 1))
               .collect(Collectors.joining(""));
-      var count = initialismCounts.compute(initialism, (k, v) -> v == null ? 1 : v + 1);
+      var count = initialismCounts.compute(initialism, (_, v) -> v == null ? 1 : v + 1);
       if (count == 1) {
         ItemDatabase.uniqueInitialisms.put(initialism, itemName);
       } else if (count > 1) {

@@ -947,7 +947,7 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
-              withChoice((url, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
+              withChoice((_, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
 
       try (cleanups) {
         assertThat("_trickOrTreatBlock", isSetTo("DLdLLLDLLDDL"));
@@ -964,7 +964,7 @@ class ChoiceControlTest {
               withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
               withLastLocation(AdventureDatabase.getAdventureByName("Shadow Rift (Desert Beach)")),
               withChoice(
-                  (url, req) -> ChoiceControl.preChoice(req),
+                  (_, req) -> ChoiceControl.preChoice(req),
                   804,
                   3,
                   "whichhouse=2",
@@ -980,7 +980,7 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
-              withChoice((url, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
+              withChoice((_, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
 
       try (cleanups) {
         assertThat(KoLAdventure.lastVisitedLocation, nullValue());
@@ -1126,7 +1126,7 @@ class ChoiceControlTest {
     @Test
     void handlesSuccess() {
       var responseText = html("request/test_choice_bw_apron_success.html");
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("bwApronMealsEaten", 1),
               withItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT),
@@ -1139,7 +1139,7 @@ class ChoiceControlTest {
     @Test
     void handlesFull() {
       var responseText = html("request/test_choice_bw_apron_full.html");
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("bwApronMealsEaten", 1),
               withItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT),
@@ -1155,7 +1155,7 @@ class ChoiceControlTest {
     @Test
     void tracksChattedBodyguard() {
       var responseText = html("request/test_choice_bodyguard_chat_success.html");
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVANT_GUARD),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD),

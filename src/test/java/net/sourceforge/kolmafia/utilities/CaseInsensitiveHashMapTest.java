@@ -94,8 +94,8 @@ public class CaseInsensitiveHashMapTest {
   @Test
   public void compute() {
     var map = new CaseInsensitiveHashMap<>(Map.of("A", 1));
-    map.compute("a", (key, existing) -> existing == null ? 0 : 1 + existing);
-    map.compute("b", (key, existing) -> existing == null ? 0 : 1 + existing);
+    map.compute("a", (_, existing) -> existing == null ? 0 : 1 + existing);
+    map.compute("b", (_, existing) -> existing == null ? 0 : 1 + existing);
 
     assertThat(map.size(), equalTo(2));
     assertThat(map.get("A"), equalTo(2));
@@ -108,8 +108,8 @@ public class CaseInsensitiveHashMapTest {
   @Test
   public void computeIfAbsent() {
     var map = new CaseInsensitiveHashMap<>(Map.of("A", 1));
-    map.computeIfAbsent("a", (key) -> 2);
-    map.computeIfAbsent("b", (key) -> 2);
+    map.computeIfAbsent("a", (_) -> 2);
+    map.computeIfAbsent("b", (_) -> 2);
 
     assertThat(map.size(), equalTo(2));
     assertThat(map.get("A"), equalTo(1));
@@ -122,8 +122,8 @@ public class CaseInsensitiveHashMapTest {
   @Test
   public void computeIfPresent() {
     var map = new CaseInsensitiveHashMap<>(Map.of("A", 1));
-    map.computeIfPresent("a", (key, existing) -> 1 + existing);
-    map.computeIfPresent("b", (key, existing) -> 1 + existing);
+    map.computeIfPresent("a", (_, existing) -> 1 + existing);
+    map.computeIfPresent("b", (_, existing) -> 1 + existing);
 
     assertThat(map.size(), equalTo(1));
     assertThat(map.get("A"), equalTo(2));

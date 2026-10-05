@@ -384,7 +384,7 @@ public class TrophyFrame extends GenericFrame {
               true);
       try {
         g.grabPixels();
-      } catch (InterruptedException e) {
+      } catch (InterruptedException _) {
         return new int[0];
       }
 

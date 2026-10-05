@@ -3092,7 +3092,7 @@ public class FightRequestTest {
       "request/test_fight_run.html"
     })
     void tracksCharge(String file) {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVANT_GUARD),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD),
@@ -3105,7 +3105,7 @@ public class FightRequestTest {
 
     @Test
     void tracksReady() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVANT_GUARD),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD),
@@ -3118,7 +3118,7 @@ public class FightRequestTest {
 
     @Test
     void resetsChattedBodyguardOnEncounter() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVANT_GUARD),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD),

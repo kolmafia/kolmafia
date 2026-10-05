@@ -134,7 +134,7 @@ public class DemonName14Manager {
     public void addNode(final String syllable, final Set<String> segments) {
       this.nodeMap.compute(
           syllable,
-          (key, node) -> {
+          (_, node) -> {
             if (node == null) node = new GraphNode(syllable, new HashSet<>());
             if (segments != null) node.segments.addAll(segments);
             return node;
@@ -148,7 +148,7 @@ public class DemonName14Manager {
     public void addEdge(final String from, final String to, final String segment) {
       this.edgeMap.compute(
           from + "->" + to,
-          (key, edge) -> {
+          (_, edge) -> {
             if (edge == null) edge = new GraphEdge(from, to, new HashSet<>());
             edge.segments.add(segment);
             return edge;

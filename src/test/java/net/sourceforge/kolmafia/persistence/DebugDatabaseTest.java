@@ -74,7 +74,7 @@ public class DebugDatabaseTest {
         ]
         """;
     File plurals = new File(KoLConstants.DATA_LOCATION, "plurals.txt");
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withNextResponse(200, fakeMuseumJson), new Cleanups(plurals::delete))) {
       DebugDatabase.checkMuseumPlurals();
       assertTrue(plurals.exists());
@@ -104,7 +104,7 @@ public class DebugDatabaseTest {
         ]
         """;
     File plurals = new File(KoLConstants.DATA_LOCATION, "museum_items.txt");
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withNextResponse(200, fakeMuseumJson), new Cleanups(plurals::delete))) {
       DebugDatabase.checkMuseumItems();
       assertTrue(plurals.exists());

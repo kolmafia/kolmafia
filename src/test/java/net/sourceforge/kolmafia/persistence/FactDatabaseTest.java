@@ -72,12 +72,12 @@ class FactDatabaseTest {
       var stream = new ByteArrayOutputStream();
       try (var mock = Mockito.mockStatic(FileUtilities.class, Mockito.CALLS_REAL_METHODS);
           var out = new PrintStream(stream, true);
-          var cleanups = withContinuationState()) {
+          var _ = withContinuationState()) {
         mock.when(
                 () ->
                     FileUtilities.getVersionedReader(
                         "bookoffacts.txt", KoLConstants.BOOKOFFACTS_VERSION))
-            .thenAnswer(invocation -> new BufferedReader(new StringReader(input)));
+            .thenAnswer(_ -> new BufferedReader(new StringReader(input)));
         RequestLogger.openCustom(out);
         FactDatabase.reset();
         RequestLogger.closeCustom();
@@ -140,7 +140,7 @@ class FactDatabaseTest {
     "3, false",
   })
   void pocketWishesAreStateful(final int dropped, final boolean drops) {
-    try (var cleanups = withProperty("_bookOfFactsWishes", dropped)) {
+    try (var _ = withProperty("_bookOfFactsWishes", dropped)) {
       var monster = MonsterDatabase.findMonster("taco fish");
       var fact = FactDatabase.getFact(AscensionClass.ACCORDION_THIEF, Path.BIG, monster, true);
       if (drops) {
@@ -160,7 +160,7 @@ class FactDatabaseTest {
     "11, false",
   })
   void tattersAreStateful(final int dropped, final boolean drops) {
-    try (var cleanups = withProperty("_bookOfFactsTatters", dropped)) {
+    try (var _ = withProperty("_bookOfFactsTatters", dropped)) {
       var monster = MonsterDatabase.findMonster("Elite Beer Bongadier");
       var fact = FactDatabase.getFact(AscensionClass.SAUCEROR, Path.LOWKEY, monster, true);
       if (drops) {
@@ -180,7 +180,7 @@ class FactDatabaseTest {
     "3, false",
   })
   void gummiEffectsAreStateful(final int dropped, final boolean drops) {
-    try (var cleanups = withProperty("bookOfFactsGummi", dropped)) {
+    try (var _ = withProperty("bookOfFactsGummi", dropped)) {
       var monster = MonsterDatabase.findMonster("raven");
       var fact =
           FactDatabase.getFact(
@@ -200,7 +200,7 @@ class FactDatabaseTest {
     "1, false",
   })
   void pinataEffectsAreStateful(final int dropped, final boolean drops) {
-    try (var cleanups = withProperty("bookOfFactsPinata", dropped)) {
+    try (var _ = withProperty("bookOfFactsPinata", dropped)) {
       var monster = MonsterDatabase.findMonster("oil slick");
       var fact =
           FactDatabase.getFact(AscensionClass.TURTLE_TAMER, Path.NUCLEAR_AUTUMN, monster, true);

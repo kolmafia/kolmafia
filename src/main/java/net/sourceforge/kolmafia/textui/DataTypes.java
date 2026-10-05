@@ -291,7 +291,7 @@ public class DataTypes {
     try {
       // Expected input is the string representation of an integer
       return new Value(StringUtilities.parseLong(name));
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException _) {
       // Allow names of booleans to represent the usual integer value
       if (name.equals("false")) {
         return ZERO_VALUE;
@@ -306,7 +306,7 @@ public class DataTypes {
   public static final Value parseFloatValue(final String name, final boolean returnDefault) {
     try {
       return new Value(StringUtilities.parseDouble(name));
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException _) {
       return returnDefault ? DataTypes.ZERO_FLOAT_VALUE : null;
     }
   }

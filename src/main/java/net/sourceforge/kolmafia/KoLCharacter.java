@@ -4956,7 +4956,7 @@ public abstract class KoLCharacter {
   public static AdventureResult findWand() {
     return Arrays.stream(KoLCharacter.WANDS)
         .filter(KoLConstants.inventory::contains)
-        .peek((w) -> Preferences.setInteger("lastZapperWand", KoLCharacter.getAscensions()))
+        .peek((_) -> Preferences.setInteger("lastZapperWand", KoLCharacter.getAscensions()))
         .findAny()
         .orElse(null);
   }

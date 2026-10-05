@@ -1219,7 +1219,7 @@ public class ResultProcessor {
   private static Map<Integer, Integer> effectCounts(final List<AdventureResult> effects) {
     return effects.stream()
         .collect(
-            Collectors.toMap(AdventureResult::getEffectId, AdventureResult::getCount, (a, b) -> b));
+            Collectors.toMap(AdventureResult::getEffectId, AdventureResult::getCount, (_, b) -> b));
   }
 
   public static void removeEffect(final AdventureResult effect) {

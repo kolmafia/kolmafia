@@ -236,7 +236,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
               SynthesizePanel.this.candyData.update();
             }
           });
-    } catch (Exception ie) {
+    } catch (Exception _) {
     }
   }
 

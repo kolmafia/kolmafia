@@ -18,7 +18,7 @@ public class CreateItemCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       CreateItemCommand.create(parameters);
     }
   }

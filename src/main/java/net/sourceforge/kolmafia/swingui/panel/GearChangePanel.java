@@ -1283,7 +1283,7 @@ public class GearChangePanel extends JPanel {
     } else {
       try {
         SwingUtilities.invokeAndWait(() -> updateEquipmentModelsInternal(equipmentLists));
-      } catch (Exception ie) {
+      } catch (Exception _) {
       }
     }
   }

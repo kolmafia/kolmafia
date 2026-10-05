@@ -187,7 +187,7 @@ public class ChatBufferTest {
 
     @Test
     void trimsAtTheConfiguredLength() throws Exception {
-      try (var ignored = withProperty("outputBufferLength", 200000)) {
+      try (var _ = withProperty("outputBufferLength", 200000)) {
         var buffer = new ChatBuffer("test");
         for (int i = 0; i < 150; i++) {
           buffer.append(line(i));
@@ -200,7 +200,7 @@ public class ChatBufferTest {
 
     @Test
     void trimsBelowTheDefaultWhenConfiguredLower() throws Exception {
-      try (var ignored = withProperty("outputBufferLength", 20000)) {
+      try (var _ = withProperty("outputBufferLength", 20000)) {
         var buffer = new ChatBuffer("test");
         for (int i = 0; i < 3000; i++) {
           buffer.append("line " + i + "<br>");
@@ -449,7 +449,7 @@ public class ChatBufferTest {
               var caret = pane.modelToView2D(0).getBounds();
               var view = scroller.getViewport().getViewRect();
               caretVisible[0] = caret.y >= view.y && caret.y + caret.height <= view.y + view.height;
-            } catch (BadLocationException e) {
+            } catch (BadLocationException _) {
               caretVisible[0] = false;
             }
           });
@@ -524,7 +524,7 @@ public class ChatBufferTest {
             var offset = pane.viewToModel2D(scroller.getViewport().getViewPosition());
             try {
               line[0] = pane.getDocument().getText(offset, 8);
-            } catch (BadLocationException e) {
+            } catch (BadLocationException _) {
               line[0] = null;
             }
           });

@@ -36,7 +36,7 @@ public class PreferenceCheckBox extends JPanel implements Listener {
   private void configure() {
     this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
     PreferenceListenerRegistry.registerPreferenceListener(pref, this);
-    this.addActionListener(e -> Preferences.setBoolean(pref, box.isSelected()));
+    this.addActionListener(_ -> Preferences.setBoolean(pref, box.isSelected()));
   }
 
   public void addActionListener(ActionListener a) {

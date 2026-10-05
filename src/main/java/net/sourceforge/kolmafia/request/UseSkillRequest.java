@@ -1308,7 +1308,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     // Optimizing equipment can involve changing equipment.
     // Save a checkpoint so we can restore previous equipment.
     var oldFamiliar = KoLCharacter.getFamiliar();
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       optimizeEquipment();
       if (KoLmafia.refusesContinue()) {
         UseSkillRequest.lastUpdate = "Unable to change equipment to cast skill.";

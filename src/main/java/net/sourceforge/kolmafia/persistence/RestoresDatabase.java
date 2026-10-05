@@ -91,7 +91,7 @@ public class RestoresDatabase {
       final int usesLeft,
       final String notes) {
     RestoreData restoreData =
-        RestoresDatabase.restoreByName.computeIfAbsent(name, key -> new RestoreData());
+        RestoresDatabase.restoreByName.computeIfAbsent(name, _ -> new RestoreData());
     restoreData.name = name;
     restoreData.type = type;
     restoreData.hpMin = hpMin;

@@ -22,7 +22,7 @@ public class CcsFileManager {
 
     try {
       return Files.readAllBytes(path);
-    } catch (IOException e) {
+    } catch (IOException _) {
       return new byte[0];
     }
   }
@@ -40,7 +40,7 @@ public class CcsFileManager {
 
     try {
       Files.write(path, bytes);
-    } catch (IOException e) {
+    } catch (IOException _) {
       return false;
     }
 

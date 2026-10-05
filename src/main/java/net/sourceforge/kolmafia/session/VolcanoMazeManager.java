@@ -656,7 +656,7 @@ public abstract class VolcanoMazeManager {
     // Parse the string into a JSON object
     try {
       json = JSON.parseObject(responseText);
-    } catch (JSONException e) {
+    } catch (JSONException _) {
       return "";
     }
 
@@ -670,7 +670,7 @@ public abstract class VolcanoMazeManager {
         int square = row * NCOLS + col;
         currentLocation = square;
       }
-    } catch (JSONException e) {
+    } catch (JSONException _) {
       currentLocation = -1;
     }
 
@@ -678,7 +678,7 @@ public abstract class VolcanoMazeManager {
     JSONArray show;
     try {
       show = json.getJSONArray("show");
-    } catch (JSONException e) {
+    } catch (JSONException _) {
       return "";
     }
 
