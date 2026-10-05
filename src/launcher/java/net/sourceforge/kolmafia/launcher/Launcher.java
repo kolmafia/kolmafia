@@ -9,10 +9,12 @@ import javax.swing.JOptionPane;
 
 public class Launcher {
   static final int MINIMUM_JAVA_VERSION = 25;
+  static final Integer MAXIMUM_JAVA_VERSION = null;
 
   public static void main(String[] args) throws Throwable {
-    if (javaVersion(System.getProperty("java.specification.version")) < MINIMUM_JAVA_VERSION) {
-      reportOutdatedJava(args);
+    int version = javaVersion(System.getProperty("java.specification.version"));
+    if (!isSupported(version, MINIMUM_JAVA_VERSION, MAXIMUM_JAVA_VERSION)) {
+      reportUnsupportedJava(args);
       System.exit(1);
     }
 
@@ -32,13 +34,27 @@ public class Launcher {
     return Integer.parseInt(specificationVersion);
   }
 
-  private static void reportOutdatedJava(String[] args) {
+  static boolean isSupported(int version, int minimum, Integer maximum) {
+    return version >= minimum && (maximum == null || version <= maximum);
+  }
+
+  static String supportedVersions(int minimum, Integer maximum) {
+    if (maximum == null) {
+      return "Java " + minimum + " or newer";
+    }
+    if (maximum == minimum) {
+      return "Java " + minimum;
+    }
+    return "Java " + minimum + " to " + maximum;
+  }
+
+  private static void reportUnsupportedJava(String[] args) {
     String message =
-        "This version of KoLmafia requires Java "
-            + MINIMUM_JAVA_VERSION
+        "This version of KoLmafia requires "
+            + supportedVersions(MINIMUM_JAVA_VERSION, MAXIMUM_JAVA_VERSION)
             + ", but you are running Java "
             + System.getProperty("java.version")
-            + ".\nDownload the latest version from https://adoptium.net/";
+            + ".\nDownload a supported version from https://adoptium.net/";
     System.err.println(message);
 
     if (GraphicsEnvironment.isHeadless()
