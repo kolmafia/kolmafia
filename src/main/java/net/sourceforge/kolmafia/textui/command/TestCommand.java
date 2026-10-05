@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -175,11 +174,6 @@ public class TestCommand extends AbstractCommand {
       String adventureURL = split[1].trim();
       KoLAdventure adventure = AdventureDatabase.getAdventureByURL(adventureURL);
       RequestLogger.printLine("returned " + adventure);
-      return;
-    }
-
-    if (command.equals("bastille")) {
-      BastilleBattalionManager.saveStyleSets();
       return;
     }
 
