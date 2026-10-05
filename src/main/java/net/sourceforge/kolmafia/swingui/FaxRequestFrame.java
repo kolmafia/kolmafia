@@ -150,6 +150,11 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
 
   public static boolean requestFax(
       final String botName, final Monster monster, final boolean checkOnline) {
+    return FaxRequestFrame.requestFax(botName, monster, checkOnline, LIMIT);
+  }
+
+  static boolean requestFax(
+      final String botName, final Monster monster, final boolean checkOnline, final int limit) {
     // Validate ability to receive a fax
     if (!FaxRequestFrame.canReceiveFax()) {
       KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
@@ -213,7 +218,7 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
         String response = null;
         // Response is sent blue message. Can it fail?
 
-        int polls = LIMIT * 1000 / DELAY;
+        int polls = limit * 1000 / DELAY;
         for (int i = 0; i < polls; ++i) {
           response = ChatManager.getLastFaxBotMessage();
           if (response != null) {
@@ -224,7 +229,16 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
 
         if (response == null) {
           FaxRequestFrame.statusMessage =
-              "No response from " + botName + " after " + LIMIT + " seconds.";
+              "No response from " + botName + " after " + limit + " seconds.";
+
+          // The reply is only seen while chat is open, so the fax may have arrived anyway
+          KoLmafia.updateDisplay(FaxRequestFrame.statusMessage + " Checking the fax machine.");
+          if (FaxRequestFrame.receiveRequestedFax(monster)) {
+            KoLmafia.enableDisplay();
+            Preferences.setString("lastSuccessfulFaxbot", botName);
+            return true;
+          }
+
           KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
           return false;
         }
@@ -260,6 +274,25 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
     // Set the last faxbot the user successfully used
     Preferences.setString("lastSuccessfulFaxbot", botName);
     return true;
+  }
+
+  private static boolean receiveRequestedFax(final Monster monster) {
+    RequestThread.postRequest(
+        new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX));
+
+    if (!InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
+      return false;
+    }
+
+    String current = Preferences.getString("photocopyMonster");
+    if (current.equalsIgnoreCase(monster.getActualName())) {
+      return true;
+    }
+
+    // Put it back, since a photocopy in inventory blocks the next request
+    RequestThread.postRequest(
+        new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.SEND_FAX));
+    return false;
   }
 
   private static boolean canReceiveFax() {
