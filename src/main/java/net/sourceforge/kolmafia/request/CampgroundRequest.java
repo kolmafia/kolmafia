@@ -52,6 +52,10 @@ public class CampgroundRequest extends GenericRequest {
       Pattern.compile(
           "You can visit the doctors again in (\\d+) turns?\\.<br>You have (\\d) consul");
 
+  private static final Pattern BLACK_ROSE_GARDEN_PATTERN =
+      Pattern.compile("Black Rose Garden \\((\\d+) days?'?s? growth\\)");
+  private static final String BLACK_ROSE_DAY_PASS = "Black Rose Garden (day pass)";
+
   private static int currentDwellingLevel = 0;
   private static AdventureResult currentDwelling = null;
   private static AdventureResult currentBed = null;
@@ -235,6 +239,32 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
+  public static class BlackRose extends AdventureResult {
+    public BlackRose(int days) {
+      super("black garden rose", days);
+    }
+
+    public static String growth(final int days) {
+      return days + (days == 1 ? " day's growth" : " days' growth");
+    }
+
+    @Override
+    public int getPluralCount() {
+      // only one seed
+      return 1;
+    }
+
+    @Override
+    public String getPluralName() {
+      return this.toString();
+    }
+
+    @Override
+    public String toString() {
+      return "Black Rose Garden (" + growth(count) + ")";
+    }
+  }
+
   // Crops
   public static final AdventureResult PUMPKIN = ItemPool.get(ItemPool.PUMPKIN, 1);
   public static final AdventureResult HUGE_PUMPKIN = ItemPool.get(ItemPool.HUGE_PUMPKIN, 1);
@@ -283,6 +313,7 @@ public class CampgroundRequest extends GenericRequest {
   public static final AdventureResult HARD_ROCK = ItemPool.get(ItemPool.HARD_ROCK, 1);
   public static final AdventureResult STRANGE_STALAGMITE =
       ItemPool.get(ItemPool.STRANGE_STALAGMITE, 1);
+  public static final AdventureResult BLACK_ROSE_GARDEN = new BlackRose(1);
 
   public enum CropType {
     PUMPKIN(ItemPool.PUMPKIN_SEEDS),
@@ -293,6 +324,7 @@ public class CampgroundRequest extends GenericRequest {
     THANKSGARDEN(ItemPool.THANKSGARDEN_SEEDS),
     GRASS(ItemPool.TALL_GRASS_SEEDS),
     MUSHROOM(ItemPool.MUSHROOM_SPORES),
+    BLACK_ROSE(ItemPool.BLACK_GARDEN_ROSE),
     ROCK(ItemPool.ROCK_SEEDS),
     ;
 
@@ -397,6 +429,7 @@ public class CampgroundRequest extends GenericRequest {
     CROPPLOT.put(HARD_ROCK, CropPlot.PLOT3);
     CROPMAP.put(STRANGE_STALAGMITE, CropType.ROCK);
     CROPPLOT.put(STRANGE_STALAGMITE, CropPlot.PLOT3);
+    CROPMAP.put(BLACK_ROSE_GARDEN, CropType.BLACK_ROSE);
   }
 
   public static CropPlot cropToPlot(AdventureResult crop) {
@@ -458,6 +491,7 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.WHETSTONE,
     CampgroundRequest.HARD_ROCK,
     CampgroundRequest.STRANGE_STALAGMITE,
+    CampgroundRequest.BLACK_ROSE_GARDEN,
   };
 
   public static void reset() {
@@ -665,6 +699,11 @@ public class CampgroundRequest extends GenericRequest {
     // Dealing with mushroom gardens is an Adventure
     if (cropType == CropType.MUSHROOM) {
       harvestMushrooms(true);
+      return;
+    }
+
+    // The Black Rose Garden is a maze
+    if (cropType == CropType.BLACK_ROSE) {
       return;
     }
 
@@ -1319,6 +1358,8 @@ public class CampgroundRequest extends GenericRequest {
       Preferences.setBoolean("_psychoJarUsed", false);
     }
 
+    Preferences.setBoolean("_blackRoseGardenToday", responseText.contains(BLACK_ROSE_DAY_PASS));
+
     CampgroundRequest.parseDwelling(responseText);
   }
 
@@ -1525,7 +1566,8 @@ public class CampgroundRequest extends GenericRequest {
             responseText,
             "mushgarden.gif",
             new Mushroom(Preferences.getInteger("mushroomGardenCropLevel")))
-        || findRockGarden(responseText);
+        || findRockGarden(responseText)
+        || findBlackGarden(responseText);
   }
 
   private static void parseTerminal(final String responseText) {
@@ -1584,6 +1626,18 @@ public class CampgroundRequest extends GenericRequest {
     } else {
       CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 0);
     }
+
+    return true;
+  }
+
+  private static boolean findBlackGarden(final String responseText) {
+    var matcher = BLACK_ROSE_GARDEN_PATTERN.matcher(responseText);
+    if (!matcher.find()) {
+      return false;
+    }
+
+    int days = StringUtilities.parseInt(matcher.group(1));
+    CampgroundRequest.setCampgroundItem(new BlackRose(days));
 
     return true;
   }
