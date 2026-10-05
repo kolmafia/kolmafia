@@ -28,11 +28,11 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
+import net.sourceforge.kolmafia.textui.Location;
 import net.sourceforge.kolmafia.textui.Rng;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.eclipse.lsp4j.Location;
 
 @SuppressWarnings("incomplete-switch")
 public class Type extends Symbol {

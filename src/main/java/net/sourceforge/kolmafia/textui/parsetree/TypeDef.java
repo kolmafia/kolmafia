@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
-import org.eclipse.lsp4j.Location;
+import net.sourceforge.kolmafia.textui.Location;
 
 public class TypeDef extends Type {
   private final Type base;
