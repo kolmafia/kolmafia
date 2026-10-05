@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
-import static org.eclipse.lsp4j.DiagnosticSeverity.Error;
+import static net.sourceforge.kolmafia.textui.DiagnosticSeverity.ERROR;
 
 import java.io.File;
 import java.io.InputStream;
@@ -148,7 +148,7 @@ public class AshRuntime extends AbstractRuntime {
     // Look at what the parser found
     boolean foundError = false;
     for (Parser.AshDiagnostic diagnostic : parser.getDiagnostics()) {
-      if (diagnostic.severity == Error) {
+      if (diagnostic.severity == ERROR) {
         String message = CharacterEntities.escape(diagnostic.toString());
         KoLmafia.updateDisplay(MafiaState.ERROR, message);
         foundError = true;
