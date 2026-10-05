@@ -278,15 +278,10 @@ public class LoginManager {
 
   private static void printWarningMessages() {
     var version = Runtime.version();
-    if (version.feature() < KoLmafia.MINIMUM_JAVA_VERSION) {
+    if (version.feature() < 21) {
+      KoLmafia.updateDisplay("Java versions lower than 21 will stop being supported by KoLMafia.");
       KoLmafia.updateDisplay(
-          "Java versions lower than "
-              + KoLmafia.MINIMUM_JAVA_VERSION
-              + " will stop being supported by KoLMafia.");
-      KoLmafia.updateDisplay(
-          "You are running a version of Java lower than "
-              + KoLmafia.MINIMUM_JAVA_VERSION
-              + ". Visit https://adoptium.net/ to download a newer version of Java.");
+          "You are running a version of Java lower than 21. Visit https://adoptium.net/ to download a newer version of Java.");
     }
   }
 }
