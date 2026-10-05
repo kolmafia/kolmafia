@@ -2,19 +2,25 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
+import static internal.helpers.Player.withLimitMode;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withSign;
+import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withoutItem;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isFinished;
@@ -32,16 +38,20 @@ import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.Month;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -568,6 +578,160 @@ public class ResultProcessorTest {
         ResultProcessor.processResults(true, html("request/test_fight_power_pill_drop.html"));
         assertThat("powerPillProgress", isSetTo(0));
         assertThat("_powerPillDrops", isSetTo(2));
+      }
+    }
+  }
+
+  @Nested
+  class EffectChanges {
+    private static final AdventureResult INIGOS = EffectPool.get(EffectPool.INIGOS);
+    private static final AdventureResult CONFIDENCE = EffectPool.get(EffectPool.CONFIDENCE);
+    private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+    private static final AdventureResult COWRRUPTION = EffectPool.get(EffectPool.COWRRUPTION);
+
+    @Test
+    void gainedEffectsBecomeActive() {
+      ResultProcessor.processResult(EffectPool.get(EffectPool.INIGOS, 5));
+      assertThat(INIGOS.getCount(KoLConstants.activeEffects), is(0));
+
+      ResultProcessor.applyEffects();
+      assertThat(INIGOS.getCount(KoLConstants.activeEffects), is(5));
+      assertThat(KoLConstants.recentEffects, hasSize(0));
+    }
+
+    @Test
+    void usingTurnsDecrementsEffectsButNotIntrinsics() {
+      try (var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.INIGOS, 3), withIntrinsicEffect(EffectPool.CONFIDENCE))) {
+        ResultProcessor.processAdventuresUsed(1);
+        assertThat(INIGOS.getCount(KoLConstants.activeEffects), is(2));
+        assertThat(CONFIDENCE.getCount(KoLConstants.activeEffects), is(Integer.MAX_VALUE));
+      }
+    }
+
+    @Test
+    void usingLastTurnRemovesEffect() {
+      try (var cleanups = new Cleanups(withEffect(EffectPool.INIGOS, 1))) {
+        ResultProcessor.processAdventuresUsed(1);
+        assertFalse(KoLConstants.activeEffects.contains(INIGOS));
+      }
+    }
+
+    @Test
+    void halfAstralTickingDownKeepsAstralLimitMode() {
+      try (var cleanups =
+          new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 2), withLimitMode(LimitMode.ASTRAL))) {
+        ResultProcessor.processAdventuresUsed(1);
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
+      }
+    }
+
+    @Test
+    void cowrruptionDoesNotDecrementForCowPuncher() {
+      try (var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.COW_PUNCHER), withEffect(EffectPool.COWRRUPTION, 5))) {
+        ResultProcessor.processAdventuresUsed(1);
+        assertThat(COWRRUPTION.getCount(KoLConstants.activeEffects), is(5));
+      }
+    }
+
+    @Test
+    void gainingCowrruptionAsCowPuncherGrantsSkill() {
+      try (var cleanups = new Cleanups(withClass(AscensionClass.COW_PUNCHER))) {
+        ResultProcessor.processResult(EffectPool.get(EffectPool.COWRRUPTION, 5));
+        ResultProcessor.applyEffects();
+        assertTrue(KoLCharacter.hasSkill(SkillPool.ABSORB_COWRRUPTION));
+      }
+    }
+
+    @Test
+    void refreshingWithoutHalfAstralLeavesAstralLimitMode() {
+      try (var cleanups =
+          new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
+        ResultProcessor.setActiveEffects(List.of());
+        assertFalse(KoLConstants.activeEffects.contains(HALF_ASTRAL));
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.NONE));
+      }
+    }
+
+    @Test
+    void refreshingWithHalfAstralKeepsAstralLimitMode() {
+      try (var cleanups =
+          new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
+        ResultProcessor.setActiveEffects(List.of(EffectPool.get(EffectPool.HALF_ASTRAL, 4)));
+        assertThat(HALF_ASTRAL.getCount(KoLConstants.activeEffects), is(4));
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
+      }
+    }
+
+    @Test
+    void gainingHalfAstralEntersAstralLimitMode() {
+      try (var cleanups = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
+        ResultProcessor.processResult(EffectPool.get(EffectPool.HALF_ASTRAL, 5));
+        ResultProcessor.applyEffects();
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
+      }
+    }
+
+    @Test
+    void refreshingWithNewHalfAstralEntersAstralLimitMode() {
+      try (var cleanups = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
+        ResultProcessor.setActiveEffects(List.of(EffectPool.get(EffectPool.HALF_ASTRAL, 5)));
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
+      }
+    }
+
+    @Test
+    void refreshingWithoutCowrruptionRemovesSkill() {
+      try (var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.COW_PUNCHER),
+              withEffect(EffectPool.COWRRUPTION, 5),
+              withSkill(SkillPool.ABSORB_COWRRUPTION))) {
+        ResultProcessor.setActiveEffects(List.of());
+        assertFalse(KoLCharacter.hasSkill(SkillPool.ABSORB_COWRRUPTION));
+      }
+    }
+
+    @Test
+    void refreshingClearsRecentEffects() {
+      ResultProcessor.processResult(EffectPool.get(EffectPool.INIGOS, 5));
+      ResultProcessor.setActiveEffects(List.of());
+      assertThat(KoLConstants.recentEffects, hasSize(0));
+      assertThat(KoLConstants.activeEffects, hasSize(0));
+    }
+
+    @Test
+    void removingHalfAstralLeavesAstralLimitMode() {
+      try (var cleanups =
+          new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
+        ResultProcessor.removeEffect(HALF_ASTRAL);
+        assertFalse(KoLConstants.activeEffects.contains(HALF_ASTRAL));
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.NONE));
+      }
+    }
+
+    @Test
+    void removingInactiveEffectDoesNothing() {
+      try (var cleanups = new Cleanups(withLimitMode(LimitMode.ASTRAL))) {
+        ResultProcessor.removeEffect(HALF_ASTRAL);
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
+      }
+    }
+
+    @Test
+    void enteringSorceressFightKeepsOnlyConfidence() {
+      try (var cleanups =
+          new Cleanups(
+              withIntrinsicEffect(EffectPool.CONFIDENCE),
+              withEffect(EffectPool.HALF_ASTRAL, 5),
+              withLimitMode(LimitMode.ASTRAL))) {
+        SorceressLairManager.enterSorceressFight();
+        assertThat(KoLConstants.activeEffects, hasSize(1));
+        assertTrue(KoLConstants.activeEffects.contains(CONFIDENCE));
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.NONE));
       }
     }
   }

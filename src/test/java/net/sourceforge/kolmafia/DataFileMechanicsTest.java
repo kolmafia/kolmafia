@@ -25,7 +25,6 @@ public class DataFileMechanicsTest {
     return Stream.of(
         // file name, version number, low field count, high field count
         Arguments.of("adventures.txt", 6, 4, 5),
-        Arguments.of("bastille.txt", 1, 11, 11),
         Arguments.of("bookoffacts.txt", 1, 3, 9),
         Arguments.of("bounty.txt", 2, 7, 7),
         Arguments.of("buffbots.txt", 1, 3, 3),

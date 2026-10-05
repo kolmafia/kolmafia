@@ -3438,7 +3438,7 @@ public class FightRequest extends GenericRequest {
 
     if (responseText.contains("You pull out your personal massager")) {
       ResultProcessor.processItem(ItemPool.PERSONAL_MASSAGER, -1);
-      KoLConstants.activeEffects.remove(KoLAdventure.BEATEN_UP);
+      ResultProcessor.removeEffect(KoLAdventure.BEATEN_UP);
     }
 
     // You groan and loosen your overtaxed belt.

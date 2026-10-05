@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.chat;
 
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -8,16 +9,27 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 
+import internal.helpers.Cleanups;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
 import java.awt.event.HierarchyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import net.sourceforge.kolmafia.swingui.listener.StickyListener;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,6 +43,18 @@ public class ChatBufferTest {
     public boolean isDisplayable() {
       return this.displayable;
     }
+  }
+
+  private Cleanups cleanups;
+
+  @BeforeEach
+  void pinBufferLength() {
+    cleanups = withProperty("outputBufferLength", 50000);
+  }
+
+  @AfterEach
+  void restoreBufferLength() {
+    cleanups.close();
   }
 
   private static void flush() throws Exception {
@@ -162,6 +186,33 @@ public class ChatBufferTest {
     }
 
     @Test
+    void trimsAtTheConfiguredLength() throws Exception {
+      try (var ignored = withProperty("outputBufferLength", 200000)) {
+        var buffer = new ChatBuffer("test");
+        for (int i = 0; i < 150; i++) {
+          buffer.append(line(i));
+        }
+        flush();
+
+        assertThat(buffer.getContent(), containsString("Line 0 "));
+      }
+    }
+
+    @Test
+    void trimsBelowTheDefaultWhenConfiguredLower() throws Exception {
+      try (var ignored = withProperty("outputBufferLength", 20000)) {
+        var buffer = new ChatBuffer("test");
+        for (int i = 0; i < 3000; i++) {
+          buffer.append("line " + i + "<br>");
+        }
+        flush();
+
+        assertThat(buffer.getContent().length(), lessThan(20000));
+        assertThat(buffer.getContent(), containsString("line 2999<br>"));
+      }
+    }
+
+    @Test
     void returnsTheRawAppendedContent() throws Exception {
       var buffer = new ChatBuffer("test");
       buffer.append("foo <img src=x.gif><br>");
@@ -175,10 +226,12 @@ public class ChatBufferTest {
   class Display {
     private final ChatBuffer buffer = new ChatBuffer("test");
     private final TestPane pane = new TestPane();
+    private JScrollPane scroller;
 
     @BeforeEach
     void addDisplay() {
-      buffer.addDisplay(pane);
+      scroller = buffer.addDisplay(pane);
+      scroller.setSize(600, 400);
     }
 
     @Test
@@ -320,25 +373,162 @@ public class ChatBufferTest {
     }
 
     @Test
-    void stickyPanesScrollToTheEnd() throws Exception {
-      buffer.append("one<br>");
-      buffer.append("two<br>");
-      flush();
+    void stickyPanesFollowOutput() throws Exception {
+      appendLines(0, 120);
 
-      assertThat(pane.getCaretPosition(), is(pane.getDocument().getLength() - 1));
+      var bar = scroller.getVerticalScrollBar();
+      assertThat(bar.getValue() + bar.getVisibleAmount(), is(bar.getMaximum()));
     }
 
     @Test
-    void unstickyPanesKeepTheirPosition() throws Exception {
-      buffer.append("one<br>");
+    void selectionsSurviveTrimming() throws Exception {
+      appendLines(0, 120);
+      var start = text(pane).indexOf("Line 100 ");
+      SwingUtilities.invokeAndWait(
+          () -> {
+            scrollAsUser(pane.getHeight() / 2);
+            pane.select(start, start + 8);
+          });
       flush();
-      buffer.setSticky(pane, false);
-      SwingUtilities.invokeAndWait(() -> pane.setCaretPosition(0));
 
-      buffer.append("two<br>");
+      appendLines(120, 160);
+
+      assertThat(text(pane), not(containsString("Line 0 ")));
+      assertThat(pane.getSelectedText(), is("Line 100"));
+    }
+
+    @Test
+    void unstickyPanesKeepTheirScrollPositionWhenTrimmed() throws Exception {
+      appendLines(0, 120);
+      SwingUtilities.invokeAndWait(() -> scrollAsUser(pane.getHeight() / 2));
+      flush();
+      var before = topLine();
+
+      appendLines(120, 160);
+
+      assertThat(text(pane), not(containsString("Line 0 ")));
+      assertThat(topLine(), is(before));
+    }
+
+    @Test
+    void scrollingUpWhileOutputStreamsUnsticks() throws Exception {
+      appendLines(0, 60);
+
+      SwingUtilities.invokeAndWait(
+          () -> {
+            buffer.append(line(60));
+            scrollAsUser(0);
+          });
+      flush();
+      appendLines(61, 80);
+
+      assertThat(scroller.getVerticalScrollBar().getValue(), is(0));
+    }
+
+    @Test
+    void caretMovesFromInputScrollTheView() throws Exception {
+      appendLines(0, 60);
+      pane.addMouseMotionListener(
+          new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+              pane.setCaretPosition(0);
+            }
+          });
+
+      Toolkit.getDefaultToolkit()
+          .getSystemEventQueue()
+          .postEvent(new MouseEvent(pane, MouseEvent.MOUSE_MOVED, 0, 0, 0, 0, 0, false));
+      flush();
       flush();
 
-      assertThat(pane.getCaretPosition(), is(0));
+      var caretVisible = new boolean[1];
+      SwingUtilities.invokeAndWait(
+          () -> {
+            try {
+              var caret = pane.modelToView2D(0).getBounds();
+              var view = scroller.getViewport().getViewRect();
+              caretVisible[0] = caret.y >= view.y && caret.y + caret.height <= view.y + view.height;
+            } catch (BadLocationException e) {
+              caretVisible[0] = false;
+            }
+          });
+
+      assertThat(caretVisible[0], is(true));
+    }
+
+    @Test
+    void caretMovesFromTrimmingDoNotScrollTheView() throws Exception {
+      appendLines(0, 120);
+      var position = text(pane).indexOf("Line 100 ");
+      SwingUtilities.invokeAndWait(() -> pane.setCaretPosition(position));
+      flush();
+
+      appendLines(120, 160);
+
+      var bar = scroller.getVerticalScrollBar();
+      assertThat(bar.getValue() + bar.getVisibleAmount(), is(bar.getMaximum()));
+    }
+
+    private void appendLines(int from, int to) throws Exception {
+      for (int i = from; i < to; i++) {
+        buffer.append(line(i));
+        flush();
+        SwingUtilities.invokeAndWait(this::layout);
+        flush();
+      }
+    }
+
+    @Test
+    void statusLinesShowOnlyTheLatestEntriesWithoutAScrollbar() throws Exception {
+      var statusLine = new TestPane();
+      var statusScroller = buffer.addStatusLine(statusLine);
+      for (int i = 0; i < 50; i++) {
+        buffer.append("Entry " + i + "<br>");
+      }
+      flush();
+
+      assertThat(text(statusLine), containsString("Entry 49"));
+      assertThat(text(statusLine), containsString("Entry 40"));
+      assertThat(text(statusLine), not(containsString("Entry 39")));
+      assertThat(
+          statusScroller.getVerticalScrollBarPolicy(),
+          is(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER));
+    }
+
+    @Test
+    void caretStaysHiddenWhenFocused() throws Exception {
+      SwingUtilities.invokeAndWait(
+          () ->
+              ((DefaultCaret) pane.getCaret())
+                  .focusGained(new FocusEvent(pane, FocusEvent.FOCUS_GAINED)));
+
+      assertThat(pane.getCaret().isVisible(), is(false));
+    }
+
+    private void scrollAsUser(int y) {
+      ((StickyListener) pane.getClientProperty(StickyListener.class))
+          .scrollAsUser(() -> scroller.getViewport().setViewPosition(new Point(0, y)));
+    }
+
+    private void layout() {
+      scroller.doLayout();
+      scroller.getViewport().doLayout();
+      pane.setSize(pane.getWidth(), pane.getPreferredSize().height);
+    }
+
+    private String topLine() throws Exception {
+      var line = new String[1];
+      SwingUtilities.invokeAndWait(
+          () -> {
+            var offset = pane.viewToModel2D(scroller.getViewport().getViewPosition());
+            try {
+              line[0] = pane.getDocument().getText(offset, 8);
+            } catch (BadLocationException e) {
+              line[0] = null;
+            }
+          });
+      return line[0];
     }
 
     @Test
