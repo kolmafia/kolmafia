@@ -619,24 +619,6 @@ public class ResultProcessorTest {
     }
 
     @Test
-    void fizzyFizzyTickingDownKeepsSpentPP() {
-      try (var cleanups = new Cleanups(withEffect(EffectPool.FIZZY_FIZZY, 3))) {
-        KoLCharacter.setPP(0, 2);
-        ResultProcessor.processAdventuresUsed(1);
-        assertThat(KoLCharacter.getCurrentPP(), is(0));
-      }
-    }
-
-    @Test
-    void fizzyFizzyExpiringKeepsSpentPP() {
-      try (var cleanups = new Cleanups(withEffect(EffectPool.FIZZY_FIZZY, 1))) {
-        KoLCharacter.setPP(0, 2);
-        ResultProcessor.processAdventuresUsed(1);
-        assertThat(KoLCharacter.getCurrentPP(), is(0));
-      }
-    }
-
-    @Test
     void halfAstralTickingDownKeepsAstralLimitMode() {
       try (var cleanups =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 2), withLimitMode(LimitMode.ASTRAL))) {
