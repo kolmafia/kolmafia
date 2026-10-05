@@ -418,15 +418,6 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1313, // Bastille Battalion
-          1314, // Bastille Battalion (Master of None)
-          1315, // Castle vs. Castle
-          1316, // GAME OVER
-          1317, // A Hello to Arms (Battalion)
-          1318, // Defensive Posturing
-          1319 -> // Cheese Seeking Behavior
-          BastilleBattalionManager.preChoice(urlString, request);
-
       case 1356, // Smooth Sailing
           1357, // High Tide, Low Morale
           1358, // The Starboard is Bare
