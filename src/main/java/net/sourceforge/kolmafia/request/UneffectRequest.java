@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -645,8 +644,7 @@ public class UneffectRequest extends GenericRequest {
     }
 
     for (Integer effectId : effects) {
-      AdventureResult effect = EffectPool.get(effectId);
-      KoLConstants.activeEffects.remove(effect);
+      ResultProcessor.removeEffect(EffectPool.get(effectId));
     }
   }
 
@@ -858,17 +856,7 @@ public class UneffectRequest extends GenericRequest {
       return;
     }
 
-    KoLConstants.activeEffects.remove(this.effect);
-
-    // If you lose Inigo's, what you can craft changes
-    if (this.effectId == EffectPool.INIGOS || this.effectId == EffectPool.CRAFT_TEA) {
-      ConcoctionDatabase.setRefreshNeeded(true);
-    }
-
-    // If Gar-ish is gained or lost and autoGarish isn't set, benefit of Lasagna changes
-    if (this.effectId == EffectPool.GARISH && !Preferences.getBoolean("autoGarish")) {
-      ConcoctionDatabase.setRefreshNeeded(true);
-    }
+    ResultProcessor.removeEffect(this.effect);
 
     KoLmafia.updateDisplay(this.effect.getName() + " removed.");
   }
