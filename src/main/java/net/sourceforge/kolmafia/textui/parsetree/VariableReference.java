@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
-import org.eclipse.lsp4j.Location;
+import net.sourceforge.kolmafia.textui.Location;
 
 public class VariableReference extends Evaluable implements Comparable<VariableReference> {
   public final Variable target;

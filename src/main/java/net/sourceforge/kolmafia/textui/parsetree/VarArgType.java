@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import org.eclipse.lsp4j.Location;
+import net.sourceforge.kolmafia.textui.Location;
 
 public class VarArgType extends AggregateType {
   public VarArgType(final Type dataType) {

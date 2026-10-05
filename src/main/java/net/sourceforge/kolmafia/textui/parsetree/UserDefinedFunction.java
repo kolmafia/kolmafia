@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Stack;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.Location;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
-import org.eclipse.lsp4j.Location;
 
 public class UserDefinedFunction extends Function {
   private Scope scope;
