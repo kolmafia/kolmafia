@@ -1358,7 +1358,9 @@ public class CampgroundRequest extends GenericRequest {
       Preferences.setBoolean("_psychoJarUsed", false);
     }
 
-    Preferences.setBoolean("_blackRoseGardenToday", responseText.contains(BLACK_ROSE_DAY_PASS));
+    if (responseText.contains(BLACK_ROSE_DAY_PASS)) {
+      Preferences.setBoolean("_blackRoseGardenToday", true);
+    }
 
     CampgroundRequest.parseDwelling(responseText);
   }
