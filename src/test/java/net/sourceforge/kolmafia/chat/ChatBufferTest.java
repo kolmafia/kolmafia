@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -464,6 +465,23 @@ public class ChatBufferTest {
         SwingUtilities.invokeAndWait(this::layout);
         flush();
       }
+    }
+
+    @Test
+    void statusLinesShowOnlyTheLatestEntriesWithoutAScrollbar() throws Exception {
+      var statusLine = new TestPane();
+      var statusScroller = buffer.addStatusLine(statusLine);
+      for (int i = 0; i < 50; i++) {
+        buffer.append("Entry " + i + "<br>");
+      }
+      flush();
+
+      assertThat(text(statusLine), containsString("Entry 49"));
+      assertThat(text(statusLine), containsString("Entry 40"));
+      assertThat(text(statusLine), not(containsString("Entry 39")));
+      assertThat(
+          statusScroller.getVerticalScrollBarPolicy(),
+          is(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER));
     }
 
     @Test

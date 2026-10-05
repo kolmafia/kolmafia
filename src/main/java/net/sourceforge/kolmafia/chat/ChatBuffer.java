@@ -55,6 +55,7 @@ public class ChatBuffer {
 
   private final Set<JEditorPane> displayPanes = ChatBuffer.weakSet();
   private final Set<JEditorPane> stalePanes = ChatBuffer.weakSet();
+  private final Set<JEditorPane> statusLines = ChatBuffer.weakSet();
 
   private int pendingCount = 0;
   private int pendingRemovals = 0;
@@ -68,6 +69,7 @@ public class ChatBuffer {
   private static final int MINIMUM_LENGTH = 10000;
   private static final int MINIMUM_ENTRIES = 100;
   private static final int MAXIMUM_RETAINED_LENGTH = 200000;
+  private static final int STATUS_LINE_ENTRIES = 10;
 
   /**
    * Constructs a new <code>ChatBuffer</code>. However, note that this does not automatically
@@ -80,6 +82,14 @@ public class ChatBuffer {
 
   /** Adds a chat display used to display the chat messages currently being stored in the buffer. */
   public JScrollPane addDisplay(final JEditorPane displayPane) {
+    return this.addDisplay(displayPane, false);
+  }
+
+  public JScrollPane addStatusLine(final JEditorPane displayPane) {
+    return this.addDisplay(displayPane, true);
+  }
+
+  private JScrollPane addDisplay(final JEditorPane displayPane, final boolean statusLine) {
     if (displayPane == null) {
       return null;
     }
@@ -97,7 +107,9 @@ public class ChatBuffer {
     JScrollPane scroller =
         new JScrollPane(
             displayPane,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+            statusLine
+                ? ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER
+                : ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
     var stickyListener = new StickyListener(scroller.getVerticalScrollBar());
@@ -107,6 +119,11 @@ public class ChatBuffer {
     SwingUtilities.invokeLater(
         () -> {
           this.displayPanes.add(displayPane);
+
+          if (statusLine) {
+            this.statusLines.add(displayPane);
+          }
+
           this.markStale(displayPane);
         });
 
@@ -238,13 +255,19 @@ public class ChatBuffer {
 
   /** Returns all the styled content stored within this chat buffer. */
   public String getHTMLContent() {
+    return this.getHTMLContent(this.entries.size());
+  }
+
+  private String getHTMLContent(final int latestEntries) {
     StringBuffer htmlContent = new StringBuffer();
 
     htmlContent.append("<html><head><style>");
     htmlContent.append(this.getStyle());
     htmlContent.append("</style></head><body>");
 
-    htmlContent.append(ChatBuffer.wrapEntries(this.entries));
+    htmlContent.append(
+        ChatBuffer.wrapEntries(
+            this.entries.stream().skip(Math.max(0, this.entries.size() - latestEntries)).toList()));
 
     htmlContent.append("</body></html>");
 
@@ -314,6 +337,7 @@ public class ChatBuffer {
         ChatBuffer.wrapEntries(
             this.entries.stream().skip(this.entries.size() - this.pendingCount).toList());
     String htmlContent = null;
+    String statusLineContent = null;
 
     this.pendingRemovals = 0;
     this.pendingCount = 0;
@@ -324,7 +348,15 @@ public class ChatBuffer {
         continue;
       }
 
-      if (this.stalePanes.remove(displayPane)
+      var stale = this.stalePanes.remove(displayPane);
+
+      if (this.statusLines.contains(displayPane)) {
+        if (statusLineContent == null) {
+          statusLineContent = this.getHTMLContent(ChatBuffer.STATUS_LINE_ENTRIES);
+        }
+
+        displayPane.setText(statusLineContent);
+      } else if (stale
           || !ChatBuffer.update(
               displayPane,
               (StickyListener) displayPane.getClientProperty(StickyListener.class),
