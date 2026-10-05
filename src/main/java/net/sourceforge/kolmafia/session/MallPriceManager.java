@@ -553,8 +553,15 @@ public abstract class MallPriceManager {
       return MallPriceManager.getMallPrice(itemId) * count;
     }
 
-    // Do a mall search. Any cached result that is not stale is acceptable.
-    List<PurchaseRequest> results = MallPriceManager.searchMall(item.getInstance(0));
+    // Without a saved search, use a cached mall price or do a mall search
+    List<PurchaseRequest> results = MallPriceManager.getSavedSearch(itemId, 0);
+    if (results == null) {
+      long price = MallPriceManager.mallPrices.getOrDefault(itemId, 0L);
+      if (price != 0) {
+        return price * count;
+      }
+      results = MallPriceManager.searchMall(item.getInstance(0));
+    }
 
     // Iterate through the PurchaseRequests accumulating prices.
     int needed = count;
