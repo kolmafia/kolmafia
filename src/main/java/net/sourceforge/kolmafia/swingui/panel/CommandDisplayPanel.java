@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
-import net.sourceforge.kolmafia.swingui.listener.StickyListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -40,9 +39,6 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     outputDisplay.addHyperlinkListener(new HyperlinkAdapter());
 
     JScrollPane scrollPane = KoLConstants.commandBuffer.addDisplay(outputDisplay);
-    scrollPane
-        .getVerticalScrollBar()
-        .addAdjustmentListener(new StickyListener(KoLConstants.commandBuffer, outputDisplay, 200));
     JComponentUtilities.setComponentSize(scrollPane, 400, 300);
 
     JPanel entryPanel = new JPanel(new BorderLayout());

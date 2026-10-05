@@ -2276,7 +2276,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.TEARS:
-        KoLConstants.activeEffects.remove(KoLAdventure.BEATEN_UP);
+        ResultProcessor.removeEffect(KoLAdventure.BEATEN_UP);
         break;
 
       case ItemPool.ANTIDOTE:

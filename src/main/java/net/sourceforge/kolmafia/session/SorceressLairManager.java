@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -578,10 +579,8 @@ public abstract class SorceressLairManager {
   public static void enterSorceressFight() {
     // We retain (some) intrinsic effects. In particular, Confidence!
     boolean isConfident = KoLConstants.activeEffects.contains(SorceressLairManager.CONFIDENCE);
-    KoLConstants.activeEffects.clear();
-    if (isConfident) {
-      KoLConstants.activeEffects.add(SorceressLairManager.CONFIDENCE);
-    }
+    ResultProcessor.setActiveEffects(
+        isConfident ? List.of(SorceressLairManager.CONFIDENCE) : List.of());
   }
 
   private static final String[][] TOWER_DATA = {

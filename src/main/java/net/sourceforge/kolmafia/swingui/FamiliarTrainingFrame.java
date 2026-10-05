@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -37,6 +36,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.chat.ChatBuffer;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.CharacterListener;
@@ -452,6 +452,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       private class SaveListener extends ThreadedListener {
         File output = null;
+        String content = null;
 
         @Override
         protected void execute() {
@@ -465,6 +466,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                     SaveListener.this.output =
                         InputFieldUtilities.chooseOutputFile(
                             KoLConstants.DATA_LOCATION, FamiliarTrainingFrame.this);
+                    SaveListener.this.content = FamiliarTrainingFrame.results.getHTMLContent();
                   }
                 });
           } catch (Exception ie) {
@@ -476,10 +478,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           try {
             try (PrintStream ostream = LogStream.openStream(output, false)) {
-              ostream.println(
-                  FamiliarTrainingFrame.results
-                      .getHTMLContent()
-                      .replaceAll("<br>", KoLConstants.LINE_BREAK));
+              ostream.println(this.content.replaceAll("<br>", KoLConstants.LINE_BREAK));
             }
           } catch (Exception ex) {
             // This should not happen.  Therefore, print

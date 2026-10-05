@@ -438,8 +438,12 @@ public class ChoiceUtilities {
       var decisionInput = parsed.select("input[type=hidden][name=option]");
       int decision = Integer.parseInt(decisionInput.attr("value"));
 
-      var submitButton = parsed.select("input[type=submit][class=button]");
+      var submitButton = parsed.select("input.button[type=submit]");
       String label = submitButton.attr("value");
+      boolean disabled = submitButton.hasAttr("disabled");
+      if (disabled) {
+        continue;
+      }
 
       // Collect all the hidden inputs from this form
       Map<String, String> extra = extractExtraHiddenFields(form);

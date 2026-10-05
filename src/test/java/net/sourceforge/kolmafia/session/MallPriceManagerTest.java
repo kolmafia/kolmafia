@@ -168,6 +168,7 @@ public class MallPriceManagerTest {
     MallPriceManager.reset();
     MallPriceDatabase.reset();
     MallPurchaseRequest.reset();
+    MallPurchaseRequest.disabledStores.clear();
   }
 
   @AfterAll
@@ -1052,6 +1053,55 @@ public class MallPriceManagerTest {
       long price = MallPriceManager.getMallPrice(itemId);
       assertEquals(1234, price);
       assertEquals(0, client.getRequests().size());
+    }
+  }
+
+  @Nested
+  class CachedPriceForMultipleItems {
+    @Test
+    public void withoutSavedSearch() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      int itemId = ItemPool.SEAL_CLUB;
+      var then = LocalDateTime.of(2025, Month.FEBRUARY, 2, 5, 0);
+      var zdt = ZonedDateTime.of(then, DateTimeManager.ROLLOVER);
+
+      try (var cleanups =
+          new Cleanups(
+              mockClock(),
+              withHttpClientBuilder(builder),
+              withDay(2025, Month.FEBRUARY, 2, 18, 0))) {
+        MallPriceManager.reset();
+        MallPriceManager.cachePriceIfFromCurrentRolloverDay(itemId, 1234, zdt.toEpochSecond());
+
+        long price = MallPriceManager.getMallPrice(ItemPool.get(itemId, 10));
+        assertThat(price, equalTo(12340L));
+        assertThat(client.getRequests().size(), equalTo(0));
+      }
+    }
+
+    @Test
+    public void withStaleSavedSearch() {
+      AdventureResult item = ItemPool.get(ItemPool.REAGENT);
+      List<PurchaseRequest> searchResults = new ArrayList<>();
+      MallSearchRequest request = new MockMallSearchRequest("", 0, searchResults);
+
+      try (var cleanups = mockMallSearchRequest(request)) {
+        long timestamp = 1_000_000;
+        Mockito.when(clock.millis()).thenReturn(timestamp);
+
+        List<PurchaseRequest> results = generateSearchResults(item, getTestPrices());
+        addSearchResults(item, results);
+
+        long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000L;
+        Mockito.when(clock.millis()).thenReturn(now);
+
+        searchResults.add(makeMallItem(item.getItemId(), 100, 9999));
+
+        assertThat(MallPriceManager.getMallPrice(item.getInstance(10)), equalTo(5000L));
+        assertNull(MallPriceManager.getSavedSearch(item.getItemId(), 0));
+      }
     }
   }
 }
