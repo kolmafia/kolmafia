@@ -75,6 +75,7 @@ dependencies {
 application {
   // Define the main class for the application.
   mainClass.set("net.sourceforge.kolmafia.KoLmafia")
+  applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
 }
 
 spotless {
@@ -206,6 +207,7 @@ tasks.jar {
   manifest {
     attributes(
       "Main-Class" to "net.sourceforge.kolmafia.launcher.Launcher",
+      "Enable-Native-Access" to "ALL-UNNAMED",
       "Build-Revision" to
         object {
           override fun toString(): String = project.version.toString()
@@ -395,17 +397,19 @@ tasks.jpackage {
   linux {
     type = ImageType.DEB
     icon = file("src/main/resources/icons/KoLmafia.ico")
+    javaOptions = listOf("--enable-native-access=ALL-UNNAMED")
   }
   mac {
     type = ImageType.DMG
     icon = file("src/main/resources/icons/limeglass.icns")
+    javaOptions = listOf("--enable-native-access=ALL-UNNAMED")
   }
   windows {
     type = ImageType.EXE
     icon = file("src/main/resources/icons/KoLmafia.ico")
     winShortcut = true
     winPerUserInstall = true
-    javaOptions = listOf("-DuseCWDasROOT=true")
+    javaOptions = listOf("--enable-native-access=ALL-UNNAMED", "-DuseCWDasROOT=true")
   }
   mainJar = "KoLmafia-" + lastRevision() + (if (isDirty()) "-M" else "") + ".jar"
   appVersion = SimpleDateFormat("yy.MM").format(Date()) + "." + lastRevision()
