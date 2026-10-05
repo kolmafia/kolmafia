@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.chat;
 
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -8,6 +9,7 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 
+import internal.helpers.Cleanups;
 import java.awt.event.HierarchyEvent;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +20,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,6 +34,18 @@ public class ChatBufferTest {
     public boolean isDisplayable() {
       return this.displayable;
     }
+  }
+
+  private Cleanups cleanups;
+
+  @BeforeEach
+  void pinBufferLength() {
+    cleanups = withProperty("outputBufferLength", 50000);
+  }
+
+  @AfterEach
+  void restoreBufferLength() {
+    cleanups.close();
   }
 
   private static void flush() throws Exception {
@@ -159,6 +174,33 @@ public class ChatBufferTest {
 
       assertThat(buffer.getContent().length(), lessThan(200000));
       assertThat(buffer.getContent(), containsString("big 99 "));
+    }
+
+    @Test
+    void trimsAtTheConfiguredLength() throws Exception {
+      try (var ignored = withProperty("outputBufferLength", 200000)) {
+        var buffer = new ChatBuffer("test");
+        for (int i = 0; i < 150; i++) {
+          buffer.append(line(i));
+        }
+        flush();
+
+        assertThat(buffer.getContent(), containsString("Line 0 "));
+      }
+    }
+
+    @Test
+    void trimsBelowTheDefaultWhenConfiguredLower() throws Exception {
+      try (var ignored = withProperty("outputBufferLength", 20000)) {
+        var buffer = new ChatBuffer("test");
+        for (int i = 0; i < 3000; i++) {
+          buffer.append("line " + i + "<br>");
+        }
+        flush();
+
+        assertThat(buffer.getContent().length(), lessThan(20000));
+        assertThat(buffer.getContent(), containsString("line 2999<br>"));
+      }
     }
 
     @Test

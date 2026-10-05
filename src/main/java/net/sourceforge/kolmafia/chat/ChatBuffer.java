@@ -37,6 +37,7 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 /**
  * A multi-purpose message buffer which stores all sorts of the messages that can either be
@@ -66,8 +67,7 @@ public class ChatBuffer {
 
   protected static final HashMap<String, PrintWriter> ACTIVE_LOG_FILES = new HashMap<>();
 
-  private static final int MAXIMUM_LENGTH = 50000;
-  private static final int TRIM_TO_LENGTH = 45000;
+  private static final int MINIMUM_LENGTH = 10000;
   private static final int MINIMUM_ENTRIES = 100;
   private static final int MAXIMUM_RETAINED_LENGTH = 200000;
 
@@ -232,8 +232,10 @@ public class ChatBuffer {
 
     this.pendingCount++;
 
-    if (this.contentLength >= ChatBuffer.MAXIMUM_LENGTH) {
-      this.trim();
+    var maximumLength = ChatBuffer.maximumLength();
+
+    if (this.contentLength >= maximumLength) {
+      this.trim(maximumLength);
     }
 
     this.scheduleFlush();
@@ -301,11 +303,18 @@ public class ChatBuffer {
     this.scheduleFlush();
   }
 
-  private void trim() {
+  private static int maximumLength() {
+    return Math.max(Preferences.getInteger("outputBufferLength"), ChatBuffer.MINIMUM_LENGTH);
+  }
+
+  private void trim(final int maximumLength) {
+    var trimToLength = maximumLength / 10 * 9;
+    var maximumRetainedLength = Math.max(maximumLength, ChatBuffer.MAXIMUM_RETAINED_LENGTH);
+
     while (this.entries.size() > 1
-        && this.contentLength > ChatBuffer.TRIM_TO_LENGTH
+        && this.contentLength > trimToLength
         && (this.entries.size() > ChatBuffer.MINIMUM_ENTRIES
-            || this.contentLength > ChatBuffer.MAXIMUM_RETAINED_LENGTH)) {
+            || this.contentLength > maximumRetainedLength)) {
       if (this.pendingCount == this.entries.size()) {
         this.pendingCount--;
       } else {
