@@ -8,9 +8,9 @@ import java.util.ListIterator;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Location;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import org.eclipse.lsp4j.Location;
 
 public class ForEachLoop extends Loop {
   private final List<VariableReference> variableReferences;

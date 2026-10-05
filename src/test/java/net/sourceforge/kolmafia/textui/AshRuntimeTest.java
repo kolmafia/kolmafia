@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
 import net.sourceforge.kolmafia.textui.parsetree.Variable;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
-import org.eclipse.lsp4j.Location;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

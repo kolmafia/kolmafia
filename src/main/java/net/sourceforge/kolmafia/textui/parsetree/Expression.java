@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-import org.eclipse.lsp4j.Location;
+import net.sourceforge.kolmafia.textui.Location;
 
 public abstract class Expression extends Evaluable {
   Evaluable lhs;

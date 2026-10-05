@@ -97,12 +97,6 @@ import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.eclipse.lsp4j.Diagnostic;
-import org.eclipse.lsp4j.DiagnosticSeverity;
-import org.eclipse.lsp4j.Location;
-import org.eclipse.lsp4j.Position;
-import org.eclipse.lsp4j.Range;
-import org.eclipse.lsp4j.util.Positions;
 
 /**
  * See devdoc/ParseRoadmap.ebnf for a simplified representation of this class's parsing methods'
@@ -5412,7 +5406,7 @@ public class Parser {
   }
 
   private static Range mergeRanges(final Range start, final Range end) {
-    if (end == null || Positions.isBefore(end.getEnd(), start.getStart())) {
+    if (end == null || end.getEnd().isBefore(start.getStart())) {
       return start;
     }
 
@@ -5593,26 +5587,6 @@ public class Parser {
       return result.toString();
     }
 
-    public Diagnostic toLspDiagnostic() {
-      StringBuilder message = new StringBuilder();
-
-      message.append(this.message);
-
-      for (final String additionalMessage : this.additionalMessages) {
-        message.append(KoLConstants.LINE_BREAK);
-        message.append(additionalMessage);
-      }
-
-      final Diagnostic diagnostic =
-          new Diagnostic(
-              this.location.getRange(),
-              message.toString(),
-              this.severity,
-              StaticEntity.getVersion());
-
-      return diagnostic;
-    }
-
     public final boolean originatesFrom(final Parser parser) {
       return Parser.this == parser;
     }
@@ -5721,7 +5695,7 @@ public class Parser {
       final Location location, final String msg, final String... otherInfo) {
     return new AshDiagnostic(
         location != null ? location : this.makeZeroWidthLocation(),
-        DiagnosticSeverity.Error,
+        DiagnosticSeverity.ERROR,
         msg,
         otherInfo);
   }
@@ -5742,7 +5716,7 @@ public class Parser {
     this.diagnostics.add(
         new AshDiagnostic(
             location != null ? location : this.makeZeroWidthLocation(),
-            DiagnosticSeverity.Warning,
+            DiagnosticSeverity.WARNING,
             msg,
             otherInfo));
   }
@@ -5771,7 +5745,7 @@ public class Parser {
   }
 
   public static String getFileAndRange(String fileName, final Range range) {
-    if (range == null || Positions.isBefore(range.getEnd(), range.getStart())) {
+    if (range == null || range.getEnd().isBefore(range.getStart())) {
       throw new IllegalArgumentException();
     }
 
