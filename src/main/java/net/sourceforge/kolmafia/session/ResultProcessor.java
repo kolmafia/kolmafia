@@ -1256,10 +1256,6 @@ public class ResultProcessor {
           ConcoctionDatabase.setRefreshNeeded(true);
         }
       }
-      case EffectPool.FIZZY_FIZZY -> {
-        // Gaining or losing this effect will add or subtract 1 PP
-        KoLCharacter.recalculateAdjustments();
-      }
       case EffectPool.COWRRUPTION -> {
         if (active && KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER) {
           KoLCharacter.addAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
