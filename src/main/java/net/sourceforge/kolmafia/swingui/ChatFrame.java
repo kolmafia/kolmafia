@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
-import net.sourceforge.kolmafia.swingui.listener.StickyListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
@@ -280,9 +279,6 @@ public class ChatFrame extends GenericFrame {
 
       ChatBuffer buffer = ChatManager.getBuffer(associatedContact);
       JScrollPane scroller = buffer.addDisplay(this.chatDisplay);
-      scroller
-          .getVerticalScrollBar()
-          .addAdjustmentListener(new StickyListener(buffer, this.chatDisplay, 200));
       this.add(scroller, BorderLayout.CENTER);
 
       this.add(entryPanel, BorderLayout.SOUTH);
