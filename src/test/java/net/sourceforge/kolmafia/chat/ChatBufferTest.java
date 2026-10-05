@@ -442,7 +442,19 @@ public class ChatBufferTest {
       flush();
       flush();
 
-      assertThat(scroller.getVerticalScrollBar().getValue(), is(0));
+      var caretVisible = new boolean[1];
+      SwingUtilities.invokeAndWait(
+          () -> {
+            try {
+              var caret = pane.modelToView2D(0).getBounds();
+              var view = scroller.getViewport().getViewRect();
+              caretVisible[0] = caret.y >= view.y && caret.y + caret.height <= view.y + view.height;
+            } catch (BadLocationException e) {
+              caretVisible[0] = false;
+            }
+          });
+
+      assertThat(caretVisible[0], is(true));
     }
 
     @Test
