@@ -8,6 +8,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
@@ -142,6 +143,21 @@ class FaxRequestFrameTest {
             requests.get(2), "/clan_viplounge.php", "preaction=receivefax&whichfloor=2");
         assertThat("lastSuccessfulFaxbot", isSetTo(""));
       }
+    }
+  }
+
+  @Test
+  void cannotRequestFaxWithoutVipKey() {
+    var builder = new FakeHttpClientBuilder();
+
+    var cleanups = new Cleanups(withHttpClientBuilder(builder));
+
+    try (cleanups) {
+      boolean result =
+          FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
+
+      assertThat(result, is(false));
+      assertThat(builder.client.getRequests(), empty());
     }
   }
 }
