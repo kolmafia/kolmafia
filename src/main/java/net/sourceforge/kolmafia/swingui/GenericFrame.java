@@ -125,7 +125,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     this.frameName = this.frameName.substring(this.frameName.lastIndexOf(".") + 1);
 
     if (this.shouldAddStatusBar()) {
-      JScrollPane statusBar = KoLConstants.commandBuffer.addDisplay(new RequestPane());
+      JScrollPane statusBar = KoLConstants.commandBuffer.addStatusLine(new RequestPane());
       JComponentUtilities.setComponentSize(statusBar, new Dimension(200, 50));
 
       JSplitPane doublePane =

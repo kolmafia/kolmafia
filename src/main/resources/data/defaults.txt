@@ -108,6 +108,7 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
+global	outputBufferLength	200000
 global	pingDefaultTestPage	api
 global	pingDefaultTestPings	10
 global	pingLatest
@@ -1131,7 +1132,6 @@ user	libraryCardUsed	false	ld
 user	lightsOutAutomation	1
 user	locketPhylum	mer-kin	roa
 user	lockPicked	false	roa
-user	logBastilleBattalionBattles	false
 user	loginRecoveryHardcore	false
 user	loginRecoverySoftcore	true
 user	longConMonster
@@ -1972,7 +1972,6 @@ user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
 user	_baseballInnings	0
-user	_bastilleBoosts
 user	_bastilleCheese	0
 user	_bastilleChoice1
 user	_bastilleChoice2
@@ -1986,6 +1985,9 @@ user	_bastilleLastBattleResults
 user	_bastilleLastBattleWon	false
 user	_bastilleLastCheese	0
 user	_bastilleLastEncounter
+user	_bastilleLockedInScore	0
+user	_bastilleOptionsTaken
+user	_bastilleRewardsCollected	false
 user	_bastilleStats
 user	_batWingsCauldronUsed	0
 user	_batWingsFreeFights	0

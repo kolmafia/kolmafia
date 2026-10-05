@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -13,9 +14,15 @@ public abstract class InterestingCoinRequest extends CoinMasterShopRequest {
   public static final String master = "Spend your Interesting Coins";
   public static final String SHOPID = "interesting";
 
+  public static final AdventureResult TOKEN = ItemPool.get(ItemPool.INTERESTING_COIN, 1);
+  private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Interesting Coin");
+
   public static final CoinmasterData DATA =
       new CoinmasterData(master, SHOPID, InterestingCoinRequest.class)
           .withNewShopRowFields(master, SHOPID)
+          .withToken("Interesting Coin")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(TOKEN)
           .withVisitShopRows(InterestingCoinRequest::visitShopRows)
           .withCanBuyItem(InterestingCoinRequest::canBuyItem)
           .withVisitShop(InterestingCoinRequest::visitShop)

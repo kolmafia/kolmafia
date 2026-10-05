@@ -1010,10 +1010,7 @@ public class CharPaneRequest extends GenericRequest {
       visibleEffects.add(effect);
     }
 
-    KoLConstants.recentEffects.clear();
-    KoLConstants.activeEffects.clear();
-    KoLConstants.activeEffects.addAll(visibleEffects);
-    LockableListFactory.sort(KoLConstants.activeEffects);
+    ResultProcessor.setActiveEffects(visibleEffects);
 
     CharPaneRequest.checkChilledToTheBone();
   }
@@ -1932,10 +1929,7 @@ public class CharPaneRequest extends GenericRequest {
       }
     }
 
-    KoLConstants.recentEffects.clear();
-    KoLConstants.activeEffects.clear();
-    KoLConstants.activeEffects.addAll(visibleEffects);
-    LockableListFactory.sort(KoLConstants.activeEffects);
+    ResultProcessor.setActiveEffects(visibleEffects);
 
     CharPaneRequest.checkChilledToTheBone();
 
