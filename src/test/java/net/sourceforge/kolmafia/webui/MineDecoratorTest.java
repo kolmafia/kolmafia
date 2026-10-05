@@ -35,9 +35,7 @@ class MineDecoratorTest {
       },
       delimiter = '|')
   void canParseMineResult(final String file, final String url, final String expected) {
-    var cleanups = new Cleanups(withProperty("mineLayout6", ""), withProperty("mineState6", ""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("mineLayout6", ""), withProperty("mineState6", ""))) {
       MineDecorator.parseResponse(url, html("request/test_mining_" + file + ".html"));
       assertThat("mineLayout6", isSetTo(expected));
     }
@@ -45,14 +43,12 @@ class MineDecoratorTest {
 
   @Test
   void clearLayoutOnReset() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("mineLayout6", ""),
             withProperty(
                 "mineState6",
-                "#9<img src=\"https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif\" height=30 width=30>"));
-
-    try (cleanups) {
+                "#9<img src=\"https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif\" height=30 width=30>"))) {
       MineDecorator.parseResponse(
           "mining.php?mine=6&reset=1", html("request/test_mining_volcano_reset.html"));
       assertThat("mineLayout6", isSetTo(""));
@@ -67,9 +63,7 @@ class MineDecoratorTest {
     "volcano_reset,mining.php?mine=6&reset=1,*XX****XXX**XX*XX*X*X*X*XXX***XXXXXX",
   })
   void canParseMineState(final String file, final String url, final String expected) {
-    var cleanups = new Cleanups(withProperty("mineLayout6", ""), withProperty("mineState6", ""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("mineLayout6", ""), withProperty("mineState6", ""))) {
       MineDecorator.parseResponse(url, html("request/test_mining_" + file + ".html"));
       assertThat("mineState6", isSetTo(expected));
     }

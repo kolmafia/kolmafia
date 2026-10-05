@@ -81,13 +81,11 @@ class UseSkillRequestTest {
     KoLCharacter.setMP(1000, 1000, 1000);
     KoLCharacter.addAvailableSkill(EXPERIENCE_SAFARI);
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("_experienceSafariUsed", 0),
             withProperty("skillLevel180", 2),
-            withNextResponse(200, "You don't have enough mana to cast that skill."));
-
-    try (cleanups) {
+            withNextResponse(200, "You don't have enough mana to cast that skill."))) {
       int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
       UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
       req.run();
@@ -106,15 +104,13 @@ class UseSkillRequestTest {
     KoLCharacter.setMP(1000, 1000, 1000);
     KoLCharacter.addAvailableSkill(EXPERIENCE_SAFARI);
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("_experienceSafariUsed", 0),
             withProperty("skillLevel180", 2),
             withNextResponse(
                 200,
-                "You bless your friend, targetPlayer, with the ability to experience a safari adventure."));
-
-    try (cleanups) {
+                "You bless your friend, targetPlayer, with the ability to experience a safari adventure."))) {
       int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
       UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
       req.run();
@@ -127,16 +123,14 @@ class UseSkillRequestTest {
 
   @Test
   void correctErrorMessageForTomeWhenInRun() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withMP(1000, 1000, 1000),
             withSkill(SkillPool.STICKER),
             withProperty("tomeSummons", 0),
             withProperty("_stickerSummons", 0),
             withInteractivity(false),
-            withNextResponse(200, "You may only use three Tome summonings each day"));
-
-    try (cleanups) {
+            withNextResponse(200, "You may only use three Tome summonings each day"))) {
       UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.STICKER);
       req.run();
 
@@ -149,16 +143,14 @@ class UseSkillRequestTest {
 
   @Test
   void correctErrorMessageForTomeWhenOutOfRun() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withMP(1000, 1000, 1000),
             withSkill(SkillPool.STICKER),
             withProperty("tomeSummons", 0),
             withProperty("_stickerSummons", 0),
             withInteractivity(true),
-            withNextResponse(200, "You may only use three Tome summonings each day"));
-
-    try (cleanups) {
+            withNextResponse(200, "You may only use three Tome summonings each day"))) {
       UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.STICKER);
       req.run();
 
@@ -179,9 +171,7 @@ class UseSkillRequestTest {
   void canOnlyCastBenettonsInRightState(String className, int level, boolean canCast) {
     var ascensionClass = AscensionClass.find(className);
 
-    var cleanups = new Cleanups(withClass(ascensionClass), withLevel(level));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withClass(ascensionClass), withLevel(level))) {
       var skill = UseSkillRequest.getInstance(SkillPool.BENETTONS);
       assertThat(skill.getMaximumCast() > 0, equalTo(canCast));
     }
@@ -189,15 +179,14 @@ class UseSkillRequestTest {
 
   @Test
   void incrementsUsageForLimitedSkills() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withMP(1000, 1000, 1000),
             withSkill(SkillPool.DONHOS),
             withProperty("_donhosCasts", 1),
             withClass(AscensionClass.ACCORDION_THIEF),
             withLevel(15),
-            withNextResponse(200, html("request/test_cast_donhos_bubbly_ballad.html")));
-    try (cleanups) {
+            withNextResponse(200, html("request/test_cast_donhos_bubbly_ballad.html")))) {
       UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.DONHOS, "me", 5);
       req.run();
       assertThat("_donhosCasts", isSetTo(6));
@@ -309,13 +298,12 @@ class UseSkillRequestTest {
   class Numberology {
     @Test
     void calculatingUniverseRequiresAvailableTurns() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("skillLevel144", 1),
               withProperty("_universeCalculated", 0),
               withInteractivity(true),
-              withAdventuresLeft(0));
-      try (cleanups) {
+              withAdventuresLeft(0))) {
         var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
         assertEquals(0, skill.getMaximumCast());
       }
@@ -324,13 +312,12 @@ class UseSkillRequestTest {
     @ParameterizedTest
     @CsvSource({"5, 0", "5, 1", "5, 2", "5, 3", "5, 4", "5, 5"})
     void calculatingUniverseHasDailyLimit(int skillLevel, int casts) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("skillLevel144", skillLevel),
               withProperty("_universeCalculated", casts),
               withInteractivity(true),
-              withAdventuresLeft(1));
-      try (cleanups) {
+              withAdventuresLeft(1))) {
         var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
         assertEquals(skillLevel - casts, skill.getMaximumCast());
       }
@@ -338,13 +325,12 @@ class UseSkillRequestTest {
 
     @Test
     void calculatingUniverseLimitedInHardcoreOrRonin() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("skillLevel144", 5),
               withProperty("_universeCalculated", 0),
               withInteractivity(false),
-              withAdventuresLeft(1));
-      try (cleanups) {
+              withAdventuresLeft(1))) {
         var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
         assertEquals(3, skill.getMaximumCast());
       }
@@ -353,13 +339,12 @@ class UseSkillRequestTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 5})
     void parsesCalculateTheUniverseCastsFromSkillzPage(int skillLevel) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInteractivity(true),
               withRestricted(false),
               withProperty("skillLevel144", skillLevel),
-              withProperty("_universeCalculated", 1));
-      try (cleanups) {
+              withProperty("_universeCalculated", 1))) {
         UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
 
         assertThat("skillLevel144", isSetTo(3));
@@ -383,13 +368,12 @@ class UseSkillRequestTest {
     })
     void doesNotTrustCalculateTheUniverseMaximumUnlessInteractiveAndUnrestricted(
         boolean interactivity, boolean restricted, int skillLevel, int expectedSkillLevel) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInteractivity(interactivity),
               withRestricted(restricted),
               withProperty("skillLevel144", skillLevel),
-              withProperty("_universeCalculated", 1));
-      try (cleanups) {
+              withProperty("_universeCalculated", 1))) {
         UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
 
         assertThat("skillLevel144", isSetTo(expectedSkillLevel));
@@ -486,9 +470,7 @@ class UseSkillRequestTest {
 
     @Test
     void increaseCinchWhenCastingSkill() {
-      var cleanups = new Cleanups(withProperty("_cinchUsed", 10));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_cinchUsed", 10))) {
         UseSkillRequest.lastSkillUsed = SkillPool.CINCHO_FIESTA_EXIT;
         UseSkillRequest.lastSkillCount = 1;
         UseSkillRequest.parseResponse(
@@ -501,9 +483,7 @@ class UseSkillRequestTest {
 
     @Test
     void dispensingSaltAndLimeIsTracked() {
-      var cleanups = new Cleanups(withProperty("cinchoSaltAndLime", 2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("cinchoSaltAndLime", 2))) {
         UseSkillRequest.lastSkillUsed = SkillPool.CINCHO_DISPENSE_SALT_AND_LIME;
         UseSkillRequest.lastSkillCount = 1;
         UseSkillRequest.parseResponse(
@@ -666,13 +646,11 @@ class UseSkillRequestTest {
 
     @Test
     public void replaceEffects() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.VELOUR_VOULGE),
               withSkill(SkillPool.SNARL_OF_THE_TIMBERWOLF),
-              withMP(100, 100, 100));
-
-      try (cleanups) {
+              withMP(100, 100, 100))) {
         var req =
             UseSkillRequest.getInstance(
                 SkillPool.SNARL_OF_THE_TIMBERWOLF, null, 1, EffectPool.SNARL_OF_THREE_TIMBERWOLVES);
@@ -692,13 +670,11 @@ class UseSkillRequestTest {
 
     @Test
     public void addEffects() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD),
               withSkill(SkillPool.SEAL_CLUBBING_FRENZY),
-              withMP(100, 100, 100));
-
-      try (cleanups) {
+              withMP(100, 100, 100))) {
         var req =
             UseSkillRequest.getInstance(
                 SkillPool.SEAL_CLUBBING_FRENZY, null, 1, EffectPool.SLIPPERY_AS_A_SEAL);
@@ -718,14 +694,12 @@ class UseSkillRequestTest {
 
     @Test
     public void addEffectsWith3HandedWeaponUnequips() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.GIANT_TURKEY_LEG),
               withEquippableItem(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD),
               withSkill(SkillPool.SEAL_CLUBBING_FRENZY),
-              withMP(100, 100, 100));
-
-      try (cleanups) {
+              withMP(100, 100, 100))) {
         var req =
             UseSkillRequest.getInstance(
                 SkillPool.SEAL_CLUBBING_FRENZY, null, 1, EffectPool.SLIPPERY_AS_A_SEAL);
@@ -739,7 +713,7 @@ class UseSkillRequestTest {
 
     @Test
     public void parsesHeartstoneSkillsFromSkillzPage() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.ACCESSORY1, ItemPool.HEARTSTONE),
               withProperty("heartstoneKillUnlocked", false),
@@ -747,9 +721,7 @@ class UseSkillRequestTest {
               withProperty("heartstoneStunUnlocked", false),
               withProperty("heartstoneBuffUnlocked", false),
               withProperty("heartstoneLuckUnlocked", false),
-              withProperty("heartstonePalsUnlocked", false));
-
-      try (cleanups) {
+              withProperty("heartstonePalsUnlocked", false))) {
         UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
 
         assertThat("heartstoneKillUnlocked", isSetTo(false));
@@ -788,16 +760,14 @@ class UseSkillRequestTest {
       var builder = new FakeHttpClientBuilder();
       builder.client.setResponseFunc(this::getHttpResponses);
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withoutSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS),
               withFamiliar(FamiliarPool.MOSQUITO),
               withFamiliarInTerrarium(FamiliarPool.MEAT_SHIELD_MAIDEN),
               withMP(100, 100, 100),
-              withSkillGrantingFamiliarsChecked());
-
-      try (cleanups) {
+              withSkillGrantingFamiliarsChecked())) {
         assertTrue(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
         assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MOSQUITO));
 
@@ -831,15 +801,13 @@ class UseSkillRequestTest {
       var builder = new FakeHttpClientBuilder();
       builder.client.setResponseFunc(this::getHttpResponses);
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withoutSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS),
               withFamiliar(FamiliarPool.MEAT_SHIELD_MAIDEN),
               withMP(100, 100, 100),
-              withSkillGrantingFamiliarsChecked());
-
-      try (cleanups) {
+              withSkillGrantingFamiliarsChecked())) {
         assertTrue(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
         assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MEAT_SHIELD_MAIDEN));
 

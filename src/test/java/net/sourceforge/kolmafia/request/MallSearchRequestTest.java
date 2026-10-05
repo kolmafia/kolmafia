@@ -122,8 +122,7 @@ public class MallSearchRequestTest {
   class ParsingResults {
     @Test
     public void isNotNPCIfNotKnollSign() {
-      Cleanups cleanups = new Cleanups(withSign(ZodiacSign.WOMBAT));
-      try (cleanups) {
+      try (var _ = new Cleanups(withSign(ZodiacSign.WOMBAT))) {
         List<PurchaseRequest> results = new ArrayList<>();
         MallSearchRequest request = new MallSearchRequest("sprocket", 100, results);
         request.responseText = html("request/test_mall_search_sprocket.html");
@@ -134,8 +133,7 @@ public class MallSearchRequestTest {
 
     @Test
     public void isNPCIfKnollSign() {
-      Cleanups cleanups = new Cleanups(withSign(ZodiacSign.MONGOOSE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withSign(ZodiacSign.MONGOOSE))) {
         List<PurchaseRequest> results = new ArrayList<>();
         MallSearchRequest request = new MallSearchRequest("sprocket", 100, results);
         request.responseText = html("request/test_mall_search_sprocket.html");

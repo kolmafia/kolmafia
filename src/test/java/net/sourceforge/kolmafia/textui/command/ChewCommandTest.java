@@ -28,13 +28,11 @@ public class ChewCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canSpleenInGreyYou() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.GREY_YOU),
             withClass(AscensionClass.GREY_GOO),
-            withItem(ItemPool.ANCIENT_MEDICINAL_HERBS));
-
-    try (cleanups) {
+            withItem(ItemPool.ANCIENT_MEDICINAL_HERBS))) {
       String output = execute("ancient medicinal herbs");
       assertContinueState();
       assertThat(output, containsString("Chewing 1 ancient medicinal herbs"));

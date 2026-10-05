@@ -208,7 +208,7 @@ class DeckOfEveryCardRequestTest {
     client.addResponse(200, html("request/use_deck_four.json"));
     client.addResponse(200, html("request/use_deck_five.html"));
     client.addResponse(200, html("request/use_deck_six.json"));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(AscensionPath.Path.LEGACY_OF_LOATHING),
@@ -218,8 +218,7 @@ class DeckOfEveryCardRequestTest {
             withGender(KoLCharacter.Gender.FEMALE),
             withGuildStoreOpen(false),
             withPasswordHash("cafebabe"),
-            withAdventuresLeft(100));
-    try (cleanups) {
+            withAdventuresLeft(100))) {
       new DeckOfEveryCardRequest(mickey).run();
       var requests = builder.client.getRequests();
       assertThat(requests, hasSize(8));

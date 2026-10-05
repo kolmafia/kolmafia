@@ -108,9 +108,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingSoberPassesPreValidation() {
-      var cleanups = new Cleanups(withInebriety(5), withPath(Path.SHADOWS_OVER_LOATHING));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(5), withPath(Path.SHADOWS_OVER_LOATHING))) {
         assertThat(WARREN.preValidateAdventure(), is(true));
         assertThat(SHADOW_RIFT.preValidateAdventure(), is(true));
       }
@@ -118,9 +116,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingTooDrunkFailsPreValidation() {
-      var cleanups = new Cleanups(withInebriety(30), withPath(Path.SHADOWS_OVER_LOATHING));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30), withPath(Path.SHADOWS_OVER_LOATHING))) {
         assertThat(WARREN.preValidateAdventure(), is(false));
         assertThat(SHADOW_RIFT.preValidateAdventure(), is(false));
       }
@@ -128,13 +124,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingTooDrunkWithAWineglassInOffhandPassesPreValidation() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInebriety(30),
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS));
-
-      try (cleanups) {
+              withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS))) {
         assertThat(WARREN.preValidateAdventure(), is(true));
         assertThat(SHADOW_RIFT.preValidateAdventure(), is(true));
       }
@@ -142,14 +136,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingTooDrunkWithAWineglassOnLeftHandManDoesNotPassPreValidation() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInebriety(30),
               withPath(Path.SHADOWS_OVER_LOATHING),
               withFamiliar(FamiliarPool.LEFT_HAND),
-              withEquipped(Slot.FAMILIAR, ItemPool.DRUNKULA_WINEGLASS));
-
-      try (cleanups) {
+              withEquipped(Slot.FAMILIAR, ItemPool.DRUNKULA_WINEGLASS))) {
         assertThat(WARREN.preValidateAdventure(), is(false));
         assertThat(SHADOW_RIFT.preValidateAdventure(), is(false));
       }
@@ -157,10 +149,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingTooDrunkWithAWineglassInNonSnarfblatFailsPreValidation() {
-      var cleanups =
-          new Cleanups(withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS))) {
         assertThat(
             AdventureDatabase.getAdventureByName("The Typical Tavern Cellar")
                 .preValidateAdventure(),
@@ -173,9 +164,7 @@ public class KoLAdventureValidationTest {
         value = LimitMode.class,
         names = {"SPELUNKY", "BATMAN"})
     void beingTooDrunkInSomeLimitModesPassesPreValidation(final LimitMode limitMode) {
-      var cleanups = new Cleanups(withInebriety(30), withLimitMode(limitMode));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30), withLimitMode(limitMode))) {
         assertThat(WARREN.preValidateAdventure(), is(true));
       }
     }
@@ -183,9 +172,7 @@ public class KoLAdventureValidationTest {
     @ParameterizedTest
     @ValueSource(strings = {"Trick-or-Treating", "Drunken Stupor"})
     void beingTooDrunkInSomeLocationsPassesPreValidation(final String adventureName) {
-      var cleanups = new Cleanups(withInebriety(30));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30))) {
         assertThat(AdventureDatabase.getAdventure(adventureName).preValidateAdventure(), is(true));
       }
     }
@@ -198,27 +185,21 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingFullPassesPreValidation() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(15));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(15))) {
         assertThat(WARREN.preValidateAdventure(), is(true));
       }
     }
 
     @Test
     void beingOverfullFailsPreValidation() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16))) {
         assertThat(WARREN.preValidateAdventure(), is(false));
       }
     }
 
     @Test
     void beingOverfullInNonSnarfblatPassesPreValidation() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16))) {
         assertThat(
             AdventureDatabase.getAdventureByName("The Typical Tavern Cellar")
                 .preValidateAdventure(),
@@ -231,11 +212,9 @@ public class KoLAdventureValidationTest {
         value = LimitMode.class,
         names = {"SPELUNKY", "BATMAN"})
     void beingOverfullInLimitModeWithoutCapacityPassesPreValidation(final LimitMode limitMode) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.SEAL_CLUBBER), withFullness(10), withLimitMode(limitMode));
-
-      try (cleanups) {
+              withClass(AscensionClass.SEAL_CLUBBER), withFullness(10), withLimitMode(limitMode))) {
         assertThat(WARREN.preValidateAdventure(), is(true));
       }
     }
@@ -248,27 +227,21 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingAtSpleenLimitPassesPreValidation() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(15));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(15))) {
         assertThat(WARREN.preValidateAdventure(), is(true));
       }
     }
 
     @Test
     void beingOverspleenedFailsPreValidation() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16))) {
         assertThat(WARREN.preValidateAdventure(), is(false));
       }
     }
 
     @Test
     void beingOverspleenedInNonSnarfblatPassesPreValidation() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16))) {
         assertThat(
             AdventureDatabase.getAdventureByName("The Typical Tavern Cellar")
                 .preValidateAdventure(),
@@ -281,11 +254,11 @@ public class KoLAdventureValidationTest {
         value = LimitMode.class,
         names = {"SPELUNKY", "BATMAN"})
     void beingOverspleenedInLimitModeWithoutCapacityPassesPreValidation(final LimitMode limitMode) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(10), withLimitMode(limitMode));
-
-      try (cleanups) {
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withSpleenUse(10),
+              withLimitMode(limitMode))) {
         assertThat(WARREN.preValidateAdventure(), is(true));
       }
     }
@@ -303,12 +276,11 @@ public class KoLAdventureValidationTest {
         String todayProperty) {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty(alwaysProperty, perm),
-              withProperty(todayProperty, today));
-      try (cleanups) {
+              withProperty(todayProperty, today))) {
         var url = "place.php?whichplace=" + place;
         client.addResponse(200, html);
 
@@ -414,12 +386,11 @@ public class KoLAdventureValidationTest {
       public void checkAlwaysAccessForSpacegate() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withProperty(always, true),
-                withProperty(today, false));
-        try (cleanups) {
+                withProperty(today, false))) {
           // If we have always access, we're good to go.
           boolean success = SPACEGATE.preValidateAdventure();
           var requests = client.getRequests();
@@ -432,12 +403,11 @@ public class KoLAdventureValidationTest {
       public void checkTodayAccessForSpacegate() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withProperty(always, false),
-                withProperty(today, true));
-        try (cleanups) {
+                withProperty(today, true))) {
           // If we have daily access, we're good to go
           boolean success = SPACEGATE.preValidateAdventure();
           var requests = client.getRequests();
@@ -450,13 +420,12 @@ public class KoLAdventureValidationTest {
       public void checkPortableAccessForSpacegate() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withProperty(always, false),
                 withProperty(today, false),
-                withItem(ItemPool.OPEN_PORTABLE_SPACEGATE));
-        try (cleanups) {
+                withItem(ItemPool.OPEN_PORTABLE_SPACEGATE))) {
           // If we have neither access, but we have an open portable
           // Spacegate,  we actually have daily access.
           boolean success = SPACEGATE.preValidateAdventure();
@@ -471,12 +440,11 @@ public class KoLAdventureValidationTest {
       public void checkMapAccessForSpacegate() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withProperty(always, false),
-                withProperty(today, false));
-        try (cleanups) {
+                withProperty(today, false))) {
           // If we have neither access, but the Spacegate is on the map,
           // we actually have permanent access.
           client.addResponse(200, html("request/test_visit_mountains.html"));
@@ -493,12 +461,11 @@ public class KoLAdventureValidationTest {
       public void checkNoAccessForSpacegate() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withProperty(always, false),
-                withProperty(today, false));
-        try (cleanups) {
+                withProperty(today, false))) {
           // If we have neither access, but the Spacegate is not on the map,
           // we really have no access
           client.addResponse(200, "");
@@ -521,8 +488,7 @@ public class KoLAdventureValidationTest {
       public void checkTodayAccessForTwitch() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(today, true));
-        try (cleanups) {
+        try (var _ = new Cleanups(withHttpClientBuilder(builder), withProperty(today, true))) {
           // If we have daily access, we're good to go
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
@@ -535,8 +501,7 @@ public class KoLAdventureValidationTest {
       public void checkMapAccessForTwitch() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(today, false));
-        try (cleanups) {
+        try (var _ = new Cleanups(withHttpClientBuilder(builder), withProperty(today, false))) {
           // If we have not verified access, but the Time Twitching Tower is on
           // the map, we have access today.
           client.addResponse(200, html("request/test_main_twitch.html"));
@@ -553,8 +518,7 @@ public class KoLAdventureValidationTest {
       public void checkMapAccessForNoTwitch() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(today, false));
-        try (cleanups) {
+        try (var _ = new Cleanups(withHttpClientBuilder(builder), withProperty(today, false))) {
           // If we have not verified access and the Time Twitching Tower is not
           // on the map, we do not have access today.
           client.addResponse(200, html("request/test_main_no_twitch.html"));
@@ -579,10 +543,9 @@ public class KoLAdventureValidationTest {
       public void canDetectSpeakeasyThroughQuestItem() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withHttpClientBuilder(builder), withProperty(always, false), withItem(MILK_CAP));
-        try (cleanups) {
+                withHttpClientBuilder(builder), withProperty(always, false), withItem(MILK_CAP))) {
           assertTrue(QUIET_BRAWL.preValidateAdventure());
           assertTrue(Preferences.getBoolean(always));
 
@@ -597,12 +560,11 @@ public class KoLAdventureValidationTest {
   class BeachAccess {
     @Test
     public void thatExploathingHasBeachAccess() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(2),
               withProperty("lastDesertUnlock"),
-              withPath(Path.KINGDOM_OF_EXPLOATHING));
-      try (cleanups) {
+              withPath(Path.KINGDOM_OF_EXPLOATHING))) {
         assertThat("lastDesertUnlock", isSetTo(2));
         assertTrue(KoLCharacter.desertBeachAccessible());
       }
@@ -610,12 +572,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void thatEdHasBeachAccess() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(2),
               withProperty("lastDesertUnlock"),
-              withPath(Path.ACTUALLY_ED_THE_UNDYING));
-      try (cleanups) {
+              withPath(Path.ACTUALLY_ED_THE_UNDYING))) {
         assertThat("lastDesertUnlock", isSetTo(2));
         assertTrue(KoLCharacter.desertBeachAccessible());
       }
@@ -698,8 +659,7 @@ public class KoLAdventureValidationTest {
           "The Invader"
         })
     public void testInitiallyOpenAdventures(String adventureName) {
-      var cleanups = withKingdomOfExploathing();
-      try (cleanups) {
+      try (var _ = withKingdomOfExploathing()) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
         assertTrue(area.canAdventure());
       }
@@ -707,13 +667,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void thatMarketZonesAvailableWithItem() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withKingdomOfExploathing(),
               withItem("map to a hidden booze cache"),
               withItem("hypnotic breadcrumbs"),
-              withItem("bone with a price tag on it"));
-      try (cleanups) {
+              withItem("bone with a price tag on it"))) {
         var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
         assertTrue(area.canAdventure());
         area = AdventureDatabase.getAdventureByName("Madness Bakery");
@@ -725,13 +684,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void thatMarketZonesAvailableIfUnlocked() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withKingdomOfExploathing(),
               withProperty("overgrownLotAvailable", true),
               withProperty("madnessBakeryAvailable", true),
-              withProperty("skeletonStoreAvailable", true));
-      try (cleanups) {
+              withProperty("skeletonStoreAvailable", true))) {
         var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
         assertTrue(area.canAdventure());
         area = AdventureDatabase.getAdventureByName("Madness Bakery");
@@ -743,13 +701,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void thatMarketZonesNotAvailableViaQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withKingdomOfExploathing(),
               withProperty("overgrownLotAvailable", false),
               withProperty("madnessBakeryAvailable", false),
-              withProperty("skeletonStoreAvailable", false));
-      try (cleanups) {
+              withProperty("skeletonStoreAvailable", false))) {
         var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
         assertFalse(area.canAdventure());
         area = AdventureDatabase.getAdventureByName("Madness Bakery");
@@ -768,12 +725,11 @@ public class KoLAdventureValidationTest {
           "The Degrassi Knoll Garage"
         })
     public void thatHostileKnollUnavailable(String adventureName) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withKingdomOfExploathing(),
               // Paco will give us the quest, but we cannot fulfill it
-              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED))) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
         assertFalse(area.canAdventure());
       }
@@ -781,8 +737,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitMushroomGarden() {
-      var cleanups = withKingdomOfExploathing();
-      try (cleanups) {
+      try (var _ = withKingdomOfExploathing()) {
         // For some reason? It's visible in your campground.
         var area = AdventureDatabase.getAdventureByName("Your Mushroom Garden");
         assertFalse(area.canAdventure());
@@ -793,12 +748,11 @@ public class KoLAdventureValidationTest {
     @ValueSource(
         strings = {"South of the Border", "The Shore, Inc. Travel Agency", "Kokomo Resort"})
     public void testUnavailableBeachAdventures(String adventureName) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withKingdomOfExploathing(),
               // You can use a Kokomo Resort Pass, but no dice
-              withEffect("Tropical Contact High", 10));
-      try (cleanups) {
+              withEffect("Tropical Contact High", 10))) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
         assertFalse(area.canAdventure());
       }
@@ -813,14 +767,13 @@ public class KoLAdventureValidationTest {
           "The Penultimate Fantasy Airship"
         })
     public void testUnavailablePlainsAdventures(String adventureName) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withKingdomOfExploathing(),
               // OCG will give us the quest, but we cannot fulfill it
               withQuestProgress(Quest.EGO, QuestDatabase.STARTED),
               // The VERY Unquiet garves are not available
-              withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED))) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
         assertFalse(area.canAdventure());
       }
@@ -839,10 +792,10 @@ public class KoLAdventureValidationTest {
           "The Thinknerd Warehouse"
         })
     public void testUnavailableMountainAdventures(String adventureName) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withKingdomOfExploathing(), withQuestProgress(Quest.TOPPING, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withKingdomOfExploathing(),
+              withQuestProgress(Quest.TOPPING, QuestDatabase.FINISHED))) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
         assertFalse(area.canAdventure());
       }
@@ -859,9 +812,8 @@ public class KoLAdventureValidationTest {
           // "The Dripping Hall"
         })
     public void testUnavailableWoodsAdventures(String adventureName) {
-      var cleanups =
-          new Cleanups(withKingdomOfExploathing(), withQuestProgress(Quest.PALINDOME, "step3"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withKingdomOfExploathing(), withQuestProgress(Quest.PALINDOME, "step3"))) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
         assertFalse(area.canAdventure());
       }
@@ -871,8 +823,7 @@ public class KoLAdventureValidationTest {
     @ValueSource(
         strings = {"The Haiku Dungeon", "The Limerick Dungeon", "The Enormous Greater-Than Sign"})
     public void testUnavailableDungeonAdventures(String adventureName) {
-      var cleanups = withKingdomOfExploathing();
-      try (cleanups) {
+      try (var _ = withKingdomOfExploathing()) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
         assertFalse(area.canAdventure());
       }
@@ -880,8 +831,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void thatKnollIsUnavailable() {
-      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.VOLE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.VOLE))) {
         // This applies to adventure zones and other features
         assertFalse(KoLCharacter.knollAvailable());
       }
@@ -889,8 +839,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void thatCanadiaIsUnavailable() {
-      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.OPOSSUM));
-      try (cleanups) {
+      try (var _ = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.OPOSSUM))) {
         // This applies to adventure zones and other features
         assertFalse(KoLCharacter.canadiaAvailable());
         var area = AdventureDatabase.getAdventureByName("Outskirts of Camp Logging Camp");
@@ -902,8 +851,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void thatGnomadsAreUnavailable() {
-      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.OPOSSUM));
-      try (cleanups) {
+      try (var _ = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.OPOSSUM))) {
         // This applies to adventure zones and other features
         assertFalse(KoLCharacter.gnomadsAvailable());
         var area = AdventureDatabase.getAdventureByName("Thugnderdome");
@@ -928,9 +876,8 @@ public class KoLAdventureValidationTest {
       "Through the Spacegate, spacegateAlways, false"
     })
     public void preValidateIOTMZones(String adventureName, String always, boolean check) {
-      var cleanups =
-          new Cleanups(withPath(Path.KINGDOM_OF_EXPLOATHING), withProperty(always, true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withPath(Path.KINGDOM_OF_EXPLOATHING), withProperty(always, true))) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
         if (check) {
           assertTrue(area.preValidateAdventure());
@@ -964,7 +911,7 @@ public class KoLAdventureValidationTest {
       // progress that indicates you had to have been through various
       // unavailable areas - that are now available.
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // This is aftercore
               withAscensions(2),
@@ -991,8 +938,7 @@ public class KoLAdventureValidationTest {
               // You fought hippies and fratboys - but not on the Island
               withQuestProgress(Quest.HIPPY_FRAT, QuestDatabase.FINISHED),
               // This is a Canadia sign and therefore has a hostile Knoll.
-              withSign(ZodiacSign.OPOSSUM));
-      try (cleanups) {
+              withSign(ZodiacSign.OPOSSUM))) {
         // This marks desert available
         KoLCharacter.setPath(Path.KINGDOM_OF_EXPLOATHING);
         // This clears the path but retains desert access
@@ -1050,8 +996,7 @@ public class KoLAdventureValidationTest {
   class Standard {
     @Test
     public void restrictedItemZonesNotAllowedUnderStandard() {
-      var cleanups = new Cleanups(withRestricted(true));
-      try (cleanups) {
+      try (var _ = new Cleanups(withRestricted(true))) {
         // From the tiny bottle of absinthe - a very old item
         KoLAdventure area = AdventureDatabase.getAdventureByName("The Stately Pleasure Dome");
         assertFalse(area.canAdventure());
@@ -1060,8 +1005,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void nonItemZonesAllowedUnderStandard() {
-      var cleanups = new Cleanups(withRestricted(true));
-      try (cleanups) {
+      try (var _ = new Cleanups(withRestricted(true))) {
         KoLAdventure area = AdventureDatabase.getAdventureByName("The Outskirts of Cobb's Knob");
         assertTrue(area.canAdventure());
       }
@@ -1087,8 +1031,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitMothershipUnlessBugbearInvasion() {
-      var cleanups = new Cleanups(withPath(Path.NONE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.NONE))) {
         assertFalse(MEDBAY.canAdventure());
         assertFalse(WASTE_PROCESSING.canAdventure());
         assertFalse(SONAR.canAdventure());
@@ -1103,7 +1046,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitMothershipZonesOnlyIfOpen() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.BUGBEAR_INVASION),
               withProperty("statusMedbay", "cleared"),
@@ -1114,8 +1057,7 @@ public class KoLAdventureValidationTest {
               withProperty("statusSpecialOps", "0"),
               withProperty("statusEngineering", "7"),
               withProperty("statusNavigation", "unlocked"),
-              withProperty("statusGalley", "0"));
-      try (cleanups) {
+              withProperty("statusGalley", "0"))) {
         assertFalse(MEDBAY.canAdventure());
         assertTrue(WASTE_PROCESSING.canAdventure());
         assertFalse(SONAR.canAdventure());
@@ -1204,8 +1146,7 @@ public class KoLAdventureValidationTest {
     }
 
     private void testElementalZoneWithAccess(Map<Integer, KoLAdventure> zones, String property) {
-      var cleanups = new Cleanups(withProperty(property, true));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(property, true))) {
         for (Integer key : zones.keySet()) {
           assertTrue(zones.get(key).canAdventure());
         }
@@ -1251,8 +1192,7 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void mustBeInWolfTale() {
-        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("grimstoneMaskPath", "none"))) {
           assertFalse(GYM.canAdventure());
           assertFalse(UNLEASH.canAdventure());
         }
@@ -1260,10 +1200,9 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void mustHaveTimeLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 30));
-        try (cleanups) {
+                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 30))) {
           assertFalse(GYM.canAdventure());
           assertFalse(UNLEASH.canAdventure());
         }
@@ -1271,10 +1210,9 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void canTrainOrUnleashEarly() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 24));
-        try (cleanups) {
+                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 24))) {
           assertTrue(GYM.canAdventure());
           assertTrue(UNLEASH.canAdventure());
         }
@@ -1283,10 +1221,9 @@ public class KoLAdventureValidationTest {
       @ParameterizedTest
       @ValueSource(ints = {25, 26})
       public void mustTrainNearEnd(int turns) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", turns));
-        try (cleanups) {
+                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", turns))) {
           assertTrue(GYM.canAdventure());
           assertFalse(UNLEASH.canAdventure());
         }
@@ -1294,10 +1231,9 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void mustUnleashAtEnd() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 27));
-        try (cleanups) {
+                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 27))) {
           assertFalse(GYM.canAdventure());
           assertTrue(UNLEASH.canAdventure());
         }
@@ -1311,40 +1247,36 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void mustBeInHareTale() {
-        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("grimstoneMaskPath", "none"))) {
           assertFalse(I911.canAdventure());
         }
       }
 
       @Test
       public void mustHaveTurnsLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("grimstoneMaskPath", "hare"), withProperty("hareTurnsUsed", 30));
-        try (cleanups) {
+                withProperty("grimstoneMaskPath", "hare"), withProperty("hareTurnsUsed", 30))) {
           assertFalse(I911.canAdventure());
         }
       }
 
       @Test
       public void canAdventureWithTurnsLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("grimstoneMaskPath", "hare"), withProperty("hareTurnsUsed", 29));
-        try (cleanups) {
+                withProperty("grimstoneMaskPath", "hare"), withProperty("hareTurnsUsed", 29))) {
           assertTrue(I911.canAdventure());
         }
       }
 
       @Test
       public void gainingHareBrainedSetsTurnsUsed() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("grimstoneMaskPath", "hare"),
                 withProperty("hareTurnsUsed", 0),
-                withNoEffects());
-        try (cleanups) {
+                withNoEffects())) {
           assertTrue(I911.canAdventure());
           assertThat("hareTurnsUsed", isSetTo(0));
           ResultProcessor.processResult(true, EffectPool.get(EffectPool.HARE_BRAINED, 10));
@@ -1360,30 +1292,27 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void mustBeInStepmotherTale() {
-        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("grimstoneMaskPath", "none"))) {
           assertFalse(BALLROOM.canAdventure());
         }
       }
 
       @Test
       public void mustHaveTimeLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("grimstoneMaskPath", "stepmother"),
-                withProperty("cinderellaMinutesToMidnight", 0));
-        try (cleanups) {
+                withProperty("cinderellaMinutesToMidnight", 0))) {
           assertFalse(BALLROOM.canAdventure());
         }
       }
 
       @Test
       public void canAdventureWithTimeLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("grimstoneMaskPath", "stepmother"),
-                withProperty("cinderellaMinutesToMidnight", 1));
-        try (cleanups) {
+                withProperty("cinderellaMinutesToMidnight", 1))) {
           assertTrue(BALLROOM.canAdventure());
         }
       }
@@ -1396,30 +1325,27 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void mustBeInGnomeTale() {
-        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("grimstoneMaskPath", "none"))) {
           assertFalse(VILLAGE.canAdventure());
         }
       }
 
       @Test
       public void mustHaveTimeLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("grimstoneMaskPath", "gnome"),
-                withProperty("rumpelstiltskinTurnsUsed", 30));
-        try (cleanups) {
+                withProperty("rumpelstiltskinTurnsUsed", 30))) {
           assertFalse(VILLAGE.canAdventure());
         }
       }
 
       @Test
       public void canAdventureWithTimeLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("grimstoneMaskPath", "gnome"),
-                withProperty("rumpelstiltskinTurnsUsed", 5));
-        try (cleanups) {
+                withProperty("rumpelstiltskinTurnsUsed", 5))) {
           assertTrue(VILLAGE.canAdventure());
         }
       }
@@ -1432,29 +1358,27 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void mustBeInCandyWitchTale() {
-        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("grimstoneMaskPath", "none"))) {
           assertFalse(GUMDROP_FOREST.canAdventure());
         }
       }
 
       @Test
       public void mustHaveTimeLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("grimstoneMaskPath", "witch"),
-                withProperty("candyWitchTurnsUsed", 30));
-        try (cleanups) {
+                withProperty("candyWitchTurnsUsed", 30))) {
           assertFalse(GUMDROP_FOREST.canAdventure());
         }
       }
 
       @Test
       public void canAdventureWithTimeLeft() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("grimstoneMaskPath", "witch"), withProperty("candyWitchTurnsUsed", 5));
-        try (cleanups) {
+                withProperty("grimstoneMaskPath", "witch"),
+                withProperty("candyWitchTurnsUsed", 5))) {
           assertTrue(GUMDROP_FOREST.canAdventure());
         }
       }
@@ -1470,8 +1394,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustHaveEmptyAguaDeVidaBottle() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         assertFalse(PRIMORDIAL_SOUP.canAdventure());
       }
     }
@@ -1480,9 +1403,8 @@ public class KoLAdventureValidationTest {
     public void canAdventureWithBottleInInventory() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withItem(EMPTY_AGUA_DE_VIDA_BOTTLE));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withItem(EMPTY_AGUA_DE_VIDA_BOTTLE))) {
         assertTrue(PRIMORDIAL_SOUP.canAdventure());
         assertTrue(PRIMORDIAL_SOUP.prepareForAdventure());
 
@@ -1495,12 +1417,11 @@ public class KoLAdventureValidationTest {
     public void canRetrieveBottleAndAdventure() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItemInCloset(EMPTY_AGUA_DE_VIDA_BOTTLE),
-              withProperty("autoSatisfyWithCloset", true));
-      try (cleanups) {
+              withProperty("autoSatisfyWithCloset", true))) {
         client.addResponse(200, html("request/test_uncloset_empty_agua_bottle.html"));
 
         assertTrue(PRIMORDIAL_SOUP.canAdventure());
@@ -1527,11 +1448,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void properlyChecksLastIsland() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_lastPirateRealmIsland", "Battle Island"),
-              withProperty("prAlways", true));
-      try (cleanups) {
+              withProperty("prAlways", true))) {
         assertFalse(RED_ROGERS_FORTRESS.canAdventure());
         assertTrue(BATTLE_ISLAND.canAdventure());
         assertTrue(PIRATEREALM_ISLAND.canAdventure());
@@ -1540,11 +1460,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAlwaysSail() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_lastPirateRealmIsland", "Glass Island"),
-              withProperty("prAlways", true));
-      try (cleanups) {
+              withProperty("prAlways", true))) {
         assertTrue(SAILING.canAdventure());
       }
     }
@@ -1564,8 +1483,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustHaveAstralMushroomOrHalfAstral() {
-      var cleanups = new Cleanups(withLimitMode(LimitMode.NONE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withLimitMode(LimitMode.NONE))) {
         assertFalse(BAD_TRIP.canAdventure());
         assertFalse(MEDIOCRE_TRIP.canAdventure());
         assertFalse(GREAT_TRIP.canAdventure());
@@ -1576,13 +1494,12 @@ public class KoLAdventureValidationTest {
     public void canAdventureIfHalfAstralWithTripSelected() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withEffect("Half-Astral", 5),
               withProperty("currentAstralTrip", "Great Trip"),
-              withLimitMode(LimitMode.ASTRAL));
-      try (cleanups) {
+              withLimitMode(LimitMode.ASTRAL))) {
         assertFalse(BAD_TRIP.canAdventure());
         assertFalse(MEDIOCRE_TRIP.canAdventure());
         assertTrue(GREAT_TRIP.canAdventure());
@@ -1597,7 +1514,7 @@ public class KoLAdventureValidationTest {
     public void canAdventureIfHalfAstralWithTripUnSelected() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withEffect("Half-Astral", 5),
@@ -1605,8 +1522,7 @@ public class KoLAdventureValidationTest {
               withLimitMode(LimitMode.ASTRAL),
               withPasswordHash("astral"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_visit_astral_travel_agent.html"));
         client.addResponse(200, ""); // api.php
@@ -1634,7 +1550,7 @@ public class KoLAdventureValidationTest {
     public void canAdventureWithAstralMushroom() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ASTRAL_MUSHROOM),
@@ -1643,8 +1559,7 @@ public class KoLAdventureValidationTest {
               withLimitMode(LimitMode.NONE),
               withPasswordHash("astral"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(200, html("request/test_use_astral_mushroom.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -1686,8 +1601,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustHaveGongOrShapeOfMole() {
-      var cleanups = new Cleanups(withLimitMode(LimitMode.NONE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withLimitMode(LimitMode.NONE))) {
         assertFalse(MT_MOLEHILL.canAdventure());
       }
     }
@@ -1696,13 +1610,12 @@ public class KoLAdventureValidationTest {
     public void canAdventureIfInShapeOfMole() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withEffect("Shape of...Mole!", 12),
               withProperty("currentLlamaForm", "Mole"),
-              withLimitMode(LimitMode.MOLE));
-      try (cleanups) {
+              withLimitMode(LimitMode.MOLE))) {
         assertTrue(MT_MOLEHILL.canAdventure());
         assertTrue(MT_MOLEHILL.prepareForAdventure());
 
@@ -1715,7 +1628,7 @@ public class KoLAdventureValidationTest {
     public void canAdventureWithGong() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(GONG),
@@ -1724,8 +1637,7 @@ public class KoLAdventureValidationTest {
               withLimitMode(LimitMode.NONE),
               withPasswordHash("mole"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
         client.addResponse(200, html("request/test_choose_mole_form.html"));
@@ -1761,9 +1673,8 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustMeetZonePrerequesites() {
-      var cleanups =
-          new Cleanups(withAscensions(1), withLevel(4), withQuestProgress(Quest.EGO, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withAscensions(1), withLevel(4), withQuestProgress(Quest.EGO, "step1"))) {
         assertTrue(COLA_NONE.canAdventure());
         assertFalse(COLA_CLOACA.canAdventure());
         assertFalse(COLA_DYSPEPSI.canAdventure());
@@ -1772,52 +1683,49 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustHaveAscended() {
-      var cleanups =
-          new Cleanups(withAscensions(0), withLevel(4), withQuestProgress(Quest.EGO, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withAscensions(0), withLevel(4), withQuestProgress(Quest.EGO, "step1"))) {
         assertFalse(COLA_NONE.canAdventure());
       }
     }
 
     @Test
     public void mustBeAtLeastLevel4() {
-      var cleanups =
-          new Cleanups(withAscensions(1), withLevel(3), withQuestProgress(Quest.EGO, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withAscensions(1), withLevel(3), withQuestProgress(Quest.EGO, "step1"))) {
         assertFalse(COLA_NONE.canAdventure());
       }
     }
 
     @Test
     public void mustBeNoMoreThanLevel5() {
-      var cleanups =
-          new Cleanups(withAscensions(1), withLevel(6), withQuestProgress(Quest.EGO, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withAscensions(1), withLevel(6), withQuestProgress(Quest.EGO, "step1"))) {
         assertFalse(COLA_NONE.canAdventure());
       }
     }
 
     @Test
     public void mustHaveRecoveredKey() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withAscensions(1), withLevel(4), withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
-      try (cleanups) {
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, QuestDatabase.STARTED))) {
         assertFalse(COLA_NONE.canAdventure());
       }
     }
 
     @Test
     public void canAdventureWithCloacaUniformEquipped() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquipped(Slot.HAT, ItemPool.CLOACA_HELMET),
               withEquipped(Slot.OFFHAND, ItemPool.CLOACA_SHIELD),
-              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES))) {
         assertTrue(COLA_NONE.canAdventure());
         assertTrue(COLA_CLOACA.canAdventure());
         assertFalse(COLA_DYSPEPSI.canAdventure());
@@ -1828,15 +1736,14 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureCloacaEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquipped(Slot.HAT, ItemPool.CLOACA_HELMET),
               withEquipped(Slot.OFFHAND, ItemPool.CLOACA_SHIELD),
-              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES))) {
         assertTrue(COLA_CLOACA.canAdventure());
         assertTrue(COLA_CLOACA.prepareForAdventure());
 
@@ -1847,15 +1754,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithCloacaUniformAvailable() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquippableItem(ItemPool.CLOACA_HELMET),
               withEquippableItem(ItemPool.CLOACA_SHIELD),
-              withEquippableItem(ItemPool.CLOACA_FATIGUES));
-      try (cleanups) {
+              withEquippableItem(ItemPool.CLOACA_FATIGUES))) {
         assertTrue(COLA_NONE.canAdventure());
         assertTrue(COLA_CLOACA.canAdventure());
         assertFalse(COLA_DYSPEPSI.canAdventure());
@@ -1866,15 +1772,14 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureCloacaAvailable() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquippableItem(ItemPool.CLOACA_HELMET),
               withEquippableItem(ItemPool.CLOACA_SHIELD),
-              withEquippableItem(ItemPool.CLOACA_FATIGUES));
-      try (cleanups) {
+              withEquippableItem(ItemPool.CLOACA_FATIGUES))) {
         assertTrue(COLA_CLOACA.canAdventure());
         assertTrue(COLA_CLOACA.prepareForAdventure());
 
@@ -1889,15 +1794,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithDyspepsiUniformEquipped() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquipped(Slot.HAT, ItemPool.DYSPEPSI_HELMET),
               withEquipped(Slot.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
-              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES))) {
         assertTrue(COLA_NONE.canAdventure());
         assertFalse(COLA_CLOACA.canAdventure());
         assertTrue(COLA_DYSPEPSI.canAdventure());
@@ -1908,15 +1812,14 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureDyspepsiEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquipped(Slot.HAT, ItemPool.DYSPEPSI_HELMET),
               withEquipped(Slot.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
-              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES))) {
         assertTrue(COLA_DYSPEPSI.canAdventure());
         assertTrue(COLA_DYSPEPSI.prepareForAdventure());
 
@@ -1927,15 +1830,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithDyspepsiUniformAvailable() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquippableItem(ItemPool.DYSPEPSI_HELMET),
               withEquippableItem(ItemPool.DYSPEPSI_SHIELD),
-              withEquippableItem(ItemPool.DYSPEPSI_FATIGUES));
-      try (cleanups) {
+              withEquippableItem(ItemPool.DYSPEPSI_FATIGUES))) {
         assertTrue(COLA_NONE.canAdventure());
         assertFalse(COLA_CLOACA.canAdventure());
         assertTrue(COLA_DYSPEPSI.canAdventure());
@@ -1946,15 +1848,14 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureDyspepsiAvailable() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquippableItem(ItemPool.DYSPEPSI_HELMET),
               withEquippableItem(ItemPool.DYSPEPSI_SHIELD),
-              withEquippableItem(ItemPool.DYSPEPSI_FATIGUES));
-      try (cleanups) {
+              withEquippableItem(ItemPool.DYSPEPSI_FATIGUES))) {
         assertTrue(COLA_DYSPEPSI.canAdventure());
         assertTrue(COLA_DYSPEPSI.prepareForAdventure());
 
@@ -1971,9 +1872,8 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithNoUniform() {
       setupFakeClient();
 
-      var cleanups =
-          new Cleanups(withAscensions(1), withLevel(4), withQuestProgress(Quest.EGO, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withAscensions(1), withLevel(4), withQuestProgress(Quest.EGO, "step1"))) {
         assertTrue(COLA_NONE.canAdventure());
         assertTrue(COLA_NONE.prepareForAdventure());
 
@@ -1986,15 +1886,14 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureAndRemoveCloacaUniform() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquipped(Slot.HAT, ItemPool.CLOACA_HELMET),
               withEquipped(Slot.OFFHAND, ItemPool.CLOACA_SHIELD),
-              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES))) {
         assertTrue(COLA_NONE.canAdventure());
         assertTrue(COLA_NONE.prepareForAdventure());
 
@@ -2009,15 +1908,14 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureAndRemoveDyspepsiUniform() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
               withEquipped(Slot.HAT, ItemPool.DYSPEPSI_HELMET),
               withEquipped(Slot.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
-              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES))) {
         assertTrue(COLA_NONE.canAdventure());
         assertTrue(COLA_NONE.prepareForAdventure());
 
@@ -2044,11 +1942,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustHaveAccessToTheCity() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("gingerbreadCityAvailable", false),
-              withProperty("_gingerbreadCityTurns", 0));
-      try (cleanups) {
+              withProperty("_gingerbreadCityTurns", 0))) {
         assertFalse(CIVIC_CENTER.canAdventure());
         assertFalse(TRAIN_STATION.canAdventure());
         assertFalse(INDUSTRIAL_ZONE.canAdventure());
@@ -2059,11 +1956,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void someZonesRequireUnlocking() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("gingerbreadCityAvailable", true),
-              withProperty("_gingerbreadCityTurns", 0));
-      try (cleanups) {
+              withProperty("_gingerbreadCityTurns", 0))) {
         assertTrue(CIVIC_CENTER.canAdventure());
         assertTrue(TRAIN_STATION.canAdventure());
         assertTrue(INDUSTRIAL_ZONE.canAdventure());
@@ -2074,31 +1970,28 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void sewersCanBeUnlocked() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("gingerbreadCityAvailable", true),
               withProperty("gingerSewersUnlocked", true),
-              withProperty("_gingerbreadCityTurns", 0));
-      try (cleanups) {
+              withProperty("_gingerbreadCityTurns", 0))) {
         assertTrue(SEWERS.canAdventure());
       }
     }
 
     @Test
     public void retailDistrictCanBeUnlocked() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("gingerbreadCityAvailable", true),
               withProperty("gingerRetailUnlocked", true),
-              withProperty("_gingerbreadCityTurns", 0));
-      try (cleanups) {
+              withProperty("_gingerbreadCityTurns", 0))) {
         assertTrue(RETAIL_DISTRICT.canAdventure());
       }
     }
 
     private void testTurnsAvailableVsUsed(int turnsAvailable, int turnsUsed) {
-      var cleanups = new Cleanups(withProperty("_gingerbreadCityTurns", turnsUsed));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_gingerbreadCityTurns", turnsUsed))) {
         assertThat(CIVIC_CENTER.canAdventure(), is(turnsUsed < turnsAvailable));
       }
     }
@@ -2107,12 +2000,11 @@ public class KoLAdventureValidationTest {
     public void canAdventureWithTurnsLeft(
         @Values(booleans = {false, true}) final boolean extraTurns,
         @Values(booleans = {false, true}) final boolean clockAdvanced) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("gingerbreadCityAvailable", true),
               withProperty("gingerExtraAdventures", extraTurns),
-              withProperty("_gingerbreadClockAdvanced", clockAdvanced));
-      try (cleanups) {
+              withProperty("_gingerbreadClockAdvanced", clockAdvanced))) {
         int available = 20;
         if (extraTurns) available += 10;
         if (clockAdvanced) available -= 5;
@@ -2159,17 +2051,15 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedPantryAvailable() {
-      var cleanups = new Cleanups(withAscensions(0), withLevel(1));
-      try (cleanups) {
+      try (var _ = new Cleanups(withAscensions(0), withLevel(1))) {
         assertTrue(HAUNTED_PANTRY.canAdventure());
       }
     }
 
     @Test
     public void hauntedFirstFloorAvailableWithQuest() {
-      var cleanups =
-          new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED))) {
         assertTrue(HAUNTED_KITCHEN.canAdventure());
         assertTrue(HAUNTED_CONSERVATORY.canAdventure());
       }
@@ -2177,8 +2067,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedFirstFloorAvailableWithTelegram() {
-      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_TELEGRAM));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_TELEGRAM))) {
         assertTrue(HAUNTED_KITCHEN.canAdventure());
         assertTrue(HAUNTED_CONSERVATORY.canAdventure());
       }
@@ -2188,9 +2077,8 @@ public class KoLAdventureValidationTest {
     public void canReadTelegramToStartQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.SPOOKYRAVEN_TELEGRAM));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.SPOOKYRAVEN_TELEGRAM))) {
         client.addResponse(200, html("request/test_spookyraven_telegram.html"));
         client.addResponse(200, ""); // api.php
         assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
@@ -2210,8 +2098,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedFirstFloorNotAvailableWithoutLevel() {
-      var cleanups = new Cleanups(withAscensions(0), withLevel(4));
-      try (cleanups) {
+      try (var _ = new Cleanups(withAscensions(0), withLevel(4))) {
         assertFalse(HAUNTED_KITCHEN.canAdventure());
         assertFalse(HAUNTED_CONSERVATORY.canAdventure());
       }
@@ -2219,8 +2106,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedFirstFloorAvailableWithLevel() {
-      var cleanups = new Cleanups(withAscensions(0), withLevel(5));
-      try (cleanups) {
+      try (var _ = new Cleanups(withAscensions(0), withLevel(5))) {
         assertTrue(HAUNTED_KITCHEN.canAdventure());
         assertTrue(HAUNTED_CONSERVATORY.canAdventure());
       }
@@ -2230,8 +2116,7 @@ public class KoLAdventureValidationTest {
     public void canFetchAndReadTelegramToStartQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withLevel(5));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withLevel(5))) {
         client.addResponse(200, html("request/test_spookyraven_telegram.json"));
         client.addResponse(200, "");
         assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
@@ -2251,40 +2136,35 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedBilliardsRoomAvailableWithKey() {
-      var cleanups = new Cleanups(withItem(ItemPool.BILLIARDS_KEY));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.BILLIARDS_KEY))) {
         assertTrue(HAUNTED_BILLIARDS_ROOM.canAdventure());
       }
     }
 
     @Test
     public void hauntedBilliardsRoomNotAvailableWithoutKey() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         assertFalse(HAUNTED_BILLIARDS_ROOM.canAdventure());
       }
     }
 
     @Test
     public void hauntedLibraryAvailableWithKey() {
-      var cleanups = new Cleanups(withItem(ItemPool.LIBRARY_KEY));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.LIBRARY_KEY))) {
         assertTrue(HAUNTED_LIBRARY.canAdventure());
       }
     }
 
     @Test
     public void hauntedLibraryNotAvailableWithoutKey() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         assertFalse(HAUNTED_LIBRARY.canAdventure());
       }
     }
 
     @Test
     public void hauntedSecondFloorAvailableWithQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1"))) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
         assertTrue(HAUNTED_BEDROOM.canAdventure());
@@ -2293,8 +2173,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedSecondFloorAvailableWithNecklaceAndAscension() {
-      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withAscensions(1));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withAscensions(1))) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
         assertTrue(HAUNTED_BEDROOM.canAdventure());
@@ -2303,8 +2182,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedSecondFloorAvailableWithNecklaceAndLevel() {
-      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(7));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(7))) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
         assertTrue(HAUNTED_BEDROOM.canAdventure());
@@ -2315,12 +2193,11 @@ public class KoLAdventureValidationTest {
     public void canTalkToLadySpookyravenToStartQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withAscensions(1),
-              withItem(ItemPool.SPOOKYRAVEN_NECKLACE));
-      try (cleanups) {
+              withItem(ItemPool.SPOOKYRAVEN_NECKLACE))) {
         client.addResponse(200, html("request/test_lady_spookyraven_2.html")); // Hand in necklace
         client.addResponse(
             200, html("request/test_lady_spookyraven_2A.html")); // Unlock second floor
@@ -2342,8 +2219,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedSecondFloorNotAvailableWithNecklaceWithoutLevel() {
-      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(6));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(6))) {
         assertFalse(HAUNTED_GALLERY.canAdventure());
         assertFalse(HAUNTED_BATHROOM.canAdventure());
         assertFalse(HAUNTED_BEDROOM.canAdventure());
@@ -2352,11 +2228,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedSecondFloorAvailableWithSpookyravenNecklaceQuestFinishedAndAscension() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED),
-              withAscensions(1));
-      try (cleanups) {
+              withAscensions(1))) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
         assertTrue(HAUNTED_BEDROOM.canAdventure());
@@ -2365,10 +2240,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedSecondFloorAvailableWithSpookyravenNecklaceQuestFinishedAndLevel() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED), withLevel(7));
-      try (cleanups) {
+              withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED),
+              withLevel(7))) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
         assertTrue(HAUNTED_BEDROOM.canAdventure());
@@ -2377,10 +2252,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedSecondFloorNotAvailableWithSpookyravenNecklaceQuestFinishedWithoutLevel() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED), withLevel(6));
-      try (cleanups) {
+              withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED),
+              withLevel(6))) {
         assertFalse(HAUNTED_GALLERY.canAdventure());
         assertFalse(HAUNTED_BATHROOM.canAdventure());
         assertFalse(HAUNTED_BEDROOM.canAdventure());
@@ -2391,12 +2266,11 @@ public class KoLAdventureValidationTest {
     public void canTalkToLadySpookyravenTwiceToStartQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withAscensions(1),
-              withItem(ItemPool.SPOOKYRAVEN_NECKLACE));
-      try (cleanups) {
+              withItem(ItemPool.SPOOKYRAVEN_NECKLACE))) {
         client.addResponse(200, html("request/test_lady_spookyraven_1.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_lady_spookyraven_2A.html"));
@@ -2419,8 +2293,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedBallroomAvailableWithQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3"))) {
         assertTrue(HAUNTED_BALLROOM.canAdventure());
       }
     }
@@ -2428,12 +2301,11 @@ public class KoLAdventureValidationTest {
     @Test
     public void hauntedBallroomAvailableWithItems() {
       // ResultProcessor sets quest progress to step 2 when you get the third item.
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.POWDER_PUFF),
               withItem(ItemPool.FINEST_GOWN),
-              withItem(ItemPool.DANCING_SHOES));
-      try (cleanups) {
+              withItem(ItemPool.DANCING_SHOES))) {
         assertTrue(HAUNTED_BALLROOM.canAdventure());
       }
     }
@@ -2442,13 +2314,12 @@ public class KoLAdventureValidationTest {
     public void canTalkToLadySpookyravenToOpenBallroom() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.POWDER_PUFF),
               withItem(ItemPool.FINEST_GOWN),
-              withItem(ItemPool.DANCING_SHOES));
-      try (cleanups) {
+              withItem(ItemPool.DANCING_SHOES))) {
         client.addResponse(200, html("request/test_lady_spookyraven_2B.html"));
         client.addResponse(200, ""); // api.php
         assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
@@ -2467,12 +2338,11 @@ public class KoLAdventureValidationTest {
     public void canBallroomDanceToOpenThirdFloor() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withAscensions(1),
-              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3"));
-      try (cleanups) {
+              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3"))) {
         client.addResponse(200, html("request/test_spookraven_dance.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_spookyraven_after_dance.html"));
@@ -2491,19 +2361,17 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedBallroomNotAvailableWithoutQuestOrItems() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1"))) {
         assertFalse(HAUNTED_BALLROOM.canAdventure());
       }
     }
 
     @Test
     public void hauntedThirdFloorAvailableWithQuestAndAscension() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAscensions(1),
-              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED))) {
         assertTrue(HAUNTED_STORAGE_ROOM.canAdventure());
         assertTrue(HAUNTED_NURSERY.canAdventure());
         assertTrue(HAUNTED_LABORATORY.canAdventure());
@@ -2512,10 +2380,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedThirdFloorAvailableWithQuestAndLevel() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withLevel(9), withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withLevel(9), withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED))) {
         assertTrue(HAUNTED_STORAGE_ROOM.canAdventure());
         assertTrue(HAUNTED_NURSERY.canAdventure());
         assertTrue(HAUNTED_LABORATORY.canAdventure());
@@ -2524,10 +2391,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedThirdFloorNotAvailableWithQuestAndNotLevel() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withLevel(8), withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withLevel(8), withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED))) {
         assertFalse(HAUNTED_STORAGE_ROOM.canAdventure());
         assertFalse(HAUNTED_NURSERY.canAdventure());
         assertFalse(HAUNTED_LABORATORY.canAdventure());
@@ -2536,8 +2402,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedCellarAvailableWithQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.MANOR, "step1"))) {
         assertTrue(HAUNTED_WINE_CELLAR.canAdventure());
         assertTrue(HAUNTED_LAUNDRY_ROOM.canAdventure());
         assertTrue(HAUNTED_BOILER_ROOM.canAdventure());
@@ -2546,8 +2411,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hauntedCellarNotAvailableWithOutQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.MANOR, QuestDatabase.STARTED))) {
         assertFalse(HAUNTED_WINE_CELLAR.canAdventure());
         assertFalse(HAUNTED_LAUNDRY_ROOM.canAdventure());
         assertFalse(HAUNTED_BOILER_ROOM.canAdventure());
@@ -2556,8 +2420,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void summoningChamberNotAvailableIfNotOpened() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.MANOR, "step1"))) {
         assertFalse(SUMMONING_CHAMBER.canAdventure());
       }
     }
@@ -2567,12 +2430,11 @@ public class KoLAdventureValidationTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.MANOR, "step2"),
-              withItem(ItemPool.WINE_BOMB));
-      try (cleanups) {
+              withItem(ItemPool.WINE_BOMB))) {
         client.addResponse(200, html("request/test_use_wine_bomb.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(SUMMONING_CHAMBER.canAdventure());
@@ -2592,7 +2454,7 @@ public class KoLAdventureValidationTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.MANOR, "step2"),
@@ -2601,8 +2463,7 @@ public class KoLAdventureValidationTest {
               withItem(ItemPool.DRAIN_DISSOLVER),
               withItem(ItemPool.TRIPLE_DISTILLED_TURPENTINE),
               withItem(ItemPool.DETARTRATED_ANHYDROUS_SUBLICALC),
-              withItem(ItemPool.TRIATOMACEOUS_DUST));
-      try (cleanups) {
+              withItem(ItemPool.TRIATOMACEOUS_DUST))) {
         client.addResponse(200, html("request/test_use_mortar_dissolving_solution.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(SUMMONING_CHAMBER.canAdventure());
@@ -2619,16 +2480,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void summoningChamberAvailableIfOpened() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, "step3"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.MANOR, "step3"))) {
         assertTrue(SUMMONING_CHAMBER.canAdventure());
       }
     }
 
     @Test
     public void summoningChamberNotAvailableIfLordSpookyravenDefeated() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, QuestDatabase.FINISHED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.MANOR, QuestDatabase.FINISHED))) {
         assertFalse(SUMMONING_CHAMBER.canAdventure());
       }
     }
@@ -2641,45 +2500,42 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void hostileKnollNotAvailableInMuscleSign() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withSign(ZodiacSign.VOLE), withQuestProgress(Quest.UNTINKER, QuestDatabase.STARTED));
-      try (cleanups) {
+              withSign(ZodiacSign.VOLE),
+              withQuestProgress(Quest.UNTINKER, QuestDatabase.STARTED))) {
         assertFalse(GARAGE.canAdventure());
       }
     }
 
     @Test
     public void hostileKnollNotAvailableIfNotUnlocked() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSign(ZodiacSign.PACKRAT),
               withQuestProgress(Quest.UNTINKER, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.MEATCAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED))) {
         assertFalse(GARAGE.canAdventure());
       }
     }
 
     @Test
     public void hostileKnollAvailableIfUntinkerUnlocked() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSign(ZodiacSign.PACKRAT),
-              withQuestProgress(Quest.UNTINKER, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.UNTINKER, QuestDatabase.STARTED))) {
         assertTrue(GARAGE.canAdventure());
       }
     }
 
     @Test
     public void hostileKnollAvailableIfPacoUnlocked() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSign(ZodiacSign.PACKRAT),
-              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED))) {
         assertTrue(GARAGE.canAdventure());
       }
     }
@@ -2688,13 +2544,12 @@ public class KoLAdventureValidationTest {
     public void willAcceptUntinkerQuestToUnlockHostileKnoll() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withSign(ZodiacSign.PACKRAT),
               withQuestProgress(Quest.UNTINKER, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED))) {
         client.addResponse(200, html("request/test_visit_untinker_accept_quest.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(GARAGE.canAdventure());
@@ -2719,24 +2574,21 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void elVibratoNotAvailableWithoutPortal() {
-      var cleanups = new Cleanups(withProperty("currentPortalEnergy", 0));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("currentPortalEnergy", 0))) {
         assertFalse(EL_VIBRATO.canAdventure());
       }
     }
 
     @Test
     public void elVibratoAvailableWithChargedPortal() {
-      var cleanups = new Cleanups(withProperty("currentPortalEnergy", 10));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("currentPortalEnergy", 10))) {
         assertTrue(EL_VIBRATO.canAdventure());
       }
     }
 
     @Test
     public void failureToAdventureSetsPortalEnergyToZero() {
-      var cleanups = new Cleanups(withProperty("currentPortalEnergy", 10));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("currentPortalEnergy", 10))) {
         var failure =
             KoLAdventure.findAdventureFailure(
                 html("request/test_adventure_fail_due_to_el_vibrato_power.html"));
@@ -2749,13 +2601,12 @@ public class KoLAdventureValidationTest {
     public void elVibratoAvailableWithTrapezoid() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.TRAPEZOID),
               withEmptyCampground(),
-              withProperty("currentPortalEnergy", 0));
-      try (cleanups) {
+              withProperty("currentPortalEnergy", 0))) {
         client.addResponse(200, html("request/test_use_el_vibrato_trapezoid.html"));
         client.addResponse(200, ""); // api.php
 
@@ -2780,9 +2631,8 @@ public class KoLAdventureValidationTest {
     void thatCellarIsOpenIfAlreadyTalkedToBart() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withQuestProgress(Quest.RAT, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withQuestProgress(Quest.RAT, "step1"))) {
         assertTrue(TAVERN_CELLAR.canAdventure());
         assertTrue(TAVERN_CELLAR.prepareForAdventure());
 
@@ -2795,10 +2645,10 @@ public class KoLAdventureValidationTest {
     void canOpenCellarByTalkingToBart() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withHttpClientBuilder(builder), withQuestProgress(Quest.RAT, QuestDatabase.STARTED));
-      try (cleanups) {
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.RAT, QuestDatabase.STARTED))) {
         client.addResponse(200, html("request/test_visit_barkeep_accept.html"));
         client.addResponse(200, ""); // api.php
 
@@ -2823,8 +2673,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void pixelRealmNotAvailableWithoutWoods() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED))) {
         assertFalse(FUNGUS_PLAINS.canAdventure());
       }
     }
@@ -2833,12 +2682,11 @@ public class KoLAdventureValidationTest {
     public void canAdventureWithTransfunctionerEquipped() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
-              withEquipped(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER))) {
         assertTrue(FUNGUS_PLAINS.canAdventure());
         assertTrue(FUNGUS_PLAINS.prepareForAdventure());
 
@@ -2851,12 +2699,11 @@ public class KoLAdventureValidationTest {
     public void canAdventureWithTransfunctionerInInventory() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
-              withEquippableItem(ItemPool.TRANSFUNCTIONER));
-      try (cleanups) {
+              withEquippableItem(ItemPool.TRANSFUNCTIONER))) {
         client.addResponse(200, html("request/test_equip_transfunctioner.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, ""); // charpane.php
@@ -2914,12 +2761,11 @@ public class KoLAdventureValidationTest {
     public void canAcquireAndEquipTransfunctionerAutomated() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
-              withProperty("choiceAdventure664", 1));
-      try (cleanups) {
+              withProperty("choiceAdventure664", 1))) {
         acquireAndEquipTransfunctioner(builder);
       }
     }
@@ -2928,12 +2774,11 @@ public class KoLAdventureValidationTest {
     public void canAcquireAndEquipTransfunctionerManually() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
-              withProperty("choiceAdventure664", 0));
-      try (cleanups) {
+              withProperty("choiceAdventure664", 0))) {
         acquireAndEquipTransfunctioner(builder);
       }
     }
@@ -2948,8 +2793,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustHaveStartedQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.FACTORY, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.FACTORY, QuestDatabase.UNSTARTED))) {
         assertFalse(WAREHOUSE.canAdventure());
         assertFalse(OFFICE.canAdventure());
       }
@@ -2957,8 +2801,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustHaveOutfit() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED))) {
         assertFalse(WAREHOUSE.canAdventure());
         assertFalse(OFFICE.canAdventure());
       }
@@ -2966,13 +2809,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithMiningOutfitEquipped() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
               withEquipped(Slot.HAT, "miner's helmet"),
               withEquipped(Slot.WEAPON, "7-Foot Dwarven mattock"),
-              withEquipped(Slot.PANTS, "miner's pants"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "miner's pants"))) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(OFFICE.canAdventure());
       }
@@ -2982,13 +2824,12 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithMiningOutfitEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
               withEquipped(Slot.HAT, "miner's helmet"),
               withEquipped(Slot.WEAPON, "7-Foot Dwarven mattock"),
-              withEquipped(Slot.PANTS, "miner's pants"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "miner's pants"))) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(WAREHOUSE.prepareForAdventure());
 
@@ -2999,13 +2840,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithMiningOutfitInInventory() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
               withEquippableItem("miner's helmet"),
               withEquippableItem("7-Foot Dwarven mattock"),
-              withEquippableItem("miner's pants"));
-      try (cleanups) {
+              withEquippableItem("miner's pants"))) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(OFFICE.canAdventure());
       }
@@ -3015,13 +2855,12 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithMiningOutfitInInventory() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
               withEquippableItem("miner's helmet"),
               withEquippableItem("7-Foot Dwarven mattock"),
-              withEquippableItem("miner's pants"));
-      try (cleanups) {
+              withEquippableItem("miner's pants"))) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(WAREHOUSE.prepareForAdventure());
 
@@ -3036,13 +2875,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithDwarvishUniformEquipped() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
               withEquipped(Slot.HAT, "dwarvish war helmet"),
               withEquipped(Slot.WEAPON, "dwarvish war mattock"),
-              withEquipped(Slot.PANTS, "dwarvish war kilt"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "dwarvish war kilt"))) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(OFFICE.canAdventure());
       }
@@ -3052,13 +2890,12 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithDwarvishUniformEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
               withEquipped(Slot.HAT, "dwarvish war helmet"),
               withEquipped(Slot.WEAPON, "dwarvish war mattock"),
-              withEquipped(Slot.PANTS, "dwarvish war kilt"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "dwarvish war kilt"))) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(WAREHOUSE.prepareForAdventure());
 
@@ -3069,13 +2906,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithDwarvishUniformInInventory() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
               withEquippableItem("dwarvish war helmet"),
               withEquippableItem("dwarvish war mattock"),
-              withEquippableItem("dwarvish war kilt"));
-      try (cleanups) {
+              withEquippableItem("dwarvish war kilt"))) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(OFFICE.canAdventure());
       }
@@ -3085,13 +2921,12 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithDwarvishUniformInInventory() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
               withEquippableItem("dwarvish war helmet"),
               withEquippableItem("dwarvish war mattock"),
-              withEquippableItem("dwarvish war kilt"));
-      try (cleanups) {
+              withEquippableItem("dwarvish war kilt"))) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(WAREHOUSE.prepareForAdventure());
 
@@ -3121,8 +2956,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitBatHoleWithQuestUnstarted() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.UNSTARTED))) {
         assertFalse(BAT_HOLE_ENTRYWAY.canAdventure());
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertFalse(BATRAT.canAdventure());
@@ -3133,8 +2967,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBatHoleWithQuestStarted() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.STARTED))) {
         assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertFalse(BATRAT.canAdventure());
@@ -3145,8 +2978,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitGuanoJunctionWithoutStenchProtection() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.STARTED))) {
         // We do not currently allow betweenBattle script to fix
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertFalse(GUANO_JUNCTION.prepareForAdventure());
@@ -3155,11 +2987,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitGuanoJunctionWithStenchProtection() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.BAT, QuestDatabase.STARTED),
-              withEquipped(Slot.HAT, "Knob Goblin harem veil"));
-      try (cleanups) {
+              withEquipped(Slot.HAT, "Knob Goblin harem veil"))) {
         assertTrue(GUANO_JUNCTION.canAdventure());
         assertTrue(GUANO_JUNCTION.prepareForAdventure());
       }
@@ -3167,8 +2998,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBatHoleWithOneSonarUsed() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.BAT, "step1"))) {
         assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertTrue(BATRAT.canAdventure());
@@ -3179,10 +3009,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBatHoleWithOneSonarInInventory() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 1));
-      try (cleanups) {
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 1))) {
         assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertTrue(BATRAT.canAdventure());
@@ -3193,8 +3022,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBatHoleWithTwoSonarUsed() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step2"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.BAT, "step2"))) {
         assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertTrue(BATRAT.canAdventure());
@@ -3205,10 +3033,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBatHoleWithTwoSonarInInventory() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 2));
-      try (cleanups) {
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 2))) {
         assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertTrue(BATRAT.canAdventure());
@@ -3219,8 +3046,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBatHoleWithThreeSonarUsed() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step3"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.BAT, "step3"))) {
         assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertTrue(BATRAT.canAdventure());
@@ -3231,10 +3057,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBatHoleWithThreeSonarInInventory() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
-      try (cleanups) {
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3))) {
         assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
         assertFalse(GUANO_JUNCTION.canAdventure());
         assertTrue(BATRAT.canAdventure());
@@ -3247,9 +3072,8 @@ public class KoLAdventureValidationTest {
     public void canPrepareToAdventureInBatHoleUsingZeroSonar() {
       setupFakeClient();
 
-      var cleanups =
-          new Cleanups(withQuestProgress(Quest.BAT, "step1"), withItem(ItemPool.SONAR, 3));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withQuestProgress(Quest.BAT, "step1"), withItem(ItemPool.SONAR, 3))) {
         assertTrue(BATRAT.canAdventure());
         assertTrue(BATRAT.prepareForAdventure());
 
@@ -3262,10 +3086,9 @@ public class KoLAdventureValidationTest {
     public void canPrepareToAdventureInBatHoleUsingOneSonar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
-      try (cleanups) {
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3))) {
         assertTrue(BATRAT.canAdventure());
         assertTrue(BATRAT.prepareForAdventure());
 
@@ -3280,10 +3103,9 @@ public class KoLAdventureValidationTest {
     public void canPrepareToAdventureInBatHoleUsingTwoSonar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
-      try (cleanups) {
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3))) {
         assertTrue(BEANBAT.canAdventure());
         assertTrue(BEANBAT.prepareForAdventure());
 
@@ -3300,10 +3122,9 @@ public class KoLAdventureValidationTest {
     public void canPrepareToAdventureInBatHoleUsingThreeSonar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
-      try (cleanups) {
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3))) {
         assertTrue(BOSSBAT.canAdventure());
         assertTrue(BOSSBAT.prepareForAdventure());
 
@@ -3320,8 +3141,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitBossBatLairAfterQuestFinished() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.FINISHED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.FINISHED))) {
         assertThat(BATRAT.canAdventure(), is(true));
         assertThat(BEANBAT.canAdventure(), is(true));
         assertThat(BOSSBAT.canAdventure(), is(false));
@@ -3357,8 +3177,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCobbsKnobBeforeQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.UNSTARTED))) {
         assertTrue(OUTSKIRTS_OF_THE_KNOB.canAdventure());
         assertFalse(COBB_BARRACKS.canAdventure());
         assertFalse(COBB_KITCHEN.canAdventure());
@@ -3370,8 +3189,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCobbsKnobBeforeDecrypting() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED))) {
         assertTrue(OUTSKIRTS_OF_THE_KNOB.canAdventure());
         assertFalse(COBB_BARRACKS.canAdventure());
         assertFalse(COBB_KITCHEN.canAdventure());
@@ -3383,8 +3201,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCobbsKnobAfterDecrypting() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"))) {
         assertTrue(OUTSKIRTS_OF_THE_KNOB.canAdventure());
         assertTrue(COBB_BARRACKS.canAdventure());
         assertTrue(COBB_KITCHEN.canAdventure());
@@ -3398,13 +3215,12 @@ public class KoLAdventureValidationTest {
     public void canDecryptMapToOpenCobbsKnob() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.ENCRYPTION_KEY),
               withItem(ItemPool.COBBS_KNOB_MAP),
-              withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED))) {
         client.addResponse(200, html("request/test_use_encryption_key.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(COBB_BARRACKS.canAdventure());
@@ -3420,8 +3236,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCobbsKnobAfterDefeatingKing() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED))) {
         assertTrue(OUTSKIRTS_OF_THE_KNOB.canAdventure());
         assertTrue(COBB_BARRACKS.canAdventure());
         assertTrue(COBB_KITCHEN.canAdventure());
@@ -3433,8 +3248,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitCobbsKnobLaboratoryWithoutKey() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"))) {
         assertFalse(COBB_LABORATORY.canAdventure());
         assertFalse(KNOB_SHAFT.canAdventure());
       }
@@ -3442,9 +3256,8 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCobbsKnobLaboratoryWithKey() {
-      var cleanups =
-          new Cleanups(withItem("Cobb's Knob lab key"), withQuestProgress(Quest.GOBLIN, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withItem("Cobb's Knob lab key"), withQuestProgress(Quest.GOBLIN, "step1"))) {
         assertTrue(COBB_LABORATORY.canAdventure());
         assertTrue(KNOB_SHAFT.canAdventure());
       }
@@ -3452,8 +3265,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitCobbsKnobMenagerieWithoutKey() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"))) {
         assertFalse(MENAGERIE_LEVEL_1.canAdventure());
         assertFalse(MENAGERIE_LEVEL_2.canAdventure());
         assertFalse(MENAGERIE_LEVEL_3.canAdventure());
@@ -3462,8 +3274,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitCobbsKnobMenagerieWithoutQuest() {
-      var cleanups = new Cleanups(withItem("Cobb's Knob Menagerie key"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem("Cobb's Knob Menagerie key"))) {
         assertFalse(MENAGERIE_LEVEL_1.canAdventure());
         assertFalse(MENAGERIE_LEVEL_2.canAdventure());
         assertFalse(MENAGERIE_LEVEL_3.canAdventure());
@@ -3472,10 +3283,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCobbsKnobMenagerieWithKey() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem("Cobb's Knob Menagerie key"), withQuestProgress(Quest.GOBLIN, "step1"));
-      try (cleanups) {
+              withItem("Cobb's Knob Menagerie key"), withQuestProgress(Quest.GOBLIN, "step1"))) {
         assertTrue(MENAGERIE_LEVEL_1.canAdventure());
         assertTrue(MENAGERIE_LEVEL_2.canAdventure());
         assertTrue(MENAGERIE_LEVEL_3.canAdventure());
@@ -3491,13 +3301,12 @@ public class KoLAdventureValidationTest {
     public void canFightKingGearedUpAsHaremGirl() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquipped(Slot.HAT, "Knob Goblin harem veil"),
               withEquipped(Slot.PANTS, "Knob Goblin harem pants"),
-              withEffect(EffectPool.KNOB_GOBLIN_PERFUME));
-      try (cleanups) {
+              withEffect(EffectPool.KNOB_GOBLIN_PERFUME))) {
         assertTrue(THRONE_ROOM.canAdventure());
         assertTrue(THRONE_ROOM.prepareForAdventure());
 
@@ -3510,13 +3319,12 @@ public class KoLAdventureValidationTest {
     public void canFightKingUnEquippedAsHaremGirl() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquippableItem("Knob Goblin harem veil"),
               withEquippableItem("Knob Goblin harem pants"),
-              withEffect(EffectPool.KNOB_GOBLIN_PERFUME));
-      try (cleanups) {
+              withEffect(EffectPool.KNOB_GOBLIN_PERFUME))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT));
         assertTrue(THRONE_ROOM.canAdventure());
         assertTrue(THRONE_ROOM.prepareForAdventure());
@@ -3534,13 +3342,12 @@ public class KoLAdventureValidationTest {
     public void canFightKingUnPerfumedAsHaremGirl() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquipped(Slot.HAT, "Knob Goblin harem veil"),
               withEquipped(Slot.PANTS, "Knob Goblin harem pants"),
-              withItem(ItemPool.KNOB_GOBLIN_PERFUME));
-      try (cleanups) {
+              withItem(ItemPool.KNOB_GOBLIN_PERFUME))) {
         assertTrue(THRONE_ROOM.canAdventure());
         assertTrue(THRONE_ROOM.prepareForAdventure());
 
@@ -3555,13 +3362,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotFightKingUnPerfumedAsHaremGirlInBeecore() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquipped(Slot.HAT, "Knob Goblin harem veil"),
               withEquipped(Slot.PANTS, "Knob Goblin harem pants"),
-              withPath(Path.BEES_HATE_YOU));
-      try (cleanups) {
+              withPath(Path.BEES_HATE_YOU))) {
         assertFalse(THRONE_ROOM.canAdventure());
       }
     }
@@ -3570,13 +3376,12 @@ public class KoLAdventureValidationTest {
     public void canFightKingUnPerfumedUnGearedAsHaremGirl() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquippableItem("Knob Goblin harem veil"),
               withEquippableItem("Knob Goblin harem pants"),
-              withItem(ItemPool.KNOB_GOBLIN_PERFUME));
-      try (cleanups) {
+              withItem(ItemPool.KNOB_GOBLIN_PERFUME))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT));
         assertTrue(THRONE_ROOM.canAdventure());
         assertTrue(THRONE_ROOM.prepareForAdventure());
@@ -3598,14 +3403,13 @@ public class KoLAdventureValidationTest {
     public void canFightKingGearedUpAsGuard() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquipped(Slot.HAT, "Knob Goblin elite helm"),
               withEquipped(Slot.WEAPON, "Knob Goblin elite polearm"),
               withEquipped(Slot.PANTS, "Knob Goblin elite pants"),
-              withItem(ItemPool.KNOB_CAKE));
-      try (cleanups) {
+              withItem(ItemPool.KNOB_CAKE))) {
         assertTrue(THRONE_ROOM.canAdventure());
         assertTrue(THRONE_ROOM.prepareForAdventure());
 
@@ -3618,14 +3422,13 @@ public class KoLAdventureValidationTest {
     public void canFightKingUnGearedUpAsGuard() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquippableItem("Knob Goblin elite helm"),
               withEquippableItem("Knob Goblin elite polearm"),
               withEquippableItem("Knob Goblin elite pants"),
-              withItem(ItemPool.KNOB_CAKE));
-      try (cleanups) {
+              withItem(ItemPool.KNOB_CAKE))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT));
         assertTrue(THRONE_ROOM.canAdventure());
         assertTrue(THRONE_ROOM.prepareForAdventure());
@@ -3643,7 +3446,7 @@ public class KoLAdventureValidationTest {
     public void canFightKingUnCakedAsGuard() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquipped(Slot.HAT, "Knob Goblin elite helm"),
@@ -3652,8 +3455,7 @@ public class KoLAdventureValidationTest {
               withItem("unfrosted Knob cake"),
               withItem("Knob frosting"),
               withProperty("hasChef", true),
-              withRange());
-      try (cleanups) {
+              withRange())) {
         assertTrue(THRONE_ROOM.canAdventure());
         assertTrue(THRONE_ROOM.prepareForAdventure());
 
@@ -3668,7 +3470,7 @@ public class KoLAdventureValidationTest {
     public void canFightKingUnGearedUnCakedAsGuard() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
               withEquippableItem("Knob Goblin elite helm"),
@@ -3677,8 +3479,7 @@ public class KoLAdventureValidationTest {
               withItem("unfrosted Knob cake"),
               withItem("Knob frosting"),
               withProperty("hasChef", true),
-              withRange());
-      try (cleanups) {
+              withRange())) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT));
         assertTrue(THRONE_ROOM.canAdventure());
         assertTrue(THRONE_ROOM.prepareForAdventure());
@@ -3720,8 +3521,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPandamoniumWhenAzazelStarted() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.AZAZEL, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.AZAZEL, QuestDatabase.STARTED))) {
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(LAUGH_FLOOR.canAdventure());
         assertTrue(INFERNAL_RACKETS.canAdventure());
@@ -3732,12 +3532,11 @@ public class KoLAdventureValidationTest {
     public void canOpenPandamoniumWhenFriarsFinished() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.FRIAR, QuestDatabase.FINISHED),
-              withQuestProgress(Quest.AZAZEL, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.AZAZEL, QuestDatabase.UNSTARTED))) {
         client.addResponse(200, html("request/test_visit_pandamonium.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
@@ -3755,7 +3554,7 @@ public class KoLAdventureValidationTest {
     public void canFinishFriarsToOpenPandamonium() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("friars"),
@@ -3765,8 +3564,7 @@ public class KoLAdventureValidationTest {
               withItem(ItemPool.DODECAGRAM),
               withItem(ItemPool.CANDLES),
               withItem(ItemPool.BUTTERKNIFE),
-              withQuestProgress(Quest.AZAZEL, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.AZAZEL, QuestDatabase.UNSTARTED))) {
         client.addResponse(200, html("request/test_visit_friars_ritual.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_visit_pandamonium.html"));
@@ -3806,8 +3604,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitCyrptBeforeQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.UNSTARTED))) {
         assertFalse(DEFILED_ALCOVE.canAdventure());
         assertFalse(DEFILED_CRANNY.canAdventure());
         assertFalse(DEFILED_NICHE.canAdventure());
@@ -3818,15 +3615,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCyrptWhenQuestStarted() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
               withProperty("cyrptAlcoveEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptNookEvilness", 50),
-              withProperty("cyrptTotalEvilness", 200));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 200))) {
         assertTrue(DEFILED_ALCOVE.canAdventure());
         assertTrue(DEFILED_CRANNY.canAdventure());
         assertTrue(DEFILED_NICHE.canAdventure());
@@ -3837,15 +3633,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCyrptWhenAlcoveClear() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
               withProperty("cyrptAlcoveEvilness", 0),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptNookEvilness", 50),
-              withProperty("cyrptTotalEvilness", 150));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 150))) {
         assertFalse(DEFILED_ALCOVE.canAdventure());
         assertTrue(DEFILED_CRANNY.canAdventure());
         assertTrue(DEFILED_NICHE.canAdventure());
@@ -3856,15 +3651,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCyrptWhenCrannyClear() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
               withProperty("cyrptAlcoveEvilness", 50),
               withProperty("cyrptCrannyEvilness", 0),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptNookEvilness", 50),
-              withProperty("cyrptTotalEvilness", 150));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 150))) {
         assertTrue(DEFILED_ALCOVE.canAdventure());
         assertFalse(DEFILED_CRANNY.canAdventure());
         assertTrue(DEFILED_NICHE.canAdventure());
@@ -3875,15 +3669,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCyrptWhenNicheClear() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
               withProperty("cyrptAlcoveEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptNookEvilness", 50),
-              withProperty("cyrptTotalEvilness", 150));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 150))) {
         assertTrue(DEFILED_ALCOVE.canAdventure());
         assertTrue(DEFILED_CRANNY.canAdventure());
         assertFalse(DEFILED_NICHE.canAdventure());
@@ -3894,15 +3687,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCyrptWhenNookClear() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
               withProperty("cyrptAlcoveEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptNookEvilness", 0),
-              withProperty("cyrptTotalEvilness", 150));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 150))) {
         assertTrue(DEFILED_ALCOVE.canAdventure());
         assertTrue(DEFILED_CRANNY.canAdventure());
         assertTrue(DEFILED_NICHE.canAdventure());
@@ -3913,15 +3705,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHaertWhenCyrptEvilness0() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
               withProperty("cyrptAlcoveEvilness", 0),
               withProperty("cyrptCrannyEvilness", 0),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptNookEvilness", 0),
-              withProperty("cyrptTotalEvilness", 0));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 0))) {
         assertFalse(DEFILED_ALCOVE.canAdventure());
         assertFalse(DEFILED_CRANNY.canAdventure());
         assertFalse(DEFILED_NICHE.canAdventure());
@@ -3932,15 +3723,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHaertWhenCyrptEvilness999() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
               withProperty("cyrptAlcoveEvilness", 0),
               withProperty("cyrptCrannyEvilness", 0),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptNookEvilness", 0),
-              withProperty("cyrptTotalEvilness", 999));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 999))) {
         assertFalse(DEFILED_ALCOVE.canAdventure());
         assertFalse(DEFILED_CRANNY.canAdventure());
         assertFalse(DEFILED_NICHE.canAdventure());
@@ -3951,8 +3741,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitCyrptWhenQuestFinished() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED))) {
         assertFalse(DEFILED_ALCOVE.canAdventure());
         assertFalse(DEFILED_CRANNY.canAdventure());
         assertFalse(DEFILED_NICHE.canAdventure());
@@ -3979,8 +3768,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitMcLargeHugePreQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.TRAPPER, QuestDatabase.UNSTARTED))) {
         assertFalse(ITZNOTYERZITZ_MINE.canAdventure());
         assertFalse(GOATLET.canAdventure());
         assertFalse(NINJA_SNOWMEN.canAdventure());
@@ -3994,11 +3782,10 @@ public class KoLAdventureValidationTest {
     public void canTalkToTrapperToOpenZones() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED))) {
         client.addResponse(200, html("request/test_visit_trapper_talk.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(GOATLET.canAdventure());
@@ -4015,8 +3802,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitMcLargeHugeOnceQuestStarted() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.TRAPPER, "step1"))) {
         assertTrue(ITZNOTYERZITZ_MINE.canAdventure());
         assertTrue(GOATLET.canAdventure());
         assertFalse(NINJA_SNOWMEN.canAdventure());
@@ -4028,8 +3814,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitMcLargeHugeAfterGivingTrapperItems() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step2"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.TRAPPER, "step2"))) {
         assertTrue(ITZNOTYERZITZ_MINE.canAdventure());
         assertTrue(GOATLET.canAdventure());
         assertTrue(NINJA_SNOWMEN.canAdventure());
@@ -4041,8 +3826,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitShroudedPeakWithoutColdResistance() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step3"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.TRAPPER, "step3"))) {
         // We do not currently allow betweenBattle script to fix
         assertFalse(SHROUDED_PEAK.canAdventure());
       }
@@ -4050,11 +3834,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitShroudedPeakWithColdResistance() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.TRAPPER, "step3"),
-              withEquipped(Slot.ACCESSORY1, "cozy scarf"));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, "cozy scarf"))) {
         // We do not currently allow betweenBattle script to fix
         assertTrue(SHROUDED_PEAK.canAdventure());
         assertTrue(SHROUDED_PEAK.prepareForAdventure());
@@ -4063,19 +3846,17 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitShroudedPeakAfterGroar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.TRAPPER, "step5"),
-              withEquipped(Slot.ACCESSORY1, "cozy scarf"));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, "cozy scarf"))) {
         assertFalse(SHROUDED_PEAK.canAdventure());
       }
     }
 
     @Test
     public void cannotVisitIcyPeakWithoutColdResistance() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step5"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.TRAPPER, "step5"))) {
         // We do not currently allow betweenBattle script to fix
         assertFalse(ICY_PEAK.canAdventure());
       }
@@ -4083,11 +3864,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitIcyPeakWithColdResistance() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.TRAPPER, "step5"),
-              withEquipped(Slot.ACCESSORY1, "ghost of a necklace"));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, "ghost of a necklace"))) {
         // We do not currently allow betweenBattle script to fix
         assertTrue(ICY_PEAK.canAdventure());
         assertTrue(ICY_PEAK.prepareForAdventure());
@@ -4096,11 +3876,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitIcyPeakBeforeGroar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.TRAPPER, "step4"),
-              withEquipped(Slot.ACCESSORY1, "ghost of a necklace"));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, "ghost of a necklace"))) {
         assertFalse(SHROUDED_PEAK.canAdventure());
       }
     }
@@ -4122,8 +3901,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitBeanStalkPreQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GARBAGE, QuestDatabase.UNSTARTED))) {
         assertFalse(AIRSHIP.canAdventure());
         assertFalse(CASTLE_BASEMENT.canAdventure());
         assertFalse(CASTLE_GROUND.canAdventure());
@@ -4134,8 +3912,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitBeanStalkWithNoBean() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED))) {
         assertFalse(AIRSHIP.canAdventure());
         assertFalse(CASTLE_BASEMENT.canAdventure());
         assertFalse(CASTLE_GROUND.canAdventure());
@@ -4148,10 +3925,10 @@ public class KoLAdventureValidationTest {
     public void canPlantBeanIfNecessary() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED), withItem("enchanted bean"));
-      try (cleanups) {
+              withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED),
+              withItem("enchanted bean"))) {
         assertTrue(AIRSHIP.canAdventure());
         assertTrue(AIRSHIP.prepareForAdventure());
 
@@ -4164,8 +3941,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitAirshipWithBeanStalkWithBeanPlanted() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"))) {
         assertTrue(AIRSHIP.canAdventure());
         assertFalse(CASTLE_BASEMENT.canAdventure());
         assertFalse(CASTLE_GROUND.canAdventure());
@@ -4176,8 +3952,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitSomeBeanstalkZonesInExploathing() {
-      var cleanups = new Cleanups(withPath(Path.KINGDOM_OF_EXPLOATHING));
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.KINGDOM_OF_EXPLOATHING))) {
         assertFalse(AIRSHIP.canAdventure());
         assertTrue(CASTLE_BASEMENT.canAdventure());
         assertTrue(HOLE_IN_THE_SKY.canAdventure());
@@ -4186,48 +3961,42 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitCastleWithSOCK() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"), withItem("S.O.C.K."));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"), withItem("S.O.C.K."))) {
         assertTrue(CASTLE_BASEMENT.canAdventure());
       }
     }
 
     @Test
     public void canVisitCastleWithRowboat() {
-      var cleanups = new Cleanups(withItem("intragalactic rowboat"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem("intragalactic rowboat"))) {
         assertTrue(CASTLE_BASEMENT.canAdventure());
       }
     }
 
     @Test
     public void canVisitCastleGroundFloorIfUnlocked() {
-      var cleanups = new Cleanups(withAscensions(13), withProperty("lastCastleGroundUnlock", 13));
-      try (cleanups) {
+      try (var _ = new Cleanups(withAscensions(13), withProperty("lastCastleGroundUnlock", 13))) {
         assertTrue(CASTLE_GROUND.canAdventure());
       }
     }
 
     @Test
     public void canVisitCastleTopFloorIfUnlocked() {
-      var cleanups = new Cleanups(withAscensions(13), withProperty("lastCastleTopUnlock", 13));
-      try (cleanups) {
+      try (var _ = new Cleanups(withAscensions(13), withProperty("lastCastleTopUnlock", 13))) {
         assertTrue(CASTLE_TOP.canAdventure());
       }
     }
 
     @Test
     public void canVisitHoleInTheSkyWithRocketship() {
-      var cleanups = new Cleanups(withItem("steam-powered model rocketship"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem("steam-powered model rocketship"))) {
         assertTrue(HOLE_IN_THE_SKY.canAdventure());
       }
     }
 
     @Test
     public void canVisitHoleInTheSkyWithRowboat() {
-      var cleanups = new Cleanups(withItem("intragalactic rowboat"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem("intragalactic rowboat"))) {
         assertTrue(HOLE_IN_THE_SKY.canAdventure());
       }
     }
@@ -4259,8 +4028,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitHiddenCityPreQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.WORSHIP, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.WORSHIP, QuestDatabase.UNSTARTED))) {
         assertFalse(HIDDEN_PARK.canAdventure());
         assertFalse(NW_SHRINE.canAdventure());
         assertFalse(HIDDEN_APARTMENT.canAdventure());
@@ -4276,8 +4044,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHiddenCityOnceOpened() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.WORSHIP, "step3"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.WORSHIP, "step3"))) {
         assertTrue(HIDDEN_PARK.canAdventure());
         assertTrue(NW_SHRINE.canAdventure());
         assertTrue(NE_SHRINE.canAdventure());
@@ -4293,44 +4060,40 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHiddenApartmentBuildingOnceOpened() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.WORSHIP, "step3"),
-              withQuestProgress(Quest.CURSES, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.CURSES, QuestDatabase.STARTED))) {
         assertTrue(HIDDEN_APARTMENT.canAdventure());
       }
     }
 
     @Test
     public void canVisitHiddenOfficeBuildingOnceOpened() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.WORSHIP, "step3"),
-              withQuestProgress(Quest.BUSINESS, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.BUSINESS, QuestDatabase.STARTED))) {
         assertTrue(HIDDEN_OFFICE.canAdventure());
       }
     }
 
     @Test
     public void canVisitHiddenHospitalOnceOpened() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.WORSHIP, "step3"),
-              withQuestProgress(Quest.DOCTOR, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.DOCTOR, QuestDatabase.STARTED))) {
         assertTrue(HIDDEN_HOSPITAL.canAdventure());
       }
     }
 
     @Test
     public void canVisitHiddenBowlingAlleyOnceOpened() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.WORSHIP, "step3"),
-              withQuestProgress(Quest.SPARE, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.SPARE, QuestDatabase.STARTED))) {
         assertTrue(HIDDEN_BOWLING_ALLEY.canAdventure());
       }
     }
@@ -4343,8 +4106,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitPalindomeWithoutTalisman() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         assertFalse(PALINDOME.canAdventure());
       }
     }
@@ -4353,10 +4115,9 @@ public class KoLAdventureValidationTest {
     public void canVisitPalindomeWithTalismanEquipped() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withHttpClientBuilder(builder), withEquipped(Slot.ACCESSORY1, ItemPool.TALISMAN));
-      try (cleanups) {
+              withHttpClientBuilder(builder), withEquipped(Slot.ACCESSORY1, ItemPool.TALISMAN))) {
         assertTrue(PALINDOME.canAdventure());
         assertTrue(PALINDOME.prepareForAdventure());
         var requests = client.getRequests();
@@ -4368,9 +4129,8 @@ public class KoLAdventureValidationTest {
     public void canEquipTalismanFromInventory() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withEquippableItem(ItemPool.TALISMAN));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withEquippableItem(ItemPool.TALISMAN))) {
         client.addResponse(200, html("request/test_visit_palindome_equip_talisman.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(PALINDOME.canAdventure());
@@ -4388,12 +4148,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitPalindomeWithTalismanComponentsAndNoMeat() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.COPPERHEAD_CHARM),
               withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
-              withMeat(0));
-      try (cleanups) {
+              withMeat(0))) {
         assertFalse(PALINDOME.canAdventure());
       }
     }
@@ -4402,13 +4161,12 @@ public class KoLAdventureValidationTest {
     public void canCreateTalismanAndEquipWithMeat() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.COPPERHEAD_CHARM),
               withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
-              withMeat(10));
-      try (cleanups) {
+              withMeat(10))) {
         client.addResponse(200, html("request/test_visit_palindome_make_paste.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_visit_palindome_make_talisman.html"));
@@ -4438,13 +4196,12 @@ public class KoLAdventureValidationTest {
     public void canCreateTalismanAndEquipWithThePlunger() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.COPPERHEAD_CHARM),
               withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
-              withSign(ZodiacSign.VOLE));
-      try (cleanups) {
+              withSign(ZodiacSign.VOLE))) {
         client.addResponse(200, html("request/test_visit_palindome_make_talisman.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_visit_palindome_equip_talisman.html"));
@@ -4481,8 +4238,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitPiratesWithoutIslandAccess() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED))) {
         assertFalse(PIRATE_COVE.canAdventure());
         assertFalse(BARRRNEYS_BARRR.canAdventure());
         assertFalse(FCLE.canAdventure());
@@ -4493,11 +4249,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPiratesUndisguised() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
-              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED))) {
         assertTrue(PIRATE_COVE.canAdventure());
         assertFalse(BARRRNEYS_BARRR.canAdventure());
         assertFalse(FCLE.canAdventure());
@@ -4508,9 +4263,8 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitPiratesDuringWar() {
-      var cleanups =
-          new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"))) {
         assertFalse(PIRATE_COVE.canAdventure());
         assertFalse(BARRRNEYS_BARRR.canAdventure());
         assertFalse(FCLE.canAdventure());
@@ -4521,15 +4275,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPirateShipDisguised() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("eyepatch"),
               withEquippableItem("swashbuckling pants"),
               withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(FCLE.canAdventure());
@@ -4542,15 +4295,14 @@ public class KoLAdventureValidationTest {
     public void canPrepareToAdventureWearingPirateOutfit() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquipped(Slot.HAT, "eyepatch"),
               withEquipped(Slot.PANTS, "swashbuckling pants"),
               withEquipped(Slot.ACCESSORY1, "stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED))) {
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
 
@@ -4563,15 +4315,14 @@ public class KoLAdventureValidationTest {
     public void canPrepareToAdventureNotWearingPirateOutfit() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("eyepatch"),
               withEquippableItem("swashbuckling pants"),
               withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED))) {
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
 
@@ -4586,13 +4337,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPirateShipFledged() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("pirate fledges"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED))) {
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(FCLE.canAdventure());
         assertTrue(POOP_DECK.canAdventure());
@@ -4604,13 +4354,12 @@ public class KoLAdventureValidationTest {
     public void canPrepareToAdventureWearingFledges() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquipped(Slot.ACCESSORY1, "pirate fledges"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED))) {
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
 
@@ -4623,13 +4372,12 @@ public class KoLAdventureValidationTest {
     public void canPrepareToAdventureNotWearingFledges() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("pirate fledges"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED))) {
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
 
@@ -4644,15 +4392,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPirateShipBeforeQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("eyepatch"),
               withEquippableItem("swashbuckling pants"),
               withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, QuestDatabase.UNSTARTED))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertFalse(FCLE.canAdventure());
@@ -4663,15 +4410,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPirateShipFcleDuringQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("eyepatch"),
               withEquippableItem("swashbuckling pants"),
               withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, "step5"));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, "step5"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(FCLE.canAdventure());
@@ -4682,15 +4428,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPirateShipPoopDeckDuringQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("eyepatch"),
               withEquippableItem("swashbuckling pants"),
               withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, "step6"));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, "step6"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(FCLE.canAdventure());
@@ -4701,15 +4446,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPirateShipBelowdecksAfterQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("eyepatch"),
               withEquippableItem("swashbuckling pants"),
               withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(BARRRNEYS_BARRR.canAdventure());
         assertTrue(FCLE.canAdventure());
@@ -4767,11 +4511,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHippyCampBeforeWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
-              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED))) {
         assertTrue(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
@@ -4782,13 +4525,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHippyCampInDisguiseBeforeWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(Slot.HAT, "filthy knitted dread sack"),
-              withEquipped(Slot.PANTS, "filthy corduroys"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "filthy corduroys"))) {
         assertTrue(HIPPY_CAMP.canAdventure());
         // We check only quest status, not available equipment
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4802,13 +4544,12 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureDisguisedEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(Slot.HAT, "filthy knitted dread sack"),
-              withEquipped(Slot.PANTS, "filthy corduroys"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "filthy corduroys"))) {
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
@@ -4821,13 +4562,12 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureDisguisedUnEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquippableItem("filthy knitted dread sack"),
-              withEquippableItem("filthy corduroys"));
-      try (cleanups) {
+              withEquippableItem("filthy corduroys"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(HIPPY_CAMP_DISGUISED.prepareForAdventure());
@@ -4845,7 +4585,7 @@ public class KoLAdventureValidationTest {
     public void canPickHippyOutfitToAdventureBeforeWar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
@@ -4855,8 +4595,7 @@ public class KoLAdventureValidationTest {
               withItem("round purple sunglasses"),
               // Filthy Hippy Disguise
               withEquippableItem("filthy knitted dread sack"),
-              withEquippableItem("filthy corduroys"));
-      try (cleanups) {
+              withEquippableItem("filthy corduroys"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4875,7 +4614,7 @@ public class KoLAdventureValidationTest {
     public void canPickWarHippyOutfitToAdventureBeforeWar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
@@ -4885,8 +4624,7 @@ public class KoLAdventureValidationTest {
               withEquippableItem("round purple sunglasses"),
               // Filthy Hippy Disguise
               withEquippableItem("filthy knitted dread sack"),
-              withEquippableItem("filthy corduroys"));
-      try (cleanups) {
+              withEquippableItem("filthy corduroys"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4903,10 +4641,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHippyCampOnVergeOfWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
-      try (cleanups) {
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED))) {
         // With war started, only the verge of war zones are available
         assertFalse(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4918,14 +4656,13 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHippyCampInDisguiseOnVergeOfWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
               withEquipped(Slot.HAT, "Orcish baseball cap"),
               withEquipped(Slot.PANTS, "Orcish cargo shorts"),
-              withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
-      try (cleanups) {
+              withEquipped(Slot.WEAPON, "Orcish frat-paddle"))) {
         // With war started, only the verge of war zones are available
         assertFalse(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4939,7 +4676,7 @@ public class KoLAdventureValidationTest {
     public void canPickFratOutfitToAdventureOnVergeOfWar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
@@ -4950,8 +4687,7 @@ public class KoLAdventureValidationTest {
               // Frat Boy Ensemble
               withEquippableItem("Orcish baseball cap"),
               withEquippableItem("Orcish cargo shorts"),
-              withEquippableItem("Orcish frat-paddle"));
-      try (cleanups) {
+              withEquippableItem("Orcish frat-paddle"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4970,7 +4706,7 @@ public class KoLAdventureValidationTest {
     public void canPickWarFratOutfitToAdventureOnVergeOfWar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
@@ -4981,8 +4717,7 @@ public class KoLAdventureValidationTest {
               // Frat Boy Ensemble
               withEquippableItem("Orcish baseball cap"),
               withEquippableItem("Orcish cargo shorts"),
-              withEquippableItem("Orcish frat-paddle"));
-      try (cleanups) {
+              withEquippableItem("Orcish frat-paddle"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4999,9 +4734,8 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitHippyCampDuringWar() {
-      var cleanups =
-          new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"))) {
         assertFalse(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
@@ -5012,12 +4746,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHippyCampAfterWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
-              withProperty("sideDefeated", "fratboys"));
-      try (cleanups) {
+              withProperty("sideDefeated", "fratboys"))) {
         assertTrue(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
@@ -5028,14 +4761,13 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitHippyCampInDisguiseAfterWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "fratboys"),
               withEquipped(Slot.HAT, "filthy knitted dread sack"),
-              withEquipped(Slot.PANTS, "filthy corduroys"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "filthy corduroys"))) {
         assertTrue(HIPPY_CAMP.canAdventure());
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
@@ -5046,12 +4778,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBombedHippyCampAfterLostWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
-              withProperty("sideDefeated", "hippies"));
-      try (cleanups) {
+              withProperty("sideDefeated", "hippies"))) {
         assertFalse(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
@@ -5062,12 +4793,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBombedHippyCampAfterWossname() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
-              withProperty("sideDefeated", "both"));
-      try (cleanups) {
+              withProperty("sideDefeated", "both"))) {
         assertFalse(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
@@ -5080,15 +4810,13 @@ public class KoLAdventureValidationTest {
     public void changesIntoWarFratOutfitIfNecessary() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withEquippableItem("beer helmet"),
               withEquippableItem("distressed denim pants"),
               withEquippableItem("bejeweled pledge pin"),
-              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
-
-      try (cleanups) {
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED))) {
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
@@ -5149,11 +4877,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitFratHouseBeforeWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
-              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED))) {
         assertTrue(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
@@ -5164,14 +4891,13 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitFratHouseInDisguiseBeforeWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(Slot.HAT, "Orcish baseball cap"),
               withEquipped(Slot.PANTS, "Orcish cargo shorts"),
-              withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
-      try (cleanups) {
+              withEquipped(Slot.WEAPON, "Orcish frat-paddle"))) {
         assertTrue(FRAT_HOUSE.canAdventure());
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
@@ -5184,14 +4910,13 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureDisguisedEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(Slot.HAT, "Orcish baseball cap"),
               withEquipped(Slot.PANTS, "Orcish cargo shorts"),
-              withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
-      try (cleanups) {
+              withEquipped(Slot.WEAPON, "Orcish frat-paddle"))) {
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
         assertTrue(FRAT_HOUSE_DISGUISED.prepareForAdventure());
 
@@ -5204,14 +4929,13 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureDisguisedUnEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquippableItem("Orcish baseball cap"),
               withEquippableItem("Orcish cargo shorts"),
-              withEquippableItem("Orcish frat-paddle"));
-      try (cleanups) {
+              withEquippableItem("Orcish frat-paddle"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
         assertTrue(FRAT_HOUSE_DISGUISED.prepareForAdventure());
@@ -5229,7 +4953,7 @@ public class KoLAdventureValidationTest {
     public void canPickFratOutfitToAdventureBeforeWar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
@@ -5240,8 +4964,7 @@ public class KoLAdventureValidationTest {
               // Frat Boy Ensemble
               withEquippableItem("Orcish baseball cap"),
               withEquippableItem("Orcish cargo shorts"),
-              withEquippableItem("Orcish frat-paddle"));
-      try (cleanups) {
+              withEquippableItem("Orcish frat-paddle"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
@@ -5260,7 +4983,7 @@ public class KoLAdventureValidationTest {
     public void canPickWarFratOutfitToAdventureBeforeWar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
@@ -5271,8 +4994,7 @@ public class KoLAdventureValidationTest {
               // Frat Boy Ensemble
               withEquippableItem("Orcish baseball cap"),
               withEquippableItem("Orcish cargo shorts"),
-              withEquippableItem("Orcish frat-paddle"));
-      try (cleanups) {
+              withEquippableItem("Orcish frat-paddle"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
@@ -5289,10 +5011,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitFratHouseOnVergeOfWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
-      try (cleanups) {
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED))) {
         // With war started, only the verge of war zones are available
         assertFalse(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
@@ -5304,13 +5026,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitFratHouseInDisguiseOnVergeOfWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
               withEquipped(Slot.HAT, "filthy knitted dread sack"),
-              withEquipped(Slot.PANTS, "filthy corduroys"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "filthy corduroys"))) {
         // With war started, only the verge of war zones are available
         assertFalse(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
@@ -5324,7 +5045,7 @@ public class KoLAdventureValidationTest {
     public void canPickHippyOutfitToAdventureOnVergeOfWar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
@@ -5334,8 +5055,7 @@ public class KoLAdventureValidationTest {
               withItem("round purple sunglasses"),
               // Filthy Hippy Disguise
               withEquippableItem("filthy knitted dread sack"),
-              withEquippableItem("filthy corduroys"));
-      try (cleanups) {
+              withEquippableItem("filthy corduroys"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
@@ -5355,7 +5075,7 @@ public class KoLAdventureValidationTest {
     public void canPickWarFratOutfitToAdventureOnVergeOfWar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
@@ -5365,8 +5085,7 @@ public class KoLAdventureValidationTest {
               withEquippableItem("round purple sunglasses"),
               // Filthy Hippy Disguise
               withEquippableItem("filthy knitted dread sack"),
-              withEquippableItem("filthy corduroys"));
-      try (cleanups) {
+              withEquippableItem("filthy corduroys"))) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
@@ -5384,9 +5103,8 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitFratHouseDuringWar() {
-      var cleanups =
-          new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"))) {
         assertFalse(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
@@ -5397,12 +5115,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitFratHouseAfterWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
-              withProperty("sideDefeated", "hippies"));
-      try (cleanups) {
+              withProperty("sideDefeated", "hippies"))) {
         assertTrue(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
@@ -5413,15 +5130,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitFratHouseInDisguiseAfterWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "hippies"),
               withEquipped(Slot.HAT, "Orcish baseball cap"),
               withEquipped(Slot.PANTS, "Orcish cargo shorts"),
-              withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
-      try (cleanups) {
+              withEquipped(Slot.WEAPON, "Orcish frat-paddle"))) {
         assertTrue(FRAT_HOUSE.canAdventure());
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
@@ -5433,12 +5149,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBombedFratHouseAfterLostWar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
-              withProperty("sideDefeated", "fratboys"));
-      try (cleanups) {
+              withProperty("sideDefeated", "fratboys"))) {
         assertFalse(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
@@ -5449,12 +5164,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitBombedFratHouseAfterWossname() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
-              withProperty("sideDefeated", "both"));
-      try (cleanups) {
+              withProperty("sideDefeated", "both"))) {
         assertFalse(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
@@ -5485,8 +5199,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotAdventureUnlessAtWar() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED))) {
         assertFalse(THE_BARN.canAdventure());
         assertFalse(THE_POND.canAdventure());
         assertFalse(THE_BACK_40.canAdventure());
@@ -5500,11 +5213,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotAdventureWhenSidequestCompleted() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "start1"),
-              withProperty("sidequestFarmCompleted", "hippies"));
-      try (cleanups) {
+              withProperty("sidequestFarmCompleted", "hippies"))) {
         assertFalse(THE_BARN.canAdventure());
         assertFalse(THE_POND.canAdventure());
         assertFalse(THE_BACK_40.canAdventure());
@@ -5518,7 +5230,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotAdventureAfterLocationIsCleared() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
               withProperty(
@@ -5529,8 +5241,7 @@ public class KoLAdventureValidationTest {
                       + ","
                       + THE_SHADY_THICKET.getAdventureId()),
               withProperty("duckAreasCleared", ""),
-              withLastLocation(THE_GRANARY));
-      try (cleanups) {
+              withLastLocation(THE_GRANARY))) {
         assertTrue(THE_GRANARY.canAdventure());
         var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.THE_GRANARY);
         request.responseText = html("request/test_no_more_ducks.html");
@@ -5542,10 +5253,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureInBarnWithZeroSelected() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.ISLAND_WAR, "step1"), withProperty("duckAreasSelected", ""));
-      try (cleanups) {
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty("duckAreasSelected", ""))) {
         assertTrue(THE_BARN.canAdventure());
         assertFalse(THE_POND.canAdventure());
         assertFalse(THE_BACK_40.canAdventure());
@@ -5559,11 +5270,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureInBarnWithOneSelected() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
-              withProperty("duckAreasSelected", THE_POND.getAdventureId()));
-      try (cleanups) {
+              withProperty("duckAreasSelected", THE_POND.getAdventureId()))) {
         assertTrue(THE_BARN.canAdventure());
         assertFalse(THE_POND.canAdventure());
         assertFalse(THE_BACK_40.canAdventure());
@@ -5577,13 +5287,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureInBarnWithTwoSelected() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
               withProperty(
                   "duckAreasSelected",
-                  THE_POND.getAdventureId() + "," + THE_GRANARY.getAdventureId()));
-      try (cleanups) {
+                  THE_POND.getAdventureId() + "," + THE_GRANARY.getAdventureId()))) {
         assertTrue(THE_BARN.canAdventure());
         assertFalse(THE_POND.canAdventure());
         assertFalse(THE_BACK_40.canAdventure());
@@ -5597,7 +5306,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithSelected() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
               withProperty(
@@ -5606,8 +5315,7 @@ public class KoLAdventureValidationTest {
                       + ","
                       + THE_GRANARY.getAdventureId()
                       + ","
-                      + THE_SHADY_THICKET.getAdventureId()));
-      try (cleanups) {
+                      + THE_SHADY_THICKET.getAdventureId()))) {
         assertFalse(THE_BARN.canAdventure());
         assertTrue(THE_POND.canAdventure());
         assertFalse(THE_BACK_40.canAdventure());
@@ -5621,7 +5329,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotAdventureIfCleared() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
               withProperty(
@@ -5631,8 +5339,7 @@ public class KoLAdventureValidationTest {
                       + THE_GRANARY.getAdventureId()
                       + ","
                       + THE_SHADY_THICKET.getAdventureId()),
-              withProperty("duckAreasCleared", THE_GRANARY.getAdventureId()));
-      try (cleanups) {
+              withProperty("duckAreasCleared", THE_GRANARY.getAdventureId()))) {
         assertFalse(THE_BARN.canAdventure());
         assertTrue(THE_POND.canAdventure());
         assertFalse(THE_BACK_40.canAdventure());
@@ -5657,16 +5364,14 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithEffectActive() {
-      var cleanups = new Cleanups(withEffect(EffectPool.DOWN_THE_RABBIT_HOLE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.DOWN_THE_RABBIT_HOLE))) {
         assertThat(RABBIT_HOLE.canAdventure(), is(true));
       }
     }
 
     @Test
     public void canAdventureWithItemInInventory() {
-      var cleanups = new Cleanups(withItem(ItemPool.DRINK_ME_POTION));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.DRINK_ME_POTION))) {
         assertThat(RABBIT_HOLE.canAdventure(), is(true));
       }
     }
@@ -5680,10 +5385,9 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithEffect() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEffect(EffectPool.DOWN_THE_RABBIT_HOLE), withItem(ItemPool.DRINK_ME_POTION));
-      try (cleanups) {
+              withEffect(EffectPool.DOWN_THE_RABBIT_HOLE), withItem(ItemPool.DRINK_ME_POTION))) {
         assertTrue(RABBIT_HOLE.canAdventure());
         assertTrue(RABBIT_HOLE.prepareForAdventure());
 
@@ -5696,8 +5400,7 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithItem() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withItem(ItemPool.DRINK_ME_POTION));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.DRINK_ME_POTION))) {
         assertTrue(RABBIT_HOLE.canAdventure());
         assertTrue(RABBIT_HOLE.prepareForAdventure());
 
@@ -5727,8 +5430,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithEffectActive() {
-      var cleanups = new Cleanups(withEffect(EffectPool.DIS_ABLED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.DIS_ABLED))) {
         assertThat(GROVE.canAdventure(), is(true));
         assertThat(MAELSTROM.canAdventure(), is(true));
         assertThat(GLACIER.canAdventure(), is(true));
@@ -5737,8 +5439,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithItemInInventory() {
-      var cleanups = new Cleanups(withItem(ItemPool.DEVILISH_FOLIO));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.DEVILISH_FOLIO))) {
         assertThat(GROVE.canAdventure(), is(true));
         assertThat(MAELSTROM.canAdventure(), is(true));
         assertThat(GLACIER.canAdventure(), is(true));
@@ -5756,9 +5457,8 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithEffect() {
       setupFakeClient();
 
-      var cleanups =
-          new Cleanups(withEffect(EffectPool.DIS_ABLED), withItem(ItemPool.DEVILISH_FOLIO));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEffect(EffectPool.DIS_ABLED), withItem(ItemPool.DEVILISH_FOLIO))) {
         assertTrue(GROVE.canAdventure());
         assertTrue(GROVE.prepareForAdventure());
 
@@ -5771,8 +5471,7 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithItem() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withItem(ItemPool.DEVILISH_FOLIO));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.DEVILISH_FOLIO))) {
         assertTrue(GROVE.canAdventure());
         assertTrue(GROVE.prepareForAdventure());
 
@@ -5802,8 +5501,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithEffectActive() {
-      var cleanups = new Cleanups(withEffect(EffectPool.ABSINTHE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.ABSINTHE))) {
         assertThat(PLEASURE_DOME.canAdventure(), is(true));
         assertThat(MOULDERING_MANSION.canAdventure(), is(true));
         assertThat(ROGUE_WINDMILL.canAdventure(), is(true));
@@ -5812,8 +5510,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithItemInInventory() {
-      var cleanups = new Cleanups(withItem(ItemPool.ABSINTHE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.ABSINTHE))) {
         assertThat(PLEASURE_DOME.canAdventure(), is(true));
         assertThat(MOULDERING_MANSION.canAdventure(), is(true));
         assertThat(ROGUE_WINDMILL.canAdventure(), is(true));
@@ -5831,8 +5528,7 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithEffect() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withEffect(EffectPool.ABSINTHE), withItem(ItemPool.ABSINTHE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.ABSINTHE), withItem(ItemPool.ABSINTHE))) {
         assertTrue(PLEASURE_DOME.canAdventure());
         assertTrue(PLEASURE_DOME.prepareForAdventure());
 
@@ -5845,8 +5541,7 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithItem() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withItem(ItemPool.ABSINTHE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.ABSINTHE))) {
         assertTrue(PLEASURE_DOME.canAdventure());
         assertTrue(PLEASURE_DOME.prepareForAdventure());
 
@@ -5876,8 +5571,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithEffectActive() {
-      var cleanups = new Cleanups(withEffect(EffectPool.TRANSPONDENT));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.TRANSPONDENT))) {
         assertThat(RONALDUS.canAdventure(), is(true));
         assertThat(GRIMACIA.canAdventure(), is(true));
         assertThat(HAMBURGLARIS.canAdventure(), is(true));
@@ -5886,8 +5580,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithItemInInventory() {
-      var cleanups = new Cleanups(withItem(ItemPool.TRANSPORTER_TRANSPONDER));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.TRANSPORTER_TRANSPONDER))) {
         assertThat(RONALDUS.canAdventure(), is(true));
         assertThat(GRIMACIA.canAdventure(), is(true));
         assertThat(HAMBURGLARIS.canAdventure(), is(true));
@@ -5905,10 +5598,9 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithEffect() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEffect(EffectPool.TRANSPONDENT), withItem(ItemPool.TRANSPORTER_TRANSPONDER));
-      try (cleanups) {
+              withEffect(EffectPool.TRANSPONDENT), withItem(ItemPool.TRANSPORTER_TRANSPONDER))) {
         assertTrue(RONALDUS.canAdventure());
         assertTrue(RONALDUS.prepareForAdventure());
 
@@ -5921,8 +5613,7 @@ public class KoLAdventureValidationTest {
     public void canPrepareForAdventureWithItem() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withItem(ItemPool.TRANSPORTER_TRANSPONDER));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.TRANSPORTER_TRANSPONDER))) {
         assertTrue(RONALDUS.canAdventure());
         assertTrue(RONALDUS.prepareForAdventure());
 
@@ -5948,32 +5639,28 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canAdventureWithFamiliarInTerrarium() {
-      var cleanups = new Cleanups(withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF))) {
         assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(true));
       }
     }
 
     @Test
     public void canAdventureWithFamiliarAtSide() {
-      var cleanups = new Cleanups(withFamiliar(FamiliarPool.MACHINE_ELF));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(FamiliarPool.MACHINE_ELF))) {
         assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(true));
       }
     }
 
     @Test
     public void canAdventureWithEffectActive() {
-      var cleanups = new Cleanups(withEffect(EffectPool.INSIDE_THE_SNOWGLOBE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.INSIDE_THE_SNOWGLOBE))) {
         assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(true));
       }
     }
 
     @Test
     public void canAdventureWithItemInInventory() {
-      var cleanups = new Cleanups(withItem(ItemPool.MACHINE_SNOWGLOBE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.MACHINE_SNOWGLOBE))) {
         assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(true));
       }
     }
@@ -5986,8 +5673,7 @@ public class KoLAdventureValidationTest {
     @Test
     public void canPrepareForAdventureWithFamiliarAtSide() {
       setupFakeClient();
-      var cleanups = new Cleanups(withFamiliar(FamiliarPool.MACHINE_ELF));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(FamiliarPool.MACHINE_ELF))) {
         assertTrue(DEEP_MACHINE_TUNNELS.canAdventure());
         assertTrue(DEEP_MACHINE_TUNNELS.prepareForAdventure());
 
@@ -5999,10 +5685,9 @@ public class KoLAdventureValidationTest {
     @Test
     public void canPrepareForAdventureWithEffect() {
       setupFakeClient();
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEffect(EffectPool.INSIDE_THE_SNOWGLOBE), withItem(ItemPool.MACHINE_SNOWGLOBE));
-      try (cleanups) {
+              withEffect(EffectPool.INSIDE_THE_SNOWGLOBE), withItem(ItemPool.MACHINE_SNOWGLOBE))) {
         assertTrue(DEEP_MACHINE_TUNNELS.canAdventure());
         assertTrue(DEEP_MACHINE_TUNNELS.prepareForAdventure());
 
@@ -6014,8 +5699,7 @@ public class KoLAdventureValidationTest {
     @Test
     public void canPrepareForAdventureWithFamiliarInTerrarium() {
       setupFakeClient();
-      var cleanups = new Cleanups(withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF))) {
         assertTrue(DEEP_MACHINE_TUNNELS.canAdventure());
         assertTrue(DEEP_MACHINE_TUNNELS.prepareForAdventure());
 
@@ -6031,8 +5715,7 @@ public class KoLAdventureValidationTest {
     @Test
     public void canPrepareForAdventureWithItem() {
       setupFakeClient();
-      var cleanups = new Cleanups(withItem(ItemPool.MACHINE_SNOWGLOBE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.MACHINE_SNOWGLOBE))) {
         assertTrue(DEEP_MACHINE_TUNNELS.canAdventure());
         assertTrue(DEEP_MACHINE_TUNNELS.prepareForAdventure());
 
@@ -6051,84 +5734,70 @@ public class KoLAdventureValidationTest {
 
     @Test
     void cannotAdventureWithoutAccess() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("spacegateAlways", false), withProperty("_spacegateToday", false));
-
-      try (cleanups) {
+              withProperty("spacegateAlways", false), withProperty("_spacegateToday", false))) {
         assertThat(SPACEGATE.canAdventure(), is(false));
       }
     }
 
     @Test
     void canAdventureWithCoordinatesAndTurns() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("spacegateAlways", true),
               withProperty("_spacegateCoordinates", "ABCDEFG"),
-              withProperty("_spacegateTurnsLeft", 2));
-
-      try (cleanups) {
+              withProperty("_spacegateTurnsLeft", 2))) {
         assertThat(SPACEGATE.canAdventure(), is(true));
       }
     }
 
     @Test
     void cannotAdventureWithoutCoordinates() {
-      var cleanups = new Cleanups(withProperty("spacegateAlways", true));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("spacegateAlways", true))) {
         assertThat(SPACEGATE.canAdventure(), is(false));
       }
     }
 
     @Test
     void cannotAdventureWithoutTurns() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("spacegateAlways", true),
               withProperty("_spacegateCoordinates", "ABCDEF"),
-              withProperty("_spacegateTurnsLeft", 0));
-
-      try (cleanups) {
+              withProperty("_spacegateTurnsLeft", 0))) {
         assertThat(SPACEGATE.canAdventure(), is(false));
       }
     }
 
     @Test
     void canAdventureWithPortableSpacegateAndTurns() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("spacegateAlways", false),
               withProperty("_spacegateToday", true),
-              withProperty("_spacegateTurnsLeft", 2));
-
-      try (cleanups) {
+              withProperty("_spacegateTurnsLeft", 2))) {
         assertThat(SPACEGATE.canAdventure(), is(true));
       }
     }
 
     @Test
     void cannotAdventureWithPortableSpacegateWithoutTurns() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("_spacegateToday", true), withProperty("_spacegateTurnsLeft", 0));
-
-      try (cleanups) {
+              withProperty("_spacegateToday", true), withProperty("_spacegateTurnsLeft", 0))) {
         assertThat(SPACEGATE.canAdventure(), is(false));
       }
     }
 
     @Test
     void cannotAdventureInKoE() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("spacegateAlways", true),
               withProperty("_spacegateCoordinates", "ABCDEF"),
               withProperty("_spacegateTurnsLeft", 2),
-              withPath(Path.KINGDOM_OF_EXPLOATHING));
-
-      try (cleanups) {
+              withPath(Path.KINGDOM_OF_EXPLOATHING))) {
         assertThat(SPACEGATE.canAdventure(), is(false));
       }
     }
@@ -6137,16 +5806,14 @@ public class KoLAdventureValidationTest {
     void canPrepareForAdventureWithEquipmentEquipped() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("spacegateAlways", true),
               withProperty("_spacegateCoordinates", "ABCDEFG"),
               withProperty("_spacegateTurnsLeft", 2),
               withProperty("_spacegateGear", "exo-servo leg braces"),
-              withEquipped(Slot.PANTS, ItemPool.EXO_SERVO_LEG_BRACES));
-
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.EXO_SERVO_LEG_BRACES))) {
         assertThat(SPACEGATE.canAdventure(), is(true));
         assertThat(SPACEGATE.prepareForAdventure(), is(true));
         var requests = client.getRequests();
@@ -6158,16 +5825,14 @@ public class KoLAdventureValidationTest {
     void canPrepareForAdventureWithEquipmentInInventory() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("spacegateAlways", true),
               withProperty("_spacegateCoordinates", "ABCDEFG"),
               withProperty("_spacegateTurnsLeft", 2),
               withProperty("_spacegateGear", "exo-servo leg braces"),
-              withEquippableItem(ItemPool.EXO_SERVO_LEG_BRACES));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.EXO_SERVO_LEG_BRACES))) {
         assertThat(SPACEGATE.canAdventure(), is(true));
         assertThat(SPACEGATE.prepareForAdventure(), is(true));
         var requests = client.getRequests();
@@ -6183,16 +5848,14 @@ public class KoLAdventureValidationTest {
     void canPrepareForAdventureAndAcquireEquipment() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("spacegateAlways", true),
               withProperty("_spacegateCoordinates", "ABCDEFG"),
               withProperty("_spacegateTurnsLeft", 2),
               withProperty("_spacegateGear", "exo-servo leg braces"),
-              withLastLocation(SPACEGATE));
-
-      try (cleanups) {
+              withLastLocation(SPACEGATE))) {
         client.addResponse(200, html("request/test_spacegate_hazards_2.html"));
         assertThat(SPACEGATE.canAdventure(), is(true));
         assertThat(SPACEGATE.prepareForAdventure(), is(true));
@@ -6210,15 +5873,13 @@ public class KoLAdventureValidationTest {
     void canPrepareForAdventureAndFindAndAcquireEquipment() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("_spacegateToday", true),
               withProperty("_spacegateTurnsLeft", 20),
               withProperty("_spacegateGear"),
-              withLastLocation(SPACEGATE));
-
-      try (cleanups) {
+              withLastLocation(SPACEGATE))) {
         client.addResponse(200, html("request/test_spacegate_hazards_1.html"));
         client.addResponse(200, ""); // api.php
         assertThat(SPACEGATE.canAdventure(), is(true));
@@ -6282,33 +5943,27 @@ public class KoLAdventureValidationTest {
 
     @Test
     void cannotAdventureOutsideWar() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "unstarted"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "unstarted"))) {
         assertThat(Chambers.HATCHING.canAdventure(), is(false));
       }
     }
 
     @Test
     void cannotAdventureWhenQueenIsSlain() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
-              withItem(ItemPool.FILTHWORM_QUEEN_HEART));
-
-      try (cleanups) {
+              withItem(ItemPool.FILTHWORM_QUEEN_HEART))) {
         assertThat(Chambers.HATCHING.canAdventure(), is(false));
       }
     }
 
     @Test
     void cannotAdventureWhenQueenHeartIsHandedIn() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
-              withProperty("sidequestOrchardCompleted", "fratboy"));
-
-      try (cleanups) {
+              withProperty("sidequestOrchardCompleted", "fratboy"))) {
         assertThat(Chambers.HATCHING.canAdventure(), is(false));
       }
     }
@@ -6344,9 +5999,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void cannotAdventureInUnknownNewOrchardZone() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"))) {
         assertThat(UNKNOWN.canAdventure(), is(false));
       }
     }
@@ -6394,8 +6047,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void noAccessWithoutOldGuy() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED))) {
         assertFalse(DEEPS.canAdventure());
         assertFalse(DEEPERS.canAdventure());
         assertFalse(DEEPESTS.canAdventure());
@@ -6404,8 +6056,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void accessWithOldGuy() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED))) {
         assertTrue(DEEPS.canAdventure());
         assertTrue(DEEPERS.canAdventure());
         assertTrue(DEEPESTS.canAdventure());
@@ -6414,10 +6065,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void mustBreathUnderwater() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED), withContinuationState());
-      try (cleanups) {
+              withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+              withContinuationState())) {
         assertTrue(DEEPS.canAdventure());
         assertFalse(DEEPS.prepareForAdventure());
         assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
@@ -6427,13 +6078,12 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void familiarMustBreathUnderwater() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
               withContinuationState(),
               withEquipped(Slot.CONTAINER, ItemPool.OLD_SCUBA_TANK),
-              withFamiliar(FamiliarPool.PARROT));
-      try (cleanups) {
+              withFamiliar(FamiliarPool.PARROT))) {
         assertTrue(DEEPS.canAdventure());
         assertFalse(DEEPS.prepareForAdventure());
         assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
@@ -6481,12 +6131,11 @@ public class KoLAdventureValidationTest {
         public void noAccessWithoutOldGuy() {
           var builder = new FakeHttpClientBuilder();
           var client = builder.client;
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withHttpClientBuilder(builder),
                   withSeaFloorProperties(),
-                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
-          try (cleanups) {
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED))) {
             assertFalse(GARDEN.preValidateAdventure());
             assertFalse(WRECK.preValidateAdventure());
             assertFalse(TRENCH.preValidateAdventure());
@@ -6507,8 +6156,7 @@ public class KoLAdventureValidationTest {
         public void alwaysOpenAreasNeedNoMapVisit() {
           var builder = new FakeHttpClientBuilder();
           var client = builder.client;
-          var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties());
-          try (cleanups) {
+          try (var _ = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties())) {
             assertTrue(GARDEN.preValidateAdventure());
 
             var requests = client.getRequests();
@@ -6520,10 +6168,11 @@ public class KoLAdventureValidationTest {
         public void abyssOpenWithBlackGlass() {
           var builder = new FakeHttpClientBuilder();
           var client = builder.client;
-          var cleanups =
+          try (var _ =
               new Cleanups(
-                  withHttpClientBuilder(builder), withSeaFloorProperties(), withItem(BLACK_GLASS));
-          try (cleanups) {
+                  withHttpClientBuilder(builder),
+                  withSeaFloorProperties(),
+                  withItem(BLACK_GLASS))) {
             assertTrue(ABYSS.preValidateAdventure());
 
             var requests = client.getRequests();
@@ -6535,8 +6184,7 @@ public class KoLAdventureValidationTest {
         public void abyssNotOpenWithoutBlackGlass() {
           var builder = new FakeHttpClientBuilder();
           var client = builder.client;
-          var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties());
-          try (cleanups) {
+          try (var _ = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties())) {
             assertFalse(ABYSS.preValidateAdventure());
 
             var requests = client.getRequests();
@@ -6548,8 +6196,7 @@ public class KoLAdventureValidationTest {
         public void checkAccessByVisitingMap() {
           var builder = new FakeHttpClientBuilder();
           var client = builder.client;
-          var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties());
-          try (cleanups) {
+          try (var _ = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties())) {
             client.addResponse(200, html("request/test_visit_sea_floor.html"));
 
             assertTrue(WRECK.preValidateAdventure());
@@ -6570,8 +6217,7 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void noAccessWithoutOldGuy() {
-        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
-        try (cleanups) {
+        try (var _ = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED))) {
           assertFalse(GARDEN.canAdventure());
           assertFalse(WRECK.canAdventure());
           assertFalse(TRENCH.canAdventure());
@@ -6587,19 +6233,17 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void gardenIsAlwaysAvailable() {
-        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
-        try (cleanups) {
+        try (var _ = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED))) {
           assertTrue(GARDEN.canAdventure());
         }
       }
 
       @Test
       public void someZonesRequireMaps() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withQuestProgress(Quest.SEA_MONKEES, "step2"));
-        try (cleanups) {
+                withQuestProgress(Quest.SEA_MONKEES, "step2"))) {
           assertFalse(TRENCH.canAdventure());
           assertFalse(MINE.canAdventure());
           assertFalse(BAR.canAdventure());
@@ -6611,12 +6255,11 @@ public class KoLAdventureValidationTest {
       @ParameterizedTest
       @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
       public void anemoneMineHasMap(String questProgress, boolean expectedAccess) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withQuestProgress(Quest.SEA_MONKEES, questProgress),
-                withProperty("mapToAnemoneMinePurchased", true));
-        try (cleanups) {
+                withProperty("mapToAnemoneMinePurchased", true))) {
           assertThat(MINE.canAdventure(), equalTo(expectedAccess));
         }
       }
@@ -6624,12 +6267,11 @@ public class KoLAdventureValidationTest {
       @ParameterizedTest
       @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
       public void marinaraTrenchHasMap(String questProgress, boolean expectedAccess) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withQuestProgress(Quest.SEA_MONKEES, questProgress),
-                withProperty("mapToTheMarinaraTrenchPurchased", true));
-        try (cleanups) {
+                withProperty("mapToTheMarinaraTrenchPurchased", true))) {
           assertThat(TRENCH.canAdventure(), equalTo(expectedAccess));
         }
       }
@@ -6637,12 +6279,11 @@ public class KoLAdventureValidationTest {
       @ParameterizedTest
       @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
       public void divebarHasMap(String questProgress, boolean expectedAccess) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withQuestProgress(Quest.SEA_MONKEES, questProgress),
-                withProperty("mapToTheDiveBarPurchased", true));
-        try (cleanups) {
+                withProperty("mapToTheDiveBarPurchased", true))) {
           assertThat(BAR.canAdventure(), equalTo(expectedAccess));
         }
       }
@@ -6650,12 +6291,11 @@ public class KoLAdventureValidationTest {
       @ParameterizedTest
       @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
       public void skateParkHasMap(String questProgress, boolean expectedAccess) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withQuestProgress(Quest.SEA_MONKEES, questProgress),
-                withProperty("mapToTheSkateParkPurchased", true));
-        try (cleanups) {
+                withProperty("mapToTheSkateParkPurchased", true))) {
           assertThat(PARK.canAdventure(), equalTo(expectedAccess));
         }
       }
@@ -6663,12 +6303,11 @@ public class KoLAdventureValidationTest {
       @ParameterizedTest
       @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
       public void madnessReefHasMap(String questProgress, boolean expectedAccess) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withQuestProgress(Quest.SEA_MONKEES, questProgress),
-                withProperty("mapToMadnessReefPurchased", true));
-        try (cleanups) {
+                withProperty("mapToMadnessReefPurchased", true))) {
           assertThat(REEF.canAdventure(), equalTo(expectedAccess));
         }
       }
@@ -6677,12 +6316,11 @@ public class KoLAdventureValidationTest {
       @CsvSource({"1,true,false,false", "3,false,true,false", "5,false,false,true"})
       void grandpaZonesDoNotRequireMapSometimes(
           int classId, boolean expectedMine, boolean expectedTrench, boolean expectedDiveBar) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withClass(AscensionClass.find(classId)),
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withQuestProgress(Quest.SEA_MONKEES, "step4"));
-        try (cleanups) {
+                withQuestProgress(Quest.SEA_MONKEES, "step4"))) {
           assertThat(MINE.canAdventure(), equalTo(expectedMine));
           assertThat(TRENCH.canAdventure(), equalTo(expectedTrench));
           assertThat(BAR.canAdventure(), equalTo(expectedDiveBar));
@@ -6691,11 +6329,10 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void someZonesRequireQuestProgress() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
-        try (cleanups) {
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED))) {
           assertFalse(WRECK.canAdventure());
           assertFalse(OUTPOST.canAdventure());
         }
@@ -6703,65 +6340,59 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void wreckRequiresQuest() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withQuestProgress(Quest.SEA_MONKEES, "step1"));
-        try (cleanups) {
+                withQuestProgress(Quest.SEA_MONKEES, "step1"))) {
           assertTrue(WRECK.canAdventure());
         }
       }
 
       @Test
       public void outpostRequiresQuest() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withQuestProgress(Quest.SEA_MONKEES, "step6"));
-        try (cleanups) {
+                withQuestProgress(Quest.SEA_MONKEES, "step6"))) {
           assertTrue(OUTPOST.canAdventure());
         }
       }
 
       @Test
       public void corralRequiresUnlock() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withProperty("corralUnlocked", false));
-        try (cleanups) {
+                withProperty("corralUnlocked", false))) {
           assertFalse(CORRAL.canAdventure());
         }
       }
 
       @Test
       public void corralCanBeUnlocked() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withProperty("corralUnlocked", true));
-        try (cleanups) {
+                withProperty("corralUnlocked", true))) {
           assertTrue(CORRAL.canAdventure());
         }
       }
 
       @Test
       public void abyssRequiresBlackGlass() {
-        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
-        try (cleanups) {
+        try (var _ = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED))) {
           assertFalse(ABYSS.canAdventure());
         }
       }
 
       @Test
       public void abbyssAvailableWithBlackGlass() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withContinuationState(),
                 withEquipped(Slot.CONTAINER, ItemPool.OLD_SCUBA_TANK),
-                withItem(BLACK_GLASS));
-        try (cleanups) {
+                withItem(BLACK_GLASS))) {
           assertTrue(ABYSS.canAdventure());
           assertFalse(ABYSS.prepareForAdventure());
           assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
@@ -6771,13 +6402,12 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void abbyssRequiresEquippedBlackGlass() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withContinuationState(),
                 withEquipped(Slot.CONTAINER, ItemPool.OLD_SCUBA_TANK),
-                withEquipped(Slot.ACCESSORY1, BLACK_GLASS));
-        try (cleanups) {
+                withEquipped(Slot.ACCESSORY1, BLACK_GLASS))) {
           assertTrue(ABYSS.canAdventure());
           assertTrue(ABYSS.prepareForAdventure());
           assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
@@ -6800,8 +6430,7 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void noAccessWithoutOldGuy() {
-        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
-        try (cleanups) {
+        try (var _ = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED))) {
           assertFalse(SCHOOL.canAdventure());
           assertFalse(LIBRARY.canAdventure());
           assertFalse(GYMNASIUM.canAdventure());
@@ -6812,11 +6441,10 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void noAccessWithoutSeahorse() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withProperty("seahorseName", ""));
-        try (cleanups) {
+                withProperty("seahorseName", ""))) {
           assertFalse(SCHOOL.canAdventure());
           assertFalse(LIBRARY.canAdventure());
           assertFalse(GYMNASIUM.canAdventure());
@@ -6838,12 +6466,11 @@ public class KoLAdventureValidationTest {
                 final int outfitId) {
           setupFakeClient();
 
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                   withProperty("seahorseName", "Shimmerwings"),
-                  withOutfit(outfitId));
-          try (cleanups) {
+                  withOutfit(outfitId))) {
             assertTrue(EquipmentManager.hasOutfit(outfitId));
             assertTrue(SCHOOL.canAdventure());
             assertTrue(SCHOOL.prepareForAdventure());
@@ -6864,14 +6491,13 @@ public class KoLAdventureValidationTest {
                 final int outfitId) {
           setupFakeClient();
 
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                   withProperty("seahorseName", "Shimmerwings"),
                   withEquippableOutfit(outfitId),
                   withUnequipped(Slot.HAT),
-                  withUnequipped(Slot.PANTS));
-          try (cleanups) {
+                  withUnequipped(Slot.PANTS))) {
             assertTrue(EquipmentManager.hasOutfit(outfitId));
             assertTrue(SCHOOL.canAdventure());
             assertTrue(SCHOOL.prepareForAdventure());
@@ -6899,12 +6525,11 @@ public class KoLAdventureValidationTest {
                 final int outfitId) {
           setupFakeClient();
 
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                   withProperty("seahorseName", "Shimmerwings"),
-                  withOutfit(outfitId));
-          try (cleanups) {
+                  withOutfit(outfitId))) {
             assertTrue(EquipmentManager.hasOutfit(outfitId));
             assertTrue(GYMNASIUM.canAdventure());
             assertTrue(SCHOOL.prepareForAdventure());
@@ -6925,14 +6550,13 @@ public class KoLAdventureValidationTest {
                 final int outfitId) {
           setupFakeClient();
 
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                   withProperty("seahorseName", "Shimmerwings"),
                   withEquippableOutfit(outfitId),
                   withUnequipped(Slot.HAT),
-                  withUnequipped(Slot.PANTS));
-          try (cleanups) {
+                  withUnequipped(Slot.PANTS))) {
             assertTrue(EquipmentManager.hasOutfit(outfitId));
             assertTrue(GYMNASIUM.canAdventure());
             assertTrue(GYMNASIUM.prepareForAdventure());
@@ -6960,12 +6584,11 @@ public class KoLAdventureValidationTest {
                 final int outfitId) {
           setupFakeClient();
 
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                   withProperty("seahorseName", "Shimmerwings"),
-                  withOutfit(outfitId));
-          try (cleanups) {
+                  withOutfit(outfitId))) {
             assertTrue(EquipmentManager.hasOutfit(outfitId));
             boolean valid = outfitId == OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
             assertEquals(valid, LIBRARY.canAdventure());
@@ -6989,14 +6612,13 @@ public class KoLAdventureValidationTest {
                 final int outfitId) {
           setupFakeClient();
 
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                   withProperty("seahorseName", "Shimmerwings"),
                   withEquippableOutfit(outfitId),
                   withUnequipped(Slot.HAT),
-                  withUnequipped(Slot.PANTS));
-          try (cleanups) {
+                  withUnequipped(Slot.PANTS))) {
             assertTrue(EquipmentManager.hasOutfit(outfitId));
             boolean valid = outfitId == OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
             assertEquals(valid, LIBRARY.canAdventure());
@@ -7027,12 +6649,11 @@ public class KoLAdventureValidationTest {
                 final int outfitId) {
           setupFakeClient();
 
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                   withProperty("seahorseName", "Shimmerwings"),
-                  withOutfit(outfitId));
-          try (cleanups) {
+                  withOutfit(outfitId))) {
             assertTrue(EquipmentManager.hasOutfit(outfitId));
             boolean valid = outfitId == OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
             assertEquals(valid, COLOSSEUM.canAdventure());
@@ -7056,14 +6677,13 @@ public class KoLAdventureValidationTest {
                 final int outfitId) {
           setupFakeClient();
 
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                   withProperty("seahorseName", "Shimmerwings"),
                   withEquippableOutfit(outfitId),
                   withUnequipped(Slot.HAT),
-                  withUnequipped(Slot.PANTS));
-          try (cleanups) {
+                  withUnequipped(Slot.PANTS))) {
             assertTrue(EquipmentManager.hasOutfit(outfitId));
             boolean valid = outfitId == OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
             assertEquals(valid, COLOSSEUM.canAdventure());
@@ -7093,32 +6713,28 @@ public class KoLAdventureValidationTest {
 
     @Test
     void mustBeSspdForStupor() {
-      var cleanups = new Cleanups(withDay(2023, Month.FEBRUARY, 9), withInebriety(200));
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2023, Month.FEBRUARY, 9), withInebriety(200))) {
         assertThat(SSPD.canAdventure(), is(false));
       }
     }
 
     @Test
     void mustBeDrunkForStupor() {
-      var cleanups = new Cleanups(withDay(2023, Month.FEBRUARY, 10), withInebriety(1));
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2023, Month.FEBRUARY, 10), withInebriety(1))) {
         assertThat(SSPD.canAdventure(), is(false));
       }
     }
 
     @Test
     void canAdventureInSspdStupor() {
-      var cleanups = new Cleanups(withDay(2023, Month.FEBRUARY, 10), withInebriety(200));
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2023, Month.FEBRUARY, 10), withInebriety(200))) {
         assertThat(SSPD.canAdventure(), is(true));
       }
     }
 
     @Test
     void canAdventureInSspdStuporOnCombinationSspdEvent() {
-      var cleanups = new Cleanups(withDay(2011, Month.MARCH, 17), withInebriety(200));
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2011, Month.MARCH, 17), withInebriety(200))) {
         assertThat(SSPD.canAdventure(), is(true));
       }
     }
@@ -7126,8 +6742,7 @@ public class KoLAdventureValidationTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void handlesSimpleHolidayZones(final boolean isYuletide) {
-      var cleanups = new Cleanups(withDay(2023, Month.JANUARY, isYuletide ? 18 : 20));
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2023, Month.JANUARY, isYuletide ? 18 : 20))) {
         assertThat(YULETIDE.canAdventure(), is(isYuletide));
       }
     }
@@ -7142,83 +6757,71 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canAdventure() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", true),
               withProperty("_frHoursLeft", 5),
-              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
-
-      try (cleanups) {
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"))) {
         assertThat(BANDITS.canAdventure(), is(true));
       }
     }
 
     @Test
     void canAdventureWithDayPass() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", false),
               withProperty("_frToday", true),
               withProperty("_frHoursLeft", 5),
-              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
-
-      try (cleanups) {
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"))) {
         assertThat(BANDITS.canAdventure(), is(true));
       }
     }
 
     @Test
     void cannotAdventureWithoutAccess() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", false),
               withProperty("_frToday", false),
               withProperty("_frHoursLeft", 5),
-              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
-
-      try (cleanups) {
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"))) {
         assertThat(BANDITS.canAdventure(), is(false));
       }
     }
 
     @Test
     void cannotAdventureWithoutHours() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", true),
               withProperty("_frToday", false),
               withProperty("_frHoursLeft", 0),
-              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
-
-      try (cleanups) {
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"))) {
         assertThat(BANDITS.canAdventure(), is(false));
       }
     }
 
     @Test
     void cannotAdventureWithoutUnlock() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", true),
               withProperty("_frToday", false),
               withProperty("_frHoursLeft", 5),
-              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
-
-      try (cleanups) {
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"))) {
         assertThat(MOUNTAINS.canAdventure(), is(false));
       }
     }
 
     @Test
     void cannotPrepareWithoutGem() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", true),
               withProperty("_frToday", false),
               withProperty("_frHoursLeft", 5),
-              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
-
-      try (cleanups) {
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"))) {
         assertThat(BANDITS.prepareForAdventure(), is(false));
       }
     }
@@ -7227,15 +6830,13 @@ public class KoLAdventureValidationTest {
     void preparingEquipsGem() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", true),
               withProperty("_frToday", false),
               withProperty("_frHoursLeft", 5),
               withProperty("_frAreasUnlocked", "The Bandit Crossroads,"),
-              withItem(ItemPool.FANTASY_REALM_GEM));
-
-      try (cleanups) {
+              withItem(ItemPool.FANTASY_REALM_GEM))) {
         var success = BANDITS.prepareForAdventure();
 
         var requests = getRequests();
@@ -7253,16 +6854,14 @@ public class KoLAdventureValidationTest {
     void preparingRemovesFamiliar() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", true),
               withProperty("_frToday", false),
               withProperty("_frHoursLeft", 5),
               withProperty("_frAreasUnlocked", "The Bandit Crossroads,"),
               withEquipped(Slot.ACCESSORY1, ItemPool.FANTASY_REALM_GEM),
-              withFamiliar(FamiliarPool.PARROT));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.PARROT))) {
         var success = BANDITS.prepareForAdventure();
 
         var requests = getRequests();
@@ -7287,12 +6886,11 @@ public class KoLAdventureValidationTest {
     public void canAdventure(int level, boolean always, boolean today, int turns) {
       KoLAdventure adventure = AdventureDatabase.getAdventure(levelToSnarfblat(level));
       String property = "_cyberZone" + level + "Turns";
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("crAlways", always),
               withProperty("_crToday", today),
-              withProperty(property, turns));
-      try (cleanups) {
+              withProperty(property, turns))) {
         boolean expected = (always || today) && (turns < 20);
         assertThat(adventure.canAdventure(), is(expected));
       }
@@ -7338,8 +6936,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void cannotAdventureUnlessDrippingHallUnlocked() {
-      var cleanups = new Cleanups(withEquipped(Slot.CONTAINER, ItemPool.DRIP_HARNESS));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.CONTAINER, ItemPool.DRIP_HARNESS))) {
         assertTrue(DRIPPING_TREES.canAdventure());
         assertFalse(DRIPPING_HALL.canAdventure());
       }
@@ -7347,11 +6944,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canAdventureWithnlessDrippingHallUnlocked() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CONTAINER, ItemPool.DRIP_HARNESS),
-              withProperty("drippingHallUnlocked", true));
-      try (cleanups) {
+              withProperty("drippingHallUnlocked", true))) {
         assertTrue(DRIPPING_TREES.canAdventure());
         assertTrue(DRIPPING_HALL.canAdventure());
       }
@@ -7361,8 +6957,7 @@ public class KoLAdventureValidationTest {
     void canPrepareForAdventureWithDripHarnessEquipped() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withEquipped(Slot.CONTAINER, ItemPool.DRIP_HARNESS));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.CONTAINER, ItemPool.DRIP_HARNESS))) {
         assertTrue(DRIPPING_TREES.canAdventure());
         assertTrue(DRIPPING_TREES.prepareForAdventure());
 
@@ -7375,8 +6970,7 @@ public class KoLAdventureValidationTest {
     void canPrepareForAdventureWithDripHarnessUnequipped() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withEquippableItem(ItemPool.DRIP_HARNESS));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem(ItemPool.DRIP_HARNESS))) {
         assertTrue(DRIPPING_TREES.canAdventure());
         assertTrue(DRIPPING_TREES.prepareForAdventure());
 
@@ -7395,11 +6989,10 @@ public class KoLAdventureValidationTest {
 
   @Test
   void canVisitSpookyForestIfCitadelQuestIsStarted() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withQuestProgress(Quest.CITADEL, QuestDatabase.STARTED),
-            withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
-    try (cleanups) {
+            withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED))) {
       assertTrue(SPOOKY_FOREST.canAdventure());
     }
   }
@@ -7434,13 +7027,12 @@ public class KoLAdventureValidationTest {
     void withSkeletonStoreItemUsesItem() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("skeletonStoreAvailable", false),
               withQuestProgress(Quest.MEATSMITH, QuestDatabase.UNSTARTED),
-              withItem(ItemPool.BONE_WITH_A_PRICE_TAG));
-      try (cleanups) {
+              withItem(ItemPool.BONE_WITH_A_PRICE_TAG))) {
         client.addResponse(200, html("request/test_use_bone_with_a_tag.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(SKELETON_STORE.canAdventure());
@@ -7462,12 +7054,11 @@ public class KoLAdventureValidationTest {
     void withoutSkeletonStoreItemStartsQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.MEATSMITH, QuestDatabase.UNSTARTED),
-              withProperty("skeletonStoreAvailable", false));
-      try (cleanups) {
+              withProperty("skeletonStoreAvailable", false))) {
         client.addResponse(200, html("request/test_visit_meatsmith_quest.html"));
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_visit_meatsmith_talk.html"));
@@ -7505,13 +7096,12 @@ public class KoLAdventureValidationTest {
     void withMadnessBakeryItemUsesItem() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.ARMORER, QuestDatabase.UNSTARTED),
               withProperty("madnessBakeryAvailable", false),
-              withItem(ItemPool.HYPNOTIC_BREADCRUMBS));
-      try (cleanups) {
+              withItem(ItemPool.HYPNOTIC_BREADCRUMBS))) {
         client.addResponse(200, html("request/test_use_breadcrumbs.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(MADNESS_BAKERY.canAdventure());
@@ -7533,12 +7123,11 @@ public class KoLAdventureValidationTest {
     void withoutMadnessBakeryItemStartsQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.ARMORER, QuestDatabase.UNSTARTED),
-              withProperty("madnessBakeryAvailable", false));
-      try (cleanups) {
+              withProperty("madnessBakeryAvailable", false))) {
         client.addResponse(200, html("request/test_visit_armory_quest.html"));
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_visit_armory_talk.html"));
@@ -7576,13 +7165,12 @@ public class KoLAdventureValidationTest {
     void withOvergrownLotItemUsesItem() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.DOC, QuestDatabase.UNSTARTED),
               withProperty("overgrownLotAvailable", false),
-              withItem(ItemPool.BOOZE_MAP));
-      try (cleanups) {
+              withItem(ItemPool.BOOZE_MAP))) {
         client.addResponse(200, html("request/test_use_booze_cache_map.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(OVERGROWN_LOT.canAdventure());
@@ -7602,12 +7190,11 @@ public class KoLAdventureValidationTest {
     void withoutOvergrownLotItemStartsQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.DOC, QuestDatabase.UNSTARTED),
-              withProperty("overgrownLotAvailable", false));
-      try (cleanups) {
+              withProperty("overgrownLotAvailable", false))) {
         client.addResponse(200, html("request/test_visit_galaktik_quest.html"));
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_visit_galaktik_talk.html"));
@@ -7638,14 +7225,13 @@ public class KoLAdventureValidationTest {
     void milestoneWillExploreDesertButNotOpenOasis() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.MILESTONE),
               withItem(ItemPool.BITCHIN_MEATCAR),
               withProperty("desertExploration", 0),
-              withProperty("oasisAvailable", false));
-      try (cleanups) {
+              withProperty("oasisAvailable", false))) {
         client.addResponse(200, html("request/test_milestone_explore_desert.html"));
         client.addResponse(200, ""); // api.php
 
@@ -7663,7 +7249,7 @@ public class KoLAdventureValidationTest {
     void fightInDesertWillExploreAndOpenOasis() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.BITCHIN_MEATCAR),
@@ -7671,8 +7257,7 @@ public class KoLAdventureValidationTest {
               withProperty("desertExploration", 10),
               withProperty("oasisAvailable", false),
               withLastLocation("The Arid, Extra-Dry Desert"),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         client.addResponse(200, html("request/test_open_oasis.html"));
         client.addResponse(200, ""); // api.php
 
@@ -7725,32 +7310,28 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canAdventureInASoL() {
-      var cleanups = withPath(Path.SHADOWS_OVER_LOATHING);
-      try (cleanups) {
+      try (var _ = withPath(Path.SHADOWS_OVER_LOATHING)) {
         assertTrue(TOWN_RIGHT.canAdventure());
       }
     }
 
     @Test
     void canAdventureWithPayphoneInInventory() {
-      var cleanups = withItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE);
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE)) {
         assertTrue(TOWN_RIGHT.canAdventure());
       }
     }
 
     @Test
     void cannotAdventureWithPayphoneInCloset() {
-      var cleanups = withItemInCloset(ItemPool.CLOSED_CIRCUIT_PAY_PHONE);
-      try (cleanups) {
+      try (var _ = withItemInCloset(ItemPool.CLOSED_CIRCUIT_PAY_PHONE)) {
         assertFalse(TOWN_RIGHT.canAdventure());
       }
     }
 
     @Test
     void onlyCertainShadowRiftsInitiallyOpen() {
-      var cleanups = withPath(Path.SHADOWS_OVER_LOATHING);
-      try (cleanups) {
+      try (var _ = withPath(Path.SHADOWS_OVER_LOATHING)) {
         // Have to have visited a Shadow Rift Ingress
         assertFalse(SHADOW_RIFT.canAdventure());
         // Always open
@@ -7781,11 +7362,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitGenericRiftIfWithIngress() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withProperty("shadowRiftIngress", "mclargehuge"));
-      try (cleanups) {
+              withProperty("shadowRiftIngress", "mclargehuge"))) {
         // Have to have visited a Shadow Rift Ingress
         assertTrue(SHADOW_RIFT.canAdventure());
       }
@@ -7793,11 +7373,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitWoodsRiftsIfLarvaQuestStarted() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED))) {
         // Have to have been given the LARVA quest
         assertTrue(DISTANT_WOODS.canAdventure());
         assertTrue(FOREST_VILLAGE.canAdventure());
@@ -7807,11 +7386,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitWoodsRiftsIfCitadelQuestStarted() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withQuestProgress(Quest.CITADEL, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.CITADEL, QuestDatabase.STARTED))) {
         assertTrue(DISTANT_WOODS.canAdventure());
         assertTrue(FOREST_VILLAGE.canAdventure());
         assertTrue(PIXEL_REALM.canAdventure());
@@ -7822,12 +7400,11 @@ public class KoLAdventureValidationTest {
     public void canVisitPixelRiftWithTransfunctionerEquipped() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
-              withEquipped(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER))) {
         assertTrue(PIXEL_REALM.canAdventure());
         assertTrue(PIXEL_REALM.prepareForAdventure());
 
@@ -7840,12 +7417,11 @@ public class KoLAdventureValidationTest {
     public void canVisitPixelRiftWithTransfunctionerInInventory() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
-              withEquippableItem(ItemPool.TRANSFUNCTIONER));
-      try (cleanups) {
+              withEquippableItem(ItemPool.TRANSFUNCTIONER))) {
         assertTrue(PIXEL_REALM.canAdventure());
         assertTrue(PIXEL_REALM.prepareForAdventure());
 
@@ -7862,12 +7438,11 @@ public class KoLAdventureValidationTest {
     public void canVisitPixelRiftIfCurrentRift() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
-              withProperty("shadowRiftIngress", "8bit"));
-      try (cleanups) {
+              withProperty("shadowRiftIngress", "8bit"))) {
 
         assertTrue(PIXEL_REALM.canAdventure());
         assertTrue(PIXEL_REALM.prepareForAdventure());
@@ -7879,11 +7454,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitSpookyravenRiftIfThirdFloorUnlocked() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED))) {
         // Have to have been given the LARVA quest
         assertTrue(SPOOKYRAVEN.canAdventure());
       }
@@ -7891,9 +7465,8 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitDesertBeachRiftIfBeachAccessible() {
-      var cleanups =
-          new Cleanups(withPath(Path.SHADOWS_OVER_LOATHING), withItem(ItemPool.BITCHIN_MEATCAR));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withPath(Path.SHADOWS_OVER_LOATHING), withItem(ItemPool.BITCHIN_MEATCAR))) {
         // Have to be able to get to the beach
         assertTrue(DESERT_BEACH.canAdventure());
       }
@@ -7901,11 +7474,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitCemeteryRiftIfCyrptQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED))) {
         // You can get to the Misspelled Cemetery to get to the Cyrpt
         assertTrue(CEMETERY.canAdventure());
       }
@@ -7913,11 +7485,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitCemeteryRiftWithWizardOfEgoQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.EGO, QuestDatabase.STARTED))) {
         // You can get to the Misspelled Cemetery to search Fernswarthy's grave
         assertTrue(CEMETERY.canAdventure());
       }
@@ -7925,11 +7496,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitCemeteryRiftWithNemesisQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.EGO, QuestDatabase.STARTED))) {
         // You can get to the Misspelled Cemetery to get to the find your legendary weapon
         assertTrue(CEMETERY.canAdventure());
       }
@@ -7937,11 +7507,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitMcLargeHugeRiftIfTrapperQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED))) {
         // You can get to the Mt. McLargeHuge if you can visit the Trapper
         assertTrue(MCLARGEHUGE.canAdventure());
       }
@@ -7949,10 +7518,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitBeanstalkRiftIfBeanstalkPlanted() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withPath(Path.SHADOWS_OVER_LOATHING), withQuestProgress(Quest.GARBAGE, "step1"));
-      try (cleanups) {
+              withPath(Path.SHADOWS_OVER_LOATHING), withQuestProgress(Quest.GARBAGE, "step1"))) {
         // You can get above the beanstalk if you have planted it
         assertTrue(BEANSTALK.canAdventure());
       }
@@ -7961,12 +7529,11 @@ public class KoLAdventureValidationTest {
     @Test
     void canVisitBeanstalkRiftIfBeanstalkPlantable() {
       setupFakeClient();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
               withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED),
-              withItem(ItemPool.ENCHANTED_BEAN));
-      try (cleanups) {
+              withItem(ItemPool.ENCHANTED_BEAN))) {
         // You can get above the beanstalk if quest started and you have a bean
         assertTrue(BEANSTALK.canAdventure());
         assertTrue(BEANSTALK.prepareForAdventure());
@@ -7980,8 +7547,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitCastleRiftIfAirShipIsFinished() {
-      var cleanups = new Cleanups(withPath(Path.SHADOWS_OVER_LOATHING), withItem(ItemPool.SOCK));
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.SHADOWS_OVER_LOATHING), withItem(ItemPool.SOCK))) {
         // You can get above to the Giant Castle with a S.O.C.K.
         assertTrue(CASTLE.canAdventure());
       }
@@ -7989,10 +7555,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitHiddenCityRiftIfTempleDone() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withPath(Path.SHADOWS_OVER_LOATHING), withQuestProgress(Quest.WORSHIP, "step4"));
-      try (cleanups) {
+              withPath(Path.SHADOWS_OVER_LOATHING), withQuestProgress(Quest.WORSHIP, "step4"))) {
         // You can get to the Hidden City if you have finished the Hidden Temple
         assertTrue(HIDDEN_CITY.canAdventure());
       }
@@ -8000,11 +7565,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitPyramidRiftIfPyramidOpen() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withQuestProgress(Quest.PYRAMID, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.PYRAMID, QuestDatabase.STARTED))) {
         // You can get to the Pyramid once you have opened it
         assertTrue(PYRAMID.canAdventure());
       }
@@ -8016,9 +7580,7 @@ public class KoLAdventureValidationTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void canOnlyAdventureInDirtWhenSmall(boolean inRun) {
-      var cleanups = new Cleanups(withPath(inRun ? Path.SMALL : Path.NONE));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(inRun ? Path.SMALL : Path.NONE))) {
         var area = AdventureDatabase.getAdventureByName("Fight in the Dirt");
         assertThat(area.canAdventure(), is(inRun));
       }
@@ -8030,15 +7592,14 @@ public class KoLAdventureValidationTest {
     @Test
     void checksTownAfterWarChange() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("crimbo23ArmoryAtWar", false),
               withProperty("crimbo23BarAtWar", false),
               withProperty("crimbo23CafeAtWar", false),
               withProperty("crimbo23CottageAtWar", false),
-              withProperty("crimbo23FoundryAtWar", false));
-      try (cleanups) {
+              withProperty("crimbo23FoundryAtWar", false))) {
         builder.client.addResponse(200, html("request/test_place_crimbo23_1.html"));
 
         var failure =
@@ -8056,11 +7617,9 @@ public class KoLAdventureValidationTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   public void canOnlyAdventureInMushroomGardenWithGarden(boolean hasGarden) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withCampgroundItem(hasGarden ? ItemPool.MUSHROOM_SPORES : ItemPool.DRAGON_TEETH));
-
-    try (cleanups) {
+            withCampgroundItem(hasGarden ? ItemPool.MUSHROOM_SPORES : ItemPool.DRAGON_TEETH))) {
       var area = AdventureDatabase.getAdventureByName("Your Mushroom Garden");
       assertThat(area.canAdventure(), is(hasGarden));
     }

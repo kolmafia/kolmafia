@@ -43,12 +43,11 @@ public class GrimstoneManagerTest {
   class Wolf {
     @Test
     public void pigsEvictedDetectedAfterFight() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("Unleash Your Inner Wolf"),
               withFight(4),
-              withProperty("wolfPigsEvicted", 0));
-      try (cleanups) {
+              withProperty("wolfPigsEvicted", 0))) {
         String URL = "fight.php?blah.x=8&blah.y=18&whichskill=7192&action=skill";
         String html = html("request/test_evict_pigs.html");
         FightRequest.registerRequest(true, URL);
@@ -61,14 +60,13 @@ public class GrimstoneManagerTest {
     public void startingHouseRunTakesThreeTurns() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("grimstone"),
               withGender(Gender.FEMALE),
               withFight(0),
-              withProperty("wolfTurnsUsed", 27));
-      try (cleanups) {
+              withProperty("wolfTurnsUsed", 27))) {
         client.addResponse(
             302, Map.of("location", List.of("fight.php?ireallymeanit=1667327836")), "");
         client.addResponse(200, html("request/test_unleash_inner_wolf.html"));
@@ -103,12 +101,11 @@ public class GrimstoneManagerTest {
   class Witch {
     @Test
     public void candyGainedDetectedAfterFight() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("Gumdrop Forest"),
               withFight(3),
-              withProperty("candyWitchCandyTotal", 0));
-      try (cleanups) {
+              withProperty("candyWitchCandyTotal", 0))) {
         String URL = "fight.php?action=skill&whichskill=1003";
         String html = html("request/test_gain_candy.html");
         FightRequest.registerRequest(true, URL);
@@ -123,13 +120,12 @@ public class GrimstoneManagerTest {
       var client = builder.client;
       int initial = 3000;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("grimstone"),
               withGender(Gender.FEMALE),
-              withProperty("candyWitchCandyTotal", initial));
-      try (cleanups) {
+              withProperty("candyWitchCandyTotal", initial))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_wait_for_thieves.html"));
         client.addResponse(200, html("request/test_lose_candy.html"));
@@ -166,12 +162,11 @@ public class GrimstoneManagerTest {
   class Hare {
     @Test
     public void secondsSavedDetectedAfterFight() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("A Deserted Stretch of I-911"),
               withFight(3),
-              withProperty("hareMillisecondsSaved", 0));
-      try (cleanups) {
+              withProperty("hareMillisecondsSaved", 0))) {
         String URL = "fight.php?action=attack";
         String html = html("request/test_save_seconds.html");
         FightRequest.registerRequest(true, URL);

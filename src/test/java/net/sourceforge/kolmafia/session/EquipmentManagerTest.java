@@ -63,12 +63,10 @@ public class EquipmentManagerTest {
         "cocoon"
       })
   public void thatUnbreakableUmbrellaIsRecognized(String style) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
-            withProperty("umbrellaState", style));
-
-    try (cleanups) {
+            withProperty("umbrellaState", style))) {
       assertEquals("unbreakable umbrella (" + style + ")", UNBREAKABLE_UMBRELLA.getName());
       assertEquals(
           UNBREAKABLE_UMBRELLA.getItemId(), ItemDatabase.getItemId(UNBREAKABLE_UMBRELLA.getName()));
@@ -81,10 +79,8 @@ public class EquipmentManagerTest {
   @ValueSource(
       strings = {"", "kachungasaur", "dilophosaur", "spikolodon", "ghostasaurus", "pterodactyl"})
   public void thatJurassicParkaIsRecognized(String mode) {
-    var cleanups =
-        new Cleanups(withEquipped(Slot.SHIRT, "Jurassic Parka"), withProperty("parkaMode", mode));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withEquipped(Slot.SHIRT, "Jurassic Parka"), withProperty("parkaMode", mode))) {
       if (mode.equals("")) {
         assertEquals("Jurassic Parka", JURASSIC_PARKA.getName());
       } else {
@@ -101,11 +97,9 @@ public class EquipmentManagerTest {
   @ValueSource(
       strings = {"", "kachungasaur", "dilophosaur", "spikolodon", "ghostasaurus", "pterodactyl"})
   public void thatReplicaJurassicParkaIsRecognized(String mode) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withEquipped(Slot.SHIRT, "replica Jurassic Parka"), withProperty("parkaMode", mode));
-
-    try (cleanups) {
+            withEquipped(Slot.SHIRT, "replica Jurassic Parka"), withProperty("parkaMode", mode))) {
       if (mode.equals("")) {
         assertEquals("replica Jurassic Parka", REPLICA_JURASSIC_PARKA.getName());
       } else {
@@ -123,11 +117,10 @@ public class EquipmentManagerTest {
   @ParameterizedTest
   @ValueSource(strings = {"meat", "init", "ml"})
   public void thatBackupCameraIsRecognized(String mode) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withEquipped(Slot.ACCESSORY1, "backup camera"), withProperty("backupCameraMode", mode));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, "backup camera"),
+            withProperty("backupCameraMode", mode))) {
       assertEquals("backup camera (" + mode + ")", BACKUP_CAMERA.getName());
       assertEquals(BACKUP_CAMERA.getItemId(), ItemDatabase.getItemId(BACKUP_CAMERA.getName()));
     }
@@ -137,20 +130,16 @@ public class EquipmentManagerTest {
   public void equippingDesignerSweatpantsGivesCombatSkills() {
     assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(false));
 
-    var cleanup =
-        new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 100));
-
-    try (cleanup) {
+    try (var _ =
+        new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 100))) {
       assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));
     }
   }
 
   @Test
   public void unequippingDesignerSweatpantsRemovesCombatSkills() {
-    var cleanup =
-        new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 100));
-
-    try (cleanup) {
+    try (var _ =
+        new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 100))) {
       assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));
       EquipmentManager.setEquipment(Slot.PANTS, EquipmentRequest.UNEQUIP);
       assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(false));
@@ -159,9 +148,7 @@ public class EquipmentManagerTest {
 
   @Test
   public void canParseStatus() {
-    var cleanups = withFamiliar(FamiliarPool.TRICK_TOT);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.TRICK_TOT)) {
       String text = html("request/test_status.json");
       JSONObject jsonObject = json(text);
 
@@ -194,9 +181,7 @@ public class EquipmentManagerTest {
 
   @Test
   public void canParseStatusHatTrick() {
-    var cleanups = withPath(Path.HAT_TRICK);
-
-    try (cleanups) {
+    try (var _ = withPath(Path.HAT_TRICK)) {
       String text = html("request/test_status_hattrick.json");
       JSONObject jsonObject = json(text);
 
@@ -221,13 +206,12 @@ public class EquipmentManagerTest {
     })
     public void itShouldEquipWhatWasRequestedForProf(String item, boolean canBeEquipped) {
       AdventureResult itemAR = ItemPool.get(item);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withStats(1, 5, 1),
-              withItem(itemAR));
-      try (cleanups) {
+              withItem(itemAR))) {
         assertEquals(canBeEquipped, EquipmentManager.canEquip(itemAR));
       }
     }
@@ -238,9 +222,7 @@ public class EquipmentManagerTest {
     @Test
     public void gemsInInventoryAvailableInAllSlots() {
       // baconstone has EternityCodpiece modifiers
-      var cleanups = new Cleanups(withItem(ItemPool.BACONSTONE));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.BACONSTONE))) {
         var lists = EquipmentManager.getEquipmentLists();
         // Should be in all 5 codpiece slot lists
         assertThat(
@@ -263,11 +245,9 @@ public class EquipmentManagerTest {
 
     @Test
     public void codpieceListIncludesCurrentlyEquippedGem() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquipped(Slot.CODPIECE1, ItemPool.BACONSTONE), withItem(ItemPool.HAMETHYST));
-
-      try (cleanups) {
+              withEquipped(Slot.CODPIECE1, ItemPool.BACONSTONE), withItem(ItemPool.HAMETHYST))) {
         var lists = EquipmentManager.getEquipmentLists();
         // CODPIECE1 should include the equipped baconstone even though it's not in inventory
         assertThat(lists.get(Slot.CODPIECE1), hasItem(ItemPool.get(ItemPool.BACONSTONE, 1)));

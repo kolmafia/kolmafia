@@ -30,8 +30,7 @@ public class ForbiddenManagerTest {
 
   @Test
   public void willLoadFromProperty() {
-    var cleanups = new Cleanups(withProperty("forbiddenStores", "123,456,789"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("forbiddenStores", "123,456,789"))) {
       var forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(3, forbidden.size());
       assertTrue(forbidden.contains(123));
@@ -42,8 +41,7 @@ public class ForbiddenManagerTest {
 
   @Test
   public void checksIsForbidden() {
-    var cleanups = new Cleanups(withProperty("forbiddenStores", "123"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("forbiddenStores", "123"))) {
       assertTrue(MallPurchaseRequest.isForbidden(123));
       assertFalse(MallPurchaseRequest.isForbidden(456));
     }
@@ -51,8 +49,7 @@ public class ForbiddenManagerTest {
 
   @Test
   public void canAddForbiddenStore() {
-    var cleanups = new Cleanups(withProperty("forbiddenStores", ""));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("forbiddenStores", ""))) {
       var forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(0, forbidden.size());
       assertFalse(MallPurchaseRequest.isForbidden(123));
@@ -81,8 +78,7 @@ public class ForbiddenManagerTest {
 
   @Test
   public void canToggleForbiddenStore() {
-    var cleanups = new Cleanups(withProperty("forbiddenStores", ""));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("forbiddenStores", ""))) {
       var forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(0, forbidden.size());
       assertFalse(MallPurchaseRequest.isForbidden(123));
@@ -101,8 +97,7 @@ public class ForbiddenManagerTest {
 
   @Test
   public void canUpdateForbiddenStores() {
-    var cleanups = new Cleanups(withProperty("forbiddenStores", "123"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("forbiddenStores", "123"))) {
       var forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(1, forbidden.size());
       assertTrue(MallPurchaseRequest.isForbidden(123));

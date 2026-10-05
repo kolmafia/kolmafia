@@ -85,9 +85,7 @@ public class AdventureRequestTest {
 
   @Test
   public void underwaterZonesCostOneAdventureWithFishy() {
-    var cleanups = withEffect("Fishy");
-
-    try (cleanups) {
+    try (var _ = withEffect("Fishy")) {
       AdventureRequest request = new AdventureRequest("The Ice Hole", "adventure.php", "457");
       KoLCharacter.recalculateAdjustments();
       assertEquals(1, request.getAdventuresUsed());
@@ -96,10 +94,8 @@ public class AdventureRequestTest {
 
   @Test
   public void recognizesSpookyWheelbarrow() {
-    var cleanups =
-        new Cleanups(withProperty("lastEncounter"), withLastLocation("The Spooky Gravy Burrow"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("lastEncounter"), withLastLocation("The Spooky Gravy Burrow"))) {
       var request =
           new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SPOOKY_GRAVY_BURROW);
       request.responseText = html("request/find_spooky_fairy_gravy.html");
@@ -110,13 +106,11 @@ public class AdventureRequestTest {
 
   @Test
   public void gregariousMonstersAreEnqueued() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(0),
             withLastLocation("Barf Mountain"),
-            withNextMonster("Knob Goblin Embezzler"));
-
-    try (cleanups) {
+            withNextMonster("Knob Goblin Embezzler"))) {
       AdventureQueueDatabase.resetQueue();
       var req = new GenericRequest("fight.php");
       req.setHasResult(true);
@@ -152,9 +146,7 @@ public class AdventureRequestTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void mimeographMonstersAreNotEnqueued(final boolean isMimeograph) {
-    var cleanups = new Cleanups(withLastLocation("Barf Mountain"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withLastLocation("Barf Mountain"))) {
       FightRequest.preFight(false);
       AdventureQueueDatabase.resetQueue();
       var req = new GenericRequest("fight.php");
@@ -194,11 +186,9 @@ public class AdventureRequestTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void relativityMonsterAreNotEnqueued(final boolean isRelativity) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withLastLocation("Oil Peak"), withProperty("_relativityMonster", isRelativity));
-
-    try (cleanups) {
+            withLastLocation("Oil Peak"), withProperty("_relativityMonster", isRelativity))) {
       AdventureQueueDatabase.resetQueue();
       var req = new GenericRequest("fight.php");
       req.setHasResult(true);
@@ -215,13 +205,11 @@ public class AdventureRequestTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void relativityWitchessPiecesArentCountedTowardsTotal(final boolean isRelativityFight) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("_witchessFights", 0),
             withFight(0),
-            withProperty("_relativityMonster", isRelativityFight));
-
-    try (cleanups) {
+            withProperty("_relativityMonster", isRelativityFight))) {
       var req = new GenericRequest("fight.php");
       req.setHasResult(true);
       req.responseText = html("request/test_fight_witchess_pawn.html");
@@ -235,8 +223,7 @@ public class AdventureRequestTest {
   public class NoncombatQueue {
     @Test
     void addsNoncombatToQueue() {
-      var cleanups = withLastLocation(AdventureDatabase.getAdventure(AdventurePool.BLACK_FOREST));
-      try (cleanups) {
+      try (var _ = withLastLocation(AdventureDatabase.getAdventure(AdventurePool.BLACK_FOREST))) {
         AdventureQueueDatabase.resetQueue();
         var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.BLACK_FOREST);
         req.setHasResult(true);
@@ -258,8 +245,7 @@ public class AdventureRequestTest {
       "test_june_cleaver_choice.html," + AdventurePool.HIDDEN_APARTMENT,
     })
     void doesntAddSpecialNoncombatToQueue(String htmlFile, int locationId) {
-      var cleanups = withLastLocation(AdventureDatabase.getAdventure(locationId));
-      try (cleanups) {
+      try (var _ = withLastLocation(AdventureDatabase.getAdventure(locationId))) {
         AdventureQueueDatabase.resetQueue();
         var req = new GenericRequest("adventure.php?snarfblat=" + locationId);
         req.setHasResult(true);
@@ -276,8 +262,7 @@ public class AdventureRequestTest {
     @ParameterizedTest
     @CsvSource({"test_adventure_poop_deck_its_always_swordfish.html," + AdventurePool.POOP_DECK})
     void addsStopNoncombatToQueue(String htmlFile, int locationId) {
-      var cleanups = withLastLocation(AdventureDatabase.getAdventure(locationId));
-      try (cleanups) {
+      try (var _ = withLastLocation(AdventureDatabase.getAdventure(locationId))) {
         AdventureQueueDatabase.resetQueue();
         var req = new GenericRequest("adventure.php?snarfblat=" + locationId);
         req.setHasResult(true);
@@ -302,12 +287,11 @@ public class AdventureRequestTest {
     @Test
     void tracksLastNoncombat() {
       KoLAdventure location = AdventureDatabase.getAdventure(AdventurePool.BLACK_FOREST);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation(location),
               withProperty("lastNoncombat" + AdventurePool.BLACK_FOREST, 0),
-              withAdventuresSpent(location, 5));
-      try (cleanups) {
+              withAdventuresSpent(location, 5))) {
         var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.BLACK_FOREST);
         req.setHasResult(true);
         req.responseText = html("request/test_adventure_black_forest_all_over_the_map.html");
@@ -326,12 +310,11 @@ public class AdventureRequestTest {
     })
     void doesntTrackSpecialNoncombat(String htmlFile, int locationId) {
       KoLAdventure location = AdventureDatabase.getAdventure(locationId);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation(location),
               withProperty("lastNoncombat" + locationId, 0),
-              withAdventuresSpent(location, 5));
-      try (cleanups) {
+              withAdventuresSpent(location, 5))) {
         var req = new GenericRequest("adventure.php?snarfblat=" + locationId);
         req.setHasResult(true);
         req.responseText = html("request/" + htmlFile);
@@ -348,12 +331,11 @@ public class AdventureRequestTest {
     })
     void doesntTrackUpperChamberSuperlikelies(int turnsSpent, String htmlFile) {
       KoLAdventure location = AdventureDatabase.getAdventure(AdventurePool.UPPER_CHAMBER);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation(location),
               withProperty("lastNoncombat" + AdventurePool.UPPER_CHAMBER, 0),
-              withAdventuresSpent(location, turnsSpent));
-      try (cleanups) {
+              withAdventuresSpent(location, turnsSpent))) {
         AdventureQueueDatabase.resetQueue();
         var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.UPPER_CHAMBER);
         req.setHasResult(true);
@@ -413,13 +395,11 @@ public class AdventureRequestTest {
 
   @Test
   public void devReadoutIsStripped() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("useDevServer", true),
             withProperty("lastEncounter"),
-            withLastLocation("The Spooky Forest"));
-
-    try (cleanups) {
+            withLastLocation("The Spooky Forest"))) {
       var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SPOOKY_FOREST);
       request.responseText = html("request/test_choice_on_dev_server.html");
       AdventureRequest.registerEncounter(request);
@@ -450,8 +430,7 @@ public class AdventureRequestTest {
       "supersonic, velociraptor, cubist bull",
     })
     public void canExtractDinosaurFromFight(String modifier, String dinosaur, String prey) {
-      var cleanups = new Cleanups(withPath(Path.DINOSAURS), withNextMonster((MonsterData) null));
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.DINOSAURS), withNextMonster((MonsterData) null))) {
         // <modifier> <dinosaur> " recently devoured " <prey>
         // <modifier> <dinosaur> " just ate " <prey>
         // <modifier> <dinosaur> " consumed " <prey>
@@ -480,13 +459,11 @@ public class AdventureRequestTest {
   class Small {
     @Test
     public void detectsGrassMonsters() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(0),
               withProperty("lastEncounter"),
-              withLastLocation("Fight in the Tall Grass"));
-
-      try (cleanups) {
+              withLastLocation("Fight in the Tall Grass"))) {
         AdventureQueueDatabase.resetQueue();
         var req = new GenericRequest("fight.php?ireallymeanit=16");
         req.responseText = html("request/test_fight_small_grass.html");
@@ -499,13 +476,11 @@ public class AdventureRequestTest {
 
     @Test
     public void detectsShrunkMonsters() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(0),
               withProperty("lastEncounter"),
-              withLastLocation("The Outskirts of Cobb's Knob"));
-
-      try (cleanups) {
+              withLastLocation("The Outskirts of Cobb's Knob"))) {
         AdventureQueueDatabase.resetQueue();
         var req = new GenericRequest("fight.php?ireallymeanit=16");
         req.responseText = html("request/test_fight_small_outskirts.html");
@@ -541,13 +516,11 @@ public class AdventureRequestTest {
 
   @Test
   public void recordsMonsterModifiers() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(0),
             withProperty("lastEncounter"),
-            withLastLocation("The Outskirts of Cobb's Knob"));
-
-    try (cleanups) {
+            withLastLocation("The Outskirts of Cobb's Knob"))) {
       AdventureQueueDatabase.resetQueue();
       var req = new GenericRequest("fight.php?ireallymeanit=16");
       req.responseText = html("request/test_fight_mimeograph_in_ocrs.html");
@@ -563,14 +536,12 @@ public class AdventureRequestTest {
 
   @Test
   public void recordsMonsterHats() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(0),
             withPath(Path.HAT_TRICK),
             withProperty("lastEncounter"),
-            withLastLocation("The Black Forest"));
-
-    try (cleanups) {
+            withLastLocation("The Black Forest"))) {
       AdventureQueueDatabase.resetQueue();
       var req = new GenericRequest("fight.php?ireallymeanit=16");
       req.responseText = html("request/test_fight_hat_trick.html");
@@ -596,7 +567,7 @@ public class AdventureRequestTest {
     void canAdventureInMerkinTemple() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
@@ -606,8 +577,7 @@ public class AdventureRequestTest {
               withProperty("battleAction", "custom combat script"),
               withHP(1000, 1000, 1000),
               withCurrentRun(200),
-              withAdventuresLeft(10));
-      try (cleanups) {
+              withAdventuresLeft(10))) {
         client.addResponse(200, "Success!");
         // String html = html("request/test_merkin_temple_left.html");
 
@@ -631,7 +601,7 @@ public class AdventureRequestTest {
       void successAtTempleLeftDoor() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withPath(Path.UNDER_THE_SEA),
@@ -642,8 +612,7 @@ public class AdventureRequestTest {
                 withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
-                withAdventuresLeft(10));
-        try (cleanups) {
+                withAdventuresLeft(10))) {
           client.addResponse(200, "Success!");
 
           var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Left Door)");
@@ -664,7 +633,7 @@ public class AdventureRequestTest {
       void failureAtTempleLeftDoor() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withPath(Path.UNDER_THE_SEA),
@@ -675,8 +644,7 @@ public class AdventureRequestTest {
                 withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
-                withAdventuresLeft(10));
-        try (cleanups) {
+                withAdventuresLeft(10))) {
           client.addResponse(200, html("request/test_merkin_temple_left.html"));
 
           var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Left Door)");
@@ -699,7 +667,7 @@ public class AdventureRequestTest {
       void successAtTempleRightDoor() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withPath(Path.UNDER_THE_SEA),
@@ -710,8 +678,7 @@ public class AdventureRequestTest {
                 withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
-                withAdventuresLeft(10));
-        try (cleanups) {
+                withAdventuresLeft(10))) {
           client.addResponse(200, "Success!");
 
           var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Right Door)");
@@ -732,7 +699,7 @@ public class AdventureRequestTest {
       void failureAtTempleRightDoor() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withPath(Path.UNDER_THE_SEA),
@@ -743,8 +710,7 @@ public class AdventureRequestTest {
                 withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
-                withAdventuresLeft(10));
-        try (cleanups) {
+                withAdventuresLeft(10))) {
           client.addResponse(200, html("request/test_merkin_temple_right.html"));
 
           var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Right Door)");
@@ -767,7 +733,7 @@ public class AdventureRequestTest {
       void successAtTempleCenterDoor() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withPath(Path.UNDER_THE_SEA),
@@ -779,8 +745,7 @@ public class AdventureRequestTest {
                 withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
-                withAdventuresLeft(10));
-        try (cleanups) {
+                withAdventuresLeft(10))) {
           client.addResponse(200, "Success!");
 
           var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Center Door)");
@@ -801,7 +766,7 @@ public class AdventureRequestTest {
       void failureAtTempleCenterDoor() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withPath(Path.UNDER_THE_SEA),
@@ -812,8 +777,7 @@ public class AdventureRequestTest {
                 withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
-                withAdventuresLeft(10));
-        try (cleanups) {
+                withAdventuresLeft(10))) {
           client.addResponse(200, html("request/test_merkin_temple_center.html"));
 
           var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Center Door)");
@@ -841,13 +805,12 @@ public class AdventureRequestTest {
     public void logsNonCombatNormally() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withLastLocation("None"),
               withCurrentRun(200),
-              withAdventuresLeft(10));
-      try (cleanups) {
+              withAdventuresLeft(10))) {
         // Rescuing Grandma
         client.addResponse(200, html("request/test_quest_sea_monkee_step_9_1.html"));
         var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MERKIN_OUTPOST);
@@ -878,14 +841,13 @@ public class AdventureRequestTest {
     public void logsNonCombatAfterItemMonster() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withLastLocation("None"),
               withItemMonster("rotten dolphin thief"),
               withCurrentRun(200),
-              withAdventuresLeft(10));
-      try (cleanups) {
+              withAdventuresLeft(10))) {
         // Rescuing Grandma
         client.addResponse(200, html("request/test_quest_sea_monkee_step_9_1.html"));
         var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MERKIN_OUTPOST);

@@ -41,12 +41,11 @@ public class MonkeyPawRequestTest {
   public void usingMonkeyPawDetectsWishesUsed(int wishesUsed) {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.BAG_OF_FOREIGN_BRIBES, 0),
-            withProperty("_monkeyPawWishesUsed", 0));
-    try (cleanups) {
+            withProperty("_monkeyPawWishesUsed", 0))) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_monkey_paw_wish_" + wishesUsed + ".html"));
       if (wishesUsed > 0) {
@@ -110,13 +109,12 @@ public class MonkeyPawRequestTest {
   public void makingSuccessfulWishIncrementsWishesUsed(int wishesUsed) {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.CURSED_MONKEY_PAW, 1),
             withItem(ItemPool.BAG_OF_FOREIGN_BRIBES, 0),
-            withProperty("_monkeyPawWishesUsed", 0));
-    try (cleanups) {
+            withProperty("_monkeyPawWishesUsed", 0))) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_monkey_paw_wish_" + wishesUsed + ".html"));
       if (wishesUsed > 0) {

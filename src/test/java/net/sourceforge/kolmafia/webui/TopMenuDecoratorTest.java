@@ -59,13 +59,12 @@ class TopMenuDecoratorTest {
     @ParameterizedTest
     @ValueSource(strings = {"Veracity", "Captain Scotch"})
     void awesomeMenuIsAwesome(String player) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTopMenuStyle(TopMenuStyle.FANCY),
               withProperty("debugTopMenuStyle", true),
               withProperty("relayAddsQuickScripts", true),
-              withProperty("scriptlist", "restore hp | restore mp"));
-      try (cleanups) {
+              withProperty("scriptlist", "restore hp | restore mp"))) {
         String location = "awesomemenu.php";
         String input = html("request/" + playerToTextFile(player) + ".html");
         String output = RequestEditorKit.getFeatureRichHTML(location, input);
@@ -87,13 +86,12 @@ class TopMenuDecoratorTest {
 
     @Test
     void loadingIconsDoesNotChangeStyle() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTopMenuStyle(TopMenuStyle.FANCY),
               withProperty("debugTopMenuStyle", true),
               withProperty("relayAddsQuickScripts", true),
-              withProperty("scriptlist", "restore hp | restore mp"));
-      try (cleanups) {
+              withProperty("scriptlist", "restore hp | restore mp"))) {
         String location = "awesomemenu.php?icons=1";
         String input = html("request/test_fancy_topmenu_icons.json");
         String output = RequestEditorKit.getFeatureRichHTML(location, input);
@@ -111,12 +109,11 @@ class TopMenuDecoratorTest {
   class CompactMenu {
     @Test
     void compactMenuIsCompact() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTopMenuStyle(TopMenuStyle.COMPACT),
               withProperty("relayAddsQuickScripts", true),
-              withProperty("scriptlist", "restore hp | restore mp"));
-      try (cleanups) {
+              withProperty("scriptlist", "restore hp | restore mp"))) {
         String location = "topmenu.php";
         String input = html("request/test_compact_topmenu.html");
         String output = RequestEditorKit.getFeatureRichHTML(location, input);
@@ -144,12 +141,11 @@ class TopMenuDecoratorTest {
   class NormalMenu {
     @Test
     void normalMenuIsNormal() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTopMenuStyle(TopMenuStyle.NORMAL),
               withProperty("relayAddsQuickScripts", true),
-              withProperty("scriptlist", "restore hp | restore mp"));
-      try (cleanups) {
+              withProperty("scriptlist", "restore hp | restore mp"))) {
         String location = "topmenu.php";
         String input = html("request/test_normal_topmenu.html");
         String output = RequestEditorKit.getFeatureRichHTML(location, input);
@@ -199,13 +195,12 @@ class TopMenuDecoratorTest {
       }
       // We have saved HTML for all three styles
       String path = "request/test_" + styleName + "_topmenu.html";
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTopMenuStyle(style),
               withProperty("debugTopMenuStyle", true),
               withProperty("relayAddsQuickScripts", true),
-              withProperty("scriptlist", "restore hp | restore mp"));
-      try (cleanups) {
+              withProperty("scriptlist", "restore hp | restore mp"))) {
         RequestLoggerOutput.startStream();
         String decorated = RequestEditorKit.getFeatureRichHTML(location, html(path));
         var log = RequestLoggerOutput.stopStream();

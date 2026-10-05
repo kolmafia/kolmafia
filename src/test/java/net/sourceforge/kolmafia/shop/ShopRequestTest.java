@@ -38,15 +38,13 @@ public class ShopRequestTest {
   void visitingStillDetectsLights() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withClass(AscensionClass.DISCO_BANDIT),
             withSkill("Superhuman Cocktailcrafting"),
             withAscensions(10),
-            withProperty("lastGuildStoreOpen", 10));
-
-    try (cleanups) {
+            withProperty("lastGuildStoreOpen", 10))) {
       client.addResponse(200, html("request/test_shop_still.html"));
       KoLCharacter.stillsAvailable = -1;
       assertThat(KoLCharacter.getStillsAvailable(), is(10));

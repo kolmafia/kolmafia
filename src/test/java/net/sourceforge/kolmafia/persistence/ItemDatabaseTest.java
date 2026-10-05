@@ -164,9 +164,7 @@ public class ItemDatabaseTest {
 
     @Test
     public void parsesNoPerks() {
-      var cleanups = withProperty("everfullDartPerks", "Throw a second dart quickly");
-
-      try (cleanups) {
+      try (var _ = withProperty("everfullDartPerks", "Throw a second dart quickly")) {
         var response = html("request/test_desc_item_everfull_dart_holster_no_perks.html");
         ItemDatabase.parseDartPerks(response);
         assertThat("everfullDartPerks", hasStringValue(equalTo("")));
@@ -175,9 +173,7 @@ public class ItemDatabaseTest {
 
     @Test
     public void parsesPerks() {
-      var cleanups = withProperty("everfullDartPerks", "");
-
-      try (cleanups) {
+      try (var _ = withProperty("everfullDartPerks", "")) {
         var response = html("request/test_desc_item_everfull_dart_holster_perks.html");
         ItemDatabase.parseDartPerks(response);
         assertThat(
@@ -203,8 +199,7 @@ public class ItemDatabaseTest {
       "empty,''",
     })
     void parsesEggOptionsCorrectly(final String file, final String expected) {
-      var cleanups = new Cleanups(withProperty("mimicEggMonsters", ""));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("mimicEggMonsters", ""))) {
         var response = html("request/test_desc_item_mimic_egg_" + file + ".html");
         ItemDatabase.parseMimicEgg(response);
         assertThat("mimicEggMonsters", isSetTo(expected));
@@ -222,9 +217,7 @@ public class ItemDatabaseTest {
 
     @Test
     public void parsesNoTeam() {
-      var cleanups = withProperty("baseballTeam", "1,2,3");
-
-      try (cleanups) {
+      try (var _ = withProperty("baseballTeam", "1,2,3")) {
         var response = html("request/test_desc_item_baseball_diamond_empty.html");
         ItemDatabase.parseBaseballDiamond(response);
         assertThat("baseballTeam", hasStringValue(equalTo("")));
@@ -233,9 +226,7 @@ public class ItemDatabaseTest {
 
     @Test
     public void parsesTeam() {
-      var cleanups = withProperty("baseballTeam", "");
-
-      try (cleanups) {
+      try (var _ = withProperty("baseballTeam", "")) {
         var response = html("request/test_desc_item_baseball_diamond.html");
         ItemDatabase.parseBaseballDiamond(response);
         assertThat("baseballTeam", hasStringValue(equalTo("1533,1639")));

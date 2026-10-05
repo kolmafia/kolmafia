@@ -46,15 +46,14 @@ public class CoinMasterShopRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.MR_STORE_2002_CATALOG, 1),
               withProperty("availableMrStore2002Credits", 2),
               withProperty("_2002MrStoreCreditsCollected", true),
               withProperty("lastKingLiberation", 0),
-              withProperty("logPreferenceChange", true));
-      try (cleanups) {
+              withProperty("logPreferenceChange", true))) {
         client.addResponse(200, html("request/test_buy_from_mr_store_2002_2.html"));
         client.addResponse(200, "");
 
@@ -90,15 +89,14 @@ public class CoinMasterShopRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.SEPTEMBER_CENSER, 1),
               withProperty("availableSeptEmbers", 3),
               withProperty("_septEmberBalanceChecked", true),
               withProperty("lastKingLiberation", 0),
-              withProperty("logPreferenceChange", true));
-      try (cleanups) {
+              withProperty("logPreferenceChange", true))) {
         client.addResponse(200, html("request/test_buy_from_sept_ember_censer.html"));
         client.addResponse(200, "");
 

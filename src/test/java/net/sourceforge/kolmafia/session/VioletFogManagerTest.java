@@ -31,15 +31,13 @@ class VioletFogManagerTest {
 
   @Test
   void resetsOldLayouts() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty(
                 "violetFogLayout",
                 "49,0,0,-1,0,53,0,-1,0,0,0,-1,0,0,55,-1,0,0,0,-1,0,66,0,-1,0,0,0,-1,0,0,70,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,51,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0"),
             withProperty("lastVioletFogMap", 2),
-            withAscensions(3));
-
-    try (cleanups) {
+            withAscensions(3))) {
       VioletFogManager.reset();
       assertThat("violetFogLayout", isSetTo(""));
       assertThat("lastVioletFogMap", isSetTo(3));
@@ -48,12 +46,10 @@ class VioletFogManagerTest {
 
   @Test
   void canRenderPlainGraph() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("violetFogLayout", ""),
-            withProperty("lastVioletFogMap", KoLCharacter.getAscensions()));
-
-    try (cleanups) {
+            withProperty("lastVioletFogMap", KoLCharacter.getAscensions()))) {
       VioletFogManager.reset();
       var graph = VioletFogManager.generateGraph();
       assertThat(graph, not(containsString(" [tooltip")));
@@ -62,14 +58,12 @@ class VioletFogManagerTest {
 
   @Test
   void canRenderStatefulGraph() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty(
                 "violetFogLayout",
                 "49,0,0,-1,0,53,0,-1,0,0,0,-1,0,0,55,-1,0,0,0,-1,0,66,0,-1,0,0,0,-1,0,0,70,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,51,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0"),
-            withProperty("lastVioletFogMap", KoLCharacter.getAscensions()));
-
-    try (cleanups) {
+            withProperty("lastVioletFogMap", KoLCharacter.getAscensions()))) {
       VioletFogManager.reset();
       var graph = VioletFogManager.generateGraph();
       assertThat(graph, containsString("66 -> 51 [tooltip=\"this way\" color=blue]"));
@@ -104,19 +98,16 @@ class VioletFogManagerTest {
   class ChoiceDecoration {
     @Test
     void decoratesAVioletFogChoice() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty(
                   "violetFogLayout",
                   "0,0,0,0,0,0,0,0,57,0,53,0,0,0,0,0,0,0,0,0,0,66,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,67,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50,0,0,0,0,0,0,0,0,0,0,0,0,0,0"),
               withProperty("lastVioletFogMap", KoLCharacter.getAscensions()),
-              withProperty("violetFogGoal", 7));
-
-      try (cleanups) {
+              withProperty("violetFogGoal", 7))) {
         VioletFogManager.reset();
-        var choice =
-            withChoice(66, 2, html("request/test_choice_violet_fog_66_that_way_to_51.html"));
-        try (choice) {
+        try (var _ =
+            withChoice(66, 2, html("request/test_choice_violet_fog_66_that_way_to_51.html"))) {
           assertThat(
               "violetFogLayout",
               isSetTo(

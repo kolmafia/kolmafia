@@ -38,9 +38,7 @@ public class CreateItemRequestTest {
   class FreeCrafts {
     @Test
     public void recognisesThorsPliers() {
-      var cleanups = Player.withProperty("_thorsPliersCrafting", 1);
-
-      try (cleanups) {
+      try (var _ = Player.withProperty("_thorsPliersCrafting", 1)) {
         CreateItemRequest.parseCrafting(
             "craft.php?action=craft&mode=smith&ajax=1&a=95&b=11733&qty=1",
             html("request/test_create_thorspliers.html"));
@@ -51,9 +49,7 @@ public class CreateItemRequestTest {
 
     @Test
     public void recognisesRapidPrototyping() {
-      var cleanups = Player.withProperty("_rapidPrototypingUsed", 1);
-
-      try (cleanups) {
+      try (var _ = Player.withProperty("_rapidPrototypingUsed", 1)) {
         CreateItemRequest.parseCrafting(
             "craft.php?action=craft&mode=smith&ajax=1&a=95&b=11733&qty=1",
             html("request/test_create_rapidprototyping.html"));
@@ -64,9 +60,7 @@ public class CreateItemRequestTest {
 
     @Test
     public void recognisesCornerCutter() {
-      var cleanups = Player.withProperty("_expertCornerCutterUsed", 1);
-
-      try (cleanups) {
+      try (var _ = Player.withProperty("_expertCornerCutterUsed", 1)) {
         CreateItemRequest.parseCrafting(
             "craft.php?action=craft&mode=smith&ajax=1&a=95&b=11733&qty=1",
             html("request/test_create_cornercutter.html"));
@@ -77,9 +71,7 @@ public class CreateItemRequestTest {
 
     @Test
     public void recognisesHolidayMultitasking() {
-      var cleanups = Player.withProperty("_holidayMultitaskingUsed", 1);
-
-      try (cleanups) {
+      try (var _ = Player.withProperty("_holidayMultitaskingUsed", 1)) {
         CreateItemRequest.parseCrafting(
             "craft.php?action=craft&mode=smith&ajax=1&a=95&b=11733&qty=1",
             html("request/test_create_holidaymulti.html"));
@@ -90,9 +82,7 @@ public class CreateItemRequestTest {
 
     @Test
     public void recognisesCookbookBat() {
-      var cleanups = Player.withProperty("_cookbookbatCrafting");
-
-      try (cleanups) {
+      try (var _ = Player.withProperty("_cookbookbatCrafting")) {
         CreateItemRequest.parseCrafting(
             "craft.php?action=craft&qty=1&mode=cook&target=423&ajax=1",
             html("request/test_create_cookbookbat.html"));
@@ -103,9 +93,7 @@ public class CreateItemRequestTest {
 
     @Test
     public void recognisesElfGuard() {
-      var cleanups = Player.withProperty("_elfGuardCookingUsed", 1);
-
-      try (cleanups) {
+      try (var _ = Player.withProperty("_elfGuardCookingUsed", 1)) {
         CreateItemRequest.parseCrafting(
             "craft.php?action=craft&mode=cook&ajax=1&a=304&b=8&qty=1",
             html("request/test_create_elfguard.html"));
@@ -116,9 +104,7 @@ public class CreateItemRequestTest {
 
     @Test
     public void recognisesOldSchoolCocktailCrafting() {
-      var cleanups = Player.withProperty("_oldSchoolCocktailCraftingUsed", 1);
-
-      try (cleanups) {
+      try (var _ = Player.withProperty("_oldSchoolCocktailCraftingUsed", 1)) {
         CreateItemRequest.parseCrafting(
             "craft.php?action=craft&mode=cocktail&ajax=1&a=10534&b=9908&qty=1",
             html("request/test_create_oldschool.html"));
@@ -129,13 +115,11 @@ public class CreateItemRequestTest {
 
     @Test
     public void handlesInABoxWithOtherFreeCrafts() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("craftingPlansCharges", 2),
               withProperty("chefTurnsUsed", 3),
-              withProperty("hasChef", true));
-
-      try (cleanups) {
+              withProperty("hasChef", true))) {
         CreateItemRequest.parseCrafting(
             "craft.php?action=craft&mode=cook&ajax=1&a=2526&b=8406&qty=5",
             html("request/test_create_chef_w_craftingplans.html"));
@@ -148,9 +132,7 @@ public class CreateItemRequestTest {
 
   @Test
   public void recognisesLegendaryPastaWand() {
-    var cleanups = Player.withProperty("_legendaryPastaWandCrafting");
-
-    try (cleanups) {
+    try (var _ = Player.withProperty("_legendaryPastaWandCrafting")) {
       CreateItemRequest.parseCrafting(
           "craft.php?action=craft&qty=1&mode=cook&target=582&ajax=1",
           html("request/test_create_pasta_wand.html"));
@@ -165,14 +147,12 @@ public class CreateItemRequestTest {
     void warmBeerCraftedWithSchlitz() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("hasShaker", true),
               withItem(ItemPool.SCHLITZ),
-              withItem(ItemPool.GRUBBY_WOOL_BEERWARMER));
-
-      try (cleanups) {
+              withItem(ItemPool.GRUBBY_WOOL_BEERWARMER))) {
         client.addResponse(200, html("request/test_warm_beer_schlitz.html"));
         client.addResponse(200, ""); // api.php
 
@@ -204,14 +184,12 @@ public class CreateItemRequestTest {
     void warmBeerNotCraftedWithWiller() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("hasShaker", true),
               withItem(ItemPool.WILLER),
-              withItem(ItemPool.GRUBBY_WOOL_BEERWARMER));
-
-      try (cleanups) {
+              withItem(ItemPool.GRUBBY_WOOL_BEERWARMER))) {
         client.addResponse(200, html("request/test_warm_beer_willer.html"));
         client.addResponse(200, ""); // api.php
 

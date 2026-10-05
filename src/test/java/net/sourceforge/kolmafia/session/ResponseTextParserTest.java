@@ -50,8 +50,7 @@ class ResponseTextParserTest {
   @ValueSource(ints = {SkillPool.SLIMY_SHOULDERS, SkillPool.SLIMY_SYNAPSES, SkillPool.SLIMY_SINEWS})
   void canLearnSlimeSkills(int skillId) {
     var levelPref = "skillLevel" + skillId;
-    var cleanups = new Cleanups(withProperty(levelPref, 1));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty(levelPref, 1))) {
       ResponseTextParser.learnSkill(skillId);
       assertThat(levelPref, isSetTo(2));
     }
@@ -61,8 +60,7 @@ class ResponseTextParserTest {
   @ValueSource(ints = {SkillPool.SLIMY_SHOULDERS, SkillPool.SLIMY_SYNAPSES, SkillPool.SLIMY_SINEWS})
   void cannotLearnMoreSlimeSkillsThanPossible(int skillId) {
     var levelPref = "skillLevel" + skillId;
-    var cleanups = new Cleanups(withProperty(levelPref, 10));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty(levelPref, 10))) {
       ResponseTextParser.learnSkill(skillId);
       assertThat(levelPref, isSetTo(10));
     }
@@ -72,8 +70,7 @@ class ResponseTextParserTest {
   @ValueSource(ints = {SkillPool.SLIMY_SHOULDERS, SkillPool.SLIMY_SYNAPSES, SkillPool.SLIMY_SINEWS})
   void cannotOverlearnSlimeSkills(int skillId) {
     var levelPref = "skillLevel" + skillId;
-    var cleanups = new Cleanups(withProperty(levelPref, 10));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty(levelPref, 10))) {
       ResponseTextParser.learnSkill(skillId);
       assertThat(levelPref, isSetTo(10));
     }
@@ -81,8 +78,7 @@ class ResponseTextParserTest {
 
   @Test
   void canParseLatte() {
-    var cleanups = new Cleanups(withProperty("latteIngredients", ""));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("latteIngredients", ""))) {
       var request = new GenericRequest("desc_item.php?whichitem=294224337");
       request.responseText = html("request/test_latte_description.html");
       ResponseTextParser.externalUpdate(request);
@@ -97,7 +93,7 @@ class ResponseTextParserTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
       AdventureResult recipe = ItemPool.get(ItemPool.ROBY_PETES_WILY_WHEY_BAR);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("recipe"),
@@ -105,8 +101,7 @@ class ResponseTextParserTest {
               withGender(Gender.FEMALE),
               withItem(recipe),
               withProperty("unknownRecipe10974", true),
-              withProperty("_concoctionDatabaseRefreshes", 0));
-      try (cleanups) {
+              withProperty("_concoctionDatabaseRefreshes", 0))) {
         client.addResponse(200, html("request/test_learn_recipe.html"));
         client.addResponse(200, ""); // api.php
 
@@ -134,7 +129,7 @@ class ResponseTextParserTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
       AdventureResult recipe = ItemPool.get(ItemPool.ROBY_PETES_WILY_WHEY_BAR);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("recipe"),
@@ -142,8 +137,7 @@ class ResponseTextParserTest {
               withGender(Gender.FEMALE),
               withItem(recipe),
               withProperty("unknownRecipe10974", true),
-              withProperty("_concoctionDatabaseRefreshes", 0));
-      try (cleanups) {
+              withProperty("_concoctionDatabaseRefreshes", 0))) {
         client.addResponse(200, html("request/test_learn_recipe_twice.html"));
         client.addResponse(200, ""); // api.php
 
@@ -171,8 +165,7 @@ class ResponseTextParserTest {
   class AprilBand {
     @Test
     void canPlaySax() {
-      var cleanups = new Cleanups(withProperty("_aprilBandSaxophoneUses", "0"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_aprilBandSaxophoneUses", "0"))) {
         var request = new GenericRequest("inventory.php?iid=11566&action=aprilplay");
         request.responseText = html("request/test_inventory_april_sax_success.html");
         ResponseTextParser.externalUpdate(request);
@@ -182,8 +175,7 @@ class ResponseTextParserTest {
 
     @Test
     void tooLuckyToPlaySax() {
-      var cleanups = new Cleanups(withProperty("_aprilBandSaxophoneUses", "0"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_aprilBandSaxophoneUses", "0"))) {
         var request = new GenericRequest("inventory.php?iid=11566&action=aprilplay");
         request.responseText = html("request/test_inventory_april_sax_lucky.html");
         ResponseTextParser.externalUpdate(request);
@@ -193,8 +185,7 @@ class ResponseTextParserTest {
 
     @Test
     void canPlayTom() {
-      var cleanups = new Cleanups(withProperty("_aprilBandTomUses", "0"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_aprilBandTomUses", "0"))) {
         var request = new GenericRequest("inventory.php?iid=11567&action=aprilplay");
         request.responseText = html("request/test_inventory_april_tom_success.html");
         ResponseTextParser.externalUpdate(request);
@@ -204,11 +195,10 @@ class ResponseTextParserTest {
 
     @Test
     void canPlayTuba() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_aprilBandTubaUses", "0"),
-              withProperty("noncombatForcerActive", false));
-      try (cleanups) {
+              withProperty("noncombatForcerActive", false))) {
         var request = new GenericRequest("inventory.php?iid=11568&action=aprilplay");
         request.responseText = html("request/test_inventory_april_tuba_success.html");
         ResponseTextParser.externalUpdate(request);
@@ -219,8 +209,7 @@ class ResponseTextParserTest {
 
     @Test
     void canPlayPiccolo() {
-      var cleanups = new Cleanups(withProperty("_aprilBandPiccoloUses", "0"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_aprilBandPiccoloUses", "0"))) {
         var request = new GenericRequest("inventory.php?iid=11570&action=aprilplay");
         request.responseText = html("request/test_inventory_april_piccolo_success.html");
         ResponseTextParser.externalUpdate(request);
@@ -230,8 +219,7 @@ class ResponseTextParserTest {
 
     @Test
     void fatFamiliarAvoidsPiccolo() {
-      var cleanups = new Cleanups(withProperty("_aprilBandPiccoloUses", "0"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_aprilBandPiccoloUses", "0"))) {
         var request = new GenericRequest("inventory.php?iid=11570&action=aprilplay");
         request.responseText = html("request/test_inventory_april_piccolo_failure.html");
         ResponseTextParser.externalUpdate(request);
@@ -241,11 +229,10 @@ class ResponseTextParserTest {
 
     @Test
     void tooMuchPlaying() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_aprilBandTubaUses", "0"),
-              withProperty("noncombatForcerActive", false));
-      try (cleanups) {
+              withProperty("noncombatForcerActive", false))) {
         var request = new GenericRequest("inventory.php?iid=11568&action=aprilplay");
         request.responseText = html("request/test_inventory_april_too_much.html");
         ResponseTextParser.externalUpdate(request);
@@ -260,14 +247,13 @@ class ResponseTextParserTest {
       void canAdvanceDesertProgress() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withProperty("_aprilBandTomTomUses", "0"),
                 withItem(ItemPool.WORM_RIDING_HOOKS),
                 withProperty("desertExploration", 46),
-                withLastLocation("Cyberzone 1"));
-        try (cleanups) {
+                withLastLocation("Cyberzone 1"))) {
           client.addResponse(200, html("request/test_play_april_tomtom_0.html"));
           client.addResponse(200, ""); // api.php
 
@@ -287,7 +273,7 @@ class ResponseTextParserTest {
       void canFightSandworm() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withProperty("_aprilBandTomTomUses", "0"),
@@ -296,8 +282,7 @@ class ResponseTextParserTest {
                 withGuildStoreOpen(false),
                 // Stupid stuff to match the api.php I included.
                 // Without this, extra requests are generated
-                withGender(Gender.FEMALE));
-        try (cleanups) {
+                withGender(Gender.FEMALE))) {
           client.addResponse(200, html("request/test_play_april_tomtom_1.html"));
           client.addResponse(200, html("request/test_play_april_tomtom_1_api.json")); // api.php
           client.addResponse(200, html("request/test_play_april_tomtom_2.html"));
@@ -329,8 +314,7 @@ class ResponseTextParserTest {
 
   @Test
   void canParseAlliedRadioComplete() {
-    var cleanups = new Cleanups(withProperty("_alliedRadioDropsUsed", 0));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_alliedRadioDropsUsed", 0))) {
       var request = new GenericRequest("inventory.php?action=requestdrop");
       request.responseText = html("request/test_allied_radio_empty.html");
       ResponseTextParser.externalUpdate(request);
@@ -343,9 +327,7 @@ class ResponseTextParserTest {
     "1,1,-5", "5,5,-13",
   })
   void canParseBlessingOfThePrivacyShieldEffect(int tier, double resistance, double combatRate) {
-    var cleanups = withProperty("blessingShieldStenchTier");
-
-    try (cleanups) {
+    try (var _ = withProperty("blessingShieldStenchTier")) {
       GenericRequest req =
           new GenericRequest("desc_effect.php?whicheffect=0cb4ea224bc8d0b0c2b426c378f5b4d9");
       req.responseText = html("request/test_desc_effect_privacyshield_tier" + tier + ".html");

@@ -57,8 +57,7 @@ public class BigBrotherRequestTest {
     @Test
     public void visitingBigBrotherAdvancesOldGuyQuest() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaQuestProgress());
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withSeaQuestProgress())) {
         // This response text does not contain a damp old boot
         builder.client.addResponse(200, html("request/test_visit_big_brother.html"));
         String URL = "monkeycastle.php?who=2";
@@ -72,8 +71,7 @@ public class BigBrotherRequestTest {
     @Test
     public void visitingBigBrotherDetectsOptionalMapsPurchased() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaQuestProgress());
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withSeaQuestProgress())) {
         // This response text does not contain a map to Madness Reef
         // This response text does not contain a map to The Skate Park
         builder.client.addResponse(200, html("request/test_visit_big_brother.html"));
@@ -91,9 +89,8 @@ public class BigBrotherRequestTest {
         names = {"SEAL_CLUBBER", "SAUCEROR", "ACCORDION_THIEF"})
     public void visitingBigBrotherDetectsQuestMapsPurchased(AscensionClass clazz) {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withSeaQuestProgress(), withClass(clazz));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withSeaQuestProgress(), withClass(clazz))) {
         // This response text does not contain a map to Anemone Mine
         // This response text does not contain a map to The Marinara Trench
         // This response text does not contain a map to The Five Bar

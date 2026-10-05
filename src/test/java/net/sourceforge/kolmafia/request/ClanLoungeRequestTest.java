@@ -74,7 +74,7 @@ public class ClanLoungeRequestTest {
   class Floundry {
     @Test
     void floundryRequestParsesLocations() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, html("request/test_clan_floundry.html")),
               withProperty("_floundryCarpLocation", ""),
@@ -82,9 +82,7 @@ public class ClanLoungeRequestTest {
               withProperty("_floundryTroutLocation", ""),
               withProperty("_floundryBassLocation", ""),
               withProperty("_floundryHatchetfishLocation", ""),
-              withProperty("_floundryTunaLocation", ""));
-
-      try (cleanups) {
+              withProperty("_floundryTunaLocation", ""))) {
         new ClanLoungeRequest(Action.FLOUNDRY).run();
         assertThat("_floundryCarpLocation", isSetTo("Pirates of the Garbage Barges"));
         assertThat("_floundryCodLocation", isSetTo("Thugnderdome"));
@@ -105,9 +103,7 @@ public class ClanLoungeRequestTest {
       builder.client.addResponse(200, html("request/test_desc_item_photocopied_mariachi.html"));
       builder.client.addResponse(200, ""); // api.php
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty("photocopyMonster"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withProperty("photocopyMonster"))) {
         new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX).run();
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(3));
@@ -128,10 +124,9 @@ public class ClanLoungeRequestTest {
       var builder = new FakeHttpClientBuilder();
       builder.client.addResponse(200, html("request/test_clan_swim_sprints.html"));
 
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withProperty("_olympicSwimmingPool", false));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withHttpClientBuilder(builder), withProperty("_olympicSwimmingPool", false))) {
         var outputStream = new ByteArrayOutputStream();
         RequestLogger.openCustom(new PrintStream(outputStream));
 
@@ -157,10 +152,9 @@ public class ClanLoungeRequestTest {
 
       String responseText = html("request/test_clan_cannonball.html");
 
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withProperty("_olympicSwimmingPool", false));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withHttpClientBuilder(builder), withProperty("_olympicSwimmingPool", false))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, responseText);
 
@@ -247,9 +241,7 @@ public class ClanLoungeRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withClan());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withClan())) {
         client.addResponse(200, html("request/test_clan_speakeasy.html"));
 
         var request = new ClanLoungeRequest(Action.SPEAKEASY);
@@ -271,9 +263,7 @@ public class ClanLoungeRequestTest {
 
     @Test
     void speakeasyDrinksCanBeDetectedinClanItemList() {
-      var cleanups = new Cleanups(withClan());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClan())) {
         // Add the Clan Speakeasy itself to the lounge
         AdventureResult speakeasy = ItemPool.get(ItemPool.CLAN_SPEAKEASY);
         ClanManager.addToLounge(speakeasy);
@@ -310,10 +300,8 @@ public class ClanLoungeRequestTest {
 
     @Test
     void speakeasyDrinksCanBeUnavailable() {
-      var cleanups =
-          new Cleanups(withClan(), withMeat(10000), withProperty("_speakeasyDrinksDrunk", 0));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withClan(), withMeat(10000), withProperty("_speakeasyDrinksDrunk", 0))) {
         Concoction luckyLindy = ConcoctionPool.get(LUCKY_LINDY);
         Concoction beesKnees = ConcoctionPool.get(BEES_KNEES);
 
@@ -346,10 +334,8 @@ public class ClanLoungeRequestTest {
 
     @Test
     void speakeasyDrinksCostMeatToBuy() {
-      var cleanups =
-          new Cleanups(withClan(), withMeat(1000), withProperty("_speakeasyDrinksDrunk", 0));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withClan(), withMeat(1000), withProperty("_speakeasyDrinksDrunk", 0))) {
         Concoction luckyLindy = ConcoctionPool.get(LUCKY_LINDY);
 
         // Add Lucky Lindy to the Speakeasy
@@ -364,10 +350,8 @@ public class ClanLoungeRequestTest {
     @ParameterizedTest
     @CsvSource({"0, 3", "1, 2", "2, 1", "3, 0"})
     public void speakeasyDrinksAreLimited(int drunk, int available) {
-      var cleanups =
-          new Cleanups(withClan(), withMeat(10000), withProperty("_speakeasyDrinksDrunk", drunk));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withClan(), withMeat(10000), withProperty("_speakeasyDrinksDrunk", drunk))) {
         Concoction luckyLindy = ConcoctionPool.get(LUCKY_LINDY);
 
         // Add Lucky Lindy to the Speakeasy

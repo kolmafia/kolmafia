@@ -138,9 +138,7 @@ public class MonsterExpressionTest {
   @ParameterizedTest
   @EnumSource(AscensionPath.Path.class)
   public void canDetectPath(AscensionPath.Path path) {
-    var cleanups = withPath(AscensionPath.Path.YOU_ROBOT);
-
-    try (cleanups) {
+    try (var _ = withPath(AscensionPath.Path.YOU_ROBOT)) {
       double expected = path == AscensionPath.Path.YOU_ROBOT ? 1.0 : 0.0;
       var exp = new MonsterExpression("path(" + path.toString() + ")", "Detect class");
 
@@ -154,9 +152,7 @@ public class MonsterExpressionTest {
     "turtle totem, 0",
   })
   public void canDetectEquip(String item, double expected) {
-    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.WEAPON, "seal-clubbing club")) {
       var exp = new MonsterExpression("equipped(" + item + ")", "Detect equip");
 
       assertEquals(expected, exp.eval());

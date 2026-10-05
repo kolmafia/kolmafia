@@ -82,15 +82,13 @@ public class EquipmentRequestTest {
     var outfit =
         new SpecialOutfit(-123, "Codpiece Test c=" + ALIEN_GEMSTONE_IN_FIRST_CODPIECE_SLOT);
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("includeCodpieceGemsInOutfits", false),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
             withEquipped(Slot.CODPIECE1, ItemPool.HAMETHYST),
-            withItem(ItemPool.ALIEN_GEMSTONE));
-
-    try (cleanups) {
+            withItem(ItemPool.ALIEN_GEMSTONE))) {
       new EquipmentRequest(outfit).run();
 
       var requests = client.getRequests();
@@ -118,13 +116,11 @@ public class EquipmentRequestTest {
     var outfit =
         new SpecialOutfit(-123, "Codpiece Test c=" + ALIEN_GEMSTONE_IN_FIRST_CODPIECE_SLOT);
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
-            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE));
-
-    try (cleanups) {
+            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE))) {
       new EquipmentRequest(outfit).run();
 
       assertTrue(builder.client.getRequests().isEmpty());
@@ -136,12 +132,10 @@ public class EquipmentRequestTest {
     var builder = new FakeHttpClientBuilder();
     var outfit = new SpecialOutfit(-123, "Codpiece Test");
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE))) {
       new EquipmentRequest(outfit).run();
 
       assertTrue(builder.client.getRequests().isEmpty());
@@ -154,12 +148,10 @@ public class EquipmentRequestTest {
     var builder = new FakeHttpClientBuilder();
     var outfit = new SpecialOutfit(-123, "Codpiece Test " + action);
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE))) {
       new EquipmentRequest(outfit).run();
 
       assertTrue(builder.client.getRequests().isEmpty());
@@ -172,16 +164,14 @@ public class EquipmentRequestTest {
     var outfit =
         new SpecialOutfit(-123, "Codpiece Test c=" + ALIEN_GEMSTONE_IN_FIRST_CODPIECE_SLOT);
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withContinuationState(),
             withProperty("autoSatisfyWithMall", false),
             withProperty("autoSatisfyWithNPCs", false),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
-            withoutItem(ItemPool.ALIEN_GEMSTONE));
-
-    try (cleanups) {
+            withoutItem(ItemPool.ALIEN_GEMSTONE))) {
       new EquipmentRequest(outfit).run();
 
       assertTrue(builder.client.getRequests().isEmpty());
@@ -195,14 +185,12 @@ public class EquipmentRequestTest {
     // Decodes to item IDs [0, 9412, 0, 0, 0].
     var outfit = new SpecialOutfit(-123, "Codpiece Test c=~AMRJAAAA");
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withContinuationState(),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
-            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE));
-
-    try (cleanups) {
+            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE))) {
       new EquipmentRequest(outfit).run();
 
       assertFalse(builder.client.getRequests().isEmpty());
@@ -219,9 +207,7 @@ public class EquipmentRequestTest {
   void reportsSuccessfulOutfitSave() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "");
-    var cleanups = new Cleanups(withHttpClientBuilder(builder), withContinuationState());
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder), withContinuationState())) {
       new EquipmentRequest("Saved outfit").run();
 
       assertEquals("Outfit saved", KoLmafia.getLastMessage());
@@ -234,15 +220,13 @@ public class EquipmentRequestTest {
   void doesNotSaveCodpieceSlotsInOutfitNameByDefault() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "");
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withContinuationState(),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
             withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
-            withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
-
-    try (cleanups) {
+            withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST))) {
       new EquipmentRequest("Saved outfit").run();
 
       assertThat(
@@ -254,13 +238,11 @@ public class EquipmentRequestTest {
   void doesNotSaveCodpieceSlotsWhenEnabledWithoutEquippedCodpiece() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "");
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withContinuationState(),
-            withProperty("includeCodpieceGemsInOutfits", true));
-
-    try (cleanups) {
+            withProperty("includeCodpieceGemsInOutfits", true))) {
       new EquipmentRequest("Saved outfit").run();
 
       assertThat(
@@ -272,16 +254,14 @@ public class EquipmentRequestTest {
   void savesCodpieceSlotsInOutfitNameWhenEnabled() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "");
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withContinuationState(),
             withProperty("includeCodpieceGemsInOutfits", true),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
             withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
-            withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
-
-    try (cleanups) {
+            withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST))) {
       new EquipmentRequest("Saved outfit").run();
 
       // The suffix decodes to item IDs [9412, 0, 704, 0, 0].
@@ -294,9 +274,7 @@ public class EquipmentRequestTest {
   @Test
   void preservesExistingOutfitCommands() {
     var outfit = new SpecialOutfit(-123, "Command c=echo worked");
-    var cleanups = new Cleanups(() -> EquipmentManager.setCustomOutfits(List.of()));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(() -> EquipmentManager.setCustomOutfits(List.of()))) {
       EquipmentManager.setCustomOutfits(List.of(outfit));
       startStream();
       EquipmentRequest.registerRequest("inv_equip.php?action=outfit&whichoutfit=-123");
@@ -312,13 +290,11 @@ public class EquipmentRequestTest {
   void ignoresCodpieceConfigurationActionWithoutEquippedCodpiece() {
     var builder = new FakeHttpClientBuilder();
     var outfit = new SpecialOutfit(-123, "No Codpiece c=" + ALIEN_GEMSTONE_IN_FIRST_CODPIECE_SLOT);
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.ALIEN_GEMSTONE),
-            new Cleanups(() -> EquipmentManager.setCustomOutfits(List.of())));
-
-    try (cleanups) {
+            new Cleanups(() -> EquipmentManager.setCustomOutfits(List.of())))) {
       EquipmentManager.setCustomOutfits(List.of(outfit));
       EquipmentRequest.registerRequest("inv_equip.php?action=outfit&whichoutfit=-123");
       EquipmentRequest.parseEquipmentChange(
@@ -344,12 +320,10 @@ public class EquipmentRequestTest {
     var builder = new FakeHttpClientBuilder();
     var outfit = new SpecialOutfit(-123, "Codpiece Test c=" + configuration);
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE))) {
       startStream();
       new EquipmentRequest(outfit).run();
       String output = stopStream();
@@ -367,13 +341,11 @@ public class EquipmentRequestTest {
     // Decodes to [1, 0, 0, 0, 0]; item ID 1 is a non-socketable seal-clubbing club.
     var outfit = new SpecialOutfit(-123, "Codpiece Test c=~AQAAAAA");
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
-            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE));
-
-    try (cleanups) {
+            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE))) {
       assertThat(ItemDatabase.getItemName(ItemPool.SEAL_CLUB), equalTo("seal-clubbing club"));
       startStream();
       new EquipmentRequest(outfit).run();
@@ -403,12 +375,10 @@ public class EquipmentRequestTest {
     // Decodes to [999999, 0, 0, 0, 0]; item ID 999999 is not in the item database.
     var outfit = new SpecialOutfit(-123, "Codpiece Test c=~v4Q9AAAAAA");
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE))) {
       assertNull(ItemDatabase.getItemName(999999));
       startStream();
       new EquipmentRequest(outfit).run();
@@ -429,14 +399,12 @@ public class EquipmentRequestTest {
     // Decodes to [9412, 1, 704, 999999, 0].
     var outfit = new SpecialOutfit(-123, "Codpiece Test c=~xEkBwAW_hD0A");
     outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
             withItem(ItemPool.ALIEN_GEMSTONE),
-            withItem(ItemPool.HAMETHYST));
-
-    try (cleanups) {
+            withItem(ItemPool.HAMETHYST))) {
       new EquipmentRequest(outfit).run();
 
       var requests = builder.client.getRequests();
@@ -463,9 +431,7 @@ public class EquipmentRequestTest {
   void reportsSuccessfulUnequipAll() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "");
-    var cleanups = new Cleanups(withHttpClientBuilder(builder), withContinuationState());
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder), withContinuationState())) {
       new EquipmentRequest(EquipmentRequest.EquipmentRequestType.UNEQUIP_ALL).run();
 
       assertEquals("Everything removed.", KoLmafia.getLastMessage());
@@ -477,9 +443,7 @@ public class EquipmentRequestTest {
     String location = "inventory.php?which=2";
     String responseText = html("request/test_parse_equipment.html");
 
-    var cleanups = new Cleanups(withFamiliar(FamiliarPool.TRICK_TOT));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFamiliar(FamiliarPool.TRICK_TOT))) {
       EquipmentRequest.parseEquipment(location, responseText);
       Map<Slot, AdventureResult> equipment = EquipmentManager.currentEquipment();
 
@@ -501,9 +465,7 @@ public class EquipmentRequestTest {
     String location = "inventory.php?which=2";
     String responseText = html("request/test_parse_equipment_hattrick.html");
 
-    var cleanups = new Cleanups(withPath(Path.HAT_TRICK));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.HAT_TRICK))) {
       EquipmentRequest.parseEquipment(location, responseText);
 
       assertItemUnequip(Slot.HAT);
@@ -518,9 +480,7 @@ public class EquipmentRequestTest {
     String location = "inv_equip.php?action=equip&whichitem=33&ajax=1&pwd";
     String responseText = html("request/test_parse_equipment_changed_hattrick.html");
 
-    var cleanups = new Cleanups(withHatTrickHat(ItemPool.BUGGED_BEANIE), withPath(Path.HAT_TRICK));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withHatTrickHat(ItemPool.BUGGED_BEANIE), withPath(Path.HAT_TRICK))) {
       EquipmentRequest.parseEquipmentChange(location, responseText);
 
       var hats = EquipmentManager.getHatTrickHats();
@@ -532,15 +492,13 @@ public class EquipmentRequestTest {
   class FolderHolder {
     @Test
     public void canParseFolderHolderPage() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.FOLDER1, ItemPool.FOLDER_01),
               withEquipped(Slot.FOLDER2, ItemPool.FOLDER_01),
               withEquipped(Slot.FOLDER3, ItemPool.FOLDER_01),
               withEquipped(Slot.FOLDER4, ItemPool.FOLDER_01),
-              withEquipped(Slot.FOLDER5, ItemPool.FOLDER_01));
-
-      try (cleanups) {
+              withEquipped(Slot.FOLDER5, ItemPool.FOLDER_01))) {
         String text = html("request/test_folder_holder.html");
 
         EquipmentRequest.parseFolders(text);
@@ -555,15 +513,13 @@ public class EquipmentRequestTest {
 
     @Test
     public void canParseFolderHolderPageWithNoMoreFolders() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.FOLDER1, ItemPool.FOLDER_01),
               withEquipped(Slot.FOLDER2, ItemPool.FOLDER_01),
               withEquipped(Slot.FOLDER3, ItemPool.FOLDER_01),
               withEquipped(Slot.FOLDER4, ItemPool.FOLDER_01),
-              withEquipped(Slot.FOLDER5, ItemPool.FOLDER_01));
-
-      try (cleanups) {
+              withEquipped(Slot.FOLDER5, ItemPool.FOLDER_01))) {
         String text = html("request/test_folder_holder_no_more_folders.html");
 
         EquipmentRequest.parseFolders(text);
@@ -583,9 +539,8 @@ public class EquipmentRequestTest {
     public void canParseCodpieceInsert() {
       // put baconstone in empty slot
       String text = html("request/test_codpiece_insert.html");
-      var cleanups =
-          new Cleanups(withUnequipped(Slot.CODPIECE1), withItem(ItemPool.BACONSTONE, 10));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withUnequipped(Slot.CODPIECE1), withItem(ItemPool.BACONSTONE, 10))) {
         EquipmentRequest req =
             new EquipmentRequest(ItemPool.get(ItemPool.BACONSTONE), Slot.CODPIECE1);
         req.setHasResult(true);
@@ -601,12 +556,11 @@ public class EquipmentRequestTest {
     public void canParseCodpieceChange() {
       // swap in hamethyst for baconstone
       String text = html("request/test_codpiece_change.html");
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CODPIECE1, ItemPool.BACONSTONE),
               withItem(ItemPool.BACONSTONE, 10),
-              withItem(ItemPool.HAMETHYST, 10));
-      try (cleanups) {
+              withItem(ItemPool.HAMETHYST, 10))) {
         EquipmentRequest req =
             new EquipmentRequest(ItemPool.get(ItemPool.HAMETHYST), Slot.CODPIECE1);
         req.setHasResult(true);
@@ -622,14 +576,13 @@ public class EquipmentRequestTest {
     @Test
     public void canParseCodpiecePageForAllSlots() {
       String text = html("request/test_codpiece_full_page.html");
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CODPIECE1, ItemPool.HAMETHYST),
               withEquipped(Slot.CODPIECE2, ItemPool.HAMETHYST),
               withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST),
               withEquipped(Slot.CODPIECE4, ItemPool.HAMETHYST),
-              withEquipped(Slot.CODPIECE5, ItemPool.HAMETHYST));
-      try (cleanups) {
+              withEquipped(Slot.CODPIECE5, ItemPool.HAMETHYST))) {
         EquipmentRequest.parseCodpiecePage(text);
 
         assertItem(Slot.CODPIECE1, "blood cubic zirconia");
@@ -644,14 +597,13 @@ public class EquipmentRequestTest {
     public void canParseCodpiecePageWithEmptySlots() {
       // only slot 1 is filled; slots 2-5 are empty
       String text = html("request/test_codpiece_insert.html");
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withUnequipped(Slot.CODPIECE1),
               withEquipped(Slot.CODPIECE2, ItemPool.HAMETHYST),
               withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST),
               withEquipped(Slot.CODPIECE4, ItemPool.HAMETHYST),
-              withEquipped(Slot.CODPIECE5, ItemPool.HAMETHYST));
-      try (cleanups) {
+              withEquipped(Slot.CODPIECE5, ItemPool.HAMETHYST))) {
         EquipmentRequest.parseCodpiecePage(text);
 
         assertItem(Slot.CODPIECE1, "baconstone");
@@ -666,10 +618,9 @@ public class EquipmentRequestTest {
     public void canParseCodpieceRemove() {
       // clear slot containing hamethyst
       String text = html("request/test_codpiece_remove.html");
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquipped(Slot.CODPIECE1, ItemPool.HAMETHYST), withItem(ItemPool.HAMETHYST, 10));
-      try (cleanups) {
+              withEquipped(Slot.CODPIECE1, ItemPool.HAMETHYST), withItem(ItemPool.HAMETHYST, 10))) {
         EquipmentRequest req = new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.CODPIECE1);
         req.setHasResult(true);
         req.responseText = text;

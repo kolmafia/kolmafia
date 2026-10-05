@@ -49,10 +49,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
   @Test
   void mustGiveRealCommand() {
     String output;
-    var cleanups =
-        new Cleanups(withProperty("_daycareToday", true), withProperty("_daycareNap", true));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("_daycareToday", true), withProperty("_daycareNap", true))) {
       output = execute("flargle");
     }
 
@@ -63,10 +61,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
   @Test
   void itemIsOncePerDay() {
     String output;
-    var cleanups =
-        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareNap", true));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareNap", true))) {
       output = execute("item");
     }
 
@@ -78,10 +74,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canGetItem() {
-    var cleanups =
-        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareNap", false));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareNap", false))) {
       execute("item");
     }
 
@@ -97,10 +91,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
   @Test
   void wontFreeScavengeIfNotFree() {
     String output;
-    var cleanups =
-        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareGymScavenges", 1));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareGymScavenges", 1))) {
       output = execute("scavenge free");
     }
 
@@ -113,10 +105,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
 
   @Test
   void willFreeScavengeIfFree() {
-    var cleanups =
-        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareGymScavenges", 0));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareGymScavenges", 0))) {
       execute("scavenge free");
     }
 
@@ -133,10 +123,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
 
   @Test
   void willScavengeIfNotFree() {
-    var cleanups =
-        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareGymScavenges", 3));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareGymScavenges", 3))) {
       execute("scavenge");
     }
 
@@ -154,10 +142,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
   @Test
   void statIsOncePerDay() {
     String output;
-    var cleanups =
-        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareSpa", true));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareSpa", true))) {
       output = execute("mus");
     }
 
@@ -177,10 +163,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
       regen, 4
       """)
   public void getStatBuff(String buff, Integer choice) {
-    var cleanups =
-        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareSpa", false));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("daycareOpen", true), withProperty("_daycareSpa", false))) {
       execute(buff);
     }
 

@@ -1341,9 +1341,7 @@ public class GenericRequest implements Runnable {
       AdventureResult comedyItem = ItemPool.get(comedyItemID, 1);
       String text = null;
 
-      Checkpoint checkpoint = new Checkpoint();
-
-      try (checkpoint) {
+      try (var _ = new Checkpoint()) {
         if (KoLConstants.inventory.contains(comedyItem)) {
           // Unequip any 2-handed weapon before equipping an offhand
           if (offhand) {

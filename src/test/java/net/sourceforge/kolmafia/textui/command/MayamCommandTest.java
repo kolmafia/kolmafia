@@ -42,9 +42,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustUseValidCommand() {
-    var cleanups = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""))) {
       String output = execute("wish yam yam yam yam");
       assertErrorState();
       assertThat(output, containsString("Mayam command not recognised"));
@@ -60,12 +58,11 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void showsAvailableSymbols() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCalendar(),
-              withProperty("_mayamSymbolsUsed", "yam1,sword,wood,meat,yam3,wall,clock,explosion"));
-
-      try (cleanups) {
+              withProperty(
+                  "_mayamSymbolsUsed", "yam1,sword,wood,meat,yam3,wall,clock,explosion"))) {
         String output = execute("rings");
         assertContinueState();
         assertThat(
@@ -90,9 +87,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
     @ParameterizedTest
     @ValueSource(strings = {"yam yam yam", "yam yam yam yam yam"})
     void mustProvideExactlyFourSymbols(final String symbols) {
-      var cleanups = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""))) {
         String output = execute("rings " + symbols);
         assertErrorState();
         assertThat(output, containsString("You must supply exactly four symbols."));
@@ -101,11 +96,10 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void cannotReuseSymbol() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withCalendar(), withProperty("_mayamSymbolsUsed", "sword,lightning,eyepatch,clock"));
-
-      try (cleanups) {
+              withCalendar(),
+              withProperty("_mayamSymbolsUsed", "sword,lightning,eyepatch,clock"))) {
         String output = execute("rings sword yam yam yam");
         assertErrorState();
         assertThat(output, containsString("You've already used the sword symbol."));
@@ -114,11 +108,9 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void cannotReuseYamSymbol() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withCalendar(), withProperty("_mayamSymbolsUsed", "yam1,lightning,eyepatch,clock"));
-
-      try (cleanups) {
+              withCalendar(), withProperty("_mayamSymbolsUsed", "yam1,lightning,eyepatch,clock"))) {
         String output = execute("rings yam yam yam yam");
         assertErrorState();
         assertThat(output, containsString("You've already used the yam symbol in position 1."));
@@ -127,9 +119,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void symbolMustExist() {
-      var cleanups = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""))) {
         String output = execute("rings zippy yam yam yam");
         assertErrorState();
         assertThat(output, containsString("Cannot match symbol zippy on ring 1."));
@@ -138,9 +128,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void symbolMustExistOnRing() {
-      var cleanups = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""))) {
         String output = execute("rings clock yam yam yam");
         assertErrorState();
         assertThat(output, containsString("Cannot match symbol clock on ring 1."));
@@ -149,9 +137,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void considersTheCalendar() {
-      var cleanups = withCalendar();
-
-      try (cleanups) {
+      try (var _ = withCalendar()) {
         String output = execute("rings eye yam eyepatch yam");
         var requests = getRequests();
 
@@ -177,10 +163,8 @@ public class MayamCommandTest extends AbstractCommandTestBase {
   class Resonances {
     @Test
     void showsNoResonances() {
-      var cleanups =
-          new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", "yam1,yam2,yam4"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", "yam1,yam2,yam4"))) {
         String output = execute("resonance");
         assertContinueState();
         assertThat(output, containsString("No resonances remaining"));
@@ -189,11 +173,9 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void showsAvailableResonances() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withCalendar(), withProperty("_mayamSymbolsUsed", "yam1,lightning,eyepatch,clock"));
-
-      try (cleanups) {
+              withCalendar(), withProperty("_mayamSymbolsUsed", "yam1,lightning,eyepatch,clock"))) {
         String output = execute("resonance");
         assertContinueState();
         // no guarantee as to the order
@@ -204,9 +186,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void failsWithMultipleSubstringMatch() {
-      var cleanups = new Cleanups(withCalendar());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCalendar())) {
         String output = execute("resonance am cannon");
         assertErrorState();
         assertThat(output, containsString("Too many resonance matches for am cannon."));
@@ -215,9 +195,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void passesWithExactMatch() {
-      var cleanups = new Cleanups(withCalendar());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCalendar())) {
         String output = execute("resonance yam cannon");
 
         assertContinueState();
@@ -227,9 +205,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
     @Test
     void passesWithUniqueSubstringMatch() {
-      var cleanups = new Cleanups(withCalendar());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCalendar())) {
         String output = execute("resonance battery");
 
         assertContinueState();

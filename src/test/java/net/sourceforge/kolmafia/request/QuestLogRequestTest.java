@@ -45,13 +45,11 @@ public class QuestLogRequestTest {
 
   @Test
   public void canParseExploathingBattlefield() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.KINGDOM_OF_EXPLOATHING),
             withProperty("hippiesDefeated", 0),
-            withProperty("fratboysDefeated", 0));
-
-    try (cleanups) {
+            withProperty("fratboysDefeated", 0))) {
       QuestLogRequest.registerQuests(
           true, "questlog.php?which=1", html("request/test_quest_exploathing_battlefield.html"));
 
@@ -64,9 +62,7 @@ public class QuestLogRequestTest {
   class CurrentQuests {
     @Test
     public void parsesQuestProgress() {
-      var cleanups = new Cleanups(withQuestPlayerName());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestPlayerName())) {
         QuestLogRequest.registerQuests(
             true, "questlog.php?which=1", html("request/test_questlog_current.html"));
 
@@ -96,14 +92,12 @@ public class QuestLogRequestTest {
 
     @Test
     public void clearsPreferencesForAbsentQuests() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestPlayerName(),
               withProperty("ghostLocation", "The Spooky Forest"),
               withProperty("_newYouQuestMonster", "fluffy bunny"),
-              withProperty("doctorBagQuestItem", "cast"));
-
-      try (cleanups) {
+              withProperty("doctorBagQuestItem", "cast"))) {
         QuestLogRequest.registerQuests(
             true, "questlog.php?which=1", html("request/test_questlog_current.html"));
 
@@ -118,9 +112,7 @@ public class QuestLogRequestTest {
   class CompletedQuests {
     @Test
     public void parsesCompletedCouncilQuests() {
-      var cleanups = new Cleanups(withQuestPlayerName());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestPlayerName())) {
         QuestLogRequest.registerQuests(
             true, "questlog.php?which=2", html("request/test_questlog_completed.html"));
 
@@ -139,9 +131,7 @@ public class QuestLogRequestTest {
 
     @Test
     public void parsesCompletedOtherQuests() {
-      var cleanups = new Cleanups(withQuestPlayerName());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestPlayerName())) {
         QuestLogRequest.registerQuests(
             true, "questlog.php?which=2", html("request/test_questlog_completed.html"));
 

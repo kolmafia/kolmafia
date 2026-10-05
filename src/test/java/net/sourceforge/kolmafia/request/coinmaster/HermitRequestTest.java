@@ -26,12 +26,10 @@ public class HermitRequestTest {
 
   @Test
   public void testCloverCountsAreKnown() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHermitReset(),
-            withNextResponse(200, html("request/test_track_clover_visit_hermit.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_track_clover_visit_hermit.html")))) {
       var request = new HermitRequest();
       request.run();
 
@@ -41,15 +39,13 @@ public class HermitRequestTest {
 
   @Test
   public void testThatCloverPurchasesAreTracked() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHermitReset(),
             withProperty("_cloversPurchased", 0),
             withItem(ItemPool.WORTHLESS_TRINKET, 3),
             withItem(ItemPool.ELEVEN_LEAF_CLOVER, 0),
-            withNextResponse(200, html("request/test_track_clover_purchase_hermit.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_track_clover_purchase_hermit.html")))) {
       var request = new GenericRequest("hermit.php?action=trade&quantity=3&whichitem=10881");
       request.run();
 

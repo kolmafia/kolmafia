@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 public class MPRestoreItemListTest {
   @Test
   public void itemsHaveCorrectMana() {
-    var cleanups = withLevel(13);
-    try (cleanups) {
+    try (var _ = withLevel(13)) {
       MPRestoreItemList.updateManaRestored();
       for (var entry : ItemDatabase.entrySet()) {
         var itemId = entry.getKey();

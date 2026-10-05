@@ -39,9 +39,7 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
   @Test
   public void unequipOffhand() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = withEquipped(Slot.OFFHAND, ItemPool.HOT_PLATE);
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.OFFHAND, ItemPool.HOT_PLATE)) {
       execute("offhand");
       assertContinueState();
 
@@ -55,14 +53,12 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
   @Test
   public void unequipFolder() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.FOLDER1, ItemPool.FOLDER_19),
             withEquipped(Slot.FOLDER2, ItemPool.FOLDER_22),
             withHandlingChoice(false) // escape the choice
-            );
-
-    try (cleanups) {
+            )) {
       execute("folder2");
       assertContinueState();
 
@@ -76,13 +72,11 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
   @Test
   public void unequipByName() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, ItemPool.SHINY_RING),
             withEquipped(Slot.ACCESSORY2, ItemPool.SHINY_RING),
-            withEquipped(Slot.ACCESSORY3, ItemPool.SHINY_RING));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY3, ItemPool.SHINY_RING))) {
       execute("shiny ring");
       assertContinueState();
 

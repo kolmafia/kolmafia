@@ -150,13 +150,11 @@ public class ConcoctionTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 10, 20})
     void cannotMakeDistillateWithoutDrams(int drams) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.CARNIE),
               withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
-              withProperty("familiarSweat", drams));
-
-      try (cleanups) {
+              withProperty("familiarSweat", drams))) {
         DISTILLATE.calculate3();
         assertThat(DISTILLATE.freeTotal, is(drams >= 10 ? 1 : 0));
       }
@@ -189,11 +187,9 @@ public class ConcoctionTest {
     public class Smithing {
       @Test
       public void smithingTakesAdventures() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(5), withConcoctionRefresh());
-
-        try (cleanups) {
+                withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(5), withConcoctionRefresh())) {
           var con = ConcoctionPool.get(ItemPool.CHELONIAN_MORNINGSTAR);
           assertThat(con.getAdventuresNeeded(1), is(1));
         }
@@ -201,11 +197,9 @@ public class ConcoctionTest {
 
       @Test
       public void smithingTakesManyAdventures() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(5), withConcoctionRefresh());
-
-        try (cleanups) {
+                withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(5), withConcoctionRefresh())) {
           var con = ConcoctionPool.get(ItemPool.GOULAUNCHER);
           assertThat(con.getAdventuresNeeded(1), is(3));
         }
@@ -213,9 +207,7 @@ public class ConcoctionTest {
 
       @Test
       public void innaboxCanFreeSimpleSmiths() {
-        var cleanups = new Cleanups(withSign(ZodiacSign.MONGOOSE), withConcoctionRefresh());
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withSign(ZodiacSign.MONGOOSE), withConcoctionRefresh())) {
           var con = ConcoctionPool.get(ItemPool.GOULAUNCHER);
           assertThat(con.getAdventuresNeeded(3), is(0));
         }
@@ -223,15 +215,13 @@ public class ConcoctionTest {
 
       @Test
       public void innaboxCannotFreeComplexSmiths() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withItem(ItemPool.TENDER_HAMMER),
                 withSkill(SkillPool.ARMORCRAFTINESS),
                 withAdventuresLeft(5),
                 withSign(ZodiacSign.MONGOOSE),
-                withConcoctionRefresh());
-
-        try (cleanups) {
+                withConcoctionRefresh())) {
           var con = ConcoctionPool.get(ItemPool.SPONGE_HELMET);
           assertThat(con.getAdventuresNeeded(2), is(2));
         }
@@ -240,7 +230,7 @@ public class ConcoctionTest {
       @Test
       public void freeCraftsCanSaveSmithingTurns() {
         // set up free crafts: 3 from Thor's Pliers, 2 from Expert Corner-Cutter
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withItem(ItemPool.TENDER_HAMMER),
                 withAdventuresLeft(10),
@@ -248,9 +238,7 @@ public class ConcoctionTest {
                 withProperty("_thorsPliersCrafting", 7),
                 withSkill(SkillPool.EXPERT_CORNER_CUTTER),
                 withProperty("_expertCornerCutterUsed", 3),
-                withConcoctionRefresh());
-
-        try (cleanups) {
+                withConcoctionRefresh())) {
           var con = ConcoctionPool.get(ItemPool.GOULAUNCHER);
           assertThat(con.getAdventuresNeeded(3, true), is(4));
         }
@@ -261,9 +249,7 @@ public class ConcoctionTest {
     public class Cooking {
       @Test
       public void fancyCookingTakesAdventures() {
-        var cleanups = new Cleanups(withAdventuresLeft(1), withRange());
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withAdventuresLeft(1), withRange())) {
           var con = ConcoctionPool.get(ItemPool.KNOB_CAKE);
           assertThat(con.getAdventuresNeeded(1), is(1));
         }
@@ -271,7 +257,7 @@ public class ConcoctionTest {
 
       @Test
       public void freeCraftsSaveAdventures() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withAdventuresLeft(10),
                 withSkill(SkillPool.TRANSCENDENTAL_NOODLECRAFTING),
@@ -279,9 +265,7 @@ public class ConcoctionTest {
                 withProperty("homebodylCharges", 3),
                 withSkill(SkillPool.RAPID_PROTOTYPING),
                 withProperty("_rapidPrototypingUsed", 4),
-                withRange());
-
-        try (cleanups) {
+                withRange())) {
           var con = ConcoctionPool.get(ItemPool.BEEFY_CRUNCH_PASTACO);
           assertThat(con.getAdventuresNeeded(10, true), is(1));
         }
@@ -292,9 +276,7 @@ public class ConcoctionTest {
     public class Mixing {
       @Test
       public void fancyMixingTakesAdventures() {
-        var cleanups = new Cleanups(withAdventuresLeft(1), withCocktailKit());
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withAdventuresLeft(1), withCocktailKit())) {
           var con = ConcoctionPool.get(ItemPool.COOL_MUSHROOM_WINE);
           assertThat(con.getAdventuresNeeded(1), is(1));
         }
@@ -302,15 +284,13 @@ public class ConcoctionTest {
 
       @Test
       public void freeCraftsOfRightTypeSaveAdventures() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withAdventuresLeft(10),
                 withSkill(SkillPool.SUPER_COCKTAIL),
                 withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT),
                 withProperty("homebodylCharges", 3),
-                withCocktailKit());
-
-        try (cleanups) {
+                withCocktailKit())) {
           var con = ConcoctionPool.get(ItemPool.OVERPOWERING_MUSHROOM_WINE);
           assertThat(con.getAdventuresNeeded(10, true), is(7));
         }
@@ -322,14 +302,12 @@ public class ConcoctionTest {
   class Kiwi {
     @Test
     void cannotBuyIntoxicatingSpiritsWithoutKiwis() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.MINI_KIWI),
               withProperty("autoSatisfyWithCoinmasters", true),
               // Kiwi Kwiki Mart is now a coinmaster.
-              withConcoctionRefresh());
-
-      try (cleanups) {
+              withConcoctionRefresh())) {
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
         conc.calculate3();
         assertThat(conc.freeTotal, is(0));
@@ -339,15 +317,13 @@ public class ConcoctionTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void canBuyOneIntoxicatingSpirits(boolean haveBought) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.MINI_KIWI, 3),
               withProperty("_miniKiwiIntoxicatingSpiritsBought", haveBought),
               withProperty("autoSatisfyWithCoinmasters", true),
               // Kiwi Kwiki Mart is now a coinmaster.
-              withConcoctionRefresh());
-
-      try (cleanups) {
+              withConcoctionRefresh())) {
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
         conc.calculate3();
         assertThat(conc.freeTotal, is(haveBought ? 0 : 1));
@@ -361,14 +337,13 @@ public class ConcoctionTest {
     @CsvSource({"22,1", "33,0"})
     public void itShouldReportTheCorrectAmount(int pathId, int count) {
       AscensionPath.Path path = AscensionPath.idToPath(pathId);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.CLIP_ART),
               withPath(path),
               withProperty("_clipartSummons", 2),
               withProperty("tomeSummons", 2),
-              withConcoctionRefresh());
-      try (cleanups) {
+              withConcoctionRefresh())) {
         var conc = ConcoctionPool.get(ItemPool.FROMAGE_PINOTAGE);
         conc.calculate3();
         assertThat(conc.total, is(count));

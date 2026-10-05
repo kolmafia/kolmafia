@@ -43,9 +43,7 @@ public class MallSearchDecoratorTest {
 
     StringBuffer buffer = new StringBuffer(testString);
 
-    var cleanups = withProperty("forbiddenStores", "11111");
-
-    try (cleanups) {
+    try (var _ = withProperty("forbiddenStores", "11111")) {
       MallSearchRequest.decorateMallSearchHighlightStores(buffer);
 
       assertThat(buffer.toString(), equalTo(expectedString));
@@ -64,9 +62,7 @@ public class MallSearchDecoratorTest {
 
     StringBuffer buffer = new StringBuffer(testString);
 
-    var cleanups = withUserId(11112);
-
-    try (cleanups) {
+    try (var _ = withUserId(11112)) {
       MallSearchRequest.decorateMallSearchHighlightStores(buffer);
 
       assertThat(buffer.toString(), equalTo(expectedString));

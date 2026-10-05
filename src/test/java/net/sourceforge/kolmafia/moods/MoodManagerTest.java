@@ -309,13 +309,11 @@ class MoodManagerTest {
 
   @Test
   public void maintenanceCostForCustomEffectedSkills() throws IOException {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("currentMood", "default"),
             withSkill(SkillPool.EMPATHY_OF_THE_NEWT),
-            withSkill(SkillPool.LEASH_OF_LINGUINI));
-
-    try (cleanups) {
+            withSkill(SkillPool.LEASH_OF_LINGUINI))) {
       var mood =
           """
           [ default ]

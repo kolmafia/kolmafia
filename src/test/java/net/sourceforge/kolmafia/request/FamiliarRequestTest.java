@@ -44,14 +44,12 @@ class FamiliarRequestTest {
   class UnusableFamiliars {
     @Test
     void canEquipUnusableFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.MINIATURE_CRYSTAL_BALL),
               withFamiliarInTerrarium(FamiliarPool.BOWLET),
               withPath(Path.BEES_HATE_YOU),
-              withNextResponse(200, html("request/test_equip_terrarium_familiar.html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_equip_terrarium_familiar.html")))) {
         var bowlet =
             KoLCharacter.ownedFamiliars().stream()
                 .filter(x -> x.getId() == FamiliarPool.BOWLET)
@@ -69,14 +67,12 @@ class FamiliarRequestTest {
 
     @Test
     void canUnequipUnusableFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.MINIATURE_CRYSTAL_BALL),
               withFamiliarInTerrarium(FamiliarPool.BOWLET),
               withPath(Path.BEES_HATE_YOU),
-              withNextResponse(200, "Item unequipped."));
-
-      try (cleanups) {
+              withNextResponse(200, "Item unequipped."))) {
         var bowlet =
             KoLCharacter.ownedFamiliars().stream()
                 .filter(x -> x.getId() == FamiliarPool.BOWLET)
@@ -103,15 +99,13 @@ class FamiliarRequestTest {
     @Test
     void respectsStillSuitFamiliar() {
       setupFakeClient();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.GROUPIE),
               withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withFamiliarInTerrarium(FamiliarPool.BOWLET),
               withFamiliarInTerrarium(FamiliarPool.GREY_GOOSE),
-              withProperty("stillsuitFamiliar", "Bowlet"));
-
-      try (cleanups) {
+              withProperty("stillsuitFamiliar", "Bowlet"))) {
         var newFamiliar = FamiliarData.registerFamiliar(FamiliarPool.GREY_GOOSE, 0);
         var req = new FamiliarRequest(newFamiliar);
         req.responseText = "You take";
@@ -133,14 +127,12 @@ class FamiliarRequestTest {
     @Test
     void doNotMoveStillsuitIfTakingOutStillsuitFamiliar() {
       setupFakeClient();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.GROUPIE),
               withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withFamiliarInTerrarium(FamiliarPool.BOWLET),
-              withProperty("stillsuitFamiliar", "Bowlet"));
-
-      try (cleanups) {
+              withProperty("stillsuitFamiliar", "Bowlet"))) {
         var newFamiliar = FamiliarData.registerFamiliar(FamiliarPool.BOWLET, 0);
         var req = new FamiliarRequest(newFamiliar);
         req.responseText = "You take";
@@ -154,14 +146,12 @@ class FamiliarRequestTest {
     @Test
     void doNotMoveStillsuitIfPuttingAwayStillsuitFamiliar() {
       setupFakeClient();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.BOWLET),
               withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withFamiliarInTerrarium(FamiliarPool.GROUPIE),
-              withProperty("stillsuitFamiliar", "Bowlet"));
-
-      try (cleanups) {
+              withProperty("stillsuitFamiliar", "Bowlet"))) {
         var newFamiliar = FamiliarData.registerFamiliar(FamiliarPool.GROUPIE, 0);
         var req = new FamiliarRequest(newFamiliar);
         req.responseText = "You take";
@@ -175,14 +165,12 @@ class FamiliarRequestTest {
     @Test
     void ignoreBogusStillsuitFamiliar() {
       setupFakeClient();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.GROUPIE),
               withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withFamiliarInTerrarium(FamiliarPool.BOWLET),
-              withProperty("stillsuitFamiliar", "Ian, the familiar of great reknown"));
-
-      try (cleanups) {
+              withProperty("stillsuitFamiliar", "Ian, the familiar of great reknown"))) {
         var newFamiliar = FamiliarData.registerFamiliar(FamiliarPool.BOWLET, 0);
         var req = new FamiliarRequest(newFamiliar);
         req.responseText = "You take";
@@ -204,9 +192,7 @@ class FamiliarRequestTest {
     })
     void canParseSoupedUpFamiliars(int familiarId, int soupWeight, String soupAttributes) {
       var page = html("request/test_familiar_soup.html");
-      var cleanups = new Cleanups(withNextResponse(200, page));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withNextResponse(200, page))) {
         RequestThread.postRequest(new FamiliarRequest());
 
         var familiar = KoLCharacter.usableFamiliar(familiarId);

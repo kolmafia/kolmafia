@@ -28,12 +28,10 @@ public class ClanRumpusRequestTest {
 
   @Test
   void ballpitRequestParsesAction() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withNextResponse(200, html("request/test_clan_ballpit.html")),
-            withProperty("_ballpit", false));
-
-    try (cleanups) {
+            withProperty("_ballpit", false))) {
       new ClanRumpusRequest(ClanRumpusRequest.RequestType.BALLS).run();
       assertThat("_ballpit", isSetTo(true));
     }
@@ -45,7 +43,7 @@ public class ClanRumpusRequestTest {
 
     builder.client.addResponse(200, html("request/test_clan_rumpus_chips_used.html"));
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             // This includes additional furniture to match the test fixture and ensure appropriate
@@ -58,9 +56,7 @@ public class ClanRumpusRequestTest {
                 "Inspirational Desk Calendar",
                 "Wrestling Mat",
                 "Snack Machine"),
-            withProperty("_chipBags", 0));
-
-    try (cleanups) {
+            withProperty("_chipBags", 0))) {
       new ClanRumpusRequest(ClanRumpusRequest.RequestType.CHIPS).run();
       var requests = builder.client.getRequests();
 
@@ -72,12 +68,10 @@ public class ClanRumpusRequestTest {
 
   @Test
   void klawRequestParsesAction() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withNextResponse(200, html("request/test_clan_klaw.html")),
-            withProperty("_klawSummons", 2));
-
-    try (cleanups) {
+            withProperty("_klawSummons", 2))) {
       var req = new ClanRumpusRequest(RequestType.VISIT);
       req.visitEquipment(3, 3);
       req.run();
@@ -89,14 +83,12 @@ public class ClanRumpusRequestTest {
   void breakfastSkipsVisitedEquipment() {
     var builder = new FakeHttpClientBuilder();
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withInteractivity(true),
             withClanFurniture("Girls of Loathing Calendar"),
-            withProperty("_clanRumpusSpot1Visited", true));
-
-    try (cleanups) {
+            withProperty("_clanRumpusSpot1Visited", true))) {
       ClanRumpusRequest.getBreakfast();
       var requests = builder.client.getRequests();
 

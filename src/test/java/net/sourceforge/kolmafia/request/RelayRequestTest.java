@@ -185,8 +185,7 @@ public class RelayRequestTest {
       "parameterizedCommand"
     })
     public void failsWithNoHash(String endpoint) {
-      var cleanups = withPasswordHash("xxxx");
-      try (cleanups) {
+      try (var _ = withPasswordHash("xxxx")) {
         var rr = makeCommandRequest(endpoint, "echo hi", null);
         assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
         assertThat(rr.responseCode, is(401));
@@ -204,8 +203,7 @@ public class RelayRequestTest {
       "parameterizedCommand"
     })
     public void failsWithWrongHash(String endpoint) {
-      var cleanups = withPasswordHash("xxxx");
-      try (cleanups) {
+      try (var _ = withPasswordHash("xxxx")) {
         var rr = makeCommandRequest(endpoint, "echo hi", "yyy");
         assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
         assertThat(rr.responseCode, is(401));
@@ -222,8 +220,7 @@ public class RelayRequestTest {
       "parameterizedCommand,200"
     })
     public void succeedsWithRedirect(String endpoint, int statusCode) {
-      var cleanups = withPasswordHash("xxxx");
-      try (cleanups) {
+      try (var _ = withPasswordHash("xxxx")) {
         RequestLoggerOutput.startStream();
         var rr = makeCommandRequest(endpoint, "echo hi", "xxxx");
         var output = RequestLoggerOutput.stopStream();
@@ -269,8 +266,7 @@ public class RelayRequestTest {
 
     @Test
     public void failsWithNoHash() {
-      var cleanups = withPasswordHash("xxxx");
-      try (cleanups) {
+      try (var _ = withPasswordHash("xxxx")) {
         var rr = makeApiRequest("{}", null);
         assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
         assertThat(rr.responseCode, is(401));
@@ -279,8 +275,7 @@ public class RelayRequestTest {
 
     @Test
     public void failsWithWrongHash() {
-      var cleanups = withPasswordHash("xxxx");
-      try (cleanups) {
+      try (var _ = withPasswordHash("xxxx")) {
         var rr = makeApiRequest("{}", "yyy");
         assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
         assertThat(rr.responseCode, is(401));
@@ -289,8 +284,7 @@ public class RelayRequestTest {
 
     @Test
     public void returnsProperties() {
-      var cleanups = withProperty("kingLiberated", true);
-      try (cleanups) {
+      try (var _ = withProperty("kingLiberated", true)) {
         var rr =
             this.makeApiRequest(
                 """
@@ -310,10 +304,9 @@ public class RelayRequestTest {
 
     @Test
     public void returnsMultipleProperties() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("kingLiberated", true), withProperty("lastKingLiberation", 1000));
-      try (cleanups) {
+              withProperty("kingLiberated", true), withProperty("lastKingLiberation", 1000))) {
         var rr =
             this.makeApiRequest(
                 """
@@ -333,8 +326,7 @@ public class RelayRequestTest {
 
     @Test
     public void returnsFunctions() {
-      var cleanups = withTurnsPlayed(22);
-      try (cleanups) {
+      try (var _ = withTurnsPlayed(22)) {
         var rr =
             this.makeApiRequest(
                 """
@@ -357,8 +349,7 @@ public class RelayRequestTest {
         value = KoLConstants.MafiaState.class,
         names = {"ENABLE", "ERROR", "ABORT", "PENDING"})
     public void returnsErrorWithBadContinuationState(KoLConstants.MafiaState state) {
-      var cleanups = new Cleanups(withTurnsPlayed(22), withContinuationState(state));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(22), withContinuationState(state))) {
         var rr =
             this.makeApiRequest(
                 """
@@ -378,8 +369,7 @@ public class RelayRequestTest {
 
     @Test
     public void returnsMultipleFunctions() {
-      var cleanups = new Cleanups(withTurnsPlayed(22), withMeat(1000));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(22), withMeat(1000))) {
         var rr =
             this.makeApiRequest(
                 """
@@ -425,8 +415,7 @@ public class RelayRequestTest {
 
     @Test
     public void handlesEnumeratedTypes() {
-      var cleanups = withItem(ItemPool.SEAL_CLUB);
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.SEAL_CLUB)) {
         var rr =
             this.makeApiRequest(
                 """
@@ -471,8 +460,7 @@ public class RelayRequestTest {
       """
         })
     public void handlesIdentity(String json) {
-      var cleanups = withItem(ItemPool.SEAL_CLUB);
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.SEAL_CLUB)) {
         var rr =
             this.makeApiRequest(
                 """
@@ -612,8 +600,7 @@ public class RelayRequestTest {
       "Item,backup camera,test_relay_request_identity_with_loops_item.json"
     })
     public void handlesIdentityWithLoops(String type, String identifier, String expectedFile) {
-      var cleanups = withAdventuresSpent(AdventurePool.HAUNTED_KITCHEN, 5);
-      try (cleanups) {
+      try (var _ = withAdventuresSpent(AdventurePool.HAUNTED_KITCHEN, 5)) {
         var rr =
             this.makeApiRequest(
                 """
@@ -679,8 +666,7 @@ public class RelayRequestTest {
       "Monster,Zombo",
     })
     public void handlesOverloadedFunction(String type, String identifier) {
-      var cleanups = withEquipped(ItemPool.CURSED_MONKEY_PAW);
-      try (cleanups) {
+      try (var _ = withEquipped(ItemPool.CURSED_MONKEY_PAW)) {
         var rr =
             this.makeApiRequest(
                 """

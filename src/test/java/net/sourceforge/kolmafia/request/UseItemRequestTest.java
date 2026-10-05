@@ -63,8 +63,7 @@ class UseItemRequestTest {
     void maxZeroIfInLimitMode(
         @Enum(names = {"ASTRAL", "BIRD", "MOLE", "ROACH"}) LimitMode lm,
         @Values(ints = {ItemPool.ASTRAL_MUSHROOM, ItemPool.GONG}) int itemId) {
-      var cleanups = new Cleanups(withLimitMode(lm), withItem(itemId));
-      try (cleanups) {
+      try (var _ = new Cleanups(withLimitMode(lm), withItem(itemId))) {
         assertEquals(0, UseItemRequest.maximumUses(itemId));
       }
     }
@@ -72,8 +71,7 @@ class UseItemRequestTest {
     @ParameterizedTest
     @ValueSource(ints = {ItemPool.ASTRAL_MUSHROOM, ItemPool.GONG})
     void maxOneIfNotInLimitMode(int itemId) {
-      var cleanups = new Cleanups(withLimitMode(LimitMode.NONE), withItem(itemId));
-      try (cleanups) {
+      try (var _ = new Cleanups(withLimitMode(LimitMode.NONE), withItem(itemId))) {
         assertEquals(1, UseItemRequest.maximumUses(itemId));
       }
     }
@@ -87,15 +85,13 @@ class UseItemRequestTest {
 
     @Test
     void successfulMilkUsageSetsPreferences() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.MILK_OF_MAGNESIUM),
               withProperty("_milkOfMagnesiumUsed", false),
               withProperty("milkOfMagnesiumActive", false),
               // Wiki claims that this message is indeed "You stomach ..."
-              withNextResponse(200, "You stomach immediately begins to churn"));
-
-      try (cleanups) {
+              withNextResponse(200, "You stomach immediately begins to churn"))) {
         var req = getUseMilkRequest();
         req.run();
 
@@ -106,12 +102,11 @@ class UseItemRequestTest {
 
     @Test
     void unsuccessfulMilkUsageSetsPreference() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.MILK_OF_MAGNESIUM),
               withProperty("_milkOfMagnesiumUsed", false),
-              withNextResponse(200, "it was pretty hard on the old gullet."));
-      try (cleanups) {
+              withNextResponse(200, "it was pretty hard on the old gullet."))) {
         UseItemRequest req = getUseMilkRequest();
         req.run();
         assertThat("_milkOfMagnesiumUsed", isSetTo(true));
@@ -120,10 +115,9 @@ class UseItemRequestTest {
 
     @Test
     void milkPreferencePreventsWastedServerHit() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem(ItemPool.MILK_OF_MAGNESIUM), withProperty("_milkOfMagnesiumUsed", true));
-      try (cleanups) {
+              withItem(ItemPool.MILK_OF_MAGNESIUM), withProperty("_milkOfMagnesiumUsed", true))) {
         Preferences.setBoolean("_milkOfMagnesiumUsed", true);
 
         UseItemRequest req = getUseMilkRequest();
@@ -138,9 +132,7 @@ class UseItemRequestTest {
   class GreyYou {
     @Test
     void allConsumablesAreMaxUseOneInGreyYou() {
-      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.GREY_GOO))) {
         assertThat(UseItemRequest.maximumUses(ItemPool.GRAPEFRUIT), equalTo(1));
         assertThat(UseItemRequest.maximumUses(ItemPool.COLD_WAD), equalTo(1));
         assertThat(UseItemRequest.maximumUses(ItemPool.MUSCHAT), equalTo(1));
@@ -150,9 +142,7 @@ class UseItemRequestTest {
     @Test
     void greyYouGivesWarningOnGcliWhenAlreadyAbsorbed() {
       // Lemon
-      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.GREY_GOO))) {
         var req = UseItemRequest.getInstance(332);
         req.responseText = html("request/test_eat_already_absorbed.html");
         req.processResults();
@@ -167,9 +157,7 @@ class UseItemRequestTest {
     @Test
     void greyYouGivesNoWarningWhenAbsorbed() {
       // Lemon
-      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.GREY_GOO))) {
         var req = UseItemRequest.getInstance(332);
         req.responseText = html("request/test_eat_absorb_lemon.html");
         req.processResults();
@@ -184,11 +172,10 @@ class UseItemRequestTest {
   class PileOfUselessRobotParts {
     @Test
     void incrementsPrefWhenPartsUsed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("homemadeRobotUpgrades", 2), withFamiliar(FamiliarPool.HOMEMADE_ROBOT));
-
-      try (cleanups) {
+              withProperty("homemadeRobotUpgrades", 2),
+              withFamiliar(FamiliarPool.HOMEMADE_ROBOT))) {
         var fam = KoLCharacter.getFamiliar();
         fam.setExperience(1);
 
@@ -205,11 +192,10 @@ class UseItemRequestTest {
 
     @Test
     void detectMaxedOutHomemadeRobot() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("homemadeRobotUpgrades", 2), withFamiliar(FamiliarPool.HOMEMADE_ROBOT));
-
-      try (cleanups) {
+              withProperty("homemadeRobotUpgrades", 2),
+              withFamiliar(FamiliarPool.HOMEMADE_ROBOT))) {
         var fam = KoLCharacter.getFamiliar();
         fam.setExperience(1);
 
@@ -230,9 +216,7 @@ class UseItemRequestTest {
     @ParameterizedTest
     @CsvSource({"0, 5", "15, 0", "8, 2"})
     void maxUsesWorksForHtmlFood(int fullness, int maxUses) {
-      var cleanups = withFullness(fullness);
-
-      try (cleanups) {
+      try (var _ = withFullness(fullness)) {
         assertThat(UseItemRequest.maximumUses(ItemPool.BASH_OS_CEREAL), is(maxUses));
       }
     }
@@ -240,9 +224,7 @@ class UseItemRequestTest {
     @ParameterizedTest
     @CsvSource({"0, 5", "15, 0", "8, 2"})
     void maxUsesWorksForHtmlFoodWithConsumptionType(int fullness, int maxUses) {
-      var cleanups = withFullness(fullness);
-
-      try (cleanups) {
+      try (var _ = withFullness(fullness)) {
         assertThat(
             UseItemRequest.maximumUses(ItemPool.BASH_OS_CEREAL, ConsumptionType.EAT), is(maxUses));
       }
@@ -251,9 +233,7 @@ class UseItemRequestTest {
     @ParameterizedTest
     @CsvSource({"0, 5", "15, 0", "8, 3"})
     void maxUsesWorksForHtmlBooze(int drunk, int maxUses) {
-      var cleanups = withInebriety(drunk);
-
-      try (cleanups) {
+      try (var _ = withInebriety(drunk)) {
         assertThat(UseItemRequest.maximumUses(ItemPool.OREILLE_DIVISEE_BRANDY), is(maxUses));
       }
     }
@@ -261,9 +241,7 @@ class UseItemRequestTest {
     @ParameterizedTest
     @CsvSource({"0, 5", "15, 0", "8, 3"})
     void maxUsesWorksForHtmlBoozeWithConsumptionType(int drunk, int maxUses) {
-      var cleanups = withInebriety(drunk);
-
-      try (cleanups) {
+      try (var _ = withInebriety(drunk)) {
         assertThat(
             UseItemRequest.maximumUses(ItemPool.OREILLE_DIVISEE_BRANDY, ConsumptionType.DRINK),
             is(maxUses));
@@ -273,9 +251,7 @@ class UseItemRequestTest {
     @ParameterizedTest
     @CsvSource({"0, 7", "15, 0", "8, 3"})
     void maxUsesWorksForHtmlSpleenItems(int spleenUsed, int maxUses) {
-      var cleanups = withSpleenUse(spleenUsed);
-
-      try (cleanups) {
+      try (var _ = withSpleenUse(spleenUsed)) {
         assertThat(UseItemRequest.maximumUses(ItemPool.EXTROVERMECTIN), is(maxUses));
       }
     }
@@ -283,9 +259,7 @@ class UseItemRequestTest {
     @ParameterizedTest
     @CsvSource({"0, 7", "15, 0", "8, 3"})
     void maxUsesWorksForHtmlSpleenItemsWithConsumptionType(int spleenUsed, int maxUses) {
-      var cleanups = withSpleenUse(spleenUsed);
-
-      try (cleanups) {
+      try (var _ = withSpleenUse(spleenUsed)) {
         assertThat(
             UseItemRequest.maximumUses(ItemPool.EXTROVERMECTIN, ConsumptionType.SPLEEN),
             is(maxUses));
@@ -299,22 +273,19 @@ class UseItemRequestTest {
     @CsvSource({"5140, 1", "10883, 3"})
     void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID, int maxUses) {
       int spleenUsed = 0;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSpleenUse(spleenUsed),
               withHP(0, 10, 10),
               withMP(0, 10, 10),
-              withPath(AscensionPath.Path.STANDARD));
-
-      try (cleanups) {
+              withPath(AscensionPath.Path.STANDARD))) {
         assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.SPLEEN), is(maxUses));
       }
     }
 
     @Test
     void itShouldHandleAstralEnergyDrinkAppropriately() {
-      var cleanups = new Cleanups(withLevel(1), withSpleenUse(0));
-      try (cleanups) {
+      try (var _ = new Cleanups(withLevel(1), withSpleenUse(0))) {
         assertThat(ConsumablesDatabase.getRawSpleenHit("[5140]astral energy drink"), is(8));
         assertThat(ConsumablesDatabase.getRawSpleenHit("[10883]astral energy drink"), is(5));
         assertThat(UseItemRequest.maximumUses("[5140]astral energy drink"), is(1));
@@ -337,9 +308,7 @@ class UseItemRequestTest {
     void itShouldNotDivideByZeroWhenConsumingZeroFullnessItems(int itemID) {
       int fullness = 0;
       int maxUses = Integer.MAX_VALUE;
-      var cleanups = withFullness(fullness);
-
-      try (cleanups) {
+      try (var _ = withFullness(fullness)) {
         assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.EAT), is(maxUses));
       }
     }
@@ -349,9 +318,7 @@ class UseItemRequestTest {
     void itShouldNotDivideByZeroWhenDrinkingZeroInebrietyItems(int itemID) {
       int inebriety = 0;
       int maxUses = Integer.MAX_VALUE;
-      var cleanups = withInebriety(inebriety);
-
-      try (cleanups) {
+      try (var _ = withInebriety(inebriety)) {
         assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.DRINK), is(maxUses));
       }
     }
@@ -361,9 +328,7 @@ class UseItemRequestTest {
   class MojoFilter {
     @Test
     void detectSuccessfulUse() {
-      var cleanups = new Cleanups(withSpleenUse(10), withProperty("currentMojoFilters", 1));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withSpleenUse(10), withProperty("currentMojoFilters", 1))) {
         var req = UseItemRequest.getInstance(ItemPool.MOJO_FILTER);
         req.responseText = html("request/test_use_mojo_filter_success.html");
         req.processResults();
@@ -379,9 +344,7 @@ class UseItemRequestTest {
       "2, 3, 2", "3, 1, 3", "3, 2, 3", "3, 3, 3"
     })
     void detectMaxMojoFilters(final int current, final int count, final int expected) {
-      var cleanups = new Cleanups(withSpleenUse(10), withProperty("currentMojoFilters", current));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withSpleenUse(10), withProperty("currentMojoFilters", current))) {
         var req = UseItemRequest.getInstance(ItemPool.MOJO_FILTER, count);
         req.responseText = html("request/test_use_mojo_filter_already_maxed.html");
         req.processResults();
@@ -394,12 +357,10 @@ class UseItemRequestTest {
 
   @Test
   void setsBigBookPreference() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL),
-            withProperty("_bookOfEverySkillUsed", false));
-
-    try (cleanups) {
+            withProperty("_bookOfEverySkillUsed", false))) {
       var req = UseItemRequest.getInstance(ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL);
       req.responseText = html("request/test_use_big_book_of_every_skill.html");
       req.processResults();
@@ -413,14 +374,12 @@ class UseItemRequestTest {
   @ValueSource(strings = {"success", "failure"})
   void setsPunchingMirrorPreference(String htmlSource) {
     var path = "request/test_use_punching_mirror_" + htmlSource + ".html";
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.PUNCHING_MIRROR),
             withProperty("_punchingMirrorUsed", false),
             withHippyStoneBroken(),
-            withNextResponse(200, html(path)));
-
-    try (cleanups) {
+            withNextResponse(200, html(path)))) {
       var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
       req.run();
 
@@ -432,13 +391,11 @@ class UseItemRequestTest {
   @ValueSource(strings = {"success", "failure"})
   void setsSnowballFactoryPreference(String htmlSource) {
     var path = "request/test_use_snowball_factory_" + htmlSource + ".html";
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.LIL_SNOWBALL_FACTORY),
             withProperty("_snowballFactoryUsed", false),
-            withNextResponse(200, html(path)));
-
-    try (cleanups) {
+            withNextResponse(200, html(path)))) {
       var req = UseItemRequest.getInstance(ItemPool.LIL_SNOWBALL_FACTORY);
       req.run();
 
@@ -448,7 +405,7 @@ class UseItemRequestTest {
 
   @Test
   void detectsBastilleLoanerVoucherUse() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.BASTILLE_LOANER_VOUCHER, 2),
             withNextResponse(
@@ -456,9 +413,7 @@ class UseItemRequestTest {
                     200, html("request/test_use_item_bastille_loaner_voucher_ajax.html")),
                 new FakeHttpResponse<>(
                     200, html("request/test_use_item_bastille_loaner_voucher_choice.html"))),
-            withHandlingChoice(false));
-
-    try (cleanups) {
+            withHandlingChoice(false))) {
       assertThat(InventoryManager.getCount(ItemPool.BASTILLE_LOANER_VOUCHER), is(2));
 
       var req = UseItemRequest.getInstance(ItemPool.BASTILLE_LOANER_VOUCHER);
@@ -470,7 +425,7 @@ class UseItemRequestTest {
 
   @Test
   void detectsMolehillMountainUse() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(0), // Clean up the resulting fight
             withItem(ItemPool.MOLEHILL_MOUNTAIN, 1),
@@ -479,9 +434,7 @@ class UseItemRequestTest {
                 new FakeHttpResponse<>(
                     200, html("request/test_use_item_molehill_mountain_redirect.html")),
                 new FakeHttpResponse<>(
-                    200, html("request/test_use_item_molehill_mountain_fight.html"))));
-
-    try (cleanups) {
+                    200, html("request/test_use_item_molehill_mountain_fight.html"))))) {
       var req = UseItemRequest.getInstance(ItemPool.MOLEHILL_MOUNTAIN);
       req.run();
 
@@ -492,7 +445,7 @@ class UseItemRequestTest {
 
   @Test
   void detectsStrangeStalagmiteUse() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.STRANGE_STALAGMITE, 1),
             withProperty("_strangeStalagmiteUsed", false),
@@ -501,9 +454,7 @@ class UseItemRequestTest {
                     200, html("request/test_use_item_strange_stalagmite_redirect.html")),
                 new FakeHttpResponse<>(
                     200, html("request/test_use_item_strange_stalagmite_choice.html"))),
-            withHandlingChoice(false));
-
-    try (cleanups) {
+            withHandlingChoice(false))) {
       var req = UseItemRequest.getInstance(ItemPool.STRANGE_STALAGMITE);
       req.run();
 
@@ -514,13 +465,11 @@ class UseItemRequestTest {
 
   @Test
   void detectsCanAlreadyAccessFantasyRealm() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.FR_GUEST),
             withProperty("_frToday", false),
-            withNextResponse(200, html("request/test_use_item_fantasyrealm_guest_pass.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_use_item_fantasyrealm_guest_pass.html")))) {
       assertThat(InventoryManager.getCount(ItemPool.FR_GUEST), is(1));
 
       var req = UseItemRequest.getInstance(ItemPool.FR_GUEST);
@@ -538,13 +487,11 @@ class UseItemRequestTest {
         "request/test_use_item_absentee_voter_ballot_already_voted.html"
       })
   void detectsCanAlreadyAccessVoterRegistrationOrHasVotedAlready(String htmlSource) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.VOTER_BALLOT),
             withProperty("_voteToday", false),
-            withNextResponse(200, html(htmlSource)));
-
-    try (cleanups) {
+            withNextResponse(200, html(htmlSource)))) {
       assertThat(InventoryManager.getCount(ItemPool.VOTER_BALLOT), is(1));
 
       var req = UseItemRequest.getInstance(ItemPool.VOTER_BALLOT);
@@ -557,13 +504,12 @@ class UseItemRequestTest {
 
   @Test
   void detectsAlreadyHasAccessToNeverendingParty() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.NEVERENDING_PARTY_INVITE_DAILY),
             withProperty("_neverendingPartyToday", false),
-            withNextResponse(200, html("request/test_use_item_neverending_party_guest_pass.html")));
-
-    try (cleanups) {
+            withNextResponse(
+                200, html("request/test_use_item_neverending_party_guest_pass.html")))) {
       assertThat(InventoryManager.getCount(ItemPool.NEVERENDING_PARTY_INVITE_DAILY), is(1));
 
       var req = UseItemRequest.getInstance(ItemPool.NEVERENDING_PARTY_INVITE_DAILY);
@@ -576,13 +522,11 @@ class UseItemRequestTest {
 
   @Test
   void detectsAlreadyCanAccessBoxingDaycare() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.BOXING_DAY_PASS),
             withProperty("_daycareToday", false),
-            withNextResponse(200, html("request/test_use_item_boxing_day_pass.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_use_item_boxing_day_pass.html")))) {
       assertThat(InventoryManager.getCount(ItemPool.BOXING_DAY_PASS), is(1));
 
       var req = UseItemRequest.getInstance(ItemPool.BOXING_DAY_PASS);
@@ -595,13 +539,11 @@ class UseItemRequestTest {
 
   @Test
   void detectsCanAlreadyAccessPirateRealm() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.PR_GUEST),
             withProperty("_prToday", false),
-            withNextResponse(200, html("request/test_use_item_piraterealm_guest_pass.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_use_item_piraterealm_guest_pass.html")))) {
       assertThat(InventoryManager.getCount(ItemPool.PR_GUEST), is(1));
 
       var req = UseItemRequest.getInstance(ItemPool.PR_GUEST);
@@ -620,12 +562,11 @@ class UseItemRequestTest {
     void milestoneBeforeDesertNotConsumed() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(MILESTONE),
-              withProperty("desertExploration", 0));
-      try (cleanups) {
+              withProperty("desertExploration", 0))) {
         client.addResponse(200, html("request/test_milestone_pre_desert.html"));
         client.addResponse(200, ""); // api.php
 
@@ -646,12 +587,11 @@ class UseItemRequestTest {
     void milestoneWillExploreDesert() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(MILESTONE),
-              withProperty("desertExploration", 92));
-      try (cleanups) {
+              withProperty("desertExploration", 92))) {
         client.addResponse(200, html("request/test_milestone_explore_desert.html"));
         client.addResponse(200, ""); // api.php
 
@@ -672,12 +612,11 @@ class UseItemRequestTest {
     void milestoneWillFinishDesert() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(MILESTONE),
-              withProperty("desertExploration", 97));
-      try (cleanups) {
+              withProperty("desertExploration", 97))) {
         client.addResponse(200, html("request/test_milestone_finish_desert.html"));
         client.addResponse(200, ""); // api.php
 
@@ -698,13 +637,12 @@ class UseItemRequestTest {
     void milestoneAfterDesertGivesStats() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(MILESTONE),
               withSubStats(0, 0, 0),
-              withProperty("desertExploration", 100));
-      try (cleanups) {
+              withProperty("desertExploration", 100))) {
         client.addResponse(200, html("request/test_milestone_post_desert.html"));
         client.addResponse(200, ""); // api.php
 
@@ -739,7 +677,7 @@ class UseItemRequestTest {
     void successfulStalagmiteUsageSetsPreferences() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.STRANGE_STALAGMITE),
@@ -748,9 +686,7 @@ class UseItemRequestTest {
               // Need a password hash to automate choice adventures
               withPasswordHash("stalagmite"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(Gender.FEMALE));
-
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_stalagmite_first_use.html"));
         client.addResponse(200, ""); // api.php
@@ -778,13 +714,11 @@ class UseItemRequestTest {
     void secondCertificateFails() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.STRANGE_STALAGMITE),
-              withProperty("_strangeStalagmiteUsed", false));
-
-      try (cleanups) {
+              withProperty("_strangeStalagmiteUsed", false))) {
         client.addResponse(200, html("request/test_stalagmite_second_use.html"));
         client.addResponse(200, ""); // api.php
 
@@ -806,16 +740,14 @@ class UseItemRequestTest {
   class ChocolateCoveredPingPongBall {
     @Test
     void incrementsCounterOnSuccess() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_chocolateCoveredPingPongBallsUsed", 1),
               withItem(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL),
               withItem(ItemPool.PING_PONG_BALL, 0),
               withNextResponse(
                   200,
-                  html("request/test_use_item_chocolate_covered_ping_pong_ball_success.html")));
-
-      try (cleanups) {
+                  html("request/test_use_item_chocolate_covered_ping_pong_ball_success.html")))) {
         var req = UseItemRequest.getInstance(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL);
         req.run();
 
@@ -825,16 +757,14 @@ class UseItemRequestTest {
 
     @Test
     void maxesCounterOnFailure() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_chocolateCoveredPingPongBallsUsed", 1),
               withItem(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL),
               withItem(ItemPool.PING_PONG_BALL, 0),
               withNextResponse(
                   200,
-                  html("request/test_use_item_chocolate_covered_ping_pong_ball_failure.html")));
-
-      try (cleanups) {
+                  html("request/test_use_item_chocolate_covered_ping_pong_ball_failure.html")))) {
         var req = UseItemRequest.getInstance(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL);
         req.run();
 
@@ -853,7 +783,7 @@ class UseItemRequestTest {
     void successfulCertificateUsageSetsPreferences() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE),
@@ -865,9 +795,7 @@ class UseItemRequestTest {
               // Need a password hash to automate choice adventures
               withPasswordHash("SIT"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(Gender.FEMALE));
-
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_sit_course_first_use.html"));
         client.addResponse(200, html("request/test_sit_course_select_course.html"));
@@ -895,13 +823,11 @@ class UseItemRequestTest {
     void secondCertificateFails() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE),
-              withProperty("_sitCourseCompleted", false));
-
-      try (cleanups) {
+              withProperty("_sitCourseCompleted", false))) {
         client.addResponse(200, html("request/test_sit_course_second_use.html"));
         client.addResponse(200, ""); // api.php
 
@@ -925,14 +851,12 @@ class UseItemRequestTest {
     void successfulSingleUseIncrementsSetting() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.REPLICA_MR_ACCESSORY, 0),
               withItem(ItemPool.REPLICA_TEN_DOLLARS, 2),
-              withProperty("legacyPoints", 0));
-
-      try (cleanups) {
+              withProperty("legacyPoints", 0))) {
         client.addResponse(200, html("request/test_use_one_replica_ten_dollars.html"));
         client.addResponse(200, ""); // api.php
 
@@ -955,14 +879,12 @@ class UseItemRequestTest {
     void successfulMultiseIncrementsSetting() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.REPLICA_MR_ACCESSORY, 0),
               withItem(ItemPool.REPLICA_TEN_DOLLARS, 2),
-              withProperty("legacyPoints", 0));
-
-      try (cleanups) {
+              withProperty("legacyPoints", 0))) {
         client.addResponse(200, html("request/test_use_two_replica_ten_dollars.html"));
         client.addResponse(200, ""); // api.php
 
@@ -989,8 +911,7 @@ class UseItemRequestTest {
     "You're gonna need a full night's sleep before you ring that thing again., false"
   })
   void clarasBellSetsNCForcerFlag(String responseText, String result) {
-    var cleanups = withProperty("noncombatForcerActive", false);
-    try (cleanups) {
+    try (var _ = withProperty("noncombatForcerActive", false)) {
       var req = UseItemRequest.getInstance(ItemPool.CLARA_BELL);
       req.responseText = responseText;
       req.processResponse();
@@ -1045,7 +966,7 @@ class UseItemRequestTest {
 
       String path = "request/test_microphone_" + charge + ".html";
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
@@ -1055,9 +976,7 @@ class UseItemRequestTest {
               // Need a password hash to automate choice adventures
               withPasswordHash("microphone"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(Gender.FEMALE));
-
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_microphone_choice.html"));
         client.addResponse(200, html(path));
@@ -1093,8 +1012,7 @@ class UseItemRequestTest {
     void canDetectSenderOfGiftPackage() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withNoItems());
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withNoItems())) {
         RequestLoggerOutput.startStream();
         client.addResponse(200, html("request/test_gift_package.html"));
         var request = new GenericRequest("inv_use.php?whichitem=1168&ajax=1");
@@ -1160,15 +1078,13 @@ class UseItemRequestTest {
           itemId == ItemPool.VAN_KEY
               ? html("request/test_item_use_van_key.html")
               : html("request/test_item_use_unremarkable_duffel_bag.html");
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(itemId),
               withProperty("_questPartyFairItemsOpened", 0),
               withProperty("_questPartyFairQuest", quest),
               withProperty("_questPartyFairProgress", questProgress),
-              withNextResponse(new FakeHttpResponse<>(200, html)));
-
-      try (cleanups) {
+              withNextResponse(new FakeHttpResponse<>(200, html)))) {
         UseItemRequest.getInstance(itemId).run();
         assertThat("_questPartyFairItemsOpened", isSetTo(0));
       }
@@ -1176,16 +1092,14 @@ class UseItemRequestTest {
 
     @Test
     void foodPropertyIsIncrementedWithQuestActive() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.VAN_KEY),
               withProperty("_questPartyFairItemsOpened", 0),
               withProperty("_questPartyFairQuest", "food"),
               withProperty("_questPartyFairProgress", "10 2063"),
               withNextResponse(
-                  new FakeHttpResponse<>(200, html("request/test_item_use_van_key.html"))));
-
-      try (cleanups) {
+                  new FakeHttpResponse<>(200, html("request/test_item_use_van_key.html"))))) {
         // Verify that the correct item increments the quest
         UseItemRequest.getInstance(ItemPool.VAN_KEY).run();
         assertThat("_questPartyFairItemsOpened", isSetTo(1));
@@ -1194,7 +1108,7 @@ class UseItemRequestTest {
 
     @Test
     void boozePropertyIsIncrementedWithQuestActive() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.UNREMARKABLE_DUFFEL_BAG),
               withProperty("_questPartyFairItemsOpened", 0),
@@ -1202,9 +1116,7 @@ class UseItemRequestTest {
               withProperty("_questPartyFairProgress", "10 2063"),
               withNextResponse(
                   new FakeHttpResponse<>(
-                      200, html("request/test_item_use_unremarkable_duffel_bag.html"))));
-
-      try (cleanups) {
+                      200, html("request/test_item_use_unremarkable_duffel_bag.html"))))) {
         // Verify that the correct item increments the quest
         UseItemRequest.getInstance(ItemPool.UNREMARKABLE_DUFFEL_BAG).run();
         assertThat("_questPartyFairItemsOpened", isSetTo(1));
@@ -1216,7 +1128,7 @@ class UseItemRequestTest {
   class Evilometer {
     @Test
     void detectsPartiallyEvilCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.EVILOMETER),
               withProperty("cyrptTotalEvilness", 200),
@@ -1225,9 +1137,7 @@ class UseItemRequestTest {
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptNookEvilness", 50),
               withNextResponse(
-                  new FakeHttpResponse<>(200, html("request/test_evilometer_partial.html"))));
-
-      try (cleanups) {
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_partial.html"))))) {
         UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
         assertThat("cyrptTotalEvilness", isSetTo(89));
         assertThat("cyrptAlcoveEvilness", isSetTo(50));
@@ -1239,7 +1149,7 @@ class UseItemRequestTest {
 
     @Test
     void detectsFullyEvilCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.EVILOMETER),
               withProperty("cyrptTotalEvilness", 200),
@@ -1248,9 +1158,7 @@ class UseItemRequestTest {
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptNookEvilness", 50),
               withNextResponse(
-                  new FakeHttpResponse<>(200, html("request/test_evilometer_999.html"))));
-
-      try (cleanups) {
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_999.html"))))) {
         UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
         assertThat("cyrptTotalEvilness", isSetTo(999));
         assertThat("cyrptAlcoveEvilness", isSetTo(0));
@@ -1262,7 +1170,7 @@ class UseItemRequestTest {
 
     @Test
     void detectsUndefiledCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.EVILOMETER),
               withProperty("cyrptTotalEvilness", 200),
@@ -1271,9 +1179,7 @@ class UseItemRequestTest {
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptNookEvilness", 50),
               withNextResponse(
-                  new FakeHttpResponse<>(200, html("request/test_evilometer_finished.html"))));
-
-      try (cleanups) {
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_finished.html"))))) {
         UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
         assertThat("cyrptTotalEvilness", isSetTo(0));
         assertThat("cyrptAlcoveEvilness", isSetTo(0));
@@ -1289,13 +1195,11 @@ class UseItemRequestTest {
   class LawOfAverages {
     @Test
     void increments() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.LAW_OF_AVERAGES),
               withProperty("_lawOfAveragesUsed", 0),
-              withNextResponse(new FakeHttpResponse<>(200, "")));
-
-      try (cleanups) {
+              withNextResponse(new FakeHttpResponse<>(200, "")))) {
         // Verify that the correct item increments the quest
         UseItemRequest.getInstance(ItemPool.LAW_OF_AVERAGES).run();
         assertThat("_lawOfAveragesUsed", isSetTo(1));
@@ -1309,13 +1213,11 @@ class UseItemRequestTest {
       "4, 4"
     })
     void setsToMaxIfRejected(final int startingValue, final int expectedValue) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.LAW_OF_AVERAGES, 3),
               withProperty("_lawOfAveragesUsed", startingValue),
-              withNextResponse(new FakeHttpResponse<>(200, "You already feel pretty average")));
-
-      try (cleanups) {
+              withNextResponse(new FakeHttpResponse<>(200, "You already feel pretty average")))) {
         // Verify that the correct item increments the quest
         UseItemRequest.getInstance(ItemPool.LAW_OF_AVERAGES).run();
         assertThat("_lawOfAveragesUsed", isSetTo(expectedValue));
@@ -1328,13 +1230,11 @@ class UseItemRequestTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 2})
     void incrementsCounterOnSuccess(int uses) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_clocksUsed", uses - 1),
               withItem(ItemPool.CLOCK),
-              withNextResponse(200, html("request/test_use_clock_" + uses + ".html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_use_clock_" + uses + ".html")))) {
         var req = UseItemRequest.getInstance(ItemPool.CLOCK);
         req.run();
 
@@ -1345,13 +1245,11 @@ class UseItemRequestTest {
 
     @Test
     void maxesCounterOnFailure() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_clocksUsed", 1),
               withItem(ItemPool.CLOCK),
-              withNextResponse(200, html("request/test_use_clock_failure.html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_use_clock_failure.html")))) {
         var req = UseItemRequest.getInstance(ItemPool.CLOCK);
         req.run();
 
@@ -1363,13 +1261,11 @@ class UseItemRequestTest {
 
   @Test
   void stockCertificateClearsOldestValue() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("stockCertificateTurns", "111,222,333,444"),
             withItem(ItemPool.STOCK_CERTIFICATE),
-            withNextResponse(200, "unused"));
-
-    try (cleanups) {
+            withNextResponse(200, "unused"))) {
       UseItemRequest.getInstance(ItemPool.STOCK_CERTIFICATE).run();
 
       assertThat("stockCertificateTurns", isSetTo("222,333,444"));
@@ -1382,16 +1278,14 @@ class UseItemRequestTest {
     void zoneChangeWipesDailySpecials() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               // Start in Canadia (Chez Snootée zone)
               withSign(ZodiacSign.OPOSSUM),
               withItem(ItemPool.HEWN_MOON_RUNE_SPOON),
               withProperty("_dailySpecial", "bat wing stir-fry"),
-              withProperty("_dailySpecialPrice", 207));
-
-      try (cleanups) {
+              withProperty("_dailySpecialPrice", 207))) {
         client.addResponse(200, html("request/test_use_hewn_moon_rune_spoon.html"));
         client.addResponse(200, ""); // api.php
 
@@ -1415,16 +1309,14 @@ class UseItemRequestTest {
     void sameZoneDoesNotWipeDailySpecials() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               // Start in Canadia (Marmot)
               withSign(ZodiacSign.MARMOT),
               withItem(ItemPool.HEWN_MOON_RUNE_SPOON),
               withProperty("_dailySpecial", "bat wing stir-fry"),
-              withProperty("_dailySpecialPrice", 207));
-
-      try (cleanups) {
+              withProperty("_dailySpecialPrice", 207))) {
         client.addResponse(200, html("request/test_use_hewn_moon_rune_spoon.html"));
         client.addResponse(200, ""); // api.php
 
@@ -1448,13 +1340,11 @@ class UseItemRequestTest {
   class HandfulOfTips {
     @Test
     void handfulOfTipsTracksMeat() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("handfulOfTipsMeat", 111),
               withItem(ItemPool.HANDFUL_OF_TIPS),
-              withNextResponse(200, html("request/test_use_handful_of_tips.html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_use_handful_of_tips.html")))) {
         UseItemRequest.getInstance(ItemPool.HANDFUL_OF_TIPS).run();
 
         assertThat("handfulOfTipsMeat", isSetTo(415));
@@ -1463,13 +1353,11 @@ class UseItemRequestTest {
 
     @Test
     void handfulOfTipsTracksIrs() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("handfulOfTipsMeat", 111),
               withItem(ItemPool.HANDFUL_OF_TIPS),
-              withNextResponse(200, html("request/test_use_handful_of_tips_irs.html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_use_handful_of_tips_irs.html")))) {
         UseItemRequest.getInstance(ItemPool.HANDFUL_OF_TIPS).run();
 
         assertThat("handfulOfTipsMeat", isSetTo(0));

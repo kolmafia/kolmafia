@@ -310,8 +310,7 @@ public class MallPriceManagerTest {
       //           5000       -----     -----      yes
       //   8       5000       17900     20000       no
 
-      var cleanups = new Cleanups(withMeat(0), withProperty("forbiddenStores", ""), mockClock());
-      try (cleanups) {
+      try (var _ = new Cleanups(withMeat(0), withProperty("forbiddenStores", ""), mockClock())) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -681,12 +680,11 @@ public class MallPriceManagerTest {
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               mockClock(),
               withNextResponse(200, html("request/test_mall_search_hell_ramen.html")),
-              withProperty("forbiddenStores", setting));
-      try (cleanups) {
+              withProperty("forbiddenStores", setting))) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -721,9 +719,8 @@ public class MallPriceManagerTest {
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
 
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withProperty("forbiddenStores", setting));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withProperty("forbiddenStores", setting))) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
         var request = new MallSearchRequest("Hell ramen", 0);

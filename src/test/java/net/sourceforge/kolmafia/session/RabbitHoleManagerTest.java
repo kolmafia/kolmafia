@@ -102,15 +102,14 @@ public class RabbitHoleManagerTest {
     public void canAutomateChessPuzzleFromRelayBrowser() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("chess"),
               // Avoid health warning
               withHP(100, 100, 100),
               // Avoid looking at your vinyl boots
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_rabbithole_reflection.html"));
         addChessPuzzleResponses(builder);
@@ -162,7 +161,7 @@ public class RabbitHoleManagerTest {
     public void canStepThroughChessPuzzleFromRelayBrowser() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("chess"),
@@ -170,8 +169,7 @@ public class RabbitHoleManagerTest {
               withHP(100, 100, 100),
               // Avoid looking at your vinyl boots
               withGender(Gender.FEMALE),
-              withHandlingChoice(false));
-      try (cleanups) {
+              withHandlingChoice(false))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_rabbithole_reflection.html"));
         addChessPuzzleResponses(builder);

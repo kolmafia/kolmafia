@@ -40,9 +40,7 @@ class DrinkCommandTest extends AbstractCommandTestBase {
     public void canDrinkDistillate() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withItem(ItemPool.STILLSUIT), withProperty("familiarSweat", 20));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.STILLSUIT), withProperty("familiarSweat", 20))) {
         String output = execute("stillsuit distillate");
         var requests = getRequests();
         assertThat(output, containsString("Creating 1 stillsuit distillate"));
@@ -56,9 +54,7 @@ class DrinkCommandTest extends AbstractCommandTestBase {
     public void cannotDrinkDistillateWithoutStillSuiit() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withProperty("familiarSweat"), withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("familiarSweat"), withContinuationState())) {
         String output = execute("stillsuit distillate");
         var requests = getRequests();
         assertThat(output, containsString("You don't have a tiny stillsuit"));
@@ -71,13 +67,11 @@ class DrinkCommandTest extends AbstractCommandTestBase {
     public void cannotDrinkDistillateWithout10Drams() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.STILLSUIT),
               withProperty("familiarSweat", 8),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         String output = execute("stillsuit distillate");
         var requests = getRequests();
         assertThat(output, containsString("You need at least 10 drams of familiar sweat"));
@@ -89,13 +83,11 @@ class DrinkCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canDrinkInGreyYou() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.GREY_YOU),
             withClass(AscensionClass.GREY_GOO),
-            withItem(ItemPool.BOTTLE_OF_GIN));
-
-    try (cleanups) {
+            withItem(ItemPool.BOTTLE_OF_GIN))) {
       String output = execute("bottle of gin");
       assertContinueState();
       assertThat(output, containsString("Drinking 1 bottle of gin"));

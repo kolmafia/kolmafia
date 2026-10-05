@@ -42,9 +42,7 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
 
   @Test
   void equipsItemIfNecessary() {
-    var cleanups = new Cleanups(withEquippableItem("unwrapped knock-off retro superhero cape"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("unwrapped knock-off retro superhero cape"))) {
       execute("robot kiss");
 
       var requests = getRequests();
@@ -63,10 +61,8 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
     "MUS, 1",
   })
   void configuresJustSuperhero(String superhero, int decision) {
-    var cleanups =
-        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"))) {
       String output = execute(superhero);
 
       var requests = getRequests();
@@ -84,10 +80,8 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
     "KILL, 5",
   })
   void configuresJustWashingInstruction(String instruction, int decision) {
-    var cleanups =
-        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"))) {
       String output = execute(instruction);
 
       var requests = getRequests();
@@ -106,10 +100,8 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
     "MYS KiSS, 2, 4",
   })
   void configuresBothModes(String mode, int decision1, int decision2) {
-    var cleanups =
-        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"))) {
       String output = execute(mode);
 
       var requests = getRequests();

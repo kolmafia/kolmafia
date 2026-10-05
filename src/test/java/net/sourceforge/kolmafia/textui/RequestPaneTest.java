@@ -12,9 +12,7 @@ import org.junit.jupiter.api.Test;
 public class RequestPaneTest {
   @Test
   public void testCopyAsHtml() {
-    var cleanups = withProperty("copyAsHTML", true);
-
-    try (cleanups) {
+    try (var _ = withProperty("copyAsHTML", true)) {
       var pane = new RequestPane();
       var html =
           """
@@ -37,9 +35,7 @@ public class RequestPaneTest {
 
   @Test
   public void testCopyWithoutHtml() {
-    var cleanups = withProperty("copyAsHTML", false);
-
-    try (cleanups) {
+    try (var _ = withProperty("copyAsHTML", false)) {
       var pane = new RequestPane();
       var html =
           """
@@ -64,9 +60,7 @@ public class RequestPaneTest {
 
   @Test
   public void testCopyWithoutHtmlTrimmed() {
-    var cleanups = withProperty("copyAsHTML", false);
-
-    try (cleanups) {
+    try (var _ = withProperty("copyAsHTML", false)) {
       var pane = new RequestPane();
       var html =
           """

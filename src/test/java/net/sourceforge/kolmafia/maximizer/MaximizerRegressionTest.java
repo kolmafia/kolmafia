@@ -38,14 +38,12 @@ public class MaximizerRegressionTest {
   // https://kolmafia.us/threads/maximizer-reduces-score-with-combat-chance-at-soft-limit-failing-test-included.25672/
   @Test
   public void maximizeShouldNotRemoveEquipmentThatCanNoLongerBeEquipped() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             // slippers have a Moxie requirement of 125
             withEquipped(Slot.ACCESSORY1, "Fuzzy Slippers of Hatred"),
             // get our Moxie below 125 (e.g. basic hot dogs, stat limiting effects)
-            withStats(0, 0, 0));
-
-    try (cleanups) {
+            withStats(0, 0, 0))) {
       assertFalse(
           EquipmentManager.canEquip("Fuzzy Slippers of Hatred"),
           "Can still equip Fuzzy Slippers of Hatred");
@@ -62,9 +60,7 @@ public class MaximizerRegressionTest {
   // https://kolmafia.us/threads/maximizer-reduces-score-with-combat-chance-at-soft-limit-failing-test-included.25672/
   @Test
   public void freshCharacterShouldNotRecommendEverythingWithCurrentScore() {
-    var cleanups = new Cleanups(withSign("Platypus"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withSign("Platypus"))) {
       assertTrue(maximize("familiar weight"));
       assertEquals(5, modFor(DoubleModifier.FAMILIAR_WEIGHT), 0.01, "Base score is 5");
       // monorail buff should always be available, but should not improve familiar weight.
@@ -78,9 +74,7 @@ public class MaximizerRegressionTest {
   // Sample test for https://kolmafia.us/showthread.php?23648&p=151903#post151903.
   @Test
   public void noTieCanLeaveSlotsEmpty() {
-    var cleanups = withEquippableItem("helmet turtle");
-
-    try (cleanups) {
+    try (var _ = withEquippableItem("helmet turtle")) {
       assertTrue(maximize("mys -tie"));
       assertEquals(0, modFor(DerivedModifier.BUFFED_MUS), 0.01);
     }
@@ -89,10 +83,8 @@ public class MaximizerRegressionTest {
   // Tests for https://kolmafia.us/threads/26413
   @Test
   public void keepBjornInhabitantEvenWhenUseless() {
-    var cleanups =
-        new Cleanups(withEquippableItem("Buddy Bjorn"), withBjorned(FamiliarPool.HAPPY_MEDIUM));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withEquippableItem("Buddy Bjorn"), withBjorned(FamiliarPool.HAPPY_MEDIUM))) {
       assertTrue(maximize("+25 bonus buddy bjorn -tie"));
       // Actually equipped the buddy bjorn with its current inhabitant.
       assertEquals(25, modFor(DoubleModifier.MEATDROP), 0.01);
@@ -102,16 +94,14 @@ public class MaximizerRegressionTest {
   // Tests for https://kolmafia.us/threads/26413
   @Test
   public void actuallyEquipsBonusBjorn() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Buddy Bjorn"),
             withBjorned(FamiliarPool.HAPPY_MEDIUM),
             // +10 to all attributes
             withFamiliarInTerrarium(FamiliarPool.DICE),
             // +7 Muscle
-            withEquipped(Slot.CONTAINER, "barskin cloak"));
-
-    try (cleanups) {
+            withEquipped(Slot.CONTAINER, "barskin cloak"))) {
       assertTrue(maximize("mus -buddy-bjorn +25 bonus buddy bjorn -tie"));
       // Unequipped the barskin cloak
       assertEquals(0, modFor(DerivedModifier.BUFFED_MUS), 0.01);
@@ -122,7 +112,7 @@ public class MaximizerRegressionTest {
 
   @Test
   public void keepsBonusBjornUnchanged() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Buddy Bjorn"),
             withEquippableItem("Crown of Thrones"),
@@ -132,9 +122,7 @@ public class MaximizerRegressionTest {
             // +7 Muscle
             withEquipped(Slot.CONTAINER, "barskin cloak"),
             // +25 Muscle
-            withEquipped(Slot.HAT, "wreath of laurels"));
-
-    try (cleanups) {
+            withEquipped(Slot.HAT, "wreath of laurels"))) {
       assertTrue(maximize("mus -buddy-bjorn +25 bonus buddy bjorn -tie"));
       // Unequipped the barskin cloak, still have wreath of laurels equipped.
       assertEquals(25, modFor(DerivedModifier.BUFFED_MUS), 0.01);
@@ -145,13 +133,11 @@ public class MaximizerRegressionTest {
 
   @Test
   public void equipEmptyBjornNoSlot() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.CONTAINER, "Buddy Bjorn"),
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-            withBjorned(FamiliarData.NO_FAMILIAR));
-
-    try (cleanups) {
+            withBjorned(FamiliarData.NO_FAMILIAR))) {
       // Here, buddy-bjorn refers to the slot, while Buddy Bjorn refers to the item associated with
       // that slot.
       // We've earlier forced that slot to be empty, and here we're asking mafia not to fill it when
@@ -162,25 +148,21 @@ public class MaximizerRegressionTest {
 
   @Test
   public void equipEmptyCrownNoSlot() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.HAT, "Crown of Thrones"),
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-            withEnthroned(FamiliarData.NO_FAMILIAR));
-
-    try (cleanups) {
+            withEnthroned(FamiliarData.NO_FAMILIAR))) {
       assertTrue(maximize("item, -crown-of-thrones, +equip Crown of Thrones"));
     }
   }
 
   @Test
   public void keepBjornEquippedWithBonus() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             // Provide a helpful alternative to the bjorn.
-            withEquippableItem("vampyric cloake"), withEquipped(Slot.CONTAINER, "Buddy Bjorn"));
-
-    try (cleanups) {
+            withEquippableItem("vampyric cloake"), withEquipped(Slot.CONTAINER, "Buddy Bjorn"))) {
       assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.CONTAINER))));
     }
@@ -188,14 +170,12 @@ public class MaximizerRegressionTest {
 
   @Test
   public void keepBjornEquippedAndUnchangedWithCrownAndBonus() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Crown of Thrones"),
             withEquippableItem("time helmet"),
             withFamiliarInTerrarium(FamiliarPool.DICE),
-            withEquipped(Slot.CONTAINER, "Buddy Bjorn"));
-
-    try (cleanups) {
+            withEquipped(Slot.CONTAINER, "Buddy Bjorn"))) {
       assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
 
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "time helmet")));
@@ -205,10 +185,8 @@ public class MaximizerRegressionTest {
 
   @Test
   public void bjornAndCrownCanBothBeEmpty() {
-    var cleanups =
-        new Cleanups(withEquippableItem("Crown of Thrones"), withEquippableItem("Buddy Bjorn"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withEquippableItem("Crown of Thrones"), withEquippableItem("Buddy Bjorn"))) {
       assertTrue(maximize("+25 bonus Buddy Bjorn, +25 bonus Crown of Thrones"));
 
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Crown of Thrones")));
@@ -219,7 +197,7 @@ public class MaximizerRegressionTest {
   // https://kolmafia.us/threads/27073/
   @Test
   public void noTiePrefersCurrentGear() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             // Drops items, but otherwise irrelevant.
             withEquippableItem("Camp Scout backpack"),
@@ -228,9 +206,7 @@ public class MaximizerRegressionTest {
             // speculation.
             withEquippableItem("basic meat fez"),
             // +7 mus; 75 mys required
-            withEquipped(Slot.CONTAINER, "barskin cloak"));
-
-    try (cleanups) {
+            withEquipped(Slot.CONTAINER, "barskin cloak"))) {
       assertTrue(maximize("mys -tie"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "basic meat fez")));
       // No back change recommended.
@@ -242,11 +218,9 @@ public class MaximizerRegressionTest {
   // https://kolmafia.us/threads/maximizer-recommends-unequipping-weapon-with-smithsness-offhand.28600/
   @Test
   public void shouldntUnequipWeaponWithSmithsnessOffhand() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withEquipped(Slot.WEAPON, "seal-clubbing club"), withEquippableItem("Half a Purse"));
-
-    try (cleanups) {
+            withEquipped(Slot.WEAPON, "seal-clubbing club"), withEquippableItem("Half a Purse"))) {
       assertTrue(maximize("meat"));
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
     }
@@ -255,15 +229,13 @@ public class MaximizerRegressionTest {
   // https://kolmafia.us/threads/maximizer-suggests-equipping-a-watch-in-the-wrong-slot.30202/
   @Test
   void suggestsReplacingExistingWatch() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Counterclockwise Watch"), // 10, watch
             withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"), // 0, not a watch
             withEquipped(Slot.ACCESSORY2, "numberwang"), // 5, not a watch
             withEquipped(Slot.ACCESSORY3, "baywatch") // 7, a watch
-            );
-
-    try (cleanups) {
+            )) {
       assertTrue(maximize("adv,fites,-tie"));
       assertEquals(55, modFor(DoubleModifier.ADVENTURES), 0.01);
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY1))));

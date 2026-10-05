@@ -35,8 +35,7 @@ public class LeavesCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveBurningLeaves() {
-    var cleanups = withEmptyCampground();
-    try (cleanups) {
+    try (var _ = withEmptyCampground()) {
       String output = execute("");
       assertThat(output, containsString("You must have a Pile of Burning Leaves"));
       assertErrorState();
@@ -47,12 +46,11 @@ public class LeavesCommandTest extends AbstractCommandTestBase {
   void cannotBurnMoreThanYouHave() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.INFLAMMABLE_LEAF, 2),
-            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES));
-    try (cleanups) {
+            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES))) {
       execute("3");
       var requests = client.getRequests();
       assertThat(requests.size(), is(0));
@@ -64,12 +62,11 @@ public class LeavesCommandTest extends AbstractCommandTestBase {
   void canBurnNumberOfLeaves() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.INFLAMMABLE_LEAF, 3),
-            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES));
-    try (cleanups) {
+            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES))) {
       execute("3");
       var requests = client.getRequests();
       assertThat(requests.size(), is(2));
@@ -88,14 +85,13 @@ public class LeavesCommandTest extends AbstractCommandTestBase {
   void canBurnKnownItem(final String param, final int leaves) {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withHandlingChoice(false),
             withHP(11111, 11111, 11111),
             withItem(ItemPool.INFLAMMABLE_LEAF, leaves),
-            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES));
-    try (cleanups) {
+            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES))) {
       var output = execute(param);
       var requests = client.getRequests();
       assertThat(requests.size(), is(2));
@@ -110,12 +106,11 @@ public class LeavesCommandTest extends AbstractCommandTestBase {
   void doesNotBurnUnknownSearch() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.INFLAMMABLE_LEAF, 11111),
-            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES));
-    try (cleanups) {
+            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES))) {
       execute("seal tooth");
       var requests = client.getRequests();
       assertThat(requests.size(), is(0));

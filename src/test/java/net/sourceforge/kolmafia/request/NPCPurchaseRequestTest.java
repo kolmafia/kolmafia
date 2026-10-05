@@ -65,8 +65,7 @@ class NPCPurchaseRequestTest {
   class DiscountTrousers {
     @Test
     public void priceDiscountedByTravoltanTrousers() {
-      var cleanups = new Cleanups(withEquipped(Slot.PANTS, "Travoltan trousers"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.PANTS, "Travoltan trousers"))) {
         var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
         assertThat(req.getPrice(), equalTo(66L));
       }
@@ -74,8 +73,7 @@ class NPCPurchaseRequestTest {
 
     @Test
     public void hippyPriceDiscountedBySweatpants() {
-      var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"))) {
         var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
         assertThat(req.getPrice(), equalTo(66L));
       }
@@ -83,8 +81,7 @@ class NPCPurchaseRequestTest {
 
     @Test
     public void giftPriceDiscountedByTravoltan() {
-      var cleanups = new Cleanups(withEquipped(Slot.PANTS, "Travoltan trousers"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.PANTS, "Travoltan trousers"))) {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
         assertThat(req.getPrice(), equalTo(95L));
       }
@@ -92,11 +89,10 @@ class NPCPurchaseRequestTest {
 
     @Test
     public void giftShopUsesTravoltanOverSweatpants() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.PANTS, "designer sweatpants"),
-              withEquippableItem("Travoltan trousers"));
-      try (cleanups) {
+              withEquippableItem("Travoltan trousers"))) {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
 
         // The price is 100, as designer sweatpants do not have a discount
@@ -115,8 +111,7 @@ class NPCPurchaseRequestTest {
 
     @Test
     public void giftPriceNotDiscountedBySweatpants() {
-      var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"))) {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
         assertThat(req.getPrice(), equalTo(100L));
       }
@@ -124,9 +119,7 @@ class NPCPurchaseRequestTest {
 
     @Test
     public void equipsTrousersIfNecessary() {
-      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("designer sweatpants"))) {
         var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
         var result = req.ensureProperAttire();
         assertThat(result, equalTo(true));
@@ -140,9 +133,7 @@ class NPCPurchaseRequestTest {
 
     @Test
     public void doesntEquipTrousersIfGiftShop() {
-      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("designer sweatpants"))) {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
         var result = req.ensureProperAttire();
         assertThat(result, equalTo(true));
@@ -154,11 +145,9 @@ class NPCPurchaseRequestTest {
 
     @Test
     public void respectsMissingPantsSlot() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem("designer sweatpants"), withPath(AscensionPath.Path.YOU_ROBOT));
-
-      try (cleanups) {
+              withEquippableItem("designer sweatpants"), withPath(AscensionPath.Path.YOU_ROBOT))) {
         var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
         var result = req.ensureProperAttire();
         assertThat(result, equalTo(true));
@@ -172,16 +161,14 @@ class NPCPurchaseRequestTest {
   @ParameterizedTest
   @CsvSource({"false", "true"})
   public void testLimitedQuantityNpcPurchases(boolean canInteract) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withNPCStoreReset(),
             withInteractivity(canInteract),
             withMeat(50000),
             withItem(ItemPool.ZEPPELIN_TICKET, 0),
             withQuestProgress(QuestDatabase.Quest.MACGUFFIN, "finished"),
-            withNextResponse(200, html("request/test_npc_purchase_zeppelin_ticket.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_npc_purchase_zeppelin_ticket.html")))) {
       // Assert that the character is in the expected interaction state
       assertEquals(canInteract, KoLCharacter.canInteract());
 
@@ -226,12 +213,11 @@ class NPCPurchaseRequestTest {
   class WereProfessor {
     @Test
     public void mildManneredProfessorCanUseNPCs() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
-              withMeat(100));
-      try (cleanups) {
+              withMeat(100))) {
         var req = NPCStoreDatabase.getPurchaseRequest(ItemPool.CHEWING_GUM);
         assertNotNull(req);
         assertTrue(req.canPurchase());
@@ -240,12 +226,11 @@ class NPCPurchaseRequestTest {
 
     @Test
     public void savageBeastCannotUseNPCs() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.SAVAGE_BEAST),
-              withMeat(100));
-      try (cleanups) {
+              withMeat(100))) {
         var req = NPCStoreDatabase.getPurchaseRequest(ItemPool.CHEWING_GUM);
         assertNotNull(req);
         assertFalse(req.canPurchase());
@@ -257,14 +242,12 @@ class NPCPurchaseRequestTest {
   class FireWorksShop {
     @Test
     public void visitingFireworksShopSetsProperties() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_fireworksShop", false),
               withProperty("_fireworksShopHatBought", false),
               withProperty("_fireworksShopEquipmentBought", false),
-              withNextResponse(200, html("request/test_shop_fwshop.html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_shop_fwshop.html")))) {
         var request = new GenericRequest("shop.php?whichshop=fwshop", false);
         request.run();
         assertThat("_fireworksShop", isSetTo(true));
@@ -278,16 +261,14 @@ class NPCPurchaseRequestTest {
   class MayoClinic {
     @Test
     public void visitingMayoClinicSetsProperties() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEmptyCampground(),
               withProperty("mayoLevel", 0),
               withProperty("_mayoDeviceRented", false),
               withProperty("itemBoughtPerAscension8266", false),
               withProperty("_mayoTankSoaked", false),
-              withNextResponse(200, html("request/test_shop_mayoclinic.html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_shop_mayoclinic.html")))) {
         var request = new GenericRequest("shop.php?whichshop=mayoclinic", false);
         request.run();
         var workshedItem = CampgroundRequest.getCurrentWorkshedItem();

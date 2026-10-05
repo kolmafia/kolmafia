@@ -55,9 +55,7 @@ public class PhotoBoothCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresEffectsAvailable() {
-      var cleanups = new Cleanups(withBooth(), withProperty("_photoBoothEffects", 3));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withBooth(), withProperty("_photoBoothEffects", 3))) {
         String output = execute("effect");
         assertThat(output, containsString("You cannot get any more effects."));
       }
@@ -65,9 +63,7 @@ public class PhotoBoothCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresEffect() {
-      var cleanups = withBooth();
-
-      try (cleanups) {
+      try (var _ = withBooth()) {
         String output = execute("effect");
         assertThat(output, containsString("Which effect do you want?"));
       }
@@ -75,9 +71,7 @@ public class PhotoBoothCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresValidEffect() {
-      var cleanups = withBooth();
-
-      try (cleanups) {
+      try (var _ = withBooth()) {
         String output = execute("effect luck");
         assertThat(output, containsString("I don't understand what effect luck is"));
       }
@@ -94,9 +88,7 @@ public class PhotoBoothCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresPropsAvailable() {
-      var cleanups = new Cleanups(withBooth(), withProperty("_photoBoothEquipment", 3));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withBooth(), withProperty("_photoBoothEquipment", 3))) {
         String output = execute("item");
         assertThat(output, containsString("You cannot get any more props."));
       }
@@ -104,9 +96,7 @@ public class PhotoBoothCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresItem() {
-      var cleanups = withBooth();
-
-      try (cleanups) {
+      try (var _ = withBooth()) {
         String output = execute("item");
         assertThat(output, containsString("Which item do you want?"));
       }
@@ -114,9 +104,7 @@ public class PhotoBoothCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresValidItem() {
-      var cleanups = withBooth();
-
-      try (cleanups) {
+      try (var _ = withBooth()) {
         String output = execute("item fancy hat");
         assertThat(output, containsString("I don't understand what item fancy hat is."));
       }
@@ -137,9 +125,7 @@ public class PhotoBoothCommandTest extends AbstractCommandTestBase {
       "effect space, 3",
     })
     void effect(String params, int choice) {
-      var cleanups = withBooth();
-
-      try (cleanups) {
+      try (var _ = withBooth()) {
         execute(params);
         var requests = getRequests();
 
@@ -168,9 +154,7 @@ public class PhotoBoothCommandTest extends AbstractCommandTestBase {
       "item Sheriff moustache, 11",
     })
     void item(String params, int choice) {
-      var cleanups = withBooth();
-
-      try (cleanups) {
+      try (var _ = withBooth()) {
         execute(params);
         var requests = getRequests();
 

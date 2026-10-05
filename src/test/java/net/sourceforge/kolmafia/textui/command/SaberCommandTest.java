@@ -39,9 +39,7 @@ public class SaberCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustNotHaveUpgraded() {
-    var cleanups = new Cleanups(withItem(ItemPool.FOURTH_SABER), withProperty("_saberMod", 1));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.FOURTH_SABER), withProperty("_saberMod", 1))) {
       String output = execute("mp");
 
       assertErrorState();
@@ -51,9 +49,7 @@ public class SaberCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyUpgrade() {
-    var cleanups = withItem(ItemPool.FOURTH_SABER);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.FOURTH_SABER)) {
       String output = execute("");
 
       assertErrorState();
@@ -63,9 +59,7 @@ public class SaberCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidUpgrade() {
-    var cleanups = withItem(ItemPool.FOURTH_SABER);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.FOURTH_SABER)) {
       String output = execute("dog");
 
       assertErrorState();
@@ -76,9 +70,7 @@ public class SaberCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @ValueSource(strings = {"ml", "mp", "resistance", "familiar"})
   void canChooseUpgrades(String upgrade) {
-    var cleanups = withItem(ItemPool.FOURTH_SABER);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.FOURTH_SABER)) {
       String output = execute(upgrade);
 
       assertContinueState();
@@ -88,9 +80,7 @@ public class SaberCommandTest extends AbstractCommandTestBase {
 
   @Test
   void worksWithEquippedSaber() {
-    var cleanups = withEquipped(Slot.WEAPON, ItemPool.FOURTH_SABER);
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.WEAPON, ItemPool.FOURTH_SABER)) {
       String output = execute("ml");
 
       assertContinueState();
@@ -100,12 +90,10 @@ public class SaberCommandTest extends AbstractCommandTestBase {
 
   @Test
   void worksWithReplicaSaber() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.LEGACY_OF_LOATHING),
-            withEquipped(Slot.WEAPON, ItemPool.REPLICA_FOURTH_SABER));
-
-    try (cleanups) {
+            withEquipped(Slot.WEAPON, ItemPool.REPLICA_FOURTH_SABER))) {
       String output = execute("ml");
 
       assertContinueState();
@@ -115,9 +103,7 @@ public class SaberCommandTest extends AbstractCommandTestBase {
 
   @Test
   void worksWithCapitalizedParam() {
-    var cleanups = withEquipped(Slot.WEAPON, ItemPool.FOURTH_SABER);
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.WEAPON, ItemPool.FOURTH_SABER)) {
       String output = execute("Ml");
 
       assertContinueState();

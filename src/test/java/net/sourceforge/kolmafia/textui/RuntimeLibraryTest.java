@@ -141,9 +141,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void multipleAttackElementExpectedDamage() {
-    var cleanups = new Cleanups(withEffect("Anti-Odored"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withEffect("Anti-Odored"))) {
       String output = execute("expected_damage($monster[The Big Wisniewski])");
 
       assertContinueState();
@@ -153,9 +151,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void multipleAttackElementElementalResistance() {
-    var cleanups = new Cleanups(withEffect("Anti-Odored"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withEffect("Anti-Odored"))) {
       String output = execute("elemental_resistance($monster[blind snake])");
 
       assertContinueState();
@@ -203,9 +199,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void zapWandAvailable() {
-    final var cleanups = new Cleanups(withItem("marble wand"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("marble wand"))) {
       String output = execute("get_zap_wand()");
 
       assertContinueState();
@@ -218,9 +212,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     // don't try to visit the fireworks shop
     Preferences.setBoolean("_fireworksShop", true);
 
-    var cleanups = withNextResponse(200, html("request/test_clan_floundry.html"));
-
-    try (cleanups) {
+    try (var _ = withNextResponse(200, html("request/test_clan_floundry.html"))) {
       String output = execute("get_fishing_locations()");
 
       assertContinueState();
@@ -330,9 +322,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void canVisitCabinet() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(false));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(false))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_choice_cmc_frozen_jeans.html"));
         String output = execute("expected_cold_medicine_cabinet()");
@@ -354,9 +344,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void canHandleUnexpectedCabinetResponse() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(false));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(false))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, "huh?");
         String output = execute("expected_cold_medicine_cabinet()");
@@ -377,10 +365,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canGuessCabinet() {
-      var cleanups =
-          new Cleanups(withProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"), withFight());
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"), withFight())) {
         String output = execute("expected_cold_medicine_cabinet()");
         assertThat(
             output,
@@ -398,10 +385,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canGuessCabinetWithUnknownPill() {
-      var cleanups =
-          new Cleanups(withProperty("lastCombatEnvironments", "????????????????????"), withFight());
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "????????????????????"), withFight())) {
         String output = execute("expected_cold_medicine_cabinet()");
         assertThat(
             output,
@@ -420,9 +406,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void canSeeGreyYouMonsterAbsorbs() {
-    var cleanups = new Cleanups(GreyYouManager::resetAbsorptions);
-
-    try (cleanups) {
+    try (var _ = new Cleanups(GreyYouManager::resetAbsorptions)) {
       KoLCharacter.setPath(Path.GREY_YOU);
 
       String name1 = "oil baron";
@@ -448,9 +432,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class Zap {
     @Test
     void noWandReturnsNone() {
-      var cleanups = withItem("Dreadsylvanian spooky pocket");
-
-      try (cleanups) {
+      try (var _ = withItem("Dreadsylvanian spooky pocket")) {
         String output = execute("zap($item[Dreadsylvanian spooky pocket])");
         assertThat(output, containsString("Returned: none"));
       }
@@ -458,13 +440,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canZapItem() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("hexagonal wand"),
               withItem("Dreadsylvanian spooky pocket"),
-              withNextResponse(200, html("request/test_zap_pockets.html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_zap_pockets.html")))) {
         String output = execute("zap($item[Dreadsylvanian spooky pocket])");
         assertThat(output, containsString("Returned: Dreadsylvanian hot pocket"));
       }
@@ -475,9 +455,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class Equip {
     @Test
     void canEquipItem() {
-      var cleanups = new Cleanups(withEquippableItem("crowbar"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("crowbar"))) {
         String output = execute("equip($item[crowbar])");
         assertThat(output, endsWith("Returned: true\n"));
       }
@@ -549,14 +527,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void equippedAmountIncludesFamiliarsIfSpecified(final boolean include) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliarInTerrariumWithItem(FamiliarPool.MOSQUITO, ItemPool.LEAD_NECKLACE),
               withFamiliarInTerrariumWithItem(FamiliarPool.POTATO, ItemPool.LEAD_NECKLACE),
               withFamiliar(FamiliarPool.GOAT),
-              withEquipped(Slot.FAMILIAR, ItemPool.LEAD_NECKLACE));
-
-      try (cleanups) {
+              withEquipped(Slot.FAMILIAR, ItemPool.LEAD_NECKLACE))) {
         String output = execute("equipped_amount($item[lead necklace], " + include + ")");
         assertThat(output, endsWith("Returned: " + (include ? 3 : 1) + "\n"));
       }
@@ -580,9 +556,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void myPathCoercesToString(String command) {
       // my_path() used to return a string, we want to make sure that we don't break old scripts
       // where possible
-      var cleanups = new Cleanups(withPath(Path.TRENDY));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.TRENDY))) {
         String output = execute(command);
         assertThat(output, endsWith("Returned: true\n"));
       }
@@ -599,9 +573,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       // coercion is handling this
       // We know it won't work in one case: "None" == my_path(). So if you wrote that, you're SOL
       // :)
-      var cleanups = new Cleanups(withPath(Path.NONE));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.NONE))) {
         String output = execute(command);
         assertThat(output, endsWith("Returned: true\n"));
       }
@@ -611,9 +583,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void myPathCoercionWorksInJs() {
       getInstance().command = "js";
 
-      var cleanups = new Cleanups(withPath(Path.TRENDY));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.TRENDY))) {
         String output = execute("myPath() == \"Trendy\"");
         assertThat(output, endsWith("Returned: true\n"));
       }
@@ -655,15 +625,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       "level 1 ceiling fan, 50501",
     })
     public void getConcoctionVykeaPrice(String vykea, int price) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withMallPrice(ItemPool.VYKEA_INSTRUCTIONS, 1),
               withMallPrice(ItemPool.VYKEA_RAIL, 10),
               withMallPrice(ItemPool.VYKEA_PLANK, 100),
               withMallPrice(ItemPool.VYKEA_DOWEL, 1000),
-              withMallPrice(ItemPool.VYKEA_BRACKET, 10000));
-
-      try (cleanups) {
+              withMallPrice(ItemPool.VYKEA_BRACKET, 10000))) {
         String output = execute("concoction_price($vykea[" + vykea + "])");
         assertThat(output, endsWith("Returned: " + price + "\n"));
       }
@@ -671,16 +639,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void getConcoctionHalfPurse() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withMeat(1000),
               withItem(ItemPool.TENDER_HAMMER),
               withAdventuresLeft(2),
               withValueOfAdventure(0),
               withMallPrice(ItemPool.LUMP_OF_BRITUMINOUS_COAL, 2),
-              withNpcPrice(ItemPool.LOOSE_PURSE_STRINGS));
-
-      try (cleanups) {
+              withNpcPrice(ItemPool.LOOSE_PURSE_STRINGS))) {
         String output = execute("concoction_price($item[Half a Purse])");
         assertThat(output, endsWith("Returned: 102\n"));
       }
@@ -688,16 +654,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void getConcoctionHalfPurseWhenSmithingExpensive() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withMeat(1000),
               withItem(ItemPool.TENDER_HAMMER),
               withAdventuresLeft(2),
               withValueOfAdventure(10000),
               withMallPrice(ItemPool.LUMP_OF_BRITUMINOUS_COAL, 2),
-              withNpcPrice(ItemPool.LOOSE_PURSE_STRINGS));
-
-      try (cleanups) {
+              withNpcPrice(ItemPool.LOOSE_PURSE_STRINGS))) {
         String output = execute("concoction_price($item[Half a Purse])");
         assertThat(output, endsWith("Returned: 10102\n"));
       }
@@ -705,10 +669,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void getConcoctionMallUnavailable() {
-      var cleanups =
-          new Cleanups(withMallPrice(ItemPool.HOPS, -1), withMallPrice(ItemPool.BARLEY, 9500));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withMallPrice(ItemPool.HOPS, -1), withMallPrice(ItemPool.BARLEY, 9500))) {
         String output = execute("concoction_price($item[can of Impetuous Scofflaw])");
         assertThat(output.trim(), endsWith("Returned: " + Integer.MAX_VALUE));
       }
@@ -728,15 +690,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @ParameterizedTest
     public void yamStinkbombPriced(
         final String symbolsUsed, final int existingQuantity, final int expectedPrice) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("valueOfInventory", "2.0"),
               withItem(ItemPool.MAYAM_CALENDAR),
               withItem(ItemPool.STUFFED_YAM_STINKBOMB, existingQuantity),
               withProperty("_mayamSymbolsUsed", symbolsUsed),
-              withMallPrice(ItemPool.STUFFED_YAM_STINKBOMB, 1000));
-
-      try (cleanups) {
+              withMallPrice(ItemPool.STUFFED_YAM_STINKBOMB, 1000))) {
         ConcoctionDatabase.refreshConcoctions();
         String output = execute("retrieve_price($item[stuffed yam stinkbomb])");
         assertThat(output, endsWith("Returned: " + expectedPrice + "\n"));
@@ -754,9 +714,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void canSeeDaycount() {
-    var cleanups = withFamiliar(FamiliarPool.TRICK_TOT);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.TRICK_TOT)) {
       String text = html("request/test_status.json");
       JSONObject jsonObject = json(text);
       ApiRequest.parseStatus(jsonObject);
@@ -790,13 +748,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @ParameterizedTest
     @CsvSource({"red, 300", "black, 150"})
     void fungusPlains(String color, int points) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.SYNTHESIS_GREED), // 300% meat drop
               withEquipped(ItemPool.CARPE), // 50% meat drop
-              withProperty("8BitColor", color));
-
-      try (cleanups) {
+              withProperty("8BitColor", color))) {
         String output = execute("eight_bit_points($location[The Fungus Plains])");
         assertThat(output, endsWith("Returned: " + points + "\n"));
       }
@@ -805,15 +761,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @ParameterizedTest
     @CsvSource({"green, 380", "black, 190"})
     void herosField(String color, int points) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect("Frosty"), // 100% item drop
               withEffect("Certainty"), // 100% item drop
               withEffect(EffectPool.SYNTHESIS_COLLECTION), // 150% item drop
               withEquipped(ItemPool.GRIMACITE_GO_GO_BOOTS), // 30% item drop
-              withProperty("8BitColor", color));
-
-      try (cleanups) {
+              withProperty("8BitColor", color))) {
         String output = execute("eight_bit_points($location[Hero's Field])");
         assertThat(output, endsWith("Returned: " + points + "\n"));
       }
@@ -822,15 +776,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @ParameterizedTest
     @CsvSource({"black, 400", "red, 200"})
     void vanyasCastle(String color, int points) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.RACING), // 200% init
               withEffect("Memory of Speed"), // 200% init
               withEffect("Industrially Lubricated"), // 150% init
               withEquipped(ItemPool.ROCKET_BOOTS), // 100% init
-              withProperty("8BitColor", color));
-
-      try (cleanups) {
+              withProperty("8BitColor", color))) {
         String output = execute("eight_bit_points($location[Vanya's Castle])");
         assertThat(output, endsWith("Returned: " + points + "\n"));
       }
@@ -839,12 +791,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @ParameterizedTest
     @CsvSource({"blue, 300", "black, 150"})
     void megaloCity(String color, int points) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.SUPER_STRUCTURE), // 500 DA
-              withProperty("8BitColor", color));
-
-      try (cleanups) {
+              withProperty("8BitColor", color))) {
         String output = execute("eight_bit_points($location[Megalo-City])");
         assertThat(output, endsWith("Returned: " + points + "\n"));
       }
@@ -855,9 +805,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class ItemDrops {
     @Test
     void itemDrops() {
-      var cleanups = withNextMonster("stench zombie");
-
-      try (cleanups) {
+      try (var _ = withNextMonster("stench zombie")) {
         String output = execute("item_drops()");
         assertThat(
             output,
@@ -887,9 +835,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void itemDropsArray() {
-      var cleanups = withNextMonster("stench zombie");
-
-      try (cleanups) {
+      try (var _ = withNextMonster("stench zombie")) {
         String output = execute("item_drops_array()");
         assertThat(
             output,
@@ -950,10 +896,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void toUrlReflectsCurrentPyramidBombState() {
-    var cleanups =
-        new Cleanups(withProperty("pyramidPosition", 1), withProperty("pyramidBombUsed", false));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("pyramidPosition", 1), withProperty("pyramidBombUsed", false))) {
       String output = execute("to_url($location[The Lower Chambers])");
       assertThat(
           output, endsWith("Returned: place.php?whichplace=pyramid&action=pyramid_state1\n"));
@@ -970,13 +914,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   void toUrlReflectsCurrentCellarState() {
     // Cellar URL params come from updateFields(), not the constructor; withLevel(3) keeps
     // recommendSquare() from logging an error into the output.
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withLevel(3),
             // No faucet (3) in the layout and all squares unexplored, so we explore a square.
-            withProperty("tavernLayout", "0000000000000000000000000"));
-
-    try (cleanups) {
+            withProperty("tavernLayout", "0000000000000000000000000"))) {
       var output = execute("to_url($location[The Typical Tavern Cellar])");
       assertThat(output, endsWith("Returned: cellar.php?whichspot=4&action=explore\n"));
 
@@ -996,9 +938,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void holiday() {
-    var cleanups = withDay(2023, Month.FEBRUARY, 10);
-
-    try (cleanups) {
+    try (var _ = withDay(2023, Month.FEBRUARY, 10)) {
       String output = execute("holiday()");
 
       assertContinueState();
@@ -1008,9 +948,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void statBonusToday() {
-    var cleanups = withDay(2023, Month.SEPTEMBER, 12);
-
-    try (cleanups) {
+    try (var _ = withDay(2023, Month.SEPTEMBER, 12)) {
       String output = execute("stat_bonus_today()");
 
       assertContinueState();
@@ -1020,9 +958,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void statBonusTomorrow() {
-    var cleanups = withDay(2023, Month.SEPTEMBER, 19);
-
-    try (cleanups) {
+    try (var _ = withDay(2023, Month.SEPTEMBER, 19)) {
       String output = execute("stat_bonus_tomorrow()");
 
       assertContinueState();
@@ -1166,13 +1102,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       "1,8,0,0.035714",
     })
     void calculatesGoblinChance(int turnsPlayed, int goblinsFought, int lastGoblin, String chance) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(turnsPlayed),
               withProperty("_sausageFights", goblinsFought),
-              withProperty("_lastSausageMonsterTurn", lastGoblin));
-
-      try (cleanups) {
+              withProperty("_lastSausageMonsterTurn", lastGoblin))) {
         String input = "sausage_goblin_chance()";
         String output = execute(input);
         assertThat(output, containsString(chance));
@@ -1522,9 +1456,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class Ping {
     @Test
     void parsesPropertyASH() {
-      final var cleanups =
-          new Cleanups(withProperty("pingLatest", "api.php:10:26:31:283:19620:28"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("pingLatest", "api.php:10:26:31:283:19620:28"))) {
         String input = "ping(\"pingLatest\")";
         String output = execute(input);
         assertThat(
@@ -1560,8 +1492,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         final String monsterName,
         final String factType,
         final String fact) {
-      final var cleanups = new Cleanups(withClass(ascensionClass), withPath(path));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(ascensionClass), withPath(path))) {
         String actualFactType = execute("$monster[" + monsterName + "].fact_type");
         assertThat(actualFactType, equalTo("Returned: " + factType + "\n"));
         String actualFact = execute("$monster[" + monsterName + "].fact");
@@ -1575,12 +1506,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       "3, none, ''",
     })
     void factIsStatefulInMonsterProxy(final int wishes, final String factType, final String fact) {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.DISCO_BANDIT),
               withPath(Path.THE_SOURCE),
-              withProperty("_bookOfFactsWishes", wishes));
-      try (cleanups) {
+              withProperty("_bookOfFactsWishes", wishes))) {
         String actualFactType = execute("$monster[triffid].fact_type");
         assertThat(actualFactType, equalTo("Returned: " + factType + "\n"));
         String actualFact = execute("$monster[triffid].fact");
@@ -1590,12 +1520,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void factIsNotStatefulInFunction() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.DISCO_BANDIT),
               withPath(Path.THE_SOURCE),
-              withProperty("_bookOfFactsWishes", 3));
-      try (cleanups) {
+              withProperty("_bookOfFactsWishes", 3))) {
         String actualFactType =
             execute("fact_type($class[Disco Bandit], $path[The Source], $monster[triffid])");
         assertThat(actualFactType, equalTo("Returned: item\n"));
@@ -1620,9 +1549,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     })
     void functionsHaveVersionsThatUseCurrentClassPath(
         final String fn, final String monsterName, final String expected) {
-      final var cleanups =
-          new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withPath(Path.NONE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withPath(Path.NONE))) {
         var code = fn + "($monster[" + monsterName + "])";
         String actual = execute(code);
         var startsWith = expected == null ? "\n" : " " + expected + "\n";
@@ -1635,9 +1562,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class Tracking {
     @Test
     void noCopiesIsZeroCount() {
-      final var cleanups = withTrackedMonsters("");
-
-      try (cleanups) {
+      try (var _ = withTrackedMonsters("")) {
         var code = "track_copy_count($monster[crate])";
         String actual = execute(code);
         assertThat(actual, equalTo("Returned: 0\n"));
@@ -1646,9 +1571,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void noCopiesIsNotIgnoreQueue() {
-      final var cleanups = withTrackedMonsters("");
-
-      try (cleanups) {
+      try (var _ = withTrackedMonsters("")) {
         var code = "track_ignore_queue($monster[crate])";
         String actual = execute(code);
         assertThat(actual, equalTo("Returned: false\n"));
@@ -1657,14 +1580,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void copyCountIncludesAllCopies() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withTrackedMonsters(
                   "crate:Transcendent Olfaction:1:crate:Gallapagosian Mating Call:2"),
               withFamiliar(FamiliarPool.RED_SNAPPER),
-              withTrackedPhyla("construct:Red-Nosed Snapper:3"));
-
-      try (cleanups) {
+              withTrackedPhyla("construct:Red-Nosed Snapper:3"))) {
         var code = "track_copy_count($monster[crate])";
         String actual = execute(code);
         assertThat(actual, equalTo("Returned: 6\n"));
@@ -1673,10 +1594,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void copyCountIsIgnoreQueueIfAnyCopyIs() {
-      final var cleanups =
-          withTrackedMonsters("crate:Gallapagosian Mating Call:1:crate:Transcendent Olfaction:2");
-
-      try (cleanups) {
+      try (var _ =
+          withTrackedMonsters("crate:Gallapagosian Mating Call:1:crate:Transcendent Olfaction:2")) {
         var code = "track_ignore_queue($monster[crate])";
         String actual = execute(code);
         assertThat(actual, equalTo("Returned: true\n"));
@@ -1685,14 +1604,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void trackedByIncludesAllTracks() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withTrackedMonsters(
                   "crate:Transcendent Olfaction:1:crate:Gallapagosian Mating Call:2"),
               withFamiliar(FamiliarPool.RED_SNAPPER),
-              withTrackedPhyla("construct:Red-Nosed Snapper:3"));
-
-      try (cleanups) {
+              withTrackedPhyla("construct:Red-Nosed Snapper:3"))) {
         var code = "tracked_by($monster[crate])";
         String actual = execute(code);
         assertThat(
@@ -2131,8 +2048,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void exposesFailedResultWhenMinNotHit() {
-      final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("helmet turtle"))) {
         execute("maximize(\"mus 2 min\", true)");
         assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
       }
@@ -2140,8 +2056,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void exposesSuccessfulResultWhenMinHit() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("wreath of laurels"))) {
         execute("maximize(\"mus 2 min\", true)");
         assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
       }
@@ -2149,8 +2064,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void exposesResultOfMostRecentMaximizeCall() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("wreath of laurels"))) {
         execute("maximize(\"mus 2 min\", true)");
         assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
 
@@ -2161,8 +2075,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void resetsResultWhenSubsequentMaximizeFailsToParse() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("wreath of laurels"))) {
         execute("maximize(\"mus\", true)");
         assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
 
@@ -2173,10 +2086,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void reportsFailureWhenMaximizingOnNonEquipment() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem(ItemPool.POCKET_WISH), withEquippableItem("incredibly dense meat gem"));
-      try (cleanups) {
+              withItem(ItemPool.POCKET_WISH), withEquippableItem("incredibly dense meat gem"))) {
         execute("maximize(\"mus\", true)");
         assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
 
@@ -2205,10 +2117,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class Darts {
     @Test
     void canCalculateSkillsToParts() {
-      final var cleanups =
-          withProperty("_currentDartboard", "7513:torso,7514:head,7515:butt,7516:arm,7517:leg");
-
-      try (cleanups) {
+      try (var _ =
+          withProperty("_currentDartboard", "7513:torso,7514:head,7515:butt,7516:arm,7517:leg")) {
         String actual = execute("dart_skills_to_parts()");
         String expected =
             """
@@ -2225,10 +2135,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canCalculatePartsToSkills() {
-      final var cleanups =
-          withProperty("_currentDartboard", "7513:torso,7514:head,7515:butt,7516:arm,7517:leg");
-
-      try (cleanups) {
+      try (var _ =
+          withProperty("_currentDartboard", "7513:torso,7514:head,7515:butt,7516:arm,7517:leg")) {
         String actual = execute("dart_parts_to_skills()");
         String expected =
             """
@@ -2249,9 +2157,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void canThrowBrick() {
       setupFakeClient();
-      var cleanup = withItem(ItemPool.BRICK);
-
-      try (cleanup) {
+      try (var _ = withItem(ItemPool.BRICK)) {
         var output = execute("curse($item[brick], \"StuBorn\")");
         assertThat(output, endsWith("Returned: true\n"));
 
@@ -2265,9 +2171,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void canThrowMultipleBricks() {
       setupFakeClient();
-      var cleanup = withItem(ItemPool.BRICK, 3);
-
-      try (cleanup) {
+      try (var _ = withItem(ItemPool.BRICK, 3)) {
         var output = execute("curse(3, $item[brick], \"StuBorn\", \"\")");
         assertThat(output, endsWith("Returned: true\n"));
 
@@ -2283,9 +2187,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void canSendCandyHeartMessage() {
       setupFakeClient();
-      var cleanup = withItem(ItemPool.GREEN_CANDY);
-
-      try (cleanup) {
+      try (var _ = withItem(ItemPool.GREEN_CANDY)) {
         var output = execute("curse($item[green candy heart], \"StuBorn\", \"You|rock!\")");
         assertThat(output, endsWith("Returned: true\n"));
 
@@ -2306,9 +2208,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void cannotThrowNonCurseItem() {
-      var cleanup = withItem(ItemPool.DISCO_BALL);
-
-      try (cleanup) {
+      try (var _ = withItem(ItemPool.DISCO_BALL)) {
         var output = execute("curse($item[disco ball], \"StuBorn\")");
         assertThat(output, startsWith("The disco ball cannot be used for cursing"));
       }
@@ -2344,11 +2244,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void works() {
       AdventureSpentDatabase.resetTurns();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAdventuresSpent(AdventurePool.HAUNTED_BILLIARDS_ROOM, 5),
-              withProperty("lastNoncombat" + AdventurePool.HAUNTED_BILLIARDS_ROOM, 3));
-      try (cleanups) {
+              withProperty("lastNoncombat" + AdventurePool.HAUNTED_BILLIARDS_ROOM, 3))) {
         assertThat(
             execute("$location[The Haunted Billiards Room].turns_until_forced_noncombat()").trim(),
             is("Returned: 8"));
@@ -2466,9 +2365,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void xpathFullPage() {
-      var cleanups = withNextResponse(200, html("request/test_account_tab_combat.html"));
-
-      try (cleanups) {
+      try (var _ = withNextResponse(200, html("request/test_account_tab_combat.html"))) {
         assertThat(
             execute(
                 "string page = visit_url(\"account.php?tab=combat\"); xpath(page, `//*[@id=\"opt_flag_aabosses\"]/label/input[@type='checkbox']@checked`)"),
@@ -2482,9 +2379,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void xpathJoinsNodes() {
-      var cleanups = withNextResponse(200, html("request/test_clan_signup.html"));
-
-      try (cleanups) {
+      try (var _ = withNextResponse(200, html("request/test_clan_signup.html"))) {
         assertThat(
             execute(
                 "string page = visit_url(\"clan_signup.php\"); xpath(page, `//select[@name=\"whichclan\"]//option`)"),
@@ -2538,7 +2433,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void computesFreeCrafts() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEffect(EffectPool.INIGOS, 6),
             withEffect(EffectPool.COOKING_CONCENTRATE, 7),
@@ -2549,9 +2444,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             withProperty("_thorsPliersCrafting", 1),
             withProperty("_rapidPrototypingUsed", 5),
             withProperty("_oldSchoolCocktailCraftingUsed", 1),
-            withProperty("_holidayMultitaskingUsed"));
-
-    try (cleanups) {
+            withProperty("_holidayMultitaskingUsed"))) {
       assertThat(execute("free_crafts()").trim(), is("Returned: 4"));
       assertThat(execute("free_cooks()").trim(), is("Returned: 1"));
       assertThat(execute("free_mixes()").trim(), is("Returned: 2"));
@@ -2561,10 +2454,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void determinesBanishes() {
-    var cleanups =
-        new Cleanups(withCurrentRun(128), withBanishedPhyla("undead:Patriotic Screech:119"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withCurrentRun(128), withBanishedPhyla("undead:Patriotic Screech:119"))) {
       assertThat(execute("is_banished($monster[ghuol])").trim(), is("Returned: true"));
       assertThat(execute("is_banished($phylum[undead])").trim(), is("Returned: true"));
       assertThat(execute("is_banished($monster[zombie process])").trim(), is("Returned: false"));
@@ -2705,10 +2596,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class BeretBusking {
     @Test
     void statefulBusking() {
-      var cleanups =
-          new Cleanups(withProperty("_beretBuskingUses", 1), withEquipped(ItemPool.MOHAWK_WIG));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("_beretBuskingUses", 1), withEquipped(ItemPool.MOHAWK_WIG))) {
         assertThat(
             execute("beret_busking_effects()").trim(),
             is(
@@ -2722,9 +2611,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void warnsWithDefaultNoticeOnGet() {
       var pref = "deprecatedPref";
-      var cleanups = withProperty(pref, "value");
-
-      try (cleanups) {
+      try (var _ = withProperty(pref, "value")) {
         Preferences.deprecationNotices.put(pref, "");
 
         assertThat(
@@ -2741,9 +2628,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void warnsWithDefaultNoticeOnSet() {
       var pref = "deprecatedPref";
-      var cleanups = withProperty(pref, "value");
-
-      try (cleanups) {
+      try (var _ = withProperty(pref, "value")) {
         Preferences.deprecationNotices.put(pref, "");
 
         assertThat(
@@ -2762,9 +2647,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       var pref = "customDeprecatedPref";
       var customNotice = "Do not use this pref!";
 
-      var cleanups = withProperty(pref, "value");
-
-      try (cleanups) {
+      try (var _ = withProperty(pref, "value")) {
         Preferences.deprecationNotices.put(pref, customNotice);
 
         assertThat(
@@ -2780,9 +2663,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       var pref = "customDeprecatedPref";
       var customNotice = "Do not use this pref!";
 
-      var cleanups = withProperty(pref, "value");
-
-      try (cleanups) {
+      try (var _ = withProperty(pref, "value")) {
         Preferences.deprecationNotices.put(pref, customNotice);
 
         assertThat(
@@ -2799,9 +2680,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void generatesFuturisticClothingModifiersToday() {
       // 7600 = 2023-02-12
-      var cleanups = withGlobalDay(7600);
-
-      try (cleanups) {
+      try (var _ = withGlobalDay(7600)) {
         assertThat(
             execute("futuristic_wardrobe($slot[shirt], 5)").trim(),
             is(
@@ -2836,9 +2715,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class YamBatteryEffects {
     @Test
     void generatesTodaysEffects() {
-      var cleanups = withGlobalDay(8619);
-
-      try (cleanups) {
+      try (var _ = withGlobalDay(8619)) {
         assertThat(
             execute("yam_battery_effects()").trim(),
             is(
@@ -2896,9 +2773,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @ParameterizedTest
     @CsvSource(skillEffects)
     void onlyBonusEffectWithShieldEquipped(String skill, String basic, String bonus) {
-      var cleanups = new Cleanups(withEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD))) {
         String output = execute("$skill[" + skill + "].to_effect().name");
         assertThat(output, both(containsString(bonus)).and(not(containsString(basic))));
       }
@@ -2980,9 +2855,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       "jock,''" // No middle letter
     })
     void parameterlessUsesCurrentEncounter(String currentEncounter, String expectedAnswer) {
-      var cleanups = withCurrentEncounter(currentEncounter);
-
-      try (cleanups) {
+      try (var _ = withCurrentEncounter(currentEncounter)) {
         assertThat(
             execute("heartstone_middle_letter()").trim(),
             is(("Returned: " + expectedAnswer).trim()));
@@ -3028,12 +2901,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class OutfitNameWithCodpieceGems {
     @Test
     void appendsCurrentCodpieceConfiguration() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
-              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
-
-      try (cleanups) {
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST))) {
         assertThat(
             execute("outfit_name_with_codpiece_gems(\"Saved outfit\")").trim(),
             is("Returned: Saved outfit c=~xEkAwAUAAA"));
@@ -3042,12 +2913,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void truncatesOutfitNameToFitConfiguration() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
-              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
-
-      try (cleanups) {
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST))) {
         String suffix = " c=~xEkAwAUAAA";
         String originalName = "A".repeat(50);
         String expectedName = "A".repeat(50 - suffix.length()) + suffix;
@@ -3062,9 +2931,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class MobiusRingNoncombat {
     @Test
     void withoutPrimingTakesInfinity() {
-      var cleanups = withProperty("_mobiusRingPrimed", false);
-
-      try (cleanups) {
+      try (var _ = withProperty("_mobiusRingPrimed", false)) {
         assertThat(
             execute("turns_until_mobius_noncombat_available()").trim(),
             is("Returned: " + Integer.MAX_VALUE));
@@ -3073,13 +2940,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void calculatesFirstNcCorrectly() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_mobiusRingPrimed", true),
               withProperty("_mobiusRingPrimedTurn", 20),
-              withTurnsPlayed(21));
-
-      try (cleanups) {
+              withTurnsPlayed(21))) {
         assertThat(execute("turns_until_mobius_noncombat_available()").trim(), is("Returned: 3"));
       }
     }
@@ -3099,14 +2964,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     })
     void calculatesFutureNcsCorrectly(
         int numEncounters, int stripTurn, int turnsPlayed, int expected) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_mobiusRingPrimed", true),
               withProperty("_mobiusStripEncounters", numEncounters),
               withProperty("_lastMobiusStripTurn", stripTurn),
-              withTurnsPlayed(turnsPlayed));
-
-      try (cleanups) {
+              withTurnsPlayed(turnsPlayed))) {
         assertThat(
             execute("turns_until_mobius_noncombat_available()").trim(),
             is("Returned: " + expected));
@@ -3126,11 +2989,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void countOneReturnsCurrentDaysLog() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withDay(2025, Month.JANUARY, 2),
-              withSessionFile(TESTUSER + "_20250102.txt", "today's session line\n"));
-      try (cleanups) {
+              withSessionFile(TESTUSER + "_20250102.txt", "today's session line\n"))) {
         String output = execute("session_logs(1)");
 
         assertContinueState();
@@ -3161,11 +3023,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void returnsSpecificPlayer() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withDay(2025, Month.JANUARY, 2),
-              withSessionFile(TESTUSER + "_20250102.txt", "today's session line\n"));
-      try (cleanups) {
+              withSessionFile(TESTUSER + "_20250102.txt", "today's session line\n"))) {
         String output = execute("session_logs(\"" + TESTUSER + "\", 1)");
 
         assertContinueState();
@@ -3193,8 +3054,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void returnsSpecificDate() {
       String filename = TESTUSER + "_20250101.txt";
-      var cleanups = withSessionFile(filename, "old session line\n");
-      try (cleanups) {
+      try (var _ = withSessionFile(filename, "old session line\n")) {
         String output = execute("session_logs(\"" + TESTUSER + "\", \"20250101\", 0)");
 
         assertContinueState();
@@ -3211,8 +3071,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void returnsGzippedDataIfPresent() {
       String filename = TESTUSER + "_20250101.txt.gz";
-      var cleanups = withGzippedSessionFile(filename, "old session line\n");
-      try (cleanups) {
+      try (var _ = withGzippedSessionFile(filename, "old session line\n")) {
         String output = execute("session_logs(\"" + TESTUSER + "\", \"20250101\", 0)");
 
         assertContinueState();
@@ -3229,9 +3088,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void haveSkillReturnsTrueEvenWhenDailyLimitExhausted() {
-    var cleanups =
-        new Cleanups(withSkill(SkillPool.PASTAMASTERY), withProperty("noodleSummons", 1));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withSkill(SkillPool.PASTAMASTERY), withProperty("noodleSummons", 1))) {
       String output = execute("have_skill($skill[Pastamastery])");
 
       assertContinueState();
@@ -3300,9 +3158,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     "Possessed Jar of Alphredo&trade;,Possessed Jar of Alphredo™", // Encoded characters
   })
   void monsterNameFromCurrentEncounter(String currentEncounter, String expectedAnswer) {
-    var cleanups = withCurrentEncounter(currentEncounter);
-
-    try (cleanups) {
+    try (var _ = withCurrentEncounter(currentEncounter)) {
       assertThat(execute("monster_name()").trim(), is(("Returned: " + expectedAnswer).trim()));
     }
   }
@@ -3337,13 +3193,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void usesUserState() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.STANDARD),
               withClass(AscensionClass.ACCORDION_THIEF),
-              withProperty("bwApronMealsEaten", 1));
-
-      try (cleanups) {
+              withProperty("bwApronMealsEaten", 1))) {
         String script = scriptTemplate.replace("PARAMS", "");
         String output = execute(script);
 
@@ -3354,13 +3208,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void usesSpecifiedValues() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.BLUE_VS_RED),
               withClass(AscensionClass.SEAL_CLUBBER),
-              withProperty("bwApronMealsEaten", 5));
-
-      try (cleanups) {
+              withProperty("bwApronMealsEaten", 5))) {
         String script =
             scriptTemplate.replace("PARAMS", "$path[standard], $class[accordion thief], 1");
         String output = execute(script);
@@ -3373,12 +3225,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void canGetChoiceOptionsWithExtras() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withLastLocation("Lair of the Ninja Snowmen"),
-            withChoice(1557, html("request/test_choice_peridot.html")));
-
-    try (cleanups) {
+            withChoice(1557, html("request/test_choice_peridot.html")))) {
       String choiceScript =
           """
             void main(){

@@ -100,8 +100,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void testMirrorListSkills() {
-    var cleanups = new Cleanups(withSkill(1), withSkill(2));
-    try (cleanups) {
+    try (var _ = new Cleanups(withSkill(1), withSkill(2))) {
       execute("chats/test_mirror_list_skills");
       // Available skills is special in that it will print html
       // but this test is not expecting HTML.  This needs to be resolved.

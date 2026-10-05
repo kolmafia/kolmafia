@@ -24,8 +24,7 @@ public class IngredientsCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void presentIngredientsHaveNoItalics() {
-    var cleanups = new Cleanups(withItem("batblade"), withItem("bat wing"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("batblade"), withItem("bat wing"))) {
       String output = execute("one-winged stab bat");
 
       assertThat(output, containsString("<b>one-winged stab bat</b>: bat wing, batblade"));

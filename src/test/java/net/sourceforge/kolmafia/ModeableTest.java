@@ -58,9 +58,7 @@ class ModeableTest {
 
   @Test
   void getState() {
-    var cleanups = withProperty("umbrellaState", "broken");
-
-    try (cleanups) {
+    try (var _ = withProperty("umbrellaState", "broken")) {
       var modeable = Modeable.UMBRELLA;
       assertThat(modeable.getState(), equalTo("broken"));
     }

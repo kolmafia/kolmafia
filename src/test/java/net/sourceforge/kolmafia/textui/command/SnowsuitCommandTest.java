@@ -40,9 +40,7 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
 
   @Test
   void showsCurrentValue() {
-    var cleanups = new Cleanups(withProperty("snowsuit", "eyebrows"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("snowsuit", "eyebrows"))) {
       String output = execute("");
 
       assertContinueState();
@@ -59,14 +57,12 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
 
   @Test
   void equipsSnowsuitIfNotEquipped() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Snow Suit"),
             withFamiliar(FamiliarPool.CRAB),
             withUnequipped(Slot.FAMILIAR),
-            withProperty("snowsuit", "smirk"));
-
-    try (cleanups) {
+            withProperty("snowsuit", "smirk"))) {
       String output = execute("smirk");
       var requests = getRequests();
 
@@ -79,14 +75,12 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doesNothingIfAlreadySet() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Snow Suit"),
             withFamiliar(FamiliarPool.CRAB),
             withEquipped(Slot.FAMILIAR, "Snow Suit"),
-            withProperty("snowsuit", "goatee"));
-
-    try (cleanups) {
+            withProperty("snowsuit", "goatee"))) {
       String output = execute("goatee");
       var requests = getRequests();
 
@@ -109,14 +103,12 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @MethodSource("provideModes")
   void successFullyhangesDecoration(int decision, String decoration, String testedName) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Snow Suit"),
             withFamiliar(FamiliarPool.CRAB),
             withEquipped(Slot.FAMILIAR, "Snow Suit"),
-            withProperty("snowsuit", ""));
-
-    try (cleanups) {
+            withProperty("snowsuit", ""))) {
       String output = execute(testedName);
       var requests = getRequests();
 

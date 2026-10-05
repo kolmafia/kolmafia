@@ -39,10 +39,8 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustNotHaveTuned() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withProperty("moonTuned", true));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withProperty("moonTuned", true))) {
       String output = execute("marmot");
 
       assertErrorState();
@@ -52,9 +50,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifySign() {
-    var cleanups = withItem(ItemPool.HEWN_MOON_RUNE_SPOON);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.HEWN_MOON_RUNE_SPOON)) {
       String output = execute("");
 
       assertErrorState();
@@ -64,9 +60,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidSign() {
-    var cleanups = withItem(ItemPool.HEWN_MOON_RUNE_SPOON);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.HEWN_MOON_RUNE_SPOON)) {
       String output = execute("dog");
 
       assertErrorState();
@@ -76,9 +70,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustNotSetToBadMoon() {
-    var cleanups = withItem(ItemPool.HEWN_MOON_RUNE_SPOON);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.HEWN_MOON_RUNE_SPOON)) {
       String output = execute("bad moon");
 
       assertErrorState();
@@ -88,10 +80,8 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustNotBeInBadMoon() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.BAD_MOON));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.BAD_MOON))) {
       String output = execute("marmot");
 
       assertErrorState();
@@ -101,10 +91,8 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustChooseDifferentSign() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.MARMOT));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.MARMOT))) {
       String output = execute("marmot");
 
       assertErrorState();
@@ -114,10 +102,8 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canChooseSign() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.WALLABY));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.WALLABY))) {
       String output = execute("marmot");
 
       assertContinueState();
@@ -127,9 +113,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void worksWithEquippedSpoon() {
-    var cleanups = withEquipped(Slot.ACCESSORY1, ItemPool.HEWN_MOON_RUNE_SPOON);
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.ACCESSORY1, ItemPool.HEWN_MOON_RUNE_SPOON)) {
       String output = execute("marmot");
 
       assertContinueState();
@@ -139,12 +123,10 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void worksWithReplicaSpoon() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.LEGACY_OF_LOATHING),
-            withEquipped(Slot.ACCESSORY1, ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON))) {
       String output = execute("marmot");
 
       assertContinueState();

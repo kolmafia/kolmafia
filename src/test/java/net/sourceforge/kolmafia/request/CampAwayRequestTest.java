@@ -56,8 +56,7 @@ public class CampAwayRequestTest {
     @ParameterizedTest
     @CsvSource({"request/test_campaway_free.html, 0", "request/test_campaway_non_free.html, 6"})
     public void setsRestsOnVisit(String html, int rests) {
-      var cleanups = propertyCleanups();
-      try (cleanups) {
+      try (var _ = propertyCleanups()) {
         CampAwayRequest request = new CampAwayRequest();
         request.responseText = html(html);
         request.setHasResult(true);
@@ -69,8 +68,7 @@ public class CampAwayRequestTest {
     @ParameterizedTest
     @CsvSource({"request/test_campaway_free.html, 1", "request/test_campaway_non_free.html, 6"})
     public void setsRestsOnRest(String html, int rests) {
-      var cleanups = propertyCleanups();
-      try (cleanups) {
+      try (var _ = propertyCleanups()) {
         CampAwayRequest request = new CampAwayRequest("campaway_tentclick");
         request.responseText = html(html);
         request.setHasResult(true);

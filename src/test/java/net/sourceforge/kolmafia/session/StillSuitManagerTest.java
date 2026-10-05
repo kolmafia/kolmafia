@@ -30,14 +30,12 @@ public class StillSuitManagerTest {
   public class SweatGain {
     @Test
     public void noSweatForUnequippedSuit() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("familiarSweat", "42"),
               withFamiliar(FamiliarPool.PET_ROCK),
               withEquipped(ItemPool.TINY_COSTUME_WARDROBE),
-              withEquippableItem(ItemPool.STILLSUIT));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.STILLSUIT))) {
         StillSuitManager.handleSweat("stillsuit.gif");
         assertThat("familiarSweat", isSetTo(42));
       }
@@ -45,15 +43,13 @@ public class StillSuitManagerTest {
 
     @Test
     public void suitOnInactiveFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("familiarSweat", "42"),
               withFamiliar(FamiliarPool.PET_ROCK),
               withEquipped(ItemPool.TINY_COSTUME_WARDROBE),
               withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-              withFamiliarInTerrariumWithItem(FamiliarPool.BABY_GRAVY_FAIRY, ItemPool.STILLSUIT));
-
-      try (cleanups) {
+              withFamiliarInTerrariumWithItem(FamiliarPool.BABY_GRAVY_FAIRY, ItemPool.STILLSUIT))) {
         StillSuitManager.handleSweat("stillsuit.gif");
         assertThat("familiarSweat", isSetTo(43));
       }
@@ -61,14 +57,12 @@ public class StillSuitManagerTest {
 
     @Test
     public void suitOnActiveFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("familiarSweat", "42"),
               withFamiliar(FamiliarPool.PET_ROCK),
               withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
-              withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY));
-
-      try (cleanups) {
+              withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY))) {
         StillSuitManager.handleSweat("stillsuit.gif");
         assertThat("familiarSweat", isSetTo(45));
       }
@@ -76,14 +70,12 @@ public class StillSuitManagerTest {
 
     @Test
     public void suitOnActiveFamiliarWithExtraSuit() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("familiarSweat", "42"),
               withFamiliar(FamiliarPool.PET_ROCK),
               withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
-              withFamiliarInTerrariumWithItem(FamiliarPool.BABY_GRAVY_FAIRY, ItemPool.STILLSUIT));
-
-      try (cleanups) {
+              withFamiliarInTerrariumWithItem(FamiliarPool.BABY_GRAVY_FAIRY, ItemPool.STILLSUIT))) {
         StillSuitManager.handleSweat("stillsuit.gif");
         assertThat("familiarSweat", isSetTo(45));
       }

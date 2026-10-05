@@ -32,9 +32,7 @@ public class FleaMarketRequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups = new Cleanups(withHttpClientBuilder(builder));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder))) {
       var req =
           new GenericRequest(
               "town_fleamarket.php?pwd&buying=Yep.&which=13&whichitem=823&howmuch=125");
@@ -62,10 +60,8 @@ public class FleaMarketRequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups =
-        new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.ELEVEN_LEAF_CLOVER, 2));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.ELEVEN_LEAF_CLOVER, 2))) {
       var req =
           new GenericRequest("town_sellflea.php?pwd&whichitem=10881&sellprice=18000&selling=Yep.");
       client.addResponse(200, html("request/test_flea_market_sell.html"));

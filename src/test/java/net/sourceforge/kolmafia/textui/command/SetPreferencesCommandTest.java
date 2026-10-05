@@ -30,9 +30,7 @@ class SetPreferencesCommandTest extends AbstractCommandTestBase {
       @Test
       void warnsWithDefaultNotice() {
         var pref = "deprecatedPref";
-        var cleanups = withProperty(pref, "value");
-
-        try (cleanups) {
+        try (var _ = withProperty(pref, "value")) {
           Preferences.deprecationNotices.put(pref, "");
 
           assertThat(
@@ -51,9 +49,7 @@ class SetPreferencesCommandTest extends AbstractCommandTestBase {
         var pref = "customDeprecatedPref";
         var customNotice = "Do not use this pref!";
 
-        var cleanups = withProperty(pref, "value");
-
-        try (cleanups) {
+        try (var _ = withProperty(pref, "value")) {
           Preferences.deprecationNotices.put(pref, customNotice);
 
           assertThat(
@@ -78,9 +74,7 @@ class SetPreferencesCommandTest extends AbstractCommandTestBase {
       @Test
       void warnsWithDefaultNotice() {
         var pref = "deprecatedPref";
-        var cleanups = withProperty(pref, "value");
-
-        try (cleanups) {
+        try (var _ = withProperty(pref, "value")) {
           Preferences.deprecationNotices.put(pref, "");
 
           assertThat(
@@ -99,9 +93,7 @@ class SetPreferencesCommandTest extends AbstractCommandTestBase {
         var pref = "customDeprecatedPref";
         var customNotice = "Do not use this pref!";
 
-        var cleanups = withProperty(pref, "value");
-
-        try (cleanups) {
+        try (var _ = withProperty(pref, "value")) {
           Preferences.deprecationNotices.put(pref, customNotice);
 
           assertThat(

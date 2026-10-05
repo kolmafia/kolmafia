@@ -34,9 +34,7 @@ class UseCommandTest extends AbstractCommandTestBase {
     public void canUseGlitchSeasonReward() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withItem(ItemPool.GLITCH_ITEM));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.GLITCH_ITEM))) {
         String output = execute("glitch season");
         var requests = getRequests();
         assertThat(output, containsString("Using 1 [glitch season reward name]..."));
@@ -49,11 +47,9 @@ class UseCommandTest extends AbstractCommandTestBase {
     public void cannotUseGlitchSeasonRewardAfterImplementing() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem(ItemPool.GLITCH_ITEM), withProperty("_glitchItemImplemented", true));
-
-      try (cleanups) {
+              withItem(ItemPool.GLITCH_ITEM), withProperty("_glitchItemImplemented", true))) {
         String output = execute("glitch season");
         var requests = getRequests();
         assertThat(

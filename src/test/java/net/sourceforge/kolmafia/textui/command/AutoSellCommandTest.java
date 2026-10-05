@@ -29,9 +29,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void sellsSealTooth() {
-    var cleanups = withItem("seal tooth", 5);
-
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 5)) {
       execute("1 seal tooth");
     }
 
@@ -44,9 +42,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void sellsManyItems() {
-    var cleanups = new Cleanups(withItem("seal tooth"), withItem("helmet turtle"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("seal tooth"), withItem("helmet turtle"))) {
       execute("1 seal tooth, 1 helmet turtle");
     }
 
@@ -70,9 +66,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void doesNotSellZeroItems() {
-    var cleanups = withItem("seal tooth");
-
-    try (cleanups) {
+    try (var _ = withItem("seal tooth")) {
       execute("0 seal tooth");
     }
 
@@ -83,9 +77,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void doesNotSellMeat() {
-    var cleanups = withMeat(100);
-
-    try (cleanups) {
+    try (var _ = withMeat(100)) {
       execute("50 meat");
     }
 
@@ -96,9 +88,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void sellsAllButOneItem() {
-    var cleanups = withItem("seal tooth", 5);
-
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 5)) {
       execute("-1 seal tooth");
     }
 

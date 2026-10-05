@@ -46,8 +46,7 @@ public class MonsterManuelManagerTest {
     String text = html("request/test_monster_manuel_monster1.html");
     MonsterData monster = MonsterDatabase.findMonster("ancient unspeakable bugbear");
     int monsterId = monster.getId();
-    var cleanups = unregisterMonster(monster);
-    try (cleanups) {
+    try (var _ = unregisterMonster(monster)) {
       MonsterData newMonster = MonsterManuelManager.registerMonster(monsterId, text);
       String attributes = newMonster.getAttributes();
       assertEquals(
@@ -62,8 +61,7 @@ public class MonsterManuelManagerTest {
     String text = html("request/test_monster_manuel_monster2.html");
     MonsterData monster = MonsterDatabase.findMonster("Adventurer echo");
     int monsterId = monster.getId();
-    var cleanups = unregisterMonster(monster);
-    try (cleanups) {
+    try (var _ = unregisterMonster(monster)) {
       MonsterData newMonster = MonsterManuelManager.registerMonster(monsterId, text);
       String attributes = newMonster.getAttributes();
       assertEquals("Scale: ? Cap: ? Floor: ? Init: -10000 P: dude Article: an", attributes);
@@ -78,8 +76,7 @@ public class MonsterManuelManagerTest {
     MonsterData monster = MonsterDatabase.findMonster("pygmy orderlies");
     int monsterId = monster.getId();
     assertEquals("some", monster.getArticle());
-    var cleanups = setArticle(monster, "scary");
-    try (cleanups) {
+    try (var _ = setArticle(monster, "scary")) {
       MonsterData newMonster = MonsterManuelManager.registerMonster(monsterId, text);
       assertEquals("scary", newMonster.getArticle());
       assertTrue(MonsterManuelManager.updates.containsKey(monsterId));

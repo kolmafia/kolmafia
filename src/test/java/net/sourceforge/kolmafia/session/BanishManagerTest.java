@@ -62,13 +62,11 @@ class BanishManagerTest {
 
     @Test
     void loadBanishedMonsters() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
-
-      try (cleanups) {
+                  "gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"))) {
         assertTrue(BanishManager.isBanished("gingerbread lawyer"));
         assertTrue(BanishManager.isBanished("unhinged survivor"));
         assertTrue(BanishManager.isBanished("grizzled survivor"));
@@ -85,13 +83,11 @@ class BanishManagerTest {
 
     @Test
     void loadBanishedMonstersSkipsInvalidBanisher() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "gingerbread lawyer:made up banisher:118:unhinged survivor:Feel Hatred:119"));
-
-      try (cleanups) {
+                  "gingerbread lawyer:made up banisher:118:unhinged survivor:Feel Hatred:119"))) {
         assertFalse(BanishManager.isBanished("gingerbread lawyer"));
         assertTrue(BanishManager.isBanished("unhinged survivor"));
       }
@@ -103,9 +99,7 @@ class BanishManagerTest {
 
     @Test
     void recalculate() {
-      var cleanups = new Cleanups(withCurrentRun(), withBanishedMonsters(""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(), withBanishedMonsters(""))) {
         // This will be removed because it's run out.
         KoLCharacter.setCurrentRun(69);
         BanishManager.banishMonster(CRATE, Banisher.SNOKEBOMB);
@@ -126,9 +120,7 @@ class BanishManagerTest {
 
     @Test
     void recalculateSortsNonMatchingPrefs() {
-      var cleanups = new Cleanups(withCurrentRun(420), withBanishedMonsters("crate:snokebomb:69"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(420), withBanishedMonsters("crate:snokebomb:69"))) {
         BanishManager.banishMonster(SMUT_ORC_NAILER, Banisher.REFLEX_HAMMER);
         BanishManager.recalculate();
 
@@ -142,13 +134,11 @@ class BanishManagerTest {
 
     @Test
     void resetRollover() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124"));
-
-      try (cleanups) {
+                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124"))) {
         BanishManager.resetRollover();
 
         assertThat(
@@ -160,13 +150,11 @@ class BanishManagerTest {
 
     @Test
     void resetAvatar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
-
-      try (cleanups) {
+                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"))) {
         BanishManager.resetAvatar();
 
         assertThat(
@@ -178,13 +166,11 @@ class BanishManagerTest {
 
     @Test
     void resetAscension() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
-
-      try (cleanups) {
+                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"))) {
         BanishManager.resetAscension();
 
         assertThat("banishedMonsters", isSetTo("spooky vampire:ice house:0"));
@@ -193,13 +179,11 @@ class BanishManagerTest {
 
     @Test
     public void resetCosmicBowlingBall() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124"));
-
-      try (cleanups) {
+                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124"))) {
         BanishManager.resetCosmicBowlingBall();
 
         assertThat(
@@ -213,13 +197,11 @@ class BanishManagerTest {
     class EffectReset {
       @Test
       void roarLikeALionStaysWithEffect() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withCurrentRun(4),
                 withEffect(EffectPool.HEAR_ME_ROAR),
-                withBanishedMonsters("crate:Roar like a Lion:3"));
-
-        try (cleanups) {
+                withBanishedMonsters("crate:Roar like a Lion:3"))) {
           BanishManager.recalculate();
 
           assertThat("banishedMonsters", isSetTo("crate:Roar like a Lion:3"));
@@ -228,10 +210,8 @@ class BanishManagerTest {
 
       @Test
       void roarLikeALionExpiresWithoutEffect() {
-        var cleanups =
-            new Cleanups(withCurrentRun(4), withBanishedMonsters("crate:Roar like a Lion:3"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withCurrentRun(4), withBanishedMonsters("crate:Roar like a Lion:3"))) {
           BanishManager.recalculate();
 
           assertThat("banishedMonsters", isSetTo(""));
@@ -244,11 +224,9 @@ class BanishManagerTest {
   class BanishMonster {
     @Test
     void banishCurrentMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withCurrentRun(123), withProperty("banishedMonsters"), withNextMonster("W imp"));
-
-      try (cleanups) {
+              withCurrentRun(123), withProperty("banishedMonsters"), withNextMonster("W imp"))) {
         BanishManager.banishCurrentMonster(Banisher.SMOKE_GRENADE);
         assertTrue(BanishManager.isBanished("W imp"));
       }
@@ -256,13 +234,11 @@ class BanishManagerTest {
 
     @Test
     void banishCurrentMonsterWithNoCurrentMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(123),
               withBanishedMonsters("spooky vampire:ice house:0"),
-              withNextMonster((MonsterData) null));
-
-      try (cleanups) {
+              withNextMonster((MonsterData) null))) {
         BanishManager.banishCurrentMonster(Banisher.SMOKE_GRENADE);
 
         // Still well-formed
@@ -272,9 +248,7 @@ class BanishManagerTest {
 
     @Test
     void banishMonster() {
-      var cleanups = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"))) {
         BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.HUMAN_MUSK);
 
         assertTrue(BanishManager.isBanished("spooky mummy"));
@@ -283,9 +257,7 @@ class BanishManagerTest {
 
     @Test
     void banishMonsterWorksOnRebanish() {
-      var cleanups = new Cleanups(withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("banishedMonsters"))) {
         BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.ICE_HOUSE);
         assertThat(BanishManager.getFirstBanished(Banisher.ICE_HOUSE), equalTo("spooky mummy"));
 
@@ -298,9 +270,7 @@ class BanishManagerTest {
 
     @Test
     void oneExpiringBanishLeavesTheOther() {
-      var cleanups = new Cleanups(withCurrentRun(), withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(), withProperty("banishedMonsters"))) {
         KoLCharacter.setCurrentRun(100);
         BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.SPRING_LOADED_FRONT_BUMPER);
         KoLCharacter.setCurrentRun(105);
@@ -318,9 +288,7 @@ class BanishManagerTest {
 
     @Test
     void oneOverwritingBanishLeavesTheOther() {
-      var cleanups = new Cleanups(withCurrentRun(), withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(), withProperty("banishedMonsters"))) {
         KoLCharacter.setCurrentRun(100);
         BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.SPRING_LOADED_FRONT_BUMPER);
         KoLCharacter.setCurrentRun(105);
@@ -340,9 +308,7 @@ class BanishManagerTest {
 
     @Test
     void oneOverwritingUnrelatedBanishLeavesTheOther() {
-      var cleanups = new Cleanups(withCurrentRun(), withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(), withProperty("banishedMonsters"))) {
         KoLCharacter.setCurrentRun(100);
         BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.SPRING_LOADED_FRONT_BUMPER);
         KoLCharacter.setCurrentRun(105);
@@ -362,13 +328,11 @@ class BanishManagerTest {
 
     @Test
     void regressionTestForSpringLoadedFrontBumperBeingWiped() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(176),
               withBanishedMonsters(
-                  "biker:ice house:0:pygmy janitor:snokebomb:161:pygmy headhunter:Bowl a Curveball:161:pygmy witch accountant:Throw Latte on Opponent:165:pygmy witch accountant:Spring-Loaded Front Bumper:172:coaltergeist:KGB tranquilizer dart:176"));
-
-      try (cleanups) {
+                  "biker:ice house:0:pygmy janitor:snokebomb:161:pygmy headhunter:Bowl a Curveball:161:pygmy witch accountant:Throw Latte on Opponent:165:pygmy witch accountant:Spring-Loaded Front Bumper:172:coaltergeist:KGB tranquilizer dart:176"))) {
         BanishManager.banishMonster("steam elemental", Banisher.THROW_LATTE_ON_OPPONENT, false);
         assertThat(
             Preferences.getString("banishedMonsters"),
@@ -379,9 +343,7 @@ class BanishManagerTest {
 
     @Test
     void banishMonsterDoesNotWorkOnNonExistant() {
-      var cleanups = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"))) {
         BanishManager.banishMonster(
             "nonexistent monster for testing purposes", Banisher.HUMAN_MUSK, true);
 
@@ -391,9 +353,7 @@ class BanishManagerTest {
 
     @Test
     void banishMonsterDoesNotWorkOnNoBanish() {
-      var cleanups = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"))) {
         BanishManager.banishMonster(SURPRISED_MARIACHI, Banisher.HUMAN_MUSK);
 
         assertFalse(BanishManager.isBanished("surprised mariachi"));
@@ -406,9 +366,7 @@ class BanishManagerTest {
       "153, false",
     })
     void banishMonsterCorrectOnTurnCost(final int turns, final boolean banished) {
-      var cleanups = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"))) {
         BanishManager.banishMonster(TAN_GNAT, Banisher.PANTSGIVING);
 
         KoLCharacter.setCurrentRun(turns);
@@ -418,13 +376,11 @@ class BanishManagerTest {
 
     @Test
     void banishMonsterAppliesLegacyNanorhino() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(123),
               withProperty("banishedMonsters"),
-              withProperty("_nanorhinoBanishedMonster"));
-
-      try (cleanups) {
+              withProperty("_nanorhinoBanishedMonster"))) {
         BanishManager.banishMonster(TACO_CAT, Banisher.NANORHINO);
 
         assertTrue(BanishManager.isBanished("Taco Cat"));
@@ -437,14 +393,12 @@ class BanishManagerTest {
         value = Banisher.class,
         names = {"BANISHING_SHOUT", "HOWL_OF_THE_ALPHA"})
     void banishMonsterAppliesLegacyBanishingShout(Banisher banisher) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(123),
               withProperty("banishedMonsters"),
               withProperty(
-                  "banishingShoutMonsters", "pygmy bowler|pygmy janitor|pygmy headhunter"));
-
-      try (cleanups) {
+                  "banishingShoutMonsters", "pygmy bowler|pygmy janitor|pygmy headhunter"))) {
         BanishManager.banishMonster(PYGMY_WITCH_LAWYER, banisher);
 
         assertTrue(BanishManager.isBanished("pygmy witch lawyer"));
@@ -455,14 +409,12 @@ class BanishManagerTest {
 
     @Test
     void banishMonsterAppliesLegacyStaffOfStandaloneCheese() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(123),
               withProperty("banishedMonsters"),
               withProperty(
-                  "_jiggleCheesedMonsters", "pygmy bowler|pygmy janitor|pygmy headhunter"));
-
-      try (cleanups) {
+                  "_jiggleCheesedMonsters", "pygmy bowler|pygmy janitor|pygmy headhunter"))) {
         BanishManager.banishMonster(PYGMY_WITCH_LAWYER, Banisher.STAFF_OF_THE_STANDALONE_CHEESE);
 
         assertTrue(BanishManager.isBanished("pygmy witch lawyer"));
@@ -474,14 +426,12 @@ class BanishManagerTest {
 
     @Test
     void respectsQueueSize() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(14),
               withBanishedMonsters(
                   "crate:banishing shout:5:zmobie:banishing shout:10:sabre-toothed lime:banishing shout:12"),
-              withProperty("banishingShoutMonsters"));
-
-      try (cleanups) {
+              withProperty("banishingShoutMonsters"))) {
         BanishManager.banishMonster(SCARY_PIRATE, Banisher.BANISHING_SHOUT);
 
         assertTrue(BanishManager.isBanished("scary pirate"));
@@ -493,14 +443,12 @@ class BanishManagerTest {
 
     @Test
     void poppingFromQueueDoesNotResetUnrelatedBanish() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(14),
               withBanishedMonsters(
                   "crate:banishing shout:5:zmobie:banishing shout:10:sabre-toothed lime:banishing shout:12:crate:snokebomb:9"),
-              withProperty("banishingShoutMonsters"));
-
-      try (cleanups) {
+              withProperty("banishingShoutMonsters"))) {
         BanishManager.banishMonster(SCARY_PIRATE, Banisher.BANISHING_SHOUT);
 
         assertTrue(BanishManager.isBanished("scary pirate"));
@@ -512,9 +460,7 @@ class BanishManagerTest {
 
     @Test
     void canBanishPhylaFromNoBanishZone() {
-      var cleanups = new Cleanups(withCurrentRun(1), withProperty("banishedPhyla"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(1), withProperty("banishedPhyla"))) {
         BanishManager.banishMonster("angry tourist", Banisher.PATRIOTIC_SCREECH, true);
 
         assertTrue(BanishManager.isBanished("Creepy Ginger Twin"));
@@ -524,13 +470,11 @@ class BanishManagerTest {
 
   @Test
   void removeBanishByBanisher() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCurrentRun(128),
             withBanishedMonsters(
-                "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
-
-    try (cleanups) {
+                "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"))) {
       BanishManager.removeBanishByBanisher(Banisher.SNOKEBOMB);
 
       assertThat(
@@ -544,9 +488,7 @@ class BanishManagerTest {
   class IsBanished {
     @Test
     void isBanished() {
-      var cleanups = new Cleanups(withProperty("banishedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("banishedMonsters"))) {
         BanishManager.banishMonster(SCARY_PIRATE, Banisher.BEANCANNON);
 
         assertTrue(BanishManager.isBanished("scary pirate"));
@@ -556,12 +498,10 @@ class BanishManagerTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void isBanishedDoesNotApplyIceHouseInRestricted(boolean restricted) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNotAllowedInStandard(RestrictedItemType.ITEMS, "ice house"),
-              withRestricted(restricted));
-
-      try (cleanups) {
+              withRestricted(restricted))) {
         BanishManager.banishMonster(SCARY_PIRATE, Banisher.ICE_HOUSE);
         assertEquals(!restricted, BanishManager.isBanished("scary pirate"));
       }
@@ -569,9 +509,7 @@ class BanishManagerTest {
 
     @Test
     void phylaBanishedMeansIsBanished() {
-      var cleanups = new Cleanups(withProperty("banishedPhyla"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("banishedPhyla"))) {
         BanishManager.banishMonster(MAGICAL_FRUIT_BAT, Banisher.PATRIOTIC_SCREECH);
 
         assertTrue(BanishManager.isBanished("taco cat"));
@@ -580,9 +518,7 @@ class BanishManagerTest {
 
     @Test
     void phylaBanishedDoesNotBanishInNoBanishZones() {
-      var cleanups = new Cleanups(withProperty("banishedPhyla"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("banishedPhyla"))) {
         BanishManager.banishMonster("pygmy bowler", Banisher.PATRIOTIC_SCREECH, true);
 
         assertFalse(BanishManager.isBanished("angry tourist"));
@@ -592,13 +528,11 @@ class BanishManagerTest {
 
   @Test
   void getsBanishedBy() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCurrentRun(13),
             withBanishedMonsters("fluffy bunny:louder than bomb:11:fluffy bunny:snokebomb:12"),
-            withBanishedPhyla("beast:Patriotic Screech:11"));
-
-    try (cleanups) {
+            withBanishedPhyla("beast:Patriotic Screech:11"))) {
       var bunny = MonsterDatabase.findMonster("fluffy bunny");
       var banishers = BanishManager.banishedBy(bunny);
 
@@ -614,13 +548,11 @@ class BanishManagerTest {
   class GetBanished {
     @Test
     void getBanishList() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
-
-      try (cleanups) {
+                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"))) {
         var list = BanishManager.getBanishedMonsters();
 
         assertThat(
@@ -642,9 +574,8 @@ class BanishManagerTest {
 
     @Test
     void getBanishedPhyla() {
-      var cleanups =
-          new Cleanups(withCurrentRun(128), withBanishedPhyla("fish:Patriotic Screech:30"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withCurrentRun(128), withBanishedPhyla("fish:Patriotic Screech:30"))) {
         var list = BanishManager.getBanishedPhyla();
 
         assertThat(list, containsInAnyOrder(equalTo("fish")));
@@ -656,13 +587,11 @@ class BanishManagerTest {
   class GetFirstBanished {
     @Test
     void getIceHouseMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
-
-      try (cleanups) {
+                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"))) {
         var ice = BanishManager.getFirstBanished(Banisher.ICE_HOUSE);
 
         assertEquals("spooky vampire", ice);
@@ -671,13 +600,11 @@ class BanishManagerTest {
 
     @Test
     void getIceHouseMonsterWorksWhenNoMonsterIsInIceHouse() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withBanishedMonsters(
-                  "smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
-
-      try (cleanups) {
+                  "smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"))) {
         var ice = BanishManager.getFirstBanished(Banisher.ICE_HOUSE);
 
         assertNull(ice);
@@ -686,9 +613,7 @@ class BanishManagerTest {
 
     @Test
     void canDiscoverIceHouseMonsterFromNoncombat() {
-      var cleanups = new Cleanups(withCurrentRun(128), withBanishedMonsters(""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(128), withBanishedMonsters(""))) {
         var request = new GenericRequest("choice.php?forceoption=0");
         request.responseText = html("request/test_museum_ice_house.html");
         ChoiceManager.visitChoice(request);
@@ -703,15 +628,13 @@ class BanishManagerTest {
   class Banishes {
     @Test
     void getBanishData() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withProperty("cosmicBowlingBallReturnCombats", 16),
               withEffect(EffectPool.HEAR_ME_ROAR),
               withBanishedMonsters(
-                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124:Tan Gnat:Roar like a Lion:125"));
-
-      try (cleanups) {
+                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124:Tan Gnat:Roar like a Lion:125"))) {
         var data = BanishManager.getBanishedMonsterData();
 
         assertThat(data, arrayWithSize(13));
@@ -743,10 +666,8 @@ class BanishManagerTest {
 
     @Test
     void getBanishedPhyla() {
-      var cleanups =
-          new Cleanups(withCurrentRun(128), withBanishedPhyla("undead:Patriotic Screech:119"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withCurrentRun(128), withBanishedPhyla("undead:Patriotic Screech:119"))) {
         var data = BanishManager.getBanishedPhylaData();
 
         assertThat(data, arrayWithSize(1));
@@ -757,9 +678,7 @@ class BanishManagerTest {
 
     @Test
     void getBanishDataWithNoBanishes() {
-      var cleanups = new Cleanups(withCurrentRun(128), withBanishedMonsters(""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(128), withBanishedMonsters(""))) {
         var data = BanishManager.getBanishedMonsterData();
 
         assertEquals(0, data.length);
@@ -768,9 +687,7 @@ class BanishManagerTest {
 
     @Test
     void getBanishPhylaDataWithNoBanishes() {
-      var cleanups = new Cleanups(withCurrentRun(128), withBanishedPhyla(""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(128), withBanishedPhyla(""))) {
         var data = BanishManager.getBanishedPhylaData();
 
         assertEquals(0, data.length);
@@ -782,25 +699,21 @@ class BanishManagerTest {
   class Zootomist {
     @Test
     void banishDuration() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withBanishedMonsters("spooky vampire:Left %n Kick:0"),
-              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA));
-
-      try (cleanups) {
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA))) {
         assertThat(Banisher.LEFT_ZOOT_KICK.getDuration(), equalTo(100));
       }
     }
 
     @Test
     void rightKickClearsLeftKick() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withBanishedMonsters("spooky vampire:Left %n Kick:0"),
               withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA),
-              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.PHANTOM_LIMB));
-
-      try (cleanups) {
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.PHANTOM_LIMB))) {
         BanishManager.banishMonster(CRATE, Banisher.RIGHT_ZOOT_KICK);
         assertThat("banishedMonsters", isSetTo("crate:Right %n Kick:0"));
       }
@@ -808,13 +721,11 @@ class BanishManagerTest {
 
     @Test
     void leftKickClearsRightKick() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withBanishedMonsters("spooky vampire:Right %n Kick:0"),
               withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA),
-              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.PHANTOM_LIMB));
-
-      try (cleanups) {
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.PHANTOM_LIMB))) {
         BanishManager.banishMonster(CRATE, Banisher.LEFT_ZOOT_KICK);
         assertThat("banishedMonsters", isSetTo("crate:Left %n Kick:0"));
       }

@@ -127,16 +127,14 @@ public class TurnCounterTest {
 
       @Test
       public void thatNormalShoreTakesThreeTurns() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testKoLAdventure(THE_SHORE, 3);
         }
       }
 
       @Test
       public void thatFistcoreShoreTakesFiveTurns() {
-        var cleanups = new Cleanups(withPath(Path.SURPRISING_FIST));
-        try (cleanups) {
+        try (var _ = new Cleanups(withPath(Path.SURPRISING_FIST))) {
           testKoLAdventure(THE_SHORE, 5);
         }
       }
@@ -150,8 +148,7 @@ public class TurnCounterTest {
             "The Ice Hole"
           })
       public void thatUnderWaterNonFishyTakesTwoTurns(String adventureName) {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
           testKoLAdventure(adventure, 2);
         }
@@ -166,8 +163,7 @@ public class TurnCounterTest {
             "The Velvet / Gold Mine (Mining)"
           })
       public void thatMiningTakesOneTurn(String adventureName) {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
           testKoLAdventure(adventure, 1);
         }
@@ -182,8 +178,7 @@ public class TurnCounterTest {
             "The Ice Hole"
           })
       public void thatUnderWaterFishyTakesOneTurn(String adventureName) {
-        var cleanups = new Cleanups(withEffect("Fishy"));
-        try (cleanups) {
+        try (var _ = new Cleanups(withEffect("Fishy"))) {
           KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
           testKoLAdventure(adventure, 1);
         }
@@ -191,8 +186,7 @@ public class TurnCounterTest {
 
       @Test
       public void thatAnytNormalAdventureTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           KoLAdventure adventure = AdventureDatabase.getAdventureByName("The Haunted Pantry");
           testKoLAdventure(adventure, 1);
         }
@@ -200,16 +194,14 @@ public class TurnCounterTest {
 
       @Test
       public void thatFernswarthysBasementTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testKoLAdventure(BASEMENT, 1);
         }
       }
 
       @Test
       public void thatTheSummoningChamberTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           KoLAdventure adventure = AdventureDatabase.getAdventureByName("Summoning Chamber");
           testKoLAdventure(adventure, 1);
         }
@@ -217,8 +209,7 @@ public class TurnCounterTest {
 
       @Test
       public void thatSpelunkyUsesNoTurns() {
-        var cleanups = new Cleanups(withLimitMode(LimitMode.SPELUNKY));
-        try (cleanups) {
+        try (var _ = new Cleanups(withLimitMode(LimitMode.SPELUNKY))) {
           KoLAdventure adventure = AdventureDatabase.getAdventureByName("The City of Goooold");
           testKoLAdventure(adventure, 0);
         }
@@ -226,8 +217,7 @@ public class TurnCounterTest {
 
       @Test
       public void thatBatfellowUsesNoTurns() {
-        var cleanups = new Cleanups(withLimitMode(LimitMode.BATMAN));
-        try (cleanups) {
+        try (var _ = new Cleanups(withLimitMode(LimitMode.BATMAN))) {
           KoLAdventure adventure = AdventureDatabase.getAdventureByName("Porkham Asylum");
           testKoLAdventure(adventure, 0);
         }
@@ -248,8 +238,7 @@ public class TurnCounterTest {
             "The Naughty Sorceress' Chamber",
           })
       public void thatSorceressMonstersTakeOneTurn(String adventureName) {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           // These are actually place.php?whichplace=nstower
           KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
           testKoLAdventure(adventure, 1);
@@ -286,16 +275,14 @@ public class TurnCounterTest {
 
       @Test
       public void thatInitialNemesisLairVisitUsesNoTurns() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testVolcano("tniat", "The Nemesis' Lair", 0);
         }
       }
 
       @Test
       public void thatThePostNemesisBarracksTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testVolcano("tuba", "The Island Barracks", 1);
         }
       }
@@ -335,16 +322,14 @@ public class TurnCounterTest {
 
       @Test
       public void thatVisitingTavernCellarTakesNoTurns() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testCellar(null, 0);
         }
       }
 
       @Test
       public void thatExploringTavernCellarSquaresTakeOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testCellar("explore", 1);
         }
       }
@@ -377,24 +362,21 @@ public class TurnCounterTest {
 
       @Test
       public void thatTheNemesisCaveTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testPlace("nemesiscave", "nmcave_boss", 1);
         }
       }
 
       @Test
       public void thatFightingChateauMonsterTakesOneTurn() {
-        var cleanups = new Cleanups(withProperty("_chateauMonsterFought", false));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("_chateauMonsterFought", false))) {
           testPlace("chateau", "chateau_painting", 1);
         }
       }
 
       @Test
       public void thatNotFightingChateauMonsterTakesNoTurns() {
-        var cleanups = new Cleanups(withProperty("_chateauMonsterFought", true));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("_chateauMonsterFought", true))) {
           testPlace("chateau", "chateau_painting", 0);
         }
       }
@@ -426,24 +408,21 @@ public class TurnCounterTest {
 
       @Test
       public void thatSmashingABarrelTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testChoice(1, "22", 1);
         }
       }
 
       @Test
       public void thatTurningTheCrankTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testChoice(2, null, 1);
         }
       }
 
       @Test
       public void thatExitingTakesNoTurns() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testChoice(3, null, 0);
         }
       }
@@ -486,36 +465,33 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 0),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(false, 0);
           }
         }
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 0),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(true, 0);
           }
         }
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 1),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(true, 1);
           }
         }
@@ -542,36 +518,33 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 0),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(false, 0);
           }
         }
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 0),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(true, 0);
           }
         }
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 1),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(true, 1);
           }
         }
@@ -598,36 +571,33 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 0),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(false, 0);
           }
         }
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 0),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(true, 0);
           }
         }
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 1),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(true, 1);
           }
         }
@@ -654,36 +624,33 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 0),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(false, 0);
           }
         }
 
         @Test
         public void thatFreeRestsNotAvailable() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 0),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(true, 1);
           }
         }
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withSkill("Disco Nap"),
                   withProperty("timesRested", 1),
-                  withAdjustmentsRecalculated());
-          try (cleanups) {
+                  withAdjustmentsRecalculated())) {
             testRest(true, 1);
           }
         }
@@ -713,16 +680,14 @@ public class TurnCounterTest {
 
       @Test
       public void thatMonsterCardsTakeOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testCard("Green Card", 1);
         }
       }
 
       @Test
       public void thaNonMonsterCardsTakeNoTurns() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testCard("Ancestral Recall", 0);
         }
       }
@@ -751,8 +716,7 @@ public class TurnCounterTest {
 
       @Test
       public void thatReminiscingTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testMonster("Black Crayon Penguin", 1);
         }
       }
@@ -782,16 +746,14 @@ public class TurnCounterTest {
 
       @Test
       public void thatNotCompetingTakesNoTurns() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testArena(false, 0);
         }
       }
 
       @Test
       public void thatCompetingTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testArena(true, 1);
         }
       }
@@ -841,16 +803,14 @@ public class TurnCounterTest {
 
       @Test
       public void thatDoingThisTakesATurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testAction("dothis", 1);
         }
       }
 
       @Test
       public void thatVisitingALtarTakesNoTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testAction("altar", 0);
         }
       }
@@ -892,8 +852,7 @@ public class TurnCounterTest {
 
       @Test
       public void thatFreeCombsTakeNoTurns() {
-        var cleanups = new Cleanups(withProperty("_freeBeachWalksUsed", 0));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("_freeBeachWalksUsed", 0))) {
           // Taking out your Beach Comb
           testCommand(BeachCombCommand.VISIT, 0);
           // Putting away your Beach Comb
@@ -913,8 +872,7 @@ public class TurnCounterTest {
 
       @Test
       public void thatNonFreeCombsTakeOneTurn() {
-        var cleanups = new Cleanups(withProperty("_freeBeachWalksUsed", 11));
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("_freeBeachWalksUsed", 11))) {
           // Taking out your Beach Comb
           testCommand(BeachCombCommand.VISIT, 0);
           // Putting away your Beach Comb
@@ -960,8 +918,7 @@ public class TurnCounterTest {
       @ValueSource(
           ints = {ItemPool.BLACK_PUDDING, ItemPool.SPOOKY_PUTTY_MONSTER, ItemPool.WHITE_PAGE})
       public void thatUsingThisTakesATurn(int itemId) {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testUsage(itemId, 1);
         }
       }
@@ -969,8 +926,7 @@ public class TurnCounterTest {
       @ParameterizedTest
       @ValueSource(ints = {ItemPool.SEAL_TOOTH, ItemPool.COTTAGE, ItemPool.BRIEFCASE})
       public void thatUsingThisTakesNoTurn(int itemId) {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testUsage(itemId, 0);
         }
       }
@@ -997,8 +953,7 @@ public class TurnCounterTest {
       @ParameterizedTest
       @ValueSource(ints = {SkillPool.HIBERNATE, SkillPool.SIMMER})
       public void thatUsingThisTakesATurn(int itemId) {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testUsage(itemId, 1);
         }
       }
@@ -1006,8 +961,7 @@ public class TurnCounterTest {
       @ParameterizedTest
       @ValueSource(ints = {SkillPool.BEND_HELL, SkillPool.COCOON})
       public void thatUsingThisTakesNoTurn(int itemId) {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           testUsage(itemId, 0);
         }
       }
@@ -1017,8 +971,7 @@ public class TurnCounterTest {
     class Craft {
       @Test
       public void thatCreatingGinAndTonicTakesOneTurn() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           String url = "craft.php?action=craft&mode=cocktail&ajax=1&qty=1&a=1553&b=1559";
           var generic = new GenericRequest(url);
           assertEquals(1, TurnCounter.getTurnsUsed(generic));
@@ -1027,8 +980,7 @@ public class TurnCounterTest {
 
       @Test
       public void thatCreatingFineWineTakesNoTurns() {
-        var cleanups = new Cleanups();
-        try (cleanups) {
+        try (var _ = new Cleanups()) {
           String url = "craft.php?action=craft&mode=cocktail&ajax=1&qty=1&a=247&b=244";
           var generic = new GenericRequest(url);
           assertEquals(0, TurnCounter.getTurnsUsed(generic));
@@ -1062,14 +1014,13 @@ public class TurnCounterTest {
       // 4 = "Token/Empty"
       // 5 = "Bomb/Rats"
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("pyramidPosition", position),
               withProperty("pyramidBombUsed", bombed),
               withProperty("dontStopForCounters", false),
               withContinuationState(),
-              withCounter(counter, "label", "image"));
-      try (cleanups) {
+              withCounter(counter, "label", "image"))) {
         int expected = PyramidRequest.lowerChamberTurnsUsed();
         int actual = LOWER_CHAMBERS.getRequest().getAdventuresUsed();
         assertEquals(expected, actual);
@@ -1125,12 +1076,11 @@ public class TurnCounterTest {
   class Nemesis {
     @Test
     public void thatCounterWarningsInNemesisCaveWorks() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("dontStopForCounters", false),
               withContinuationState(),
-              withCounter(0, "label", "image"));
-      try (cleanups) {
+              withCounter(0, "label", "image"))) {
         var placeRequest = new RelayRequest(false);
         String url = "place.php?whichplace=nemesiscave&action=nmcave_boss";
         placeRequest.constructURLString(url);

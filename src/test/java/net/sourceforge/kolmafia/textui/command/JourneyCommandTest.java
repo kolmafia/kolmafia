@@ -54,13 +54,11 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustProvideValidSkillOnPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
-            withPath(Path.JOURNEYMAN));
-
-    try (cleanups) {
+            withPath(Path.JOURNEYMAN))) {
       String output = execute("find booga booga");
       assertThat(output, containsString("I don't know a skill named \"booga booga\""));
     }
@@ -68,14 +66,12 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canFindNotKnownSkillOnPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
             withPath(Path.JOURNEYMAN),
-            withItem(ItemPool.LAB_KEY));
-
-    try (cleanups) {
+            withItem(ItemPool.LAB_KEY))) {
       String output = execute("find pulverize");
       assertThat(
           output,
@@ -85,14 +81,12 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canFindNotKnownInaccessibleSkillOnPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
             withPath(Path.JOURNEYMAN),
-            withProperty("questL07Cyrptic", "unstarted"));
-
-    try (cleanups) {
+            withProperty("questL07Cyrptic", "unstarted"))) {
       String output = execute("find springy fusilli");
       assertThat(
           output,
@@ -103,13 +97,11 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canFindZoneRestrictedSkillOnPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
-            withPath(Path.JOURNEYMAN));
-
-    try (cleanups) {
+            withPath(Path.JOURNEYMAN))) {
       String output = execute("find wave of sauce");
       assertThat(
           output,
@@ -120,14 +112,12 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canFindZoneAndQuestRestrictedSkillOnPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
             withPath(Path.JOURNEYMAN),
-            withProperty("questM03Bugbear", "started"));
-
-    try (cleanups) {
+            withProperty("questM03Bugbear", "started"))) {
       String output = execute("find lunging");
       assertThat(
           output,
@@ -138,15 +128,13 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canFindKnownSkillOnPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
             withPath(Path.JOURNEYMAN),
             withSkill("Advanced Saucecrafting"),
-            withProperty("questL09Topping", "finished"));
-
-    try (cleanups) {
+            withProperty("questL09Topping", "finished"))) {
       String output = execute("find advanced sauce");
       assertThat(
           output,
@@ -157,13 +145,11 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canIdentifyUnavailableSkillOnPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
-            withPath(Path.JOURNEYMAN));
-
-    try (cleanups) {
+            withPath(Path.JOURNEYMAN))) {
       String output = execute("find sing");
       assertThat(output, containsString("The \"Sing\" skill is not available to Journeymen."));
     }
@@ -255,14 +241,12 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canGenerateZonesTableOnPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
             withPath(Path.JOURNEYMAN),
-            withSkill("Advanced Saucecrafting"));
-
-    try (cleanups) {
+            withSkill("Advanced Saucecrafting"))) {
       String output = execute("zones");
       // Accessible zone
       assertThat(output, containsString("<td rowspan=2>The Dire Warren</td>"));

@@ -4,7 +4,6 @@ import static internal.helpers.Player.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +22,7 @@ public class BangCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void identifiesKnownPotions() {
-    Cleanups cleanups = withProperty("lastBangPotion821", "confusion");
-    try (cleanups) {
+    try (var _ = withProperty("lastBangPotion821", "confusion")) {
       String output = execute("");
       assertThat(output, containsString("bubbly: confusion"));
     }
@@ -32,8 +30,7 @@ public class BangCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void countsPotionsInInventory() {
-    Cleanups cleanups = withItem("bubbly potion");
-    try (cleanups) {
+    try (var _ = withItem("bubbly potion")) {
       String output = execute("");
       assertThat(output, containsString("bubbly:  (have 1)"));
     }
@@ -41,8 +38,7 @@ public class BangCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void countsPotionsInCloset() {
-    Cleanups cleanups = withItemInCloset("bubbly potion");
-    try (cleanups) {
+    try (var _ = withItemInCloset("bubbly potion")) {
       String output = execute("");
       assertThat(output, containsString("bubbly:  (have 0, 1 in closet)"));
     }

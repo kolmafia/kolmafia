@@ -121,9 +121,7 @@ public class AshInteropTest {
 
   @Test
   void reportsEcmaErrors() {
-    var cleanups = new Cleanups(withContinuationState());
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withContinuationState())) {
       new JavascriptRuntime("null.property").execute(null, null, true);
 
       assertThat(KoLmafia.getLastMessage(), containsString("JavaScript error:"));
@@ -132,9 +130,7 @@ public class AshInteropTest {
 
   @Test
   void reportsTheCapturedStackForRejectedErrors() {
-    var cleanups = new Cleanups(withContinuationState());
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withContinuationState())) {
       new JavascriptRuntime("Promise.reject(new Error(\"rejected\"))").execute(null, null, true);
 
       assertThat(
@@ -146,9 +142,7 @@ public class AshInteropTest {
   @ParameterizedTest
   @ValueSource(strings = {"\"\"", "1"})
   void ignoresUnusableCapturedErrorStacks(String stack) {
-    var cleanups = new Cleanups(withContinuationState());
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withContinuationState())) {
       new JavascriptRuntime(
               "const error = new Error(\"rejected\"); error.stack = "
                   + stack

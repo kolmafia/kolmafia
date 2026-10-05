@@ -63,7 +63,7 @@ public class PvpManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withHippyStoneBroken(),
@@ -71,9 +71,7 @@ public class PvpManagerTest {
               withInteractivity(!inRonin),
               withContinuationState(),
               withProperty("defaultFlowerWinMessage", "lucky!"),
-              withProperty("defaultFlowerLossMessage", "oops."));
-
-      try (cleanups) {
+              withProperty("defaultFlowerLossMessage", "oops."))) {
         client.addResponse(200, "");
 
         var target = targetInRonin ? profileInRonin : profileCanInteract;

@@ -15,8 +15,7 @@ class SetHolidayCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canOverrideHoliday() {
-    var cleanups = withDay(2023, Month.JULY, 4);
-    try (cleanups) {
+    try (var _ = withDay(2023, Month.JULY, 4)) {
       execute("Yuletide");
       assertThat(HolidayDatabase.getEvents(), containsInAnyOrder("Yuletide", "Dependence Day"));
     }

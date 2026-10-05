@@ -34,13 +34,11 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningEnabledWhenAvailable() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("universalSeasoningCost", 1000),
             withProperty("_universalSeasoningsUsed", 0),
-            withItem(ItemPool.UNIVERSAL_SEASONING));
-
-    try (cleanups) {
+            withItem(ItemPool.UNIVERSAL_SEASONING))) {
       var panel = new UseItemEnqueuePanel(ConcoctionType.FOOD, null);
       var buttonSearch =
           Arrays.stream(panel.buttons)
@@ -54,12 +52,10 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningDisabledWhenUnavailable() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("universalSeasoningCost", 1000),
-            withProperty("_universalSeasoningsUsed", 0));
-
-    try (cleanups) {
+            withProperty("_universalSeasoningsUsed", 0))) {
       var panel = new UseItemEnqueuePanel(ConcoctionType.FOOD, null);
       var buttonSearch =
           Arrays.stream(panel.buttons)
@@ -73,13 +69,11 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningDisabledWhenUsed() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("universalSeasoningCost", 1000),
             withProperty("_universalSeasoningsUsed", 1),
-            withItem(ItemPool.UNIVERSAL_SEASONING));
-
-    try (cleanups) {
+            withItem(ItemPool.UNIVERSAL_SEASONING))) {
       var panel = new UseItemEnqueuePanel(ConcoctionType.FOOD, null);
       var buttonSearch =
           Arrays.stream(panel.buttons)
@@ -105,9 +99,7 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void odeToBoozeEnabledWithSkill() {
-    var cleanups = withSkill(SkillPool.ODE_TO_BOOZE);
-
-    try (cleanups) {
+    try (var _ = withSkill(SkillPool.ODE_TO_BOOZE)) {
       var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
       var buttonSearch =
           Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
@@ -119,14 +111,12 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void odeToBoozeDisabledWithNoRoom() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill(SkillPool.ODE_TO_BOOZE),
             withEffect(EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER),
             withEffect(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY),
-            withEffect(EffectPool.ELRONS_EXPLOSIVE_ETUDE));
-
-    try (cleanups) {
+            withEffect(EffectPool.ELRONS_EXPLOSIVE_ETUDE))) {
       var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
       var buttonSearch =
           Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
@@ -139,13 +129,11 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void odeToBoozeEnabledWithRoom() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill(SkillPool.ODE_TO_BOOZE),
             withEffect(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY),
-            withEffect(EffectPool.ELRONS_EXPLOSIVE_ETUDE));
-
-    try (cleanups) {
+            withEffect(EffectPool.ELRONS_EXPLOSIVE_ETUDE))) {
       var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
       var buttonSearch =
           Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
@@ -157,14 +145,12 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void odeToBoozeEnabledWithNoRoomButEffect() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill(SkillPool.ODE_TO_BOOZE),
             withEffect(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY),
             withEffect(EffectPool.ELRONS_EXPLOSIVE_ETUDE),
-            withEffect(EffectPool.ODE));
-
-    try (cleanups) {
+            withEffect(EffectPool.ODE))) {
       var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
       var buttonSearch =
           Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();

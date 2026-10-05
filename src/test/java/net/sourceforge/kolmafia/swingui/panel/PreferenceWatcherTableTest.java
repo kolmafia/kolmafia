@@ -31,13 +31,11 @@ class PreferenceWatcherTableTest {
   class Rendering {
     @Test
     void rendersPreferenceTable() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("testPrefA", "a"),
               withProperty("testPrefB", "b"),
-              withProperty("watchedPreferences", "testPrefA,testPrefB,nonExistentTestPrefC"));
-
-      try (cleanups) {
+              withProperty("watchedPreferences", "testPrefA,testPrefB,nonExistentTestPrefC"))) {
         var table = new PreferenceWatcherTable();
         assertThat(table.getRowCount(), is(3));
 
@@ -54,9 +52,7 @@ class PreferenceWatcherTableTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void rendersNullValuesProperly(final boolean expected) {
-      var cleanups = new Cleanups(withProperty("watchedPreferences", "nonExistentTestPref"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("watchedPreferences", "nonExistentTestPref"))) {
         var table = new PreferenceWatcherTable();
         var renderer = table.getCellRenderer(0, expected ? 0 : 1);
         var component =
@@ -67,11 +63,9 @@ class PreferenceWatcherTableTest {
 
     @Test
     void reactsToValueChanges() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"));
-
-      try (cleanups) {
+              withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"))) {
         var table = new PreferenceWatcherTable();
         var model = table.getModel();
         assertThat(model.getValueAt(0, 1), is("a"));
@@ -84,11 +78,9 @@ class PreferenceWatcherTableTest {
 
     @Test
     void reactsToPrefCreation() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withoutProperty("testPrefA"), withProperty("watchedPreferences", "testPrefA"));
-
-      try (cleanups) {
+              withoutProperty("testPrefA"), withProperty("watchedPreferences", "testPrefA"))) {
         var table = new PreferenceWatcherTable();
         var model = table.getModel();
         assertThat(model.getValueAt(0, 1), equalTo(null));
@@ -101,13 +93,11 @@ class PreferenceWatcherTableTest {
 
     @Test
     void reactsToWatchedPrefChanges() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("testPrefA", "a"),
               withProperty("testPrefB", "b"),
-              withProperty("watchedPreferences", "testPrefA"));
-
-      try (cleanups) {
+              withProperty("watchedPreferences", "testPrefA"))) {
         var table = new PreferenceWatcherTable();
         var model = table.getModel();
 
@@ -131,11 +121,9 @@ class PreferenceWatcherTableTest {
 
     @Test
     void handlesInvalidColumnValue() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"));
-
-      try (cleanups) {
+              withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"))) {
         var table = new PreferenceWatcherTable();
         var model = table.getModel();
         assertThat(model.getValueAt(0, 3), nullValue());
@@ -144,11 +132,9 @@ class PreferenceWatcherTableTest {
 
     @Test
     void handlesInvalidRowValue() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"));
-
-      try (cleanups) {
+              withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"))) {
         var table = new PreferenceWatcherTable();
         var model = table.getModel();
         assertThat(model.getValueAt(50, 1), nullValue());
@@ -179,13 +165,11 @@ class PreferenceWatcherTableTest {
     @ParameterizedTest
     @CsvSource({"testPrefB, 2, 'testPrefB,testPrefA'", "'', 1, 'testPrefA'"})
     void canAddProperty(final String initial, final int expectedCount, final String expected) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("testPrefA", "a"),
               withProperty("testPrefB", "b"),
-              withProperty("watchedPreferences", initial));
-
-      try (cleanups) {
+              withProperty("watchedPreferences", initial))) {
         var table = new PreferenceWatcherTable();
         table.getModel().addPreference("testPrefA");
 

@@ -20,9 +20,7 @@ public class GenieCommandTest extends AbstractCommandTestBase {
   class Pocket {
     @Test
     public void canWishForPocketWishesWithBottle() {
-      var cleanups = withItem(ItemPool.GENIE_BOTTLE);
-
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.GENIE_BOTTLE)) {
         execute("item pocket");
         assertContinueState();
       }
@@ -30,9 +28,7 @@ public class GenieCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void cannotWishForPocketWishesWithPocketWishes() {
-      var cleanups = withItem(ItemPool.POCKET_WISH);
-
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.POCKET_WISH)) {
         String output = execute("item pocket");
         assertThat(output, containsString("Don't use a pocket wish to make a pocket wish."));
         assertErrorState();
@@ -41,10 +37,9 @@ public class GenieCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void canWishForPocketWishesWithReplicaBottle() {
-      var cleanups =
-          new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withItem(ItemPool.REPLICA_GENIE_BOTTLE));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING), withItem(ItemPool.REPLICA_GENIE_BOTTLE))) {
         execute("item pocket");
         assertContinueState();
       }

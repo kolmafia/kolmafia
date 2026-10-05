@@ -36,9 +36,7 @@ public class ConsequenceManagerTest {
   class IntegerPreferences {
     @Test
     void canParseDescItemIntegerPreference() {
-      var cleanups = new Cleanups(withProperty("boneAbacusVictories", "0"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("boneAbacusVictories", "0"))) {
         var descid = ItemDatabase.getDescriptionId(ItemPool.BONE_ABACUS);
         var responseText = html("request/test_consequences_bone_abacus.html");
 
@@ -58,9 +56,7 @@ public class ConsequenceManagerTest {
 
     @Test
     public void canParseQuestLogIntegerPreference() {
-      var cleanups = new Cleanups(withProperty("elfGratitude", "0"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("elfGratitude", "0"))) {
         var request = new GenericRequest("questlog.php?which=3");
         request.responseText = html("request/test_consequences_elf_gratitude.html");
 
@@ -75,9 +71,7 @@ public class ConsequenceManagerTest {
   class MonkeyPaw {
     @Test
     public void canParsePoint() {
-      var cleanups = new Cleanups(withProperty("monkeyPointMonster", ""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("monkeyPointMonster", ""))) {
         var descid = ItemDatabase.getDescriptionId(ItemPool.CURSED_MONKEY_PAW);
         var responseText = html("request/test_consequences_cursed_monkey_point.html");
 
@@ -88,9 +82,7 @@ public class ConsequenceManagerTest {
 
     @Test
     public void canParsePointWithBanish() {
-      var cleanups = new Cleanups(withProperty("monkeyPointMonster", ""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("monkeyPointMonster", ""))) {
         var descid = ItemDatabase.getDescriptionId(ItemPool.CURSED_MONKEY_PAW);
         var responseText = html("request/test_consequences_cursed_monkey_point_banish.html");
 
@@ -102,9 +94,7 @@ public class ConsequenceManagerTest {
 
   @Test
   public void canParseCitizenOfAZone() {
-    var cleanups = new Cleanups(withProperty("_citizenZone"), withProperty("_citizenZoneMods"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_citizenZone"), withProperty("_citizenZoneMods"))) {
       var descid = EffectDatabase.getDescriptionId(EffectPool.CITIZEN_OF_A_ZONE);
       var responseText = html("request/test_desc_effect_citizen_of_a_zone.html");
 
@@ -119,9 +109,7 @@ public class ConsequenceManagerTest {
 
   @Test
   public void canParseCircadianRhythms() {
-    var cleanups = new Cleanups(withProperty("_circadianRhythmsPhylum"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_circadianRhythmsPhylum"))) {
       var descid = EffectDatabase.getDescriptionId(EffectPool.RECALLING_CIRCADIAN_RHYTHMS);
       var responseText = html("request/test_desc_effect_circadian.html");
 
@@ -135,9 +123,7 @@ public class ConsequenceManagerTest {
     @ParameterizedTest
     @ValueSource(strings = {"disco", "ultraviolet", "reading"})
     public void canParseNormal(String type) {
-      var cleanups = new Cleanups(withProperty("ledCandleMode"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("ledCandleMode"))) {
         var descid = ItemDatabase.getDescriptionId(ItemPool.LED_CANDLE);
         var responseText = html("request/test_desc_item_led_candle_" + type + ".html");
 
@@ -148,9 +134,7 @@ public class ConsequenceManagerTest {
 
     @Test
     public void trimsExtraSpacesForRedLight() {
-      var cleanups = new Cleanups(withProperty("ledCandleMode"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("ledCandleMode"))) {
         var descid = ItemDatabase.getDescriptionId(ItemPool.LED_CANDLE);
         var responseText = html("request/test_desc_item_led_candle_red_light.html");
 
@@ -162,9 +146,7 @@ public class ConsequenceManagerTest {
 
   @Test
   public void canParseSavageBeast() {
-    var cleanups = new Cleanups(withProperty("_savageBeastMods"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_savageBeastMods"))) {
       var descId = EffectDatabase.getDescriptionId(EffectPool.SAVAGE_BEAST);
       var responseText = html("request/test_desc_effect_savage_beast.html");
 
@@ -178,9 +160,7 @@ public class ConsequenceManagerTest {
 
   @Test
   void canParseCrudeSculpture() {
-    var cleanups = new Cleanups(withProperty("crudeMonster", ""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("crudeMonster", ""))) {
       var descid = ItemDatabase.getDescriptionId(ItemPool.CRUDE_SCULPTURE);
       var responseText = html("request/test_desc_item_crude_sculpture.html");
 
@@ -193,15 +173,13 @@ public class ConsequenceManagerTest {
   class RomanCandelabra {
     @Test
     void unused() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("romanCandelabraRedCasts", 1),
               withProperty("romanCandelabraBlueCasts", 1),
               withProperty("romanCandelabraYellowCasts", 1),
               withProperty("romanCandelabraGreenCasts", 1),
-              withProperty("romanCandelabraPurpleCasts", 1));
-
-      try (cleanups) {
+              withProperty("romanCandelabraPurpleCasts", 1))) {
         var descid = ItemDatabase.getDescriptionId(ItemPool.ROMAN_CANDELABRA);
         var responseText = html("request/test_desc_item_roman_candelabra.html");
 
@@ -216,15 +194,13 @@ public class ConsequenceManagerTest {
 
     @Test
     void lightlyUsed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("romanCandelabraRedCasts", 0),
               withProperty("romanCandelabraBlueCasts", 0),
               withProperty("romanCandelabraYellowCasts", 0),
               withProperty("romanCandelabraGreenCasts", 0),
-              withProperty("romanCandelabraPurpleCasts", 0));
-
-      try (cleanups) {
+              withProperty("romanCandelabraPurpleCasts", 0))) {
         var descid = ItemDatabase.getDescriptionId(ItemPool.ROMAN_CANDELABRA);
         var responseText = html("request/test_desc_item_roman_candelabra_used.html");
 

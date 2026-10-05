@@ -53,15 +53,13 @@ public class AscensionRequestTest {
     String ascensionsPref = "ascensionsToday";
     int ascensionBefore = 1;
     int ascensionAfter = 2;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty(breakfastPref, breakfastBefore),
             withProperty(ascensionsPref, ascensionBefore),
             withNextResponse(
                 new FakeHttpResponse<>(302, Map.of("location", List.of("afterlife.php")), ""),
-                new FakeHttpResponse<>(200, html("request/test_ascension_jump_gash.html"))));
-
-    try (cleanups) {
+                new FakeHttpResponse<>(200, html("request/test_ascension_jump_gash.html"))))) {
       // This does a 302 redirect to afterlife.php
       var jumpGash = new GenericRequest("ascend.php?action=ascend&pwd&confirm=on&confirm2=on");
       jumpGash.run();
@@ -85,9 +83,7 @@ public class AscensionRequestTest {
     int karmaAfter = 211;
 
     // Set our karma beforehand to 100
-    var cleanups = withProperty(pref, karmaBeforehand);
-
-    try (cleanups) {
+    try (var _ = withProperty(pref, karmaBeforehand)) {
       // Execute a request to enter the pearly gates
       var pearlyGates = new GenericRequest("afterlife.php?action=pearlygates");
       pearlyGates.responseText = html("request/test_ascension_enter_valhalla.html");
@@ -164,7 +160,7 @@ public class AscensionRequestTest {
   @Test
   void testAscensionDetectsSelectPathRedirectsPathChoice() {
     // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withDay(2023, Month.JANUARY, 2),
             withProperty("lastBreakfast", -1),
@@ -175,9 +171,7 @@ public class AscensionRequestTest {
                     302, Map.of("location", List.of("choice.php?forceoption=0")), ""),
                 new FakeHttpResponse<>(200, html("request/test_ascension_forced_path_choice.html")),
                 new FakeHttpResponse<>(
-                    200, html("request/test_ascension_after_grey_you_path_choice.html"))));
-
-    try (cleanups) {
+                    200, html("request/test_ascension_after_grey_you_path_choice.html"))))) {
       CharPaneRequest.setInValhalla(true);
       ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 

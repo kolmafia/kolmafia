@@ -50,8 +50,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void hardcoreNoItomsHasOnlyTentacle() {
-      var cleanups = withHardcore();
-      try (cleanups) {
+      try (var _ = withHardcore()) {
         ff.update();
         assertThat(ff.getText(), is("<html>Fights: tentacle</html>"));
       }
@@ -68,13 +67,12 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void crossesMultipleLinesWithMoreThanFourEntries() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliarInTerrarium(FamiliarPool.HIPSTER),
               withFamiliarInTerrarium(FamiliarPool.ARTISTIC_GOTH_KID),
               withFamiliarInTerrarium(FamiliarPool.GOD_LOBSTER),
-              withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF));
-      try (cleanups) {
+              withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF))) {
         ff.update();
         assertThat(
             ff.getText(),
@@ -85,8 +83,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsHipsterFights() {
-      var cleanups = withFamiliarInTerrarium(FamiliarPool.HIPSTER);
-      try (cleanups) {
+      try (var _ = withFamiliarInTerrarium(FamiliarPool.HIPSTER)) {
         ff.update();
         assertThat(ff.getText(), containsString("0/7 hipster"));
       }
@@ -94,8 +91,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsGothKidFights() {
-      var cleanups = withFamiliarInTerrarium(FamiliarPool.ARTISTIC_GOTH_KID);
-      try (cleanups) {
+      try (var _ = withFamiliarInTerrarium(FamiliarPool.ARTISTIC_GOTH_KID)) {
         ff.update();
         assertThat(ff.getText(), containsString("0/7 goth"));
       }
@@ -103,8 +99,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsSeals() {
-      var cleanups = withClass(AscensionClass.SEAL_CLUBBER);
-      try (cleanups) {
+      try (var _ = withClass(AscensionClass.SEAL_CLUBBER)) {
         ff.update();
         assertThat(ff.getText(), containsString("0/5 seals"));
       }
@@ -112,10 +107,9 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void summonTenSealsWithInfernalClaw() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.SEAL_CLUBBER), withItem(ItemPool.INFERNAL_SEAL_CLAW));
-      try (cleanups) {
+              withClass(AscensionClass.SEAL_CLUBBER), withItem(ItemPool.INFERNAL_SEAL_CLAW))) {
         ff.update();
         assertThat(ff.getText(), containsString("0/10 seals"));
       }
@@ -123,8 +117,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsMachineElf() {
-      var cleanups = withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF);
-      try (cleanups) {
+      try (var _ = withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF)) {
         ff.update();
         assertThat(ff.getText(), containsString("0/5 machine elf"));
       }
@@ -139,8 +132,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsWitchess() {
-      var cleanups = withCampgroundItem(ItemPool.WITCHESS_SET);
-      try (cleanups) {
+      try (var _ = withCampgroundItem(ItemPool.WITCHESS_SET)) {
         ff.update();
         assertThat(ff.getText(), containsString("0/5 witchess"));
       }
@@ -148,8 +140,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsGodLobster() {
-      var cleanups = withFamiliarInTerrarium(FamiliarPool.GOD_LOBSTER);
-      try (cleanups) {
+      try (var _ = withFamiliarInTerrarium(FamiliarPool.GOD_LOBSTER)) {
         ff.update();
         assertThat(ff.getText(), containsString("0/3 god lobster"));
       }
@@ -171,8 +162,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsLynyrd() {
-      var cleanups = new Cleanups(withItem(ItemPool.LYNYRD_SNARE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.LYNYRD_SNARE))) {
         ff.update();
         assertThat(ff.getText(), containsString("0/3 lynyrd"));
       }
@@ -180,8 +170,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsKramco() {
-      var cleanups = new Cleanups(withItem(ItemPool.SAUSAGE_O_MATIC));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.SAUSAGE_O_MATIC))) {
         ff.update();
         assertThat(ff.getText(), containsString("0 sausage goblin"));
       }
@@ -189,8 +178,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsGlitchMonster() {
-      var cleanups = new Cleanups(withItem(ItemPool.GLITCH_ITEM));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.GLITCH_ITEM))) {
         ff.update();
         assertThat(ff.getText(), containsString("%monster%"));
       }
@@ -198,8 +186,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsMushroom() {
-      var cleanups = withCampgroundItem(ItemPool.MUSHROOM_SPORES);
-      try (cleanups) {
+      try (var _ = withCampgroundItem(ItemPool.MUSHROOM_SPORES)) {
         ff.update();
         assertThat(ff.getText(), containsString("0/1 piranha plant"));
       }
@@ -207,10 +194,9 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsMushroomGivingFiveFightsInPlumber() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withCampgroundItem(ItemPool.MUSHROOM_SPORES), withPath(Path.PATH_OF_THE_PLUMBER));
-      try (cleanups) {
+              withCampgroundItem(ItemPool.MUSHROOM_SPORES), withPath(Path.PATH_OF_THE_PLUMBER))) {
         ff.update();
         assertThat(ff.getText(), containsString("0/5 piranha plant"));
       }
@@ -218,8 +204,7 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsVoid() {
-      var cleanups = new Cleanups(withItem(ItemPool.CURSED_MAGNIFYING_GLASS));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.CURSED_MAGNIFYING_GLASS))) {
         ff.update();
         assertThat(ff.getText(), containsString("0/5 void"));
       }
@@ -231,8 +216,7 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsLocket() {
       var cld = new DailyDeedsPanel.CombatLocketDaily();
-      var cleanups = withItem(ItemPool.COMBAT_LOVERS_LOCKET);
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.COMBAT_LOVERS_LOCKET)) {
         cld.update();
         assertThat(cld.getText(), containsString("0/3 locket"));
       }
@@ -241,10 +225,10 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsLocket1Monster() {
       var cld = new DailyDeedsPanel.CombatLocketDaily();
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem(ItemPool.COMBAT_LOVERS_LOCKET), withProperty("_locketMonstersFought", "1"));
-      try (cleanups) {
+              withItem(ItemPool.COMBAT_LOVERS_LOCKET),
+              withProperty("_locketMonstersFought", "1"))) {
         cld.update();
         assertThat(cld.getText(), containsString("1/3 locket: spooky vampire"));
       }
@@ -253,11 +237,10 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsLocket3Monsters() {
       var cld = new DailyDeedsPanel.CombatLocketDaily();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.COMBAT_LOVERS_LOCKET),
-              withProperty("_locketMonstersFought", "1,11,111"));
-      try (cleanups) {
+              withProperty("_locketMonstersFought", "1,11,111"))) {
         cld.update();
         assertThat(
             cld.getText(),
@@ -277,8 +260,7 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsCookbookbat() {
       var dd = new DailyDeedsPanel.DropsDaily();
-      var cleanups = withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT);
-      try (cleanups) {
+      try (var _ = withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT)) {
         dd.update();
         assertThat(dd.getText(), containsString("0/1 cookbookbat recipe"));
       }
@@ -287,11 +269,10 @@ public class DailyDeedsPanelTest {
     @Test
     public void cookbookbatRecipeDrop() {
       var dd = new DailyDeedsPanel.DropsDaily();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
-              withProperty("_cookbookbatRecipeDrops", true));
-      try (cleanups) {
+              withProperty("_cookbookbatRecipeDrops", true))) {
         dd.update();
         assertThat(dd.getText(), containsString("1/1 cookbookbat recipe"));
       }

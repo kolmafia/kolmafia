@@ -28,12 +28,11 @@ class SeaMerkinRequestTest {
   class SeaPath {
     @Test
     void canDetectShubDefeated() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.UNDER_THE_SEA),
               withProperty("merkinQuestPath"),
-              withProperty("shubJigguwattDefeated", false));
-      try (cleanups) {
+              withProperty("shubJigguwattDefeated", false))) {
         var text = html("request/test_quest_sea_monkee_path_boss_defeated.html");
         SeaMerkinRequest.parseResponse("sea_merkin.php?action=temple&subaction=left", text);
         assertThat("shubJigguwattDefeated", isSetTo(true));
@@ -42,12 +41,11 @@ class SeaMerkinRequestTest {
 
     @Test
     void canDetectYogDefeated() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.UNDER_THE_SEA),
               withProperty("merkinQuestPath"),
-              withProperty("yogUrtDefeated", false));
-      try (cleanups) {
+              withProperty("yogUrtDefeated", false))) {
         var text = html("request/test_quest_sea_monkee_path_boss_defeated.html");
         SeaMerkinRequest.parseResponse("sea_merkin.php?action=temple&subaction=right", text);
         assertThat("yogUrtDefeated", isSetTo(true));
@@ -65,11 +63,9 @@ class SeaMerkinRequestTest {
       "none,scholar" // Should not usually happen, but clean it up anyway
     })
     void canDetectHighPriest(String before, String after) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("merkinQuestPath", before), withProperty("isMerkinHighPriest", false));
-
-      try (cleanups) {
+              withProperty("merkinQuestPath", before), withProperty("isMerkinHighPriest", false))) {
         var text = html("request/test_merkin_colosseum_scholar.html");
         SeaMerkinRequest.parseColosseumResponse("adventure.php?snarfblat=210", text);
         assertThat("merkinQuestPath", isSetTo(after));
@@ -85,13 +81,11 @@ class SeaMerkinRequestTest {
       "none,gladiator" // Should not usually happen, but clean it up anyway
     })
     void canDetectGladiatorChampion(String before, String after) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("merkinQuestPath", before),
               withProperty("isMerkinGladiatorChampion", false),
-              withProperty("lastColosseumRoundWon", 14));
-
-      try (cleanups) {
+              withProperty("lastColosseumRoundWon", 14))) {
         var text = html("request/test_merkin_colosseum_gladiator.html");
         SeaMerkinRequest.parseColosseumResponse("adventure.php?snarfblat=210", text);
         assertThat("merkinQuestPath", isSetTo(after));

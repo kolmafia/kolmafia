@@ -63,12 +63,11 @@ class PreferencesTest {
     verboseDelete(userFile);
     verboseDelete(backupUserFile);
     Preferences.reset(EMPTY_USER);
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSavePreferencesToFile(),
             withProperty("saveSettingsOnSet", true),
-            withProperty("xyz", "abc"));
-    try (cleanups) {
+            withProperty("xyz", "abc"))) {
       Preferences.setString("tabby", "*\t*");
       Preferences.reset(EMPTY_USER);
       // We relog twice because the preference file is only backed up when we're about to replace
@@ -527,9 +526,7 @@ class PreferencesTest {
     String name = "ascensionsToday";
     int beforeRollover = 1;
     int afterRollover = 0;
-    var cleanups = withProperty(name, beforeRollover);
-
-    try (cleanups) {
+    try (var _ = withProperty(name, beforeRollover)) {
       Preferences.resetPerRollover();
 
       // confirm default
@@ -614,8 +611,7 @@ class PreferencesTest {
 
     @Test
     public void resetDailiesDoesNotRaceWithReset() {
-      var cleanups = new Cleanups(withSavePreferencesToFile());
-      try (cleanups) {
+      try (var _ = new Cleanups(withSavePreferencesToFile())) {
         Thread reset = new resetThread("Timein");
         Thread resetDailies = new resetDailiesThread("Timein");
         reset.start();
@@ -634,9 +630,7 @@ class PreferencesTest {
 
   @Test
   public void actuallySaveFileToIncreaseCoverage() {
-    var cleanups = withSavePreferencesToFile();
-
-    try (cleanups) {
+    try (var _ = withSavePreferencesToFile()) {
       Preferences.setString("tabby", "*\t*");
       Preferences.setString("removeMe", "please");
       Preferences.setString("a", "\n");
@@ -667,9 +661,7 @@ class PreferencesTest {
 
   @Test
   public void exerciseResetNull() {
-    var cleanups = withSavePreferencesToFile();
-
-    try (cleanups) {
+    try (var _ = withSavePreferencesToFile()) {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
@@ -683,9 +675,7 @@ class PreferencesTest {
 
   @Test
   public void exerciseResetEmpty() {
-    var cleanups = withSavePreferencesToFile();
-
-    try (cleanups) {
+    try (var _ = withSavePreferencesToFile()) {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
@@ -699,9 +689,7 @@ class PreferencesTest {
 
   @Test
   public void exerciseResetDots() {
-    var cleanups = withSavePreferencesToFile();
-
-    try (cleanups) {
+    try (var _ = withSavePreferencesToFile()) {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
@@ -751,9 +739,8 @@ class PreferencesTest {
 
     @Test
     public void savesSettingsIfOn() {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         assertThat(combinedContents(), not(containsString("\nxyz=abc\n")));
         Preferences.setString("xyz", "abc");
         assertThat(combinedContents(), containsString("\nxyz=abc\n"));
@@ -764,16 +751,14 @@ class PreferencesTest {
     public void canToggle() {
       assertThat(combinedContents(), not(containsString("\nxyz=abc\n")));
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSavePreferencesToFile(),
               withProperty("saveSettingsOnSet", false),
-              withProperty("xyz", "abc"));
-      try (cleanups) {
+              withProperty("xyz", "abc"))) {
         assertThat(combinedContents(), not(containsString("\nxyz=abc\n")));
-        var cleanups2 =
-            new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
-        try (cleanups2) {
+        try (var _ =
+            new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"))) {
           assertThat(combinedContents(), containsString("\nxyz=abc\n"));
           assertThat(combinedContents(), containsString("\nwxy=def\n"));
         }
@@ -863,9 +848,8 @@ class PreferencesTest {
 
     @Test
     public void backupIsRestoredOnCorruption() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         // Sets up the backup file
         setupNonCorruptedState();
         // Corrupt the user's file
@@ -888,9 +872,8 @@ class PreferencesTest {
 
     @Test
     public void backupIsPreferedOverPartial() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         setupNonCorruptedState();
         // Write the corrupt file, but partially parsable with a different value
         corrupt(userFile, PREF_NAME + "=oldValue\n");
@@ -902,9 +885,8 @@ class PreferencesTest {
 
     @Test
     public void emptyIsRestoredFromBackup() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         setupNonCorruptedState();
         Files.write(userFile.toPath(), new byte[0]);
         login();
@@ -914,9 +896,8 @@ class PreferencesTest {
 
     @Test
     public void partialRecoveryDoesntIncludeProblematicLines() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         // Corrupt the file, along with a partially written value that didn't end with a newline
         corrupt(userFile, PREF_NAME + "=someValue\nskippedKey=skippedValue");
         login();
@@ -964,9 +945,8 @@ class PreferencesTest {
 
     @Test
     public void appendsToJournalLeavingPrefsUntouched() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
         Preferences.setString(PREF_NAME, "initial");
         Preferences.userFile.savePrefsFile(false);
@@ -985,9 +965,8 @@ class PreferencesTest {
 
     @Test
     public void loginReplaysJournalOntoPrefsAndEmptiesIt() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
         Preferences.setString(PREF_NAME, "oldValue");
         logout();
@@ -1006,9 +985,8 @@ class PreferencesTest {
 
     @Test
     public void logoutDeletesJournalAndHasEverything() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
         Preferences.setString(PREF_NAME, "oldValue");
         // Save
@@ -1032,9 +1010,8 @@ class PreferencesTest {
 
     @Test
     public void reachingMaxAgeTriggersCompactionAndClearsJournal() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
         Preferences.setString(PREF_NAME, "oldValue");
         Preferences.userFile.savePrefsFile(false);
@@ -1056,9 +1033,8 @@ class PreferencesTest {
 
     @Test
     public void corruptedJournalIsSalvagedUpToLastCompleteLine() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         corrupt(journalFile, PREF_NAME + "=someValue\nskippedKey=skippedValue");
 
         login();
@@ -1070,9 +1046,8 @@ class PreferencesTest {
 
     @Test
     public void removePropertyAppendsRemovalLineToJournal() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
         Preferences.setString(PREF_NAME, "value");
         assertTrue(journalFile.exists());
@@ -1088,9 +1063,8 @@ class PreferencesTest {
 
     @Test
     public void journalRemovalLineIsAppliedOnReplay() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
         Preferences.setString(PREF_NAME, "value");
         logout();
@@ -1104,9 +1078,8 @@ class PreferencesTest {
 
     @Test
     public void journalCanSetAndRemoveAndSetProperly() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         String line1 = PREF_NAME + "=first";
         String line2 = "#" + PREF_NAME;
         String line3 = PREF_NAME + "=second";
@@ -1126,9 +1099,8 @@ class PreferencesTest {
 
     @Test
     public void journalHandlesSpecialCharacters() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
 
         // Covers the characters encodeCharacter treats differently
@@ -1158,9 +1130,8 @@ class PreferencesTest {
 
     @Test
     public void removingDefaultPreferenceIsJournaledProperly() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
 
         // "addingScrolls" has a default, so removing it is a no-op journal append, not a
@@ -1176,9 +1147,8 @@ class PreferencesTest {
 
     @Test
     public void resetDailiesWorksWithJournal() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         login();
         Preferences.setString("_journalTestDaily", "value");
         assertTrue(journalFile.exists());
@@ -1197,9 +1167,8 @@ class PreferencesTest {
       String key = "lastUsername";
       String originalValue = Preferences.getString(key, true);
       File globalJournalFile = new File("settings/GLOBAL_prefs.journal");
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true))) {
         Preferences.setString(key, "journalTestValue");
 
         assertThat(
@@ -1216,8 +1185,7 @@ class PreferencesTest {
   class SetterFunctions {
     @Test
     void canSetStringWithFunction() {
-      var cleanups = withProperty("example", "a");
-      try (cleanups) {
+      try (var _ = withProperty("example", "a")) {
         Preferences.setString("example", v -> v + "b");
         assertThat("example", isSetTo("ab"));
       }
@@ -1225,8 +1193,7 @@ class PreferencesTest {
 
     @Test
     void canSetBooleanWithFunction() {
-      var cleanups = withProperty("example", "true");
-      try (cleanups) {
+      try (var _ = withProperty("example", "true")) {
         Preferences.setBoolean("example", v -> !v);
         assertThat("example", isSetTo(false));
       }
@@ -1234,8 +1201,7 @@ class PreferencesTest {
 
     @Test
     void canSetIntegerWithFunction() {
-      var cleanups = withProperty("example", 10);
-      try (cleanups) {
+      try (var _ = withProperty("example", 10)) {
         Preferences.setInteger("example", v -> v / 5);
         assertThat("example", isSetTo(2));
       }
@@ -1243,8 +1209,7 @@ class PreferencesTest {
 
     @Test
     void canSetFloatWithFunction() {
-      var cleanups = withProperty("example", 10.0f);
-      try (cleanups) {
+      try (var _ = withProperty("example", 10.0f)) {
         Preferences.setFloat("example", v -> v / 5.0f);
         assertThat("example", isSetTo(2.0f));
       }
@@ -1252,8 +1217,7 @@ class PreferencesTest {
 
     @Test
     void canSetDoubleWithFunction() {
-      var cleanups = withProperty("example", 10.0);
-      try (cleanups) {
+      try (var _ = withProperty("example", 10.0)) {
         Preferences.setDouble("example", v -> v / 5.0);
         assertThat("example", isSetTo(2.0));
       }
@@ -1261,8 +1225,7 @@ class PreferencesTest {
 
     @Test
     void canSetLongWithFunction() {
-      var cleanups = withProperty("example", 10L);
-      try (cleanups) {
+      try (var _ = withProperty("example", 10L)) {
         Preferences.setLong("example", v -> v / 5L);
         assertThat("example", isSetTo(2L));
       }

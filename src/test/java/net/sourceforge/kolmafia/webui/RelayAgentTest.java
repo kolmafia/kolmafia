@@ -47,8 +47,7 @@ class RelayAgentTest {
 
   @Test
   void readBrowserRequestWithHash() throws IOException {
-    var cleanups = withPasswordHash("xxxx");
-    try (cleanups) {
+    try (var _ = withPasswordHash("xxxx")) {
       try (var _ = this.sendInput("GET /KoLmafia/sideCommand?pwd=xxxx HTTP/1.1")) {
         assertThat(agent.readBrowserRequest(), is(true));
       }
@@ -57,8 +56,7 @@ class RelayAgentTest {
 
   @Test
   void readBrowserRequestWithNoHash() throws IOException {
-    var cleanups = withPasswordHash("xxxx");
-    try (cleanups) {
+    try (var _ = withPasswordHash("xxxx")) {
       this.sendInput("GET /KoLmafia/sideCommand HTTP/1.1");
       assertThat(agent.readBrowserRequest(), is(false));
     }
@@ -66,8 +64,7 @@ class RelayAgentTest {
 
   @Test
   void readBrowserRequestWithWrongHash() throws IOException {
-    var cleanups = withPasswordHash("xxxx");
-    try (cleanups) {
+    try (var _ = withPasswordHash("xxxx")) {
       this.sendInput("GET /KoLmafia/sideCommand?pwd=yyyy HTTP/1.1");
       assertThat(agent.readBrowserRequest(), is(false));
     }
@@ -80,8 +77,7 @@ class RelayAgentTest {
     "/KoLmafia/sideCommand?pwd=yyy&cmd=echo hi,'HTTP/1.1 401 Unauthorized|Date: GMT|Server: KoLmafia r0|| '"
   })
   void performRelayWithHash(String url, String expectedString) throws IOException {
-    var cleanups = withPasswordHash("xxxx");
-    try (cleanups) {
+    try (var _ = withPasswordHash("xxxx")) {
       try (var outputStream = this.sendInput("GET " + url + " HTTP/1.1")) {
         agent.performRelay();
         String[] result =

@@ -30,10 +30,9 @@ public class MaximizerCreatableTest {
 
   @Test
   public void canPasteAsshat() {
-    var cleanups =
-        new Cleanups(withItem("bum cheek", 2), withItem("meat paste", 1), withConcoctionRefresh());
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withItem("bum cheek", 2), withItem("meat paste", 1), withConcoctionRefresh())) {
       maximizeCreatable("sleaze dmg");
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "asshat")));
     }
@@ -41,7 +40,7 @@ public class MaximizerCreatableTest {
 
   @Test
   public void doesNotRecommendTinyBlackHoleInStandard() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withRestricted(true),
             withItem("coconut shell", 1),
@@ -49,9 +48,7 @@ public class MaximizerCreatableTest {
             withItem("meat paste", 1),
             withProperty("unknownRecipe5069", false),
             withNotAllowedInStandard(RestrictedItemType.ITEMS, "tiny black hole"),
-            withConcoctionRefresh());
-
-    try (cleanups) {
+            withConcoctionRefresh())) {
       maximizeCreatable("item +offhand");
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND, "tiny black hole"))));
     }
@@ -61,9 +58,7 @@ public class MaximizerCreatableTest {
   class BarrelShrine {
     @Test
     public void canCreateBarrelItems() {
-      var cleanups = withProperty("barrelShrineUnlocked", true);
-
-      try (cleanups) {
+      try (var _ = withProperty("barrelShrineUnlocked", true)) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "barrel lid")));
@@ -72,12 +67,10 @@ public class MaximizerCreatableTest {
 
     @Test
     public void cannotCreateBarrelItemsTwice() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("barrelShrineUnlocked", true),
-              withProperty("prayedForProtection", true));
-
-      try (cleanups) {
+              withProperty("prayedForProtection", true))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
@@ -86,11 +79,9 @@ public class MaximizerCreatableTest {
 
     @Test
     public void cannotCreateBarrelItemsAfterPrayer() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", true));
-
-      try (cleanups) {
+              withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", true))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
@@ -99,13 +90,11 @@ public class MaximizerCreatableTest {
 
     @Test
     public void cannotCreateBarrelItemsInStandard() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("barrelShrineUnlocked", true),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.ITEMS, "shrine to the Barrel god"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "shrine to the Barrel god"))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
@@ -118,9 +107,7 @@ public class MaximizerCreatableTest {
     @ParameterizedTest
     @ValueSource(strings = {"frAlways", "_frToday"})
     public void canCreateFantasyRealmItems(String pref) {
-      var cleanups = withProperty(pref, true);
-
-      try (cleanups) {
+      try (var _ = withProperty(pref, true)) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "FantasyRealm Rogue's Mask")));
@@ -129,9 +116,7 @@ public class MaximizerCreatableTest {
 
     @Test
     public void cannotCreateFantasyRealmItemsIfAlreadyUsed() {
-      var cleanups = new Cleanups(withProperty("frAlways", true), withProperty("_frHoursLeft", 5));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("frAlways", true), withProperty("_frHoursLeft", 5))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
@@ -140,13 +125,12 @@ public class MaximizerCreatableTest {
 
     @Test
     public void cannotCreateFantasyRealmItemsInStandard() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("frAlways", true),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.ITEMS, "FantasyRealm membership packet"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(
+                  RestrictedItemType.ITEMS, "FantasyRealm membership packet"))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
@@ -158,11 +142,9 @@ public class MaximizerCreatableTest {
   class Floundry {
     @Test
     public void canCreateFloundryItems() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClanLoungeItem(ItemPool.CLAN_FLOUNDRY), withClanLoungeItem(ItemPool.CARPE));
-
-      try (cleanups) {
+              withClanLoungeItem(ItemPool.CLAN_FLOUNDRY), withClanLoungeItem(ItemPool.CARPE))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("meat");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "carpe")));
@@ -171,14 +153,12 @@ public class MaximizerCreatableTest {
 
     @Test
     public void cannotCreateFloundryItemsInStandard() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClanLoungeItem(ItemPool.CLAN_FLOUNDRY),
               withClanLoungeItem(ItemPool.CARPE),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Clan Floundry"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Clan Floundry"))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("meat");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.CONTAINER))));
@@ -190,13 +170,11 @@ public class MaximizerCreatableTest {
   class NPCStore {
     @Test
     public void canBuyUtensil() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("autoSatisfyWithNPCs", true),
               withProperty("autoBuyPriceLimit", 2_000),
-              withMeat(2000));
-
-      try (cleanups) {
+              withMeat(2000))) {
         maximizeCreatable("spell dmg");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "rubber spatula")));
       }
@@ -204,14 +182,12 @@ public class MaximizerCreatableTest {
 
     @Test
     public void buyBestUtensil() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("autoSatisfyWithNPCs", true),
               withProperty("autoBuyPriceLimit", 2_000),
               withMeat(2000),
-              withStats(100, 100, 100));
-
-      try (cleanups) {
+              withStats(100, 100, 100))) {
         maximizeCreatable("spell dmg");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "obsidian nutcracker")));
       }
@@ -219,13 +195,11 @@ public class MaximizerCreatableTest {
 
     @Test
     public void canOnlyBuyOneSphygmayomanometer() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("autoSatisfyWithNPCs", true),
               withWorkshedItem(ItemPool.MAYO_CLINIC),
-              withStats(100, 100, 100));
-
-      try (cleanups) {
+              withStats(100, 100, 100))) {
         maximizeCreatable("muscle");
         assertThat(getBoosts(), hasItem(recommends("sphygmayomanometer")));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
@@ -235,13 +209,11 @@ public class MaximizerCreatableTest {
 
     @Test
     public void canOnlyBuyOneOversizedSparkler() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("autoSatisfyWithNPCs", true),
               withSkill("Double-Fisted Skull Smashing"),
-              withProperty("_fireworksShop", true));
-
-      try (cleanups) {
+              withProperty("_fireworksShop", true))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("item drop");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "oversized sparkler")));
@@ -251,13 +223,11 @@ public class MaximizerCreatableTest {
 
     @Test
     public void cannotCreateFireworkHatIfAlreadyHave() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("autoSatisfyWithNPCs", true),
               withProperty("_fireworksShop", true),
-              withProperty("_fireworksShopHatBought", true));
-
-      try (cleanups) {
+              withProperty("_fireworksShopHatBought", true))) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("-combat");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
@@ -269,9 +239,7 @@ public class MaximizerCreatableTest {
   class Foldables {
     @Test
     public void willFoldIfBetter() {
-      var cleanups = withEquippableItem(ItemPool.TURTLE_WAX_GREAVES);
-
-      try (cleanups) {
+      try (var _ = withEquippableItem(ItemPool.TURTLE_WAX_GREAVES)) {
         maximizeCreatable("hot res");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "turtle wax helmet")));
       }
@@ -279,12 +247,10 @@ public class MaximizerCreatableTest {
 
     @Test
     public void willNotFoldIfPreferenceFalse() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("maximizerFoldables", false),
-              withEquippableItem(ItemPool.TURTLE_WAX_GREAVES));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.TURTLE_WAX_GREAVES))) {
         maximizeCreatable("hot res");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
       }
@@ -292,9 +258,7 @@ public class MaximizerCreatableTest {
 
     @Test
     public void canFoldFromGarbageTote() {
-      var cleanups = new Cleanups(withItem(ItemPool.GARBAGE_TOTE));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.GARBAGE_TOTE))) {
         maximizeCreatable("ml");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "tinsel tights")));
       }
@@ -302,10 +266,9 @@ public class MaximizerCreatableTest {
 
     @Test
     public void canFoldFromReplicaGarbageTote() {
-      var cleanups =
-          new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withItem(ItemPool.REPLICA_GARBAGE_TOTE));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING), withItem(ItemPool.REPLICA_GARBAGE_TOTE))) {
         maximizeCreatable("ml");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "tinsel tights")));
       }
@@ -313,9 +276,7 @@ public class MaximizerCreatableTest {
 
     @Test
     public void willFoldForStinkyCheese() {
-      var cleanups = withItem(ItemPool.STINKY_CHEESE_STAFF);
-
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.STINKY_CHEESE_STAFF)) {
         maximizeCreatable("stinky cheese");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "stinky cheese sword")));
       }

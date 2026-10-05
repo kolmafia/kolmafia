@@ -39,10 +39,8 @@ public class StickersCommandTest extends AbstractCommandTestBase {
   @Test
   public void equipsSubset() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
-        new Cleanups(withItem(ItemPool.UNICORN_STICKER), withItem(ItemPool.APPLE_STICKER));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.UNICORN_STICKER), withItem(ItemPool.APPLE_STICKER))) {
       String output = this.execute("unicorn, apple sticker");
       assertThat(output, containsString("Putting on scratch 'n' sniff unicorn sticker..."));
       assertThat(output, containsString("Putting on scratch 'n' sniff apple sticker..."));
@@ -59,10 +57,9 @@ public class StickersCommandTest extends AbstractCommandTestBase {
   @Test
   public void equipsAllToUnequipped() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
-        new Cleanups(withItem(ItemPool.UPC_STICKER, 3), withEquippableItem(ItemPool.STICKER_SWORD));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withItem(ItemPool.UPC_STICKER, 3), withEquippableItem(ItemPool.STICKER_SWORD))) {
       this.execute("UPC, UPC, UPC");
 
       var requests = getRequests();
@@ -76,14 +73,12 @@ public class StickersCommandTest extends AbstractCommandTestBase {
   @Test
   public void equipsWithExistingStickers() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.ROCK_BAND_STICKER, 3),
             withEquippableItem(ItemPool.STICKER_SWORD),
             withEquipped(Slot.STICKER1, ItemPool.DRAGON_STICKER),
-            withEquipped(Slot.STICKER3, ItemPool.WRESTLER_STICKER));
-
-    try (cleanups) {
+            withEquipped(Slot.STICKER3, ItemPool.WRESTLER_STICKER))) {
       this.execute("rock band, rock band, rock band");
 
       var requests = getRequests();

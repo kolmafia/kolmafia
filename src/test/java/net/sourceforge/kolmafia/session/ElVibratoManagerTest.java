@@ -51,13 +51,12 @@ public class ElVibratoManagerTest {
     @Test
     public void canUseTrapezoid() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.TRAPEZOID),
               withEmptyCampground(),
-              withProperty("currentPortalEnergy", 0));
-      try (cleanups) {
+              withProperty("currentPortalEnergy", 0))) {
         builder.client.addResponse(200, html("request/test_use_el_vibrato_trapezoid.html"));
         builder.client.addResponse(200, ""); // api.php
 
@@ -88,9 +87,9 @@ public class ElVibratoManagerTest {
     public void canRecognizeActivePortalAndEnergy(
         final String fixture, final int startingEnergy, final int estimatedEnergy) {
       String html = html("request/test_" + fixture + ".html");
-      var cleanups =
-          new Cleanups(withEmptyCampground(), withProperty("currentPortalEnergy", startingEnergy));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEmptyCampground(), withProperty("currentPortalEnergy", startingEnergy))) {
         CampgroundRequest.parseResponse("campground.php", html);
         int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
         assertNotEquals(-1, index);
@@ -104,13 +103,12 @@ public class ElVibratoManagerTest {
     @Test
     public void canReopenWithPowerSphere() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.POWER_SPHERE),
               withCampgroundItem(ItemPool.TRAPEZOID, 0),
-              withProperty("currentPortalEnergy", 0));
-      try (cleanups) {
+              withProperty("currentPortalEnergy", 0))) {
         builder.client.addResponse(200, html("request/test_use_el_vibrato_power_sphere.html"));
         builder.client.addResponse(200, ""); // api.php
 
@@ -138,13 +136,12 @@ public class ElVibratoManagerTest {
     @Test
     public void canAddEnergyWithPowerSphere() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.POWER_SPHERE),
               withCampgroundItem(ItemPool.TRAPEZOID, 0),
-              withProperty("currentPortalEnergy", 10));
-      try (cleanups) {
+              withProperty("currentPortalEnergy", 10))) {
         builder.client.addResponse(200, html("request/test_use_el_vibrato_power_sphere_2.html"));
         builder.client.addResponse(200, ""); // api.php
 
@@ -172,13 +169,12 @@ public class ElVibratoManagerTest {
     @Test
     public void canReopenWithOverchargedPowerSphere() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.OVERCHARGED_POWER_SPHERE),
               withCampgroundItem(ItemPool.TRAPEZOID, 0),
-              withProperty("currentPortalEnergy", 0));
-      try (cleanups) {
+              withProperty("currentPortalEnergy", 0))) {
         builder.client.addResponse(
             200, html("request/test_use_el_vibrato_overcharged_power_sphere.html"));
         builder.client.addResponse(200, ""); // api.php
@@ -207,13 +203,12 @@ public class ElVibratoManagerTest {
     @Test
     public void canAddEnergyWithOverchargedPowerSphere() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.OVERCHARGED_POWER_SPHERE),
               withCampgroundItem(ItemPool.TRAPEZOID, 0),
-              withProperty("currentPortalEnergy", 13));
-      try (cleanups) {
+              withProperty("currentPortalEnergy", 13))) {
         builder.client.addResponse(
             200, html("request/test_use_el_vibrato_overcharged_power_sphere_2.html"));
         builder.client.addResponse(200, ""); // api.php
@@ -242,14 +237,13 @@ public class ElVibratoManagerTest {
     @Test
     public void canDecrementEnergyWithFight() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               // This will clean up FightRequest
               withFight(0),
               withCampgroundItem(ItemPool.TRAPEZOID, 20),
-              withProperty("currentPortalEnergy", 20));
-      try (cleanups) {
+              withProperty("currentPortalEnergy", 20))) {
         // adventure.php?snarfblat=164
         builder.client.addResponse(
             302, Map.of("location", List.of("fight.php?ireallymeanit=1663603584")), "");
@@ -281,13 +275,12 @@ public class ElVibratoManagerTest {
     @Test
     public void canTrackMachinationsEncounter() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withCampgroundItem(ItemPool.TRAPEZOID, 20),
               withItem(ItemPool.PUNCHCARD_TARGET),
-              withProperty("currentPortalEnergy", 20));
-      try (cleanups) {
+              withProperty("currentPortalEnergy", 20))) {
         // adventure.php?snarfblat=164
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -361,12 +354,11 @@ public class ElVibratoManagerTest {
 
     @Test
     public void mustBeOnElVibratoIsland() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("Haunted Pantry"),
               withFight(1),
-              withNextMonster("lonely construct"));
-      try (cleanups) {
+              withNextMonster("lonely construct"))) {
         String input = html;
         StringBuffer page = new StringBuffer(input);
         ElVibratoManager.decorate(page);
@@ -378,12 +370,11 @@ public class ElVibratoManagerTest {
 
     @Test
     public void mustBeInFight() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("El Vibrato Island"),
               withFight(0),
-              withNextMonster("lonely construct"));
-      try (cleanups) {
+              withNextMonster("lonely construct"))) {
         String input = html;
         StringBuffer page = new StringBuffer(input);
         ElVibratoManager.decorate(page);
@@ -395,12 +386,11 @@ public class ElVibratoManagerTest {
 
     @Test
     public void mustBeFightingConstruct() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("El Vibrato Island"),
               withFight(1),
-              withNextMonster("migratory pirate"));
-      try (cleanups) {
+              withNextMonster("migratory pirate"))) {
         String input = html;
         StringBuffer page = new StringBuffer(input);
         ElVibratoManager.decorate(page);
@@ -412,12 +402,11 @@ public class ElVibratoManagerTest {
 
     @Test
     public void mustHaveNormalPage() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("El Vibrato Island"),
               withFight(1),
-              withNextMonster("lonely construct"));
-      try (cleanups) {
+              withNextMonster("lonely construct"))) {
         String input = "hello";
         StringBuffer page = new StringBuffer(input);
         ElVibratoManager.decorate(page);
@@ -485,7 +474,7 @@ public class ElVibratoManagerTest {
       "lonely construct (translated), false",
     })
     public void canMakeNecessaryButtons(final String monster, final boolean funkslinging) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("El Vibrato Island"),
               withFight(1),
@@ -496,8 +485,7 @@ public class ElVibratoManagerTest {
               withItem(DRONE),
               withItem(SELF),
               withItem(ItemPool.POWER_SPHERE),
-              withSkill(funkslinging ? "Ambidextrous Funkslinging" : "Sing"));
-      try (cleanups) {
+              withSkill(funkslinging ? "Ambidextrous Funkslinging" : "Sing"))) {
         String input = html;
         StringBuffer page = new StringBuffer(input);
         ElVibratoManager.decorate(page);

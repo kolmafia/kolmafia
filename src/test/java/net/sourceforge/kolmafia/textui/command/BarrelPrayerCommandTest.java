@@ -59,9 +59,7 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveShrine() {
-    var cleanups = withProperty("barrelShrineUnlocked", false);
-
-    try (cleanups) {
+    try (var _ = withProperty("barrelShrineUnlocked", false)) {
       String output = execute("buff");
 
       assertErrorState();
@@ -71,11 +69,9 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustNotHavePrayed() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", true));
-
-    try (cleanups) {
+            withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", true))) {
       String output = execute("buff");
 
       assertErrorState();
@@ -93,13 +89,11 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @MethodSource("barrelItems")
   void mustNotHavePrayedForItemThisAscension(String preference, String prayer) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("barrelShrineUnlocked", true),
             withProperty("_barrelPrayer", false),
-            withProperty(preference, true));
-
-    try (cleanups) {
+            withProperty(preference, true))) {
       String output = execute(prayer);
 
       assertErrorState();
@@ -109,11 +103,9 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canPray() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", false));
-
-    try (cleanups) {
+            withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", false))) {
       execute("buff");
 
       assertContinueState();

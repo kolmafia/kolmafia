@@ -51,10 +51,8 @@ class RequestLoggerTest {
   class RegisterLastLocation {
     @Test
     public void canReportPreviousLocationInMultiFightInLocation() {
-      var cleanups =
-          new Cleanups(withLastLocation("The Outskirts of Cobb's Knob"), withMultiFight());
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withLastLocation("The Outskirts of Cobb's Knob"), withMultiFight())) {
         var output = withCapturedLogs(RequestLogger::registerLastLocation);
 
         assertThat(output, equalTo("[1] The Outskirts of Cobb's Knob"));
@@ -63,13 +61,11 @@ class RequestLoggerTest {
 
     @Test
     public void canReportPreviousLocationInMultiFightWithItemMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation((String) null),
               withMultiFight(),
-              withItemMonster("Combat Lover's Locket"));
-
-      try (cleanups) {
+              withItemMonster("Combat Lover's Locket"))) {
         var output = withCapturedLogs(RequestLogger::registerLastLocation);
 
         assertThat(output, equalTo("[1] Combat Lover's Locket"));
@@ -78,10 +74,8 @@ class RequestLoggerTest {
 
     @Test
     public void canReportUnknownLocationInMultiFight() {
-      var cleanups =
-          new Cleanups(withLastLocation((String) null), withMultiFight(), withItemMonster(null));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withLastLocation((String) null), withMultiFight(), withItemMonster(null))) {
         var output = withCapturedLogs(RequestLogger::registerLastLocation);
 
         assertThat(output, equalTo("[1] Unknown Location"));
@@ -118,8 +112,7 @@ class RequestLoggerTest {
     @ParameterizedTest
     @EnumSource(ShadowRift.class)
     public void canRegisterShadowRiftIngress(ShadowRift rift) {
-      var cleanups = withProperty("shadowRiftIngress", "");
-      try (cleanups) {
+      try (var _ = withProperty("shadowRiftIngress", "")) {
         String url = rift.getURL();
 
         // Each Shadow Rift is in a "container" accessed via place.php

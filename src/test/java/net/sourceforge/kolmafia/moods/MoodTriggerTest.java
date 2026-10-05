@@ -34,9 +34,7 @@ public class MoodTriggerTest {
   @Test
   void failedCastReturnsError() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withSkill(SkillPool.EMPATHY_OF_THE_NEWT), withContinuationState());
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withSkill(SkillPool.EMPATHY_OF_THE_NEWT), withContinuationState())) {
       var trigger =
           MoodTrigger.constructNode("lose_effect empathy => cast 1 Empathy of the Newt ^ Empathy");
       assertThat(trigger, not(nullValue()));
@@ -66,14 +64,12 @@ public class MoodTriggerTest {
           return null;
         });
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill(SkillPool.MANICOTTI_MEDITATION),
             withMP(10, 10, 10),
             withItem(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD),
-            withHttpClientBuilder(builder));
-
-    try (cleanups) {
+            withHttpClientBuilder(builder))) {
       var trigger =
           MoodTrigger.constructNode(
               "lose_effect tubes of universal meat => cast 1 Manicotti Meditation ^ Tubes of Universal Meat");

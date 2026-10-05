@@ -828,9 +828,7 @@ public class StorageRequestTest {
 
     @Test
     public void itShouldNotEmptyStorageInHardcore() {
-      var cleanups = new Cleanups(withHardcore(true), withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHardcore(true), withContinuationState())) {
         // Make an request to empty storage
         StorageRequest request = new StorageRequest(StorageRequestType.EMPTY_STORAGE);
 
@@ -842,9 +840,7 @@ public class StorageRequestTest {
 
     @Test
     public void itShouldNotPullMeatInHardcore() {
-      var cleanups = new Cleanups(withHardcore(true), withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHardcore(true), withContinuationState())) {
         // Make a request with Meat
         StorageRequest request = makeMeatRequest();
 
@@ -856,9 +852,7 @@ public class StorageRequestTest {
 
     @Test
     public void itShouldNotPullNonFreePullsInHardcore() {
-      var cleanups = new Cleanups(withHardcore(true), withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHardcore(true), withContinuationState())) {
         // Make a request with an Item
         StorageRequest request = makeSingleItemRequest(ItemPool.HOT_WAD);
 
@@ -870,9 +864,7 @@ public class StorageRequestTest {
 
     @Test
     public void itShouldNotEmptyStorageInRonin() {
-      var cleanups = new Cleanups(withRonin(true), withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withRonin(true), withContinuationState())) {
         // Make an request to empty storage
         StorageRequest request = new StorageRequest(StorageRequestType.EMPTY_STORAGE);
 
@@ -884,9 +876,7 @@ public class StorageRequestTest {
 
     @Test
     public void itShouldNotPullTwiceInRonin() {
-      var cleanups = new Cleanups(withRonin(true), withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withRonin(true), withContinuationState())) {
         // Make a request with an Item
         StorageRequest request = makeSingleItemRequest(ItemPool.HOT_WAD);
 
@@ -904,13 +894,11 @@ public class StorageRequestTest {
 
     @Test
     public void itShouldNotPullMeatInFistcore() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("kingLiberated", false),
               withPath(Path.SURPRISING_FIST),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         // Make a request with Meat
         StorageRequest request = makeMeatRequest();
 
@@ -922,9 +910,7 @@ public class StorageRequestTest {
 
     @Test
     public void itShouldRequestZeroItems() {
-      var cleanups = new Cleanups(withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withContinuationState())) {
         // Make a request with no items
         StorageRequest request = makeZeroItemRequest();
 
@@ -1099,15 +1085,14 @@ public class StorageRequestTest {
 
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
               withItemInStorage(ItemPool.BEER_HELMET, 1),
               withItemInStorage(ItemPool.BEJEWELED_PLEDGE_PIN, 1),
               withItemInStorage(ItemPool.BLACKBERRY_GALOSHES, 1),
-              withItemInStorage(ItemPool.DISTRESSED_DENIM_PANTS, 1));
-      try (cleanups) {
+              withItemInStorage(ItemPool.DISTRESSED_DENIM_PANTS, 1))) {
         client.addResponse(200, html("request/test_pull_already_pulled_items.html"));
 
         StringBuilder buf = new StringBuilder("storage.php?action=pull&ajax=1");
@@ -1139,13 +1124,12 @@ public class StorageRequestTest {
 
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
               withItemInStorage(ItemPool.FOUR_BALL, 12),
-              withItemInStorage(ItemPool.FIVE_BALL, 10));
-      try (cleanups) {
+              withItemInStorage(ItemPool.FIVE_BALL, 10))) {
         client.addResponse(200, html("request/test_pull_duplicate_item.html"));
 
         StringBuilder buf = new StringBuilder("storage.php?action=pull&ajax=1");
@@ -1171,13 +1155,12 @@ public class StorageRequestTest {
 
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
               withItemInStorage(ItemPool.SEVEN_BALL, 12),
-              withItemInStorage(ItemPool.EIGHT_BALL, 10));
-      try (cleanups) {
+              withItemInStorage(ItemPool.EIGHT_BALL, 10))) {
         client.addResponse(200, html("request/test_pull_missing_item.html"));
 
         StringBuilder buf = new StringBuilder("storage.php?action=pull&ajax=1");

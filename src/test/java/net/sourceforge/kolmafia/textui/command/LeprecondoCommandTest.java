@@ -44,9 +44,7 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
 
   @Test
   void errorsWithInvalidCommand() {
-    var cleanups = hasLeprecondo();
-
-    try (cleanups) {
+    try (var _ = hasLeprecondo()) {
       String output = execute("frobnort");
       assertErrorState();
       assertThat(output, containsString("Usage: leprecondo <blank>"));
@@ -57,10 +55,8 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
   class Status {
     @Test
     void showsFurniture() {
-      var cleanups =
-          new Cleanups(hasLeprecondo(), withProperty("leprecondoInstalled", "3,4,17,20"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(hasLeprecondo(), withProperty("leprecondoInstalled", "3,4,17,20"))) {
         String output = execute("");
         assertThat(
             output.trim(),
@@ -71,9 +67,7 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
 
     @Test
     void showsNoFurniture() {
-      var cleanups = new Cleanups(hasLeprecondo(), withProperty("leprecondoInstalled", "0,0,0,0"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(hasLeprecondo(), withProperty("leprecondoInstalled", "0,0,0,0"))) {
         String output = execute("");
         assertThat(
             output.trim(),
@@ -87,9 +81,7 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
   class Furnish {
     @Test
     void errorsWithNoRearrangements() {
-      var cleanups = new Cleanups(hasLeprecondo(), withProperty("_leprecondoRearrangements", 3));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(hasLeprecondo(), withProperty("_leprecondoRearrangements", 3))) {
         String output = execute("furnish ");
         assertErrorState();
         assertThat(output, containsString("All leprecondo rearrangements used today"));
@@ -98,9 +90,7 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithNoFurniture() {
-      var cleanups = hasLeprecondo();
-
-      try (cleanups) {
+      try (var _ = hasLeprecondo()) {
         String output = execute("furnish");
         assertErrorState();
         assertThat(output, containsString("Usage: leprecondo furnish a,b,c,d"));
@@ -109,9 +99,7 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithOnlySpacesForFurniture() {
-      var cleanups = hasLeprecondo();
-
-      try (cleanups) {
+      try (var _ = hasLeprecondo()) {
         String output = execute("furnish   ");
         assertErrorState();
         assertThat(output, containsString("Usage: leprecondo furnish a,b,c,d"));
@@ -120,9 +108,7 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithWrongNumberOfFurniture() {
-      var cleanups = hasLeprecondo();
-
-      try (cleanups) {
+      try (var _ = hasLeprecondo()) {
         String output = execute("furnish trogdor");
         assertErrorState();
         assertThat(output, containsString("Usage: leprecondo furnish a,b,c,d"));
@@ -131,9 +117,7 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithMissingFurniture() {
-      var cleanups = hasLeprecondo();
-
-      try (cleanups) {
+      try (var _ = hasLeprecondo()) {
         String output = execute("furnish home,star,run,ner");
         assertErrorState();
         assertThat(output, containsString("Unrecognised furniture name: home"));
@@ -142,9 +126,7 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithAmbiguousFurniture() {
-      var cleanups = new Cleanups(hasLeprecondo(), withProperty("leprecondoDiscovered", "2,7"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(hasLeprecondo(), withProperty("leprecondoDiscovered", "2,7"))) {
         String output = execute("furnish i,am,a,fish");
         assertErrorState();
         assertThat(output, containsString("Ambiguous furniture name: i"));
@@ -153,10 +135,8 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
 
     @Test
     void succeedsWithAvailableFurniture() {
-      var cleanups =
-          new Cleanups(hasLeprecondo(), withProperty("leprecondoDiscovered", "17,25,26,27"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(hasLeprecondo(), withProperty("leprecondoDiscovered", "17,25,26,27"))) {
         String output = execute("furnish manc,four,wet,omni");
         assertContinueState();
         assertThat(
@@ -171,10 +151,8 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
   class Available {
     @Test
     public void showsAvailableFurniture() {
-      var cleanups =
-          new Cleanups(hasLeprecondo(), withProperty("leprecondoDiscovered", "3,4,5,17,20"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(hasLeprecondo(), withProperty("leprecondoDiscovered", "3,4,5,17,20"))) {
         String output = execute("available");
         assertContinueState();
         assertThat(
@@ -192,10 +170,8 @@ public class LeprecondoCommandTest extends AbstractCommandTestBase {
   class Missing {
     @Test
     public void showsMissingFurnitureWithLocations() {
-      var cleanups =
-          new Cleanups(hasLeprecondo(), withProperty("leprecondoDiscovered", "3,4,5,17,20"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(hasLeprecondo(), withProperty("leprecondoDiscovered", "3,4,5,17,20"))) {
         String output = execute("missing");
         assertContinueState();
         assertThat(

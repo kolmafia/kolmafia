@@ -55,9 +55,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
   class Put {
     @Test
     public void storesSealToothInStash() {
-      var cleanups = withItem("seal tooth");
-
-      try (cleanups) {
+      try (var _ = withItem("seal tooth")) {
         execute("put 1 seal tooth");
       }
 
@@ -70,9 +68,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesManyItemsInStash() {
-      var cleanups = new Cleanups(withItem("seal tooth"), withItem("helmet turtle"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem("seal tooth"), withItem("helmet turtle"))) {
         execute("put 1 seal tooth, 1 helmet turtle");
       }
 
@@ -96,9 +92,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotStoreZeroItemsInStash() {
-      var cleanups = withItem("seal tooth");
-
-      try (cleanups) {
+      try (var _ = withItem("seal tooth")) {
         execute("put 0 seal tooth");
       }
 
@@ -109,9 +103,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesMeatInStash() {
-      var cleanups = withMeat(100);
-
-      try (cleanups) {
+      try (var _ = withMeat(100)) {
         execute("put 100 meat");
       }
 
@@ -124,9 +116,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesMoreThanIntMaxMeatInStash() {
-      var cleanups = withMeat(3_000_000_000L);
-
-      try (cleanups) {
+      try (var _ = withMeat(3_000_000_000L)) {
         execute("put 3000000000 meat");
       }
 
@@ -139,9 +129,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotStoreZeroMeatInStash() {
-      var cleanups = withMeat(100);
-
-      try (cleanups) {
+      try (var _ = withMeat(100)) {
         execute("put 0 meat");
       }
 
@@ -155,9 +143,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
   class Take {
     @Test
     public void takesSealToothFromStash() {
-      var cleanups = withItemInStash("seal tooth");
-
-      try (cleanups) {
+      try (var _ = withItemInStash("seal tooth")) {
         execute("take 1 seal tooth");
       }
 
@@ -170,9 +156,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotTakeZeroItemsFromStash() {
-      var cleanups = withItemInStash("seal tooth");
-
-      try (cleanups) {
+      try (var _ = withItemInStash("seal tooth")) {
         execute("take 0 seal tooth");
       }
 

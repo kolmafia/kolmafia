@@ -40,13 +40,11 @@ public class CrimboTrainCommandTest extends AbstractCommandTestBase {
   @Test
   public void noTargetIsError() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("_crimboTraining", false),
             withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-            withContinuationState());
-
-    try (cleanups) {
+            withContinuationState())) {
       String output = execute("");
       assertThat(output, containsString("Train whom?"));
       assertErrorState();
@@ -59,9 +57,7 @@ public class CrimboTrainCommandTest extends AbstractCommandTestBase {
   @Test
   public void noCrimboTrainingManualIsError() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = new Cleanups(withProperty("_crimboTraining", false));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_crimboTraining", false))) {
       String output = execute("Hairy");
       assertThat(output, containsString("You need 1 more Crimbo training manual to continue."));
       assertErrorState();
@@ -74,11 +70,9 @@ public class CrimboTrainCommandTest extends AbstractCommandTestBase {
   @Test
   public void alreadyTrainedTodayIsError() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("_crimboTraining", true), withItem(ItemPool.CRIMBO_TRAINING_MANUAL));
-
-    try (cleanups) {
+            withProperty("_crimboTraining", true), withItem(ItemPool.CRIMBO_TRAINING_MANUAL))) {
       String output = execute("Hairy");
       assertThat(output, containsString("You've already trained somebody today."));
       assertErrorState();
@@ -92,12 +86,11 @@ public class CrimboTrainCommandTest extends AbstractCommandTestBase {
   public void canDetectTargetAlreadyKnowsSkill() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("_crimboTraining", false),
-            withItem(ItemPool.CRIMBO_TRAINING_MANUAL));
-    try (cleanups) {
+            withItem(ItemPool.CRIMBO_TRAINING_MANUAL))) {
       client.addResponse(200, html("request/test_use_crimbo_training_3c.html"));
       String output = execute("121572");
       assertThat(output, containsString("They already know that skill."));

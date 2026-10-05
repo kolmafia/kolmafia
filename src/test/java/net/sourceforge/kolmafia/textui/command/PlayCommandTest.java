@@ -142,12 +142,11 @@ class PlayCommandTest extends AbstractCommandTestBase {
   // to get as far as it can without a faux request.
   @Test
   public void drawRandom() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.DECK_OF_EVERY_CARD),
             withProperty("_deckCardsDrawn", 0),
-            withHP(123, 123, 123));
-    try (cleanups) {
+            withHP(123, 123, 123))) {
       String output = execute("random");
       assertErrorState();
       assertTrue(output.contains("I/O error"));
@@ -156,12 +155,11 @@ class PlayCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void drawNamedCard() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.DECK_OF_EVERY_CARD),
             withProperty("_deckCardsDrawn", 0),
-            withHP(123, 123, 123));
-    try (cleanups) {
+            withHP(123, 123, 123))) {
       String output = execute("race");
       assertErrorState();
       assertTrue(output.contains("I/O error"));
@@ -170,12 +168,11 @@ class PlayCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void drawSpecificStat() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.DECK_OF_EVERY_CARD),
             withProperty("_deckCardsDrawn", 0),
-            withHP(123, 123, 123));
-    try (cleanups) {
+            withHP(123, 123, 123))) {
       String output = execute("stat myst");
       assertErrorState();
       assertTrue(output.contains("I/O error"));
@@ -184,13 +181,12 @@ class PlayCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void drawMainStat() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.DECK_OF_EVERY_CARD),
             withProperty("_deckCardsDrawn", 0),
             withHP(123, 123, 123),
-            withClass(AscensionClass.ACCORDION_THIEF));
-    try (cleanups) {
+            withClass(AscensionClass.ACCORDION_THIEF))) {
       String output = execute("stat main");
       assertErrorState();
       assertTrue(output.contains("I/O error"));
@@ -211,7 +207,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
     client.addResponse(200, html("request/cheat_4.json"));
     client.addResponse(200, html("request/cheat_5.html"));
     client.addResponse(200, html("request/cheat_6.json"));
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withStats(26238, 38694, 26255),
@@ -225,8 +221,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
             withGender(KoLCharacter.Gender.FEMALE),
             withPasswordHash("babe"),
             withTurnsPlayed(2272543),
-            withAdventuresLeft(167));
-    try (cleanups) {
+            withAdventuresLeft(167))) {
       String output = execute("Ancestral Recall");
       assertTrue(output.contains("play Ancestral Recall"));
       assertTrue(output.contains("You acquire an item: blue mana"));

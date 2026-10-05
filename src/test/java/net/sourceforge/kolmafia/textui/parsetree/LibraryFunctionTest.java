@@ -31,8 +31,7 @@ class LibraryFunctionTest {
 
   @Test
   void execute() {
-    var cleanups = withTurnsPlayed(22);
-    try (cleanups) {
+    try (var _ = withTurnsPlayed(22)) {
       var totalTurnsPlayed = allFunctions.findFunctions("total_turns_played")[0];
       var result = totalTurnsPlayed.execute(runtime, new Object[] {runtime});
 
@@ -43,9 +42,8 @@ class LibraryFunctionTest {
 
   @Test
   void executeRespectsContinuationState() {
-    var cleanups =
-        new Cleanups(withTurnsPlayed(22), withContinuationState(KoLConstants.MafiaState.ERROR));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withTurnsPlayed(22), withContinuationState(KoLConstants.MafiaState.ERROR))) {
       var totalTurnsPlayed = allFunctions.findFunctions("total_turns_played")[0];
       var result = totalTurnsPlayed.execute(runtime, new Object[] {runtime});
 

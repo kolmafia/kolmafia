@@ -124,8 +124,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void shouldNotWarnWithoutEffect() {
-      var cleanups = withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB);
-      try (cleanups) {
+      try (var _ = withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB)) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertFalse(request.sendKungFuWarning());
@@ -134,11 +133,10 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void shouldWarnWithIntrinsicAndFullHands() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
-              withIntrinsicEffect("Kung Fu Fighting"));
-      try (cleanups) {
+              withIntrinsicEffect("Kung Fu Fighting"))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertTrue(request.sendKungFuWarning());
@@ -147,12 +145,11 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void shouldNotWarnWithIntrinsicAndEmptyHands() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withUnequipped(Slot.WEAPON),
               withUnequipped(Slot.OFFHAND),
-              withIntrinsicEffect("Kung Fu Fighting"));
-      try (cleanups) {
+              withIntrinsicEffect("Kung Fu Fighting"))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertFalse(request.sendKungFuWarning());
@@ -161,11 +158,10 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void shouldNotWarnWithNonIntrinsicEffect() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
-              withEffect(EffectPool.KUNG_FU_FIGHTING));
-      try (cleanups) {
+              withEffect(EffectPool.KUNG_FU_FIGHTING))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertFalse(request.sendKungFuWarning());
@@ -174,11 +170,10 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void shouldNotWarnWithIntrinsicIfAlreadyConfirmed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
-              withIntrinsicEffect("Kung Fu Fighting"));
-      try (cleanups) {
+              withIntrinsicEffect("Kung Fu Fighting"))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
         assertFalse(request.sendKungFuWarning());
@@ -196,13 +191,12 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfNotOverDrunk() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.ACCORDION_THIEF),
               withPath(Path.NONE),
               withInebriety(5),
-              withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+              withEquippableItem(ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertFalse(request.sendWineglassWarning(WARREN));
@@ -211,8 +205,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfNoWineglass() {
-      var cleanups = new Cleanups(withInebriety(30), withStats(100, 100, 100));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30), withStats(100, 100, 100))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertFalse(request.sendWineglassWarning(WARREN));
@@ -221,9 +214,8 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatWarningNeededIfEquippableInOffhand() {
-      var cleanups =
-          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertTrue(request.sendWineglassWarning(WARREN));
@@ -238,9 +230,8 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfNotSnarfblatAdventure() {
-      var cleanups =
-          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(CELLAR.getRequest().getURLString());
         assertFalse(request.sendWineglassWarning(CELLAR));
@@ -249,9 +240,9 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfWineglassEquippedInOffhand() {
-      var cleanups =
-          new Cleanups(withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertFalse(request.sendWineglassWarning(WARREN));
@@ -260,9 +251,8 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatWarningNeededIfWineglassOnLeftHandMan() {
-      var cleanups =
-          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertTrue(request.sendWineglassWarning(WARREN));
@@ -271,8 +261,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfUnequippableInOffhand() {
-      var cleanups = new Cleanups(withInebriety(30), withItem(ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30), withItem(ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertFalse(request.sendWineglassWarning(WARREN));
@@ -281,9 +270,8 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfConfirmedForOffhand() {
-      var cleanups =
-          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
         assertFalse(request.sendWineglassWarning(WARREN));
@@ -292,12 +280,11 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfConfirmedForFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInebriety(30),
               withFamiliar(FamiliarPool.LEFT_HAND),
-              withItem(ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+              withItem(ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
         assertFalse(request.sendWineglassWarning(WARREN));
@@ -321,8 +308,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNotTopFloor() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(A_BOO_PEAK, null), false);
         // No warning needed if you are not in the Castle Top Floor
@@ -332,8 +318,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningWithNoMohawkWigInInventory() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
         // With no Mahawk Wig in Inventory, no warning
@@ -343,8 +328,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfConfirmed() {
-      var cleanups = new Cleanups(withEquippableItem(ItemPool.MOHAWK_WIG));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem(ItemPool.MOHAWK_WIG))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, confirm), false);
         // No warning needed if this a resubmission with confirmation
@@ -355,8 +339,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfPreviouslyConfirmed() {
-      var cleanups = new Cleanups(withEquippableItem(ItemPool.MOHAWK_WIG));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem(ItemPool.MOHAWK_WIG))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
         // No warning needed if this a resubmission with confirmation
@@ -368,8 +351,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfMohawkWigEquipped() {
-      var cleanups = new Cleanups(withEquipped(Slot.HAT, MOHAWK_WIG));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.HAT, MOHAWK_WIG))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
         // No warning needed if Mohawk wig already equipped
@@ -379,9 +361,9 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfCastleQuestCompleted() {
-      var cleanups =
-          new Cleanups(withEquippableItem(MOHAWK_WIG), withQuestProgress(Quest.GARBAGE, "step10"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEquippableItem(MOHAWK_WIG), withQuestProgress(Quest.GARBAGE, "step10"))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
         // No warning needed if Mohawk wig already equipped
@@ -391,8 +373,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfUnequippableMohawkWig() {
-      var cleanups = new Cleanups(withItem(MOHAWK_WIG), withStats(50, 50, 50));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(MOHAWK_WIG), withStats(50, 50, 50))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
         // No warning needed if Mohawk wig already equipped
@@ -407,8 +388,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfEquippableMohawkWig() {
-      var cleanups = new Cleanups(withEquippableItem(MOHAWK_WIG));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem(MOHAWK_WIG))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
         assertTrue(request.sendMohawkWigWarning());
@@ -430,9 +410,8 @@ public class RelayRequestWarningsTest {
 
       @Test
       public void warningIfUnequippableMohawkWig() {
-        var cleanups =
-            new Cleanups(withPath(Path.YOU_ROBOT), withItem(MOHAWK_WIG), withStats(50, 50, 50));
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withPath(Path.YOU_ROBOT), withItem(MOHAWK_WIG), withStats(50, 50, 50))) {
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
           // No warning needed if Mohawk wig already equipped
@@ -449,8 +428,7 @@ public class RelayRequestWarningsTest {
 
       @Test
       public void warningIfEquippableMohawkWigWithoutMannequinHead() {
-        var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withEquippableItem(MOHAWK_WIG));
-        try (cleanups) {
+        try (var _ = new Cleanups(withPath(Path.YOU_ROBOT), withEquippableItem(MOHAWK_WIG))) {
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
           // No warning needed if Mohawk wig already equipped
@@ -466,8 +444,7 @@ public class RelayRequestWarningsTest {
 
       @Test
       public void warningIfEquippableMohawkWigWithMannequinHead() {
-        var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withEquippableItem(MOHAWK_WIG));
-        try (cleanups) {
+        try (var _ = new Cleanups(withPath(Path.YOU_ROBOT), withEquippableItem(MOHAWK_WIG))) {
           YouRobotManager.testInstallUpgrade(RobotUpgrade.MANNEQUIN_HEAD);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
@@ -494,8 +471,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNotPlantingEnchantedBean() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString("place.php?whichplace=plains", false);
         // No warning needed if you are not planting an enchanted bean
@@ -505,8 +481,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningWithNoSpringShoesInInventory() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(GARBAGE_GROUNDS, false);
         // With no spring shoes in Inventory, no warning
@@ -516,8 +491,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfConfirmed() {
-      var cleanups = new Cleanups(withEquippableItem(ItemPool.SPRING_SHOES));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem(ItemPool.SPRING_SHOES))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(GARBAGE_GROUNDS_CONFIRMED, false);
         // No warning needed if this a resubmission with confirmation
@@ -527,8 +501,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfSpringShoesgEquipped() {
-      var cleanups = new Cleanups(withEquipped(Slot.ACCESSORY3, SPRING_SHOES));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.ACCESSORY3, SPRING_SHOES))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(GARBAGE_GROUNDS, false);
         // No warning needed if spring shoes already equipped
@@ -538,8 +511,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfEquippableSpringShoes() {
-      var cleanups = new Cleanups(withEquippableItem(SPRING_SHOES));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem(SPRING_SHOES))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(GARBAGE_GROUNDS, false);
         assertTrue(request.sendSpringShoesWarning());
@@ -563,8 +535,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfConfirmed() {
-      var cleanups = new Cleanups(withTurnsPlayed(2));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(2))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, Confirm.CELLAR), false);
         // No warning needed if this a resubmission with confirmation
@@ -574,8 +545,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNotInQuestRoom() {
-      var cleanups = new Cleanups(withTurnsPlayed(3));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(3))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         // No warning needed if you are not in the Haunted Wine Cellar or Haunted Laundry Room
@@ -585,8 +555,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfLightsOutDue() {
-      var cleanups = new Cleanups(withTurnsPlayed(74), withProperty("lastLightsOutTurn", 37));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(74), withProperty("lastLightsOutTurn", 37))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, null), false);
         // No warning needed if Lights Out is about to trigger
@@ -596,8 +565,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfVoteMonsterDue() {
-      var cleanups = new Cleanups(withTurnsPlayed(23), withProperty("lastVoteMonsterTurn", 12));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(23), withProperty("lastVoteMonsterTurn", 12))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, null), false);
         // No warning needed if a Vote Monster is about to appear
@@ -607,8 +575,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfSummoningChamberOpen() {
-      var cleanups = new Cleanups(withTurnsPlayed(2), withQuestProgress(Quest.MANOR, "step3"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(2), withQuestProgress(Quest.MANOR, "step3"))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, null), false);
         // No warning needed if Summoning Chamber already open
@@ -618,9 +585,8 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningWithMortarRecipeKnown() {
-      var cleanups =
-          new Cleanups(withTurnsPlayed(2), withProperty("spookyravenRecipeUsed", "with_glasses"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withTurnsPlayed(2), withProperty("spookyravenRecipeUsed", "with_glasses"))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, null), false);
         // If already made a wine bomb, no warning
@@ -630,9 +596,8 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningWithoutSpectacles() {
-      var cleanups =
-          new Cleanups(withTurnsPlayed(2), withProperty("spookyravenRecipeUsed", "no_glasses"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withTurnsPlayed(2), withProperty("spookyravenRecipeUsed", "no_glasses"))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, null), false);
         // No warning needed if this a resubmission with confirmation
@@ -643,13 +608,12 @@ public class RelayRequestWarningsTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void warningIfMortarRecipeNotFound(boolean autoQuest) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withProperty("spookyravenRecipeUsed", "none"),
               withProperty("autoQuest", autoQuest),
-              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES));
-      try (cleanups) {
+              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, null), false);
         assertTrue(request.sendCellarWarning());
@@ -666,14 +630,13 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfConfirmedSpectacles() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withItem(ItemPool.MORTAR_DISSOLVING_RECIPE),
               withProperty("autoQuest", true),
               withProperty("spookyravenRecipeUsed", "none"),
-              withEquipped(Slot.ACCESSORY3, ItemPool.SPOOKYRAVEN_SPECTACLES));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY3, ItemPool.SPOOKYRAVEN_SPECTACLES))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, Confirm.CELLAR2), false);
         // No warning needed if this a resubmission with confirmation
@@ -683,14 +646,13 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfSpectaclesWorn() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withItem(ItemPool.MORTAR_DISSOLVING_RECIPE),
               withProperty("autoQuest", true),
               withProperty("spookyravenRecipeUsed", "none"),
-              withEquipped(Slot.ACCESSORY3, ItemPool.SPOOKYRAVEN_SPECTACLES));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY3, ItemPool.SPOOKYRAVEN_SPECTACLES))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, null), false);
         assertTrue(request.sendCellarWarning());
@@ -704,14 +666,13 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNoEquipSpectaclesConfirmed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withItem(ItemPool.MORTAR_DISSOLVING_RECIPE),
               withProperty("autoQuest", true),
               withProperty("spookyravenRecipeUsed", "none"),
-              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES));
-      try (cleanups) {
+              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(WINE_CELLAR, Confirm.CELLAR3), false);
         // No warning needed if this a resubmission with confirmation
@@ -724,14 +685,13 @@ public class RelayRequestWarningsTest {
         @Values(strings = {"The Haunted Wine Cellar", "The Haunted Laundry Room"})
             final String name,
         @Values(strings = {"none", "no_glasses"}) final String property) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withItem(ItemPool.MORTAR_DISSOLVING_RECIPE),
               withProperty("autoQuest", true),
               withProperty("spookyravenRecipeUsed", property),
-              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES));
-      try (cleanups) {
+              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES))) {
         var location = AdventureDatabase.getAdventureByName(name);
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(location, null), false);
@@ -761,8 +721,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNotInBoilerRoom() {
-      var cleanups = new Cleanups(withTurnsPlayed(3));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(3))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(A_BOO_PEAK, null), false);
         // No warning needed if you are not in the Haunted Boiler Room
@@ -772,8 +731,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfSummoningChamberOpen() {
-      var cleanups = new Cleanups(withTurnsPlayed(2), withQuestProgress(Quest.MANOR, "step3"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(2), withQuestProgress(Quest.MANOR, "step3"))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         // No warning needed if Summoning Chamber already open
@@ -783,8 +741,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfLightsOutDue() {
-      var cleanups = new Cleanups(withTurnsPlayed(74), withProperty("lastLightsOutTurn", 37));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(74), withProperty("lastLightsOutTurn", 37))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         // No warning needed if Lights Out is about to trigger
@@ -794,8 +751,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfVoteMonsterDue() {
-      var cleanups = new Cleanups(withTurnsPlayed(23), withProperty("lastVoteMonsterTurn", 12));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(23), withProperty("lastVoteMonsterTurn", 12))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         // No warning needed if a Vote Monster is about to appear
@@ -805,8 +761,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningWithWineBombInInventory() {
-      var cleanups = new Cleanups(withTurnsPlayed(2), withItem(ItemPool.WINE_BOMB));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(2), withItem(ItemPool.WINE_BOMB))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         // If already made a wine bomb, no warning
@@ -816,8 +771,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfConfirmed() {
-      var cleanups = new Cleanups(withTurnsPlayed(2));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(2))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, Confirm.BOILER), false);
         // No warning needed if this a resubmission with confirmation
@@ -827,9 +781,8 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfUnstableFulminateEquipped() {
-      var cleanups =
-          new Cleanups(withTurnsPlayed(2), withEquipped(Slot.OFFHAND, UNSTABLE_FULMINATE));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withTurnsPlayed(2), withEquipped(Slot.OFFHAND, UNSTABLE_FULMINATE))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         // No warning needed if unstable fulminate already equipped
@@ -839,8 +792,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNoFulminateAndMissingIngredients() {
-      var cleanups = new Cleanups(withTurnsPlayed(2));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(2))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         // No warning needed if unstable fulminate already equipped
@@ -850,10 +802,11 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNoFulminateAndNoRange() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withTurnsPlayed(2), withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR), withItem(BLASTING_SODA));
-      try (cleanups) {
+              withTurnsPlayed(2),
+              withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
+              withItem(BLASTING_SODA))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         // No warning needed if unstable fulminate already equipped
@@ -863,13 +816,12 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNoMakeConfirmed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withRange(),
               withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
-              withItem(BLASTING_SODA));
-      try (cleanups) {
+              withItem(BLASTING_SODA))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, Confirm.BOILER2), false);
         // No warning needed if this a resubmission with confirmation
@@ -879,13 +831,12 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfCanMakeFulminate() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withRange(),
               withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
-              withItem(BLASTING_SODA));
-      try (cleanups) {
+              withItem(BLASTING_SODA))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         assertTrue(request.sendBoilerWarning());
@@ -900,13 +851,12 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNoInstallConfirmed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withItem(ItemPool.RANGE),
               withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
-              withItem(BLASTING_SODA));
-      try (cleanups) {
+              withItem(BLASTING_SODA))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, Confirm.BOILER3), false);
         // No warning needed if this a resubmission with confirmation
@@ -916,13 +866,12 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfCanInstallRange() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(2),
               withItem(ItemPool.RANGE),
               withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
-              withItem(BLASTING_SODA));
-      try (cleanups) {
+              withItem(BLASTING_SODA))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         assertTrue(request.sendBoilerWarning());
@@ -938,8 +887,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfEquippableUnstableFulminate() {
-      var cleanups = new Cleanups(withTurnsPlayed(2), withEquippableItem(UNSTABLE_FULMINATE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(2), withEquippableItem(UNSTABLE_FULMINATE))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
         assertTrue(request.sendBoilerWarning());
@@ -1214,8 +1162,7 @@ public class RelayRequestWarningsTest {
     class Exploathing {
       @Test
       public void shouldNotWarnInExploathingWithNoIsotopes() {
-        var cleanups = withPath(Path.KINGDOM_OF_EXPLOATHING);
-        try (cleanups) {
+        try (var _ = withPath(Path.KINGDOM_OF_EXPLOATHING)) {
           String URL = prismURL(null);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
@@ -1225,10 +1172,9 @@ public class RelayRequestWarningsTest {
 
       @Test
       public void shouldWarnInExploathingWithIsotopes() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withPath(Path.KINGDOM_OF_EXPLOATHING), withItem(ItemPool.RARE_MEAT_ISOTOPE));
-        try (cleanups) {
+                withPath(Path.KINGDOM_OF_EXPLOATHING), withItem(ItemPool.RARE_MEAT_ISOTOPE))) {
           String URL = prismURL(null);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
@@ -1245,8 +1191,7 @@ public class RelayRequestWarningsTest {
 
       @Test
       public void shouldNotWarnInExploathingIfAlreadyConfirmed() {
-        var cleanups = withPath(Path.KINGDOM_OF_EXPLOATHING);
-        try (cleanups) {
+        try (var _ = withPath(Path.KINGDOM_OF_EXPLOATHING)) {
           String URL = prismURL(Confirm.RALPH);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
@@ -1265,8 +1210,7 @@ public class RelayRequestWarningsTest {
 
       @Test
       public void thatNoWarningNeededIfNotAboutToBreakPrism() {
-        var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-        try (cleanups) {
+        try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
           RelayRequest request = new RelayRequest(false);
           String URL = "place.php?whichplace=scrapheap";
           request.constructURLString(URL, true);
@@ -1277,8 +1221,7 @@ public class RelayRequestWarningsTest {
       @Test
       public void thatNoWarningNeededIfAlreadyConfirmed() {
         // Set path to You, Robot
-        var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withYouRobotEnergy(100));
-        try (cleanups) {
+        try (var _ = new Cleanups(withPath(Path.YOU_ROBOT), withYouRobotEnergy(100))) {
           // No warning needed if already confirmed
           RelayRequest request = new RelayRequest(false);
           String URL = prismURL(Confirm.RALPH);
@@ -1290,13 +1233,12 @@ public class RelayRequestWarningsTest {
       @Test
       public void thatNoWarningIfInsufficientEnergy() {
         // Set path to You, Robot
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withPath(Path.YOU_ROBOT),
                 withYouRobotEnergy(10),
                 withProperty("statbotUses", 10),
-                withProperty("_chronolithNextCost", 30));
-        try (cleanups) {
+                withProperty("_chronolithNextCost", 30))) {
           // energy < Statbot < Chronolith
           RelayRequest request = new RelayRequest(false);
           String URL = prismURL(null);
@@ -1308,13 +1250,12 @@ public class RelayRequestWarningsTest {
       @Test
       public void thatWarningIfEnergyForStatbot() {
         // Set path to You, Robot
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withPath(Path.YOU_ROBOT),
                 withProperty("statbotUses", 10),
                 withYouRobotEnergy(25),
-                withProperty("_chronolithNextCost", 30));
-        try (cleanups) {
+                withProperty("_chronolithNextCost", 30))) {
           // Statbot < energy < Chronolith
           RelayRequest request = new RelayRequest(false);
           String URL = prismURL(null);
@@ -1334,13 +1275,12 @@ public class RelayRequestWarningsTest {
       @Test
       public void thatWarningIfEnergyForChronolith() {
         // Set path to You, Robot
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withPath(Path.YOU_ROBOT),
                 withProperty("_chronolithNextCost", 20),
                 withYouRobotEnergy(25),
-                withProperty("statbotUses", 20));
-        try (cleanups) {
+                withProperty("statbotUses", 20))) {
           // Chronolith < energy < Statbot
           RelayRequest request = new RelayRequest(false);
           String URL = prismURL(null);
@@ -1360,13 +1300,12 @@ public class RelayRequestWarningsTest {
       @Test
       public void thatWarningIfEnergyForEither() {
         // Set path to You, Robot
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withPath(Path.YOU_ROBOT),
                 withProperty("statbotUses", 20),
                 withProperty("_chronolithNextCost", 20),
-                withYouRobotEnergy(50));
-        try (cleanups) {
+                withYouRobotEnergy(50))) {
           // Chronolith < Statbot < energy
           RelayRequest request = new RelayRequest(false);
           String URL = prismURL(null);
@@ -1389,8 +1328,7 @@ public class RelayRequestWarningsTest {
     class DinoCore {
       @Test
       public void shouldNotWarnInDinocoreWithNoDollars() {
-        var cleanups = withPath(Path.DINOSAURS);
-        try (cleanups) {
+        try (var _ = withPath(Path.DINOSAURS)) {
           String URL = prismURL(null);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
@@ -1400,8 +1338,7 @@ public class RelayRequestWarningsTest {
 
       @Test
       public void shouldWarnInDinocoreWithDollars() {
-        var cleanups = new Cleanups(withPath(Path.DINOSAURS), withItem(ItemPool.DINODOLLAR));
-        try (cleanups) {
+        try (var _ = new Cleanups(withPath(Path.DINOSAURS), withItem(ItemPool.DINODOLLAR))) {
           String URL = prismURL(null);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
@@ -1418,8 +1355,7 @@ public class RelayRequestWarningsTest {
 
       @Test
       public void shouldNotWarnInDinocoreIfAlreadyConfirmed() {
-        var cleanups = withPath(Path.DINOSAURS);
-        try (cleanups) {
+        try (var _ = withPath(Path.DINOSAURS)) {
           String URL = prismURL(Confirm.RALPH);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
@@ -1444,8 +1380,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNotDesert() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(A_BOO_PEAK, null), false);
         // No warning needed if you are not in The Arid, Ultra-Dry Desert
@@ -1455,8 +1390,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfConfirmed() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(DESERT, confirm), false);
         // No warning needed if this a resubmission with confirmation
@@ -1467,8 +1401,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfPreviouslyConfirmed() {
-      var cleanups = new Cleanups();
-      try (cleanups) {
+      try (var _ = new Cleanups()) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(DESERT, null), false);
         // No warning needed if this was previously confirmed
@@ -1480,8 +1413,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfUltrahydrated() {
-      var cleanups = withEffect(EffectPool.ULTRAHYDRATED, 10);
-      try (cleanups) {
+      try (var _ = withEffect(EffectPool.ULTRAHYDRATED, 10)) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(DESERT.getRequest().getURLString());
         assertFalse(request.sendUnhydratedDesertWarning());
@@ -1490,10 +1422,9 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfOasisNotOpenYet() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("oasisAvailable", false), withProperty("desertExploration", 10));
-      try (cleanups) {
+              withProperty("oasisAvailable", false), withProperty("desertExploration", 10))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(DESERT.getRequest().getURLString());
         assertFalse(request.sendUnhydratedDesertWarning());
@@ -1502,10 +1433,9 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfDesertFullyExplored() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("oasisAvailable", true), withProperty("desertExploration", 100));
-      try (cleanups) {
+              withProperty("oasisAvailable", true), withProperty("desertExploration", 100))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(DESERT.getRequest().getURLString());
         assertFalse(request.sendUnhydratedDesertWarning());
@@ -1514,9 +1444,9 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfOasisOpenAndDesertNotFullyExplored() {
-      var cleanups =
-          new Cleanups(withProperty("oasisAvailable", true), withProperty("desertExploration", 20));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withProperty("oasisAvailable", true), withProperty("desertExploration", 20))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(DESERT.getRequest().getURLString());
         assertTrue(request.sendUnhydratedDesertWarning());
@@ -1531,11 +1461,10 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfAlreadyConfirmed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
-              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-      try (cleanups) {
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
         String URL = adventureURL(HIDDEN_HOSPITAL, Confirm.TRANSFORM);
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(URL);
@@ -1545,9 +1474,9 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNotMildManneredProfessor() {
-      var cleanups =
-          new Cleanups(withPath(Path.WEREPROFESSOR), withIntrinsicEffect(EffectPool.SAVAGE_BEAST));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR), withIntrinsicEffect(EffectPool.SAVAGE_BEAST))) {
         String URL = adventureURL(HIDDEN_HOSPITAL, null);
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(URL);
@@ -1557,12 +1486,11 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNotAboutToTransform() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
-              withProperty("wereProfessorTransformTurns", 2));
-      try (cleanups) {
+              withProperty("wereProfessorTransformTurns", 2))) {
         String URL = adventureURL(HIDDEN_HOSPITAL, null);
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(URL);
@@ -1572,12 +1500,11 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNotAdventuring() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
-              withProperty("wereProfessorTransformTurns", 1));
-      try (cleanups) {
+              withProperty("wereProfessorTransformTurns", 1))) {
         String URL = "shop.php?whichshop=generalstore";
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(URL);
@@ -1587,14 +1514,13 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfInsufficientResearchPoints() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorTransformTurns", 1),
               withProperty("wereProfessorResearchPoints", 50),
-              withProperty("beastSkillsAvailable", "slaughter,howl,hunt,punt"));
-      try (cleanups) {
+              withProperty("beastSkillsAvailable", "slaughter,howl,hunt,punt"))) {
         String URL = adventureURL(HIDDEN_HOSPITAL, null);
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(URL);
@@ -1604,14 +1530,13 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfCanResearch() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorTransformTurns", 1),
               withProperty("wereProfessorResearchPoints", 50),
-              withProperty("beastSkillsAvailable", "rend1,hp3,items3,meat2,pureblood"));
-      try (cleanups) {
+              withProperty("beastSkillsAvailable", "rend1,hp3,items3,meat2,pureblood"))) {
         String URL = adventureURL(HIDDEN_HOSPITAL, null);
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(URL);
@@ -1634,8 +1559,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfNotOverfull() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(15));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(15))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertThat(request.sendOverfullAdventureWarning(WARREN), is(false));
@@ -1644,8 +1568,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatWarningNeededIfOverfull() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertThat(request.sendOverfullAdventureWarning(WARREN), is(true));
@@ -1659,8 +1582,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfConfirmed() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
         assertThat(request.sendOverfullAdventureWarning(WARREN), is(false));
@@ -1676,8 +1598,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfNotOverspleened() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(15));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(15))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertThat(request.sendOverspleenedAdventureWarning(WARREN), is(false));
@@ -1686,8 +1607,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatWarningNeededIfOverspleened() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertThat(request.sendOverspleenedAdventureWarning(WARREN), is(true));
@@ -1701,8 +1621,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfConfirmed() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
         assertThat(request.sendOverspleenedAdventureWarning(WARREN), is(false));
@@ -1719,8 +1638,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfNotOverdrunk() {
-      var cleanups = new Cleanups(withInebriety(5));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(5))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertThat(request.sendOverdrunkAdventureWarning(WARREN), is(false));
@@ -1729,8 +1647,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatWarningNeededIfOverdrunk() {
-      var cleanups = new Cleanups(withInebriety(30));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertThat(request.sendOverdrunkAdventureWarning(WARREN), is(true));
@@ -1744,9 +1661,9 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfWineglassEquipped() {
-      var cleanups =
-          new Cleanups(withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertThat(request.sendOverdrunkAdventureWarning(WARREN), is(false));
@@ -1755,8 +1672,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void thatNoWarningNeededIfNotAdventurePhp() {
-      var cleanups = new Cleanups(withInebriety(30));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(CELLAR.getRequest().getURLString());
         assertThat(request.sendOverdrunkAdventureWarning(CELLAR), is(false));
@@ -1766,8 +1682,7 @@ public class RelayRequestWarningsTest {
     @Test
     public void thatNoWarningNeededInDrunkenStupor() {
       var stupor = AdventureDatabase.getAdventure("Drunken Stupor");
-      var cleanups = new Cleanups(withInebriety(30));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(stupor.getRequest().getURLString());
         assertThat(request.sendOverdrunkAdventureWarning(stupor), is(false));
@@ -1779,8 +1694,7 @@ public class RelayRequestWarningsTest {
         value = Confirm.class,
         names = {"OVERDRUNK_ADVENTURE", "WINEGLASS"})
     public void thatNoWarningNeededIfConfirmed(final Confirm confirm) {
-      var cleanups = new Cleanups(withInebriety(30));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(30))) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
         assertThat(request.sendOverdrunkAdventureWarning(WARREN), is(false));

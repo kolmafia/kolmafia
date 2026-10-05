@@ -31,11 +31,10 @@ public class TakerSpaceRequestTest {
   class CanMake {
     @Test
     public void canMakeLimitedByMaxIngredients() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("takerSpaceGold", 13),
-              withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE));
-      try (cleanups) {
+              withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE))) {
         var conc = ConcoctionPool.get(ItemPool.GOLDEN_PET_ROCK);
         assertThat(TakerSpaceRequest.canMake(conc), equalTo(1));
       }
@@ -43,14 +42,13 @@ public class TakerSpaceRequestTest {
 
     @Test
     public void withMultipleIngredientsLimitedByLowest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("takerSpaceRum", 13),
               withProperty("takerSpaceAnchor", 3),
               withProperty("takerSpaceMast", 4),
               withProperty("takerSpaceGold", 21),
-              withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE));
-      try (cleanups) {
+              withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE))) {
         var conc = ConcoctionPool.get(ItemPool.JOLLY_ROGER_TATTOO_KIT);
         assertThat(TakerSpaceRequest.canMake(conc), equalTo(2));
       }

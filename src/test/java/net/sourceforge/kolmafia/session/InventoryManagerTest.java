@@ -62,11 +62,9 @@ public class InventoryManagerTest {
     AdventureResult HOBO_CODE_BINDER = ItemPool.get(ItemPool.HOBO_CODE_BINDER);
     AdventureResult UNEQUIP = EquipmentRequest.UNEQUIP;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withHttpClientBuilder(builder), withEquipped(Slot.OFFHAND, "hobo code binder"));
-
-    try (cleanups) {
+            withHttpClientBuilder(builder), withEquipped(Slot.OFFHAND, "hobo code binder"))) {
       // The offhand item is equipped as desired
       assertEquals(HOBO_CODE_BINDER, EquipmentManager.getEquipment(Slot.OFFHAND));
 
@@ -114,12 +112,10 @@ public class InventoryManagerTest {
   public void codpieceGemCountsAsAccessible() {
     AdventureResult PERIDOT_OF_PERIL = ItemPool.get(ItemPool.PERIDOT_OF_PERIL);
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
-            withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL));
-
-    try (cleanups) {
+            withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL))) {
       assertEquals(0, InventoryManager.getCount(PERIDOT_OF_PERIL));
       assertEquals(1, InventoryManager.getAccessibleCount(PERIDOT_OF_PERIL));
     }
@@ -129,12 +125,10 @@ public class InventoryManagerTest {
   public void codpieceGemCountsAsAccessibleWhenCodpieceIsUnwornButOwned() {
     AdventureResult PERIDOT_OF_PERIL = ItemPool.get(ItemPool.PERIDOT_OF_PERIL);
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.THE_ETERNITY_CODPIECE),
-            withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL));
-
-    try (cleanups) {
+            withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL))) {
       assertEquals(1, InventoryManager.getAccessibleCount(PERIDOT_OF_PERIL));
     }
   }
@@ -143,9 +137,7 @@ public class InventoryManagerTest {
   public void codpieceGemDoesNotCountAsAccessibleWithoutCodpiece() {
     AdventureResult PERIDOT_OF_PERIL = ItemPool.get(ItemPool.PERIDOT_OF_PERIL);
 
-    var cleanups = withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL);
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL)) {
       assertEquals(0, InventoryManager.getAccessibleCount(PERIDOT_OF_PERIL));
     }
   }
@@ -154,10 +146,8 @@ public class InventoryManagerTest {
   public void cardSleeveCardCountsAsAccessibleWhenSleeveIsUnwornButOwned() {
     AdventureResult CARD = AdventureResult.tallyItem("Alice's Army Swordsman");
 
-    var cleanups =
-        new Cleanups(withItem(ItemPool.CARD_SLEEVE), withEquipped(Slot.CARDSLEEVE, CARD));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.CARD_SLEEVE), withEquipped(Slot.CARDSLEEVE, CARD))) {
       assertEquals(0, InventoryManager.getCount(CARD));
       assertEquals(1, InventoryManager.getAccessibleCount(CARD));
     }
@@ -167,9 +157,7 @@ public class InventoryManagerTest {
   public void cardSleeveCardDoesNotCountAsAccessibleWithoutSleeve() {
     AdventureResult CARD = AdventureResult.tallyItem("Alice's Army Swordsman");
 
-    var cleanups = withEquipped(Slot.CARDSLEEVE, CARD);
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.CARDSLEEVE, CARD)) {
       assertEquals(0, InventoryManager.getAccessibleCount(CARD));
     }
   }
@@ -180,13 +168,11 @@ public class InventoryManagerTest {
     public void willDetectCrimboTrainingSkillFromItemDescription() {
       var builder = new FakeHttpClientBuilder();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("crimboTrainingSkill", 0));
-
-      try (cleanups) {
+              withProperty("crimboTrainingSkill", 0))) {
         builder.client.addResponse(200, html("request/test_check_crimbo_training_manual.html"));
 
         InventoryManager.checkCrimboTrainingManual();
@@ -202,13 +188,11 @@ public class InventoryManagerTest {
     public void willNotLookAtDescriptionWithValidSkill() {
       var builder = new FakeHttpClientBuilder();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("crimboTrainingSkill", 7));
-
-      try (cleanups) {
+              withProperty("crimboTrainingSkill", 7))) {
         builder.client.addResponse(200, html("request/test_check_crimbo_training_manual.html"));
 
         InventoryManager.checkCrimboTrainingManual();
@@ -227,7 +211,7 @@ public class InventoryManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
@@ -238,9 +222,7 @@ public class InventoryManagerTest {
               withMeat(1000),
               withItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN, 0),
               withProperty("_fireworksShop", true),
-              withProperty("_fireworksShopHatBought", false));
-
-      try (cleanups) {
+              withProperty("_fireworksShopHatBought", false))) {
         client.addResponse(200, html("request/test_firework_shop_hat_purchase.html"));
         client.addResponse(200, ""); // api.php
 
@@ -266,7 +248,7 @@ public class InventoryManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
@@ -277,9 +259,7 @@ public class InventoryManagerTest {
               withMeat(1000),
               withItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN, 0),
               withProperty("_fireworksShop", true),
-              withProperty("_fireworksShopHatBought", false));
-
-      try (cleanups) {
+              withProperty("_fireworksShopHatBought", false))) {
         client.addResponse(200, html("request/test_firework_shop_hat_purchase.html"));
         client.addResponse(200, ""); // api.php
 
@@ -305,7 +285,7 @@ public class InventoryManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
@@ -316,9 +296,7 @@ public class InventoryManagerTest {
               withMeat(1000),
               withItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN, 0),
               withProperty("_fireworksShop", true),
-              withProperty("_fireworksShopHatBought", false));
-
-      try (cleanups) {
+              withProperty("_fireworksShopHatBought", false))) {
         client.addResponse(200, html("request/test_firework_shop_hat_purchase.html"));
         client.addResponse(200, ""); // api.php
 
@@ -339,7 +317,7 @@ public class InventoryManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
@@ -351,9 +329,7 @@ public class InventoryManagerTest {
               withItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN, 0),
               withItem(ItemPool.SOMBRERO_MOUNTED_SPARKLER, 1),
               withProperty("_fireworksShop", true),
-              withProperty("_fireworksShopHatBought", true));
-
-      try (cleanups) {
+              withProperty("_fireworksShopHatBought", true))) {
         client.addResponse(200, html("request/test_firework_shop_hat_purchase.html"));
         client.addResponse(200, ""); // api.php
 
@@ -376,8 +352,7 @@ public class InventoryManagerTest {
       var builder = new FakeHttpClientBuilder();
       builder.client.addResponse(200, html("request/test_desc_item_ring_2crs.html"));
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.RING, 1));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.RING, 1))) {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.RING);
         assertEquals(
             0, mods.getDouble(DoubleModifier.MONSTER_LEVEL), "Value should not be set before desc");
@@ -396,8 +371,7 @@ public class InventoryManagerTest {
 
     @Test
     public void JickSwordWillSetModsForUser() {
-      var cleanups = withUserId(1197090);
-      try (cleanups) {
+      try (var _ = withUserId(1197090)) {
         InventoryManager.checkJickSword();
         var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.JICK_SWORD);
 
@@ -433,12 +407,11 @@ public class InventoryManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.VAMPIRE_VINTNER_WINE, 1),
-              withWineProperties());
-      try (cleanups) {
+              withWineProperties())) {
         client.addResponse(200, html("request/test_desc_item_vampire_vintner_wine.html"));
         client.addResponse(200, html("request/test_desc_effect_wine_hot.html"));
         String expectedNotes =
@@ -466,12 +439,11 @@ public class InventoryManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.VAMPIRE_VINTNER_WINE, 0),
-              withWineProperties());
-      try (cleanups) {
+              withWineProperties())) {
         client.addResponse(200, html("request/test_desc_item_vampire_vintner_wine.html"));
         client.addResponse(200, html("request/test_desc_effect_wine_hot.html"));
         String expectedNotes =
@@ -500,9 +472,7 @@ public class InventoryManagerTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups = new Cleanups(withNoItems(), withHttpClientBuilder(builder));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withNoItems(), withHttpClientBuilder(builder))) {
       client.addResponse(200, html("request/test_api_inventory.json"));
 
       InventoryManager.refresh();
@@ -524,10 +494,9 @@ public class InventoryManagerTest {
     // skill. Before the fix, checkSkillGrantingEquipment granted it on possession.
     @Test
     public void lockedHeartstoneSkillNotGrantedByPossession() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("heartstonePalsUnlocked", false), withItem(ItemPool.HEARTSTONE));
-      try (cleanups) {
+              withProperty("heartstonePalsUnlocked", false), withItem(ItemPool.HEARTSTONE))) {
         InventoryManager.checkSkillGrantingEquipment();
         assertFalse(KoLCharacter.hasSkill(SkillPool.HEARTSTONE_PALS));
       }
@@ -537,9 +506,9 @@ public class InventoryManagerTest {
     // (preserves the deliberate auto-equip-on-cast behaviour).
     @Test
     public void unlockedHeartstoneSkillGrantedByPossession() {
-      var cleanups =
-          new Cleanups(withProperty("heartstonePalsUnlocked", true), withItem(ItemPool.HEARTSTONE));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withProperty("heartstonePalsUnlocked", true), withItem(ItemPool.HEARTSTONE))) {
         InventoryManager.checkSkillGrantingEquipment();
         assertTrue(KoLCharacter.hasSkill(SkillPool.HEARTSTONE_PALS));
       }
@@ -549,9 +518,9 @@ public class InventoryManagerTest {
     // branch short-circuits before shouldApplySkill) — unchanged by the fix.
     @Test
     public void combatHeartstoneSkillNotGrantedByPossession() {
-      var cleanups =
-          new Cleanups(withProperty("heartstoneKillUnlocked", true), withItem(ItemPool.HEARTSTONE));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withProperty("heartstoneKillUnlocked", true), withItem(ItemPool.HEARTSTONE))) {
         InventoryManager.checkSkillGrantingEquipment();
         assertFalse(KoLCharacter.hasSkill(SkillPool.HEARTSTONE_KILL));
       }
@@ -561,8 +530,7 @@ public class InventoryManagerTest {
     // sweatpants grant "Sweat Out Some Booze" on mere possession, ungated.
     @Test
     public void inventoryConditionalSkillGrantedByPossession() {
-      var cleanups = new Cleanups(withItem(ItemPool.DESIGNER_SWEATPANTS));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.DESIGNER_SWEATPANTS))) {
         InventoryManager.checkSkillGrantingEquipment();
         assertTrue(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE));
       }

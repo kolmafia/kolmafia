@@ -43,12 +43,10 @@ public class CharPaneDecoratorTest {
   @ParameterizedTest
   @ValueSource(strings = {"basic", "compact"})
   public void decorateEffects(final String displayMode) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill(SkillPool.ODE_TO_BOOZE),
-            withProperty("olfactedMonster", "novelty tropical skeleton"));
-
-    try (cleanups) {
+            withProperty("olfactedMonster", "novelty tropical skeleton"))) {
       String input = html("request/test_charpane_" + displayMode + ".html");
       assertNotNull(input);
       boolean ok = CharPaneRequest.processResults(input);
@@ -67,13 +65,11 @@ public class CharPaneDecoratorTest {
   @ValueSource(strings = {"basic", "compact", "basic_20lbs", "compact_20lbs"})
   public void addDistillLink(final String displayMode) {
     final int drams = 50;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("familiarSweat", drams),
             withFamiliar(FamiliarPool.WOIM),
-            withEquipped(Slot.FAMILIAR, "tiny stillsuit"));
-
-    try (cleanups) {
+            withEquipped(Slot.FAMILIAR, "tiny stillsuit"))) {
       String input = html("request/test_charpane_woim_" + displayMode + ".html");
       CharPaneRequest.processResults(input);
 

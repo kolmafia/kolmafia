@@ -53,7 +53,7 @@ public class ResearchBenchRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withHandlingChoice(false),
@@ -67,9 +67,7 @@ public class ResearchBenchRequestTest {
               withProperty("wereProfessorLiver", 0),
               withProperty("wereProfessorRend", 0),
               withProperty("wereProfessorResearchPoints", 0),
-              withProperty("wereProfessorStomach", 0));
-
-      try (cleanups) {
+              withProperty("wereProfessorStomach", 0))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
@@ -111,15 +109,13 @@ public class ResearchBenchRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
               withHandlingChoice(false),
               withPath(Path.WEREPROFESSOR),
-              withIntrinsicEffect(EffectPool.SAVAGE_BEAST));
-
-      try (cleanups) {
+              withIntrinsicEffect(EffectPool.SAVAGE_BEAST))) {
         RequestLoggerOutput.startStream();
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -146,7 +142,7 @@ public class ResearchBenchRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withHandlingChoice(false),
@@ -159,9 +155,7 @@ public class ResearchBenchRequestTest {
               withProperty("wereProfessorLiver", 0),
               withProperty("wereProfessorRend", 0),
               withProperty("wereProfessorResearchPoints", 0),
-              withProperty("wereProfessorStomach", 0));
-
-      try (cleanups) {
+              withProperty("wereProfessorStomach", 0))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
@@ -204,7 +198,7 @@ public class ResearchBenchRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withHandlingChoice(false),
@@ -218,9 +212,7 @@ public class ResearchBenchRequestTest {
               withProperty("wereProfessorLiver", 0),
               withProperty("wereProfessorRend", 0),
               withProperty("wereProfessorResearchPoints", 0),
-              withProperty("wereProfessorStomach", 0));
-
-      try (cleanups) {
+              withProperty("wereProfessorStomach", 0))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_research_bench_visit_empty.html"));
@@ -267,7 +259,7 @@ public class ResearchBenchRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withHandlingChoice(false),
@@ -276,9 +268,7 @@ public class ResearchBenchRequestTest {
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("beastSkillsAvailable", ""),
               withProperty("beastSkillsKnown", ""),
-              withProperty("wereProfessorResearchPoints", 0));
-
-      try (cleanups) {
+              withProperty("wereProfessorResearchPoints", 0))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
@@ -323,7 +313,7 @@ public class ResearchBenchRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withHandlingChoice(false),
@@ -332,9 +322,7 @@ public class ResearchBenchRequestTest {
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("beastSkillsAvailable", ""),
               withProperty("beastSkillsKnown", ""),
-              withProperty("wereProfessorResearchPoints", 0));
-
-      try (cleanups) {
+              withProperty("wereProfessorResearchPoints", 0))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
@@ -379,7 +367,7 @@ public class ResearchBenchRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withHandlingChoice(false),
@@ -388,9 +376,7 @@ public class ResearchBenchRequestTest {
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("beastSkillsAvailable", ""),
               withProperty("beastSkillsKnown", ""),
-              withProperty("wereProfessorResearchPoints", 0));
-
-      try (cleanups) {
+              withProperty("wereProfessorResearchPoints", 0))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
@@ -450,15 +436,13 @@ public class ResearchBenchRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
               withHandlingChoice(false),
               withPath(Path.WEREPROFESSOR),
-              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-      try (cleanups) {
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
         RequestLoggerOutput.startStream();
         var request = new ResearchBenchRequest("bogus");
         var output1 = RequestLoggerOutput.stopStream();
@@ -484,15 +468,13 @@ public class ResearchBenchRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
               withHandlingChoice(false),
               withPath(Path.WEREPROFESSOR),
-              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-      try (cleanups) {
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_choice_wereprofessor_no_upgrades.html"));
@@ -532,15 +514,13 @@ public class ResearchBenchRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
               withHandlingChoice(false),
               withPath(Path.WEREPROFESSOR),
-              withIntrinsicEffect(EffectPool.SAVAGE_BEAST));
-
-      try (cleanups) {
+              withIntrinsicEffect(EffectPool.SAVAGE_BEAST))) {
         RequestLoggerOutput.startStream();
 
         var request = new ResearchBenchRequest("hunt");
@@ -563,16 +543,14 @@ public class ResearchBenchRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
               withHandlingChoice(false),
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
-              withProperty("beastSkillsKnown", "hunt"));
-
-      try (cleanups) {
+              withProperty("beastSkillsKnown", "hunt"))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
@@ -604,16 +582,14 @@ public class ResearchBenchRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
               withHandlingChoice(false),
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
-              withProperty("beastSkillsKnown", "hunt"));
-
-      try (cleanups) {
+              withProperty("beastSkillsKnown", "hunt"))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(
@@ -646,15 +622,13 @@ public class ResearchBenchRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
               withHandlingChoice(false),
               withPath(Path.WEREPROFESSOR),
-              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-      try (cleanups) {
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         builder.client.addResponse(200, html("request/test_research_bench_research_known.html"));

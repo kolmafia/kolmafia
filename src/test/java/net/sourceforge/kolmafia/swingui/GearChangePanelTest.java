@@ -41,13 +41,11 @@ class GearChangePanelTest {
 
     @Test
     void doesUpdateList() {
-      var cleanups = withItem(ItemPool.RAVIOLI_HAT);
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.RAVIOLI_HAT)) {
         var ravioliHat =
             KoLConstants.inventory.get(
                 KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT, 1)));
-        var equipCleanups = withEquipped(Slot.HAT, ravioliHat);
-        try (equipCleanups) {
+        try (var _ = withEquipped(Slot.HAT, ravioliHat)) {
           GearChangePanel.updateSlot(Slot.HAT);
           assertThat(
               ((AdventureResult) GearChangePanel.getModel(Slot.HAT).getSelectedItem()).getItemId(),
@@ -58,8 +56,7 @@ class GearChangePanelTest {
 
     @Test
     void updatesWaitForDeferralResolution() {
-      var cleanups1 = withItem(ItemPool.RAVIOLI_HAT);
-      try (cleanups1) {
+      try (var _ = withItem(ItemPool.RAVIOLI_HAT)) {
         var ravioliHat =
             KoLConstants.inventory.get(
                 KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT, 1)));
@@ -67,9 +64,8 @@ class GearChangePanelTest {
         GearChangePanel.deferUpdate();
         // withEquipped calls updateSlot again, which sets the equipped item but should defer
         // updating the whole list.
-        var cleanups2 =
-            new Cleanups(withEquipped(Slot.HAT, ravioliHat), withItem(ItemPool.HELMET_TURTLE));
-        try (cleanups2) {
+        try (var _ =
+            new Cleanups(withEquipped(Slot.HAT, ravioliHat), withItem(ItemPool.HELMET_TURTLE))) {
           var hatModel = GearChangePanel.getModel(Slot.HAT);
           // List should not be updated yet, so helmet turtle should not be in it.
           assertThat(hatModel, not(contains(ItemPool.get(ItemPool.HELMET_TURTLE, 1))));
@@ -100,8 +96,7 @@ class GearChangePanelTest {
 
     @Test
     void doesntShowItemModifiersForHatOnHatrack() {
-      var cleanups = new Cleanups(withFamiliar(FamiliarPool.HATRACK));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(FamiliarPool.HATRACK))) {
         var mods =
             GearChangePanel.getModifiers(
                 ItemPool.get(ItemPool.RAVIOLI_HAT), Slot.FAMILIAR, false, 1);
@@ -149,9 +144,7 @@ class GearChangePanelTest {
       "meat, 'Meat Drop:<div align=right>+50.00</div>Maximum HP:<div align=right>+20.00</div>Maximum MP:<div align=right>+20.00</div>Single Equip, Conditional Skill (Equipped): Back-Up to your Last Enemy'"
     })
     void canShowBackupCameraModifiers(String setting, String expectedMods) {
-      var cleanups = new Cleanups(withProperty("backupCameraMode", setting == null ? "" : setting));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("backupCameraMode", setting == null ? "" : setting))) {
         var mods =
             GearChangePanel.getModifiers(
                 ItemPool.get(ItemPool.BACKUP_CAMERA), Slot.ACCESSORY1, false, 1);

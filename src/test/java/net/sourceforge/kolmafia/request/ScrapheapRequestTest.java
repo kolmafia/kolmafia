@@ -41,8 +41,7 @@ public class ScrapheapRequestTest {
 
   @Test
   public void parseChronolith1() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       KoLCharacter.setYouRobotEnergy(1000);
       int cost = 16;
       Preferences.setInteger("_chronolithNextCost", cost);
@@ -54,8 +53,7 @@ public class ScrapheapRequestTest {
 
   @Test
   public void parseChronolith37() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       KoLCharacter.setYouRobotEnergy(1000);
       int cost = 138;
       Preferences.setInteger("_chronolithNextCost", cost);
@@ -67,8 +65,7 @@ public class ScrapheapRequestTest {
 
   @Test
   public void parseChronolith69() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       KoLCharacter.setYouRobotEnergy(1000);
       int cost = 890;
       Preferences.setInteger("_chronolithNextCost", cost);
@@ -83,8 +80,7 @@ public class ScrapheapRequestTest {
     "request/test_scrapheap_cpu_upgrades.html, robot_muscle:robot_mysticality:robot_moxie:robot_meat:robot_hp1:robot_regen:robot_resist:robot_items:robot_shirt:robot_energy:robot_potions:robot_hp2"
   })
   public void parseCPUUpgrades(String path, String upgrades) {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       String html = html(path);
       var request = new GenericRequest("choice.php?whichchoice=1445&show=cpus");
       request.setHasResult(true);

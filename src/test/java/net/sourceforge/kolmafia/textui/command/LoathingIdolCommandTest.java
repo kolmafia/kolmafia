@@ -35,9 +35,7 @@ public class LoathingIdolCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void warnAgainstUnknownInput() {
-    var cleanups = new Cleanups(withItem(ItemPool.LOATHING_IDOL_MICROPHONE_25));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.LOATHING_IDOL_MICROPHONE_25))) {
       String output = execute("metal");
 
       assertErrorState();
@@ -49,9 +47,7 @@ public class LoathingIdolCommandTest extends AbstractCommandTestBase {
   @ValueSource(ints = {ItemPool.LOATHING_IDOL_MICROPHONE, ItemPool.LOATHING_IDOL_MICROPHONE_50})
   public void usesFoundMicrophone(int mikeId) {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = new Cleanups(withItem(mikeId));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(mikeId))) {
       execute("country");
       assertContinueState();
 

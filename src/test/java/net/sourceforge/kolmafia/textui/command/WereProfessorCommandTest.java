@@ -56,9 +56,7 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NONE));
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NONE))) {
           var output = execute("research");
           assertThat(output, not(containsString("Visiting the Research Bench")));
           // All skills are not coloured and contain rp
@@ -77,9 +75,7 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NONE));
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NONE))) {
           var output = execute("research verbose");
           assertThat(output, not(containsString("Visiting the Research Bench")));
           // All skills are not coloured and contain rp and description
@@ -98,15 +94,13 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withHandlingChoice(0),
                 withContinuationState(),
                 withPath(Path.WEREPROFESSOR),
-                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-        try (cleanups) {
+                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
           builder.client.addResponse(
@@ -157,15 +151,13 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withHandlingChoice(0),
                 withContinuationState(),
                 withPath(Path.WEREPROFESSOR),
-                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-        try (cleanups) {
+                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
           builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
@@ -202,13 +194,11 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withPath(Path.WEREPROFESSOR),
-                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-        try (cleanups) {
+                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
           builder.client.addResponse(200, "");
 
           var output = execute("research bogus");
@@ -226,9 +216,7 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NONE));
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NONE))) {
           builder.client.addResponse(200, "");
 
           var output = execute("research mus1");
@@ -246,13 +234,11 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withPath(Path.WEREPROFESSOR),
-                withIntrinsicEffect(EffectPool.SAVAGE_BEAST));
-
-        try (cleanups) {
+                withIntrinsicEffect(EffectPool.SAVAGE_BEAST))) {
           builder.client.addResponse(200, "");
 
           var output = execute("research res1");
@@ -270,15 +256,13 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withHandlingChoice(0),
                 withContinuationState(),
                 withPath(Path.WEREPROFESSOR),
-                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-        try (cleanups) {
+                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
           builder.client.addResponse(
@@ -307,15 +291,13 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withHandlingChoice(0),
                 withContinuationState(),
                 withPath(Path.WEREPROFESSOR),
-                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-        try (cleanups) {
+                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
           builder.client.addResponse(
@@ -344,15 +326,13 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
 
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withHandlingChoice(0),
                 withContinuationState(),
                 withPath(Path.WEREPROFESSOR),
-                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
-
-        try (cleanups) {
+                withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR))) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
           builder.client.addResponse(200, html("request/test_research_bench_research_known.html"));

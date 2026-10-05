@@ -44,9 +44,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void mustReturnMissionsOnEmpty() {
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       String output = execute("");
 
       assertThat(output, containsString("7: Installation Wizard"));
@@ -58,9 +56,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void mustSpecifyMission() {
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       String output = execute("1");
 
       assertThat(output, containsString("Must specify both mission and stance"));
@@ -72,9 +68,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void mustSpecifyMissionDespiteAttackingTougher() {
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       String output = execute("1 tougher");
 
       assertThat(output, containsString("Must specify both mission and stance"));
@@ -86,9 +80,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void mustSpecifyStance() {
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       String output = execute("1 flowers");
 
       assertThat(output, containsString("Must specify both mission and stance"));
@@ -100,14 +92,12 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void validatesMission() { // Can't attack for loot if you're in Ronin/HC
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withHippyStoneBroken(),
             withAttacksLeft(1),
-            withInteractivity(false));
-
-    try (cleanups) {
+            withInteractivity(false))) {
       addResponses(client);
 
       String output = execute("1 loot 1");
@@ -121,9 +111,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void validatesStance() {
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       String output = execute("1 flowers 14");
 
       assertThat(output, containsString("14 is not a valid stance"));
@@ -135,9 +123,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void attacksWithAllSuccessfully() {
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       String output = execute("tougher fame 1");
 
       assertThat(
@@ -151,9 +137,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void fuzzyMatchesStanceSuccessfully() {
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       client.addResponse(200, "");
 
       String output = execute("loots bet");
@@ -168,9 +152,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   void fuzzyMatchingFails() {
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       String totallyRealStance = "a totally real stance";
       String output = execute("1 flowers " + totallyRealStance);
 
@@ -189,9 +171,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
 
     var setup = setupClient();
     var client = setup.client;
-    var cleanups = setup.cleanups;
-
-    try (cleanups) {
+    try (var _ = setup.cleanups) {
       String output = execute("1 " + tougher + " " + mission + " 1");
 
       assertThat(

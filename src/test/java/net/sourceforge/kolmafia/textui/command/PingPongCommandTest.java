@@ -40,13 +40,11 @@ public class PingPongCommandTest extends AbstractCommandTestBase {
   @Test
   public void noTargetIsError() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("_pingPongGame", false),
             withItem(ItemPool.PING_PONG_TABLE),
-            withContinuationState());
-
-    try (cleanups) {
+            withContinuationState())) {
       String output = execute("");
       assertThat(output, containsString("Play ping-pong with whom?"));
       assertErrorState();
@@ -59,9 +57,7 @@ public class PingPongCommandTest extends AbstractCommandTestBase {
   @Test
   public void noPingPongingTableIsError() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = new Cleanups(withProperty("_pingPongGame", false));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_pingPongGame", false))) {
       String output = execute("Veracity");
       assertThat(output, containsString("You need 1 more portable ping-pong table to continue."));
       assertErrorState();
@@ -73,10 +69,8 @@ public class PingPongCommandTest extends AbstractCommandTestBase {
   @Test
   public void alreadyPlayedTodayIsError() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
-        new Cleanups(withProperty("_pingPongGame", true), withItem(ItemPool.PING_PONG_TABLE));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("_pingPongGame", true), withItem(ItemPool.PING_PONG_TABLE))) {
       String output = execute("Veracity");
       assertThat(output, containsString("You've already played ping-pong today."));
       assertErrorState();
@@ -90,12 +84,11 @@ public class PingPongCommandTest extends AbstractCommandTestBase {
   public void canDetectTargetInHardcoreOrRonin() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("_pingPongGame", false),
-            withItem(ItemPool.PING_PONG_TABLE));
-    try (cleanups) {
+            withItem(ItemPool.PING_PONG_TABLE))) {
       client.addResponse(200, html("request/test_use_ping_pong_table_ronin.html"));
       String output = execute("Hairy");
       assertThat(output, containsString("Can't use the item on that player at the moment."));
@@ -112,12 +105,11 @@ public class PingPongCommandTest extends AbstractCommandTestBase {
   public void canDetectWinningGame() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("_pingPongGame", false),
-            withItem(ItemPool.PING_PONG_TABLE));
-    try (cleanups) {
+            withItem(ItemPool.PING_PONG_TABLE))) {
       client.addResponse(200, html("request/test_use_ping_pong_table_prowess.html"));
       String output = execute("Blippy Bloppy");
       assertThat(output, containsString("You won the ping-pong game."));
@@ -135,12 +127,11 @@ public class PingPongCommandTest extends AbstractCommandTestBase {
   public void canDetectLosingGame() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("_pingPongGame", false),
-            withItem(ItemPool.PING_PONG_TABLE));
-    try (cleanups) {
+            withItem(ItemPool.PING_PONG_TABLE))) {
       client.addResponse(200, html("request/test_use_ping_pong_table_persistence.html"));
       String output = execute("Veracity");
       assertThat(output, containsString("You lost the ping-pong game."));

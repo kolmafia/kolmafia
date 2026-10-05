@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 
-import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +25,7 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
     execute("beefy nigiri");
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = withItem("beefy nigiri");
-    try (cleanups) {
+    try (var _ = withItem("beefy nigiri")) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, not(containsString("itrace")));
     }
@@ -41,8 +39,7 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
     execute("hair spray");
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = withItem("hair spray");
-    try (cleanups) {
+    try (var _ = withItem("hair spray")) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("itrace: hair spray = 1"));
     }
@@ -56,8 +53,7 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
     assertThat(output, containsString("Previously watched items have been cleared"));
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = withItem("hair spray");
-    try (cleanups) {
+    try (var _ = withItem("hair spray")) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, not(containsString("itrace")));
     }

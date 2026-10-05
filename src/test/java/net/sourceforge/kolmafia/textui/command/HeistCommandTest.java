@@ -36,9 +36,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidItem() {
-    var cleanups = withFamiliar(FamiliarPool.CAT_BURGLAR);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.CAT_BURGLAR)) {
       String output = execute("an invalid item");
 
       assertThat(output, containsString("What item is an invalid item?"));
@@ -48,9 +46,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
 
   @Test
   void parsesHeistPage() {
-    var cleanups = withFamiliar(FamiliarPool.CAT_BURGLAR);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.CAT_BURGLAR)) {
       this.command = "heistFake";
       String output = execute("");
 
@@ -64,9 +60,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doesNotHeistInvalidItem() {
-    var cleanups = withFamiliar(FamiliarPool.CAT_BURGLAR);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.CAT_BURGLAR)) {
       this.command = "heistFake";
       String output = execute("334 scroll");
 
@@ -77,9 +71,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
 
   @Test
   void heistsValidItemExact() {
-    var cleanups = withFamiliar(FamiliarPool.CAT_BURGLAR);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.CAT_BURGLAR)) {
       this.command = "heistFake";
       String output = execute("ratty knitted cap");
 
@@ -90,9 +82,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
 
   @Test
   void heistsValidItem() {
-    var cleanups = withFamiliar(FamiliarPool.CAT_BURGLAR);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.CAT_BURGLAR)) {
       this.command = "heistFake";
       String output = execute("Purple Beast");
 
@@ -103,9 +93,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
 
   @Test
   void heistsValidItemWithQuotes() {
-    var cleanups = withFamiliar(FamiliarPool.CAT_BURGLAR);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.CAT_BURGLAR)) {
       this.command = "heistFake";
       String output = execute("\"meat\" stick");
 
@@ -116,9 +104,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
 
   @Test
   void heistsMultipleValidItem() {
-    var cleanups = withFamiliar(FamiliarPool.CAT_BURGLAR);
-
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.CAT_BURGLAR)) {
       this.command = "heistFake";
       String output = execute("13 Purple Beast");
 

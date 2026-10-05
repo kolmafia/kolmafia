@@ -407,9 +407,7 @@ public class MonsterDataTest {
     @ParameterizedTest
     @CsvSource({"0, true", "5, true", "9, true", "10, false"})
     void firstTenSnowmenAreFree(final int freeFights, final boolean free) {
-      var cleanups = new Cleanups(withProperty("_snojoFreeFights", freeFights));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_snojoFreeFights", freeFights))) {
         var monster = new MonsterData("X-32-F Combat Training Snowman", 0, new String[] {}, "");
 
         var matcher = contains(EncounterType.FREE_COMBAT);
@@ -420,9 +418,7 @@ public class MonsterDataTest {
     @ParameterizedTest
     @CsvSource({"0, true", "5, true", "9, true", "10, false"})
     void firstTenNEPMonstersFree(final int freeTurns, final boolean free) {
-      var cleanups = new Cleanups(withProperty("_neverendingPartyFreeTurns", freeTurns));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_neverendingPartyFreeTurns", freeTurns))) {
         var monster = new MonsterData("biker", 0, new String[] {}, "");
 
         var matcher = contains(EncounterType.FREE_COMBAT);
@@ -477,9 +473,7 @@ public class MonsterDataTest {
     void factsAreNotRenderedWithoutSkill() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
-      var cleanups = Player.withoutSkill(SkillPool.JUST_THE_FACTS);
-
-      try (cleanups) {
+      try (var _ = Player.withoutSkill(SkillPool.JUST_THE_FACTS)) {
         var builder = new StringBuilder();
         monster.appendFact(builder);
         assertThat(builder.toString(), not(containsString("Just the Facts: ")));
@@ -490,13 +484,11 @@ public class MonsterDataTest {
     void factsAreRenderedIfUnrestricted() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.JUST_THE_FACTS),
               withNotAllowedInStandard(RestrictedItemType.SKILLS, "just the facts"),
-              withRestricted(false));
-
-      try (cleanups) {
+              withRestricted(false))) {
         var builder = new StringBuilder();
         monster.appendFact(builder);
         assertThat(builder.toString(), containsString("Just the Facts: "));
@@ -507,13 +499,11 @@ public class MonsterDataTest {
     void factsAreNotRenderedIfRestricted() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.JUST_THE_FACTS),
               withNotAllowedInStandard(RestrictedItemType.SKILLS, "just the facts"),
-              withRestricted(true));
-
-      try (cleanups) {
+              withRestricted(true))) {
         var builder = new StringBuilder();
         monster.appendFact(builder);
         assertThat(builder.toString(), not(containsString("Just the Facts: ")));
@@ -527,9 +517,7 @@ public class MonsterDataTest {
     void shrunkenHeadZombieNotRenderedWithoutZombie() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
-      var cleanups = withProperty("hasShrunkenHead", false);
-
-      try (cleanups) {
+      try (var _ = withProperty("hasShrunkenHead", false)) {
         var builder = new StringBuilder();
         monster.appendShrunkenHeadZombie(builder, false);
         assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
@@ -540,9 +528,7 @@ public class MonsterDataTest {
     void shrunkenHeadZombieRenderedWithHead() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
-      var cleanups = withProperty("hasShrunkenHead", true);
-
-      try (cleanups) {
+      try (var _ = withProperty("hasShrunkenHead", true)) {
         var builder = new StringBuilder();
         monster.appendShrunkenHeadZombie(builder, false);
         assertThat(builder.toString(), containsString("Shrunken Head Zombie: "));
@@ -553,9 +539,7 @@ public class MonsterDataTest {
     void shrunkenHeadZombieNotRenderedForUncopyable() {
       var monster = MonsterDatabase.findMonster("giant skeelton");
 
-      var cleanups = withProperty("hasShrunkenHead", true);
-
-      try (cleanups) {
+      try (var _ = withProperty("hasShrunkenHead", true)) {
         var builder = new StringBuilder();
         monster.appendShrunkenHeadZombie(builder, false);
         assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
@@ -566,10 +550,9 @@ public class MonsterDataTest {
     void shrunkenHeadZombieRenderedWithHeadEquippedIfSpecified() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
-      var cleanups =
-          new Cleanups(withProperty("hasShrunkenHead", true), withEquipped(ItemPool.SHRUNKEN_HEAD));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withProperty("hasShrunkenHead", true), withEquipped(ItemPool.SHRUNKEN_HEAD))) {
         var builder = new StringBuilder();
         monster.appendShrunkenHeadZombie(builder, true);
         assertThat(builder.toString(), containsString("Shrunken Head Zombie: "));
@@ -580,9 +563,7 @@ public class MonsterDataTest {
     void shrunkenHeadZombieNotRenderedWithoutHeadEquippedIfSpecified() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
-      var cleanups = new Cleanups(withProperty("hasShrunkenHead", true));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("hasShrunkenHead", true))) {
         var builder = new StringBuilder();
         monster.appendShrunkenHeadZombie(builder, true);
         assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
@@ -616,9 +597,7 @@ public class MonsterDataTest {
     void statefulMeatDropsAreRenderedWithBonuses() {
       var monster = MonsterDatabase.findMonster("Knob Goblin Embezzler");
 
-      var cleanups = Player.withEffect(EffectPool.FROSTY);
-
-      try (cleanups) {
+      try (var _ = Player.withEffect(EffectPool.FROSTY)) {
         var builder = new StringBuilder();
         monster.appendMeat(builder, true);
 
@@ -662,9 +641,7 @@ public class MonsterDataTest {
         final String monsterName, final String dropString) {
       var monster = MonsterDatabase.findMonster(monsterName);
 
-      var cleanups = withEffect(EffectPool.SPRINKLE_SENSE);
-
-      try (cleanups) {
+      try (var _ = withEffect(EffectPool.SPRINKLE_SENSE)) {
         var builder = new StringBuilder();
         monster.appendSprinkles(builder, true);
 
@@ -677,9 +654,7 @@ public class MonsterDataTest {
   class ShouldSteal {
     @Test
     public void shouldntStealIfNoItems() {
-      var cleanups = withMoxie(10000);
-
-      try (cleanups) {
+      try (var _ = withMoxie(10000)) {
         var monster = MonsterDatabase.findMonster("crate");
         assertFalse(monster.shouldSteal());
       }
@@ -687,9 +662,7 @@ public class MonsterDataTest {
 
     @Test
     public void shouldntStealIfAllItemsAreNoPP() {
-      var cleanups = withMoxie(10000);
-
-      try (cleanups) {
+      try (var _ = withMoxie(10000)) {
         var monster = MonsterDatabase.findMonster("Arizona bark scorpion");
         assertFalse(monster.shouldSteal());
       }
@@ -697,9 +670,7 @@ public class MonsterDataTest {
 
     @Test
     public void shouldntStealIfItemsWillSurelyDrop() {
-      var cleanups = withMoxie(10000);
-
-      try (cleanups) {
+      try (var _ = withMoxie(10000)) {
         var monster = MonsterDatabase.findMonster("Astronomer");
         assertFalse(monster.shouldSteal());
       }
@@ -708,9 +679,7 @@ public class MonsterDataTest {
     @ParameterizedTest
     @CsvSource({"100,true", "1,false"})
     public void shouldStealGoallessIfOutMoxieing(int moxie, boolean shouldSteal) {
-      var cleanups = withMoxie(moxie);
-
-      try (cleanups) {
+      try (var _ = withMoxie(moxie)) {
         var monster = MonsterDatabase.findMonster("scary clown");
         assertThat(monster.shouldSteal(), is(shouldSteal));
       }

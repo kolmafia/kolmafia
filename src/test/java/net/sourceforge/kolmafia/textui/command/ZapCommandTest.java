@@ -54,9 +54,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void requireWandToZap() {
-    var cleanups = withItem("bugbear beanie");
-
-    try (cleanups) {
+    try (var _ = withItem("bugbear beanie")) {
       execute("bugbear beanie");
     }
 
@@ -66,9 +64,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void zapSimpleItem() {
-    var cleanups = new Cleanups(withItem("hexagonal wand"), withItem("bugbear beanie"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("hexagonal wand"), withItem("bugbear beanie"))) {
       execute("bugbear beanie");
     }
 
@@ -79,9 +75,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void zapNoItems() {
-    var cleanups = new Cleanups(withItem("hexagonal wand"), withItem("bugbear beanie"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("hexagonal wand"), withItem("bugbear beanie"))) {
       execute("0 bugbear beanie");
     }
 
@@ -91,13 +85,11 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void zapManyItems() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem("hexagonal wand"),
             withItem("bugbear beanie"),
-            withItem("cursed swash buckle", 2));
-
-    try (cleanups) {
+            withItem("cursed swash buckle", 2))) {
       execute("1 bugbear beanie, 2 cursed swash buckle");
     }
 
@@ -108,13 +100,11 @@ public class ZapCommandTest extends AbstractCommandTestBase {
   @Test
   public void showAcquiredItem() {
     String output;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem("hexagonal wand"),
             withItem("Dreadsylvanian spooky pocket"),
-            withNextResponse(200, html("request/test_zap_pockets.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_zap_pockets.html")))) {
       output = execute("Dreadsylvanian spooky pocket");
     }
 

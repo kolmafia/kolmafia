@@ -23,13 +23,12 @@ class FunALogRequestTest {
 
   @Test
   void discoverUnlocks() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("pirateRealmUnlockedCrabsicle", false),
             withProperty("pirateRealmUnlockedRhum", false),
             withProperty("pirateRealmUnlockedShavingCream", false),
-            withProperty("pirateRealmUnlockedScurvySkillbook", false));
-    try (cleanups) {
+            withProperty("pirateRealmUnlockedScurvySkillbook", false))) {
       var url = "shop.php?whichshop=piraterealm";
       var responseText = html("request/test_shop_funalog.html");
       ShopRequest.parseResponse(url, responseText);

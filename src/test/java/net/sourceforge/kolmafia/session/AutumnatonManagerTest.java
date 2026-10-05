@@ -37,12 +37,10 @@ class AutumnatonManagerTest {
     "with_hat, 'base_blackhat,cowcatcher,leftleg1,rightleg1'",
   })
   public void canDetectUpgrades(final String fixture, final String upgrades) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("autumnatonUpgrades", ""),
-            withChoice(1483, html("request/test_choice_autumnaton_" + fixture + ".html")));
-
-    try (cleanups) {
+            withChoice(1483, html("request/test_choice_autumnaton_" + fixture + ".html")))) {
       assertThat("autumnatonUpgrades", isSetTo(upgrades));
     }
   }
@@ -55,12 +53,10 @@ class AutumnatonManagerTest {
   })
   public void canDetectNewUpgrade(
       final String fixture, final String upgradesBefore, final String expectedUpgradesAfter) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("autumnatonUpgrades", upgradesBefore),
-            withChoice(1483, 1, html("request/test_choice_autumnaton_" + fixture + ".html")));
-
-    try (cleanups) {
+            withChoice(1483, 1, html("request/test_choice_autumnaton_" + fixture + ".html")))) {
       assertThat("autumnatonUpgrades", isSetTo(expectedUpgradesAfter));
     }
   }
@@ -77,14 +73,12 @@ class AutumnatonManagerTest {
     "4, 'leftleg1,rightleg1', 22",
   })
   public void canDetectQuest(final int questsToday, final String upgrades, final int expected) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withTurnsPlayed(0),
             withProperty("autumnatonUpgrades", upgrades),
             withProperty("_autumnatonQuests", questsToday),
-            withItem(ItemPool.AUTUMNATON));
-
-    try (cleanups) {
+            withItem(ItemPool.AUTUMNATON))) {
       AutumnatonManager.postChoice(
           2,
           html("request/test_choice_autumnaton_quest_kitchen.html"),

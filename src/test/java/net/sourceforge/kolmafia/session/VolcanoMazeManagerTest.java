@@ -118,14 +118,13 @@ public class VolcanoMazeManagerTest {
     @CsvSource({"1, 65", "2, 65", "3, 41", "4, 41", "5, 47", "6, 47"})
     public void validateMapSequence(int key, int pathLength) {
       String[] coords = loadMapSequence(key);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("volcanoMaze1", coords[0]),
               withProperty("volcanoMaze2", coords[1]),
               withProperty("volcanoMaze3", coords[2]),
               withProperty("volcanoMaze4", coords[3]),
-              withProperty("volcanoMaze5", coords[4]));
-      try (cleanups) {
+              withProperty("volcanoMaze5", coords[4]))) {
         VolcanoMazeManager.loadCurrentMaps(START, 0);
         var solution = VolcanoMazeManager.solve(START, 0);
         // The path stops before hopping onto the goal square
@@ -247,9 +246,8 @@ public class VolcanoMazeManagerTest {
     public void canGetFirstMapWithoutSavedData() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
-          new Cleanups(withVolcanoMaze(builder), withProperty("useCachedVolcanoMaps", false));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withVolcanoMaze(builder), withProperty("useCachedVolcanoMaps", false))) {
         client.addResponse(200, html("request/test_volcano_start.html"));
 
         String url = "volcanomaze.php?start=1";
@@ -269,9 +267,8 @@ public class VolcanoMazeManagerTest {
     public void canGetAllMapsWithSavedData() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
-          new Cleanups(withVolcanoMaze(builder), withProperty("useCachedVolcanoMaps", true));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withVolcanoMaze(builder), withProperty("useCachedVolcanoMaps", true))) {
         client.addResponse(200, html("request/test_volcano_start.html"));
 
         String url = "volcanomaze.php?start=1";
@@ -291,7 +288,7 @@ public class VolcanoMazeManagerTest {
     public void canAutomateVolcanoMazeFromRelayBrowser() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withVolcanoMaze(builder),
               withProperty("useCachedVolcanoMaps", false),
@@ -303,8 +300,7 @@ public class VolcanoMazeManagerTest {
               withGender(Gender.FEMALE),
               // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
-              withEquipped(Slot.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
-      try (cleanups) {
+              withEquipped(Slot.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES))) {
         client.addResponse(200, html("request/test_volcano_intro.html"));
         client.addResponse(200, html("request/test_volcano_start.html"));
         addVolcanoMazeResponses(builder, findMapResponses);
@@ -396,7 +392,7 @@ public class VolcanoMazeManagerTest {
     public void canStepThroughVolcanoMazeFromRelayBrowser() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withVolcanoMaze(builder),
               withProperty("useCachedVolcanoMaps", false),
@@ -408,8 +404,7 @@ public class VolcanoMazeManagerTest {
               withGender(Gender.FEMALE),
               // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
-              withEquipped(Slot.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
-      try (cleanups) {
+              withEquipped(Slot.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES))) {
         client.addResponse(200, html("request/test_volcano_intro.html"));
         client.addResponse(200, html("request/test_volcano_start.html"));
         addVolcanoMazeResponses(builder, findMapResponses);
@@ -485,14 +480,13 @@ public class VolcanoMazeManagerTest {
 
     @Test
     public void decoratesInitialVisit() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("volcanoMaze1", ""),
               withProperty("volcanoMaze2", ""),
               withProperty("volcanoMaze3", ""),
               withProperty("volcanoMaze4", ""),
-              withProperty("volcanoMaze5", ""));
-      try (cleanups) {
+              withProperty("volcanoMaze5", ""))) {
         String data = html("request/test_volcano_start_raw.html");
         VolcanoMazeManager.parseResult(data);
 

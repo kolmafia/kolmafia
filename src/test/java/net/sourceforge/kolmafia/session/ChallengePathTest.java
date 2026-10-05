@@ -25,16 +25,14 @@ public class ChallengePathTest {
   void testCoatOfPaintCheckedAfterLeavingAvatarPath() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPasswordHash("test"),
             withEquipped(ItemPool.COAT_OF_PAINT),
             withProperty(
                 "_coatOfPaintModifier",
-                "Muscle Experience: +5, Cold Resistance: +2, Stench Damage: +20, Stench Spell Damage: +20, Familiar Weight: +5"));
-
-    try (cleanups) {
+                "Muscle Experience: +5, Cold Resistance: +2, Stench Damage: +20, Stench Spell Damage: +20, Familiar Weight: +5"))) {
       // Perform a reset as if we're leaving an avatar path
       KoLmafia.resetAfterAvatar();
 

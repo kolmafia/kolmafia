@@ -128,7 +128,7 @@ public class BeachManagerTest {
   void seeingTwinklesGrantsTwinkleVision() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withHandlingChoice(1388),
@@ -136,9 +136,7 @@ public class BeachManagerTest {
             withProperty("_beachCombing", false),
             withProperty("_beachTides", -1),
             withProperty("_beachMinutes", 0),
-            withProperty("_beachLayout", ""));
-
-    try (cleanups) {
+            withProperty("_beachLayout", ""))) {
       client.addResponse(200, html("request/test_beach_twinkles.html"));
 
       // choice.php?whichchoice=1388&pwd&option=1&minutes=938
