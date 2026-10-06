@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class FaxRequestFrame extends GenericFrame implements ChangeListener {
   private static final int ROWS = 15;
-  private static final int LIMIT = 60;
   private static final int DELAY = 200;
 
   private CardLayoutSelectorPanel selectorPanel = null;
@@ -153,11 +152,6 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
 
   public static boolean requestFax(
       final String botName, final Monster monster, final boolean checkOnline) {
-    return FaxRequestFrame.requestFax(botName, monster, checkOnline, LIMIT);
-  }
-
-  static boolean requestFax(
-      final String botName, final Monster monster, final boolean checkOnline, final int limit) {
     // Validate ability to receive a fax
     if (!FaxRequestFrame.canReceiveFax()) {
       KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
@@ -221,6 +215,7 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
         String response = null;
         // Response is sent blue message. Can it fail?
 
+        int limit = Preferences.getInteger("faxbotTimeout");
         int polls = limit * 1000 / DELAY;
         for (int i = 0; i < polls; ++i) {
           response = ChatManager.getLastFaxBotMessage();

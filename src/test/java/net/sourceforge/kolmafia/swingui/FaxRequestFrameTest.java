@@ -70,6 +70,7 @@ class FaxRequestFrameTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
+              withProperty("faxbotTimeout", 0),
               withItem(ItemPool.VIP_LOUNGE_KEY),
               withItem(ItemPool.PHOTOCOPIED_MONSTER, 0),
               withProperty("photocopyMonster", ""),
@@ -77,7 +78,7 @@ class FaxRequestFrameTest {
 
       try (cleanups) {
         boolean result =
-            FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false, 0);
+            FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
 
         var requests = builder.client.getRequests();
         assertThat(result, is(true));
@@ -102,6 +103,7 @@ class FaxRequestFrameTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
+              withProperty("faxbotTimeout", 0),
               withItem(ItemPool.VIP_LOUNGE_KEY),
               withItem(ItemPool.PHOTOCOPIED_MONSTER, 0),
               withProperty("photocopyMonster", ""),
@@ -109,8 +111,7 @@ class FaxRequestFrameTest {
 
       try (cleanups) {
         boolean result =
-            FaxRequestFrame.requestFax(
-                "Easyfax", easyfaxMonster("Knob Goblin Embezzler"), false, 0);
+            FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("Knob Goblin Embezzler"), false);
 
         var requests = builder.client.getRequests();
         assertThat(result, is(false));
@@ -136,14 +137,14 @@ class FaxRequestFrameTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
+              withProperty("faxbotTimeout", 0),
               withItem(ItemPool.VIP_LOUNGE_KEY),
               withItem(ItemPool.PHOTOCOPIED_MONSTER, 0),
               withProperty("photocopyMonster", ""));
 
       try (cleanups) {
         boolean result =
-            FaxRequestFrame.requestFax(
-                "Easyfax", easyfaxMonster("Knob Goblin Embezzler"), false, 0);
+            FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("Knob Goblin Embezzler"), false);
 
         assertThat(result, is(false));
         assertThat(StaticEntity.getContinuationState(), is(MafiaState.ERROR));
@@ -164,13 +165,14 @@ class FaxRequestFrameTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
+              withProperty("faxbotTimeout", 0),
               withItem(ItemPool.VIP_LOUNGE_KEY),
               withItem(ItemPool.PHOTOCOPIED_MONSTER, 0),
               withProperty("lastSuccessfulFaxbot", ""));
 
       try (cleanups) {
         boolean result =
-            FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false, 0);
+            FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
 
         var requests = builder.client.getRequests();
         assertThat(result, is(false));

@@ -54,6 +54,7 @@ global	defaultDropdownSplit	0
 global	defaultLimit	5
 global	displayName
 global	externalEditor
+global	faxbotTimeout	60
 global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
