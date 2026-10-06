@@ -433,6 +433,8 @@ public class CampgroundRequestTest {
         CampgroundRequest.parseResponse("campground.php", html);
 
         assertThat("_blackRoseGardenToday", isSetTo(true));
+        assertThat(
+            KoLConstants.campground, hasItem(ItemPool.get(ItemPool.PRESSED_BLACK_GARDEN_ROSE)));
         assertThat(CampgroundRequest.getCropType(), is(CropType.PEPPERMINT));
         assertThat(CampgroundRequest.getCrop().getCount(), is(0));
       }

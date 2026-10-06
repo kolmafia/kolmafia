@@ -1359,6 +1359,7 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     if (responseText.contains(BLACK_ROSE_DAY_PASS)) {
+      CampgroundRequest.setCampgroundItem(ItemPool.PRESSED_BLACK_GARDEN_ROSE, 1);
       Preferences.setBoolean("_blackRoseGardenToday", true);
     }
 
