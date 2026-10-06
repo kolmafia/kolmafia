@@ -164,14 +164,6 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
       return false;
     }
 
-    // Make sure we can receive chat messages, either via KoLmafia chat or in the Relay Browser.
-    if (!(ChatManager.isRunning() || true)) {
-      FaxRequestFrame.statusMessage =
-          "You must be in chat so we can receive messages from " + botName;
-      KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
-      return false;
-    }
-
     // Do you already have a photocopied monster?
     if (InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
       String current = Preferences.getString("photocopyMonster");
