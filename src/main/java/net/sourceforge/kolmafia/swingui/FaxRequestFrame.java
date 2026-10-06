@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -22,6 +23,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
@@ -285,7 +287,13 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
     }
 
     String current = Preferences.getString("photocopyMonster");
-    if (current.equalsIgnoreCase(monster.getActualName())) {
+    MonsterData wanted = monster.getMonster();
+    MonsterData received = MonsterDatabase.findMonster(current);
+    boolean matches =
+        wanted != null && received != null
+            ? wanted.getId() == received.getId()
+            : current.equalsIgnoreCase(monster.getActualName());
+    if (matches) {
       return true;
     }
 
