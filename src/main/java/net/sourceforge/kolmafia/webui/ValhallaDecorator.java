@@ -398,6 +398,7 @@ public class ValhallaDecorator {
     boolean haveGrass = InventoryManager.hasItem(ItemPool.TALL_GRASS_SEEDS);
     boolean haveMushroom = InventoryManager.hasItem(ItemPool.MUSHROOM_SPORES);
     boolean haveRock = InventoryManager.hasItem(ItemPool.ROCK_SEEDS);
+    boolean haveBlackRose = InventoryManager.hasItem(ItemPool.BLACK_GARDEN_ROSE);
     if (!havePumpkin
         && !havePeppermint
         && !haveSkeleton
@@ -406,7 +407,8 @@ public class ValhallaDecorator {
         && !haveThanksGarden
         && !haveGrass
         && !haveMushroom
-        && !haveRock) {
+        && !haveRock
+        && !haveBlackRose) {
       return;
     }
 
@@ -452,6 +454,10 @@ public class ValhallaDecorator {
       gardenOption(buffer, "packet+of+rock+seeds", "rock");
     }
 
+    if (haveBlackRose) {
+      gardenOption(buffer, "black+garden+rose", "black rose");
+    }
+
     buffer.append("</select></form>");
 
     CropType cropType = CampgroundRequest.getCropType();
@@ -467,6 +473,7 @@ public class ValhallaDecorator {
             case GRASS -> "Grass";
             case MUSHROOM -> "Mushroom";
             case ROCK -> "Rock";
+            case BLACK_ROSE -> "Black Rose";
             default -> "Unknown";
           };
       buffer.append("</nobr><br><nobr>");
