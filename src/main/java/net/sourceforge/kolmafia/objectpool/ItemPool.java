@@ -4164,6 +4164,8 @@ public class ItemPool {
   public static final int INTANGIBLE_ASSET = 12311;
   public static final int LIQUID_ASSET = 12312;
   public static final int GROSS_PROPHET_CHRYSALIS = 12313;
+  public static final int BLACK_GARDEN_ROSE = 12326;
+  public static final int PRESSED_BLACK_GARDEN_ROSE = 12327;
   public static final int PARTIAL_TOMBSTONE = 12334;
 
   private ItemPool() {}
