@@ -726,7 +726,7 @@
 723	Gleaming White Teeth	goldfronts.gif	107f5321e020b856965a53d5bff93b08	good	none	use 1 mariachi toothpaste|cargo effect Gleaming White Teeth
 724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	good	none	use 1 Northern pemmican
 725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087	good	nohookah	use 1 &quot;DRINK ME&quot; potion
-726	Assaulted with Pepper	blpepper.gif	3ea2b2308ef23f53d670c9d27f380c7d	neutral	none	hatter 4|cargo effect Assaulted with Pepper
+726	Assaulted with Pepper	blpepper.gif	3ea2b2308ef23f53d670c9d27f380c7d	neutral	none	hatter 5|cargo effect Assaulted with Pepper
 727	Three Days Slow	watch.gif	fa9a60563732a82bd6c68671998f7e4e	good	none	hatter 6
 728	Cat-Alyzed	blackcat.gif	2a82a72fecb3e47c6e10c0b4a09f3e30	good	none	hatter 7
 729	Anytwo Five Elevenis?	hobbyhorse.gif	e2f26024ae49c1eef94a20cc6caec8e3	good	none	hatter 8
