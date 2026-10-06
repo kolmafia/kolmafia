@@ -7427,6 +7427,7 @@ Effect	On the Trolley	Muscle Percent: +100, Mysticality Percent: +100, Moxie Per
 Effect	Once Bitten Twice Fried	Maximum MP: +25, MP Regen Min: 2, MP Regen Max: 5
 Effect	Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 Effect	Once-Cursed	Muscle: -10, Mysticality: -10, Moxie: -10
+Effect	One Coin In a Fountain	Familiar Weight: +5, Familiar Experience: +5
 Effect	One Foot Heavier	Maximum HP Percent: +50, Familiar Weight: +5
 Effect	One For Tea	MP Regen Min: 10, MP Regen Max: 15
 Effect	One Lip in the Grave	Avatar: "Miss Graves"
@@ -14675,6 +14676,8 @@ Item	praying Grim Brother	Free Pull, Last Available: "2014-12"
 Item	precision snowball	Last Available: "2023-12"
 Item	Prelude of Precision	Skill: "Prelude of Precision"
 Item	present	Last Available: "2004-11"
+# pressed black garden rose: Temporarily add a black rose garden to your campground
+Item	pressed black garden rose	Last Available: "2026-10"
 # print screen button: Copies a Monster
 Item	print screen button	Last Available: "2016-05"
 Item	pristine piranha seed	Last Available: "2020-03"
