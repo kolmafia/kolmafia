@@ -48,24 +48,19 @@ public class DefaultComponentFocusTraversalPolicy extends LayoutFocusTraversalPo
         return this.parent.compare(o1, o2);
       }
 
-      int compare1 = this.parent.compare(o1, defaultComponent);
-      int compare2 = this.parent.compare(o2, defaultComponent);
+      boolean first1 = isDefaultOrAncestor(o1, defaultComponent);
+      boolean first2 = isDefaultOrAncestor(o2, defaultComponent);
 
-      // If either o1 or o2 is the default component, that
-      // comes first
-
-      if (compare1 == 0) {
-        return -1;
+      if (first1 != first2) {
+        return first1 ? -1 : 1;
       }
-
-      if (compare2 == 0) {
-        return 1;
-      }
-
-      // Otherwise, they both occur in the same direction relative
-      // to the default component, just compare them.
 
       return this.parent.compare(o1, o2);
+    }
+
+    private static boolean isDefaultOrAncestor(Component c, Component defaultComponent) {
+      return c == defaultComponent
+          || (c instanceof Container container && container.isAncestorOf(defaultComponent));
     }
   }
 }
