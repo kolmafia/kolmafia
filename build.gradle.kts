@@ -45,9 +45,6 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.3")
   testImplementation("org.junit.jupiter:junit-jupiter-params:6.1.3")
   testImplementation("org.mockito:mockito-core:5.20.0")
-  testImplementation("org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.41.0.M1") {
-    because("assertion errors including Location/Range/Position need it")
-  }
   testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
 
   implementation("com.formdev:flatlaf:3.7.1")
@@ -60,9 +57,6 @@ dependencies {
 
   implementation("net.sourceforge.htmlcleaner:htmlcleaner:2.29")
   implementation("org.jsoup:jsoup:1.23.1")
-  implementation("org.eclipse.lsp4j:org.eclipse.lsp4j:0.24.0") {
-    exclude(group = "org.eclipse.xtend", module = "org.eclipse.xtend.lib")
-  }
   implementation("org.slf4j:slf4j-nop:2.0.17")
   implementation("org.fusesource.jansi:jansi:2.4.2")
   implementation("com.alibaba.fastjson2:fastjson2:2.0.59")

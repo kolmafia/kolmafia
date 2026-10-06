@@ -12353,7 +12353,7 @@
 12324	black rose bowl	210198993	salad.gif	food	t,d	15
 12325	black rosebud	578861589	rosebud.gif	usable	t	0
 12326	black garden rose	740525907	brgflower.gif	usable		0
-12327
+12327	pressed black garden rose	804006168	brgpressed.gif	usable	t	0
 12328	black garden ros&eacute;	272543461	wine2.gif	drink	t,d	15	bottles of black garden ros&eacute;
 12329	clove incense	752066087	brgclove.gif	spleen, usable	t,d	15	clove incense sticks
 12330
