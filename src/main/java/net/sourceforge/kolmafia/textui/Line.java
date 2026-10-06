@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Stack;
 import net.sourceforge.kolmafia.StaticEntity;
-import org.eclipse.lsp4j.Position;
-import org.eclipse.lsp4j.Range;
 
 public final class Line {
   private static final char BOM = '\ufeff';

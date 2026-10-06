@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.textui.AshRuntime;
-import org.eclipse.lsp4j.Location;
+import net.sourceforge.kolmafia.textui.Location;
 
 @SuppressWarnings("incomplete-switch")
 public abstract class Function extends Symbol {

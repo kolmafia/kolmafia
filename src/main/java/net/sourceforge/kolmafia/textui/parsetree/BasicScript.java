@@ -4,8 +4,8 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Location;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
-import org.eclipse.lsp4j.Location;
 
 public class BasicScript extends Command {
   private final ByteArrayStream data;

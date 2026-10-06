@@ -3,8 +3,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Location;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import org.eclipse.lsp4j.Location;
 
 public abstract class Loop extends Command {
   private final Scope scope;

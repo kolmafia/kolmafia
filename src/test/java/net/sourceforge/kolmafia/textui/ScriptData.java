@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
-import static org.eclipse.lsp4j.DiagnosticSeverity.Error;
+import static net.sourceforge.kolmafia.textui.DiagnosticSeverity.ERROR;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -110,7 +110,7 @@ public abstract class ScriptData {
     this.scope = scope;
     this.errors =
         this.parser.getDiagnostics().stream()
-            .filter(diagnostic -> diagnostic.severity == Error)
+            .filter(diagnostic -> diagnostic.severity == ERROR)
             .map(diagnostic -> diagnostic.toString())
             .collect(Collectors.toList());
   }
