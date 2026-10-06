@@ -4,9 +4,9 @@ import java.io.PrintStream;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.Location;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import org.eclipse.lsp4j.Location;
 
 public class FunctionInvocation extends FunctionCall {
   private final BasicScope scope;

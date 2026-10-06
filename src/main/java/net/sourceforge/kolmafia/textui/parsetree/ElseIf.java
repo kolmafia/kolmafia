@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
-import org.eclipse.lsp4j.Location;
+import net.sourceforge.kolmafia.textui.Location;
 
 public class ElseIf extends Conditional {
   public ElseIf(final Location location, final Scope scope, final Evaluable condition) {

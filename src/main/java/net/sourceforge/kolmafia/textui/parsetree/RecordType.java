@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
-import org.eclipse.lsp4j.Location;
+import net.sourceforge.kolmafia.textui.Location;
 
 public class RecordType extends CompositeType {
   private final String[] fieldNames;

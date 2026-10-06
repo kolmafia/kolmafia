@@ -16,10 +16,10 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
+import net.sourceforge.kolmafia.textui.Location;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.Rng;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
-import org.eclipse.lsp4j.Location;
 
 /**
  * A concrete value, either computed as a result of executing a {@link Command} or created
