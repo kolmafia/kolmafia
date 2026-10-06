@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.swingui;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withDataFile;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
@@ -15,6 +16,9 @@ import static org.hamcrest.Matchers.is;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
@@ -115,6 +119,38 @@ class FaxRequestFrameTest {
         assertThat(InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER), is(false));
         assertThat("photocopyMonster", isSetTo(""));
         assertThat("lastSuccessfulFaxbot", isSetTo(""));
+      }
+    }
+
+    @Test
+    void reportsWrongFaxTheMachineWillNotTakeBack() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(200, "You approach the fax machine.");
+      builder.client.addResponse(200, ""); // submitnewchat.php
+      builder.client.addResponse(200, html("request/test_clan_fax_receive.html"));
+      builder.client.addResponse(200, html("request/test_desc_item_photocopied_mariachi.html"));
+      builder.client.addResponse(200, ""); // api.php
+      builder.client.addResponse(200, ""); // sendfax
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withItem(ItemPool.VIP_LOUNGE_KEY),
+              withItem(ItemPool.PHOTOCOPIED_MONSTER, 0),
+              withProperty("photocopyMonster", ""));
+
+      try (cleanups) {
+        boolean result =
+            FaxRequestFrame.requestFax(
+                "Easyfax", easyfaxMonster("Knob Goblin Embezzler"), false, 0);
+
+        assertThat(result, is(false));
+        assertThat(StaticEntity.getContinuationState(), is(MafiaState.ERROR));
+        assertThat(
+            KoLmafia.getLastMessage(),
+            is("Could not put the photocopied handsome mariachi back in the fax machine."));
+        assertThat(InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER), is(true));
       }
     }
 

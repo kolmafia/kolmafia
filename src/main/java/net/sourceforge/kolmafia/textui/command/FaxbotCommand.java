@@ -48,7 +48,7 @@ public class FaxbotCommand extends AbstractCommand {
 
       Monster monster = bot.getMonsterByCommand(commands.get(0));
       tried = true;
-      if (FaxRequestFrame.requestFax(botName, monster, false)) {
+      if (FaxRequestFrame.requestFax(botName, monster, false) || !KoLmafia.permitsContinue()) {
         return;
       }
     }

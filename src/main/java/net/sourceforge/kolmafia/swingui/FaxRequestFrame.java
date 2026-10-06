@@ -13,6 +13,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
@@ -241,7 +242,9 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
             return true;
           }
 
-          KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
+          if (KoLmafia.permitsContinue()) {
+            KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
+          }
           return false;
         }
 
@@ -300,6 +303,11 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
     // Put it back, since a photocopy in inventory blocks the next request
     RequestThread.postRequest(
         new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.SEND_FAX));
+    if (InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
+      FaxRequestFrame.statusMessage =
+          "Could not put the photocopied " + current + " back in the fax machine.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, FaxRequestFrame.statusMessage);
+    }
     return false;
   }
 

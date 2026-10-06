@@ -6450,6 +6450,10 @@ public abstract class RuntimeLibrary {
       if (result) {
         return DataTypes.TRUE_VALUE;
       }
+
+      if (!KoLmafia.permitsContinue()) {
+        return DataTypes.FALSE_VALUE;
+      }
     }
 
     return DataTypes.FALSE_VALUE;
