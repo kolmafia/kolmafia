@@ -4375,6 +4375,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.TALL_GRASS_SEEDS:
       case ItemPool.MUSHROOM_SPORES:
       case ItemPool.ROCK_SEEDS:
+      case ItemPool.BLACK_GARDEN_ROSE:
         if (!CampgroundRequest.haveCampground()) {
           return;
         }
@@ -6403,6 +6404,14 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.FLEEK_MASCARA:
         Preferences.setBoolean("_fleekMascaraUsed", true);
         return;
+
+      case ItemPool.PRESSED_BLACK_GARDEN_ROSE:
+        if (responseText.contains("You've already")) {
+          // If you already have access it is not consumed
+          return;
+        }
+        Preferences.setBoolean("_blackRoseGardenToday", true);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
