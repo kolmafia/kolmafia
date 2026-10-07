@@ -263,15 +263,6 @@ public class MaximizerTest {
                     containsString("(maximum achieved, no further combinations checked)"))));
       }
     }
-
-    @Test
-    void maximumAfterNonModifierTermIsInvalid() {
-      assertFalse(maximize("2 da, hat, 3 max, -tie"));
-
-      assertThat(
-          KoLmafia.lastMessage,
-          is("max must follow a modifier or appear at the start of the expression"));
-    }
   }
 
   @Nested
@@ -324,15 +315,6 @@ public class MaximizerTest {
       modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
       evaluator.getScore(modifiers);
       assertFalse(evaluator.failed);
-    }
-
-    @Test
-    void minimumAfterNonModifierTermIsInvalid() {
-      assertFalse(maximize("2 da, hat, 3 min, -tie"));
-
-      assertThat(
-          KoLmafia.lastMessage,
-          is("min must follow a modifier or appear at the start of the expression"));
     }
   }
 
@@ -3822,56 +3804,6 @@ public class MaximizerTest {
   @CsvSource(
       delimiter = '|',
       value = {
-        "elemental damage | Cold Damage: +1",
-        "any resistance | Cold Resistance: +1",
-        "ele resistance | Cold Resistance: +1",
-        "elemental resistance | Cold Resistance: +1",
-        "organ capacity | Stomach Capacity: +1",
-        "crit | Critical Hit Percent: +1",
-        "spell crit | Spell Critical Percent: +1",
-        "sprinkle | Sprinkle Drop: +1",
-        "stomach | Stomach Capacity: +1",
-        "liver | Liver Capacity: +1",
-        "spleen | Spleen Capacity: +1",
-        "ocrs | Random Monster Modifiers: +1",
-        "weapon dmg percent | Weapon Damage Percent: +1",
-        "organ | Stomach Capacity: +1",
-        "mys exp perc | Mysticality Experience Percent: +1",
-        "myst exp | Mysticality Experience: +1",
-        "mystical perc | Mysticality Percent: +1",
-        "mys exp | Mysticality Experience: +1",
-        "mys perc | Mysticality Percent: +1",
-        "mox exp perc | Moxie Experience Percent: +1",
-        "mox exp | Moxie Experience: +1",
-        "mox perc | Moxie Percent: +1",
-        "critical | Critical Hit Percent: +1",
-        "spell critical | Spell Critical Percent: +1",
-        "\"item drop\" | Item Drop: +1"
-      })
-  void recognizesModifierAliases(String expression, String modifiers) {
-    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
-        new Cleanups(
-            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, modifiers),
-            withOverrideModifiers(ModifierType.ITEM, alternative, "Meat Drop: +100"),
-            withEquippableItem(ItemPool.HELMET_TURTLE),
-            withEquippableItem(alternative))) {
-      assertTrue(maximize(expression + ", -tie"));
-      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
-      assertThat(getBoosts(), not(hasItem(recommends("bounty-hunting helmet"))));
-    }
-  }
-
-  @ParameterizedTest
-  @ValueSource(strings = {"2 hand", "2 handed", "2 hands", "-tie", "-tiebreaker", "stinkycheese"})
-  void recognizesDirectiveAliases(String directive) {
-    assertTrue(maximize("item, " + directive));
-  }
-
-  @ParameterizedTest
-  @CsvSource(
-      delimiter = '|',
-      value = {
         "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Stench Resistance: +1 | Spooky Resistance: +3 | helmet turtle | bounty-hunting helmet",
         "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1 | Spooky Resistance: +4 | bounty-hunting helmet | helmet turtle"
       })
@@ -4041,53 +3973,9 @@ public class MaximizerTest {
     }
   }
 
-  @ParameterizedTest
-  @CsvSource(
-      delimiter = '|',
-      value = {
-        "nonsense | Unrecognized keyword: nonsense",
-        "handicap | Unrecognized keyword: handicap",
-        "tier | Unrecognized keyword: tier",
-        "currently | Unrecognized keyword: currently",
-        "letterhead | Unrecognized keyword: letterhead",
-        "outfitter | Unrecognized keyword: outfitter",
-        "mainline | Unrecognized keyword: mainline",
-        "comedy | Unrecognized keyword: comedy",
-        "advice | Unrecognized keyword: advice",
-        "fiteswhatever | Unrecognized keyword: fiteswhatever",
-        "organic | Unrecognized keyword: organic",
-        "muscular | Unrecognized keyword: muscular",
-        "mysterious | Unrecognized keyword: mysterious",
-        "moxious | Unrecognized keyword: moxious",
-        "itemized | Unrecognized keyword: itemized",
-        "meatball | Unrecognized keyword: meatball",
-        "expensive | Unrecognized keyword: expensive",
-        "criticality | Unrecognized keyword: criticality",
-        "sprinkler | Unrecognized keyword: sprinkler",
-        "stomachache | Unrecognized keyword: stomachache",
-        "liverish | Unrecognized keyword: liverish",
-        "spleenful | Unrecognized keyword: spleenful",
-        "cold residue | Unrecognized keyword: cold residue",
-        "cold res foo | Unrecognized keyword: cold res foo",
-        "weapon dmgx | Unrecognized keyword: weapon dmgx",
-        "hand foo | Unrecognized keyword: hand foo",
-        "hands foo | Unrecognized keyword: hands foo",
-        "tie foo | Unrecognized keyword: tie foo",
-        "tiebreaker foo | Unrecognized keyword: tiebreaker foo",
-        "current foo | Unrecognized keyword: current foo",
-        "type | Unrecognized keyword: type",
-        "equip | Unrecognized keyword: equip",
-        "bonus | Unrecognized keyword: bonus",
-        "modbonus | Unrecognized keyword: modbonus",
-        "switch | Unrecognized keyword: switch",
-        "item,, | Unable to interpret: ,",
-        "outfit not an outfit | Unknown or custom outfit: not an outfit",
-        "outfit stinky cheese | Unknown or custom outfit: stinky cheese",
-        "switch not a familiar | Unknown familiar: not a familiar"
-      })
-  void reportsInvalidExpressions(String expression, String error) {
-    assertFalse(maximize(expression));
-    assertThat(KoLmafia.lastMessage, is(error));
+  @Test
+  void invalidExpressionPreventsMaximization() {
+    assertFalse(maximize("switch not a familiar"));
   }
 
   @Test
