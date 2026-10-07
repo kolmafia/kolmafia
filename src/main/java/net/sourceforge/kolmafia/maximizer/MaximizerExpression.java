@@ -45,8 +45,6 @@ class MaximizerExpression {
   double totalMin;
   double totalMax;
   int dump = 0;
-  static final Set<BitmapModifier> OSITY_MODIFIERS =
-      EnumSet.of(BitmapModifier.CLOWNINESS, BitmapModifier.RAVEOSITY, BitmapModifier.SURGEONOSITY);
   int stinkycheese = 0;
   int beeosity = 2;
   final EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
@@ -89,24 +87,112 @@ class MaximizerExpression {
 
   private record Canonicalization(Pattern pattern, String canonical) {}
 
-  private record ParsedKeyword(String directive, String operand, boolean operandRequired) {}
+  private record ModifierLimits(double minimum, double maximum) {}
 
-  // {directive, operandRequired}
-  private static final Map<String, Boolean> DIRECTIVES_WITH_OPERANDS =
-      Map.of(
-          "type", true,
-          "equip", true,
-          "bonus", true,
-          "modbonus", true,
-          "letter", false,
-          "outfit", false,
-          "switch", true);
+  private enum OperandSupport {
+    NOT_SUPPORTED,
+    OPTIONAL,
+    REQUIRED
+  }
+
+  private record ParsedTerm(
+      double weight, String originalKeyword, String keyword, String operand, Modifier modifier) {
+    private static ParsedTerm from(Matcher matcher) {
+      double weight =
+          StringUtilities.parseDouble(
+              matcher.end(2) == matcher.start(2)
+                  ? matcher.group(1) + "1"
+                  : matcher.group(1) + matcher.group(2));
+
+      String originalKeyword = matcher.group(3).trim();
+      if (originalKeyword.startsWith("\"") && originalKeyword.endsWith("\"")) {
+        originalKeyword = originalKeyword.substring(1, originalKeyword.length() - 1).trim();
+      }
+
+      String keyword = originalKeyword;
+      String operand = "";
+      int separator = originalKeyword.indexOf(' ');
+      String possibleDirective =
+          separator == -1 ? originalKeyword : originalKeyword.substring(0, separator);
+      OperandSupport operandSupport = DIRECTIVES.get(possibleDirective);
+      if (operandSupport != null && operandSupport != OperandSupport.NOT_SUPPORTED) {
+        keyword = possibleDirective;
+        if (separator != -1) {
+          operand = originalKeyword.substring(separator + 1).trim();
+        }
+      }
+
+      keyword = canonicalize(keyword);
+      Modifier modifier = modifierFor(keyword);
+      return new ParsedTerm(weight, originalKeyword, keyword, operand, modifier);
+    }
+
+    private ParsedTerm withModifier(Modifier modifier) {
+      return new ParsedTerm(
+          this.weight, this.originalKeyword, this.keyword, this.operand, modifier);
+    }
+  }
+
+  private static final Map<String, OperandSupport> DIRECTIVES =
+      Map.ofEntries(
+          Map.entry("min", OperandSupport.NOT_SUPPORTED),
+          Map.entry("max", OperandSupport.NOT_SUPPORTED),
+          Map.entry("dump", OperandSupport.NOT_SUPPORTED),
+          Map.entry("hand", OperandSupport.NOT_SUPPORTED),
+          Map.entry("tie", OperandSupport.NOT_SUPPORTED),
+          Map.entry("current", OperandSupport.NOT_SUPPORTED),
+          Map.entry("type", OperandSupport.REQUIRED),
+          Map.entry("club", OperandSupport.NOT_SUPPORTED),
+          Map.entry("shield", OperandSupport.NOT_SUPPORTED),
+          Map.entry("utensil", OperandSupport.NOT_SUPPORTED),
+          Map.entry("sword", OperandSupport.NOT_SUPPORTED),
+          Map.entry("knife", OperandSupport.NOT_SUPPORTED),
+          Map.entry("accordion", OperandSupport.NOT_SUPPORTED),
+          Map.entry("melee", OperandSupport.NOT_SUPPORTED),
+          Map.entry("effective", OperandSupport.NOT_SUPPORTED),
+          Map.entry("empty", OperandSupport.NOT_SUPPORTED),
+          Map.entry("beeosity", OperandSupport.NOT_SUPPORTED),
+          Map.entry(BitmapModifier.STINKYCHEESE.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry("sea", OperandSupport.NOT_SUPPORTED),
+          Map.entry("equip", OperandSupport.REQUIRED),
+          Map.entry("bonus", OperandSupport.REQUIRED),
+          Map.entry("modbonus", OperandSupport.REQUIRED),
+          Map.entry("letter", OperandSupport.OPTIONAL),
+          Map.entry("number", OperandSupport.NOT_SUPPORTED),
+          Map.entry("plumber", OperandSupport.NOT_SUPPORTED),
+          Map.entry("cold plumber", OperandSupport.NOT_SUPPORTED),
+          Map.entry("outfit", OperandSupport.OPTIONAL),
+          Map.entry("switch", OperandSupport.REQUIRED),
+          Map.entry("elemental resistance", OperandSupport.NOT_SUPPORTED),
+          Map.entry("elemental damage", OperandSupport.NOT_SUPPORTED),
+          Map.entry("hp regen", OperandSupport.NOT_SUPPORTED),
+          Map.entry("mp regen", OperandSupport.NOT_SUPPORTED),
+          Map.entry("passive damage", OperandSupport.NOT_SUPPORTED),
+          Map.entry("organ capacity", OperandSupport.NOT_SUPPORTED),
+          Map.entry(DoubleModifier.COMBAT_RATE.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(DoubleModifier.ADVENTURES.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(DoubleModifier.PVP_FIGHTS.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(
+              DoubleModifier.RANDOM_MONSTER_MODIFIERS.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(BitmapModifier.CLOWNINESS.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(BitmapModifier.RAVEOSITY.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(BitmapModifier.SURGEONOSITY.getName(), OperandSupport.NOT_SUPPORTED));
+
+  static final Set<BitmapModifier> OSITY_MODIFIERS = supportedBitmapModifiers();
+
+  private static Set<BitmapModifier> supportedBitmapModifiers() {
+    var modifiers = EnumSet.allOf(BitmapModifier.class);
+    modifiers.removeIf(
+        modifier ->
+            !DIRECTIVES.containsKey(modifier.getName()) || defaultLimitsFor(modifier) == null);
+    return modifiers;
+  }
 
   private static final List<Canonicalization> KEYWORD_CANONICALIZATIONS =
       List.of(
           canonicalization("handed|hands", "hand"),
           canonicalization("tiebreaker", "tie"),
-          canonicalization("stinky cheese", "stinkycheese"),
+          canonicalization("stinky ?cheese", BitmapModifier.STINKYCHEESE.getName()),
           tokenCanonicalization("mus", "muscle"),
           tokenCanonicalization("mys(t(ical(ity)?)?)?", "mysticality"),
           tokenCanonicalization("mox", "moxie"),
@@ -119,9 +205,11 @@ class MaximizerExpression {
           canonicalization("organs?", "organ capacity"),
           canonicalization("any resistance", "elemental resistance"),
           canonicalization("main", "mainstat"),
-          canonicalization("com", "combat"),
-          canonicalization("advs", "adv"),
-          canonicalization("fite", "fites"),
+          canonicalization("com(bat)?", DoubleModifier.COMBAT_RATE.getName()),
+          canonicalization("adv", DoubleModifier.ADVENTURES.getName()),
+          canonicalization("fites", DoubleModifier.PVP_FIGHTS.getName()),
+          canonicalization("ocrs", DoubleModifier.RANDOM_MONSTER_MODIFIERS.getName()),
+          canonicalization("clownosity", BitmapModifier.CLOWNINESS.getName()),
           canonicalization("init", DoubleModifier.INITIATIVE.getName()),
           canonicalization("hp", DoubleModifier.HP.getName()),
           canonicalization("mp", DoubleModifier.MP.getName()),
@@ -152,23 +240,34 @@ class MaximizerExpression {
       keyword =
           canonicalization.pattern().matcher(keyword).replaceAll(canonicalization.canonical());
     }
-    return keyword;
+    if (keyword.equals("mainstat")) {
+      return DoubleModifier.primeStat().getName();
+    }
+    Modifier modifier = modifierFor(keyword);
+    return modifier == null ? keyword : modifier.getName();
   }
 
-  private static ParsedKeyword parseKeyword(String keyword) {
-    String directive = keyword;
-    String operand = "";
-    int separator = keyword.indexOf(' ');
-    String possibleDirective = separator == -1 ? keyword : keyword.substring(0, separator);
-    boolean operandRequired = DIRECTIVES_WITH_OPERANDS.getOrDefault(possibleDirective, false);
-    if (DIRECTIVES_WITH_OPERANDS.containsKey(possibleDirective)) {
-      directive = possibleDirective;
-      if (separator != -1) {
-        operand = keyword.substring(separator + 1).trim();
-      }
+  private static Modifier modifierFor(String keyword) {
+    Modifier modifier = DoubleModifier.byCaselessName(keyword);
+    if (modifier != null) {
+      return modifier;
     }
+    BitmapModifier bitmapModifier = BitmapModifier.byCaselessName(keyword);
+    return bitmapModifier != null
+            && DIRECTIVES.containsKey(bitmapModifier.getName())
+            && defaultLimitsFor(bitmapModifier) != null
+        ? bitmapModifier
+        : null;
+  }
 
-    return new ParsedKeyword(canonicalize(directive), operand, operandRequired);
+  private static ModifierLimits defaultLimitsFor(Modifier modifier) {
+    return switch (modifier) {
+      case BitmapModifier.CLOWNINESS -> new ModifierLimits(100.0, 100.0);
+      case BitmapModifier.RAVEOSITY -> new ModifierLimits(7.0, 7.0);
+      case BitmapModifier.SURGEONOSITY -> new ModifierLimits(1.0, 5.0);
+      case null -> null;
+      default -> null;
+    };
   }
 
   static final String TIEBREAKER =
@@ -176,6 +275,60 @@ class MaximizerExpression {
   private static final Pattern KEYWORD_PATTERN =
       Pattern.compile(
           "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*");
+
+  private static List<ParsedTerm> parseTerms(String expression) {
+    expression = expression.trim().toLowerCase();
+    Matcher matcher = KEYWORD_PATTERN.matcher(expression);
+    List<ParsedTerm> terms = new ArrayList<>();
+    boolean seenNonLimitTerm = false;
+    int position = 0;
+
+    while (position < expression.length()) {
+      if (!matcher.find()) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Unable to interpret: " + expression.substring(position));
+        return null;
+      }
+      position = matcher.end();
+      ParsedTerm term = ParsedTerm.from(matcher);
+
+      if (DIRECTIVES.get(term.keyword()) == OperandSupport.REQUIRED && term.operand().isEmpty()) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Directive '" + term.keyword() + "' requires an operand");
+        return null;
+      }
+
+      String keyword = term.keyword();
+      if (!DIRECTIVES.containsKey(keyword)
+          && term.modifier() == null
+          && !SlotSet.ALL_SLOTS.contains(EquipmentRequest.slotNumber(keyword))
+          && BooleanModifier.byCaselessName(keyword) == null) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + term.originalKeyword());
+        return null;
+      }
+
+      if (term.keyword().equals("min") || term.keyword().equals("max")) {
+        ParsedTerm previousTerm = terms.isEmpty() ? null : terms.getLast();
+        if (previousTerm != null && previousTerm.modifier() != null) {
+          term = term.withModifier(previousTerm.modifier());
+        } else if (seenNonLimitTerm) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              term.keyword()
+                  + " must follow a modifier or appear at the start of the expression; preceding term was '"
+                  + previousTerm.originalKeyword()
+                  + "'");
+          return null;
+        }
+      } else {
+        seenNonLimitTerm = true;
+      }
+
+      terms.add(term);
+    }
+
+    return terms;
+  }
 
   MaximizerExpression() {
     this.totalMin = Double.NEGATIVE_INFINITY;
@@ -209,433 +362,263 @@ class MaximizerExpression {
   }
 
   void parse(String expr) {
-    expr = expr.trim().toLowerCase();
-    Matcher m = KEYWORD_PATTERN.matcher(expr);
+    List<ParsedTerm> terms = parseTerms(expr);
+    if (terms == null) {
+      return;
+    }
+
     boolean hadFamiliar = false;
     boolean forceCurrent = false;
-    int pos = 0;
-    Modifier index = null;
-    boolean seenNonLimitTerm = false;
 
     int equipBeeosity = 0;
     int outfitBeeosity = 0;
 
-    while (pos < expr.length()) {
-      if (!m.find()) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Unable to interpret: " + expr.substring(pos));
-        return;
-      }
-      pos = m.end();
-      double weight =
-          StringUtilities.parseDouble(
-              m.end(2) == m.start(2) ? m.group(1) + "1" : m.group(1) + m.group(2));
+    for (ParsedTerm term : terms) {
+      double weight = term.weight();
+      String originalKeyword = term.originalKeyword();
+      String keyword = term.keyword();
+      String operand = term.operand();
 
-      String originalKeyword = m.group(3).trim();
-      if (originalKeyword.startsWith("\"") && originalKeyword.endsWith("\"")) {
-        originalKeyword = originalKeyword.substring(1, originalKeyword.length() - 1).trim();
-      }
-
-      ParsedKeyword parsedKeyword = parseKeyword(originalKeyword);
-      String keyword = parsedKeyword.directive();
-      String operand = parsedKeyword.operand();
-
-      // This error could be more descriptive; preserve historical output for now
-      if (parsedKeyword.operandRequired() && operand.isEmpty()) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + originalKeyword);
-        return;
-      }
-
-      if (keyword.equals("min")) {
-        if (index != null) {
-          this.min.put(index, weight);
-        } else if (!seenNonLimitTerm) {
-          this.totalMin = weight;
-        } else {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR,
-              "min must follow a modifier or appear at the start of the expression");
-          return;
-        }
-        continue;
-      }
-
-      if (keyword.equals("max")) {
-        if (index != null) {
-          this.max.put(index, weight);
-        } else if (!seenNonLimitTerm) {
-          this.totalMax = weight;
-        } else {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR,
-              "max must follow a modifier or appear at the start of the expression");
-          return;
-        }
-        continue;
-      }
-
-      seenNonLimitTerm = true;
-      index = null;
-
-      if (keyword.equals("dump")) {
-        this.dump = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("hand")) {
-        this.hands = (int) weight;
-        if (this.hands >= 2) {
-          // this.slots[ EquipmentManager.OFFHAND ] = -1;
-        }
-        continue;
-      }
-
-      if (keyword.equals("tie")) {
-        this.noTiebreaker = weight < 0.0;
-        continue;
-      }
-
-      if (keyword.equals("current")) {
-        this.current = weight > 0.0;
-        forceCurrent = true;
-        continue;
-      }
-
-      if (keyword.equals("type")) {
-        this.weaponType = operand;
-        continue;
-      }
-
-      if (keyword.equals("club")) {
-        this.requireClub = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("shield")) {
-        this.requireShield = weight > 0.0;
-        if (forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
-          forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
-        }
-        this.hands = 1;
-        continue;
-      }
-
-      if (keyword.equals("utensil")) {
-        this.requireUtensil = weight > 0.0;
-        continue;
-      }
-      if (keyword.equals("sword")) {
-        this.requireSword = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("knife")) {
-        this.requireKnife = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("accordion")) {
-        this.requireAccordion = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("melee")) {
-        this.melee = (int) (weight * 2.0);
-        continue;
-      }
-
-      if (keyword.equals("effective")) {
-        this.effective = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("empty")) {
-        for (var slot : SlotSet.ALL_SLOTS) {
-          this.slots.merge(
-              slot,
-              ((int) weight)
-                  * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
-              Integer::sum);
-        }
-        continue;
-      }
-
-      BitmapModifier osityModifier = null;
-      double defaultMinimum = 0.0;
-      double defaultMaximum = 0.0;
       switch (keyword) {
-        case "clownosity", "clowniness" -> {
-          osityModifier = BitmapModifier.CLOWNINESS;
-          defaultMinimum = 100.0;
-          defaultMaximum = 100.0;
-        }
-        case "raveosity" -> {
-          osityModifier = BitmapModifier.RAVEOSITY;
-          defaultMinimum = 7.0;
-          defaultMaximum = 7.0;
-        }
-        case "surgeonosity" -> {
-          osityModifier = BitmapModifier.SURGEONOSITY;
-          defaultMinimum = 1.0;
-          defaultMaximum = 5.0;
-        }
-      }
-      if (osityModifier != null) {
-        index = osityModifier;
-        this.weight.put(osityModifier, weight);
-        this.min.put(osityModifier, defaultMinimum);
-        this.max.put(osityModifier, defaultMaximum);
-        continue;
-      }
-
-      if (keyword.equals("beeosity")) {
-        this.beeosity = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("stinkycheese")) {
-        this.stinkycheese = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("sea")) {
-        var adventureUnderwater =
-            EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
-        this.booleanMask.addAll(adventureUnderwater);
-        this.booleanValue.addAll(adventureUnderwater);
-        index = null;
-        if (forcedModeables.get(Modeable.EDPIECE).isEmpty()) {
-          // Force Crown of Ed to Fish
-          forcedModeables.put(Modeable.EDPIECE, "fish");
-        }
-        continue;
-      }
-
-      if (keyword.equals("equip")) {
-        var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
-        if (match == null) {
-          return;
-        }
-        if (match.modeable() != null && !forceModeable(match, match.mode())) {
-          return;
-        }
-        if (weight > 0.0) {
-          if (this.posEquip.add(match.item())) {
-            equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
+        case "min" -> {
+          if (term.modifier() != null) {
+            this.min.put(term.modifier(), weight);
+          } else {
+            this.totalMin = weight;
           }
-        } else {
-          this.negEquip.add(match.item());
         }
-        continue;
-      }
-
-      if (keyword.equals("bonus")) {
-        var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
-        if (match == null) {
-          return;
-        }
-        if (match.mode() == null) {
-          var existing = this.bonuses.get(match.item());
-          var modes = existing == null ? new HashMap<String, Double>() : existing.modes();
-          this.bonuses.put(match.item(), new ItemBonus(weight, modes));
-        } else {
-          this.bonuses
-              .computeIfAbsent(match.item(), k -> new ItemBonus(0.0, new HashMap<>()))
-              .modes()
-              .put(match.mode(), weight);
-        }
-        continue;
-      }
-
-      if (keyword.equals("modbonus")) {
-        String modName = operand;
-        BooleanModifier mod = BooleanModifier.byCaselessName(modName);
-        if (mod == null) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "No boolean modifier found for: " + modName);
-          return;
-        }
-        this.modBonuses.put(mod, weight);
-        continue;
-      }
-
-      if (keyword.equals("letter")) {
-        if (operand.isEmpty()) {
-          this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
-        } else {
-          String finalKeyword = operand;
-          this.bonusFunc.add(
-              new BonusFunction(ar -> LetterBonus.letterBonus(ar, finalKeyword), weight));
-        }
-        continue;
-      }
-
-      if (keyword.equals("number")) {
-        this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
-        continue;
-      }
-
-      if (keyword.equals("plumber")) {
-        if (!KoLCharacter.isPlumber()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
-          return;
-        }
-        AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex());
-        if (item == null) {
-          item = pickPlumberTool(-1);
-        }
-        this.posEquip.add(item);
-        continue;
-      }
-
-      if (keyword.equals("cold plumber")) {
-        if (!KoLCharacter.isPlumber()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
-          return;
-        }
-        AdventureResult item1 = pickPlumberTool(1);
-        if (item1 == null) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
-          return;
-        }
-        AdventureResult item2 = ItemPool.get(ItemPool.FROSTY_BUTTON);
-        this.posEquip.add(item1);
-        this.posEquip.add(item2);
-        continue;
-      }
-
-      if (keyword.equals("outfit")) {
-        String outfitName = operand;
-        if (outfitName.isEmpty()) {
-          outfitName = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
-        }
-        SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(outfitName);
-        if (outfit == null || outfit.getOutfitId() <= 0) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + outfitName);
-          return;
-        }
-        if (weight > 0.0) {
-          this.posOutfits.add(outfit.getName());
-          int bees = 0;
-          AdventureResult[] pieces = outfit.getPieces();
-          for (AdventureResult piece : pieces) {
-            bees += KoLCharacter.getBeeosity(piece.getName());
+        case "max" -> {
+          if (term.modifier() != null) {
+            this.max.put(term.modifier(), weight);
+          } else {
+            this.totalMax = weight;
           }
-          outfitBeeosity = Math.max(outfitBeeosity, bees);
-        } else {
-          this.negOutfits.add(outfit.getName());
         }
-        continue;
-      }
-
-      if (keyword.equals("switch")) {
-        if (KoLCharacter.inPokefam()) {
-          continue;
+        case "dump" -> this.dump = (int) weight;
+        case "hand" -> this.hands = (int) weight;
+        case "tie" -> this.noTiebreaker = weight < 0.0;
+        case "current" -> {
+          this.current = weight > 0.0;
+          forceCurrent = true;
         }
-        int id = FamiliarDatabase.getFamiliarId(operand);
-        if (id == -1) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + operand);
-          return;
+        case "type" -> this.weaponType = operand;
+        case "club" -> this.requireClub = weight > 0.0;
+        case "shield" -> {
+          this.requireShield = weight > 0.0;
+          if (forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
+            forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+          }
+          this.hands = 1;
         }
-        if (hadFamiliar && weight < 0.0) continue;
-        FamiliarData fam = KoLCharacter.usableFamiliar(id);
-        hadFamiliar = fam != null;
-        if (fam != null
-            && !fam.equals(KoLCharacter.getFamiliar())
-            && fam.canEquip()
-            && !this.familiars.contains(fam)) {
-          this.familiars.add(fam);
+        case "utensil" -> this.requireUtensil = weight > 0.0;
+        case "sword" -> this.requireSword = weight > 0.0;
+        case "knife" -> this.requireKnife = weight > 0.0;
+        case "accordion" -> this.requireAccordion = weight > 0.0;
+        case "melee" -> this.melee = (int) (weight * 2.0);
+        case "effective" -> this.effective = weight > 0.0;
+        case "empty" -> {
+          for (var slot : SlotSet.ALL_SLOTS) {
+            this.slots.merge(
+                slot,
+                ((int) weight)
+                    * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP)
+                        ? 1
+                        : -1),
+                Integer::sum);
+          }
         }
-        continue;
-      }
-
-      Slot slot = EquipmentRequest.slotNumber(keyword);
-      if (SlotSet.ALL_SLOTS.contains(slot)) {
-        this.slots.merge(slot, (int) weight, Integer::sum);
-        continue;
-      }
-
-      index = DoubleModifier.byCaselessName(keyword);
-
-      if (index == null) {
-        BooleanModifier modifier = BooleanModifier.byCaselessName(keyword);
-        if (modifier != null) {
-          this.booleanMask.add(modifier);
+        case "beeosity" -> this.beeosity = (int) weight;
+        case "Stinky Cheese" -> this.stinkycheese = (int) weight;
+        case "sea" -> {
+          var adventureUnderwater =
+              EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
+          this.booleanMask.addAll(adventureUnderwater);
+          this.booleanValue.addAll(adventureUnderwater);
+          if (forcedModeables.get(Modeable.EDPIECE).isEmpty()) {
+            // Force Crown of Ed to Fish
+            forcedModeables.put(Modeable.EDPIECE, "fish");
+          }
+        }
+        case "equip" -> {
+          var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
+          if (match == null) {
+            return;
+          }
+          if (match.modeable() != null && !forceModeable(match, match.mode())) {
+            return;
+          }
           if (weight > 0.0) {
-            this.booleanValue.add(modifier);
-          }
-          continue;
-        }
-      }
-
-      if (index == null) {
-        switch (keyword) {
-          case "elemental resistance" -> {
-            this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
-            this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
-            this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
-            this.weight.put(DoubleModifier.SPOOKY_RESISTANCE, weight);
-            this.weight.put(DoubleModifier.STENCH_RESISTANCE, weight);
-            continue;
-          }
-          case "elemental damage" -> {
-            this.weight.put(DoubleModifier.COLD_DAMAGE, weight);
-            this.weight.put(DoubleModifier.HOT_DAMAGE, weight);
-            this.weight.put(DoubleModifier.SLEAZE_DAMAGE, weight);
-            this.weight.put(DoubleModifier.SPOOKY_DAMAGE, weight);
-            this.weight.put(DoubleModifier.STENCH_DAMAGE, weight);
-            continue;
-          }
-          case "hp regen" -> {
-            this.weight.put(DoubleModifier.HP_REGEN_MIN, weight / 2);
-            this.weight.put(DoubleModifier.HP_REGEN_MAX, weight / 2);
-            continue;
-          }
-          case "mp regen" -> {
-            this.weight.put(DoubleModifier.MP_REGEN_MIN, weight / 2);
-            this.weight.put(DoubleModifier.MP_REGEN_MAX, weight / 2);
-            continue;
-          }
-          case "passive damage" -> {
-            this.weight.put(DoubleModifier.DAMAGE_AURA, weight);
-            this.weight.put(DoubleModifier.THORNS, weight);
-            continue;
-          }
-          case "organ capacity" -> {
-            this.weight.put(DoubleModifier.STOMACH_CAPACITY, weight);
-            this.weight.put(DoubleModifier.LIVER_CAPACITY, weight);
-            this.weight.put(DoubleModifier.SPLEEN_CAPACITY, weight);
-            continue;
+            if (this.posEquip.add(match.item())) {
+              equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
+            }
+          } else {
+            this.negEquip.add(match.item());
           }
         }
-      }
-
-      if (index == null) {
-        if (keyword.equals("mainstat")) {
-          index = DoubleModifier.primeStat();
-        } else if (keyword.equals("combat")) {
-          index = DoubleModifier.COMBAT_RATE;
-          if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
-            this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
+        case "bonus" -> {
+          var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
+          if (match == null) {
+            return;
           }
-        } else if (keyword.equals("adv")) {
-          this.beeosity = 999;
-          index = DoubleModifier.ADVENTURES;
-        } else if (keyword.equals("fites")) {
-          this.beeosity = 999;
-          index = DoubleModifier.PVP_FIGHTS;
-        } else if (keyword.equals("ocrs")) {
-          this.noTiebreaker = true;
-          this.beeosity = 999;
-          index = DoubleModifier.RANDOM_MONSTER_MODIFIERS;
+          if (match.mode() == null) {
+            var existing = this.bonuses.get(match.item());
+            var modes = existing == null ? new HashMap<String, Double>() : existing.modes();
+            this.bonuses.put(match.item(), new ItemBonus(weight, modes));
+          } else {
+            this.bonuses
+                .computeIfAbsent(match.item(), k -> new ItemBonus(0.0, new HashMap<>()))
+                .modes()
+                .put(match.mode(), weight);
+          }
+        }
+        case "modbonus" -> {
+          BooleanModifier mod = BooleanModifier.byCaselessName(operand);
+          if (mod == null) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "No boolean modifier found for: " + operand);
+            return;
+          }
+          this.modBonuses.put(mod, weight);
+        }
+        case "letter" -> {
+          if (operand.isEmpty()) {
+            this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
+          } else {
+            this.bonusFunc.add(
+                new BonusFunction(ar -> LetterBonus.letterBonus(ar, operand), weight));
+          }
+        }
+        case "number" -> this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
+        case "plumber" -> {
+          if (!KoLCharacter.isPlumber()) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
+            return;
+          }
+          AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex());
+          this.posEquip.add(item == null ? pickPlumberTool(-1) : item);
+        }
+        case "cold plumber" -> {
+          if (!KoLCharacter.isPlumber()) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
+            return;
+          }
+          AdventureResult item = pickPlumberTool(1);
+          if (item == null) {
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR, "You don't have an appropriate flower to wield");
+            return;
+          }
+          this.posEquip.add(item);
+          this.posEquip.add(ItemPool.get(ItemPool.FROSTY_BUTTON));
+        }
+        case "outfit" -> {
+          String outfitName =
+              operand.isEmpty()
+                  ? KoLCharacter.currentStringModifier(StringModifier.OUTFIT)
+                  : operand;
+          SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(outfitName);
+          if (outfit == null || outfit.getOutfitId() <= 0) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + outfitName);
+            return;
+          }
+          if (weight > 0.0) {
+            this.posOutfits.add(outfit.getName());
+            int bees = 0;
+            for (AdventureResult piece : outfit.getPieces()) {
+              bees += KoLCharacter.getBeeosity(piece.getName());
+            }
+            outfitBeeosity = Math.max(outfitBeeosity, bees);
+          } else {
+            this.negOutfits.add(outfit.getName());
+          }
+        }
+        case "switch" -> {
+          if (!KoLCharacter.inPokefam()) {
+            int id = FamiliarDatabase.getFamiliarId(operand);
+            if (id == -1) {
+              KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + operand);
+              return;
+            }
+            if (!hadFamiliar || weight >= 0.0) {
+              FamiliarData familiar = KoLCharacter.usableFamiliar(id);
+              hadFamiliar = familiar != null;
+              if (familiar != null
+                  && !familiar.equals(KoLCharacter.getFamiliar())
+                  && familiar.canEquip()
+                  && !this.familiars.contains(familiar)) {
+                this.familiars.add(familiar);
+              }
+            }
+          }
+        }
+        case "elemental resistance" -> {
+          this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
+          this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
+          this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
+          this.weight.put(DoubleModifier.SPOOKY_RESISTANCE, weight);
+          this.weight.put(DoubleModifier.STENCH_RESISTANCE, weight);
+        }
+        case "elemental damage" -> {
+          this.weight.put(DoubleModifier.COLD_DAMAGE, weight);
+          this.weight.put(DoubleModifier.HOT_DAMAGE, weight);
+          this.weight.put(DoubleModifier.SLEAZE_DAMAGE, weight);
+          this.weight.put(DoubleModifier.SPOOKY_DAMAGE, weight);
+          this.weight.put(DoubleModifier.STENCH_DAMAGE, weight);
+        }
+        case "hp regen" -> {
+          this.weight.put(DoubleModifier.HP_REGEN_MIN, weight / 2);
+          this.weight.put(DoubleModifier.HP_REGEN_MAX, weight / 2);
+        }
+        case "mp regen" -> {
+          this.weight.put(DoubleModifier.MP_REGEN_MIN, weight / 2);
+          this.weight.put(DoubleModifier.MP_REGEN_MAX, weight / 2);
+        }
+        case "passive damage" -> {
+          this.weight.put(DoubleModifier.DAMAGE_AURA, weight);
+          this.weight.put(DoubleModifier.THORNS, weight);
+        }
+        case "organ capacity" -> {
+          this.weight.put(DoubleModifier.STOMACH_CAPACITY, weight);
+          this.weight.put(DoubleModifier.LIVER_CAPACITY, weight);
+          this.weight.put(DoubleModifier.SPLEEN_CAPACITY, weight);
+        }
+        default -> {
+          Slot slot = EquipmentRequest.slotNumber(keyword);
+          Modifier modifier = term.modifier();
+          BooleanModifier booleanModifier =
+              modifier == null ? BooleanModifier.byCaselessName(keyword) : null;
+
+          if (SlotSet.ALL_SLOTS.contains(slot)) {
+            this.slots.merge(slot, (int) weight, Integer::sum);
+          } else if (booleanModifier != null) {
+            this.booleanMask.add(booleanModifier);
+            if (weight > 0.0) {
+              this.booleanValue.add(booleanModifier);
+            }
+          } else if (modifier != null) {
+            if (modifier == DoubleModifier.COMBAT_RATE
+                && AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
+              this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
+            }
+            switch (originalKeyword) {
+              case "adv", "fites" -> this.beeosity = 999;
+              case "ocrs" -> {
+                this.noTiebreaker = true;
+                this.beeosity = 999;
+              }
+            }
+
+            this.weight.put(modifier, weight);
+            ModifierLimits defaultLimits = defaultLimitsFor(modifier);
+            if (defaultLimits != null) {
+              this.min.put(modifier, defaultLimits.minimum());
+              this.max.put(modifier, defaultLimits.maximum());
+            }
+          } else {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + originalKeyword);
+            return;
+          }
         }
       }
-
-      if (index != null) {
-        this.weight.put(index, weight);
-        continue;
-      }
-
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + originalKeyword);
-      return;
     }
 
     if (!forceCurrent && this.noTiebreaker) {
