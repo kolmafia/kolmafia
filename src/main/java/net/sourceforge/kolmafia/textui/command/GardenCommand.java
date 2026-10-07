@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest.BlackRose;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropPlot;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 
@@ -61,6 +62,12 @@ public class GardenCommand extends AbstractCommand {
     CropType cropType = CampgroundRequest.getCropType(crops.get(0));
 
     if (command.equals("")) {
+      if (cropType == CropType.BLACK_ROSE) {
+        KoLmafia.updateDisplay(
+            "Your Black Rose Garden has " + BlackRose.growth(crops.get(0).getCount()) + ".");
+        return;
+      }
+
       String gardenType = cropType.toString();
       StringBuilder display = new StringBuilder();
       display.append("Your ").append(gardenType).append(" garden has ");
@@ -100,6 +107,12 @@ public class GardenCommand extends AbstractCommand {
     }
 
     if (command.equals("pick")) {
+      if (cropType == CropType.BLACK_ROSE) {
+        KoLmafia.updateDisplay(
+            "There is nothing to pick in the Black Rose Garden, only a fun maze to explore!");
+        return;
+      }
+
       // Mushroom garden only
       if (cropType == CropType.MUSHROOM) {
         if (checkMushroomGarden(cropType)) {
