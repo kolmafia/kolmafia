@@ -160,7 +160,7 @@ class RequestLoggerTest {
       RequestLogger.closeCustom();
 
       assertThat(inner.toString().trim(), equalTo("to inner"));
-      assertThat(outer.toString().trim(), equalTo("to outer 1 to outer 2"));
+      assertThat(outer.toString().trim(), equalTo("to outer 1\nto outer 2"));
     }
   }
 }
