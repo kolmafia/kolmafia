@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia;
 
 import java.io.PrintStream;
+import java.util.ArrayDeque;
 import java.util.Date;
+import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -54,6 +56,7 @@ public class RequestLogger extends NullStream {
   public static final RequestLogger INSTANCE = new RequestLogger();
 
   private static PrintStream outputStream = KoLmafiaTUI.outputStream;
+  private static final Deque<PrintStream> replacedOutputStreams = new ArrayDeque<>();
   private static PrintStream mirrorStream = NullStream.INSTANCE;
 
   private static PrintStream sessionStream = NullStream.INSTANCE;
@@ -262,12 +265,13 @@ public class RequestLogger extends NullStream {
   }
 
   public static void openCustom(PrintStream out) {
+    RequestLogger.replacedOutputStreams.push(RequestLogger.outputStream);
     RequestLogger.outputStream = out;
   }
 
   public static void closeCustom() {
     RequestLogger.closeStream(RequestLogger.outputStream);
-    RequestLogger.outputStream = KoLmafiaTUI.outputStream;
+    RequestLogger.outputStream = RequestLogger.replacedOutputStreams.pop();
   }
 
   public static void openMirror(final String location) {
