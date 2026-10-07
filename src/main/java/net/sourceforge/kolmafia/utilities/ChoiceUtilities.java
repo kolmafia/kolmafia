@@ -435,8 +435,11 @@ public class ChoiceUtilities {
       if (isNonChoiceForm(form)) continue;
       var parsed = Jsoup.parseBodyFragment(form);
 
-      var decisionInput = parsed.select("input[type=hidden][name=option]");
-      int decision = Integer.parseInt(decisionInput.attr("value"));
+      var optionVal = parsed.select("input[type=hidden][name=option]").attr("value");
+      if (optionVal.isEmpty()) {
+        continue;
+      }
+      int decision = Integer.parseInt(optionVal);
 
       var submitButton = parsed.select("input.button[type=submit]");
       String label = submitButton.attr("value");
