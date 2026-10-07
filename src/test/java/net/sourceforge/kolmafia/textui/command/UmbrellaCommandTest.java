@@ -43,11 +43,10 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustUnequipLefty() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
-            withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL));
-    try (cleanups) {
+            withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL))) {
       KoLCharacter.usableFamiliar(FamiliarPool.LEFT_HAND)
           .setItem(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA));
 
@@ -64,8 +63,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyState() {
-    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("unbreakable umbrella"))) {
       String output = execute("");
 
       assertErrorState();
@@ -75,8 +73,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidState() {
-    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("unbreakable umbrella"))) {
       String output = execute("the bourgeoisie");
 
       assertErrorState();
@@ -100,8 +97,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @EnumSource(UmbrellaMode.class)
   void canChooseStateByShorthand(UmbrellaMode mode) {
-    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("unbreakable umbrella"))) {
       assertChoseState(mode.getShorthand(), mode);
     }
   }
@@ -109,24 +105,21 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @EnumSource(UmbrellaMode.class)
   void canChooseStateByName(UmbrellaMode mode) {
-    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("unbreakable umbrella"))) {
       assertChoseState(mode.getName(), mode);
     }
   }
 
   @Test
   void canChooseStateWithTwirling() {
-    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("unbreakable umbrella"))) {
       assertChoseState("twirling", UmbrellaMode.TWIRL);
     }
   }
 
   @Test
   void canChooseStateWithCapitalizedTwirling() {
-    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("unbreakable umbrella"))) {
       assertChoseState("Twirling", UmbrellaMode.TWIRL);
     }
   }

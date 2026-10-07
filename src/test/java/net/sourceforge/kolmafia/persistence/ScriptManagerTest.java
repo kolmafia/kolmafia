@@ -16,7 +16,7 @@ public class ScriptManagerTest {
   @Test
   void canReadSvnRepoJson() {
     // This should read the existing test/root/data/svnrepo.json, which contains two entries.
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withProperty("_svnRepoFileFetched", "true"), withDataFile("svnrepo.json"))) {
       ScriptManager.updateRepoScripts(false);
     }

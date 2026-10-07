@@ -64,7 +64,7 @@ public abstract class RequestThread {
           KoLmafia.updateDisplay("Progress: " + received + "/" + actions.size());
           lastAnnounce = received;
         }
-      } catch (Exception e) {
+      } catch (Exception _) {
         result = false;
       }
     }
@@ -120,7 +120,7 @@ public abstract class RequestThread {
       try {
         Class<?>[] parameters = new Class[0];
         this.method = this.objectClass.getMethod(methodName, parameters);
-      } catch (Exception e) {
+      } catch (Exception _) {
         this.method = null;
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Could not invoke " + this.objectClass + "." + this.methodName);
@@ -142,7 +142,7 @@ public abstract class RequestThread {
       try {
         Object[] args = new Object[0];
         this.method.invoke(this.object, args);
-      } catch (Exception e) {
+      } catch (Exception _) {
       }
     }
   }
@@ -170,7 +170,7 @@ public abstract class RequestThread {
       try {
         Class<?>[] parameters = new Class[0];
         this.method = this.objectClass.getMethod(methodName, parameters);
-      } catch (Exception e) {
+      } catch (Exception _) {
         this.method = null;
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Could not invoke " + this.objectClass + "." + this.methodName);
@@ -186,7 +186,7 @@ public abstract class RequestThread {
       try {
         Object[] args = new Object[0];
         this.method.invoke(this.object, args);
-      } catch (Exception e) {
+      } catch (Exception _) {
       }
     }
   }
@@ -209,7 +209,7 @@ public abstract class RequestThread {
   }
 
   public static final void checkpointedPostRequest(final GenericRequest request) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       RequestThread.postRequest(request);
     }
   }

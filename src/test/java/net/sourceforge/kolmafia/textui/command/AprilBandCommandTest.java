@@ -58,10 +58,8 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresConductAvailable() {
-      var cleanups =
-          new Cleanups(withHelmet(), withTurnsPlayed(0), withProperty("nextAprilBandTurn", 10));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHelmet(), withTurnsPlayed(0), withProperty("nextAprilBandTurn", 10))) {
         String output = execute("effect");
         assertThat(output, containsString("You cannot change your conduct (10 turns to go)"));
       }
@@ -69,9 +67,7 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresEffect() {
-      var cleanups = withHelmet();
-
-      try (cleanups) {
+      try (var _ = withHelmet()) {
         String output = execute("effect");
         assertThat(output, containsString("Which effect do you want?"));
       }
@@ -79,9 +75,7 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresValidEffect() {
-      var cleanups = withHelmet();
-
-      try (cleanups) {
+      try (var _ = withHelmet()) {
         String output = execute("effect luck");
         assertThat(output, containsString("I don't understand what effect luck is"));
       }
@@ -98,9 +92,7 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresInstrumentsAvailable() {
-      var cleanups = new Cleanups(withHelmet(), withProperty("_aprilBandInstruments", 2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHelmet(), withProperty("_aprilBandInstruments", 2))) {
         String output = execute("item");
         assertThat(output, containsString("You cannot get any more instruments."));
       }
@@ -108,9 +100,7 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresInstrument() {
-      var cleanups = withHelmet();
-
-      try (cleanups) {
+      try (var _ = withHelmet()) {
         String output = execute("item");
         assertThat(output, containsString("Which instrument do you want?"));
       }
@@ -118,9 +108,7 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresValidInstrument() {
-      var cleanups = withHelmet();
-
-      try (cleanups) {
+      try (var _ = withHelmet()) {
         String output = execute("item clarinet");
         assertThat(output, containsString("I don't understand what instrument clarinet is."));
       }
@@ -161,9 +149,7 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
       "item piccolo, 8"
     })
     void conduct(String params, int choice) {
-      var cleanups = withHelmet();
-
-      try (cleanups) {
+      try (var _ = withHelmet()) {
         execute(params);
         var requests = getRequests();
 
@@ -185,9 +171,7 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
       "play piccolo, 11570"
     })
     void play(String params, int id) {
-      var cleanups = withItem(id);
-
-      try (cleanups) {
+      try (var _ = withItem(id)) {
         execute(params);
         var requests = getRequests();
 

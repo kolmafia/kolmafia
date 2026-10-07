@@ -614,7 +614,7 @@ public class RelayRequest extends PasswordHashRequest {
         contentBuffer.append(line);
         contentBuffer.append(KoLConstants.LINE_BREAK);
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
     }
 
     return contentBuffer;
@@ -745,7 +745,7 @@ public class RelayRequest extends PasswordHashRequest {
         this.sendNotFound();
         return;
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
     }
 
     // If it's a binary file, send it back without loading it as a string.
@@ -3621,7 +3621,7 @@ public class RelayRequest extends PasswordHashRequest {
     JSONObject json;
     try {
       json = JSON.parseObject(request);
-    } catch (JSONException e) {
+    } catch (JSONException _) {
       jsonError("Invalid JSON object in request.");
       return;
     }
@@ -3674,7 +3674,7 @@ public class RelayRequest extends PasswordHashRequest {
               functionsResult.add(
                   JSONValueConverter.asJSON(
                       JSONValueConverter.fromJSON(args.get(0), null).asProxy()));
-            } catch (ValueConverter.ValueConverterException e) {
+            } catch (ValueConverter.ValueConverterException _) {
               jsonError("Invalid argument to identity: " + JSON.toJSONString(args.get(0)));
               return;
             }

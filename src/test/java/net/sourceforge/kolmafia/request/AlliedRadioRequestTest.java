@@ -42,9 +42,7 @@ public class AlliedRadioRequestTest {
 
   @Test
   public void visitChoiceUpdatesPreference() {
-    var cleanups = withProperty("_alliedRadioDropsUsed", 0);
-
-    try (cleanups) {
+    try (var _ = withProperty("_alliedRadioDropsUsed", 0)) {
       var resp = html("request/test_allied_radio_grey_text.html");
       AlliedRadioRequest.visitChoice(resp);
       assertThat("_alliedRadioDropsUsed", isSetTo(1));
@@ -100,11 +98,10 @@ public class AlliedRadioRequestTest {
 
   @Test
   public void postChoiceTracksGreyTextWithFrequency() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("_alliedRadioDropsUsed", 0),
-            withProperty("demonName14Segments", "But,ulH"));
-    try (cleanups) {
+            withProperty("demonName14Segments", "But,ulH"))) {
       var resp = html("request/test_allied_radio_grey_text.html");
       AlliedRadioRequest.postChoice(resp, false, "anything");
       assertThat("demonName14Segments", isSetTo("But,ulH:2"));
@@ -113,9 +110,9 @@ public class AlliedRadioRequestTest {
 
   @Test
   public void postChoiceTracksGreyTextWithEmptyPref() {
-    var cleanups =
-        new Cleanups(withProperty("_alliedRadioDropsUsed", 0), withProperty("demonName14Segments"));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("demonName14Segments"))) {
       var resp = html("request/test_allied_radio_grey_text.html");
       AlliedRadioRequest.postChoice(resp, false, "anything");
       assertThat("demonName14Segments", isSetTo("ulH"));
@@ -126,9 +123,7 @@ public class AlliedRadioRequestTest {
   public void errorsIfNoRadio() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups = withHttpClientBuilder(builder);
-
-    try (cleanups) {
+    try (var _ = withHttpClientBuilder(builder)) {
       var request = new AlliedRadioRequest("radio");
       request.run();
 
@@ -143,14 +138,12 @@ public class AlliedRadioRequestTest {
   public void prefersBackpackIfBothHandheldAndBackpack() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("_alliedRadioDropsUsed", 0),
             withItem(ItemPool.HANDHELD_ALLIED_RADIO),
-            withItem(ItemPool.ALLIED_RADIO_BACKPACK));
-
-    try (cleanups) {
+            withItem(ItemPool.ALLIED_RADIO_BACKPACK))) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_allied_radio_grey_text.html"));
       client.addResponse(200, ""); // api.php
@@ -172,14 +165,12 @@ public class AlliedRadioRequestTest {
   public void usesHandheldIfNoBackpack() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("_alliedRadioDropsUsed", 3),
             withItem(ItemPool.HANDHELD_ALLIED_RADIO),
-            withItem(ItemPool.ALLIED_RADIO_BACKPACK));
-
-    try (cleanups) {
+            withItem(ItemPool.ALLIED_RADIO_BACKPACK))) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_allied_radio_grey_text.html"));
       client.addResponse(200, ""); // api.php
@@ -199,11 +190,9 @@ public class AlliedRadioRequestTest {
 
   @Test
   public void updatesPreferenceForSniperSupport() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("_alliedRadioDropsUsed", 0), withProperty("noncombatForcerActive"));
-
-    try (cleanups) {
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("noncombatForcerActive"))) {
       AlliedRadioRequest.postChoice("", false, "sniper support");
       assertThat("noncombatForcerActive", isSetTo(true));
     }
@@ -211,11 +200,9 @@ public class AlliedRadioRequestTest {
 
   @Test
   public void updatesPreferenceForMaterielIntel() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("_alliedRadioDropsUsed", 0), withProperty("_alliedRadioMaterielIntel"));
-
-    try (cleanups) {
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("_alliedRadioMaterielIntel"))) {
       AlliedRadioRequest.postChoice("", false, "materiel intel");
       assertThat("_alliedRadioMaterielIntel", isSetTo(true));
     }
@@ -223,9 +210,7 @@ public class AlliedRadioRequestTest {
 
   @Test
   public void secondMaterielIntelDoesNotConsumeCharge() {
-    var cleanups = new Cleanups(withProperty("_alliedRadioDropsUsed", 0));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_alliedRadioDropsUsed", 0))) {
       var resp = html("request/test_allied_radio_materiel_twice.html");
       AlliedRadioRequest.postChoice(resp, false, "materiel intel");
       assertThat("_alliedRadioDropsUsed", isSetTo(0));
@@ -234,11 +219,9 @@ public class AlliedRadioRequestTest {
 
   @Test
   public void updatesPreferenceForWildsunBoon() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("_alliedRadioDropsUsed", 0), withProperty("_alliedRadioWildsunBoon"));
-
-    try (cleanups) {
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("_alliedRadioWildsunBoon"))) {
       AlliedRadioRequest.postChoice("", false, "WILDSUN BOON");
       assertThat("_alliedRadioWildsunBoon", isSetTo(true));
     }

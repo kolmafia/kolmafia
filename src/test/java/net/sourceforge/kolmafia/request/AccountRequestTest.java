@@ -45,8 +45,7 @@ class AccountRequestTest {
         @Enum TopMenuStyle style) {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withTopMenuStyle(style));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withTopMenuStyle(style))) {
         String location = "account.php";
         String path = "request/test_account_" + styleName + "_topmenu.html";
         client.addResponse(200, html(path));
@@ -64,8 +63,7 @@ class AccountRequestTest {
         @Enum TopMenuStyle style) {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withTopMenuStyle(style));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withTopMenuStyle(style))) {
         String location = "account.php?am=1&action=menu&ajax=1&value=" + styleName;
         String path = "request/test_account_switch_" + styleName + "_topmenu.html";
         client.addResponse(200, html(path));

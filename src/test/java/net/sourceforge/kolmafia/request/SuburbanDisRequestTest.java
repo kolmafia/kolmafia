@@ -39,10 +39,8 @@ class SuburbanDisRequestTest {
 
   @Test
   void processResultsDealsWithStonesFromDifferentZones() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.VANITY_STONE), withItem(ItemPool.LECHEROUS_STONE));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.VANITY_STONE), withItem(ItemPool.LECHEROUS_STONE))) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.FINISHED);
       QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.FINISHED);
       var differentZones = new SuburbanDisRequest(ItemPool.VANITY_STONE, ItemPool.LECHEROUS_STONE);
@@ -58,10 +56,8 @@ class SuburbanDisRequestTest {
 
   @Test
   void processResultsDealsWithPartialQuestStatus() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.VANITY_STONE), withItem(ItemPool.LECHEROUS_STONE));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.VANITY_STONE), withItem(ItemPool.LECHEROUS_STONE))) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, "step3");
       QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.FINISHED);
       var differentZones = new SuburbanDisRequest(ItemPool.VANITY_STONE, ItemPool.LECHEROUS_STONE);
@@ -77,9 +73,7 @@ class SuburbanDisRequestTest {
 
   @Test
   void processResultsDealsWithStonesFromSameZone() {
-    var cleanups = new Cleanups(withItem(ItemPool.FURIOUS_STONE), withItem(ItemPool.VANITY_STONE));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.FURIOUS_STONE), withItem(ItemPool.VANITY_STONE))) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.FINISHED);
       var differentZones = new SuburbanDisRequest(ItemPool.FURIOUS_STONE, ItemPool.VANITY_STONE);
       differentZones.responseText = html("request/test_suburbandis_same_zone_stones.html");

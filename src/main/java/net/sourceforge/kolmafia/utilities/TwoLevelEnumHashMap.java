@@ -31,13 +31,13 @@ public class TwoLevelEnumHashMap<K1 extends Enum<K1>, K2, V> {
   }
 
   public V put(K1 k1, K2 k2, V value) {
-    Map<K2, V> level2 = this.level1.computeIfAbsent(k1, (x) -> new HashMap<>());
+    Map<K2, V> level2 = this.level1.computeIfAbsent(k1, (_) -> new HashMap<>());
 
     return level2.put(k2, value);
   }
 
   public V putIfAbsent(K1 k1, K2 k2, V value) {
-    Map<K2, V> level2 = this.level1.computeIfAbsent(k1, (x) -> new HashMap<>());
+    Map<K2, V> level2 = this.level1.computeIfAbsent(k1, (_) -> new HashMap<>());
 
     return level2.putIfAbsent(k2, value);
   }

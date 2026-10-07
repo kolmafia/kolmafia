@@ -34,7 +34,7 @@ class ValhallaDecoratorTest {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "");
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withInteractivity(true),
@@ -44,9 +44,7 @@ class ValhallaDecoratorTest {
             withItemInCloset("toast", 1),
             withItemInStorage("toast", 10),
             withItemInStash("toast", 100),
-            withItem("toast", 1000));
-
-    try (cleanups) {
+            withItem("toast", 1000))) {
       var buffer =
           new StringBuffer(
               "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -66,13 +64,11 @@ class ValhallaDecoratorTest {
       var builder = new FakeHttpClientBuilder();
       builder.client.addResponse(200, "");
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withInteractivity(true),
-              withItem(ItemPool.MILK_CAP, 1));
-
-      try (cleanups) {
+              withItem(ItemPool.MILK_CAP, 1))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -87,9 +83,7 @@ class ValhallaDecoratorTest {
       var builder = new FakeHttpClientBuilder();
       builder.client.addResponse(200, "");
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withInteractivity(true));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withInteractivity(true))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -105,12 +99,10 @@ class ValhallaDecoratorTest {
   class MrStore2002 {
     @Test
     public void decoratesWithCredits() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
-              withNextResponse(200, ""), withProperty("availableMrStore2002Credits", 2));
-
-      try (cleanups) {
+              withNextResponse(200, ""), withProperty("availableMrStore2002Credits", 2))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -124,12 +116,10 @@ class ValhallaDecoratorTest {
 
     @Test
     public void doesNotDecorateWithoutCredits() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
-              withNextResponse(200, ""), withProperty("availableMrStore2002Credits", 0));
-
-      try (cleanups) {
+              withNextResponse(200, ""), withProperty("availableMrStore2002Credits", 0))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -143,12 +133,10 @@ class ValhallaDecoratorTest {
   class SeptEmber {
     @Test
     public void decoratesWithEmbers() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
-              withNextResponse(200, ""), withProperty("availableSeptEmbers", 6));
-
-      try (cleanups) {
+              withNextResponse(200, ""), withProperty("availableSeptEmbers", 6))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -162,12 +150,10 @@ class ValhallaDecoratorTest {
 
     @Test
     public void doesNotDecorateWithoutEmbers() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
-              withNextResponse(200, ""), withProperty("availableSeptEmbers", 0));
-
-      try (cleanups) {
+              withNextResponse(200, ""), withProperty("availableSeptEmbers", 0))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -181,16 +167,14 @@ class ValhallaDecoratorTest {
   class TakerSpace {
     @Test
     public void decoratesWithIngredients() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
               withNextResponse(200, ""),
               withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE),
               withProperty("takerSpaceSpice", 1),
               withProperty("takerSpaceAnchor", 1),
-              withProperty("takerSpaceSilk", 1));
-
-      try (cleanups) {
+              withProperty("takerSpaceSilk", 1))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -204,12 +188,10 @@ class ValhallaDecoratorTest {
 
     @Test
     public void doesNotDecorateWithoutWorkshed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
-              withNextResponse(200, ""), withProperty("takerSpaceSilk", 1));
-
-      try (cleanups) {
+              withNextResponse(200, ""), withProperty("takerSpaceSilk", 1))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -220,12 +202,10 @@ class ValhallaDecoratorTest {
 
     @Test
     public void doesNotDecorateWithoutIngredients() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
-              withNextResponse(200, ""), withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE));
-
-      try (cleanups) {
+              withNextResponse(200, ""), withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -239,12 +219,10 @@ class ValhallaDecoratorTest {
   class InterestingCoin {
     @Test
     public void decoratesWithCoins() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
-              withNextResponse(200, ""), withItem(ItemPool.INTERESTING_COIN, 11));
-
-      try (cleanups) {
+              withNextResponse(200, ""), withItem(ItemPool.INTERESTING_COIN, 11))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
@@ -258,12 +236,10 @@ class ValhallaDecoratorTest {
 
     @Test
     public void doesNotDecorateWithoutCoins() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // trophy check
-              withNextResponse(200, ""));
-
-      try (cleanups) {
+              withNextResponse(200, ""))) {
         var buffer =
             new StringBuffer(
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");

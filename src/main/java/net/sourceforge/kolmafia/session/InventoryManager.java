@@ -303,7 +303,7 @@ public abstract class InventoryManager {
   }
 
   public static final boolean checkpointedRetrieveItem(final int itemId) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       return InventoryManager.retrieveItem(ItemPool.get(itemId, 1), true, true, true);
     }
   }
@@ -335,7 +335,7 @@ public abstract class InventoryManager {
   }
 
   public static final boolean checkpointedRetrieveItem(final int itemId, final int count) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       return InventoryManager.retrieveItem(itemId, count);
     }
   }
@@ -416,7 +416,7 @@ public abstract class InventoryManager {
   }
 
   public static final boolean checkpointedRetrieveItem(final AdventureResult item) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       return InventoryManager.retrieveItem(item);
     }
   }

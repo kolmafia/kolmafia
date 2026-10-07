@@ -104,14 +104,13 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
               withDisabledCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
-              withProperty("crimbo23ArmoryControl", "elf"));
-      try (cleanups) {
+              withProperty("crimbo23ArmoryControl", "elf"))) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
 
         var visit = new GenericRequest("shop.php?whichshop=crimbo23_elf_armory");
@@ -150,7 +149,7 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
@@ -159,8 +158,7 @@ public class CoinMasterRequestTest {
               withoutCoinmasterBuyItem(
                   Crimbo23ElfArmoryRequest.DATA, ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT)),
               withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
-              withProperty("crimbo23ArmoryControl", "elf"));
-      try (cleanups) {
+              withProperty("crimbo23ArmoryControl", "elf"))) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
 
         var visit = new GenericRequest("shop.php?whichshop=crimbo23_elf_armory");
@@ -216,7 +214,7 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
@@ -226,8 +224,7 @@ public class CoinMasterRequestTest {
               withItem(ItemPool.KELFLAR_VEST, 25),
               withItem(ItemPool.ELF_GUARD_MOUTHKNIFE, 21),
               withItem(ItemPool.ELF_GUARD_OFFICERS_SIDEARM, 22),
-              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));
-      try (cleanups) {
+              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49))) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
 
         var visit = Crimbo23ElfArmoryRequest.DATA.getRequest();
@@ -255,7 +252,7 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
@@ -265,8 +262,7 @@ public class CoinMasterRequestTest {
               withItem(ItemPool.KELFLAR_VEST, 25),
               withItem(ItemPool.ELF_GUARD_MOUTHKNIFE, 21),
               withItem(ItemPool.ELF_GUARD_OFFICERS_SIDEARM, 22),
-              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));
-      try (cleanups) {
+              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49))) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
 
         var visit = new GenericRequest("shop.php?whichshop=crimbo23_elf_armory");
@@ -291,15 +287,14 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
               withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_HONOR_PRESENT, 0),
-              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277));
-      try (cleanups) {
+              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277))) {
         client.addResponse(200, html("request/test_armory_elf_buy.html"));
         client.addResponse(200, "");
 
@@ -338,15 +333,14 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
               withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_HONOR_PRESENT, 0),
-              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277));
-      try (cleanups) {
+              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277))) {
         client.addResponse(200, html("request/test_armory_elf_buy.html"));
         client.addResponse(200, "");
 
@@ -383,15 +377,14 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
               withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
-              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));
-      try (cleanups) {
+              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49))) {
         client.addResponse(200, html("request/test_armory_elf_sell.html"));
         client.addResponse(200, "");
 
@@ -431,15 +424,14 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
               withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
-              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));
-      try (cleanups) {
+              withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49))) {
         client.addResponse(200, html("request/test_armory_elf_sell.html"));
         client.addResponse(200, "");
 
@@ -479,8 +471,7 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NUCLEAR_AUTUMN));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NUCLEAR_AUTUMN))) {
         client.addResponse(200, html("request/test_shop_mutate_visit.html"));
 
         var visit = GeneticFiddlingRequest.DATA.getRequest();
@@ -501,8 +492,7 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NUCLEAR_AUTUMN));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NUCLEAR_AUTUMN))) {
         client.addResponse(200, html("request/test_shop_mutate_visit.html"));
 
         var visit = new GenericRequest("shop.php?whichshop=mutate");
@@ -523,13 +513,12 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.NUCLEAR_AUTUMN),
               withItem(ItemPool.RAD, 120),
-              withoutSkill("Extra Muscles"));
-      try (cleanups) {
+              withoutSkill("Extra Muscles"))) {
         client.addResponse(200, html("request/test_shop_mutate_bought_skill.html"));
         client.addResponse(200, "");
 
@@ -562,13 +551,12 @@ public class CoinMasterRequestTest {
       var client = builder.client;
       SessionLoggerOutput.startStream();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.NUCLEAR_AUTUMN),
               withItem(ItemPool.RAD, 120),
-              withoutSkill("Extra Muscles"));
-      try (cleanups) {
+              withoutSkill("Extra Muscles"))) {
         client.addResponse(200, html("request/test_shop_mutate_bought_skill.html"));
         client.addResponse(200, "");
 
@@ -603,9 +591,8 @@ public class CoinMasterRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.SUGAR_SHEET, 2));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.SUGAR_SHEET, 2))) {
         int row = 327;
         ShopRow shopRow = ShopRowDatabase.getShopRow(row);
 
@@ -626,13 +613,12 @@ public class CoinMasterRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.STAR_CHART, 2),
               withItem(ItemPool.STAR, 8),
-              withItem(ItemPool.LINE, 10));
-      try (cleanups) {
+              withItem(ItemPool.LINE, 10))) {
         int row = 144;
         ShopRow shopRow = ShopRowDatabase.getShopRow(row);
 
@@ -666,8 +652,7 @@ public class CoinMasterRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder))) {
         shopWithCountField("quantity").getRequest(TEST_ROW, 2).run();
 
         var requests = client.getRequests();
@@ -684,8 +669,7 @@ public class CoinMasterRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder))) {
         shopWithCountField(null).getRequest(TEST_ROW, 2).run();
 
         var requests = client.getRequests();

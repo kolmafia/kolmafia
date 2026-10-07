@@ -32,14 +32,13 @@ class LeprecondoManagerTest {
       },
       delimiter = '|')
   void calculatesNeedOrder(final String need, final String order, final String expected) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem("Leprecondo"),
             withProperty("leprecondoDiscovered"),
             withProperty("leprecondoCurrentNeed", ""),
             withProperty("leprecondoNeedOrder", order),
-            withFight(0));
-    try (cleanups) {
+            withFight(0))) {
       LeprecondoManager.processNeedChange(need);
       assertThat("leprecondoNeedOrder", isSetTo(expected));
     }
@@ -48,9 +47,9 @@ class LeprecondoManagerTest {
   @ParameterizedTest
   @CsvSource(value = {"The Marinara Trench,sensory deprivation tank", "An Octopus's Garden,''"})
   void getsUndiscoveredFurnitureForLocation(final String zone, final String expected) {
-    var cleanups =
-        new Cleanups(withItem("Leprecondo"), withProperty("leprecondoDiscovered", "1,2,3,4,5,6,7"));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withItem("Leprecondo"), withProperty("leprecondoDiscovered", "1,2,3,4,5,6,7"))) {
       var furniture = LeprecondoManager.getUndiscoveredFurnitureForLocation(zone);
       assertThat(furniture, equalTo(expected));
     }

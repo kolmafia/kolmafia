@@ -80,8 +80,7 @@ public class ModifiersTest {
   @Test
   public void patriotShieldClassModifiers() {
     // Wide-reaching unit test for getModifiers
-    var cleanup = new Cleanups(withClass(AscensionClass.AVATAR_OF_JARLSBERG), withLevel(15));
-    try (cleanup) {
+    try (var _ = new Cleanups(withClass(AscensionClass.AVATAR_OF_JARLSBERG), withLevel(15))) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.PATRIOT_SHIELD);
 
       // Always has
@@ -145,9 +144,7 @@ public class ModifiersTest {
   @ParameterizedTest
   @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11})
   public void intrinsicSpicinessModifiers(int level) {
-    var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withLevel(level));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withClass(AscensionClass.SAUCEROR), withLevel(level))) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
       assertEquals(Math.min(level, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
     }
@@ -191,8 +188,7 @@ public class ModifiersTest {
   @Test
   public void passivesIgnoreGsInGLover() {
     Modifiers mods = new Modifiers();
-    var cleanups = new Cleanups(withPath(Path.GLOVER), withSkill(SkillPool.STEEL_LIVER));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.GLOVER), withSkill(SkillPool.STEEL_LIVER))) {
       mods.applyPassiveModifiers(/* debug= */ true);
       assertEquals(5, mods.getDouble(DoubleModifier.LIVER_CAPACITY));
     }
@@ -209,9 +205,7 @@ public class ModifiersTest {
   @ParameterizedTest
   @MethodSource
   public void getsRightModifiersNakedHatrack(int famId, DoubleModifier mod) {
-    var cleanups = new Cleanups(withFamiliar(famId));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFamiliar(famId))) {
       Modifiers familiarMods = new Modifiers();
       var fam = KoLCharacter.getFamiliar();
       fam.setExperience(400);
@@ -227,9 +221,7 @@ public class ModifiersTest {
   class Fixodene {
     @Test
     void fixodeneConsideredInFamiliarModifiers() {
-      var cleanups = withEffect("Fidoxene");
-
-      try (cleanups) {
+      try (var _ = withEffect("Fidoxene")) {
         Modifiers familiarMods = new Modifiers();
         var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
 
@@ -241,9 +233,7 @@ public class ModifiersTest {
 
     @Test
     void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
-      var cleanups = withEffect("Fidoxene");
-
-      try (cleanups) {
+      try (var _ = withEffect("Fidoxene")) {
         Modifiers familiarMods = new Modifiers();
         var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
 
@@ -280,9 +270,7 @@ public class ModifiersTest {
 
     @Test
     void somePigsSuppressesFamiliarModifiers() {
-      var cleanups = withEffect(EffectPool.SOME_PIGS);
-
-      try (cleanups) {
+      try (var _ = withEffect(EffectPool.SOME_PIGS)) {
         Modifiers familiarMods = new Modifiers();
         var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
 
@@ -294,9 +282,7 @@ public class ModifiersTest {
 
     @Test
     void somePigsStillAppliesStooperLiverCapacity() {
-      var cleanups = withEffect(EffectPool.SOME_PIGS);
-
-      try (cleanups) {
+      try (var _ = withEffect(EffectPool.SOME_PIGS)) {
         Modifiers familiarMods = new Modifiers();
         var familiar = FamiliarData.registerFamiliar(FamiliarPool.STOOPER, 0);
 
@@ -316,12 +302,10 @@ public class ModifiersTest {
 
     @Test
     public void squintDoublesEffect() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withEffect(EffectPool.SYNTHESIS_COLLECTION));
-
-      try (cleanups) {
+              withEffect(EffectPool.SYNTHESIS_COLLECTION))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(300.0));
@@ -330,11 +314,9 @@ public class ModifiersTest {
 
     @Test
     public void squintDoublesPassive() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEffect(EffectPool.STEELY_EYED_SQUINT), withSkill(SkillPool.OBSERVATIOGN));
-
-      try (cleanups) {
+              withEffect(EffectPool.STEELY_EYED_SQUINT), withSkill(SkillPool.OBSERVATIOGN))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(20.0));
@@ -343,13 +325,11 @@ public class ModifiersTest {
 
     @Test
     public void champagneDoublesEffect() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
-              withEffect(EffectPool.SYNTHESIS_COLLECTION));
-
-      try (cleanups) {
+              withEffect(EffectPool.SYNTHESIS_COLLECTION))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(300.0));
@@ -358,13 +338,11 @@ public class ModifiersTest {
 
     @Test
     public void champagneDoublesPassive() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
-              withSkill(SkillPool.OBSERVATIOGN));
-
-      try (cleanups) {
+              withSkill(SkillPool.OBSERVATIOGN))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(20.0));
@@ -373,12 +351,10 @@ public class ModifiersTest {
 
     @Test
     public void squintDoesntDoubleMummery() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withProperty("_mummeryMods", "Item Drop: +25"));
-
-      try (cleanups) {
+              withProperty("_mummeryMods", "Item Drop: +25"))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(25.0));
@@ -387,13 +363,11 @@ public class ModifiersTest {
 
     @Test
     public void squintDoublesUmbrella() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, ItemPool.UNBREAKABLE_UMBRELLA),
               withProperty("umbrellaState", "bucket style"),
-              withEffect(EffectPool.STEELY_EYED_SQUINT));
-
-      try (cleanups) {
+              withEffect(EffectPool.STEELY_EYED_SQUINT))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         var item = mods.getDouble(DoubleModifier.ITEMDROP);
@@ -403,14 +377,12 @@ public class ModifiersTest {
 
     @Test
     public void squintAndChampagneStack() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withEffect(EffectPool.SYNTHESIS_COLLECTION));
-
-      try (cleanups) {
+              withEffect(EffectPool.SYNTHESIS_COLLECTION))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(600.0));
@@ -419,12 +391,10 @@ public class ModifiersTest {
 
     @Test
     public void squintDoublesOtoscope() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"));
-
-      try (cleanups) {
+              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(400.0));
@@ -433,13 +403,11 @@ public class ModifiersTest {
 
     @Test
     public void champagneDoesntDoubleOtoscope() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
-              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"));
-
-      try (cleanups) {
+              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(200.0));
@@ -448,14 +416,12 @@ public class ModifiersTest {
 
     @Test
     public void squintAndChampagneDoublesOtoscopeOnce() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"));
-
-      try (cleanups) {
+              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(400.0));
@@ -472,11 +438,9 @@ public class ModifiersTest {
 
     @Test
     public void bendinHellDoublesEffect() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEffect(EffectPool.BENDIN_HELL), withEffect(EffectPool.PAINTED_ON_BIKINI));
-
-      try (cleanups) {
+              withEffect(EffectPool.BENDIN_HELL), withEffect(EffectPool.PAINTED_ON_BIKINI))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(100.0));
@@ -486,10 +450,9 @@ public class ModifiersTest {
 
     @Test
     public void dirtyPearDoublesEffect() {
-      var cleanups =
-          new Cleanups(withEffect(EffectPool.DIRTY_PEAR), withEffect(EffectPool.PAINTED_ON_BIKINI));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEffect(EffectPool.DIRTY_PEAR), withEffect(EffectPool.PAINTED_ON_BIKINI))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(100.0));
@@ -499,13 +462,11 @@ public class ModifiersTest {
 
     @Test
     public void bendinHellAndDirtyPearStack() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.BENDIN_HELL),
               withEffect(EffectPool.DIRTY_PEAR),
-              withEffect(EffectPool.PAINTED_ON_BIKINI));
-
-      try (cleanups) {
+              withEffect(EffectPool.PAINTED_ON_BIKINI))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(200.0));
@@ -515,9 +476,7 @@ public class ModifiersTest {
 
     @Test
     void shadowRiftFifthsItemDrop() {
-      var cleanups = new Cleanups(withEffect(EffectPool.BLUE_TONGUE), withLocation("Shadow Rift"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.BLUE_TONGUE), withLocation("Shadow Rift"))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(6.0));
@@ -534,13 +493,11 @@ public class ModifiersTest {
 
     @Test
     public void makeshiftGarbageShirtDoublesEffect() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.SHIRT, ItemPool.MAKESHIFT_GARBAGE_SHIRT),
               withProperty("garbageShirtCharge", 37),
-              withEffect(EffectPool.FEELING_LOST));
-
-      try (cleanups) {
+              withEffect(EffectPool.FEELING_LOST))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         // 3 from garbage shirt, 30 from Feeling Lost, *2 = 66
@@ -558,8 +515,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesSealClubberMaximumHP() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withStats(100, 100, 100));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withStats(100, 100, 100))) {
         // Buffed MUS = Base MUS + mod(MUS) + ceiling(Base MUS * mod(MUS_PCT)/100.0)
         // Base HP = Buffed MUS + 3
         // C = 1.5 if MUS class, otherwise 1.0
@@ -596,8 +552,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesPastamancerMaximumHP() {
-      var cleanups = new Cleanups(withClass(AscensionClass.PASTAMANCER), withStats(100, 100, 100));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.PASTAMANCER), withStats(100, 100, 100))) {
         // Buffed MUS = Base MUS + mod(MUS) + ceiling(Base MUS * mod(MUS_PCT)/100.0)
         // Base HP = Buffed MUS + 3
         // C = 1.5 if MUS class, otherwise 1.0
@@ -634,13 +589,12 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesVampyreMaximumHP() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.VAMPYRE),
               withPath(Path.DARK_GYFFTE),
               withStats(100, 100, 100),
-              withProperty("darkGyfftePoints", 0));
-      try (cleanups) {
+              withProperty("darkGyfftePoints", 0))) {
         // Base HP = Base MUS
         // Buffed HP = max(Base MUS, Base HP + mod(HP))
         // Note that every Vampyre gets 20 additional base HP, plus another 20 for every DG Point
@@ -676,8 +630,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesYouRobotMaximumHP() {
-      var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withStats(100, 100, 100));
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.YOU_ROBOT), withStats(100, 100, 100))) {
         // Base HP = 30
         // Buffed HP = Base HP + mod(HP)
 
@@ -712,10 +665,11 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesGreyYouMaximumHP() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.GREY_GOO), withStats(100, 100, 100), withHP(176, 176, 176));
-      try (cleanups) {
+              withClass(AscensionClass.GREY_GOO),
+              withStats(100, 100, 100),
+              withHP(176, 176, 176))) {
         // Base HP = (starting value + absorptions + currently worn equipment)
         // Buffed HP = Base HP - currently worn equipment + mod(HP)
 
@@ -750,13 +704,12 @@ public class ModifiersTest {
 
     @Test
     public void correctlySpeculatesGreyYouMaximumHP() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.GREY_GOO),
               withStats(100, 100, 100),
               withHP(216, 216, 216),
-              withEquipped(Slot.HAT, ItemPool.REINFORCED_BEADED_HEADBAND));
-      try (cleanups) {
+              withEquipped(Slot.HAT, ItemPool.REINFORCED_BEADED_HEADBAND))) {
         // Base HP = (starting value + absorptions + currently worn equipment)
         // Buffed HP = Base HP - currently worn equipment + mod(HP)
 
@@ -793,8 +746,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesSaucerorMaximumMP() {
-      var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withStats(100, 100, 100));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.SAUCEROR), withStats(100, 100, 100))) {
         // Buffed MYS = Base MYS + mod(MYS) + ceiling(Base MYS * mod(MYS_PCT)/100.0)
         // Base MP = Buffed MYS
         // C = 1.5 if MYS class, otherwise 1.0
@@ -833,8 +785,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesTurtleTamerMaximumMP() {
-      var cleanups = new Cleanups(withClass(AscensionClass.TURTLE_TAMER), withStats(100, 100, 100));
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.TURTLE_TAMER), withStats(100, 100, 100))) {
         // Buffed MYS = Base MYS + mod(MYS) + ceiling(Base MYS * mod(MYS_PCT)/100.0)
         // Base MP = Buffed MYS
         // C = 1.5 if MYS class, otherwise 1.0
@@ -873,10 +824,11 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesGreyYouMaximumMP() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.GREY_GOO), withStats(100, 100, 100), withMP(126, 126, 126));
-      try (cleanups) {
+              withClass(AscensionClass.GREY_GOO),
+              withStats(100, 100, 100),
+              withMP(126, 126, 126))) {
         // Base MP = (starting value + absorptions + currently worn equipment)
         // Buffed MP = Base MP - currently worn equipment + mod(HP)
 
@@ -913,13 +865,12 @@ public class ModifiersTest {
 
     @Test
     public void correctlySpeculatesGreyYouMaximumMP() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.GREY_GOO),
               withStats(100, 100, 100),
               withMP(126, 126, 126),
-              withEquipped(Slot.HAT, ItemPool.BEER_HELMET));
-      try (cleanups) {
+              withEquipped(Slot.HAT, ItemPool.BEER_HELMET))) {
         // Base MP = (starting value + absorptions + currently worn equipment)
         // Buffed MP = Base MP - currently worn equipment + mod(MP)
 
@@ -949,12 +900,11 @@ public class ModifiersTest {
     @Test
     public void correctlyCalculatesMoxieControlledMaximumMP() {
       // moxie magnet: Moxie Controls MP
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.DISCO_BANDIT),
               withStats(100, 100, 150),
-              withEquipped(Slot.ACCESSORY1, "moxie magnet"));
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, "moxie magnet"))) {
         // Buffed MOX = Base MOX + mod(MOX) + ceiling(Base MOX * mod(MOX_PCT)/100.0)
         // Base MP = Buffed MUS
         // C = 1.5 if MYS class, otherwise 1.0
@@ -1008,13 +958,12 @@ public class ModifiersTest {
 
     @Test
     public void noobUnderstandsLatteEnchantments() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.GELATINOUS_NOOB),
               withFamiliar(FamiliarPool.EMO_SQUID),
               withProperty("latteModifier", ""),
-              withEquipped(Slot.OFFHAND, "latte lovers member's mug"));
-      try (cleanups) {
+              withEquipped(Slot.OFFHAND, "latte lovers member's mug"))) {
         FamiliarData familiar = KoLCharacter.getFamiliar();
         familiar.setExperience(400);
         assertEquals(20, familiar.getWeight());
@@ -1073,8 +1022,7 @@ public class ModifiersTest {
       assertEquals(2, evaluated.getDouble(DoubleModifier.FAMILIAR_EXP));
       assertEquals(4, evaluated.getDouble(DoubleModifier.MUS_EXPERIENCE));
 
-      var cleanups = new Cleanups(withProperty("_voteModifier", setting));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_voteModifier", setting))) {
         KoLCharacter.recalculateAdjustments();
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertEquals(30, current.getDouble(DoubleModifier.MEATDROP));
@@ -1092,8 +1040,7 @@ public class ModifiersTest {
   })
   public void correctlyAppliesAmphibianSympathyToDodecapede(
       final int familiar, final double weightModifier) {
-    var cleanups = new Cleanups(withFamiliar(familiar), withSkill("Amphibian Sympathy"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withFamiliar(familiar), withSkill("Amphibian Sympathy"))) {
       KoLCharacter.recalculateAdjustments(false);
       Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1139,8 +1086,7 @@ public class ModifiersTest {
       FamiliarPool.WIZARD_ACTION_FIGURE + ", 0.3333"
     })
     public void simpleFairies(final int familiarId, final double effectiveness) {
-      var cleanups = new Cleanups(withFamiliar(familiarId));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(familiarId))) {
         var weight = 20;
         var familiarMods = getFamiliarMods(weight);
         assertThat(
@@ -1163,8 +1109,7 @@ public class ModifiersTest {
         final DoubleModifier mod,
         final double otherFairyEffectiveness,
         final double itemFairyEffectiveness) {
-      var cleanups = new Cleanups(withFamiliar(familiar));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(familiar))) {
         var weight = 20;
         var familiarMods = getFamiliarMods(weight);
         assertThat(
@@ -1186,11 +1131,9 @@ public class ModifiersTest {
 
     @Test
     public void doublesOffhands() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquipped(ItemPool.BRIMSTONE_BUNKER), withEffect(EffectPool.OFFHAND_REMARKABLE));
-
-      try (cleanups) {
+              withEquipped(ItemPool.BRIMSTONE_BUNKER), withEffect(EffectPool.OFFHAND_REMARKABLE))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1200,14 +1143,12 @@ public class ModifiersTest {
 
     @Test
     public void onlyDoublesOffhandOffhands() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING),
               withEquipped(ItemPool.BRIMSTONE_BLUDGEON),
               withEquipped(Slot.OFFHAND, ItemPool.BRIMSTONE_BLUDGEON),
-              withEffect(EffectPool.OFFHAND_REMARKABLE));
-
-      try (cleanups) {
+              withEffect(EffectPool.OFFHAND_REMARKABLE))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1217,14 +1158,12 @@ public class ModifiersTest {
 
     @Test
     public void doublesOffhandsOnFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(ItemPool.BRIMSTONE_BUNKER),
               withFamiliar(FamiliarPool.LEFT_HAND),
               withEquipped(Slot.FAMILIAR, ItemPool.BRIMSTONE_BUNKER),
-              withEffect(EffectPool.OFFHAND_REMARKABLE));
-
-      try (cleanups) {
+              withEffect(EffectPool.OFFHAND_REMARKABLE))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1234,13 +1173,11 @@ public class ModifiersTest {
 
     @Test
     public void doublesUmbrellaMods() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, ItemPool.UNBREAKABLE_UMBRELLA),
               withProperty("umbrellaState", "bucket style"),
-              withEffect(EffectPool.OFFHAND_REMARKABLE));
-
-      try (cleanups) {
+              withEffect(EffectPool.OFFHAND_REMARKABLE))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1251,13 +1188,11 @@ public class ModifiersTest {
 
     @Test
     public void doublesSleevedCard() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, ItemPool.CARD_SLEEVE),
               withEquipped(Slot.CARDSLEEVE, "Alice's Army Foil Lanceman"),
-              withEffect(EffectPool.OFFHAND_REMARKABLE));
-
-      try (cleanups) {
+              withEffect(EffectPool.OFFHAND_REMARKABLE))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1267,16 +1202,14 @@ public class ModifiersTest {
 
     @Test
     public void doublesMcHugeLargeLeftPole() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CONTAINER, ItemPool.MCHUGELARGE_DUFFEL_BAG),
               withEquipped(Slot.WEAPON, ItemPool.MCHUGELARGE_RIGHT_POLE),
               withEquipped(Slot.OFFHAND, ItemPool.MCHUGELARGE_LEFT_POLE),
               withEquipped(Slot.ACCESSORY1, ItemPool.MCHUGELARGE_LEFT_SKI),
               withEquipped(Slot.ACCESSORY2, ItemPool.MCHUGELARGE_RIGHT_SKI),
-              withEffect(EffectPool.OFFHAND_REMARKABLE));
-
-      try (cleanups) {
+              withEffect(EffectPool.OFFHAND_REMARKABLE))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1286,13 +1219,11 @@ public class ModifiersTest {
 
     @Test
     public void doesNotDoubleHoboPowerConversion() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, ItemPool.HODGMANS_GARBAGE_STICKER),
               withEquipped(Slot.ACCESSORY1, ItemPool.HODGMANS_BOW_TIE),
-              withEffect(EffectPool.OFFHAND_REMARKABLE));
-
-      try (cleanups) {
+              withEffect(EffectPool.OFFHAND_REMARKABLE))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1302,13 +1233,11 @@ public class ModifiersTest {
 
     @Test
     public void doublesHamsterStatsOnly() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, ItemPool.HODGMANS_HAMSTER),
               withEquipped(Slot.ACCESSORY1, ItemPool.HODGMANS_BOW_TIE),
-              withEffect(EffectPool.OFFHAND_REMARKABLE));
-
-      try (cleanups) {
+              withEffect(EffectPool.OFFHAND_REMARKABLE))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1322,9 +1251,7 @@ public class ModifiersTest {
   class Events {
     @Test
     void correctlyAppliesLaborDayAdventures() {
-      var cleanups = new Cleanups(withDay(2023, Month.JULY, 6));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2023, Month.JULY, 6))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1334,9 +1261,7 @@ public class ModifiersTest {
 
     @Test
     void correctlyAppliedModsFromMultipleEventDay() {
-      var cleanups = new Cleanups(withDay(2023, Month.AUGUST, 3), withInteractivity(true));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2023, Month.AUGUST, 3), withInteractivity(true))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1369,88 +1294,70 @@ public class ModifiersTest {
 
     @Test
     void slowAndSteadyDoesNotAffectPvpFights() {
-      var cleanups = withPath(Path.SLOW_AND_STEADY);
-
-      try (cleanups) {
+      try (var _ = withPath(Path.SLOW_AND_STEADY)) {
         assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
       }
     }
 
     @Test
     void otherSourcesStackWithTheRolloverGrant() {
-      var cleanups = withEquipped(Slot.HAT, ItemPool.TIME_HELMET);
-
-      try (cleanups) {
+      try (var _ = withEquipped(Slot.HAT, ItemPool.TIME_HELMET)) {
         assertThat(currentAdventures(), equalTo(43.0));
       }
     }
 
     @Test
     void borrowedTimeSubtractsFromTheRolloverGrant() {
-      var cleanups = withProperty("_borrowedTimeUsed", true);
-
-      try (cleanups) {
+      try (var _ = withProperty("_borrowedTimeUsed", true)) {
         assertThat(currentAdventures(), equalTo(20.0));
       }
     }
 
     @Test
     void slowAndSteadyGrantsOneHundredAdventures() {
-      var cleanups = withPath(Path.SLOW_AND_STEADY);
-
-      try (cleanups) {
+      try (var _ = withPath(Path.SLOW_AND_STEADY)) {
         assertThat(currentAdventures(), equalTo(100.0));
       }
     }
 
     @Test
     void slowAndSteadyZeroesAllOtherAdventureSources() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SLOW_AND_STEADY),
               withEquipped(Slot.HAT, ItemPool.TIME_HELMET),
               withEffect("A Date With Tomorrow"),
               withProperty("_hareAdv", 4),
-              withProperty("_borrowedTimeUsed", true));
-
-      try (cleanups) {
+              withProperty("_borrowedTimeUsed", true))) {
         assertThat(currentAdventures(), equalTo(100.0));
       }
     }
 
     @Test
     void youRobotGrantsNoAdventures() {
-      var cleanups = withPath(Path.YOU_ROBOT);
-
-      try (cleanups) {
+      try (var _ = withPath(Path.YOU_ROBOT)) {
         assertThat(currentAdventures(), equalTo(0.0));
       }
     }
 
     @Test
     void youRobotStillGainsAdventuresFromOtherSources() {
-      var cleanups =
-          new Cleanups(withPath(Path.YOU_ROBOT), withEquipped(Slot.HAT, ItemPool.TIME_HELMET));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withPath(Path.YOU_ROBOT), withEquipped(Slot.HAT, ItemPool.TIME_HELMET))) {
         assertThat(currentAdventures(), equalTo(3.0));
       }
     }
 
     @Test
     void youRobotStillGainsPvpFights() {
-      var cleanups = withPath(Path.YOU_ROBOT);
-
-      try (cleanups) {
+      try (var _ = withPath(Path.YOU_ROBOT)) {
         assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
       }
     }
 
     @Test
     void equipmentRolloverEffectsReachCurrentModifiers() {
-      var cleanups = withEquipped(Slot.OFFHAND, "Royal scepter");
-
-      try (cleanups) {
+      try (var _ = withEquipped(Slot.OFFHAND, "Royal scepter")) {
         KoLCharacter.recalculateAdjustments(false);
         assertThat(
             KoLCharacter.getCurrentModifiers().getStrings(StringModifier.ROLLOVER_EFFECT),
@@ -1473,9 +1380,7 @@ public class ModifiersTest {
 
     @Test
     void otherSourcesStackWithBaseFamiliarExperience() {
-      var cleanups = withEquipped(Slot.WEAPON, "yule hatchet");
-
-      try (cleanups) {
+      try (var _ = withEquipped(Slot.WEAPON, "yule hatchet")) {
         assertThat(current(DoubleModifier.FAMILIAR_EXP), equalTo(3.0));
       }
     }
@@ -1492,9 +1397,7 @@ public class ModifiersTest {
 
     @Test
     void otherSourcesStackWithTheBaseCriticalChance() {
-      var cleanups = withEquipped(Slot.HAT, "moose antlers");
-
-      try (cleanups) {
+      try (var _ = withEquipped(Slot.HAT, "moose antlers")) {
         assertThat(current(DoubleModifier.CRITICAL_PCT), equalTo(14.0));
       }
     }
@@ -1504,9 +1407,7 @@ public class ModifiersTest {
   class Familiars {
     @Test
     void volleyballGivesExperience() {
-      var cleanups = withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL, 100);
-
-      try (cleanups) {
+      try (var _ = withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL, 100)) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
       }
@@ -1514,9 +1415,7 @@ public class ModifiersTest {
 
     @Test
     void sombreroGivesExperience() {
-      var cleanups = new Cleanups(withFamiliar(FamiliarPool.SOMBRERO, 100), withLocation(null));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(FamiliarPool.SOMBRERO, 100), withLocation(null))) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(1.0));
       }
@@ -1524,9 +1423,7 @@ public class ModifiersTest {
 
     @Test
     void gravyFairyGivesItem() {
-      var cleanups = withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 100);
-
-      try (cleanups) {
+      try (var _ = withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 100)) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
       }
@@ -1534,9 +1431,7 @@ public class ModifiersTest {
 
     @Test
     void leprechaunGivesMeat() {
-      var cleanups = withFamiliar(FamiliarPool.LEPRECHAUN, 100);
-
-      try (cleanups) {
+      try (var _ = withFamiliar(FamiliarPool.LEPRECHAUN, 100)) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
       }
@@ -1565,9 +1460,7 @@ public class ModifiersTest {
 
     @Test
     void nakedJillIsAOneTimesFairy() {
-      var cleanups = withJill(10);
-
-      try (cleanups) {
+      try (var _ = withJill(10)) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
@@ -1577,9 +1470,7 @@ public class ModifiersTest {
     @Test
     void configuredCandleMakesJillABetterFairy() {
       // 5-lbs Jill because candle is +5 lb
-      var cleanups = withJillAndCandle(5, "disco");
-
-      try (cleanups) {
+      try (var _ = withJillAndCandle(5, "disco")) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(15), 0.001));
@@ -1588,9 +1479,7 @@ public class ModifiersTest {
 
     @Test
     void nakedJillIsAOneTimesLep() {
-      var cleanups = withJill(10);
-
-      try (cleanups) {
+      try (var _ = withJill(10)) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
@@ -1600,9 +1489,7 @@ public class ModifiersTest {
     @Test
     void configuredCandleMakesJillABetterLep() {
       // 5-lbs Jill because candle is +5 lb
-      var cleanups = withJillAndCandle(5, "ultraviolet");
-
-      try (cleanups) {
+      try (var _ = withJillAndCandle(5, "ultraviolet")) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(15), 0.001));
@@ -1611,9 +1498,7 @@ public class ModifiersTest {
 
     @Test
     void nakedJillIsAOneTimesVolley() {
-      var cleanups = withJill(10);
-
-      try (cleanups) {
+      try (var _ = withJill(10)) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
@@ -1623,9 +1508,7 @@ public class ModifiersTest {
     @Test
     void configuredCandleMakesJillABetterVolley() {
       // 5-lbs Jill because candle is +5 lb
-      var cleanups = withJillAndCandle(5, "reading");
-
-      try (cleanups) {
+      try (var _ = withJillAndCandle(5, "reading")) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(6.0, 0.001));
@@ -1634,9 +1517,7 @@ public class ModifiersTest {
 
     @Test
     void atHighMLJillIsASombrero() {
-      var cleanups = new Cleanups(withLocation("The Briniest Deepests"), withJill(10));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withLocation("The Briniest Deepests"), withJill(10))) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         // 400 ML
@@ -1647,10 +1528,8 @@ public class ModifiersTest {
     @Test
     void configuredCandleMakesJillABetterSombrero() {
       // 5-lbs Jill because candle is +5 lb
-      var cleanups =
-          new Cleanups(withLocation("The Briniest Deepests"), withJillAndCandle(5, "reading"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withLocation("The Briniest Deepests"), withJillAndCandle(5, "reading"))) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(22.5, 0.001));
@@ -1667,9 +1546,7 @@ public class ModifiersTest {
 
     @Test
     void birthdaySuitAppliesNoExtraModifiers() {
-      var cleanups = baseCleanups();
-
-      try (cleanups) {
+      try (var _ = baseCleanups()) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(DoubleModifier.INITIATIVE), closeTo(0, 0.001));
         assertThat(current.getDouble(DoubleModifier.HP), closeTo(0, 0.001));
@@ -1757,9 +1634,7 @@ public class ModifiersTest {
     @MethodSource
     void calculatesCorrectPositiveBonus(
         Slot slot, int itemId, DoubleModifier modifier, double bonus) {
-      var cleanups = new Cleanups(baseCleanups(), Player.withEquipped(slot, itemId));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(baseCleanups(), Player.withEquipped(slot, itemId))) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(modifier), closeTo(bonus, 0.001));
       }
@@ -1782,13 +1657,11 @@ public class ModifiersTest {
     @MethodSource
     void calculatesCorrectNegativeBonus(
         Slot slot, int itemId, DoubleModifier modifier, double bonus) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               Player.withPath(Path.ELEVEN_THINGS),
               Player.withFamiliar(FamiliarPool.SPOOKY_PIRATE_SKELETON),
-              Player.withEquipped(slot, itemId));
-
-      try (cleanups) {
+              Player.withEquipped(slot, itemId))) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(modifier), closeTo(bonus, 0.001));
       }
@@ -1796,15 +1669,13 @@ public class ModifiersTest {
 
     @Test
     void calculatesCorrectBonusForMultipleAccessories() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               baseCleanups(),
               Player.withEquipped(
                   Slot.ACCESSORY1, ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY),
               Player.withEquipped(Slot.ACCESSORY2, ItemPool.EXTREME_AMULET),
-              Player.withEquipped(Slot.ACCESSORY3, ItemPool.RING_OF_DETECT_BORING_DOORS));
-
-      try (cleanups) {
+              Player.withEquipped(Slot.ACCESSORY3, ItemPool.RING_OF_DETECT_BORING_DOORS))) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(90, 0.001));
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(-20, 0.001));
@@ -1822,9 +1693,7 @@ public class ModifiersTest {
     @ParameterizedTest
     @MethodSource
     void calculatesNewPotionDuration(int itemId, int duration) {
-      var cleanups = baseCleanups();
-
-      try (cleanups) {
+      try (var _ = baseCleanups()) {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, itemId);
         assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(duration, 0.001));
       }
@@ -1866,8 +1735,7 @@ public class ModifiersTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void helmOnlyFreePullInAxecore(final boolean axecore) {
-      var cleanups = axecore ? withPath(Path.AVATAR_OF_BORIS) : new Cleanups();
-      try (cleanups) {
+      try (var _ = axecore ? withPath(Path.AVATAR_OF_BORIS) : new Cleanups()) {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.BORIS_HELM);
         assertThat(mods.getBoolean(BooleanModifier.FREE_PULL), is(axecore));
       }
@@ -1876,8 +1744,7 @@ public class ModifiersTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void helmOnlySoftcoreOnlyNotInAxecore(final boolean axecore) {
-      var cleanups = axecore ? withPath(Path.AVATAR_OF_BORIS) : new Cleanups();
-      try (cleanups) {
+      try (var _ = axecore ? withPath(Path.AVATAR_OF_BORIS) : new Cleanups()) {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.BORIS_HELM);
         assertThat(mods.getBoolean(BooleanModifier.SOFTCORE), is(!axecore));
       }
@@ -1886,11 +1753,10 @@ public class ModifiersTest {
 
   @Test
   public void hatTrickHatsCountOnlyHighestPowerForDamageAbsorption() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.HAT_TRICK),
-            withHatTrickHats(List.of(ItemPool.SEAL_HELMET, ItemPool.LONGHAIRED_HIPPY_WIG)));
-    try (cleanups) {
+            withHatTrickHats(List.of(ItemPool.SEAL_HELMET, ItemPool.LONGHAIRED_HIPPY_WIG)))) {
       Modifiers current = KoLCharacter.getCurrentModifiers();
       assertThat(current.getDouble(DoubleModifier.DAMAGE_ABSORPTION), closeTo(200, 0.001));
       assertThat(current.getDouble(DoubleModifier.STENCH_DAMAGE), closeTo(20, 0.001));
@@ -1908,9 +1774,7 @@ public class ModifiersTest {
   @ParameterizedTest
   @ValueSource(ints = {0, 100, 200})
   public void unironicKnife(final int advs) {
-    var cleanup = withAdventuresLeft(advs);
-
-    try (cleanup) {
+    try (var _ = withAdventuresLeft(advs)) {
       var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, "unironic knife");
 
       assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(advs > 0 ? 0.0 : 100.0));
@@ -1920,9 +1784,7 @@ public class ModifiersTest {
 
   @Test
   public void mobiusRing() {
-    var cleanup = withParadoxicity(6);
-
-    try (cleanup) {
+    try (var _ = withParadoxicity(6)) {
       var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, "M&ouml;bius ring");
 
       assertThat(mods.getDouble(DoubleModifier.WEAPON_DAMAGE), equalTo(0.0));
@@ -1938,9 +1800,7 @@ public class ModifiersTest {
   class Monodent {
     @Test
     public void noWaveZoneDoesNotAddItemForNoZone() {
-      var cleanups = new Cleanups(withProperty("_seadentWaveZone", ""), withLocation(""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_seadentWaveZone", ""), withLocation(""))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1950,10 +1810,9 @@ public class ModifiersTest {
 
     @Test
     public void waveZoneDoesNotAddItemForOtherZone() {
-      var cleanups =
-          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Dire Warren"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Dire Warren"))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1963,10 +1822,8 @@ public class ModifiersTest {
 
     @Test
     public void waveZoneAddsItemForZone() {
-      var cleanups =
-          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Noob Cave"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Noob Cave"))) {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
@@ -1977,15 +1834,13 @@ public class ModifiersTest {
 
   @Test
   public void addsItemsAndMeatFromShrunkenHead() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("shrunkenHeadZombieHP", 3),
             withProperty(
                 "shrunkenHeadZombieAbilities",
                 "Item Drop Bonus (38%), Meat Drop Bonus (31%), Stench Attack (31%)"),
-            withAdjustmentsRecalculated());
-
-    try (cleanups) {
+            withAdjustmentsRecalculated())) {
       Modifiers current = KoLCharacter.getCurrentModifiers();
 
       assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(38.0));
@@ -1995,9 +1850,7 @@ public class ModifiersTest {
 
   @Test
   void outfitModifierStoresCurrentOutfit() {
-    var cleanups = Player.withOutfit(OutfitPool.CLOTHING_OF_LOATHING);
-
-    try (cleanups) {
+    try (var _ = Player.withOutfit(OutfitPool.CLOTHING_OF_LOATHING)) {
       Modifiers current = KoLCharacter.getCurrentModifiers();
       assertThat(current.getString(StringModifier.OUTFIT), is("Clothing of Loathing"));
     }
@@ -2005,16 +1858,14 @@ public class ModifiersTest {
 
   @Test
   public void addsGemsFromEternityCodpiece() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
             withEquipped(Slot.CODPIECE1, ItemPool.AZURITE),
             withEquipped(Slot.CODPIECE2, ItemPool.AZURITE),
             withEquipped(Slot.CODPIECE4, ItemPool.AZURITE),
             withEquipped(Slot.CODPIECE5, ItemPool.AZURITE),
-            withAdjustmentsRecalculated());
-
-    try (cleanups) {
+            withAdjustmentsRecalculated())) {
       Modifiers current = KoLCharacter.getCurrentModifiers();
 
       assertThat(current.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(40.0));
@@ -2094,9 +1945,7 @@ public class ModifiersTest {
   class PastaThrall {
     @Test
     public void correctThrallModifier() {
-      var cleanups = withThrall(SkillPool.BIND_VAMPIEROGHI, 10);
-
-      try (cleanups) {
+      try (var _ = withThrall(SkillPool.BIND_VAMPIEROGHI, 10)) {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.THRALL, "Vampieroghi");
         assertThat(mods.getDouble(DoubleModifier.HP), equalTo(60.0));
         assertThat(mods.getDouble(DoubleModifier.SPOOKY_RESISTANCE), equalTo(0.0));
@@ -2105,9 +1954,7 @@ public class ModifiersTest {
 
     @Test
     public void correctMaxLevelThrallModifier() {
-      var cleanups = withThrall(SkillPool.BIND_VAMPIEROGHI, 11);
-
-      try (cleanups) {
+      try (var _ = withThrall(SkillPool.BIND_VAMPIEROGHI, 11)) {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.THRALL, "Vampieroghi");
         assertThat(mods.getDouble(DoubleModifier.HP), equalTo(60.0));
         assertThat(mods.getDouble(DoubleModifier.SPOOKY_RESISTANCE), equalTo(1.0));
@@ -2290,8 +2137,7 @@ public class ModifiersTest {
 
     @Test
     public void betterDiverDerivesPenaltiesUnderwater() {
-      var cleanups = new Cleanups(withLocation("The Briny Deeps"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withLocation("The Briny Deeps"))) {
         var mods =
             ModifierDatabase.parseModifiers(
                 new Lookup(ModifierType.ITEM, "test"), "Better Diver: 10");
@@ -2305,8 +2151,7 @@ public class ModifiersTest {
 
     @Test
     public void betterDiverDoesNothingOnTheSurface() {
-      var cleanups = new Cleanups(withLocation("The Smut Orc Logging Camp"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withLocation("The Smut Orc Logging Camp"))) {
         var mods =
             ModifierDatabase.parseModifiers(
                 new Lookup(ModifierType.ITEM, "test"), "Better Diver: 10");

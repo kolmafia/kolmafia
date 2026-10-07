@@ -171,7 +171,7 @@ public class ModifierDatabaseTest {
 
     @Test
     void levelBasedShieldsHaveDamageReductionEqualToLevel() {
-      try (var cleanups = withLevel(13)) {
+      try (var _ = withLevel(13)) {
         assertThat(
             ModifierDatabase.getNumericModifier(
                 ModifierType.ITEM, ItemPool.PILGRIM_SHIELD, DoubleModifier.DAMAGE_REDUCTION),
@@ -203,7 +203,7 @@ public class ModifierDatabaseTest {
 
     @Test
     void grantsTodaysThreeEffects() {
-      try (var cleanups = withGlobalDay(8619)) {
+      try (var _ = withGlobalDay(8619)) {
         assertThat(
             effects(), contains("10 Piratey Flavor", "20 Make Meat FA$T!", "30 Thaumodynamic"));
       }
@@ -211,7 +211,7 @@ public class ModifierDatabaseTest {
 
     @Test
     void changesFromDayToDay() {
-      try (var cleanups = withGlobalDay(8654)) {
+      try (var _ = withGlobalDay(8654)) {
         assertThat(
             effects(), contains("10 Cold as Ice", "20 Space Tripping", "30 Dwarven Hardiness"));
       }

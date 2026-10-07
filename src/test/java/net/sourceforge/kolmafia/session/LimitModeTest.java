@@ -489,14 +489,13 @@ class LimitModeTest {
     void gainingHalfAstralEntersAstralLimitMode() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ASTRAL_MUSHROOM),
               withNoEffects(),
               withProperty("currentAstralTrip", ""),
-              withLimitMode(LimitMode.NONE));
-      try (cleanups) {
+              withLimitMode(LimitMode.NONE))) {
         client.addResponse(200, html("request/test_use_astral_mushroom.html"));
         client.addResponse(200, ""); // api.php
 
@@ -517,12 +516,11 @@ class LimitModeTest {
 
     @Test
     void losingHalfAstralLeavesAstralLimitMode() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.HALF_ASTRAL, 1),
               withProperty("currentAstralTrip", "Great Trip"),
-              withLimitMode(LimitMode.ASTRAL));
-      try (cleanups) {
+              withLimitMode(LimitMode.ASTRAL))) {
         AdventureResult adv = new AdventureResult(AdventureResult.ADV, -1);
         ResultProcessor.processResult(true, adv);
 
@@ -542,14 +540,13 @@ class LimitModeTest {
     void usingGongAndChoosingMoleEntersMoleLimitMode() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(GONG),
               withNoEffects(),
               withProperty("currentLlamaFormTrip", ""),
-              withLimitMode(LimitMode.NONE));
-      try (cleanups) {
+              withLimitMode(LimitMode.NONE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
         client.addResponse(200, html("request/test_choose_mole_form.html"));
@@ -584,14 +581,13 @@ class LimitModeTest {
     void talkingWithLlamaLeavesMoleLimitMode() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoEffects(),
               withProperty("choiceAdventure277", 1),
               withProperty("currentLlamaForm", "Mole"),
-              withLimitMode(LimitMode.MOLE));
-      try (cleanups) {
+              withLimitMode(LimitMode.MOLE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php")), "");
         client.addResponse(200, html("request/test_leave_reincarnation.html"));
         client.addResponse(200, html("request/test_get_mole_reward.html"));
@@ -628,14 +624,13 @@ class LimitModeTest {
     void usingGongAndChoosingBirdEntersBirdLimitMode() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(GONG),
               withNoEffects(),
               withProperty("currentLlamaFormTrip", ""),
-              withLimitMode(LimitMode.NONE));
-      try (cleanups) {
+              withLimitMode(LimitMode.NONE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
         client.addResponse(200, html("request/test_choose_bird_form.html"));
@@ -670,14 +665,13 @@ class LimitModeTest {
     void talkingWithLlamaLeavesBirdLimitMode() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoEffects(),
               withProperty("choiceAdventure277", 1),
               withProperty("currentLlamaForm", "Bird"),
-              withLimitMode(LimitMode.BIRD));
-      try (cleanups) {
+              withLimitMode(LimitMode.BIRD))) {
         client.addResponse(302, Map.of("location", List.of("choice.php")), "");
         client.addResponse(200, html("request/test_leave_reincarnation.html"));
         client.addResponse(200, html("request/test_get_bird_reward.html"));
@@ -714,14 +708,13 @@ class LimitModeTest {
     void usingGongAndChoosingRoachEntersRocahLimitMode() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(GONG),
               withNoEffects(),
               withProperty("currentLlamaFormTrip", ""),
-              withLimitMode(LimitMode.NONE));
-      try (cleanups) {
+              withLimitMode(LimitMode.NONE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
         client.addResponse(200, html("request/test_choose_roach_form.html"));
@@ -791,14 +784,13 @@ class LimitModeTest {
     void talkingWithLlamaLeavesBirdLimitMode() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoEffects(),
               withProperty("choiceAdventure277", 1),
               withProperty("currentLlamaForm", "Bird"),
-              withLimitMode(LimitMode.BIRD));
-      try (cleanups) {
+              withLimitMode(LimitMode.BIRD))) {
         client.addResponse(302, Map.of("location", List.of("choice.php")), "");
         client.addResponse(200, html("request/test_leave_reincarnation.html"));
         client.addResponse(200, html("request/test_get_bird_reward.html"));

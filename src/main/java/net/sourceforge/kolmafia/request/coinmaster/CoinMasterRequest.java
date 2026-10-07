@@ -211,7 +211,7 @@ public class CoinMasterRequest extends GenericRequest {
       }
     }
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       // Suit up for a visit
       if (!data.equip()) {
         return;

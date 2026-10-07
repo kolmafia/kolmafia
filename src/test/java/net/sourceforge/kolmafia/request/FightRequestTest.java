@@ -148,16 +148,14 @@ public class FightRequestTest {
   class CommerceGhost {
     @Test
     public void commerceGhostStartsAtProperValue() {
-      var cleanups = new Cleanups(withFamiliar(FamiliarPool.GHOST_COMMERCE));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(FamiliarPool.GHOST_COMMERCE))) {
         assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
       }
     }
 
     @Test
     public void commerceGhostIncrementsByOneOnFight() {
-      var cleanups = new Cleanups(withFamiliar(FamiliarPool.GHOST_COMMERCE), withFight(0));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(FamiliarPool.GHOST_COMMERCE), withFight(0))) {
         assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
         parseCombatData("request/test_fight_gnome_adv.html");
         assertEquals(1, Preferences.getInteger("commerceGhostCombats"));
@@ -168,12 +166,11 @@ public class FightRequestTest {
     @Test
     @Disabled("Response text does not trigger the code that detects action by ghost.")
     public void commerceGhostResetsTo10() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.GHOST_COMMERCE),
               withProperty("commerceGhostCombats", 5),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         FightRequest.updateCombatData(
             null,
             null,
@@ -186,12 +183,11 @@ public class FightRequestTest {
     @Test
     @Disabled("Response text does not trigger the code that detects action by ghost.")
     public void commerceGhostResetsTo0() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.GHOST_COMMERCE),
               withProperty("commerceGhostCombats", 10),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         FightRequest.updateCombatData(null, null, "Nice, you bought a foo!");
         assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
       }
@@ -203,11 +199,10 @@ public class FightRequestTest {
     @ParameterizedTest
     @CsvSource({"test_fight_win.html,2", "test_fight_lose.html,1", "test_fight_run.html,1"})
     public void handlesFight(String file, int expectedCharge) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
-              withProperty("cookbookbatIngredientsCharge", 1));
-      try (cleanups) {
+              withProperty("cookbookbatIngredientsCharge", 1))) {
         parseCombatData("request/" + file);
         assertThat("cookbookbatIngredientsCharge", isSetTo(expectedCharge));
       }
@@ -221,11 +216,10 @@ public class FightRequestTest {
       "test_fight_run.html,2,2"
     })
     public void handlesIngredientsCharge(String file, int chargeInitial, int chargeExpected) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
-              withProperty("cookbookbatIngredientsCharge", chargeInitial));
-      try (cleanups) {
+              withProperty("cookbookbatIngredientsCharge", chargeInitial))) {
         parseCombatData("request/" + file);
         assertThat("cookbookbatIngredientsCharge", isSetTo(chargeExpected));
       }
@@ -246,14 +240,13 @@ public class FightRequestTest {
         String monsterName,
         String locationName,
         String ingredientName) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
               withProperty("_cookbookbatQuestMonster", ""),
               withProperty("_cookbookbatQuestLastLocation", ""),
               withProperty("_cookbookbatQuestIngredient", ""),
-              withProperty("_cookbookbatCombatsUntilNewQuest", 2));
-      try (cleanups) {
+              withProperty("_cookbookbatCombatsUntilNewQuest", 2))) {
         parseCombatData("request/" + file);
         assertThat("_cookbookbatQuestMonster", isSetTo(monsterName));
         assertThat("_cookbookbatQuestLastLocation", isSetTo(locationName));
@@ -264,14 +257,13 @@ public class FightRequestTest {
 
     @Test
     public void handlesQuestComplete() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
               withProperty("_cookbookbatQuestMonster", "skullery maid"),
               withProperty("_cookbookbatQuestLastLocation", "The Haunted Kitchen"),
               withProperty("_cookbookbatQuestIngredient", "Vegetable of Jarlsberg"),
-              withProperty("_cookbookbatCombatsUntilNewQuest", 3));
-      try (cleanups) {
+              withProperty("_cookbookbatCombatsUntilNewQuest", 3))) {
         parseCombatData("request/test_fight_cookbookbat_quest_complete.html");
         assertThat("_cookbookbatQuestMonster", isSetTo(""));
         assertThat("_cookbookbatQuestLastLocation", isSetTo("The Haunted Kitchen"));
@@ -319,14 +311,13 @@ public class FightRequestTest {
 
     @Test
     public void handlesNullLocation() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
               withProperty("_cookbookbatQuestMonster", "crate"),
               withProperty("_cookbookbatQuestLastLocation", "Noob Cave"),
               withProperty("_cookbookbatQuestIngredient", "Vegetable of Jarlsberg"),
-              withLastLocation((KoLAdventure) null));
-      try (cleanups) {
+              withLastLocation((KoLAdventure) null))) {
         parseCombatData("request/test_fight_win.html");
         assertThat("_cookbookbatQuestMonster", isSetTo("crate"));
         assertThat("_cookbookbatQuestLastLocation", isSetTo("Noob Cave"));
@@ -337,12 +328,11 @@ public class FightRequestTest {
 
   @Test
   public void gnomeAdv() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.REAGNIMATED_GNOME),
             withEquipped(Slot.FAMILIAR, ItemPool.GNOMISH_KNEE),
-            withFight());
-    try (cleanups) {
+            withFight())) {
       assertEquals(0, Preferences.getInteger("_gnomeAdv"));
       parseCombatData("request/test_fight_gnome_adv.html");
       assertEquals(1, Preferences.getInteger("_gnomeAdv"));
@@ -351,13 +341,12 @@ public class FightRequestTest {
 
   @Test
   public void hareAdv() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.HARE),
             withProperty("_hareCharge", 11),
             withProperty("_hareAdv", 0),
-            withFight());
-    try (cleanups) {
+            withFight())) {
       parseCombatData("request/test_hare_rollover_adventure.html");
       assertEquals(1, Preferences.getInteger("_hareAdv"));
       assertEquals(0, Preferences.getInteger("_hareCharge"));
@@ -368,14 +357,13 @@ public class FightRequestTest {
   class Gibberer {
     @Test
     public void gibbererAdv() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.GIBBERER),
               withProperty("_gibbererAdv", 0),
               withProperty("_gibbererCharge", 14),
               withLastLocation("Noob Cave"),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_gibberer_rollover_adventure.html");
         assertEquals(1, Preferences.getInteger("_gibbererAdv"));
         assertEquals(0, Preferences.getInteger("_gibbererCharge"));
@@ -384,13 +372,12 @@ public class FightRequestTest {
 
     @Test
     public void gibbererCharge() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.GIBBERER),
               withProperty("_gibbererCharge", 12),
               withLastLocation("Noob Cave"),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_feel_superior_pvp.html");
         assertEquals(13, Preferences.getInteger("_gibbererCharge"));
       }
@@ -398,13 +385,12 @@ public class FightRequestTest {
 
     @Test
     public void gibbererChargeUnderwater() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.GIBBERER),
               withProperty("_gibbererCharge", 12),
               withLastLocation("The Ice Hole"),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_feel_superior_pvp.html");
         assertEquals(14, Preferences.getInteger("_gibbererCharge"));
       }
@@ -430,13 +416,11 @@ public class FightRequestTest {
 
     @Test
     public void noParsingWithoutBall() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("crystalBallPredictions"),
               withLastLocation("The Neverending Party"),
-              withFight());
-
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
         assertThat("crystalBallPredictions", isSetTo(""));
       }
@@ -444,15 +428,13 @@ public class FightRequestTest {
 
     @Test
     public void parsesPredictionWithCrystalBall() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(0),
               withProperty("crystalBallPredictions"),
               withLastLocation("The Neverending Party"),
               withFamiliar(FamiliarPool.MOSQUITO),
-              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
-
-      try (cleanups) {
+              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL))) {
         CrystalBallManager.reset();
         parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
         assertThat("crystalBallPredictions", isSetTo("0:The Neverending Party:party girl"));
@@ -461,16 +443,14 @@ public class FightRequestTest {
 
     @Test
     public void doesCrystalBallReplaceExistingPrediction() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(0),
               withProperty("crystalBallPredictions", "0:The Neverending Party:burnout"),
               withCurrentRun(1),
               withLastLocation("The Neverending Party"),
               withFamiliar(FamiliarPool.MOSQUITO),
-              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
-
-      try (cleanups) {
+              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL))) {
         CrystalBallManager.reset();
         parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
         assertThat("crystalBallPredictions", isSetTo("1:The Neverending Party:party girl"));
@@ -479,16 +459,14 @@ public class FightRequestTest {
 
     @Test
     public void testCrystalBallDoesntOverwriteExistingIdenticalPrediction() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(0),
               withProperty("crystalBallPredictions", "0:The Neverending Party:party girl"),
               withCurrentRun(1),
               withLastLocation("The Neverending Party"),
               withFamiliar(FamiliarPool.MOSQUITO),
-              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
-
-      try (cleanups) {
+              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL))) {
         CrystalBallManager.reset();
         parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
         assertThat("crystalBallPredictions", isSetTo("0:The Neverending Party:party girl"));
@@ -497,15 +475,13 @@ public class FightRequestTest {
 
     @Test
     void parsesASecondPrediction() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("crystalBallPredictions", "0:The Neverending Party:party girl"),
               withLastLocation("The Red Zeppelin"),
               withFamiliar(FamiliarPool.MOSQUITO),
               withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL),
-              withFight(0));
-
-      try (cleanups) {
+              withFight(0))) {
         CrystalBallManager.reset();
         parseCombatData("request/test_fight_crystal_ball_zeppelin.html");
         assertThat(
@@ -517,10 +493,8 @@ public class FightRequestTest {
 
   @Test
   public void voidMonsterIncrementationTest() {
-    var cleanups =
-        new Cleanups(withFight(0), withNextMonster("void slab"), withProperty("_voidFreeFights"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withFight(0), withNextMonster("void slab"), withProperty("_voidFreeFights"))) {
       parseCombatData("request/test_fight_void_monster.html");
       assertEquals(5, Preferences.getInteger("_voidFreeFights"));
     }
@@ -530,14 +504,12 @@ public class FightRequestTest {
   class CursedMagnifyingGlass {
     @Test
     public void cursedMagnifyingGlassResetsOnVoidMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, ItemPool.CURSED_MAGNIFYING_GLASS),
               withProperty("cursedMagnifyingGlassCount", 13),
               withNextMonster("void slab"),
-              withFight(0));
-
-      try (cleanups) {
+              withFight(0))) {
         parseCombatData("request/test_fight_void_monster.html");
         assertThat("cursedMagnifyingGlassCount", isSetTo(0));
       }
@@ -545,13 +517,11 @@ public class FightRequestTest {
 
     @Test
     public void cursedMagnifyingGlassCanUpdateAnIncorrectPref() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, ItemPool.CURSED_MAGNIFYING_GLASS),
               withProperty("cursedMagnifyingGlassCount", 0),
-              withNextMonster("lavatory"));
-
-      try (cleanups) {
+              withNextMonster("lavatory"))) {
         parseCombatData("request/test_fight_cursed_magnifying_glass_update.html");
         assertThat("cursedMagnifyingGlassCount", isSetTo(3));
       }
@@ -592,9 +562,7 @@ public class FightRequestTest {
     @ValueSource(strings = {"alielf", "Black Crayon Crimbo Elf"})
     public void registersLocketFight(String monsterName) {
       var monster = MonsterDatabase.findMonster(monsterName);
-      var cleanups = new Cleanups(withNextMonster(monster), withFight(0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withNextMonster(monster), withFight(0))) {
         parseCombatData(
             "request/test_fight_start_locket_fight_with_" + monster.getPhylum() + ".html");
         assertThat("locketPhylum", isSetTo(monster.getPhylum().toString()));
@@ -605,8 +573,7 @@ public class FightRequestTest {
     @Test
     public void rememberNewMonsterForLocket() {
       var SLOPPY_SECONDS_SUNDAE = 1568;
-      var cleanups = new Cleanups(withNextMonster("Sloppy Seconds Sundae"), withFight(0));
-      try (cleanups) {
+      try (var _ = new Cleanups(withNextMonster("Sloppy Seconds Sundae"), withFight(0))) {
         assertFalse(LocketManager.remembersMonster(SLOPPY_SECONDS_SUNDAE));
 
         parseCombatData("request/test_fight_monster_added_to_locket.html");
@@ -618,8 +585,7 @@ public class FightRequestTest {
     @Test
     public void updatesListIfMonsterWasAlreadyInLocket() {
       var KNOB_GOBLIN_BBQ_TEAM = 155;
-      var cleanups = new Cleanups(withNextMonster("Knob Goblin Barbecue Team"), withFight(0));
-      try (cleanups) {
+      try (var _ = new Cleanups(withNextMonster("Knob Goblin Barbecue Team"), withFight(0))) {
         assertFalse(LocketManager.remembersMonster(KNOB_GOBLIN_BBQ_TEAM));
 
         parseCombatData("request/test_fight_monster_already_in_locket.html");
@@ -630,11 +596,9 @@ public class FightRequestTest {
 
     @Test
     public void dontIncrementWitchessIfFromLocket() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withNextMonster("Witches Knight"), withFight(), withProperty("_witchessFights", 0));
-
-      try (cleanups) {
+              withNextMonster("Witches Knight"), withFight(), withProperty("_witchessFights", 0))) {
         parseCombatData("request/test_fight_witchess_with_locket.html");
 
         assertEquals(0, Preferences.getInteger("_witchessFights"));
@@ -654,10 +618,8 @@ public class FightRequestTest {
       "1, false",
     })
     public void shouldWorkAroundGreyGooseKoLBug(int weight, boolean hasSkill) {
-      var cleanups =
-          new Cleanups(withFight(1), withFamiliar(FamiliarPool.GREY_GOOSE, weight * weight));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withFight(1), withFamiliar(FamiliarPool.GREY_GOOSE, weight * weight))) {
         String html = html("request/test_fight_grey_goose_combat_skills.html");
 
         FightRequest.parseAvailableCombatSkills(html);
@@ -668,13 +630,11 @@ public class FightRequestTest {
 
     @Test
     public void canTrackMeatifyMatterCast() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(1),
               withFamiliar(FamiliarPool.GREY_GOOSE, 6 * 6),
-              withNextMonster("angry tourist"));
-
-      try (cleanups) {
+              withNextMonster("angry tourist"))) {
         String html = html("request/test_fight_meatify_matter.html");
         FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7409");
         FightRequest.updateCombatData(null, null, html);
@@ -707,14 +667,12 @@ public class FightRequestTest {
     })
     public void canTrackGooseDrones(
         int file, String action, int round, int dronesBefore, int dronesAfter) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(round),
               withFamiliar(FamiliarPool.GREY_GOOSE, 6 * 6),
               withNextMonster("angry tourist"),
-              withProperty("gooseDronesRemaining", dronesBefore));
-
-      try (cleanups) {
+              withProperty("gooseDronesRemaining", dronesBefore))) {
         String html = html("request/test_fight_goose_drones_" + file + ".html");
         FightRequest.registerRequest(true, "fight.php?action=" + action);
         FightRequest.updateCombatData(null, null, html);
@@ -724,14 +682,12 @@ public class FightRequestTest {
 
     @Test
     public void canTrackCastAndUseGooseDrones() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(1),
               withFamiliar(FamiliarPool.GREY_GOOSE, 6 * 6),
               withNextMonster("Witchess Knight"),
-              withProperty("gooseDronesRemaining", 0));
-
-      try (cleanups) {
+              withProperty("gooseDronesRemaining", 0))) {
         String html = html("request/test_fight_cast_and_use_drones.html");
         // Multi-round response text. Matter_Duplicating drones emitted one round and used-up next
         // round
@@ -750,13 +706,12 @@ public class FightRequestTest {
     public void resetsFamiliarExperienceWhenEvolves() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               // I trained this familiar from 100 experience to 501 experience
               // in the Cake Shaped Arena. Apparently, it does not evolve there.
-              withFamiliar(FamiliarPool.EVOLVING_ORGANISM, 501));
-      try (cleanups) {
+              withFamiliar(FamiliarPool.EVOLVING_ORGANISM, 501))) {
         client.addResponse(
             302, Map.of("location", List.of("fight.php?ireallymeanit=1677340903")), "");
         client.addResponse(200, html("request/test_fight_evolving_organism_0.html"));
@@ -778,13 +733,11 @@ public class FightRequestTest {
 
   @Test
   public void canFindItemsAfterSlayTheDead() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(1),
             withFamiliar(FamiliarPool.GREY_GOOSE, 6 * 6),
-            withNextMonster("toothy sklelton"));
-
-    try (cleanups) {
+            withNextMonster("toothy sklelton"))) {
       String html = html("request/test_fight_slay_the_dead.html");
       String url =
           "fight.php?action=macro&macrotext=abort+hppercentbelow+20%3B+abort+pastround+25%3B+skill+Slay+the+Dead%3B+use+beehive%3B+skill+Double+Nanovision%3B+repeat%3B+mark+eof%3B+";
@@ -801,9 +754,7 @@ public class FightRequestTest {
 
   @Test
   public void canFindItemsWithGravyBoat() {
-    var cleanups = new Cleanups(withFight(2), withNextMonster("spiny skelelton"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(2), withNextMonster("spiny skelelton"))) {
       String html = html("request/test_fight_gravy_boat_1.html");
       String url = "fight.php?action=skill&whichskill=27043";
       FightRequest.registerRequest(true, url);
@@ -820,9 +771,7 @@ public class FightRequestTest {
 
   @Test
   public void canFindItemsWithGravyBoatAndSlayTheDead() {
-    var cleanups = new Cleanups(withFight(2), withNextMonster("toothy sklelton"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(2), withNextMonster("toothy sklelton"))) {
       String html = html("request/test_fight_gravy_boat_2.html");
       String url = "fight.php?action=skill&whichskill=7348";
       FightRequest.registerRequest(true, url);
@@ -839,13 +788,11 @@ public class FightRequestTest {
   @ParameterizedTest
   @CsvSource({"drones_1, 60, 63", "spit_1, 1000, 0"})
   public void canTrackDramederyActions(String source, int spitBefore, int spitAfter) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.MELODRAMEDARY, "Gogarth"),
             withFight(1),
-            withProperty("camelSpit", spitBefore));
-
-    try (cleanups) {
+            withProperty("camelSpit", spitBefore))) {
       String html = html("request/test_fight_drama_" + source + ".html");
       FightRequest.registerRequest(true, "fight.php?action=attack");
       FightRequest.updateCombatData(null, null, html);
@@ -855,13 +802,11 @@ public class FightRequestTest {
 
   @Test
   public void canTrackDronesWithDramedery() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.MELODRAMEDARY, "Gogarth"),
             withFight(1),
-            withProperty("gooseDronesRemaining", 2));
-
-    try (cleanups) {
+            withProperty("gooseDronesRemaining", 2))) {
       String html = html("request/test_fight_drama_drones_1.html");
       FightRequest.registerRequest(true, "fight.php?action=attack");
       FightRequest.updateCombatData(null, null, html);
@@ -874,14 +819,12 @@ public class FightRequestTest {
     @Test
     public void canAbsorbAlbinoBat() {
       var ALBINO_BAT = 41;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
-              withNextMonster("albino bat"));
-
-      try (cleanups) {
+              withNextMonster("albino bat"))) {
         String urlString = "fight.php?action=skill&whichskill=27000";
         String html = html("request/test_fight_goo_absorption_1.html");
 
@@ -898,15 +841,13 @@ public class FightRequestTest {
     @Test
     public void canReAbsorbAlbinoBat() {
       var ALBINO_BAT = 41;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
               withNextMonster("albino bat"),
-              withProperty("gooseReprocessed", ""));
-
-      try (cleanups) {
+              withProperty("gooseReprocessed", ""))) {
         var urlString = "fight.php?action=skill&whichskill=7408";
         var html = html("request/test_fight_goo_absorption_2.html");
         FightRequest.registerRequest(true, urlString);
@@ -923,16 +864,14 @@ public class FightRequestTest {
     @Test
     public void canAbsorbPassiveSkill() {
       var RUSHING_BUM = 159;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
               withNextMonster("rushing bum"),
               withProperty("gooseReprocessed", ""),
-              withoutSkill(SkillPool.HARRIED));
-
-      try (cleanups) {
+              withoutSkill(SkillPool.HARRIED))) {
         var urlString = "fight.php?action=skill&whichskill=27000";
         var html = html("request/test_fight_goo_absorption_3.html");
 
@@ -949,15 +888,13 @@ public class FightRequestTest {
     @Test
     public void canAbsorbNonSpecialMonster() {
       var REGULAR_OLD_BAT = 44;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
               withNextMonster("regular old bat"),
-              withProperty("gooseReprocessed", ""));
-
-      try (cleanups) {
+              withProperty("gooseReprocessed", ""))) {
         var urlString = "fight.php?action=skill&whichskill=27000";
         var html = html("request/test_fight_goo_absorption_4.html");
         FightRequest.registerRequest(true, urlString);
@@ -969,15 +906,13 @@ public class FightRequestTest {
 
     @Test
     public void canReabsorbSecondMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
               withNextMonster("regular old bat"),
-              withProperty("gooseReprocessed", "41"));
-
-      try (cleanups) {
+              withProperty("gooseReprocessed", "41"))) {
         // Second absorption of a model skeleton via Re-Process Matter
         var urlString = "fight.php?action=skill&whichskill=7408";
         var html = html("request/test_fight_goo_absorption_5.html");
@@ -989,15 +924,13 @@ public class FightRequestTest {
 
     @Test
     public void canReabsorbThirdMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
               withNextMonster("regular old bat"),
-              withProperty("gooseReprocessed", "41,1547"));
-
-      try (cleanups) {
+              withProperty("gooseReprocessed", "41,1547"))) {
         // Second absorption of a model skeleton via Re-Process Matter
         var urlString = "fight.php?action=skill&whichskill=7408";
         var html = html("request/test_fight_goo_absorption_5.html");
@@ -1015,15 +948,13 @@ public class FightRequestTest {
       // However, reprocessing is still tracked and can no longer be done on the same monster.
       // As such we'll track it as reprocessed, but not track it as absorbed
       var TOMB_ASP = 469;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
               withNextMonster("tomb asp"),
-              withProperty("gooseReprocessed", "41,1547"));
-
-      try (cleanups) {
+              withProperty("gooseReprocessed", "41,1547"))) {
         String urlString = "fight.php?action=skill&whichskill=7408";
         String html = html("request/test_grey_you_capped_adventure_reabsorb.html");
 
@@ -1043,14 +974,12 @@ public class FightRequestTest {
       // A capped adventure absorb will always give +10 stat, even if fought before
       // As such it should not be tracked as absorbed
       var TOMB_ASP = 469;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
-              withNextMonster("tomb asp"));
-
-      try (cleanups) {
+              withNextMonster("tomb asp"))) {
         String urlString = "fight.php?action=skill&whichskill=27044";
         String html = html("request/test_grey_you_capped_adventure_absorb.html");
 
@@ -1067,15 +996,13 @@ public class FightRequestTest {
     @Test
     public void canCountAbsorbedAdventures() {
       var ALBINO_BAT = 41;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
               withNextMonster("albino bat"),
-              withProperty("_greyYouAdventures", 5));
-
-      try (cleanups) {
+              withProperty("_greyYouAdventures", 5))) {
         String urlString = "fight.php?action=skill&whichskill=27000";
         String html = html("request/test_fight_goo_absorption_1.html");
 
@@ -1093,16 +1020,14 @@ public class FightRequestTest {
     @Test
     public void canCountReabsorbedAdventures() {
       var ALBINO_BAT = 41;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(2),
               withFamiliar(FamiliarPool.GREY_GOOSE, 36),
               withPath(Path.GREY_YOU),
               withNextMonster("albino bat"),
               withProperty("gooseReprocessed", ""),
-              withProperty("_greyYouAdventures", 0));
-
-      try (cleanups) {
+              withProperty("_greyYouAdventures", 0))) {
         var urlString = "fight.php?action=skill&whichskill=7408";
         var html = html("request/test_fight_goo_absorption_2.html");
         FightRequest.registerRequest(true, urlString);
@@ -1138,10 +1063,8 @@ public class FightRequestTest {
       "5, 10, -1"
     })
     public void canTrackCosmicBowlingBall(int step, int previous, int expected) {
-      var cleanups =
-          new Cleanups(withProperty("cosmicBowlingBallReturnCombats", previous), withFight(0));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("cosmicBowlingBallReturnCombats", previous), withFight(0))) {
         String html = html("request/test_fight_bowling_ball_" + step + ".html");
         FightRequest.updateCombatData(null, null, html);
         assertThat("cosmicBowlingBallReturnCombats", isSetTo(expected));
@@ -1164,8 +1087,7 @@ public class FightRequestTest {
           5
         })
     public void canTrackCosmicBowlingBallSkills(int step) {
-      var cleanups = new Cleanups(withFight());
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight())) {
         String html = html("request/test_fight_bowling_ball_" + step + ".html");
         FightRequest.parseAvailableCombatSkills(html);
         assertThat(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP), equalTo(step == 5));
@@ -1174,13 +1096,11 @@ public class FightRequestTest {
 
     @Test
     public void canTrackCosmicBowlingBallBanishInAnapests() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.COSMIC_BOWLING_BALL),
               withAnapest(),
-              withNextMonster("Marcus Macurgeon"));
-
-      try (cleanups) {
+              withNextMonster("Marcus Macurgeon"))) {
         String urlString = "fight.php?action=skill&whichskill=7405";
         String html = html("request/test_fight_anapest_runaway.html");
         FightRequest.currentRound = 2;
@@ -1198,9 +1118,8 @@ public class FightRequestTest {
     "1, 1", "2, 0",
   })
   public void canTrackRoboDrops(int source, int drops) {
-    var cleanups =
-        new Cleanups(withFamiliar(FamiliarPool.ROBORTENDER), withProperty("_roboDrops", 0));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withFamiliar(FamiliarPool.ROBORTENDER), withProperty("_roboDrops", 0))) {
       parseCombatData("request/test_fight_robort_drops_" + source + ".html");
       assertEquals(drops, Preferences.getInteger("_roboDrops"));
     }
@@ -1208,8 +1127,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectMaydaySupplyPackage() {
-    var cleanups = new Cleanups(withProperty("_maydayDropped", false));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_maydayDropped", false))) {
       parseCombatData("request/test_fight_mayday_contract.html");
       assertTrue(Preferences.getBoolean("_maydayDropped"));
     }
@@ -1224,13 +1142,11 @@ public class FightRequestTest {
     "fight_potted_plant, Hot",
   })
   public void canTrackJuneCleaverPrefs(String file, String element) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.WEAPON, ItemPool.JUNE_CLEAVER),
             withProperty("_juneCleaver" + element),
-            withProperty("_juneCleaverFightsLeft"));
-
-    try (cleanups) {
+            withProperty("_juneCleaverFightsLeft"))) {
       parseCombatData("request/test_" + file + ".html");
       assertEquals(2, Preferences.getInteger("_juneCleaver" + element));
       assertEquals(0, Preferences.getInteger("_juneCleaverFightsLeft"));
@@ -1240,10 +1156,8 @@ public class FightRequestTest {
   @ParameterizedTest
   @ValueSource(ints = {1, 2, 3})
   public void canTrackBellydancerPickpocket(final int pickpockets) {
-    var cleanups =
-        new Cleanups(withFight(0), withProperty("_bellydancerPickpockets", pickpockets - 1));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withFight(0), withProperty("_bellydancerPickpockets", pickpockets - 1))) {
       parseCombatData("request/test_fight_bellydancing_pickpocket_" + pickpockets + ".html");
       assertThat("_bellydancerPickpockets", isSetTo(pickpockets));
     }
@@ -1255,13 +1169,11 @@ public class FightRequestTest {
     "request/test_fight_designer_sweatpants_lose_3_sweat.html, -3"
   })
   public void canTrackDesignerSweatpants(String responseHtml, int sweatChange) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.PANTS, "designer sweatpants"),
             withProperty("sweat", 10),
-            withFight());
-
-    try (cleanups) {
+            withFight())) {
       parseCombatData(responseHtml);
       assertEquals(10 + sweatChange, Preferences.getInteger("sweat"));
     }
@@ -1270,13 +1182,11 @@ public class FightRequestTest {
   @ParameterizedTest
   @ValueSource(ints = {0, 4, 75})
   public void canUpdateSnowSuitUsage(int count) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.CORNBEEFADON),
             withEquipped(Slot.FAMILIAR, "Snow Suit"),
-            withProperty("_snowSuitCount", count));
-
-    try (cleanups) {
+            withProperty("_snowSuitCount", count))) {
       // Calculate initial Familiar Weight Modifier
       KoLCharacter.recalculateAdjustments();
       int property = count;
@@ -1296,11 +1206,10 @@ public class FightRequestTest {
   @Test
   public void canDetectPottedPlantWins() {
     RequestLoggerOutput.startStream();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.OFFHAND, "carnivorous potted plant"),
-            withProperty("_carnivorousPottedPlantWins", 0));
-    try (cleanups) {
+            withProperty("_carnivorousPottedPlantWins", 0))) {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
@@ -1311,11 +1220,10 @@ public class FightRequestTest {
   @Test
   public void canDetectSpiritOfTheMountainsTriggered() {
     RequestLoggerOutput.startStream();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEffect(EffectPool.SPIRIT_OF_THE_MOUNTAINS),
-            withProperty("_spiritOfTheMountainsAdvs", 0));
-    try (cleanups) {
+            withProperty("_spiritOfTheMountainsAdvs", 0))) {
       parseCombatData("request/test_fight_spirit_of_the_mountains.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your soul was restored by the fresh mountain air."));
@@ -1326,8 +1234,7 @@ public class FightRequestTest {
   @Test
   public void canDetectCanOfMixedEverythingDrops() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, "can of mixed everything"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquipped(Slot.OFFHAND, "can of mixed everything"))) {
       parseCombatData("request/test_fight_can_of_mixed_everything.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(
@@ -1340,12 +1247,11 @@ public class FightRequestTest {
   @Test
   public void canDetectHoverboardExploding() {
     RequestLoggerOutput.startStream();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withEquipped(Slot.ACCESSORY1, ItemPool.HOVERBOARD),
-            withProperty("breakableHandling", 1));
-    try (cleanups) {
+            withProperty("breakableHandling", 1))) {
       parseCombatData("request/test_fight_hoverboard_explodes.html");
       var text = RequestLoggerOutput.stopStream();
 
@@ -1357,8 +1263,7 @@ public class FightRequestTest {
   @Test
   public void canDetectCartography() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withSkill(SkillPool.COMPREHENSIVE_CARTOGRAPHY));
-    try (cleanups) {
+    try (var _ = new Cleanups(withSkill(SkillPool.COMPREHENSIVE_CARTOGRAPHY))) {
       parseCombatData("request/test_barrow_wraith_win.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("\"Aroma of Juniper,\" was the label in this region."));
@@ -1367,13 +1272,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectPowerfulGloveCharge() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_powerfulGloveBatteryPowerUsed", 0),
-            withEquipped(Slot.ACCESSORY1, "Powerful Glove"));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, "Powerful Glove"))) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1385,13 +1288,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectCosplaySaberUses() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_saberForceUses", 0),
-            withEquipped(Slot.WEAPON, "Fourth of May Cosplay Saber"));
-
-    try (cleanups) {
+            withEquipped(Slot.WEAPON, "Fourth of May Cosplay Saber"))) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1402,15 +1303,13 @@ public class FightRequestTest {
 
   @Test
   public void canDetectLilDoctorBagUses() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_otoscopeUsed", 10),
             withProperty("_reflexHammerUsed", 10),
             withProperty("_chestXRayUsed", 10),
-            withEquipped(Slot.ACCESSORY1, "Lil' Doctor™ bag"));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, "Lil' Doctor™ bag"))) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1425,13 +1324,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectExtinguisherCharge() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_fireExtinguisherCharge", 0),
-            withEquipped(Slot.WEAPON, "Industrial Fire Extinguisher"));
-
-    try (cleanups) {
+            withEquipped(Slot.WEAPON, "Industrial Fire Extinguisher"))) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1442,13 +1339,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectCinchRemaining() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_cinchUsed", 0),
-            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"))) {
       String html = html("request/test_fight_cincho_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1458,13 +1353,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectVampyreCloakeFormUses() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_vampyreCloakeFormUses", 5),
-            withEquipped(Slot.CONTAINER, "Vampyric cloake"));
-
-    try (cleanups) {
+            withEquipped(Slot.CONTAINER, "Vampyric cloake"))) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1477,13 +1370,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectMeteorLoreUses() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_meteorShowerUses", 1),
-            withProperty("_macrometeoriteUses", 1));
-
-    try (cleanups) {
+            withProperty("_macrometeoriteUses", 1))) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1496,13 +1387,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectPantsgivingBanishUses() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_pantsgivingBanish", 3),
-            withEquipped(Slot.PANTS, "Pantsgiving"));
-
-    try (cleanups) {
+            withEquipped(Slot.PANTS, "Pantsgiving"))) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1516,9 +1405,7 @@ public class FightRequestTest {
   class SmashGraaagh {
     @Test
     public void canTrackSmashAndGraaaghPickPocketSuccess() {
-      var cleanups = new Cleanups(withProperty("_zombieSmashPocketsUsed", 0), withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_zombieSmashPocketsUsed", 0), withFight())) {
         String urlString = "fight.php?action=skill&whichskill=12023";
         String html = html("request/test_fight_smash_and_graaagh_success.html");
         FightRequest.registerRequest(true, urlString);
@@ -1529,9 +1416,7 @@ public class FightRequestTest {
 
     @Test
     public void canTrackSmashAndGraaaghPickPocketFailure() {
-      var cleanups = new Cleanups(withProperty("_zombieSmashPocketsUsed", 3), withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_zombieSmashPocketsUsed", 3), withFight())) {
         String urlString = "fight.php?action=skill&whichskill=12023";
         String html = html("request/test_fight_smash_and_graaagh_failure.html");
         FightRequest.registerRequest(true, urlString);
@@ -1548,14 +1433,12 @@ public class FightRequestTest {
   })
   public void canDetectBackupCameraUses(int backupsUsed, boolean youRobotPath) {
     // Back-Up to your Last Enemy (11 uses today)
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(youRobotPath ? Path.YOU_ROBOT : Path.NONE),
             withFight(),
             withProperty("_backUpUses", 3),
-            withEquipped(Slot.ACCESSORY1, "Backup Camera"));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, "Backup Camera"))) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
       FightRequest.parseAvailableCombatSkills(html);
 
@@ -1568,13 +1451,11 @@ public class FightRequestTest {
   class XOSkeleton {
     @Test
     public void canTrackXandOCounter() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("xoSkeleltonXProgress", 8),
               withProperty("xoSkeleltonOProgress", 3),
-              withFamiliar(FamiliarPool.XO_SKELETON));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.XO_SKELETON))) {
         String html = html("request/test_fight_xo_end_of_fight.html");
         FightRequest.currentRound = 2;
         FightRequest.updateCombatData(null, null, html);
@@ -1585,9 +1466,7 @@ public class FightRequestTest {
 
     @Test
     public void canTrackHugsAndKissesSuccess() {
-      var cleanups = new Cleanups(withProperty("_xoHugsUsed", 0), withFight(2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_xoHugsUsed", 0), withFight(2))) {
         String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
         String html = html("request/test_fight_hugs_and_kisses_success.html");
         FightRequest.registerRequest(true, urlString);
@@ -1598,9 +1477,7 @@ public class FightRequestTest {
 
     @Test
     public void canTrackHugsAndKissesFailure() {
-      var cleanups = new Cleanups(withProperty("_xoHugsUsed", 3), withFight(2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_xoHugsUsed", 3), withFight(2))) {
         String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
         String html = html("request/test_fight_hugs_and_kisses_failure.html");
         FightRequest.registerRequest(true, urlString);
@@ -1614,10 +1491,9 @@ public class FightRequestTest {
   class Vintner {
     @Test
     public void notesIncreaseVintnerCharge() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 0));
-      try (cleanups) {
+              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 0))) {
         parseCombatData("request/test_fight_vintner_makes_notes.html");
         assertThat("vintnerCharge", isSetTo(1));
         assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(1));
@@ -1626,10 +1502,9 @@ public class FightRequestTest {
 
     @Test
     public void wineDropCorrectsVintnerCharge() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 11));
-      try (cleanups) {
+              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 11))) {
         parseCombatData("request/test_fight_vintner_drops_wine.html");
         assertThat("vintnerCharge", isSetTo(13));
         assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
@@ -1639,10 +1514,9 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(strings = {"clears_throat", "gestures", "taps"})
     public void waitingCorrectsVintnerCharge(String dialog) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 9));
-      try (cleanups) {
+              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 9))) {
         parseCombatData("request/test_fight_vintner_" + dialog + ".html");
         assertThat("vintnerCharge", isSetTo(13));
         assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
@@ -1654,9 +1528,7 @@ public class FightRequestTest {
   class SummonHoboUnderling {
     @Test
     public void canTrackSummoningHoboUnderling() {
-      var cleanups = new Cleanups(withProperty("_hoboUnderlingSummons", 0), withFight(2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_hoboUnderlingSummons", 0), withFight(2))) {
         String urlString = "fight.php?action=skill&whichskill=7052";
         String html = html("request/test_fight_summon_hobo_underling.html");
         FightRequest.registerRequest(true, urlString);
@@ -1667,9 +1539,7 @@ public class FightRequestTest {
 
     @Test
     public void askHoboToDoADance() {
-      var cleanups = new Cleanups(withFight(3), withFight(0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(3), withFight(0))) {
         String urlString = "fight.php?action=skill&whichskill=7051";
         String html = html("request/test_fight_ask_hobo_to_dance.html");
         FightRequest.registerRequest(true, urlString);
@@ -1681,9 +1551,7 @@ public class FightRequestTest {
 
     @Test
     public void askHoboToTellAJoke() {
-      var cleanups = new Cleanups(withFight(3));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(3))) {
         String urlString = "fight.php?action=skill&whichskill=7050";
         String html = html("request/test_fight_ask_hobo_to_joke.html");
         FightRequest.registerRequest(true, urlString);
@@ -1732,10 +1600,8 @@ public class FightRequestTest {
     })
     public void canTrackLoveBugDrops(
         String responseHtml, String property, int delta, boolean daily) {
-      var cleanups =
-          new Cleanups(withProperty("lovebugsUnlocked", true), withProperty(property, 0));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("lovebugsUnlocked", true), withProperty(property, 0))) {
         parseCombatData(responseHtml);
         assertEquals(delta, Preferences.getInteger(property));
         if (daily) {
@@ -1749,13 +1615,12 @@ public class FightRequestTest {
   class CombatEnvironment {
     @Test
     public void doesNotTrackEnvironmentWithoutCMC() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withWorkshedItem(null),
               withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
-              withLastLocation("Oil Peak"));
-      try (cleanups) {
+              withLastLocation("Oil Peak"))) {
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx"));
       }
@@ -1763,13 +1628,12 @@ public class FightRequestTest {
 
     @Test
     public void doesNotTrackEnvironmentWithoutConsults() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withProperty("_coldMedicineConsults", 5),
               withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
-              withLastLocation("Oil Peak"));
-      try (cleanups) {
+              withLastLocation("Oil Peak"))) {
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx"));
       }
@@ -1785,13 +1649,12 @@ public class FightRequestTest {
       "Gausie's Grotto, ?"
     })
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
-              withLastLocation(adventureName));
-      try (cleanups) {
+              withLastLocation(adventureName))) {
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxx" + environmentSymbol));
@@ -1801,13 +1664,12 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "xxxxx", "xxxxxxxxxxxxxxxxxxx"})
     public void canRecoverUndersizedProp(String pref) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", pref),
-              withLastLocation("The Oasis"));
-      try (cleanups) {
+              withLastLocation("The Oasis"))) {
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxo"));
@@ -1816,13 +1678,12 @@ public class FightRequestTest {
 
     @Test
     public void doesNotCountFreeFights() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
-              withLastLocation("Hobopolis Town Square"));
-      try (cleanups) {
+              withLastLocation("Hobopolis Town Square"))) {
         // Any old free fight from our fixtures
         parseCombatData("request/test_fight_potted_plant.html");
         assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
@@ -1831,13 +1692,12 @@ public class FightRequestTest {
 
     @Test
     public void doesNotCountNonSnarfblats() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
-              withLastLocation("The Typical Tavern Cellar"));
-      try (cleanups) {
+              withLastLocation("The Typical Tavern Cellar"))) {
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
@@ -1847,13 +1707,12 @@ public class FightRequestTest {
     @Test
     public void countsNewZonesAsQuestions() {
       var overrideLocation = new KoLAdventure("Override", "adventure.php", "69", "Nice");
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
-              withLastLocation(overrideLocation));
-      try (cleanups) {
+              withLastLocation(overrideLocation))) {
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("oioioioioioioioioio?"));
@@ -1865,12 +1724,11 @@ public class FightRequestTest {
   class StillSuit {
     @Test
     public void canTrackFamiliarSweatOnCurrentFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("familiarSweat", 5),
               withFamiliar(FamiliarPool.WOIM),
-              withEquipped(Slot.FAMILIAR, "tiny stillsuit"));
-      try (cleanups) {
+              withEquipped(Slot.FAMILIAR, "tiny stillsuit"))) {
         parseCombatData("request/test_fight_stillsuit_on_familiar.html");
         assertThat("familiarSweat", isSetTo(8));
       }
@@ -1878,13 +1736,12 @@ public class FightRequestTest {
 
     @Test
     public void canTrackFamiliarSweatOnTerrariumFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("familiarSweat", 5),
               withFamiliar(FamiliarPool.WOIM),
               withEquipped(Slot.FAMILIAR, "woimbook"),
-              withFamiliarInTerrarium(FamiliarPool.PET_ROCK));
-      try (cleanups) {
+              withFamiliarInTerrarium(FamiliarPool.PET_ROCK))) {
         var rock = KoLCharacter.usableFamiliar(FamiliarPool.PET_ROCK);
         rock.setItem(ItemPool.get(ItemPool.STILLSUIT));
         parseCombatData("request/test_fight_stillsuit_in_terrarium.html");
@@ -1914,9 +1771,7 @@ public class FightRequestTest {
       // However, in order to register an encounter (which is where we parse
       // the dinosaur attributes), we had to register the request first, and
       // this location will do as well as any.
-      var cleanups = new Cleanups(withLastLocation("The Haunted Pantry"), withPath(Path.DINOSAURS));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withLastLocation("The Haunted Pantry"), withPath(Path.DINOSAURS))) {
         GenericRequest request = new GenericRequest("fight.php");
         request.responseText = html(filename);
         String encounter = AdventureRequest.registerEncounter(request);
@@ -1935,14 +1790,12 @@ public class FightRequestTest {
   class PocketProfessor {
     @Test
     public void incrementsLecturesIfFamWeightIncreasesMidCombat() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.METEOR_SHOWER),
               withFamiliar(FamiliarPool.POCKET_PROFESSOR, 100),
               withProperty("_pocketProfessorLectures", 4),
-              withProperty("_relativityMonster", false));
-
-      try (cleanups) {
+              withProperty("_relativityMonster", false))) {
         parseCombatData("request/test_fight_meteor_shower_lecture.html");
         assertThat("_pocketProfessorLectures", isSetTo(5));
         assertThat("_relativityMonster", isSetTo(true));
@@ -1954,14 +1807,12 @@ public class FightRequestTest {
   class GothKid {
     @Test
     public void advancesFightCounters() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.ARTISTIC_GOTH_KID),
               withHippyStoneBroken(),
               withProperty("_gothKidCharge", 1),
-              withProperty("_gothKidFights", 1));
-
-      try (cleanups) {
+              withProperty("_gothKidFights", 1))) {
         parseCombatData("request/test_fight_goth_kid_pvp.html");
         assertThat("_gothKidCharge", isSetTo(0));
         assertThat("_gothKidFights", isSetTo(2));
@@ -1970,14 +1821,12 @@ public class FightRequestTest {
 
     @Test
     public void doesNotMatchOtherPvPGains() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.ARTISTIC_GOTH_KID),
               withHippyStoneBroken(),
               withProperty("_gothKidCharge", 1),
-              withProperty("_gothKidFights", 1));
-
-      try (cleanups) {
+              withProperty("_gothKidFights", 1))) {
         parseCombatData("request/test_fight_feel_superior_pvp.html");
         assertThat("_gothKidCharge", isSetTo(2));
         assertThat("_gothKidFights", isSetTo(1));
@@ -1989,12 +1838,10 @@ public class FightRequestTest {
   class JurassicParka {
     @Test
     void spikolodonSpikesRecorded() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA),
-              withProperty("_spikolodonSpikeUses", 0));
-
-      try (cleanups) {
+              withProperty("_spikolodonSpikeUses", 0))) {
         parseCombatData("request/test_fight_spikolodon_spikes.html");
         assertThat("_spikolodonSpikeUses", isSetTo(1));
       }
@@ -2002,13 +1849,11 @@ public class FightRequestTest {
 
     @Test
     void spikodonSpikesSetNCForcerFlag() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA),
               withProperty("_spikolodonSpikeUses", 0),
-              withProperty("noncombatForcerActive", false));
-
-      try (cleanups) {
+              withProperty("noncombatForcerActive", false))) {
         parseCombatData("request/test_fight_spikolodon_spikes.html");
         assertThat("noncombatForcerActive", isSetTo(true));
       }
@@ -2018,9 +1863,7 @@ public class FightRequestTest {
   @ParameterizedTest
   @ValueSource(strings = {"projectile", "confetti", "party"})
   void cinchoCastRecorded(String fileName) {
-    var cleanups = new Cleanups(withProperty("_cinchUsed", 90));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_cinchUsed", 90))) {
       parseCombatData("request/test_fight_parse_casting_cinch_" + fileName + ".html");
       assertThat("_cinchUsed", isSetTo(95));
     }
@@ -2030,10 +1873,8 @@ public class FightRequestTest {
   class BottleOfBlankOut {
     @Test
     void canTrackSuccessfulUse() {
-      var cleanups =
-          new Cleanups(withProperty("blankOutUsed", 1), withItem(ItemPool.GLOB_OF_BLANK_OUT));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("blankOutUsed", 1), withItem(ItemPool.GLOB_OF_BLANK_OUT))) {
         parseCombatData(
             "request/test_fight_blank_out.html",
             "fight.php?action=useitem&whichitem=4872&whichitem2=0");
@@ -2044,13 +1885,11 @@ public class FightRequestTest {
 
     @Test
     void canTrackSuccessfulUseInAnapests() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.JUST_THE_BEST_ANAPESTS),
               withProperty("blankOutUsed", 1),
-              withItem(ItemPool.GLOB_OF_BLANK_OUT));
-
-      try (cleanups) {
+              withItem(ItemPool.GLOB_OF_BLANK_OUT))) {
         parseCombatData(
             "request/test_fight_blank_out_anapests.html",
             "fight.php?action=useitem&whichitem=4872&whichitem2=0");
@@ -2061,10 +1900,8 @@ public class FightRequestTest {
 
     @Test
     void canTrackSuccessfulFinalUse() {
-      var cleanups =
-          new Cleanups(withProperty("blankOutUsed", 4), withItem(ItemPool.GLOB_OF_BLANK_OUT));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("blankOutUsed", 4), withItem(ItemPool.GLOB_OF_BLANK_OUT))) {
         parseCombatData(
             "request/test_fight_blank_out_finished.html",
             "fight.php?action=useitem&whichitem=4872&whichitem2=0");
@@ -2075,13 +1912,11 @@ public class FightRequestTest {
 
     @Test
     void canTrackSuccessfulFinalUseInAnapests() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.JUST_THE_BEST_ANAPESTS),
               withProperty("blankOutUsed", 4),
-              withItem(ItemPool.GLOB_OF_BLANK_OUT));
-
-      try (cleanups) {
+              withItem(ItemPool.GLOB_OF_BLANK_OUT))) {
         parseCombatData(
             "request/test_fight_blank_out_anapests.html",
             "fight.php?action=useitem&whichitem=4872&whichitem2=0");
@@ -2099,9 +1934,7 @@ public class FightRequestTest {
     "run, fight.php?action=runaway, false, false"
   })
   void setsLastFightProperty(String html, String action, boolean win, boolean lose) {
-    var cleanups = new Cleanups(withProperty("_lastCombatWon"), withProperty("_lastCombatLost"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_lastCombatWon"), withProperty("_lastCombatLost"))) {
       parseCombatData("request/test_fight_" + html + ".html", action);
       assertThat("_lastCombatWon", isSetTo(win));
       assertThat("_lastCombatLost", isSetTo(lose));
@@ -2120,13 +1953,11 @@ public class FightRequestTest {
     })
     public void canUpdateQuestParamsFromFightInfo(
         final String fixture, final int questTurn, final String questLocation) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(1),
               withProperty("autumnatonQuestTurn", 5),
-              withProperty("autumnatonQuestLocation", "The Spooky Forest"));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestLocation", "The Spooky Forest"))) {
         parseCombatData(
             "request/test_fight_autumnaton_" + fixture + ".html", "fight.php?action=attack");
         assertThat("autumnatonQuestTurn", isSetTo(questTurn));
@@ -2144,9 +1975,7 @@ public class FightRequestTest {
 
     @Test
     public void shieldbuttIsValidWithShield() {
-      var cleanups = withEquipped(Slot.OFFHAND, "vinyl shield");
-
-      try (cleanups) {
+      try (var _ = withEquipped(Slot.OFFHAND, "vinyl shield")) {
         assertFalse(FightRequest.isInvalidAttack("skill Shieldbutt"));
       }
     }
@@ -2158,18 +1987,14 @@ public class FightRequestTest {
 
     @Test
     public void summonLeviIsValidUnderWater() {
-      var cleanups = withLastLocation("The Ice Hole");
-
-      try (cleanups) {
+      try (var _ = withLastLocation("The Ice Hole")) {
         assertFalse(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
       }
     }
 
     @Test
     public void summonLeviIsInvalidAboveWater() {
-      var cleanups = withLastLocation("Noob Cave");
-
-      try (cleanups) {
+      try (var _ = withLastLocation("Noob Cave")) {
         assertTrue(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
       }
     }
@@ -2184,8 +2009,7 @@ public class FightRequestTest {
 
     @Test
     public void speakeasyFreeFights() {
-      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
-      try (cleanups) {
+      try (var _ = withLastLocation("An Unusually Quiet Barroom Brawl")) {
         parseCombatData("request/test_oliver_free.html");
         assertEquals(1, Preferences.getInteger("_speakeasyFreeFights"));
       }
@@ -2193,8 +2017,7 @@ public class FightRequestTest {
 
     @Test
     public void speakeasyHeatingUp() {
-      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
-      try (cleanups) {
+      try (var _ = withLastLocation("An Unusually Quiet Barroom Brawl")) {
         parseCombatData("request/test_oliver_heating_up.html");
         assertEquals(3, Preferences.getInteger("_speakeasyFreeFights"));
       }
@@ -2202,8 +2025,7 @@ public class FightRequestTest {
 
     @Test
     public void speakeasyNotFree() {
-      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
-      try (cleanups) {
+      try (var _ = withLastLocation("An Unusually Quiet Barroom Brawl")) {
         parseCombatData("request/test_oliver_not_free.html");
         assertEquals(0, Preferences.getInteger("_speakeasyFreeFights"));
       }
@@ -2212,9 +2034,8 @@ public class FightRequestTest {
 
   @Test
   public void loseInitiativeAndLoseLittleRoundPebble() {
-    var cleanups =
-        new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.LITTLE_ROUND_PEBBLE), withFight());
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.LITTLE_ROUND_PEBBLE), withFight())) {
       parseCombatData("request/test_fight_little_round_pebble.html");
       assertFalse(KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE));
     }
@@ -2224,10 +2045,11 @@ public class FightRequestTest {
   class Camel {
     @Test
     public void sloshingSetsSpitToFull() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.MELODRAMEDARY), withProperty("camelSpit", 0), withFight());
-      try (cleanups) {
+              withFamiliar(FamiliarPool.MELODRAMEDARY),
+              withProperty("camelSpit", 0),
+              withFight())) {
         parseCombatData("request/test_melodramedary_sloshing.html");
         assertThat("camelSpit", isSetTo(100));
       }
@@ -2240,13 +2062,12 @@ public class FightRequestTest {
     void canTrackShadowRiftCombats() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("_shadowRiftCombats", 0),
               withProperty("shadowRiftIngress", ""),
-              withLastLocation("None"));
-      try (cleanups) {
+              withLastLocation("None"))) {
         client.addResponse(
             302,
             Map.of("location", List.of("adventure.php?snarfblat=" + AdventurePool.SHADOW_RIFT)),
@@ -2273,8 +2094,7 @@ public class FightRequestTest {
       "ghostPepperTurnsLeft, ghost_pepper",
     })
     public void survivingDecrementsCounter(String pref, String fixture) {
-      var cleanups = new Cleanups(withProperty(pref, 4), withHP(5000, 5000, 5000));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(pref, 4), withHP(5000, 5000, 5000))) {
         parseCombatData("request/test_fight_" + fixture + "_survive.html");
         assertThat(pref, isSetTo(3));
       }
@@ -2288,8 +2108,7 @@ public class FightRequestTest {
       "ghostPepperTurnsLeft, ghost_pepper_complete",
     })
     public void otherSituationsEndCounter(String pref, String fixture) {
-      var cleanups = new Cleanups(withProperty(pref, 4));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(pref, 4))) {
         parseCombatData("request/test_fight_" + fixture + ".html");
         assertThat(pref, isSetTo(0));
       }
@@ -2300,7 +2119,7 @@ public class FightRequestTest {
   class SpookyVHSTape {
     @Test
     public void canRecogniseSpookyVHSTapeMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("spookyVHSTapeMonster", "ghost"),
               withProperty("spookyVHSTapeMonsterTurn", "119"),
@@ -2312,9 +2131,9 @@ public class FightRequestTest {
                   "Spooky VHS Tape unknown monster window begin loc=* type=wander",
                   "lparen.gif"),
               withCounter(
-                  8, "Spooky VHS Tape unknown monster window end loc=* type=wander", "rparen.gif"));
-
-      try (cleanups) {
+                  8,
+                  "Spooky VHS Tape unknown monster window end loc=* type=wander",
+                  "rparen.gif"))) {
         String html = html("request/test_fight_spooky_vhs_tape_monster.html");
         FightRequest.updateCombatData(null, null, html);
         assertThat("spookyVHSTapeMonster", isSetTo(""));
@@ -2327,16 +2146,14 @@ public class FightRequestTest {
 
     @Test
     public void canTrackSpookyVHSTapeSuccess() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withoutCounters(),
               withProperty("spookyVHSTapeMonster"),
               withProperty("spookyVHSTapeMonsterTurn"),
               withTurnsPlayed(111),
               withItem(ItemPool.SPOOKY_VHS_TAPE),
-              withFight(1));
-
-      try (cleanups) {
+              withFight(1))) {
         String html = html("request/test_fight_spooky_vhs_tape_success.html");
         FightRequest.registerRequest(true, "fight.php?action=useitem&whichitem=11270");
         FightRequest.updateCombatData(null, null, html);
@@ -2349,16 +2166,14 @@ public class FightRequestTest {
 
     @Test
     public void canTrackSpookyVHSTapeFailure() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withoutCounters(),
               withProperty("spookyVHSTapeMonster"),
               withProperty("spookyVHSTapeMonsterTurn"),
               withTurnsPlayed(111),
               withItem(ItemPool.SPOOKY_VHS_TAPE),
-              withFight(1));
-
-      try (cleanups) {
+              withFight(1))) {
         String html = html("request/test_fight_spooky_vhs_tape_failure.html");
         FightRequest.registerRequest(true, "fight.php?action=useitem&whichitem=11270");
         FightRequest.updateCombatData(null, null, html);
@@ -2374,13 +2189,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectFludaUse() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_douseFoeUses", 2),
-            withEquipped(Slot.ACCESSORY1, "Flash Liquidizer Ultra Dousing Accessory"));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, "Flash Liquidizer Ultra Dousing Accessory"))) {
       parseCombatData(
           "request/test_fight_douse_foe.html", "fight.php?action=skill&whichskill=7448");
 
@@ -2390,13 +2203,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectMcTwist() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_epicMcTwistUsed", false),
-            withEquipped(Slot.ACCESSORY1, "pro skateboard"));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, "pro skateboard"))) {
       parseCombatData(
           "request/test_fight_epic_mctwist.html", "fight.php?action=skill&whichskill=7447");
 
@@ -2408,15 +2219,13 @@ public class FightRequestTest {
   class RedWhiteBlueBlast {
     @Test
     public void canDetect() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("rwbMonster"),
               withProperty("rwbMonsterCount"),
               withProperty("rwbLocation"),
-              withLastLocation("South of the Border"));
-
-      try (cleanups) {
+              withLastLocation("South of the Border"))) {
         parseCombatData(
             "request/test_fight_red_white_blue.html", "fight.php?action=skill&whichskill=7450");
 
@@ -2428,15 +2237,13 @@ public class FightRequestTest {
 
     @Test
     public void canDetectMonsterAfterCast() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(0),
               withProperty("rwbMonster", "raging bull"),
               withProperty("rwbMonsterCount", 2),
               withProperty("rwbLocation", "South of the Border"),
-              withNextMonster("raging bull"));
-
-      try (cleanups) {
+              withNextMonster("raging bull"))) {
         parseCombatData("request/test_fight_red_white_blue_after.html");
 
         assertThat("rwbMonster", isSetTo("raging bull"));
@@ -2448,14 +2255,12 @@ public class FightRequestTest {
   @Test
   public void canDetectEagleScreech() {
     RequestLoggerOutput.startStream();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withBanishedPhyla(""),
             withProperty("screechCombats"),
-            withFamiliar(FamiliarPool.PATRIOTIC_EAGLE));
-
-    try (cleanups) {
+            withFamiliar(FamiliarPool.PATRIOTIC_EAGLE))) {
       parseCombatData(
           "request/test_fight_eagle_screech.html", "fight.php?action=skill&whichskill=7451");
 
@@ -2472,12 +2277,11 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "_2"})
     public void screechTimerAdvances(String extension) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.PATRIOTIC_EAGLE),
               withProperty("screechCombats", 6),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_eagle_screech_after" + extension + ".html");
         assertThat("screechCombats", isSetTo(5));
       }
@@ -2485,12 +2289,11 @@ public class FightRequestTest {
 
     @Test
     public void screechTimerEnds() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.PATRIOTIC_EAGLE),
               withProperty("screechCombats", 6),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_eagle_screech_after_done.html");
         assertThat("screechCombats", isSetTo(0));
       }
@@ -2501,14 +2304,12 @@ public class FightRequestTest {
   class RecallFactsHabitats {
     @Test
     public void canDetectCast() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_monsterHabitatsRecalled", 1),
               withProperty("_monsterHabitatsFightsLeft", 0),
-              withProperty("_monsterHabitatsMonster", ""));
-
-      try (cleanups) {
+              withProperty("_monsterHabitatsMonster", ""))) {
         parseCombatData(
             "request/test_fight_recall_habitat.html", "fight.php?action=skill&whichskill=7485");
 
@@ -2520,13 +2321,11 @@ public class FightRequestTest {
 
     @Test
     public void canDetectNewEncounter() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(0),
               withProperty("_monsterHabitatsFightsLeft", 4),
-              withProperty("_monsterHabitatsMonster", "Knob Goblin Embezzler"));
-
-      try (cleanups) {
+              withProperty("_monsterHabitatsMonster", "Knob Goblin Embezzler"))) {
         String html = html("request/test_fight_recall_habitat_adv.html");
         FightRequest.updateCombatData(null, null, html);
         assertThat("_monsterHabitatsFightsLeft", isSetTo(3));
@@ -2538,9 +2337,7 @@ public class FightRequestTest {
   class RecallFactsCircadian {
     @Test
     public void canDetectCast() {
-      var cleanups = new Cleanups(withFight(), withProperty("_circadianRhythmsRecalled", false));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withProperty("_circadianRhythmsRecalled", false))) {
         parseCombatData(
             "request/test_fight_recall_circadian.html", "fight.php?action=skill&whichskill=7486");
 
@@ -2550,13 +2347,11 @@ public class FightRequestTest {
 
     @Test
     public void canDetectAdventureGain() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_circadianRhythmsRecalled", true),
-              withProperty("_circadianRhythmsAdventures", 3));
-
-      try (cleanups) {
+              withProperty("_circadianRhythmsAdventures", 3))) {
         parseCombatData("request/test_fight_recall_circadian_adv.html", "fight.php?action=attack");
 
         assertThat("_circadianRhythmsAdventures", isSetTo(4));
@@ -2569,8 +2364,7 @@ public class FightRequestTest {
     @Test
     void canDetectFactsDrops() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withSkill(SkillPool.JUST_THE_FACTS));
-      try (cleanups) {
+      try (var _ = new Cleanups(withSkill(SkillPool.JUST_THE_FACTS))) {
         parseCombatData("request/test_fight_recall_circadian_adv.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(
@@ -2584,11 +2378,10 @@ public class FightRequestTest {
     @Test
     void doesNotLogCircadianFailures() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.JUST_THE_FACTS),
-              withEffect(EffectPool.RECALLING_CIRCADIAN_RHYTHMS));
-      try (cleanups) {
+              withEffect(EffectPool.RECALLING_CIRCADIAN_RHYTHMS))) {
         parseCombatData("request/test_fight_recall_circadian_wrong_monster.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, not(containsString("rythm")));
@@ -2601,15 +2394,14 @@ public class FightRequestTest {
       "false, 1, 11",
     })
     void tracksTatterDrop(final boolean success, final int current, final int next) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.PASTAMANCER),
               withPath(Path.NONE),
               withNextMonster("Sorority Nurse"),
               withSkill(SkillPool.JUST_THE_FACTS),
               withProperty("_bookOfFactsTatters", current),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData(
             "request/test_fight_book_of_facts_tatter_"
                 + (success ? "success" : "fallback")
@@ -2624,15 +2416,14 @@ public class FightRequestTest {
       "false, 1, 3",
     })
     void tracksWishDrop(final boolean success, final int current, final int next) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.SEAL_CLUBBER),
               withPath(Path.CRAZY_RANDOM_SUMMER),
               withNextMonster("Keese"),
               withSkill(SkillPool.JUST_THE_FACTS),
               withProperty("_bookOfFactsWishes", current),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData(
             "request/test_fight_book_of_facts_pocket_wish_"
                 + (success ? "success" : "fallback")
@@ -2643,15 +2434,14 @@ public class FightRequestTest {
 
     @Test
     void doesNotTrackWishDropAfterMonsterReplacement() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.SAUCEROR),
               withPath(Path.NONE),
               withNextMonster("chalkdust wraith"),
               withSkill(SkillPool.JUST_THE_FACTS),
               withProperty("_bookOfFactsWishes", 0),
-              withFight(0));
-      try (cleanups) {
+              withFight(0))) {
         parseCombatData("request/test_fight_book_of_facts_backup.html");
         assertThat("_bookOfFactsWishes", isSetTo(0));
       }
@@ -2664,15 +2454,14 @@ public class FightRequestTest {
       "false, 3, 0",
     })
     void tracksGummiEffect(final boolean success, final int current, final int next) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.PASTAMANCER),
               withPath(Path.NONE),
               withNextMonster("fiendish can of asparagus"),
               withSkill(SkillPool.JUST_THE_FACTS),
               withProperty("bookOfFactsGummi", current),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData(
             "request/test_fight_book_of_facts_gummi_"
                 + (success ? "success" : "fallback")
@@ -2688,15 +2477,14 @@ public class FightRequestTest {
       "false, 1, 0",
     })
     void tracksPinataEffect(final boolean success, final int current, final int next) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.PASTAMANCER),
               withPath(Path.NONE),
               withNextMonster("axe handle"),
               withSkill(SkillPool.JUST_THE_FACTS),
               withProperty("bookOfFactsPinata", current),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData(
             "request/test_fight_book_of_facts_pinata_"
                 + (success ? "success" : "fallback")
@@ -2707,15 +2495,14 @@ public class FightRequestTest {
 
     @Test
     void circadianRhythmsDoesNotBreakWishTracking() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.TURTLE_TAMER),
               withPath(Path.NONE),
               withNextMonster("Furry Giant"),
               withSkill(SkillPool.JUST_THE_FACTS),
               withProperty("_bookOfFactsWishes", 1),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_book_of_facts_rhythms_and_wish.html");
         assertThat("_bookOfFactsWishes", isSetTo(2));
       }
@@ -2726,13 +2513,11 @@ public class FightRequestTest {
   class Yachtzee {
     @Test
     void canTrackPartyYachtCombats() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withLastLocation("The Sunken Party Yacht"),
-              withProperty("encountersUntilYachtzeeChoice", 20));
-
-      try (cleanups) {
+              withProperty("encountersUntilYachtzeeChoice", 20))) {
         parseCombatData("request/test_party_yacht_fight.html");
         assertThat("encountersUntilYachtzeeChoice", isSetTo(19));
       }
@@ -2757,8 +2542,7 @@ public class FightRequestTest {
 
   @Test
   public void crimbuccaneerScoreIsNotDamage() {
-    var cleanups = new Cleanups(withFight(0));
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(0))) {
       assertEquals(0, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
       parseCombatData("request/test_fight_crimbo23.html");
       assertEquals(3, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
@@ -2767,10 +2551,8 @@ public class FightRequestTest {
 
   @Test
   void canTrackSuccessfulPrankCardUse() {
-    var cleanups =
-        new Cleanups(withProperty("_prankCardMonster"), withItem(ItemPool.PRANK_CRIMBO_CARD));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("_prankCardMonster"), withItem(ItemPool.PRANK_CRIMBO_CARD))) {
       parseCombatData(
           "request/test_fight_elf_crimbo_card.html",
           "fight.php?action=useitem&whichitem=11487&whichitem2=0");
@@ -2780,9 +2562,7 @@ public class FightRequestTest {
 
   @Test
   void canTrackSuccessfulTrickCoinUse() {
-    var cleanups = new Cleanups(withProperty("_trickCoinMonster"), withItem(ItemPool.TRICK_COIN));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_trickCoinMonster"), withItem(ItemPool.TRICK_COIN))) {
       parseCombatData(
           "request/test_fight_pirate_crimbo_coin.html",
           "fight.php?action=useitem&whichitem=11480&whichitem2=0");
@@ -2794,9 +2574,7 @@ public class FightRequestTest {
   class CandyCaneSkills {
     @Test
     public void canTrackSurprisinglySweetSlash() {
-      var cleanups = new Cleanups(withProperty("_surprisinglySweetSlashUsed", 0), withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_surprisinglySweetSlashUsed", 0), withFight())) {
         String urlString = "fight.php?action=skill&whichskill=7488";
         String html = html("request/test_fight_surprisingly_sweet_slash.html");
         FightRequest.registerRequest(true, urlString);
@@ -2807,9 +2585,7 @@ public class FightRequestTest {
 
     @Test
     public void canTrackSurprisinglySweetStab() {
-      var cleanups = new Cleanups(withProperty("_surprisinglySweetStabUsed", 0), withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_surprisinglySweetStabUsed", 0), withFight())) {
         String urlString = "fight.php?action=skill&whichskill=7489";
         String html = html("request/test_fight_surprisingly_sweet_stab.html");
         FightRequest.registerRequest(true, urlString);
@@ -2821,13 +2597,11 @@ public class FightRequestTest {
 
   @Test
   public void canTrackMimicEggLay() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("mimicEggMonsters", ""),
             withProperty("_mimicEggsObtained", 0),
-            withFight());
-
-    try (cleanups) {
+            withFight())) {
       String urlString = "fight.php?action=skill&whichskill=7494";
       String html = html("request/test_fight_lay_mimic_egg_success.html");
       FightRequest.registerRequest(true, urlString);
@@ -2839,9 +2613,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectSpringBootsBanish() {
-    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withBanishedMonsters(""))) {
       parseCombatData(
           "request/test_fight_spring_boots_banish.html", "fight.php?action=skill&whichskill=7501");
 
@@ -2853,14 +2625,13 @@ public class FightRequestTest {
   class ResearchPoints {
     @Test
     public void initialResearchIsDetected() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
               withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
-              withFight(0));
-      try (cleanups) {
+              withFight(0))) {
         String html = html("request/test_fight_research_initial.html");
         String url = "fight.php?ireallymeanit=1709453567";
         FightRequest.registerRequest(true, url);
@@ -2872,15 +2643,14 @@ public class FightRequestTest {
 
     @Test
     public void advancedResearchSuccessIsDetected() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
               withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
               withNextMonster("Beaver"),
-              withFight(1));
-      try (cleanups) {
+              withFight(1))) {
         String html = html("request/test_fight_research_advanced_success.html");
         String url = "fight.php?whichskill=7512&action=skill";
         FightRequest.registerRequest(true, url);
@@ -2892,15 +2662,14 @@ public class FightRequestTest {
 
     @Test
     public void advancedResearchFailureIsDetected() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
               withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
               withNextMonster("Beaver"),
-              withFight(1));
-      try (cleanups) {
+              withFight(1))) {
         String html = html("request/test_fight_research_advanced_failed.html");
         String url = "fight.php?whichskill=7512&action=skill";
         FightRequest.registerRequest(true, url);
@@ -2921,8 +2690,7 @@ public class FightRequestTest {
       "four_with_duplicates, spectral jellyfish, tentacle;head;butt;tentacle"
     })
     public void canParseDartboard(String file, String monsterName, String partNames) {
-      var cleanups = new Cleanups(withProperty("_currentDartboard", ""), withFight(0));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_currentDartboard", ""), withFight(0))) {
         String html = html("request/test_fight_darts_" + file + ".html");
 
         // Derive expected skills
@@ -2961,9 +2729,7 @@ public class FightRequestTest {
 
     @Test
     public void canDetectDartsThrown() {
-      var cleanups = new Cleanups(withFight(), withProperty("dartsThrown", 16));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withProperty("dartsThrown", 16))) {
         parseCombatData("request/test_fight_dart.html", "fight.php?action=skill&whichskill=7516");
 
         assertThat("dartsThrown", hasIntegerValue(equalTo(17)));
@@ -2975,9 +2741,7 @@ public class FightRequestTest {
   class RomanCandelabra {
     @Test
     public void canDetectPurpleCandleCast() {
-      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraPurpleCasts", 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withProperty("romanCandelabraPurpleCasts", 0))) {
         parseCombatData(
             "request/test_fight_purple_candle.html",
             "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_PURPLE_CANDLE);
@@ -2989,9 +2753,7 @@ public class FightRequestTest {
 
     @Test
     public void canDetectRedCandleCast() {
-      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraRedCasts", 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withProperty("romanCandelabraRedCasts", 0))) {
         parseCombatData(
             "request/test_fight_red_candle.html",
             "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_RED_CANDLE);
@@ -3002,9 +2764,7 @@ public class FightRequestTest {
 
     @Test
     public void canDetectYellowCandleCast() {
-      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraYellowCasts", 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withProperty("romanCandelabraYellowCasts", 0))) {
         parseCombatData(
             "request/test_fight_yellow_candle.html",
             "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_YELLOW_CANDLE);
@@ -3015,9 +2775,7 @@ public class FightRequestTest {
 
     @Test
     public void canDetectBlueCandleCast() {
-      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraBlueCasts", 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withProperty("romanCandelabraBlueCasts", 0))) {
         parseCombatData(
             "request/test_fight_blue_candle.html",
             "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_BLUE_CANDLE);
@@ -3028,9 +2786,7 @@ public class FightRequestTest {
 
     @Test
     public void canDetectGreenCandleCast() {
-      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraGreenCasts", 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withProperty("romanCandelabraGreenCasts", 0))) {
         parseCombatData(
             "request/test_fight_green_candle.html",
             "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_GREEN_CANDLE);
@@ -3044,9 +2800,7 @@ public class FightRequestTest {
   class TearawayPants {
     @Test
     public void canTrackPlantAdventures() {
-      var cleanups = new Cleanups(withProperty("_tearawayPantsAdvs", 0), withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_tearawayPantsAdvs", 0), withFight())) {
         String urlString = "fight.php?action=skill&whichskill=7527";
         String html = html("request/test_fight_tearaway_gain_adv.html");
         FightRequest.registerRequest(true, urlString);
@@ -3057,9 +2811,7 @@ public class FightRequestTest {
 
     @Test
     public void canTrackItemDropImprovement() {
-      var cleanups = new Cleanups(withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight())) {
         String urlString = "fight.php?action=skill&whichskill=7527";
         String html = html("request/test_fight_tearaway_itemdrop.html");
         FightRequest.registerRequest(true, urlString);
@@ -3072,9 +2824,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectThrowinEmberBanish() {
-    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withBanishedMonsters(""))) {
       parseCombatData(
           "request/test_fight_throwin_ember.html",
           "fight.php?action=useitem&whichitem=11652&whichitem2=8489");
@@ -3092,7 +2842,7 @@ public class FightRequestTest {
       "request/test_fight_run.html"
     })
     void tracksCharge(String file) {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVANT_GUARD),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD),
@@ -3105,7 +2855,7 @@ public class FightRequestTest {
 
     @Test
     void tracksReady() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVANT_GUARD),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD),
@@ -3118,7 +2868,7 @@ public class FightRequestTest {
 
     @Test
     void resetsChattedBodyguardOnEncounter() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVANT_GUARD),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD),
@@ -3131,12 +2881,11 @@ public class FightRequestTest {
 
     @Test
     void recordsBonusApplied() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("burlyBodyguardReceivedBonus", false),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
         assertThat("burlyBodyguardReceivedBonus", isSetTo(true));
       }
@@ -3145,13 +2894,12 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 6, 11})
     void addsExperienceFromBonus(final int points) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("avantGuardPoints", points),
               withProperty("burlyBodyguardReceivedBonus", false),
               withFamiliar(FamiliarPool.BURLY_BODYGUARD, 0),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
         var fam = KoLCharacter.getEffectiveFamiliar();
         assertThat(fam.getTotalExperience(), is((int) Math.pow(points, 2) + 1));
@@ -3164,11 +2912,10 @@ public class FightRequestTest {
     @Test
     public void canDetectBatWingsWins() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
-              withProperty("_batWingsFreeFights", 0));
-      try (cleanups) {
+              withProperty("_batWingsFreeFights", 0))) {
         parseCombatData("request/test_fight_bat_wings_free.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("You flap your bat wings gustily"));
@@ -3178,13 +2925,11 @@ public class FightRequestTest {
 
     @Test
     void swoopRecorded() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
               withProperty("_batWingsSwoopUsed", 0),
-              withFight());
-
-      try (cleanups) {
+              withFight())) {
         parseCombatData(
             "request/test_fight_bat_wings_swoop.html", "fight.php?action=skill&whichskill=7530");
         assertThat("_batWingsSwoopUsed", isSetTo(1));
@@ -3193,13 +2938,11 @@ public class FightRequestTest {
 
     @Test
     void cauldronRecorded() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
               withProperty("_batWingsCauldronUsed", 0),
-              withFight());
-
-      try (cleanups) {
+              withFight())) {
         parseCombatData(
             "request/test_fight_bat_wings_cauldron.html", "fight.php?action=skill&whichskill=7531");
         assertThat("_batWingsCauldronUsed", isSetTo(1));
@@ -3211,8 +2954,7 @@ public class FightRequestTest {
   class Authority {
     @Test
     void canDetectAssertAuthority() {
-      var cleanups = new Cleanups(withProperty("_assertYourAuthorityCast", 0), withFight());
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_assertYourAuthorityCast", 0), withFight())) {
         parseCombatData(
             "request/test_fight_sheriff_authority.html", "fight.php?action=skill&whichskill=7532");
         assertThat("_assertYourAuthorityCast", isSetTo(1));
@@ -3225,12 +2967,11 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7})
     void canTrackProcIndex(final int index) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("peaceTurkeyIndex", index > 0 ? 0 : 5),
               withFamiliar(FamiliarPool.PEACE_TURKEY),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_fight_peace_turkey_" + index + ".html");
         assertThat("peaceTurkeyIndex", isSetTo(index));
       }
@@ -3239,9 +2980,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectSplitPeaSoupBanish() {
-    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withBanishedMonsters(""))) {
       parseCombatData(
           "request/test_fight_split_pea_soup.html",
           "fight.php?action=useitem&whichitem=11685&whichitem2=0");
@@ -3257,12 +2996,11 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(ints = {FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN})
     public void tracksProgressOnWin(int familiar) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(familiar),
               withProperty("powerPillProgress", 12),
-              withProperty("_powerPillDrops", 1));
-      try (cleanups) {
+              withProperty("_powerPillDrops", 1))) {
         parseCombatData("request/test_fight_win.html");
         assertThat("powerPillProgress", isSetTo(13));
         assertThat("_powerPillDrops", isSetTo(1));
@@ -3277,12 +3015,11 @@ public class FightRequestTest {
       FamiliarPool.MS_PUCK_MAN + ",test_fight_run.html",
     })
     public void doesntTrackProgressOnRunOrLoss(int familiar, String file) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(familiar),
               withProperty("powerPillProgress", 12),
-              withProperty("_powerPillDrops", 1));
-      try (cleanups) {
+              withProperty("_powerPillDrops", 1))) {
         parseCombatData("request/" + file);
         assertThat("powerPillProgress", isSetTo(12));
         assertThat("_powerPillDrops", isSetTo(1));
@@ -3292,9 +3029,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectAnchorBombBanish() {
-    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withBanishedMonsters(""))) {
       parseCombatData(
           "request/test_fight_anchor_bomb.html",
           "fight.php?action=useitem&whichitem=11706&whichitem2=0");
@@ -3306,8 +3041,7 @@ public class FightRequestTest {
   @Test
   public void canDetectPirateHookSteal() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withFight(), withEquipped(Slot.OFFHAND, "deft pirate hook"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withEquipped(Slot.OFFHAND, "deft pirate hook"))) {
       parseCombatData("request/test_fight_deft_pirate_hook_steal.html", "fight.php?action=attack");
       var text = RequestLoggerOutput.stopStream();
       assertThat(
@@ -3322,8 +3056,7 @@ public class FightRequestTest {
     @Test
     public void parseInitialPokefam() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withFight(0), withPath(Path.POKEFAM));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(0), withPath(Path.POKEFAM))) {
         parseCombatData("request/test_fight_pokefam_start.html", "fambattle.php");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("Horlotte, Lv. 1 Trick-or-Treating Tot"));
@@ -3340,8 +3073,7 @@ public class FightRequestTest {
     @Test
     public void logPokefamMoves() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withFightRequestPokefam(), withFight(1), withPath(Path.POKEFAM));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFightRequestPokefam(), withFight(1), withPath(Path.POKEFAM))) {
         parseCombatData(
             "request/test_fight_pokefam_end.html", "fambattle.php?famaction[splash-110]=Splash");
         var text = RequestLoggerOutput.stopStream();
@@ -3352,9 +3084,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectGlitchedMalwareBanish() {
-    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withBanishedMonsters(""))) {
       parseCombatData(
           "request/test_fight_glitched_malware.html", "fight.php?action=skill&whichskill=7548");
 
@@ -3376,14 +3106,13 @@ public class FightRequestTest {
       KoLAdventure adventure = AdventureDatabase.getAdventureByName(adventureName);
       int snarfblat = adventure.getSnarfblat();
       String html = html(fileName);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withFight(0),
               withProperty("_cyberZone1Turns", 4),
               withProperty("_cyberZone2Turns", 4),
-              withProperty("_cyberZone3Turns", 4));
-      try (cleanups) {
+              withProperty("_cyberZone3Turns", 4))) {
         client.addResponse(
             302, Map.of("location", List.of("fight.php?ireallymeanit=1667327836")), "");
         client.addResponse(200, html);
@@ -3412,14 +3141,13 @@ public class FightRequestTest {
       var client = builder.client;
       String fileName = "request/test_fight_new_overclocked_win.html";
       String html = html(fileName);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withSkill(SkillPool.OVERCLOCK10),
               withLastLocation("Cyberzone " + securityLevel),
               withFight(4),
-              withProperty("_cyberFreeFights", 5));
-      try (cleanups) {
+              withProperty("_cyberFreeFights", 5))) {
         client.addResponse(200, html);
         client.addResponse(200, ""); // api.php
 
@@ -3437,14 +3165,13 @@ public class FightRequestTest {
       var client = builder.client;
       String fileName = "request/test_fight_new_overclocked_win.html";
       String html = html(fileName);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withSkill(SkillPool.OVERCLOCK10),
               withLastLocation("Cyberzone " + securityLevel),
               withFight(4),
-              withProperty("_cyberFreeFights", 10));
-      try (cleanups) {
+              withProperty("_cyberFreeFights", 10))) {
         client.addResponse(200, html);
         client.addResponse(200, ""); // api.php
 
@@ -3461,14 +3188,13 @@ public class FightRequestTest {
       var client = builder.client;
       String fileName = "request/test_cyrpt_boss_defeat.html";
       String html = html(fileName);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withSkill(SkillPool.OVERCLOCK10),
               withLastLocation("The Defiled Cranny"),
               withFight(1),
-              withProperty("_cyberFreeFights", 5));
-      try (cleanups) {
+              withProperty("_cyberFreeFights", 5))) {
         client.addResponse(200, html);
         client.addResponse(200, ""); // api.php
 
@@ -3485,7 +3211,7 @@ public class FightRequestTest {
       public void canTrackBruteForceHammer() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withFight(0),
@@ -3496,8 +3222,7 @@ public class FightRequestTest {
                 // RAM +3
                 withEffect(EffectPool.CYBER_MEMORY_BOOST),
                 // Grants skill: Brute Force Hammer for 3 RAM
-                withEquipped(Slot.WEAPON, ItemPool.BRUTE_FORCE_HAMMER));
-        try (cleanups) {
+                withEquipped(Slot.WEAPON, ItemPool.BRUTE_FORCE_HAMMER))) {
           // adventure.php?snarfblat=587
           client.addResponse(
               302, Map.of("location", List.of("fight.php?ireallymeanit=1737296962")), "");
@@ -3554,7 +3279,7 @@ public class FightRequestTest {
       public void canTrackInjectMalware() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withFight(0),
@@ -3563,8 +3288,7 @@ public class FightRequestTest {
                 // RAM +3 (was active during my test)
                 withEffect(EffectPool.CYBER_MEMORY_BOOST),
                 // Grants skill: Inkect Malware for 1 RAM
-                withEquipped(Slot.OFFHAND, ItemPool.MALWARE_INJECTOR));
-        try (cleanups) {
+                withEquipped(Slot.OFFHAND, ItemPool.MALWARE_INJECTOR))) {
           // adventure.php?snarfblat=587
           client.addResponse(
               302, Map.of("location", List.of("fight.php?ireallymeanit=1737306988")), "");
@@ -3597,7 +3321,7 @@ public class FightRequestTest {
       public void canTrackEncrypteShuriken() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withFight(0),
@@ -3606,8 +3330,7 @@ public class FightRequestTest {
                 // RAM +3 (was active during my test)
                 withEffect(EffectPool.CYBER_MEMORY_BOOST),
                 // Grants skill: Inkect Malware for 1 RAM
-                withEquipped(Slot.WEAPON, ItemPool.ENCRYPTED_SHURIKEN));
-        try (cleanups) {
+                withEquipped(Slot.WEAPON, ItemPool.ENCRYPTED_SHURIKEN))) {
           // adventure.php?snarfblat=586
           client.addResponse(
               302, Map.of("location", List.of("fight.php?ireallymeanit=1737308332")), "");
@@ -3640,7 +3363,7 @@ public class FightRequestTest {
       public void canTrackRefreshHP() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withFight(0),
@@ -3649,8 +3372,7 @@ public class FightRequestTest {
                 // RAM +3 (was active during my test)
                 withEffect(EffectPool.CYBER_MEMORY_BOOST),
                 // Grants skill: Inkect Malware for 1 RAM
-                withEquipped(Slot.PANTS, ItemPool.WIRED_UNDERWEAR));
-        try (cleanups) {
+                withEquipped(Slot.PANTS, ItemPool.WIRED_UNDERWEAR))) {
           // adventure.php?snarfblat=585
           client.addResponse(
               302, Map.of("location", List.of("fight.php?ireallymeanit=1737309108")), "");
@@ -3682,13 +3404,12 @@ public class FightRequestTest {
       public void canTrackLaunchLogicGrenade() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withFight(0),
                 // Grants skill: Launch Logic Grenade for 0 RAM
-                withItem(ItemPool.LOGIC_GRENADE, 25));
-        try (cleanups) {
+                withItem(ItemPool.LOGIC_GRENADE, 25))) {
           // adventure.php?snarfblat=587
           client.addResponse(
               302, Map.of("location", List.of("fight.php?ireallymeanit=1737310026")), "");
@@ -3720,13 +3441,12 @@ public class FightRequestTest {
       public void canTrackDeployGlitchedMalware() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withFight(0),
                 // Grants skill: Deploy Glitched Malware for 0 RAM
-                withItem(ItemPool.GLITCHED_MALWARE, 8));
-        try (cleanups) {
+                withItem(ItemPool.GLITCHED_MALWARE, 8))) {
           // adventure.php?snarfblat=587
           client.addResponse(
               302, Map.of("location", List.of("fight.php?ireallymeanit=1737310597")), "");
@@ -3758,7 +3478,7 @@ public class FightRequestTest {
       public void canTrackThrustYourGeofencingRapier() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withFight(0),
@@ -3769,8 +3489,7 @@ public class FightRequestTest {
                 // RAM +3
                 withEffect(EffectPool.CYBER_MEMORY_BOOST),
                 // Grants skill: Thrust your geofencing rapier for 7 RAM
-                withEquipped(Slot.WEAPON, ItemPool.GEOFENCING_RAPIER));
-        try (cleanups) {
+                withEquipped(Slot.WEAPON, ItemPool.GEOFENCING_RAPIER))) {
           // adventure.php?snarfblat=587
           client.addResponse(
               302, Map.of("location", List.of("fight.php?ireallymeanit=1737300202")), "");
@@ -3806,8 +3525,7 @@ public class FightRequestTest {
   @Test
   public void canDetectPirateInsult() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withFight(), withProperty("lastPirateInsult3"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withProperty("lastPirateInsult3"))) {
       parseCombatData(
           "request/test_fight_pirate_insult.html",
           "fight.php?action=useitem&whichitem=2947&whichitem2=0");
@@ -3826,8 +3544,7 @@ public class FightRequestTest {
   @Test
   public void canDetectTimePrankMessage() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withLastLocation("Noob Cave"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withLastLocation("Noob Cave"))) {
       var page = "request/test_fight_time_prank.html";
       GenericRequest request = new GenericRequest("fight.php");
       request.responseText = html(page);
@@ -3847,12 +3564,11 @@ public class FightRequestTest {
     @Test
     void canDetectCupidBow() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.MINI_KIWI),
               withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         parseCombatData("request/test_cupid_bow.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("looks askance at the toy bow"));
@@ -3862,14 +3578,13 @@ public class FightRequestTest {
 
     @Test
     void canIncrementCupidBowOnFight() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.MINI_KIWI),
               withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
               withProperty("cupidBowFights", 1),
               withProperty("cupidBowLastFamiliar", 300),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         // Need a test that DOESN'T have the askance language
         parseCombatData("request/test_fight_haiku_serendipity.html");
         assertThat("cupidBowLastFamiliar", isSetTo("300"));
@@ -3879,14 +3594,13 @@ public class FightRequestTest {
 
     @Test
     void canChangeCupidBowOnFight() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.MINI_KIWI),
               withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
               withProperty("cupidBowFights", 0),
               withProperty("cupidBowLastFamiliar", 1),
-              withFight());
-      try (cleanups) {
+              withFight())) {
         // Need a test that DOESN'T have the askance language
         parseCombatData("request/test_fight_haiku_serendipity.html");
         assertThat("cupidBowLastFamiliar", isSetTo("300"));
@@ -3896,14 +3610,13 @@ public class FightRequestTest {
 
     @Test
     void canIncrementCupidBowOnRun() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.MINI_KIWI),
               withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
               withProperty("cupidBowFights", 1),
               withProperty("cupidBowLastFamiliar", 300),
-              withFight(0));
-      try (cleanups) {
+              withFight(0))) {
         // Need a test that DOESN'T have the askance language
         parseCombatData("request/test_fight_run.html");
         assertThat("cupidBowLastFamiliar", isSetTo("300"));
@@ -3917,8 +3630,7 @@ public class FightRequestTest {
     @Test
     public void canDetectSerendipity() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withFight(), withEffect(EffectPool.SERENDIPITY));
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withEffect(EffectPool.SERENDIPITY))) {
         parseCombatData("request/test_fight_haiku_serendipity.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(
@@ -3931,10 +3643,9 @@ public class FightRequestTest {
     @Test
     public void canDetectHaikuMonster() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withLastLocation("The Haiku Dungeon"), withFamiliar(FamiliarPool.CAT_BURGLAR));
-      try (cleanups) {
+              withLastLocation("The Haiku Dungeon"), withFamiliar(FamiliarPool.CAT_BURGLAR))) {
         var page = "request/test_fight_haiku_serendipity.html";
         GenericRequest request = new GenericRequest("fight.php");
         request.responseText = html(page);
@@ -3961,8 +3672,7 @@ public class FightRequestTest {
     @Test
     public void canDetectKnobGoblinPoseur() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withLastLocation("The Haiku Dungeon"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withLastLocation("The Haiku Dungeon"))) {
         var page = "request/test_fight_haiku_knob_goblin_poseur.html";
         GenericRequest request = new GenericRequest("fight.php");
         request.responseText = html(page);
@@ -3979,12 +3689,11 @@ public class FightRequestTest {
     @Test
     public void doNotThinkFightEndsEarlyWithBothCombatForms() {
       // check that we do not mistakenly set last combat won to "false" on round 0
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_lastCombatWon", true),
               withProperty("serverAddsCustomCombat", true),
-              withProperty("serverAddsBothCombat", true));
-      try (cleanups) {
+              withProperty("serverAddsBothCombat", true))) {
         parseCombatData("request/test_fight_battle_end_both_combat_bars.html");
         assertThat("_lastCombatWon", isSetTo(true));
       }
@@ -3992,12 +3701,11 @@ public class FightRequestTest {
 
     @Test
     public void runAwayEndsCombatWithBothCombatForms() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_lastCombatWon", true),
               withProperty("serverAddsCustomCombat", true),
-              withProperty("serverAddsBothCombat", true));
-      try (cleanups) {
+              withProperty("serverAddsBothCombat", true))) {
         parseCombatData("request/test_fight_battle_end_both_combat_bars_runaway.html");
         assertThat("_lastCombatWon", isSetTo(false));
       }
@@ -4005,10 +3713,10 @@ public class FightRequestTest {
 
     @Test
     public void runAwayEndsCombatWithOldCombatForm() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("_lastCombatWon", true), withProperty("serverAddsCustomCombat", false));
-      try (cleanups) {
+              withProperty("_lastCombatWon", true),
+              withProperty("serverAddsCustomCombat", false))) {
         parseCombatData("request/test_fight_battle_end_old_combat_bar_only_runaway.html");
         assertThat("_lastCombatWon", isSetTo(false));
       }
@@ -4016,10 +3724,9 @@ public class FightRequestTest {
 
     @Test
     public void runAwayEndsCombatWithNewCombatForm() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("_lastCombatWon", true), withProperty("serverAddsCustomCombat", true));
-      try (cleanups) {
+              withProperty("_lastCombatWon", true), withProperty("serverAddsCustomCombat", true))) {
         parseCombatData("request/test_fight_battle_end_new_combat_bar_only_runaway.html");
         assertThat("_lastCombatWon", isSetTo(false));
       }
@@ -4031,7 +3738,7 @@ public class FightRequestTest {
     @Test
     void parsesFurnitureDiscovery() {
       var goal = GoalManager.GOAL_LEPRECONDO.getInstance(1);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("Leprecondo"),
               withGoal(goal),
@@ -4039,8 +3746,7 @@ public class FightRequestTest {
               withProperty("leprecondoCurrentNeed"),
               withProperty("leprecondoNeedOrder"),
               withProperty("_leprecondoFurniture", 1),
-              withFight(0));
-      try (cleanups) {
+              withFight(0))) {
         assertTrue(GoalManager.hasGoal(goal));
         SessionLoggerOutput.startStream();
         parseCombatData("request/test_fight_leprecondo_furniture_found.html");
@@ -4057,14 +3763,13 @@ public class FightRequestTest {
     @Test
     void parsesManCaveDiscovery() {
       var goal = GoalManager.GOAL_LEPRECONDO.getInstance(1);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("Leprecondo"),
               withGoal(goal),
               withProperty("leprecondoDiscovered", "1,21"),
               withProperty("_leprecondoFurniture", 0),
-              withFight(0));
-      try (cleanups) {
+              withFight(0))) {
         String html = html("request/test_fight_leprecondo_mancave_found.html");
 
         SessionLoggerOutput.startStream();
@@ -4087,7 +3792,7 @@ public class FightRequestTest {
 
     @Test
     void parsesNeed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("Leprecondo"),
               withProperty("leprecondoDiscovered"),
@@ -4095,8 +3800,7 @@ public class FightRequestTest {
               withProperty("leprecondoLastNeedChange", 0),
               withProperty("leprecondoNeedOrder"),
               withCurrentRun(45),
-              withFight(0));
-      try (cleanups) {
+              withFight(0))) {
         parseCombatData("request/test_fight_leprecondo_furniture_found.html");
         assertThat("leprecondoCurrentNeed", isSetTo("booze"));
         assertThat("leprecondoLastNeedChange", isSetTo(45));
@@ -4105,7 +3809,7 @@ public class FightRequestTest {
 
     @Test
     void ignoresKnownNeed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("Leprecondo"),
               withProperty("leprecondoDiscovered"),
@@ -4113,8 +3817,7 @@ public class FightRequestTest {
               withProperty("leprecondoLastNeedChange", 42),
               withProperty("leprecondoNeedOrder"),
               withCurrentRun(45),
-              withFight(0));
-      try (cleanups) {
+              withFight(0))) {
         parseCombatData("request/test_fight_leprecondo_furniture_found.html");
         assertThat("leprecondoCurrentNeed", isSetTo("booze"));
         assertThat("leprecondoLastNeedChange", isSetTo(42));
@@ -4123,9 +3826,7 @@ public class FightRequestTest {
 
     @Test
     public void canDetectPunchOutBanish() {
-      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withBanishedMonsters(""))) {
         parseCombatData(
             "request/test_fight_punch_out_banish.html", "fight.php?action=skill&whichskill=7561");
 
@@ -4136,9 +3837,7 @@ public class FightRequestTest {
 
     @Test
     public void detectsAfterimageChainedMonster() {
-      var cleanups = new Cleanups(withProperty("_afterimageMonster", false));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_afterimageMonster", false))) {
         parseCombatData("request/test_fight_afterimage_chain.html");
         assertThat("_afterimageMonster", isSetTo(true));
       }
@@ -4149,13 +3848,11 @@ public class FightRequestTest {
   class ZootomistKicks {
     @Test
     public void canDetectKickTrack() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withTrackedMonsters(""),
-              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER));
-
-      try (cleanups) {
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER))) {
         parseCombatData(
             "request/test_fight_zoot_kick_track.html", "fight.php?action=skill&whichskill=7559");
 
@@ -4167,13 +3864,11 @@ public class FightRequestTest {
 
     @Test
     public void canDetectKickBanish() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withBanishedMonsters(""),
-              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.DIRE_CASSAVA));
-
-      try (cleanups) {
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.DIRE_CASSAVA))) {
         parseCombatData(
             "request/test_fight_zoot_kick_banish.html", "fight.php?action=skill&whichskill=7560");
 
@@ -4186,9 +3881,7 @@ public class FightRequestTest {
   @Test
   public void canDetectBloodBagFromDoctorBag() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withFight(), withProperty("_bloodBagDoctorBag", false));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withProperty("_bloodBagDoctorBag", false))) {
       parseCombatData("request/test_fight_lil_doctor_blood_bag.html", "fight.php?action=attack");
 
       assertThat("_bloodBagDoctorBag", isSetTo(true));
@@ -4202,9 +3895,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectBloodBagFromCloake() {
-    var cleanups = new Cleanups(withFight(), withProperty("_bloodBagCloake", false));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withProperty("_bloodBagCloake", false))) {
       parseCombatData(
           "request/test_fight_dark_feast_blood_bag.html",
           "fight.php?action=skill&whichskill=24000");
@@ -4216,8 +3907,7 @@ public class FightRequestTest {
   @Test
   public void canDetectYearbookCamera() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withFight(5), withPath(Path.KOLHS));
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(5), withPath(Path.KOLHS))) {
       var page = "request/test_fight_yearbook_camera.html";
       parseCombatData(page);
       var text = RequestLoggerOutput.stopStream();
@@ -4229,13 +3919,12 @@ public class FightRequestTest {
   @Test
   public void canDetectYearbookCameraHaiku() {
     RequestLoggerOutput.startStream();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withLastLocation("The Haiku Dungeon"),
             withNextMonster("ancient insane monk"),
             withFight(0),
-            withPath(Path.KOLHS));
-    try (cleanups) {
+            withPath(Path.KOLHS))) {
       var page = "request/test_fight_yearbook_camera_haiku.html";
       parseCombatData(page);
       var text = RequestLoggerOutput.stopStream();
@@ -4246,15 +3935,13 @@ public class FightRequestTest {
 
   @Test
   public void tracksLassoTraining() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("lassoTraining"),
             withProperty("lassoTrainingCount", 1),
             withEquipped(ItemPool.SEA_COWBOY_HAT),
-            withEquipped(ItemPool.SEA_CHAPS));
-
-    try (cleanups) {
+            withEquipped(ItemPool.SEA_CHAPS))) {
       var page = "request/test_fight_sea_lasso.html";
       parseCombatData(page, "fight.php?action=useitem&whichitem=4198&whichitem2=0");
       assertThat("lassoTraining", isSetTo("clumsily"));
@@ -4264,15 +3951,13 @@ public class FightRequestTest {
 
   @Test
   public void tracksMomSeaMonkeeProgress() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withNextMonster("school of many"),
             withProperty("momSeaMonkeeProgress", 3),
             withEquipped(ItemPool.SHARK_JUMPER),
-            withEquipped(ItemPool.SCALE_MAIL_UNDERWEAR));
-
-    try (cleanups) {
+            withEquipped(ItemPool.SCALE_MAIL_UNDERWEAR))) {
       FightRequest.updateFinalRoundData("", true, false);
       assertThat("momSeaMonkeeProgress", isSetTo(6));
     }
@@ -4282,10 +3967,8 @@ public class FightRequestTest {
   class Seadent {
     @Test
     public void seadentIncrementsConstructKill() {
-      var cleanups =
-          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"))) {
         parseCombatData("request/test_fight_seadent_nubbin.html");
         assertThat("seadentConstructKills", isSetTo(1));
         assertThat("seadentLevel", isSetTo(1));
@@ -4294,10 +3977,8 @@ public class FightRequestTest {
 
     @Test
     public void seadentIncrementsLevel() {
-      var cleanups =
-          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"))) {
         parseCombatData("request/test_fight_seadent_tine.html");
         assertThat("seadentConstructKills", isSetTo(1));
         assertThat("seadentLevel", isSetTo(2));
@@ -4306,9 +3987,7 @@ public class FightRequestTest {
 
     @Test
     public void canDetectSeadentLightning() {
-      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withBanishedMonsters(""))) {
         parseCombatData(
             "request/test_fight_seadent_lightning_banish.html",
             "fight.php?action=skill&whichskill=7568");
@@ -4320,9 +3999,7 @@ public class FightRequestTest {
     @Test
     public void canDetectSeadentFishReplace() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight())) {
         parseCombatData(
             "request/test_fight_replace_some_fish.html", "fight.php?action=skill&whichskill=7570");
 
@@ -4337,10 +4014,8 @@ public class FightRequestTest {
     @Test
     public void canDetectUnblemishedPearlDiveBarProgress() {
       RequestLoggerOutput.startStream();
-      var cleanups =
-          new Cleanups(withFight(), withProperty("_unblemishedPearlDiveBarProgress", 3.7));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withFight(), withProperty("_unblemishedPearlDiveBarProgress", 3.7))) {
         parseCombatData("request/test_fight_pearl_dive_bar_progress.html");
 
         var stream = RequestLoggerOutput.stopStream();
@@ -4352,13 +4027,11 @@ public class FightRequestTest {
     @Test
     public void canDetectUnblemishedPearlDiveBar() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_unblemishedPearlDiveBar"),
-              withProperty("_unblemishedPearlDiveBarProgress", 90.0));
-
-      try (cleanups) {
+              withProperty("_unblemishedPearlDiveBarProgress", 90.0))) {
         parseCombatData("request/test_fight_pearl_dive_bar.html");
 
         var stream = RequestLoggerOutput.stopStream();
@@ -4377,13 +4050,11 @@ public class FightRequestTest {
     @Test
     public void canDetectShrunkenHeadZombieCreation() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withFamiliar(FamiliarPool.LEFT_HAND),
-              withEquipped(Slot.FAMILIAR, ItemPool.SHRUNKEN_HEAD));
-
-      try (cleanups) {
+              withEquipped(Slot.FAMILIAR, ItemPool.SHRUNKEN_HEAD))) {
         parseCombatData("request/test_fight_shrunken_head_reanimate_skill_win.html");
 
         var stream = RequestLoggerOutput.stopStream();
@@ -4394,9 +4065,7 @@ public class FightRequestTest {
 
     @Test
     public void swapsToPreviousEquipmentOnZombieCreation() {
-      var cleanups = new Cleanups(withFight(), withEquipped(Slot.OFFHAND, ItemPool.SHRUNKEN_HEAD));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withEquipped(Slot.OFFHAND, ItemPool.SHRUNKEN_HEAD))) {
         parseCombatData("request/test_fight_shrunken_head_reanimate_skill_win_swap.html");
 
         assertThat(
@@ -4408,9 +4077,7 @@ public class FightRequestTest {
     @Test
     public void canDetectShrunkenHeadZombieCollapse() {
       RequestLoggerOutput.startStream();
-      var cleanups = withFight();
-
-      try (cleanups) {
+      try (var _ = withFight()) {
         parseCombatData("request/test_fight_shrunken_head_zombie_collapse.html");
 
         var stream = RequestLoggerOutput.stopStream();
@@ -4423,9 +4090,7 @@ public class FightRequestTest {
   @Test
   public void shouldNotAcquireItemsStolenByEwes() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withFight(), withNoItems());
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withNoItems())) {
       parseCombatData("request/test_fight_ewe_theft.html");
 
       var stream = RequestLoggerOutput.stopStream();
@@ -4440,10 +4105,9 @@ public class FightRequestTest {
   @Test
   public void shouldClearEweItemsWhenNoItemsStolen() {
     RequestLoggerOutput.startStream();
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withFight(0), withProperty("eweItem", String.valueOf(ItemPool.SNIFTER_BRANDY)));
-    try (cleanups) {
+            withFight(0), withProperty("eweItem", String.valueOf(ItemPool.SNIFTER_BRANDY)))) {
       parseCombatData("request/test_ewe_fight_drops.html");
       var stream = RequestLoggerOutput.stopStream();
       assertThat(Preferences.getString("eweItem"), equalTo(""));
@@ -4452,9 +4116,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectHeartstoneBanish() {
-    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withBanishedMonsters(""))) {
       parseCombatData(
           "request/test_fight_heartstone_banish.html", "fight.php?action=skill&whichskill=7587");
 
@@ -4465,9 +4127,7 @@ public class FightRequestTest {
 
   @Test
   public void canUpdateStolenLetters() {
-    var cleanups = new Cleanups(withFight(), withProperty("heartstoneLetters", "GO"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withProperty("heartstoneLetters", "GO"))) {
       parseCombatData(
           "request/test_fight_steal_letter.html", "fight.php?action=skill&whichskill=7585");
 
@@ -4479,9 +4139,7 @@ public class FightRequestTest {
   class BaseballDiamond {
     @Test
     public void canInitializeBaseballTeamPreferenceWhenEmpty() {
-      var cleanups = new Cleanups(withProperty("baseballTeam", ""), withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("baseballTeam", ""), withFight())) {
         parseCombatData("request/test_fight_baseball_diamond.html");
         assertThat("baseballTeam", isSetTo("977"));
       }
@@ -4489,9 +4147,7 @@ public class FightRequestTest {
 
     @Test
     public void baseballTeamPreferenceBehavesAsFifoQueue() {
-      var cleanups = new Cleanups(withProperty("baseballTeam", "1,2,3,4,5,6,7,8,9"), withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("baseballTeam", "1,2,3,4,5,6,7,8,9"), withFight())) {
         parseCombatData("request/test_fight_baseball_diamond.html");
         assertThat("baseballTeam", isSetTo("2,3,4,5,6,7,8,9,977"));
       }
@@ -4500,9 +4156,7 @@ public class FightRequestTest {
     @Test
     public void logsRecruitmentMessage() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withProperty("baseballTeam", ""), withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("baseballTeam", ""), withFight())) {
         parseCombatData("request/test_fight_baseball_diamond.html");
         var stream = RequestLoggerOutput.stopStream();
         assertThat(stream, containsString("You recruit a suckubus to play baseball."));
@@ -4512,8 +4166,7 @@ public class FightRequestTest {
     @Test
     public void tracksCurveballWins() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withProperty("_curveballFightsLeft", 2));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_curveballFightsLeft", 2))) {
         parseCombatData("request/test_fight_baseball_curveball_free.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("Having bent physics with your non-Euclidean curveball"));
@@ -4524,10 +4177,10 @@ public class FightRequestTest {
 
   @Test
   public void tracksVermincelliFreeRats() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("lastTavernSquare", 23), withProperty("_legendaryVermincelliFreeRats", 2));
-    try (cleanups) {
+            withProperty("lastTavernSquare", 23),
+            withProperty("_legendaryVermincelliFreeRats", 2))) {
       parseCombatData("request/test_fight_vermincelli_free.html");
       assertThat("_legendaryVermincelliFreeRats", isSetTo(3));
     }
@@ -4535,8 +4188,7 @@ public class FightRequestTest {
 
   @Test
   public void tracksLasagmbieMana() {
-    var cleanups = withProperty("_legendaryLasagmbieMana", 2);
-    try (cleanups) {
+    try (var _ = withProperty("_legendaryLasagmbieMana", 2)) {
       parseCombatData("request/test_fight_lasagmbie_mana.html");
       assertThat("_legendaryLasagmbieMana", isSetTo(3));
     }
@@ -4545,15 +4197,13 @@ public class FightRequestTest {
   @Test
   public void tracksSwordOfSwordsKills() {
     RequestLoggerOutput.startStream();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFight(),
             withProperty("_swordOfSWordsKills"),
             withProperty("_swordOfSWordsMonsterChanged"),
             withProperty("swordOfSWordsMonster"),
-            withFamiliar(FamiliarPool.SWORD_OF_SWORDS));
-
-    try (cleanups) {
+            withFamiliar(FamiliarPool.SWORD_OF_SWORDS))) {
       parseCombatData(
           "request/test_fight_sword_drop_table.html", "fight.php?action=skill&whichskill=7593");
       String text = RequestLoggerOutput.stopStream();
@@ -4569,14 +4219,12 @@ public class FightRequestTest {
   class CupOf13s {
     @Test
     void cupOf13sCharges() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_cupOf13sCharges", 5),
               withProperty("_cupOf13sDrops", 3),
-              withEquipped(Slot.OFFHAND, ItemPool.CUP_OF_13S));
-
-      try (cleanups) {
+              withEquipped(Slot.OFFHAND, ItemPool.CUP_OF_13S))) {
         // Any end-of-fight will do
         parseCombatData("request/test_fight_sword_drop_table.html");
 
@@ -4588,14 +4236,12 @@ public class FightRequestTest {
     @Test
     void cupOf13sDropHandled() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_cupOf13sCharges", 10),
               withProperty("_cupOf13sDrops", 3),
-              withEquipped(Slot.OFFHAND, ItemPool.CUP_OF_13S));
-
-      try (cleanups) {
+              withEquipped(Slot.OFFHAND, ItemPool.CUP_OF_13S))) {
         parseCombatData("request/test_fight_cup_of_13s_drop.html");
         String text = RequestLoggerOutput.stopStream();
 
@@ -4610,14 +4256,12 @@ public class FightRequestTest {
   class LaughingStock {
     @Test
     void laughingStockCharges() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_laughingStockCharges", 20),
               withProperty("_laughingStockFruitDropped", 11),
-              withEquipped(Slot.ACCESSORY1, ItemPool.PORTABLE_LAUGHING_STOCK));
-
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, ItemPool.PORTABLE_LAUGHING_STOCK))) {
         // Any end-of-fight will do
         parseCombatData("request/test_fight_sword_drop_table.html");
 
@@ -4629,14 +4273,12 @@ public class FightRequestTest {
     @Test
     void laughingStockDropHandled() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_laughingStockCharges", 20),
               withProperty("_laughingStockFruitDropped", 11),
-              withEquipped(Slot.ACCESSORY1, ItemPool.PORTABLE_LAUGHING_STOCK));
-
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, ItemPool.PORTABLE_LAUGHING_STOCK))) {
         parseCombatData("request/test_fight_laughing_stock_drop.html");
         String text = RequestLoggerOutput.stopStream();
 
@@ -4652,11 +4294,9 @@ public class FightRequestTest {
     @Test
     void canTrackHeadsFromInterestingCoin() {
       SessionLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("_interestingCoinHeads", false), withItem(ItemPool.INTERESTING_COIN));
-
-      try (cleanups) {
+              withProperty("_interestingCoinHeads", false), withItem(ItemPool.INTERESTING_COIN))) {
         parseCombatData(
             "request/test_fight_interesting_coin.html",
             "fight.php?action=useitem&whichitem=0&whichitem2=12275");
@@ -4670,9 +4310,7 @@ public class FightRequestTest {
 
     @Test
     void canTrackLiquidAsset() {
-      var cleanups = new Cleanups(withProperty("exerciseLiquidityCharges", 2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("exerciseLiquidityCharges", 2))) {
         parseCombatData(
             "request/test_fight_interestingcoin_liquid_asset.html",
             "fight.php?action=skill&whichskill=7596");
@@ -4683,9 +4321,7 @@ public class FightRequestTest {
     @Test
     void canTrackIntangibleAsset() {
       SessionLoggerOutput.startStream();
-      var cleanups = new Cleanups(withProperty("intangibleAssetCharges", 2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("intangibleAssetCharges", 2))) {
         parseCombatData(
             "request/test_fight_interestingcoin_intangible_asset.html", "fight.php?action=attack");
         var text = SessionLoggerOutput.stopStream();
@@ -4700,9 +4336,7 @@ public class FightRequestTest {
     @Test
     void canTrackToxicAsset() {
       SessionLoggerOutput.startStream();
-      var cleanups = new Cleanups(withProperty("toxicAssetCharges", 2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("toxicAssetCharges", 2))) {
         parseCombatData(
             "request/test_fight_interestingcoin_toxic_asset.html", "fight.php?action=attack");
         var text = SessionLoggerOutput.stopStream();
@@ -4718,9 +4352,7 @@ public class FightRequestTest {
   @Test
   void canDetectSoybeanFuturesPayoff() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withFight(), withProperty("soybeanFuturesEaten", 7));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withProperty("soybeanFuturesEaten", 7))) {
       parseCombatData("request/test_fight_soybean_futures_payoff.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your soybean futures finally pay off"));
@@ -4733,13 +4365,11 @@ public class FightRequestTest {
     @Test
     void handlesWaterBalloonToss() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_waterBalloonHeldByEnemy", false),
-              withProperty("_waterBalloonTossStreak", 11));
-
-      try (cleanups) {
+              withProperty("_waterBalloonTossStreak", 11))) {
         parseCombatData(
             "request/test_fight_waterballoon_tossed.html",
             "fight.php?action=useitem&whichitem=11309&whichitem2=0");
@@ -4753,13 +4383,11 @@ public class FightRequestTest {
     @Test
     void handlesWaterBalloonReturn() {
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withProperty("_waterBalloonHeldByEnemy", true),
-              withProperty("_waterBalloonTossStreak", 11));
-
-      try (cleanups) {
+              withProperty("_waterBalloonTossStreak", 11))) {
         parseCombatData("request/test_fight_waterballoon_returned.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("Your opponent returned your water balloon."));
@@ -4771,9 +4399,7 @@ public class FightRequestTest {
     @Test
     void handlesWaterBalloonDrop() {
       RequestLoggerOutput.startStream();
-      var cleanups = new Cleanups(withFight(), withProperty("_waterBalloonTossStreak", 11));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withProperty("_waterBalloonTossStreak", 11))) {
         parseCombatData("request/test_fight_waterballoon_dropped.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("Your opponent dropped the water balloon."));
@@ -4784,9 +4410,7 @@ public class FightRequestTest {
 
   @Test
   void handlesMeatShieldMaidenBlessing() {
-    var cleanups = new Cleanups(withFight(), withProperty("_blessingShieldStenchReceived", false));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withFight(), withProperty("_blessingShieldStenchReceived", false))) {
       parseCombatData(
           "request/test_fight_msm_protectme.html", "fight.php?action=skill&whichskill=7597");
       assertThat("_blessingShieldStenchReceived", isSetTo(true));
@@ -4797,9 +4421,7 @@ public class FightRequestTest {
   class SwitchMonster {
     @Test
     void manuelStatsPreservedOnSwitchmonster() {
-      var cleanups = new Cleanups(withFight(), withMuscle(300, 500), withMoxie(300, 500));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withMuscle(300, 500), withMoxie(300, 500))) {
         String fightInitPage = "request/test_fight_manuel_switchmonster_init.html";
         GenericRequest request = new GenericRequest("fight.php");
         request.responseText = html(fightInitPage);
@@ -4822,9 +4444,7 @@ public class FightRequestTest {
 
     @Test
     void manuelStatsHandledCorrectlyWhenSwitchingIntoUnresearchedMonster() {
-      var cleanups = new Cleanups(withFight());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight())) {
         String fightInitPage = "request/test_fight_switchmonster_intounknown_init.html";
         GenericRequest request = new GenericRequest("fight.php");
         request.responseText = html(fightInitPage);
@@ -4854,9 +4474,7 @@ public class FightRequestTest {
 
     @Test
     void currentEncounterUpdatedOnSwitchmonster() {
-      var cleanups = new Cleanups(withFight(), withCurrentEncounter("crate"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFight(), withCurrentEncounter("crate"))) {
         parseCombatData(
             "request/test_fight_manuel_switchmonster_feesh.html",
             "fight.php?action=skill&whichskill=7570");

@@ -73,9 +73,7 @@ class JurassicParkaCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void warnAgainstUnknownInput() {
-    var cleanups = new Cleanups(withItem(ItemPool.JURASSIC_PARKA));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.JURASSIC_PARKA))) {
       String output = execute("slimy");
 
       assertThat(output, containsString("not recognised"));
@@ -88,9 +86,7 @@ class JurassicParkaCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @CsvSource({"kachungasaur, 1", "hot, 5"})
   public void canChangeMode(final String params, final int decision) {
-    var cleanups = new Cleanups(withItem(ItemPool.JURASSIC_PARKA));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.JURASSIC_PARKA))) {
       execute(params);
 
       var requests = getRequests();
@@ -103,9 +99,7 @@ class JurassicParkaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void worksWithEquippedParka() {
-    var cleanups = withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA);
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA)) {
       String output = execute("spooky");
 
       assertContinueState();
@@ -115,12 +109,10 @@ class JurassicParkaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void worksWithReplicaParka() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.LEGACY_OF_LOATHING),
-            withEquipped(Slot.SHIRT, ItemPool.REPLICA_JURASSIC_PARKA));
-
-    try (cleanups) {
+            withEquipped(Slot.SHIRT, ItemPool.REPLICA_JURASSIC_PARKA))) {
       String output = execute("spooky");
 
       assertContinueState();

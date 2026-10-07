@@ -32,13 +32,11 @@ class ForeseeRequestTest {
   void failsWithoutPeridot() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withoutItem(ItemPool.PERIDOT_OF_PERIL),
-            withContinuationState());
-
-    try (cleanups) {
+            withContinuationState())) {
       var outputStream = new ByteArrayOutputStream();
       RequestLogger.openCustom(new PrintStream(outputStream));
 
@@ -56,14 +54,12 @@ class ForeseeRequestTest {
   void failsWhenPeridotIsUsedUp() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.PERIDOT_OF_PERIL),
             withProperty("_perilsForeseen", "3"),
-            withContinuationState());
-
-    try (cleanups) {
+            withContinuationState())) {
       var outputStream = new ByteArrayOutputStream();
       RequestLogger.openCustom(new PrintStream(outputStream));
 
@@ -82,14 +78,12 @@ class ForeseeRequestTest {
   void isPermittedWhenRequirementsAreMet() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.PERIDOT_OF_PERIL),
             withProperty("_perilsForeseen", "1"),
-            withContinuationState());
-
-    try (cleanups) {
+            withContinuationState())) {
       var request = new ForeseeRequest();
       request.run();
       assertContinueState();

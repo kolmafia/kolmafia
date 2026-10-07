@@ -29,13 +29,11 @@ class BasementRequestTest {
     "Collapse That Waveform!, X-dimensional horror"
   })
   void matchesMonsterFightFromResponse(String encounter, String monster) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withNextResponse(200, "Fernswarthy's Basement, Level 499: " + encounter),
             withBasementLevel(),
-            withContinuationState());
-
-    try (cleanups) {
+            withContinuationState())) {
       var req = new BasementRequest("Fernswarthy's Basement, Level 499");
       // Monster fights don't actually have stat requirements, so BasementRequest won't bail before
       // trying to enter the fight if we use run().
@@ -57,13 +55,11 @@ class BasementRequestTest {
     "Do away with the 'doo, Buffed Mysticality Test"
   })
   void matchesImpassableStatTestFromResponse(String encounter, String summary) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withNextResponse(200, "Fernswarthy's Basement, Level 499: " + encounter),
             withBasementLevel(),
-            withContinuationState());
-
-    try (cleanups) {
+            withContinuationState())) {
       var req = new BasementRequest("Fernswarthy's Basement, Level 499");
       req.run();
 

@@ -32,8 +32,7 @@ public class SnapperCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyPhylum() {
-    var cleanups = withFamiliar(FamiliarPool.RED_SNAPPER);
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.RED_SNAPPER)) {
       String output = execute("");
       assertErrorState();
       assertTrue(output.contains("Which monster phylum do you want?"));
@@ -42,8 +41,7 @@ public class SnapperCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidPhylum() {
-    var cleanups = withFamiliar(FamiliarPool.RED_SNAPPER);
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.RED_SNAPPER)) {
       String output = execute("dog");
       assertErrorState();
       assertTrue(output.contains("What kind of random monster is a dog?"));
@@ -52,10 +50,9 @@ public class SnapperCommandTest extends AbstractCommandTestBase {
 
   @Test
   void alreadyTrackingPhylum() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withFamiliar(FamiliarPool.RED_SNAPPER), withProperty("redSnapperPhylum", "beast"));
-    try (cleanups) {
+            withFamiliar(FamiliarPool.RED_SNAPPER), withProperty("redSnapperPhylum", "beast"))) {
       String output = execute("beast");
       assertContinueState();
       assertTrue(output.contains("already hot on the tail"));
@@ -64,8 +61,7 @@ public class SnapperCommandTest extends AbstractCommandTestBase {
 
   @Test
   void changesPhylum() {
-    var cleanups = withFamiliar(FamiliarPool.RED_SNAPPER);
-    try (cleanups) {
+    try (var _ = withFamiliar(FamiliarPool.RED_SNAPPER)) {
       String output = execute("beast");
       assertContinueState();
       assertTrue(output.contains("guiding you towards beasts"));

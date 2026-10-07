@@ -119,16 +119,14 @@ public class KoLCharacterTest {
 
   @Test
   public void getMaxSongs() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
             withEquipped(Slot.HAT, "brimstone beret"), // Four Songs (mutex)
             withEquipped(Slot.ACCESSORY1, "plexiglass pendant"), // Four Songs (mutex)
             withEquipped(Slot.WEAPON, "zombie accordion"), // Additional Song
             withSkill(SkillPool.MARIACHI_MEMORY) // Additional Song
-            );
-
-    try (cleanups) {
+            )) {
       KoLCharacter.recalculateAdjustments();
       assertEquals(6, KoLCharacter.getMaxSongs());
     }
@@ -136,9 +134,7 @@ public class KoLCharacterTest {
 
   @Test
   public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
-    var cleanups = new Cleanups(withLocation("Noob Cave"), withEffect("Colorfully Concealed"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withLocation("Noob Cave"), withEffect("Colorfully Concealed"))) {
       KoLCharacter.recalculateAdjustments();
       assertEquals(0, KoLCharacter.getCombatRateAdjustment());
     }
@@ -146,9 +142,7 @@ public class KoLCharacterTest {
 
   @Test
   public void underwaterZonesCheckUnderwaterNegativeCombat() {
-    var cleanups = new Cleanups(withLocation("The Ice Hole"), withEffect("Colorfully Concealed"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withLocation("The Ice Hole"), withEffect("Colorfully Concealed"))) {
       KoLCharacter.recalculateAdjustments();
       assertEquals(-5, KoLCharacter.getCombatRateAdjustment());
     }
@@ -156,12 +150,10 @@ public class KoLCharacterTest {
 
   @Test
   public void canFindFamiliarByRace() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-            withFamiliarInTerrarium(FamiliarPool.BADGER));
-
-    try (cleanups) {
+            withFamiliarInTerrarium(FamiliarPool.BADGER))) {
       var fam = KoLCharacter.usableFamiliar("mosquito");
       assertEquals(FamiliarPool.MOSQUITO, fam.getId());
     }
@@ -169,12 +161,10 @@ public class KoLCharacterTest {
 
   @Test
   public void returnsNullIfFamiliarRaceDoesntExist() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-            withFamiliarInTerrarium(FamiliarPool.BADGER));
-
-    try (cleanups) {
+            withFamiliarInTerrarium(FamiliarPool.BADGER))) {
       var fam = KoLCharacter.usableFamiliar("non-existent familiar");
       assertNull(fam);
     }
@@ -182,12 +172,10 @@ public class KoLCharacterTest {
 
   @Test
   public void canFindFamiliarById() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-            withFamiliarInTerrarium(FamiliarPool.BADGER));
-
-    try (cleanups) {
+            withFamiliarInTerrarium(FamiliarPool.BADGER))) {
       var fam = KoLCharacter.usableFamiliar(FamiliarPool.BADGER);
       assertEquals(FamiliarPool.BADGER, fam.getId());
     }
@@ -195,12 +183,10 @@ public class KoLCharacterTest {
 
   @Test
   public void returnsNullIfFamiliarIdDoesntExist() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-            withFamiliarInTerrarium(FamiliarPool.BADGER));
-
-    try (cleanups) {
+            withFamiliarInTerrarium(FamiliarPool.BADGER))) {
       var fam = KoLCharacter.usableFamiliar(13);
       assertNull(fam);
     }
@@ -208,13 +194,11 @@ public class KoLCharacterTest {
 
   @Test
   public void familiarsWithoutGsDoNotExistInGLover() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
             withFamiliarInTerrarium(FamiliarPool.BADGER),
-            withPath(Path.GLOVER));
-
-    try (cleanups) {
+            withPath(Path.GLOVER))) {
       var fam = KoLCharacter.usableFamiliar("mosquito");
       assertNull(fam);
     }
@@ -222,13 +206,11 @@ public class KoLCharacterTest {
 
   @Test
   public void familiarsWithGsDoExistInGLover() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
             withFamiliarInTerrarium(FamiliarPool.BADGER),
-            withPath(Path.GLOVER));
-
-    try (cleanups) {
+            withPath(Path.GLOVER))) {
       var fam = KoLCharacter.usableFamiliar("astral badger");
       assertEquals(FamiliarPool.BADGER, fam.getId());
     }
@@ -236,10 +218,8 @@ public class KoLCharacterTest {
 
   @Test
   public void familiarsWithoutBsDoExistInBeesHateYou() {
-    var cleanups =
-        new Cleanups(withPath(Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.MU));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withPath(Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.MU))) {
       var mu = KoLCharacter.usableFamiliar(FamiliarPool.MU);
       assertThat(mu, not(nullValue()));
     }
@@ -247,11 +227,9 @@ public class KoLCharacterTest {
 
   @Test
   public void familiarsWithBsDoNotExistInBeesHateYou() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withPath(Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.CAT_BURGLAR));
-
-    try (cleanups) {
+            withPath(Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.CAT_BURGLAR))) {
       var mu = KoLCharacter.usableFamiliar(FamiliarPool.CAT_BURGLAR);
       assertThat(mu, nullValue());
     }
@@ -259,13 +237,11 @@ public class KoLCharacterTest {
 
   @Test
   public void restrictedFamiliarsDoNotExistInStandard() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
             withFamiliarInTerrarium(FamiliarPool.BADGER),
-            withRestricted(true));
-
-    try (cleanups) {
+            withRestricted(true))) {
       var request = new StandardRequest();
       request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
       request.processResults();
@@ -277,13 +253,11 @@ public class KoLCharacterTest {
 
   @Test
   public void unrestrictedFamiliarsDoExistInStandard() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
             withFamiliarInTerrarium(FamiliarPool.BADGER),
-            withRestricted(true));
-
-    try (cleanups) {
+            withRestricted(true))) {
       var request = new StandardRequest();
       request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
       request.processResults();
@@ -295,10 +269,8 @@ public class KoLCharacterTest {
 
   @Test
   public void familiarsWithoutGsAreStillOwnedInGLover() {
-    var cleanups =
-        new Cleanups(withFamiliarInTerrarium(FamiliarPool.MOSQUITO), withPath(Path.GLOVER));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withFamiliarInTerrarium(FamiliarPool.MOSQUITO), withPath(Path.GLOVER))) {
       var fam = KoLCharacter.ownedFamiliar("mosquito");
       assertThat(fam.isPresent(), is(true));
       assertThat(fam.get().getId(), is(FamiliarPool.MOSQUITO));
@@ -307,13 +279,11 @@ public class KoLCharacterTest {
 
   @Test
   public void graftedFamiliarsArentUsableAndAreOwnedInZootomist() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
             withPath(Path.Z_IS_FOR_ZOOTOMIST),
-            withProperty("zootGraftedButtCheekLeftFamiliar", FamiliarPool.MOSQUITO));
-
-    try (cleanups) {
+            withProperty("zootGraftedButtCheekLeftFamiliar", FamiliarPool.MOSQUITO))) {
       var famUsable = KoLCharacter.usableFamiliar("mosquito");
       assertThat(famUsable, nullValue());
       var famOwned = KoLCharacter.ownedFamiliar("mosquito");
@@ -324,13 +294,11 @@ public class KoLCharacterTest {
 
   @Test
   public void restrictedFamiliarsDoNotExistInThrifty() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
             withFamiliarInTerrarium(FamiliarPool.BADGER),
-            withPath(Path.THRIFTY));
-
-    try (cleanups) {
+            withPath(Path.THRIFTY))) {
       var fam = KoLCharacter.usableFamiliar("astral badger");
       assertNull(fam);
     }
@@ -340,44 +308,38 @@ public class KoLCharacterTest {
   class StomachCapacity {
     @Test
     void robotsHaveNoStomachCapacity() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_sweetToothUsed", true),
               withClass(AscensionClass.ACCORDION_THIEF),
-              withPath(Path.YOU_ROBOT));
-      try (cleanups) {
+              withPath(Path.YOU_ROBOT))) {
         assertThat(KoLCharacter.getStomachCapacity(), is(0));
       }
     }
 
     @Test
     void greyGooHasNoStomachCapacity() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.STEEL_STOMACH),
               withClass(AscensionClass.GREY_GOO),
-              withPath(Path.GREY_YOU));
-
-      try (cleanups) {
+              withPath(Path.GREY_YOU))) {
         assertThat(KoLCharacter.getStomachCapacity(), is(0));
       }
     }
 
     @Test
     void vampyresCannotExpandStomach() {
-      var cleanups =
-          new Cleanups(withProperty("_pantsgivingFullness", 2), withClass(AscensionClass.VAMPYRE));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withProperty("_pantsgivingFullness", 2), withClass(AscensionClass.VAMPYRE))) {
         assertThat(KoLCharacter.getStomachCapacity(), is(5));
       }
     }
 
     @Test
     void borisHasABigAppetite() {
-      var cleanups = new Cleanups(withClass(AscensionClass.AVATAR_OF_BORIS));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.AVATAR_OF_BORIS))) {
         assertThat(KoLCharacter.getStomachCapacity(), is(20));
       }
     }
@@ -394,22 +356,18 @@ public class KoLCharacterTest {
           "ACCORDION_THIEF"
         })
     void standardClassesHave15Stomach(final AscensionClass ascensionClass) {
-      var cleanups = new Cleanups(withPath(Path.NONE), withClass(ascensionClass));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.NONE), withClass(ascensionClass))) {
         assertThat(KoLCharacter.getStomachCapacity(), is(15));
       }
     }
 
     @Test
     void awolClassesInAftercoreCanExpandStomachButDontFeastWithBoris() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withDay(2023, Month.APRIL, 19),
               withProperty("_voraciTeaUsed", true),
-              withClass(AscensionClass.COW_PUNCHER));
-
-      try (cleanups) {
+              withClass(AscensionClass.COW_PUNCHER))) {
         KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.getStomachCapacity(), is(11));
       }
@@ -417,9 +375,7 @@ public class KoLCharacterTest {
 
     @Test
     void teetotalersDoFeastWithBoris() {
-      var cleanups = new Cleanups(withDay(2023, Month.APRIL, 19), withPath(Path.TEETOTALER));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2023, Month.APRIL, 19), withPath(Path.TEETOTALER))) {
         KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.getStomachCapacity(), is(30));
       }
@@ -464,13 +420,11 @@ public class KoLCharacterTest {
   class LiverCapacity {
     @Test
     public void greyGooHasNoLiver() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.STEEL_LIVER),
               withClass(AscensionClass.GREY_GOO),
-              withPath(Path.GREY_YOU));
-
-      try (cleanups) {
+              withPath(Path.GREY_YOU))) {
         assertThat(KoLCharacter.getLiverCapacity(), equalTo(0));
       }
     }
@@ -491,10 +445,8 @@ public class KoLCharacterTest {
     @Test
     void vampyresCannotExpandLiver() {
       // "If you somehow got liver or stomach of steel, those would similarly not work."
-      var cleanups =
-          new Cleanups(withSkill(SkillPool.STEEL_LIVER), withClass(AscensionClass.VAMPYRE));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSkill(SkillPool.STEEL_LIVER), withClass(AscensionClass.VAMPYRE))) {
         assertThat(KoLCharacter.getLiverCapacity(), is(4));
       }
     }
@@ -563,30 +515,24 @@ public class KoLCharacterTest {
   class SpleenCapacity {
     @Test
     void greyGooHasNoSpleen() {
-      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withClass(AscensionClass.GREY_GOO))) {
         assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
       }
     }
 
     @Test
     void awolClassesCanSkillTo15Spleen() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withSkill(SkillPool.TOLERANT_CONSTITUTION), withClass(AscensionClass.BEANSLINGER));
-
-      try (cleanups) {
+              withSkill(SkillPool.TOLERANT_CONSTITUTION), withClass(AscensionClass.BEANSLINGER))) {
         assertThat(KoLCharacter.getSpleenLimit(), equalTo(15));
       }
     }
 
     @Test
     void spleenOfSteel() {
-      var cleanups =
-          new Cleanups(withSkill(SkillPool.STEEL_SPLEEN), withClass(AscensionClass.TURTLE_TAMER));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withSkill(SkillPool.STEEL_SPLEEN), withClass(AscensionClass.TURTLE_TAMER))) {
         assertThat(KoLCharacter.getSpleenLimit(), equalTo(20));
       }
     }
@@ -594,13 +540,11 @@ public class KoLCharacterTest {
     @ParameterizedTest
     @ValueSource(ints = {68, 69})
     void stillBeatingSpleen(final int sbsAscension) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("lastStillBeatingSpleen", sbsAscension),
               withAscensions(69),
-              withAdjustmentsRecalculated());
-
-      try (cleanups) {
+              withAdjustmentsRecalculated())) {
         assertThat(KoLCharacter.getSpleenLimit(), equalTo(sbsAscension == 69 ? 16 : 15));
       }
     }
@@ -610,14 +554,12 @@ public class KoLCharacterTest {
   class Autumnaton {
     @Test
     public void adventuringWithAutumnatonGivesExperience() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(1),
               withLocation("The Spooky Forest"),
               withProperty("autumnatonQuestTurn", 5),
-              withProperty("autumnatonQuestLocation", "The Spooky Forest"));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestLocation", "The Spooky Forest"))) {
         KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.currentNumericModifier(DoubleModifier.EXPERIENCE), is(1.0));
       }
@@ -625,14 +567,12 @@ public class KoLCharacterTest {
 
     @Test
     public void oldQuestDoesNotGiveExperience() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTurnsPlayed(6),
               withLocation("The Spooky Forest"),
               withProperty("autumnatonQuestTurn", 2),
-              withProperty("autumnatonQuestLocation", "The Spooky Forest"));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestLocation", "The Spooky Forest"))) {
         KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.currentNumericModifier(DoubleModifier.EXPERIENCE), is(0.0));
       }
@@ -643,7 +583,7 @@ public class KoLCharacterTest {
   class Liberation {
     @Test
     void resizesOrganContentsAfterSmallPath() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("kingLiberated"),
               withPath(Path.SMALL),
@@ -657,7 +597,7 @@ public class KoLCharacterTest {
 
     @Test
     void liberatingKingEnablesStandardRestrictedSkills() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("kingLiberated"),
               withPath(Path.STANDARD),
@@ -673,7 +613,7 @@ public class KoLCharacterTest {
   class RoninBreak {
     @Test
     void breakingRoninEnablesStandardRestrictedSkills() {
-      try (var cleanups = new Cleanups(withRonin(true), withSkill(SkillPool.DRINKING_TO_DRINK))) {
+      try (var _ = new Cleanups(withRonin(true), withSkill(SkillPool.DRINKING_TO_DRINK))) {
         assertThat(KoLCharacter.getLiverCapacity(), is(14));
         KoLCharacter.setRonin(false);
         assertThat(KoLCharacter.getLiverCapacity(), is(15));
@@ -685,8 +625,7 @@ public class KoLCharacterTest {
   class FreeRests {
     @Test
     void mayamCalendarChairGivesFiveFreeRests() {
-      var cleanups = new Cleanups(withProperty("_mayamRests", 5), withAdjustmentsRecalculated());
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_mayamRests", 5), withAdjustmentsRecalculated())) {
         assertThat(KoLCharacter.freeRestsAvailable(), is(5));
       }
     }
@@ -696,27 +635,25 @@ public class KoLCharacterTest {
   class TotalPower {
     @Test
     void canSumPower() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(ItemPool.PASTA_SPOON),
               withEquipped(ItemPool.BRICKO_PANTS),
               withEquipped(ItemPool.FUTURISTIC_HAT),
-              withEquipped(ItemPool.TUNAC));
-      try (cleanups) {
+              withEquipped(ItemPool.TUNAC))) {
         assertThat(KoLCharacter.getTotalPower(), is(290));
       }
     }
 
     @Test
     void countsTao() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.TAO_OF_THE_TERRAPIN),
               withEquipped(ItemPool.PASTA_SPOON),
               withEquipped(ItemPool.BRICKO_PANTS),
               withEquipped(ItemPool.FUTURISTIC_HAT),
-              withEquipped(ItemPool.TUNAC));
-      try (cleanups) {
+              withEquipped(ItemPool.TUNAC))) {
         assertThat(KoLCharacter.getTotalPower(), is(480));
       }
     }
@@ -736,25 +673,23 @@ public class KoLCharacterTest {
 
     @Test
     void countsHatTrickHats() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.HAT_TRICK),
               withEquipped(Slot.HATS, ItemPool.BRICKO_HAT),
-              withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT));
-      try (cleanups) {
+              withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT))) {
         assertThat(KoLCharacter.getTotalPower(), is(130));
       }
     }
 
     @Test
     void hatTrickTao() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.HAT_TRICK),
               withSkill(SkillPool.TAO_OF_THE_TERRAPIN),
               withEquipped(Slot.HATS, ItemPool.BRICKO_HAT),
-              withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT));
-      try (cleanups) {
+              withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT))) {
         assertThat(KoLCharacter.getTotalPower(), is(260));
       }
     }
@@ -770,51 +705,42 @@ public class KoLCharacterTest {
 
     @Test
     void nonSealClubbersHaveNoFury() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.TURTLE_TAMER), withSkill(SkillPool.WRATH_OF_THE_WOLVERINE));
-
-      try (cleanups) {
+              withClass(AscensionClass.TURTLE_TAMER),
+              withSkill(SkillPool.WRATH_OF_THE_WOLVERINE))) {
         assertThat(KoLCharacter.getFuryLimit(), is(0));
       }
     }
 
     @Test
     void wrathlessSealClubbersHaveNoFury() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.SEAL_CLUBBER), withSkill(SkillPool.IRE_OF_THE_ORCA));
-
-      try (cleanups) {
+              withClass(AscensionClass.SEAL_CLUBBER), withSkill(SkillPool.IRE_OF_THE_ORCA))) {
         assertThat(KoLCharacter.getFuryLimit(), is(0));
       }
     }
 
     @Test
     void wrathfulSealClubbersHaveThreeFury() {
-      var cleanups = new Cleanups(withWrathfulSealClubber());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withWrathfulSealClubber())) {
         assertThat(KoLCharacter.getFuryLimit(), is(3));
       }
     }
 
     @Test
     void iredSealClubbersHaveFiveFury() {
-      var cleanups = new Cleanups(withWrathfulSealClubber(), withSkill(SkillPool.IRE_OF_THE_ORCA));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withWrathfulSealClubber(), withSkill(SkillPool.IRE_OF_THE_ORCA))) {
         assertThat(KoLCharacter.getFuryLimit(), is(5));
       }
     }
 
     @Test
     void legendarySealClubbingClubAddsOneFury() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withWrathfulSealClubber(), withEquipped(ItemPool.LEGENDARY_SEAL_CLUBBING_CLUB));
-
-      try (cleanups) {
+              withWrathfulSealClubber(), withEquipped(ItemPool.LEGENDARY_SEAL_CLUBBING_CLUB))) {
         assertThat(KoLCharacter.getFuryLimit(), is(4));
       }
     }
@@ -824,9 +750,7 @@ public class KoLCharacterTest {
   class DamageReduction {
     @Test
     void shieldInnateDamageReductionAddsToTotal() {
-      var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.OLD_SCHOOL_FLYING_DISC));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.OLD_SCHOOL_FLYING_DISC))) {
         assertThat(
             KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION), equalTo(24.0));
       }
@@ -834,9 +758,7 @@ public class KoLCharacterTest {
 
     @Test
     void shieldWithOnlyInnateDamageReductionIsTotal() {
-      var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.ASTRAL_SHIELD));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.ASTRAL_SHIELD))) {
         assertThat(
             KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION), equalTo(15.0));
       }

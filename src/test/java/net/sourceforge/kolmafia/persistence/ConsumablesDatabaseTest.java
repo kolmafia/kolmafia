@@ -97,13 +97,12 @@ class ConsumablesDatabaseTest {
 
     @Test
     void currentAdventuresFood() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("milkOfMagnesiumActive", true),
               withProperty("munchiesPillsUsed", 0),
               withEffect(EffectPool.BARREL_OF_LAUGHS, 5),
-              withSkill("Gourmand"));
-      try (cleanups) {
+              withSkill("Gourmand"))) {
         assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), is(0.0));
         assertThat(ConsumablesDatabase.getAverageAdventures("jumping horseradish"), is(12.5));
         assertThat(ConsumablesDatabase.getAverageAdventures("Sacramento wine"), is(5.5));
@@ -112,9 +111,8 @@ class ConsumablesDatabaseTest {
 
     @Test
     void currentAdventuresBooze() {
-      var cleanups =
-          new Cleanups(withEffect(EffectPool.BEER_BARREL_POLKA, 5), withEffect(EffectPool.ODE));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEffect(EffectPool.BEER_BARREL_POLKA, 5), withEffect(EffectPool.ODE))) {
         assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), is(0.0));
         assertThat(ConsumablesDatabase.getAverageAdventures("jumping horseradish"), is(5.5));
         assertThat(ConsumablesDatabase.getAverageAdventures("Sacramento wine"), is(7.5));
@@ -206,13 +204,11 @@ class ConsumablesDatabaseTest {
     void levelRequirement() {
       assertThat(ConsumablesDatabase.getLevelReqByName("extra-greasy slider"), is(13));
 
-      var cleanups = withLevel(1);
-      try (cleanups) {
+      try (var _ = withLevel(1)) {
         assertThat(ConsumablesDatabase.meetsLevelRequirement("extra-greasy slider"), is(false));
       }
 
-      var cleanups2 = new Cleanups(withLevel(13), withInteractivity(true));
-      try (cleanups2) {
+      try (var _ = new Cleanups(withLevel(13), withInteractivity(true))) {
         assertThat(ConsumablesDatabase.meetsLevelRequirement("extra-greasy slider"), is(true));
       }
     }
@@ -238,18 +234,16 @@ class ConsumablesDatabaseTest {
       assertThat(ConsumablesDatabase.getMysticalityRange("mushroom pizza"), equalTo("+16.5"));
       assertThat(ConsumablesDatabase.getMoxieRange("mushroom pizza"), equalTo("+0.0"));
 
-      var cleanups = withSkill("Pizza Lover");
-      try (cleanups) {
+      try (var _ = withSkill("Pizza Lover")) {
         assertThat(ConsumablesDatabase.getMuscleRange("mushroom pizza"), equalTo("+0.0"));
         assertThat(ConsumablesDatabase.getMysticalityRange("mushroom pizza"), equalTo("+33.0"));
         assertThat(ConsumablesDatabase.getMoxieRange("mushroom pizza"), equalTo("+0.0"));
       }
 
-      var cleanups2 =
+      try (var _ =
           new Cleanups(
               withEffect("Different Way of Seeing Things"),
-              withEffect(EffectPool.SYNTHESIS_LEARNING));
-      try (cleanups2) {
+              withEffect(EffectPool.SYNTHESIS_LEARNING))) {
         KoLCharacter.recalculateAdjustments();
         assertThat(ConsumablesDatabase.getMuscleRange("mushroom pizza"), equalTo("+0.0"));
         assertThat(ConsumablesDatabase.getMysticalityRange("mushroom pizza"), equalTo("+33.0"));
@@ -263,9 +257,7 @@ class ConsumablesDatabaseTest {
     @ParameterizedTest
     @CsvSource({"0, 0, 0", "9, 0, 0", "10, 2, 3.0", "50, 10, 5.0", "100, 20, 6.0"})
     void setDistillateData(int drams, int effectTurns, double adventures) {
-      var cleanups = new Cleanups(withProperty("familiarSweat", drams));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("familiarSweat", drams))) {
         ConsumablesDatabase.setDistillateData();
         assertThat(
             ConsumablesDatabase.getNotes("stillsuit distillate"),
@@ -280,9 +272,7 @@ class ConsumablesDatabaseTest {
   class AdventureRange {
     @Test
     void appliesOde() {
-      var cleanups = new Cleanups(withEffect(EffectPool.ODE, 3));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.ODE, 3))) {
         assertThat(ConsumablesDatabase.getAverageAdventures("bottle of gin"), is(6.0));
       }
     }
@@ -290,18 +280,14 @@ class ConsumablesDatabaseTest {
     @Disabled("We don't apply this yet! We need to refactor the gain effects")
     @Test
     void partlyAppliesOde() {
-      var cleanups = new Cleanups(withEffect(EffectPool.ODE, 2));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.ODE, 2))) {
         assertThat(ConsumablesDatabase.getAverageAdventures("bottle of gin"), is(6.0));
       }
     }
 
     @Test
     void doesNotApplyOdeToStillsuit() {
-      var cleanups = new Cleanups(withEffect(EffectPool.ODE), withProperty("familiarSweat", 10));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEffect(EffectPool.ODE), withProperty("familiarSweat", 10))) {
         ConsumablesDatabase.setDistillateData();
         assertThat(ConsumablesDatabase.getAverageAdventures("stillsuit distillate"), is(3.0));
       }
@@ -309,18 +295,14 @@ class ConsumablesDatabaseTest {
 
     @Test
     void appliesMilk() {
-      var cleanups = new Cleanups(withProperty("milkOfMagnesiumActive", true));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("milkOfMagnesiumActive", true))) {
         assertThat(ConsumablesDatabase.getAverageAdventures("fortune cookie"), is(6.0));
       }
     }
 
     @Test
     void doesNotApplyMilkToSushi() {
-      var cleanups = new Cleanups(withProperty("milkOfMagnesiumActive", true));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("milkOfMagnesiumActive", true))) {
         assertThat(ConsumablesDatabase.getAverageAdventures("beefy nigiri"), is(6.0));
       }
     }
@@ -328,9 +310,7 @@ class ConsumablesDatabaseTest {
     @ParameterizedTest
     @CsvSource({"2016, 6, 18", "2011, 3, 17"})
     void borisDayImprovesSomeConsumables(int year, int month, int day) {
-      var cleanups = new Cleanups(withDay(year, Month.of(month), day));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(year, Month.of(month), day))) {
         ConsumablesDatabase.reset();
         assertThat(ConsumablesDatabase.getAverageAdventures("bottle of gin"), is(3.0));
         assertThat(ConsumablesDatabase.getQuality("bottle of gin"), is(ConsumableQuality.CRAPPY));

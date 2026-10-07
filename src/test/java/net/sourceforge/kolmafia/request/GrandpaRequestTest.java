@@ -28,10 +28,8 @@ public class GrandpaRequestTest {
   void askingAboutHierfalGrantsTwinkleVision() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
-        new Cleanups(withHttpClientBuilder(builder), withProperty("hasTwinkleVision", false));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withHttpClientBuilder(builder), withProperty("hasTwinkleVision", false))) {
       client.addResponse(200, html("request/test_grandpa_hierfal.html"));
 
       String url = "monkeycastle.php?action=grandpastory&topic=hierfal";

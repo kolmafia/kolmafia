@@ -55,8 +55,7 @@ public class ChateauRequestTest {
       "chateau_restbox, request/test_request_chateau_restbox_next_free.html"
     })
     public void tracksAndDoesNotSetRestsToMaxIfNextFree(String action, String filename) {
-      var cleanups = propertyCleanups();
-      try (cleanups) {
+      try (var _ = propertyCleanups()) {
         ChateauRequest request = new ChateauRequest(action);
         request.responseText = html(filename);
         request.setHasResult(true);
@@ -72,8 +71,7 @@ public class ChateauRequestTest {
       "chateau_restlabel, request/test_request_chateau_restlabel.html"
     })
     public void setsRestsToMaxIfNextNonFree(String action, String filename) {
-      var cleanups = propertyCleanups();
-      try (cleanups) {
+      try (var _ = propertyCleanups()) {
         ChateauRequest request = new ChateauRequest(action);
         request.responseText = html(filename);
         request.setHasResult(true);
@@ -92,9 +90,7 @@ public class ChateauRequestTest {
       ItemPool.CHATEAU_FAN + ", Free Rests, 5",
     })
     void appliesModifiersFromChateau(final int itemId, final String modifierName, double score) {
-      var cleanups = new Cleanups(withChateau(itemId));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withChateau(itemId))) {
         assertThat(
             KoLCharacter.currentNumericModifier(DoubleModifier.byCaselessName(modifierName)),
             is(score));
@@ -111,71 +107,59 @@ public class ChateauRequestTest {
 
     @Test
     void availableIfInNoPath() {
-      var cleanups = withProperty("chateauAvailable", true);
-
-      try (cleanups) {
+      try (var _ = withProperty("chateauAvailable", true)) {
         assertThat(ChateauRequest.chateauAvailable(), is(true));
       }
     }
 
     @Test
     void notAvailableIfRestricted() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("chateauAvailable", true),
               withPath(Path.STANDARD),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Chateau Mantegna room key"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Chateau Mantegna room key"))) {
         assertThat(ChateauRequest.chateauAvailable(), is(false));
       }
     }
 
     @Test
     void availableIfLoLChateauEvenIfRestricted() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("replicaChateauAvailable", true),
               withPath(Path.LEGACY_OF_LOATHING),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Chateau Mantegna room key"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Chateau Mantegna room key"))) {
         assertThat(ChateauRequest.chateauAvailable(), is(true));
       }
     }
 
     @Test
     void notAvailableIfInExploathing() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("chateauAvailable", true), withPath(Path.KINGDOM_OF_EXPLOATHING));
-
-      try (cleanups) {
+              withProperty("chateauAvailable", true), withPath(Path.KINGDOM_OF_EXPLOATHING))) {
         assertThat(ChateauRequest.chateauAvailable(), is(false));
       }
     }
 
     @Test
     void notAvailableIfInBadMoon() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("chateauAvailable", true),
               withPath(Path.BAD_MOON),
-              withSign(ZodiacSign.BAD_MOON));
-
-      try (cleanups) {
+              withSign(ZodiacSign.BAD_MOON))) {
         assertThat(ChateauRequest.chateauAvailable(), is(false));
       }
     }
 
     @Test
     void notAvailableIfNoMountains() {
-      var cleanups =
-          new Cleanups(withProperty("chateauAvailable", true), withLimitMode(LimitMode.SPELUNKY));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("chateauAvailable", true), withLimitMode(LimitMode.SPELUNKY))) {
         assertThat(ChateauRequest.chateauAvailable(), is(false));
       }
     }
@@ -187,8 +171,7 @@ public class ChateauRequestTest {
     "request/test_request_chateau_restbox_next_nonfree.html,ungulith",
   })
   public void setsMonster(String html, String monster) {
-    var cleanups = withProperty("chateauMonster", "fluffy bunny");
-    try (cleanups) {
+    try (var _ = withProperty("chateauMonster", "fluffy bunny")) {
       ChateauRequest request = new ChateauRequest();
       request.responseText = html(html);
       request.processResponse();

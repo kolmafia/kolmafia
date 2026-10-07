@@ -469,7 +469,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                     SaveListener.this.content = FamiliarTrainingFrame.results.getHTMLContent();
                   }
                 });
-          } catch (Exception ie) {
+          } catch (Exception _) {
           }
 
           if (output == null) {
@@ -640,7 +640,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       return false;
     }
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       if (!trainFamiliar(goal, type, debug)) {
         return false;
       }
@@ -818,7 +818,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     // Learned skills
     int[] skills = new int[4];
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       // Let the battles begin!
       KoLmafia.updateDisplay("Starting training session...");
 

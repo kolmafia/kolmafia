@@ -43,11 +43,9 @@ public class EffectDatabaseTest {
 
   @Test
   void registerEffectPrintsExpectedDataLine() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withNextResponse(200, html("request/test_desc_effect_buzzed_on_distillate.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_desc_effect_buzzed_on_distillate.html")))) {
       RequestLoggerOutput.startStream();
       EffectDatabase.registerEffect(
           "Buzzed on Distillate", "d64eab33f648e1a77da23ae516353fb2", null);

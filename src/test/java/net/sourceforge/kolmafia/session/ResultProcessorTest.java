@@ -137,11 +137,10 @@ public class ResultProcessorTest {
 
     @Test
     public void gettingGoblinWaterFromAquagoblinCompletesGoblinQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED),
-              withoutItem(ItemPool.GOBLIN_WATER));
-      try (cleanups) {
+              withoutItem(ItemPool.GOBLIN_WATER))) {
         MonsterData testMonster = MonsterDatabase.findMonster("Aquagoblin");
         MonsterStatusTracker.setNextMonster(testMonster);
 
@@ -163,11 +162,10 @@ public class ResultProcessorTest {
 
     @Test
     public void gettingGoblinWaterFromCheengSpecsDoesNotCompleteGoblinQuest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED),
-              withoutItem(ItemPool.GOBLIN_WATER));
-      try (cleanups) {
+              withoutItem(ItemPool.GOBLIN_WATER))) {
         QuestDatabase.setQuestProgress(QuestDatabase.Quest.GOBLIN, QuestDatabase.UNSTARTED);
         MonsterData testMonster = MonsterDatabase.findMonster("zmobie");
         MonsterStatusTracker.setNextMonster(testMonster);
@@ -197,12 +195,10 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     public void gettingFirstClumsinessStone(int stone) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(QuestDatabase.Quest.CLUMSINESS, 1),
-              withProperty("clumsinessGroveBoss", "something"));
-
-      try (cleanups) {
+              withProperty("clumsinessGroveBoss", "something"))) {
         ResultProcessor.processResult(true, CLUMSINESS_STONES[stone]);
 
         assertThat(QuestDatabase.Quest.CLUMSINESS, isStep(2));
@@ -213,13 +209,11 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     public void gettingSecondClumsinessStone(int stone) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(QuestDatabase.Quest.CLUMSINESS, 3),
               withProperty("clumsinessGroveBoss", "something"),
-              withItem(CLUMSINESS_STONES[(stone + 1) % 2]));
-
-      try (cleanups) {
+              withItem(CLUMSINESS_STONES[(stone + 1) % 2]))) {
         ResultProcessor.processResult(true, CLUMSINESS_STONES[stone]);
 
         assertThat(QuestDatabase.Quest.CLUMSINESS, isFinished());
@@ -234,12 +228,10 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     public void gettingFirstGlacierStone(int stone) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(QuestDatabase.Quest.GLACIER, 1),
-              withProperty("glacierOfJerksBoss", "something"));
-
-      try (cleanups) {
+              withProperty("glacierOfJerksBoss", "something"))) {
         ResultProcessor.processResult(true, GLACIER_STONES[stone]);
 
         assertThat(QuestDatabase.Quest.GLACIER, isStep(2));
@@ -250,13 +242,11 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     public void gettingSecondGlacierStone(int stone) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(QuestDatabase.Quest.GLACIER, 3),
               withProperty("glacierOfJerksBoss", "something"),
-              withItem(GLACIER_STONES[(stone + 1) % 2]));
-
-      try (cleanups) {
+              withItem(GLACIER_STONES[(stone + 1) % 2]))) {
         ResultProcessor.processResult(true, GLACIER_STONES[stone]);
 
         assertThat(QuestDatabase.Quest.GLACIER, isFinished());
@@ -271,12 +261,10 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     public void gettingFirstMaelstromStone(int stone) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(QuestDatabase.Quest.MAELSTROM, 1),
-              withProperty("maelstromOfLoversBoss", "something"));
-
-      try (cleanups) {
+              withProperty("maelstromOfLoversBoss", "something"))) {
         ResultProcessor.processResult(true, MAELSTROM_STONES[stone]);
 
         assertThat(QuestDatabase.Quest.MAELSTROM, isStep(2));
@@ -287,13 +275,11 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     public void gettingSecondMaelstromStone(int stone) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withQuestProgress(QuestDatabase.Quest.MAELSTROM, 3),
               withProperty("maelstromOfLoversBoss", "something"),
-              withItem(MAELSTROM_STONES[(stone + 1) % 2]));
-
-      try (cleanups) {
+              withItem(MAELSTROM_STONES[(stone + 1) % 2]))) {
         ResultProcessor.processResult(true, MAELSTROM_STONES[stone]);
 
         assertThat(QuestDatabase.Quest.MAELSTROM, isFinished());
@@ -326,12 +312,10 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @MethodSource("cookbookbatRecipes")
     public void cookbookbatPropertyGetsUpdated(AdventureResult recipe) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
-              withProperty("_cookbookbatRecipeDrops", false));
-
-      try (cleanups) {
+              withProperty("_cookbookbatRecipeDrops", false))) {
         ResultProcessor.processResult(true, recipe);
 
         assertThat("_cookbookbatRecipeDrops", isSetTo(true));
@@ -340,12 +324,10 @@ public class ResultProcessorTest {
 
     @Test
     public void cookbookbatPropertyNoUpdateIfNotAdventureResult() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT),
-              withProperty("_cookbookbatRecipeDrops", false));
-
-      try (cleanups) {
+              withProperty("_cookbookbatRecipeDrops", false))) {
         ResultProcessor.processResult(false, ItemPool.get(ItemPool.ROBY_BAKED_VEGGIE_RICOTTA));
 
         assertThat("_cookbookbatRecipeDrops", isSetTo(false));
@@ -381,9 +363,7 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @MethodSource("infiniteDropFamiliars")
     public void propertyTracksDrops(int familiar, AdventureResult drop, String preference) {
-      var cleanups = new Cleanups(withFamiliar(familiar), withProperty(preference, 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withFamiliar(familiar), withProperty(preference, 0))) {
         ResultProcessor.processResult(true, drop);
 
         assertThat(preference, isSetTo(1));
@@ -405,7 +385,7 @@ public class ResultProcessorTest {
       public void getHempStringFromClosetCraftsNecklace() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withNoItems(),
@@ -413,9 +393,7 @@ public class ResultProcessorTest {
                 withItemInCloset(HEMP_STRING),
                 withProperty("autoCraft", true),
                 // The Plunger obviates meat paste
-                withSign(ZodiacSign.MONGOOSE));
-
-        try (cleanups) {
+                withSign(ZodiacSign.MONGOOSE))) {
           client.addResponse(200, html("request/test_uncloset_hemp_string.html"));
           client.addResponse(200, html("request/test_create_bonerdagon_necklace.html"));
           client.addResponse(200, ""); // api.php
@@ -449,7 +427,7 @@ public class ResultProcessorTest {
       public void getHempStringFromFightCraftsNecklace() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withNoItems(),
@@ -457,9 +435,7 @@ public class ResultProcessorTest {
                 withFight(),
                 withProperty("autoCraft", true),
                 // The Plunger obviates meat paste
-                withSign(ZodiacSign.MONGOOSE));
-
-        try (cleanups) {
+                withSign(ZodiacSign.MONGOOSE))) {
           client.addResponse(200, html("request/test_fight_win_hemp_string.html"));
           client.addResponse(200, html("request/test_create_bonerdagon_necklace.html"));
           client.addResponse(200, ""); // api.php
@@ -500,7 +476,7 @@ public class ResultProcessorTest {
         // api.php
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withNoItems(),
@@ -509,9 +485,7 @@ public class ResultProcessorTest {
                 withHandlingChoice(1387),
                 withProperty("autoCraft", true),
                 // The Plunger obviates meat paste
-                withSign(ZodiacSign.MONGOOSE));
-
-        try (cleanups) {
+                withSign(ZodiacSign.MONGOOSE))) {
           client.addResponse(200, html("request/test_fight_force_hemp_string.html"));
           client.addResponse(200, html("request/test_create_bonerdagon_necklace.html"));
           client.addResponse(200, ""); // api.php
@@ -569,12 +543,11 @@ public class ResultProcessorTest {
     @ParameterizedTest
     @ValueSource(ints = {FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN})
     void processesDrop(int familiar) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(familiar),
               withProperty("powerPillProgress", 12),
-              withProperty("_powerPillDrops", 1));
-      try (cleanups) {
+              withProperty("_powerPillDrops", 1))) {
         ResultProcessor.processResults(true, html("request/test_fight_power_pill_drop.html"));
         assertThat("powerPillProgress", isSetTo(0));
         assertThat("_powerPillDrops", isSetTo(2));
@@ -601,7 +574,7 @@ public class ResultProcessorTest {
 
     @Test
     void usingTurnsDecrementsEffectsButNotIntrinsics() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withEffect(EffectPool.INIGOS, 3), withIntrinsicEffect(EffectPool.CONFIDENCE))) {
         ResultProcessor.processAdventuresUsed(1);
@@ -612,7 +585,7 @@ public class ResultProcessorTest {
 
     @Test
     void usingLastTurnRemovesEffect() {
-      try (var cleanups = new Cleanups(withEffect(EffectPool.INIGOS, 1))) {
+      try (var _ = new Cleanups(withEffect(EffectPool.INIGOS, 1))) {
         ResultProcessor.processAdventuresUsed(1);
         assertFalse(KoLConstants.activeEffects.contains(INIGOS));
       }
@@ -620,7 +593,7 @@ public class ResultProcessorTest {
 
     @Test
     void halfAstralTickingDownKeepsAstralLimitMode() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 2), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.processAdventuresUsed(1);
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
@@ -629,7 +602,7 @@ public class ResultProcessorTest {
 
     @Test
     void cowrruptionDoesNotDecrementForCowPuncher() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.COW_PUNCHER), withEffect(EffectPool.COWRRUPTION, 5))) {
         ResultProcessor.processAdventuresUsed(1);
@@ -639,7 +612,7 @@ public class ResultProcessorTest {
 
     @Test
     void gainingCowrruptionAsCowPuncherGrantsSkill() {
-      try (var cleanups = new Cleanups(withClass(AscensionClass.COW_PUNCHER))) {
+      try (var _ = new Cleanups(withClass(AscensionClass.COW_PUNCHER))) {
         ResultProcessor.processResult(EffectPool.get(EffectPool.COWRRUPTION, 5));
         ResultProcessor.applyEffects();
         assertTrue(KoLCharacter.hasSkill(SkillPool.ABSORB_COWRRUPTION));
@@ -648,7 +621,7 @@ public class ResultProcessorTest {
 
     @Test
     void refreshingWithoutHalfAstralLeavesAstralLimitMode() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.setActiveEffects(List.of());
         assertFalse(KoLConstants.activeEffects.contains(HALF_ASTRAL));
@@ -658,7 +631,7 @@ public class ResultProcessorTest {
 
     @Test
     void refreshingWithHalfAstralKeepsAstralLimitMode() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.setActiveEffects(List.of(EffectPool.get(EffectPool.HALF_ASTRAL, 4)));
         assertThat(HALF_ASTRAL.getCount(KoLConstants.activeEffects), is(4));
@@ -668,7 +641,7 @@ public class ResultProcessorTest {
 
     @Test
     void gainingHalfAstralEntersAstralLimitMode() {
-      try (var cleanups = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
+      try (var _ = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
         ResultProcessor.processResult(EffectPool.get(EffectPool.HALF_ASTRAL, 5));
         ResultProcessor.applyEffects();
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
@@ -677,7 +650,7 @@ public class ResultProcessorTest {
 
     @Test
     void refreshingWithNewHalfAstralEntersAstralLimitMode() {
-      try (var cleanups = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
+      try (var _ = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
         ResultProcessor.setActiveEffects(List.of(EffectPool.get(EffectPool.HALF_ASTRAL, 5)));
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
       }
@@ -685,7 +658,7 @@ public class ResultProcessorTest {
 
     @Test
     void refreshingWithoutCowrruptionRemovesSkill() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.COW_PUNCHER),
               withEffect(EffectPool.COWRRUPTION, 5),
@@ -705,7 +678,7 @@ public class ResultProcessorTest {
 
     @Test
     void removingHalfAstralLeavesAstralLimitMode() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.removeEffect(HALF_ASTRAL);
         assertFalse(KoLConstants.activeEffects.contains(HALF_ASTRAL));
@@ -715,7 +688,7 @@ public class ResultProcessorTest {
 
     @Test
     void removingInactiveEffectDoesNothing() {
-      try (var cleanups = new Cleanups(withLimitMode(LimitMode.ASTRAL))) {
+      try (var _ = new Cleanups(withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.removeEffect(HALF_ASTRAL);
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
       }
@@ -723,7 +696,7 @@ public class ResultProcessorTest {
 
     @Test
     void enteringSorceressFightKeepsOnlyConfidence() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withIntrinsicEffect(EffectPool.CONFIDENCE),
               withEffect(EffectPool.HALF_ASTRAL, 5),

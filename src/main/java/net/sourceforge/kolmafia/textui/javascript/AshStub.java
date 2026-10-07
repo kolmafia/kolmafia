@@ -56,7 +56,7 @@ public abstract class AshStub extends BaseFunction {
                       try {
                         Value value = coercer.fromJava(arg);
                         return value == null ? new Value(DataTypes.ANY_TYPE) : value;
-                      } catch (ValueConverter.ValueConverterException e) {
+                      } catch (ValueConverter.ValueConverterException _) {
                         return new Value(DataTypes.ANY_TYPE);
                       }
                     })

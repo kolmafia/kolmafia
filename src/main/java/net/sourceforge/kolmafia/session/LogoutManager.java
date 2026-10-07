@@ -42,7 +42,7 @@ public class LogoutManager {
       ResetGUIRunnable resetGUIRunnable = new ResetGUIRunnable();
       try {
         SwingUtilities.invokeAndWait(resetGUIRunnable);
-      } catch (Exception e) {
+      } catch (Exception _) {
       }
     }
   }

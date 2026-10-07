@@ -51,8 +51,7 @@ public class MallSearchResultsPanelTest {
   class DisabledStore {
     @Test
     public void disabledStoresAreVisibleButGray() {
-      var cleanups = new Cleanups(withInteractivity(true), withMeat(1000));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInteractivity(true), withMeat(1000))) {
         LockableListModel<PurchaseRequest> results = new LockableListModel<>();
         var request1 = makeMallPurchaseRequest(ItemPool.get(ItemPool.SEAL_TOOTH, 5), 123, 100);
         results.add(request1);
@@ -87,12 +86,11 @@ public class MallSearchResultsPanelTest {
   class IgnoringStore {
     @Test
     public void ignoringStoresAreNotVisible() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInteractivity(true),
               withMeat(1000),
-              withProperty("showIgnoringStorePrices", false));
-      try (cleanups) {
+              withProperty("showIgnoringStorePrices", false))) {
         LockableListModel<PurchaseRequest> results = new LockableListModel<>();
         var request1 = makeMallPurchaseRequest(ItemPool.get(ItemPool.SEAL_TOOTH, 5), 123, 100);
         results.add(request1);
@@ -117,12 +115,11 @@ public class MallSearchResultsPanelTest {
 
     @Test
     public void ignoringStoresCanBeVisible() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInteractivity(true),
               withMeat(1000),
-              withProperty("showIgnoringStorePrices", true));
-      try (cleanups) {
+              withProperty("showIgnoringStorePrices", true))) {
         LockableListModel<PurchaseRequest> results = new LockableListModel<>();
         var request1 = makeMallPurchaseRequest(ItemPool.get(ItemPool.SEAL_TOOTH, 5), 123, 100);
         results.add(request1);
@@ -151,13 +148,12 @@ public class MallSearchResultsPanelTest {
   class ForbiddenStore {
     @Test
     public void forbiddenStoresAreNotVisible() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInteractivity(true),
               withMeat(1000),
               withProperty("forbiddenStores"),
-              withProperty("showForbiddenStores", false));
-      try (cleanups) {
+              withProperty("showForbiddenStores", false))) {
         LockableListModel<PurchaseRequest> results = new LockableListModel<>();
         var request1 = makeMallPurchaseRequest(ItemPool.get(ItemPool.SEAL_TOOTH, 5), 123, 100);
         results.add(request1);
@@ -182,13 +178,12 @@ public class MallSearchResultsPanelTest {
 
     @Test
     public void forbiddenStoresCanBeVisible() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withInteractivity(true),
               withMeat(1000),
               withProperty("forbiddenStores"),
-              withProperty("showForbiddenStores", true));
-      try (cleanups) {
+              withProperty("showForbiddenStores", true))) {
         LockableListModel<PurchaseRequest> results = new LockableListModel<>();
         var request1 = makeMallPurchaseRequest(ItemPool.get(ItemPool.SEAL_TOOTH, 5), 123, 100);
         results.add(request1);

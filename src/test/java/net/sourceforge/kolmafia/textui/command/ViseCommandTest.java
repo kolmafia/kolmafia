@@ -53,9 +53,7 @@ public class ViseCommandTest extends AbstractCommandTestBase {
 
   @Test
   void providesUsageIfNoParameters() {
-    var cleanups = withItem(ItemPool.HASHING_VISE);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.HASHING_VISE)) {
       String output = execute("");
       assertThat(
           output,
@@ -66,9 +64,7 @@ public class ViseCommandTest extends AbstractCommandTestBase {
 
   @Test
   void failsWithBogusSchematic() {
-    var cleanups = withItem(ItemPool.HASHING_VISE);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.HASHING_VISE)) {
       String output = execute("fish");
 
       assertErrorState();
@@ -78,9 +74,7 @@ public class ViseCommandTest extends AbstractCommandTestBase {
 
   @Test
   void failsWithAmbiguousSchematic() {
-    var cleanups = withItem(ItemPool.HASHING_VISE);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.HASHING_VISE)) {
       String output = execute("digit");
 
       assertErrorState();
@@ -96,9 +90,7 @@ public class ViseCommandTest extends AbstractCommandTestBase {
     String visitResult = html("request/test_choice_hashing_vise.html");
     String hashResult = html("request/test_choice_hashing_vise_result.html");
 
-    var cleanups = new Cleanups(withItem(HASHING_VISE), withHttpClientBuilder(builder));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(HASHING_VISE), withHttpClientBuilder(builder))) {
       String output = execute("2 beer");
 
       // (hashable quantity of dedigitizer schematic: cybeer is limited to 0 by availability in
@@ -122,16 +114,14 @@ public class ViseCommandTest extends AbstractCommandTestBase {
     String visitResult = html("request/test_choice_hashing_vise.html");
     String hashResult = html("request/test_choice_hashing_vise_result.html");
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(HASHING_VISE),
             withItem(CYBEER_SCHEMATIC.getInstance(1)),
             withItem(CYBURGER_SCHEMATIC.getInstance(2)),
             withItem(ONE.getInstance(0)),
             withItem(ZERO.getInstance(0)),
-            withHttpClientBuilder(builder));
-
-    try (cleanups) {
+            withHttpClientBuilder(builder))) {
       // Using the item redirects to choice.php
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, visitResult);

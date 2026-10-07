@@ -48,9 +48,7 @@ class ChoiceUtilitiesTest {
 
   @Test
   void extractChoiceFromLyleOnDevServer() {
-    var cleanups = withProperty("useDevServer", true);
-
-    try (cleanups) {
+    try (var _ = withProperty("useDevServer", true)) {
       var page = html("request/test_choice_lyle_dev.html");
       var choice = ChoiceUtilities.extractChoice(page);
       assertThat(choice, is(1309));

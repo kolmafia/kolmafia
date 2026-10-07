@@ -172,7 +172,7 @@ public class RequestPane extends JEditorPane {
                 this.getSelectionStart(),
                 this.getSelectionEnd() - this.getSelectionStart());
       }
-    } catch (Exception e) {
+    } catch (Exception _) {
       // In the event that an exception happens, return
       // an empty string.
 

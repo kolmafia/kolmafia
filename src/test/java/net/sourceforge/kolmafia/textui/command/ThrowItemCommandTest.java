@@ -38,9 +38,7 @@ public class ThrowItemCommandTest extends AbstractCommandTestBase {
 
   @Test
   void cannotThrowAfterDailyLimit() {
-    var cleanups = withProperty("_crimboTraining", true);
-
-    try (cleanups) {
+    try (var _ = withProperty("_crimboTraining", true)) {
       String output = execute("crimbo training manual at gausie");
 
       assertErrorState();
@@ -51,9 +49,7 @@ public class ThrowItemCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canThrowPeridot() {
-    var cleanups = withItem(ItemPool.PERIDOT_OF_PERIL);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.PERIDOT_OF_PERIL)) {
       String output = execute("peridot of peril at gausie");
 
       assertContinueState();
@@ -71,9 +67,7 @@ public class ThrowItemCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveToThrow() {
-    var cleanups = withoutItem(ItemPool.BRICK);
-
-    try (cleanups) {
+    try (var _ = withoutItem(ItemPool.BRICK)) {
       String output = execute("brick at gausie");
 
       assertErrorState();
@@ -85,9 +79,7 @@ public class ThrowItemCommandTest extends AbstractCommandTestBase {
   void canSuccessfullyThrow() {
     HttpClientWrapper.setupFakeClient();
 
-    var cleanups = withItem(ItemPool.BRICK);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.BRICK)) {
       String output = execute("brick at gausie");
 
       var requests = getRequests();

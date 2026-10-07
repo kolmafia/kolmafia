@@ -56,11 +56,9 @@ public class GenericRequestTest {
 
   @Test
   public void hallowienerVolcoinoNotPickedUpByLuckyGoldRing() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withEquipped(Slot.ACCESSORY1, "lucky gold ring"), withProperty("lastEncounter", ""));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, "lucky gold ring"), withProperty("lastEncounter", ""))) {
       assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
 
       KoLAdventure.setLastAdventure("The Bubblin' Caldera");
@@ -79,13 +77,11 @@ public class GenericRequestTest {
 
   @Test
   public void hallowienerVolcoinoPickedUp() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, "lucky gold ring"),
             withProperty("lastEncounter", ""),
-            withProperty("hallowienerVolcoino", "false"));
-
-    try (cleanups) {
+            withProperty("hallowienerVolcoino", "false"))) {
       KoLAdventure.setLastAdventure("The Bubblin' Caldera");
 
       GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
@@ -135,9 +131,7 @@ public class GenericRequestTest {
   @ParameterizedTest
   @ValueSource(ints = {100, 40, 0})
   public void parsePowerfulGlove(int expectedCharge) {
-    var cleanups = withProperty("_powerfulGloveBatteryPowerUsed", 50);
-
-    try (cleanups) {
+    try (var _ = withProperty("_powerfulGloveBatteryPowerUsed", 50)) {
       var req = new GenericRequest("desc_item.php?whichitem=991142661");
       req.responseText =
           html("request/test_desc_item_powerful_glove_" + expectedCharge + "_charge_used.html");
@@ -149,13 +143,11 @@ public class GenericRequestTest {
 
   @Test
   public void detectsBogusChoices() {
-    var cleanup =
+    try (var _ =
         new Cleanups(
             withNextResponse(200, html("request/test_choice_whoops.html")),
             withProperty("_shrubDecorated"),
-            withContinuationState());
-
-    try (cleanup) {
+            withContinuationState())) {
       new GenericRequest(
               "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2")
           .run();
@@ -180,11 +172,9 @@ public class GenericRequestTest {
     @Test
     public void willRequestUnsuppressedUpdate() {
       var builder = new FakeHttpClientBuilder();
-      var cleanup =
+      try (var _ =
           new Cleanups(
-              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState());
-
-      try (cleanup) {
+              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState())) {
         var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
         builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
@@ -199,14 +189,12 @@ public class GenericRequestTest {
     @Test
     public void willGloballySuppressUpdate() {
       var builder = new FakeHttpClientBuilder();
-      var cleanup =
+      try (var _ =
           new Cleanups(
               withItem("seal tooth"),
               withUpdateSuppressed(),
               withHttpClientBuilder(builder),
-              withContinuationState());
-
-      try (cleanup) {
+              withContinuationState())) {
         var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
         builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
@@ -220,11 +208,9 @@ public class GenericRequestTest {
     @Test
     public void willLocallySuppressUpdate() {
       var builder = new FakeHttpClientBuilder();
-      var cleanup =
+      try (var _ =
           new Cleanups(
-              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState());
-
-      try (cleanup) {
+              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState())) {
         var request = new UpdateSuppressedRequest("inv_use.php?whichitem=2&ajax=1");
         builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
@@ -238,7 +224,7 @@ public class GenericRequestTest {
 
   @Test
   public void testTracksTowelAcquired() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("lastTowelAscension", -1),
             withAscensions(123),
@@ -250,9 +236,7 @@ public class GenericRequestTest {
                 // Swallow an api request triggered by the choice containing a charpane request.
                 new FakeHttpResponse<>(200, ""),
                 new FakeHttpResponse<>(
-                    200, html("request/test_request_haunted_bathroom_towel.html"))));
-
-    try (cleanups) {
+                    200, html("request/test_request_haunted_bathroom_towel.html"))))) {
       // Does a 302 redirect to choice.php
       var hitChoice =
           new GenericRequest("adventure.php?snarfblat=" + AdventurePool.HAUNTED_BATHROOM);
@@ -285,12 +269,10 @@ public class GenericRequestTest {
     })
     public void hallowienerPickedUp(
         String htmlName, String location, String encounterName, String property, String expected) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("lastEncounter", ""),
-              withProperty(property, Preferences.getDefault(property)));
-
-      try (cleanups) {
+              withProperty(property, Preferences.getDefault(property)))) {
         // Assert that the defaults are set to the correct data type
         if (expected.matches("\\d+")) {
           assertThat(property, isSetTo("0"));
@@ -318,10 +300,9 @@ public class GenericRequestTest {
     @Test
     public void getawayRemainsUnchangedAfterVisitingLockedDistantWoods() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withHttpClientBuilder(builder), withProperty("getawayCampsiteUnlocked", true));
-      try (cleanups) {
+              withHttpClientBuilder(builder), withProperty("getawayCampsiteUnlocked", true))) {
         builder.client.addResponse(200, html("request/test_place_woods_uhoh.html"));
 
         var request = new GenericRequest("place.php?whichplace=woods");
@@ -341,12 +322,10 @@ public class GenericRequestTest {
   })
   public void batWingsPickedUp(
       String htmlName, String location, String encounterName, String property, String expected) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("lastEncounter", ""),
-            withProperty(property, Preferences.getDefault(property)));
-
-    try (cleanups) {
+            withProperty(property, Preferences.getDefault(property)))) {
       KoLAdventure.setLastAdventure(location);
 
       GenericRequest request =
@@ -376,7 +355,7 @@ public class GenericRequestTest {
         })
     public void choiceRedirectionResetsLocation(
         String htmlName, int choiceId, int choice, String suffix) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLevel(14),
               withSpleenUse(0),
@@ -386,8 +365,7 @@ public class GenericRequestTest {
               withNextResponse(
                   new FakeHttpResponse<>(
                       302, Map.of("location", List.of("fight.php?ireallymeanit=99999999")), ""),
-                  new FakeHttpResponse<>(200, html("request/" + htmlName))));
-      try (cleanups) {
+                  new FakeHttpResponse<>(200, html("request/" + htmlName))))) {
         String urlString =
             "choice.php?pwd&whichchoice="
                 + choiceId
@@ -414,13 +392,11 @@ public class GenericRequestTest {
       builder.client.addResponse(502, "");
       builder.client.addResponse(200, "<html><body>ok</body></html>");
 
-      var cleanup =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("retryFailedNetworkRequests", false),
-              withContinuationState());
-
-      try (cleanup) {
+              withContinuationState())) {
         var request = new RetryTrackingRequest("choice.php?whichchoice=1&option=1");
         request.run();
 
@@ -438,9 +414,7 @@ public class GenericRequestTest {
       builder.client.addResponse(502, "");
       builder.client.addResponse(200, "<html><body>ok</body></html>");
 
-      var cleanup = new Cleanups(withHttpClientBuilder(builder), withContinuationState());
-
-      try (cleanup) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withContinuationState())) {
         var request = new RetryTrackingRequest("choice.php?whichchoice=1&option=1");
         request.run();
 
@@ -460,9 +434,7 @@ public class GenericRequestTest {
       builder.client.addResponse(502, "");
       builder.client.addResponse(502, "");
 
-      var cleanup = new Cleanups(withHttpClientBuilder(builder), withContinuationState());
-
-      try (cleanup) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder), withContinuationState())) {
         var request = new RetryTrackingRequest("choice.php?whichchoice=1&option=1");
         request.run();
 

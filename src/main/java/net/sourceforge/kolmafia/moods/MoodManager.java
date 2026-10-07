@@ -373,7 +373,7 @@ public abstract class MoodManager {
   }
 
   public static void checkpointedExecute(final int multiplicity) {
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       MoodManager.execute(0);
     }
   }

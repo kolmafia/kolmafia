@@ -60,9 +60,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doesntErrorUnknownFaxbot() {
-    var cleanups = new Cleanups(withProperty("lastSuccessfulFaxbot", "$FaxBot$"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("lastSuccessfulFaxbot", "$FaxBot$"))) {
       // Start the process of faxing in a Knob Goblin Embezzler
       execute("embezzler");
 
@@ -83,9 +81,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @MethodSource("provideFaxbotNames")
   void usesLastSuccessfulFaxbot(String lastFaxbot) {
-    var cleanups = new Cleanups(withProperty("lastSuccessfulFaxbot", lastFaxbot));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("lastSuccessfulFaxbot", lastFaxbot))) {
       // Start the process of faxing in a Knob Goblin Embezzler
       execute("embezzler");
 

@@ -100,8 +100,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     @Test
     public void itShouldRespondToATransferItemRequestFailure() {
       String output;
-      var cleanups = withItem("seal tooth", 3);
-      try (cleanups) {
+      try (var _ = withItem("seal tooth", 3)) {
         output = execute(" 1 seal tooth to buffy");
       }
       assertThat(output, containsString("Sending kmail to buffy..."));
@@ -131,8 +130,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     @Test
     public void itShouldRequireCsendForMeat() {
       String output;
-      var cleanups = withMeat(1000000);
-      try (cleanups) {
+      try (var _ = withMeat(1000000)) {
         output = execute(" 1000000 meat to buffy");
       }
       assertThat(output, containsString("Please use 'csend' if you need to transfer meat."));
@@ -142,8 +140,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     @Test
     public void itShouldNotRequireCsendForItems() {
       String output;
-      var cleanups = withItem("seal tooth", 3);
-      try (cleanups) {
+      try (var _ = withItem("seal tooth", 3)) {
         output = execute(" 1 seal tooth to buffy");
       }
       assertThat(output, containsString("Sending kmail to buffy..."));
@@ -156,8 +153,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldSendMeatWithOutCommas() {
     String output;
-    var cleanups = withMeat(1000000);
-    try (cleanups) {
+    try (var _ = withMeat(1000000)) {
       output = execute(" 1000000 meat to buffy");
     }
     assertThat(output, containsString("Sending kmail to buffy..."));
@@ -173,8 +169,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldNotSendMeatWithCommas() {
     String output;
-    var cleanups = withMeat(1000000);
-    try (cleanups) {
+    try (var _ = withMeat(1000000)) {
       output = execute(" 1,000,000 meat to buffy");
     }
     assertThat(output, containsString("Sending kmail to buffy..."));
@@ -190,8 +185,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldSendALongAmountOfMeat() {
     String output;
-    var cleanups = withMeat(3000000000L);
-    try (cleanups) {
+    try (var _ = withMeat(3000000000L)) {
       output = execute(" 3000000000 meat to buffy");
     }
     assertThat(output, containsString("Sending kmail to buffy..."));
@@ -209,8 +203,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldNotSendMeatItDoesNotHave() {
     String output;
-    var cleanups = withMeat(10000);
-    try (cleanups) {
+    try (var _ = withMeat(10000)) {
       output = execute(" 1000000 meat to buffy");
     }
     assertThat(output, containsString("Sending kmail to buffy..."));
@@ -227,8 +220,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   public void itShouldNotSendDuringRecovery() {
     RecoveryManager.setRecoveryActive(true);
     String output;
-    var cleanups = withMeat(1000000);
-    try (cleanups) {
+    try (var _ = withMeat(1000000)) {
       output = execute(" 1000000 meat to buffy");
     }
     assertThat(
@@ -257,8 +249,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldSendAlternateMessageText() {
     String output;
-    var cleanups = withMeat(3000000000L);
-    try (cleanups) {
+    try (var _ = withMeat(3000000000L)) {
       output = execute(" 3000000000 meat to buffy || This is Blackmail!!!");
     }
     assertThat(output, containsString("Sending kmail to buffy ..."));
@@ -275,8 +266,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldSendThingsBesidesMeat() {
     String output;
-    var cleanups = withItem("seal tooth", 3);
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 3)) {
       output = execute(" 1 seal tooth to buffy");
     }
     assertThat(output, containsString("Sending kmail to buffy..."));
@@ -292,8 +282,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldParseItemCount() {
     String output;
-    var cleanups = withItem("seal tooth", 3);
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 3)) {
       output = execute(" seal tooth to buffy");
     }
     assertThat(output, containsString("Sending kmail to buffy..."));
@@ -316,8 +305,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldLimitItemCount() {
     String output;
-    var cleanups = withItem("seal tooth", 3);
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 3)) {
       output = execute(" 5 seal tooth to buffy");
     }
     assertThat(output, containsString("[5 seal tooth] requested, but only 3 available."));
@@ -327,8 +315,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldNotRecognizeItem() {
     String output;
-    var cleanups = withItem("seal tooth", 3);
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 3)) {
       output = execute(" 1 soiled dove to buffy");
     }
     assertThat(output, containsString("[soiled dove] has no matches."));
@@ -338,8 +325,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldAlsoNotRecognizeItem() {
     String output;
-    var cleanups = withItem("seal tooth", 3);
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 3)) {
       output = execute(" 1 soiled dove to buffy || Wash me.");
     }
     assertThat(output, containsString("[soiled dove] has no matches."));
@@ -349,8 +335,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldAlsoRecognizeNoItem() {
     String output;
-    var cleanups = withItem("seal tooth", 3);
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 3)) {
       output = execute("  to buffy || Wash me.");
     }
     assertThat(output, containsString("Sending kmail to buffy ..."));
@@ -360,8 +345,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldHandleFuzzyItem() {
     String output;
-    var cleanups = withItem("seal tooth", 3);
-    try (cleanups) {
+    try (var _ = withItem("seal tooth", 3)) {
       output = execute(" 1 potion to buffy");
     }
     assertThat(output, containsString("[potion] has too many matches."));
@@ -371,8 +355,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldHandleDifferentItems() {
     String output;
-    var cleanups = new Cleanups(withItem("seal tooth", 3), withItem("seal-clubbing club", 3));
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("seal tooth", 3), withItem("seal-clubbing club", 3))) {
       output =
           execute(" 1 seal tooth, 1 seal-clubbing club to buffy || Signed.  Sealed.  Delivered.");
     }

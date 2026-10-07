@@ -39,12 +39,10 @@ public class ConcertCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void arenaNotCompletedIsError() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("warProgress", "started"),
-            withProperty("sidequestArenaCompleted", "none"));
-
-    try (cleanups) {
+            withProperty("sidequestArenaCompleted", "none"))) {
       String output = execute("o");
       assertErrorState();
       assertThat(output, containsString("The arena is not open."));
@@ -54,13 +52,11 @@ public class ConcertCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @CsvSource({"hippy,hippies,o", "fratboy,fratboys,wi", "fratboy,both,wi"})
   public void arenaCompletedWithDefeatedSideIsError(String arena, String defeated, String effect) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("warProgress", "started"),
             withProperty("sidequestArenaCompleted", arena),
-            withProperty("sideDefeated", defeated));
-
-    try (cleanups) {
+            withProperty("sideDefeated", defeated))) {
       String output = execute(effect);
       assertErrorState();
       assertThat(output, containsString("The arena's fans were defeated in the war."));
@@ -69,12 +65,10 @@ public class ConcertCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void numberOutOfRangeIsError() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("warProgress", "started"),
-            withProperty("sidequestArenaCompleted", "hippy"));
-
-    try (cleanups) {
+            withProperty("sidequestArenaCompleted", "hippy"))) {
       String output = execute("5");
       assertErrorState();
       assertThat(output, containsString("Invalid concert number."));
@@ -84,11 +78,10 @@ public class ConcertCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @CsvSource({"hippy,hippies,winklered", "fratboy,fratboys,optimist"})
   public void wrongSideEffectIsError(String arena, String plural, String effect) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("warProgress", "started"), withProperty("sidequestArenaCompleted", arena));
-
-    try (cleanups) {
+            withProperty("warProgress", "started"),
+            withProperty("sidequestArenaCompleted", arena))) {
       String output = execute(effect);
       assertErrorState();
       assertThat(
@@ -98,12 +91,10 @@ public class ConcertCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void noArgIsError() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("warProgress", "started"),
-            withProperty("sidequestArenaCompleted", "fratboy"));
-
-    try (cleanups) {
+            withProperty("sidequestArenaCompleted", "fratboy"))) {
       String output = execute("");
       assertErrorState();
       assertThat(output, containsString("The \"\" effect is not available to fratboys."));
@@ -114,11 +105,10 @@ public class ConcertCommandTest extends AbstractCommandTestBase {
   @CsvSource({"hippy,optimist,3", "fratboy,winklered,2"})
   public void successSendsRequest(String arena, String effect, String option) {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("warProgress", "started"), withProperty("sidequestArenaCompleted", arena));
-
-    try (cleanups) {
+            withProperty("warProgress", "started"),
+            withProperty("sidequestArenaCompleted", arena))) {
       execute(effect);
       assertContinueState();
 

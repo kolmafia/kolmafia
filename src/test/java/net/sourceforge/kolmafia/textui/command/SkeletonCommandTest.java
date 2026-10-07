@@ -53,9 +53,7 @@ public class SkeletonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void sendsRequestsIfSkeleton() {
-    var cleanups = withItem(ItemPool.SKELETON);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.SKELETON)) {
       execute("buddy");
     }
 

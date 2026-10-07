@@ -43,14 +43,13 @@ public class MrStore2002RequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.STANDARD),
             withItem(ItemPool.MR_STORE_2002_CATALOG),
             withProperty("availableMrStore2002Credits", 0),
-            withProperty("_2002MrStoreCreditsCollected", false));
-    try (cleanups) {
+            withProperty("_2002MrStoreCreditsCollected", false))) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
@@ -75,15 +74,14 @@ public class MrStore2002RequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.STANDARD),
             withNoItems(),
             withItem(ItemPool.MR_STORE_2002_CATALOG),
             withProperty("availableMrStore2002Credits", 3),
-            withProperty("_2002MrStoreCreditsCollected", false));
-    try (cleanups) {
+            withProperty("_2002MrStoreCreditsCollected", false))) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_buy_from_mr_store_2002_ajax.html"));
       client.addResponse(200, ""); // api.php
@@ -120,7 +118,7 @@ public class MrStore2002RequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.STANDARD),
@@ -128,8 +126,7 @@ public class MrStore2002RequestTest {
             withItemInCloset(ItemPool.MR_STORE_2002_CATALOG),
             withProperty("autoSatisfyWithCloset", true),
             withProperty("availableMrStore2002Credits", 0),
-            withProperty("_2002MrStoreCreditsCollected", false));
-    try (cleanups) {
+            withProperty("_2002MrStoreCreditsCollected", false))) {
       client.addResponse(200, html("request/test_uncloset_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
@@ -158,14 +155,13 @@ public class MrStore2002RequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.LEGACY_OF_LOATHING),
             withItem(ItemPool.REPLICA_MR_STORE_2002_CATALOG),
             withProperty("availableMrStore2002Credits", 0),
-            withProperty("_2002MrStoreCreditsCollected", false));
-    try (cleanups) {
+            withProperty("_2002MrStoreCreditsCollected", false))) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
@@ -190,14 +186,13 @@ public class MrStore2002RequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.LEGACY_OF_LOATHING),
             withItem(ItemPool.MR_STORE_2002_CATALOG),
             withProperty("availableMrStore2002Credits", 0),
-            withProperty("_2002MrStoreCreditsCollected", false));
-    try (cleanups) {
+            withProperty("_2002MrStoreCreditsCollected", false))) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
@@ -222,12 +217,11 @@ public class MrStore2002RequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("availableMrStore2002Credits", 0),
-            withProperty("_2002MrStoreCreditsCollected", false));
-    try (cleanups) {
+            withProperty("_2002MrStoreCreditsCollected", false))) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog_fails.html"));
       client.addResponse(200, "");
 
@@ -247,13 +241,12 @@ public class MrStore2002RequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.MR_STORE_2002_CATALOG),
             withProperty("availableMrStore2002Credits", 0),
-            withProperty("_2002MrStoreCreditsCollected", false));
-    try (cleanups) {
+            withProperty("_2002MrStoreCreditsCollected", false))) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 

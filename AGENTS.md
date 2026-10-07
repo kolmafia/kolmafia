@@ -1,6 +1,6 @@
 # KoLmafia
 
-Java 21 desktop tool for [Kingdom of Loathing](https://kingdomofloathing.com).
+Java 25 desktop tool for [Kingdom of Loathing](https://kingdomofloathing.com).
 Main class: `net.sourceforge.kolmafia.KoLmafia`.
 
 ## Build & test

@@ -105,9 +105,7 @@ public class ChoiceManagerTest {
   class BogusChoices {
     @Test
     public void returnsFalseWithNormalChoice() {
-      var cleanup = new Cleanups(withHandlingChoice());
-
-      try (cleanup) {
+      try (var _ = new Cleanups(withHandlingChoice())) {
         String urlString = "choice.php?whichchoice=1";
         var request = new GenericRequest(urlString);
         request.responseText = "Some normal choice text";
@@ -121,9 +119,7 @@ public class ChoiceManagerTest {
 
     @Test
     public void returnsFalseWithNonChoiceRequest() {
-      var cleanup = new Cleanups(withHandlingChoice());
-
-      try (cleanup) {
+      try (var _ = new Cleanups(withHandlingChoice())) {
         String urlString = "adventure.php?snarfblat=100";
         var request = new GenericRequest(urlString);
         request.responseText = "";
@@ -134,9 +130,7 @@ public class ChoiceManagerTest {
 
     @Test
     public void returnsFalseWithNonExecutedRequest() {
-      var cleanup = new Cleanups(withHandlingChoice());
-
-      try (cleanup) {
+      try (var _ = new Cleanups(withHandlingChoice())) {
         String urlString =
             "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2";
         var request = new GenericRequest(urlString);
@@ -147,9 +141,7 @@ public class ChoiceManagerTest {
 
     @Test
     public void returnsTrueWithAbortState() {
-      var cleanup = new Cleanups(withHandlingChoice(), withContinuationState());
-
-      try (cleanup) {
+      try (var _ = new Cleanups(withHandlingChoice(), withContinuationState())) {
         String urlString = "choice.php?whichchoice=1234&pwd&option=1";
         var request = new GenericRequest(urlString);
         request.responseText = "Whoops!  You're not actually in a choice adventure.";
@@ -161,13 +153,11 @@ public class ChoiceManagerTest {
 
     @Test
     public void returnsTrueWithoutAbortStateIfPreferenceFalse() {
-      var cleanup =
+      try (var _ =
           new Cleanups(
               withHandlingChoice(),
               withContinuationState(),
-              withProperty("abortOnChoiceWhenNotInChoice", false));
-
-      try (cleanup) {
+              withProperty("abortOnChoiceWhenNotInChoice", false))) {
         String urlString = "choice.php?whichchoice=1234&pwd&option=1";
         var request = new GenericRequest(urlString);
         request.responseText = "Whoops!  You're not actually in a choice adventure.";
@@ -179,9 +169,7 @@ public class ChoiceManagerTest {
 
     @Test
     public void returnsTrueWithoutAbortState() {
-      var cleanup = new Cleanups(withHandlingChoice(), withContinuationState());
-
-      try (cleanup) {
+      try (var _ = new Cleanups(withHandlingChoice(), withContinuationState())) {
         String urlString = "choice.php";
         var request = new GenericRequest(urlString);
         request.responseText = "Whoops!  You're not actually in a choice adventure.";
@@ -198,13 +186,12 @@ public class ChoiceManagerTest {
     public void canRedirectToChoiceInGenericRequest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("test"),
               // Avoid health warning
-              withHP(100, 100, 100));
-      try (cleanups) {
+              withHP(100, 100, 100))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, "test1");
 
@@ -230,12 +217,11 @@ public class ChoiceManagerTest {
     public void canRedirectToChoiceWithoutForceOption() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("lastEncounter", "No Sects in the Potion Room"),
-              withHandlingChoice(false));
-      try (cleanups) {
+              withHandlingChoice(false))) {
         client.addResponse(302, Map.of("location", List.of("choice.php")), "");
         client.addResponse(200, html("request/test_leave_reincarnation.html"));
         client.addResponse(200, ""); // api.php
@@ -260,13 +246,12 @@ public class ChoiceManagerTest {
     public void canProcessChoiceInGenericRequest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("test"),
               // Avoid health warning
-              withHP(100, 100, 100));
-      try (cleanups) {
+              withHP(100, 100, 100))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, "test2");
 
@@ -295,13 +280,12 @@ public class ChoiceManagerTest {
     public void canNotRedirectToChoiceInRelayRequest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("test"),
               // Avoid health warning
-              withHP(100, 100, 100));
-      try (cleanups) {
+              withHP(100, 100, 100))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, "test3");
 
@@ -329,7 +313,7 @@ public class ChoiceManagerTest {
     public void canRefreshChoiceWithoutReVisiting() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("refresh"),
@@ -337,8 +321,7 @@ public class ChoiceManagerTest {
               withProperty("choiceAdventure1202", 0),
               withHandlingChoice(false),
               // Avoid health warning
-              withHP(100, 100, 100));
-      try (cleanups) {
+              withHP(100, 100, 100))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_visit_gc_midnight_civic_center.html"));
         client.addResponse(200, ""); // api.php
@@ -392,8 +375,7 @@ public class ChoiceManagerTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})
     public void noCrystalShardsAlwaysTakesOption3(int decision) {
-      var cleanups = new Cleanups(withProperty(property, decision));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(property, decision))) {
         String NO_SHARDS = html("request/test_slagging_off_no_shards.html");
         int option = ChoiceManager.getDecision(SLAGGING_OFF, NO_SHARDS);
         assertEquals(3, option);
@@ -403,8 +385,7 @@ public class ChoiceManagerTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 2})
     public void crystalShardsWithSpecificGoalSelectsCorrectChoice(int decision) {
-      var cleanups = new Cleanups(withProperty(property, decision), withItem(SHARDS));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(property, decision), withItem(SHARDS))) {
         String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
         int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
         assertEquals(decision, option);
@@ -413,13 +394,12 @@ public class ChoiceManagerTest {
 
     @Test
     public void crystalShardsWillSelectGoblet() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty(property, 3),
               withItem(SHARDS),
               withItem(GOBLET.getInstance(1)),
-              withItem(PLATTER.getInstance(2)));
-      try (cleanups) {
+              withItem(PLATTER.getInstance(2)))) {
         String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
         int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
         assertEquals(1, option);
@@ -428,13 +408,12 @@ public class ChoiceManagerTest {
 
     @Test
     public void crystalShardsWillSelectPlatter() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty(property, 3),
               withItem(SHARDS),
               withItem(GOBLET.getInstance(2)),
-              withItem(PLATTER.getInstance(1)));
-      try (cleanups) {
+              withItem(PLATTER.getInstance(1)))) {
         String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
         int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
         assertEquals(2, option);
@@ -443,13 +422,12 @@ public class ChoiceManagerTest {
 
     @Test
     public void crystalShardsWillSelectEitherGobletOrPlatter() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty(property, 3),
               withItem(SHARDS),
               withItem(GOBLET.getInstance(1)),
-              withItem(PLATTER.getInstance(1)));
-      try (cleanups) {
+              withItem(PLATTER.getInstance(1)))) {
         String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
         int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
         // Always returns 1 so choice spoilers in the relay browser work.
@@ -465,11 +443,10 @@ public class ChoiceManagerTest {
 
     @Test
     public void sufficientElementalDamageAllowsOption2() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty(property, 2),
-              withAllEquipped(ItemPool.SEAL_CLUB, ItemPool.SEVENTEEN_BALL));
-      try (cleanups) {
+              withAllEquipped(ItemPool.SEAL_CLUB, ItemPool.SEVENTEEN_BALL))) {
         String responseText = html("request/test_explore_cellar_choice.html");
         int option = ChoiceManager.getDecision(STARING_DOWN_THE_BARREL, responseText);
         assertEquals(2, option);
@@ -478,8 +455,7 @@ public class ChoiceManagerTest {
 
     @Test
     public void insufficientElementalDamageForcesOption1() {
-      var cleanups = new Cleanups(withProperty(property, 2), withAllEquipped(ItemPool.SEAL_CLUB));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(property, 2), withAllEquipped(ItemPool.SEAL_CLUB))) {
         String responseText = html("request/test_explore_cellar_choice.html");
         int option = ChoiceManager.getDecision(STARING_DOWN_THE_BARREL, responseText);
         assertEquals(1, option);

@@ -255,7 +255,7 @@ public class MallPriceManagerTest {
   public void canFindPriceForMultipleItems() {
     AdventureResult item = ItemPool.get(ItemPool.REAGENT);
     int[] prices = getTestPrices();
-    try (var cleanups = new Cleanups(withMeat(0), mockClock())) {
+    try (var _ = new Cleanups(withMeat(0), mockClock())) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -310,8 +310,7 @@ public class MallPriceManagerTest {
       //           5000       -----     -----      yes
       //   8       5000       17900     20000       no
 
-      var cleanups = new Cleanups(withMeat(0), withProperty("forbiddenStores", ""), mockClock());
-      try (cleanups) {
+      try (var _ = new Cleanups(withMeat(0), withProperty("forbiddenStores", ""), mockClock())) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -345,7 +344,7 @@ public class MallPriceManagerTest {
 
   @Test
   public void canFindNPCPurchaseRequest() {
-    try (var cleanups = mockClock()) {
+    try (var _ = mockClock()) {
       List<PurchaseRequest> results = new ArrayList<>();
 
       // This is available from an NPC store
@@ -374,7 +373,7 @@ public class MallPriceManagerTest {
 
   @Test
   public void canFlushSpecificShopPurchaseRequests() {
-    try (var cleanups = mockClock()) {
+    try (var _ = mockClock()) {
       // Stock multiple stores with a single item
 
       List<PurchaseRequest> results = new ArrayList<>();
@@ -433,7 +432,7 @@ public class MallPriceManagerTest {
 
     // Add Mall stores that carry the 3 items
     MallSearchRequest request = new MockMallSearchRequest("", 0);
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var _ = mockMallSearchRequest(request)) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -505,7 +504,7 @@ public class MallPriceManagerTest {
     List<PurchaseRequest> results = new ArrayList<>();
     MallSearchRequest request = new MockMallSearchRequest("", 0, results);
 
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var _ = mockMallSearchRequest(request)) {
       // Add 5 Mall stores that carry the item
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
@@ -549,7 +548,7 @@ public class MallPriceManagerTest {
 
   @Test
   public void canFlushStalePurchaseRequests() {
-    try (var cleanups = mockClock()) {
+    try (var _ = mockClock()) {
       List<PurchaseRequest> results = new ArrayList<>();
 
       // This is not available from an NPC store
@@ -597,7 +596,7 @@ public class MallPriceManagerTest {
     List<PurchaseRequest> results = new ArrayList<>();
     MallSearchRequest request = new MockMallSearchRequest("", 0, results);
 
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var _ = mockMallSearchRequest(request)) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -627,7 +626,7 @@ public class MallPriceManagerTest {
     // Test with Hell ramen.
     AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             mockClock(), withNextResponse(200, html("request/test_mall_search_hell_ramen.html")))) {
       long timestamp = 1_000_000;
@@ -681,12 +680,11 @@ public class MallPriceManagerTest {
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               mockClock(),
               withNextResponse(200, html("request/test_mall_search_hell_ramen.html")),
-              withProperty("forbiddenStores", setting));
-      try (cleanups) {
+              withProperty("forbiddenStores", setting))) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -721,9 +719,8 @@ public class MallPriceManagerTest {
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
 
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withProperty("forbiddenStores", setting));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withProperty("forbiddenStores", setting))) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
         var request = new MallSearchRequest("Hell ramen", 0);
@@ -774,7 +771,7 @@ public class MallPriceManagerTest {
     public void canGetMallPricesByCategory() {
       var builder = new FakeHttpClientBuilder();
 
-      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+      try (var _ = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
         builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
 
@@ -795,7 +792,7 @@ public class MallPriceManagerTest {
     public void mallSearchResultsAreFlushable() {
       var builder = new FakeHttpClientBuilder();
 
-      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+      try (var _ = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
         builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
 
@@ -819,7 +816,7 @@ public class MallPriceManagerTest {
 
     @Test
     public void canResolveItemByDescid() {
-      try (var cleanups = new Cleanups(mockClock())) {
+      try (var _ = new Cleanups(mockClock())) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
 
         parseMallPrices(5, listing("\"descid\":\"388744461\"", 642));
@@ -830,7 +827,7 @@ public class MallPriceManagerTest {
 
     @Test
     public void skipsUnknownItemsWithoutDiscardingOthers() {
-      try (var cleanups = new Cleanups(mockClock())) {
+      try (var _ = new Cleanups(mockClock())) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
 
         parseMallPrices(
@@ -845,7 +842,7 @@ public class MallPriceManagerTest {
 
     @Test
     public void ignoresResponsesMissingAStoreField() {
-      try (var cleanups = new Cleanups(mockClock())) {
+      try (var _ = new Cleanups(mockClock())) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
 
         parseMallPrices(5, listing(ItemPool.HELL_RAMEN, 700));
@@ -858,7 +855,7 @@ public class MallPriceManagerTest {
 
     @Test
     public void ignoresResponsesWithTooFewListingsPerItem() {
-      try (var cleanups = new Cleanups(mockClock())) {
+      try (var _ = new Cleanups(mockClock())) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
 
         // First prove that the price being loaded correctly
@@ -878,7 +875,7 @@ public class MallPriceManagerTest {
     public void sendsTiersWhenSearchingConsumables() {
       var builder = new FakeHttpClientBuilder();
 
-      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+      try (var _ = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
         builder.client.addResponse(200, "{\"category\":\"booze\",\"count\":5,\"items\":[]}");
 
@@ -903,7 +900,7 @@ public class MallPriceManagerTest {
     public void acceptsLooselySpecifiedTiers(final String tiers) {
       var builder = new FakeHttpClientBuilder();
 
-      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+      try (var _ = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
         builder.client.addResponse(200, "{\"category\":\"booze\",\"count\":5,\"items\":[]}");
 
@@ -922,7 +919,7 @@ public class MallPriceManagerTest {
     public void honoursPerStoreLimits() {
       var builder = new FakeHttpClientBuilder();
 
-      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+      try (var _ = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
         builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
 
@@ -948,7 +945,7 @@ public class MallPriceManagerTest {
     public void includesNPCStores() {
       var builder = new FakeHttpClientBuilder();
 
-      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+      try (var _ = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);
         builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
 
@@ -965,7 +962,7 @@ public class MallPriceManagerTest {
     // Not actually used in MallPriceManager, but may as well test the fourth
     // (last) form of a MallSearchRequest
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             mockClock(), withNextResponse(200, html("request/test_mall_search_store.html")))) {
       long timestamp = 1_000_000;
@@ -1044,7 +1041,7 @@ public class MallPriceManagerTest {
     var then = LocalDateTime.of(2025, Month.FEBRUARY, 2, 5, 0);
     var zdt = ZonedDateTime.of(then, DateTimeManager.ROLLOVER);
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             mockClock(), withHttpClientBuilder(builder), withDay(2025, Month.FEBRUARY, 2, 18, 0))) {
       MallPriceManager.reset();
@@ -1067,7 +1064,7 @@ public class MallPriceManagerTest {
       var then = LocalDateTime.of(2025, Month.FEBRUARY, 2, 5, 0);
       var zdt = ZonedDateTime.of(then, DateTimeManager.ROLLOVER);
 
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               mockClock(),
               withHttpClientBuilder(builder),
@@ -1087,7 +1084,7 @@ public class MallPriceManagerTest {
       List<PurchaseRequest> searchResults = new ArrayList<>();
       MallSearchRequest request = new MockMallSearchRequest("", 0, searchResults);
 
-      try (var cleanups = mockMallSearchRequest(request)) {
+      try (var _ = mockMallSearchRequest(request)) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
 

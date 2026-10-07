@@ -70,9 +70,7 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void showCurrentAnimal() {
-    var cleanups = withProperty("edPiece", "fish");
-
-    try (cleanups) {
+    try (var _ = withProperty("edPiece", "fish")) {
       String output = execute("");
 
       assertThat(output, containsString("a golden fish"));
@@ -97,12 +95,10 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canDoNothing() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("edPiece", "weasel"),
-            withEquipped(Slot.HAT, "The Crown of Ed the Undying"));
-
-    try (cleanups) {
+            withEquipped(Slot.HAT, "The Crown of Ed the Undying"))) {
       String output = execute("weasel");
 
       assertThat(output, containsString("already equipped"));
@@ -115,10 +111,8 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canJustEquipHat() {
-    var cleanups =
-        new Cleanups(withProperty("edPiece", "weasel"), withItem("The Crown of Ed the Undying"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("edPiece", "weasel"), withItem("The Crown of Ed the Undying"))) {
       String output = execute("weasel");
 
       assertThat(output, containsString("already equipped"));
@@ -133,12 +127,10 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canJustChangeAnimal() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("edPiece", "weasel"),
-            withEquipped(Slot.HAT, "The Crown of Ed the Undying"));
-
-    try (cleanups) {
+            withEquipped(Slot.HAT, "The Crown of Ed the Undying"))) {
       String output = execute("hyena");
 
       assertThat(output, containsString("Crown of Ed decorated"));
@@ -151,10 +143,8 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canEquipHatAndChangeAnimal() {
-    var cleanups =
-        new Cleanups(withProperty("edPiece", "weasel"), withItem("The Crown of Ed the Undying"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("edPiece", "weasel"), withItem("The Crown of Ed the Undying"))) {
       String output = execute("mouse");
 
       assertThat(output, not(containsString("already equipped")));

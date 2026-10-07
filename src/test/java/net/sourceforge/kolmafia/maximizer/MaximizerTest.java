@@ -94,7 +94,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class MaximizerTest {
   @Test
   void respectsCachedCombinationLimit() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("hardened slime hat"),
             withEquippableItem("bounty-hunting helmet"),
@@ -104,7 +104,7 @@ public class MaximizerTest {
       assertThat(Maximizer.combinationLimit, is(1L));
     }
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("hardened slime hat"),
             withEquippableItem("bounty-hunting helmet"),
@@ -154,8 +154,7 @@ public class MaximizerTest {
 
   @Test
   public void changesGear() {
-    final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("helmet turtle"))) {
       assertTrue(maximize("mus"));
       assertEquals(1, modFor(DerivedModifier.BUFFED_MUS), 0.01);
     }
@@ -163,9 +162,7 @@ public class MaximizerTest {
 
   @Test
   public void equipsItemsOnlyIfHasStats() {
-    final var cleanups =
-        new Cleanups(withEquippableItem("helmet turtle"), withItem("wreath of laurels"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("helmet turtle"), withItem("wreath of laurels"))) {
       assertTrue(maximize("mus"));
       assertEquals(1, modFor(DerivedModifier.BUFFED_MUS), 0.01);
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
@@ -174,8 +171,7 @@ public class MaximizerTest {
 
   @Test
   public void nothingBetterThanSomething() {
-    final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquippableItem("helmet turtle"))) {
       assertTrue(maximize("-mus"));
       assertEquals(0, modFor(DerivedModifier.BUFFED_MUS), 0.01);
     }
@@ -183,14 +179,12 @@ public class MaximizerTest {
 
   @Test
   public void exactMatchFindsModifier() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("hemlock helm"),
             withEquippableItem("government-issued slacks"),
             // Not a muscle day
-            withDay(2023, Month.SEPTEMBER, 27));
-
-    try (cleanups) {
+            withDay(2023, Month.SEPTEMBER, 27))) {
       assertTrue(maximize("Muscle Experience Percent, -tie"));
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "government-issued slacks")));
@@ -212,16 +206,14 @@ public class MaximizerTest {
     "mus, leg-mounted Trainbots"
   })
   public void findsGenericAbbreviations(String abbreviation, String expectedItem) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("government-issued slacks"),
             withEquippableItem("pantsgiving"),
             withEquippableItem("sugar shorts"),
             withEquippableItem("leg-mounted Trainbots"),
             // Not a muscle day
-            withDay(2023, Month.SEPTEMBER, 27));
-
-    try (cleanups) {
+            withDay(2023, Month.SEPTEMBER, 27))) {
       assertTrue(maximize(abbreviation + ", -tie"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, expectedItem)));
     }
@@ -231,12 +223,11 @@ public class MaximizerTest {
   class Max {
     @Test
     public void maxKeywordStopsCountingBeyondTarget() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("hardened slime hat"),
               withEquippableItem("bounty-hunting helmet"),
-              withSkill("Refusal to Freeze"));
-      try (cleanups) {
+              withSkill("Refusal to Freeze"))) {
         assertTrue(maximize("cold res 3 max, 0.1 item drop"));
 
         assertEquals(3, modFor(DoubleModifier.COLD_RESISTANCE), 0.01);
@@ -248,12 +239,11 @@ public class MaximizerTest {
 
     @Test
     public void startingMaxKeywordTerminatesEarlyIfConditionMet() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("hardened slime hat"),
               withEquippableItem("bounty-hunting helmet"),
-              withSkill("Refusal to Freeze"));
-      try (cleanups) {
+              withSkill("Refusal to Freeze"))) {
         maximize("3 max, cold res");
 
         assertThat(
@@ -278,8 +268,7 @@ public class MaximizerTest {
   class Min {
     @Test
     public void minKeywordFailsMaximizationIfNotHit() {
-      final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("helmet turtle"))) {
         assertFalse(maximize("mus 2 min"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
@@ -288,16 +277,14 @@ public class MaximizerTest {
 
     @Test
     public void minKeywordPassesMaximizationIfHit() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("wreath of laurels"))) {
         assertTrue(maximize("mus 2 min"));
       }
     }
 
     @Test
     public void startingMinKeywordFailsMaximizationIfNotHit() {
-      final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("helmet turtle"))) {
         assertFalse(maximize("2 min, mus"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
@@ -306,8 +293,7 @@ public class MaximizerTest {
 
     @Test
     public void startingMinKeywordPassesMaximizationIfHit() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("wreath of laurels"))) {
         assertTrue(maximize("2 min, mus"));
       }
     }
@@ -340,13 +326,11 @@ public class MaximizerTest {
   class Effective {
     @Test
     public void useRangedWeaponWhenMoxieHigh() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withStats(100, 100, 150),
               withEquippableItem("disco ball"),
-              withEquippableItem("two-handed depthsword"));
-
-      try (cleanups) {
+              withEquippableItem("two-handed depthsword"))) {
         assertTrue(maximize("weapon dmg, effective"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "disco ball")));
       }
@@ -354,13 +338,11 @@ public class MaximizerTest {
 
     @Test
     public void useMeleeWeaponWhenMuscleHigh() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withStats(150, 100, 100),
               withEquippableItem("automatic catapult"),
-              withEquippableItem("seal-clubbing club"));
-
-      try (cleanups) {
+              withEquippableItem("seal-clubbing club"))) {
         assertTrue(maximize("weapon dmg, effective"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "seal-clubbing club")));
       }
@@ -368,13 +350,11 @@ public class MaximizerTest {
 
     @Test
     public void useJuneCleaverWhenMoxieHigh() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withStats(100, 100, 150),
               withEquippableItem("disco ball"),
-              withEquippableItem("June cleaver"));
-
-      try (cleanups) {
+              withEquippableItem("June cleaver"))) {
         assertTrue(maximize("weapon dmg, effective"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "June cleaver")));
       }
@@ -382,13 +362,11 @@ public class MaximizerTest {
 
     @Test
     public void useCosplaySaberWhenMoxieHigh() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withStats(100, 100, 150),
               withEquippableItem("disco ball"),
-              withEquippableItem("Fourth of May Cosplay Saber"));
-
-      try (cleanups) {
+              withEquippableItem("Fourth of May Cosplay Saber"))) {
         assertTrue(maximize("weapon dmg, effective"));
         assertThat(
             getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "Fourth of May Cosplay Saber")));
@@ -403,14 +381,13 @@ public class MaximizerTest {
     @Test
     public void muscleEffectiveDoesNotSelectRanged() {
       String maxStr = "effective";
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withStats(10, 5, 5),
               withEquippableItem("seal-skull helmet"),
               withEquippableItem("astral shirt"),
               withEquippableItem("old sweatpants"),
-              withEquippableItem("sewer snake"));
-      try (cleanups) {
+              withEquippableItem("sewer snake"))) {
         assertTrue(maximize(maxStr));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
       }
@@ -419,14 +396,13 @@ public class MaximizerTest {
     @Test
     public void moxieEffectiveDoesNotSelectMelee() {
       String maxStr = "effective";
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withStats(5, 5, 10),
               withEquippableItem("seal-skull helmet"),
               withEquippableItem("astral shirt"),
               withEquippableItem("old sweatpants"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
+              withEquippableItem("seal-clubbing club"))) {
         assertTrue(maximize(maxStr));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
       }
@@ -477,8 +453,7 @@ public class MaximizerTest {
   class Clownosity {
     @Test
     public void clownosityTriesClownEquipment() {
-      final var cleanups = new Cleanups(withEquippableItem("clown wig"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("clown wig"))) {
         assertTrue(maximize("clownosity 50 min -tie"));
         assertFalse(maximize("clownosity -tie"));
         assertFalse(maximize("10 clownosity -tie"));
@@ -490,9 +465,8 @@ public class MaximizerTest {
 
     @Test
     public void clownositySucceedsWithEnoughEquipment() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("clown wig"), withEquippableItem("polka-dot bow tie"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem("clown wig"), withEquippableItem("polka-dot bow tie"))) {
         assertTrue(maximize("clownosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
@@ -502,12 +476,11 @@ public class MaximizerTest {
 
     @Test
     public void clownosityWeightRetainsDefaultMinimum() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("mesh cap"),
               withEquippableItem("clown wig"),
-              withEquippableItem("polka-dot bow tie"));
-      try (cleanups) {
+              withEquippableItem("polka-dot bow tie"))) {
         assertTrue(maximize("100 muscle 5 clownosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
@@ -517,12 +490,11 @@ public class MaximizerTest {
 
     @Test
     public void clownosityStopsAt100() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("clown wig"),
               withEquippableItem("balloon sword"),
-              withEquippableItem("clownskin buckler"));
-      try (cleanups) {
+              withEquippableItem("clownskin buckler"))) {
         assertTrue(maximize("clownosity -tie"));
         assertEquals(100, modFor(BitmapModifier.CLOWNINESS), 0.01);
         assertThat(getBoosts().stream().filter(Boost::isEquipment).count(), equalTo(2L));
@@ -531,9 +503,7 @@ public class MaximizerTest {
 
     @Test
     public void clownosityItemsDontStack() {
-      var cleanups = withEquippableItem("clownskin belt", 3);
-
-      try (cleanups) {
+      try (var _ = withEquippableItem("clownskin belt", 3)) {
         maximize("clownosity, -tie");
         assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
         assertThat(
@@ -549,12 +519,11 @@ public class MaximizerTest {
   class Raveosity {
     @Test
     public void raveosityTriesRaveEquipment() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("rave visor"),
               withEquippableItem("baggy rave pants"),
-              withEquippableItem("rave whistle"));
-      try (cleanups) {
+              withEquippableItem("rave whistle"))) {
         assertTrue(maximize("raveosity 5 min -tie"));
         assertFalse(maximize("10 raveosity -tie"));
         assertFalse(maximize("raveosity -tie"));
@@ -568,14 +537,13 @@ public class MaximizerTest {
 
     @Test
     public void raveositySucceedsWithEnoughEquipment() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("blue glowstick"),
               withEquippableItem("glowstick on a string"),
               withEquippableItem("teddybear backpack"),
               withEquippableItem("rave visor"),
-              withEquippableItem("baggy rave pants"));
-      try (cleanups) {
+              withEquippableItem("baggy rave pants"))) {
         assertTrue(maximize("raveosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "rave visor")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "baggy rave pants")));
@@ -590,15 +558,14 @@ public class MaximizerTest {
   class Surgeonosity {
     @Test
     public void surgeonosityTriesSurgeonEquipment() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("head mirror"),
               withEquippableItem("bloodied surgical dungarees"),
               withEquippableItem("surgical apron"),
               withEquippableItem("surgical mask"),
               withEquippableItem("half-size scalpel"),
-              withSkill("Torso Awareness"));
-      try (cleanups) {
+              withSkill("Torso Awareness"))) {
         assertTrue(maximize("surgeonosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
         assertThat(getBoosts(), hasItem(recommends("head mirror")));
@@ -611,9 +578,7 @@ public class MaximizerTest {
 
     @Test
     public void surgeonosityItemsDontStack() {
-      var cleanups = withEquippableItem("surgical mask", 3);
-
-      try (cleanups) {
+      try (var _ = withEquippableItem("surgical mask", 3)) {
         assertFalse(maximize("surgeonosity 3 min, -tie"));
         assertTrue(maximize("surgeonosity, -tie"));
         assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
@@ -627,16 +592,14 @@ public class MaximizerTest {
 
     @Test
     public void weightedSurgeonosityEquipsEveryAvailablePiece() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("head mirror"),
               withEquippableItem("bloodied surgical dungarees"),
               withEquippableItem("surgical apron"),
               withEquippableItem("surgical mask"),
               withEquippableItem("half-size scalpel"),
-              withSkill("Torso Awareness"));
-
-      try (cleanups) {
+              withSkill("Torso Awareness"))) {
         assertTrue(maximize("surgeonosity, -tie"));
         assertEquals(5, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(getBoosts(), hasItem(recommends("head mirror")));
@@ -649,16 +612,14 @@ public class MaximizerTest {
 
     @Test
     public void surgeonosityRespectsMaximum() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("head mirror"),
               withEquippableItem("bloodied surgical dungarees"),
               withEquippableItem("surgical apron"),
               withEquippableItem("surgical mask"),
               withEquippableItem("half-size scalpel"),
-              withSkill("Torso Awareness"));
-
-      try (cleanups) {
+              withSkill("Torso Awareness"))) {
         assertTrue(maximize("surgeonosity, 3 max, -tie"));
         assertEquals(3, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(getBoosts(), hasItem(recommends("head mirror")));
@@ -672,9 +633,7 @@ public class MaximizerTest {
   class Potions {
     @Test
     public void recommendsUsableNonPotion() {
-      var cleanups = withItem(ItemPool.CHARTER_NELLYVILLE);
-
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.CHARTER_NELLYVILLE)) {
         maximize("hot dmg");
 
         assertThat(
@@ -684,9 +643,7 @@ public class MaximizerTest {
 
     @Test
     public void recommendsLoathingIdol() {
-      var cleanups = withItem(ItemPool.LOATHING_IDOL_MICROPHONE_50);
-
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.LOATHING_IDOL_MICROPHONE_50)) {
         maximize("init");
 
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("loathingidol pop"))));
@@ -695,10 +652,8 @@ public class MaximizerTest {
 
     @Test
     public void givesCorrectEffectDuration() {
-      var cleanups =
-          new Cleanups(withProperty("verboseMaximizer", true), withItem(ItemPool.CUP_OF_SUGAR));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("verboseMaximizer", true), withItem(ItemPool.CUP_OF_SUGAR))) {
         maximize("init");
 
         var boosts = getBoosts();
@@ -715,14 +670,12 @@ public class MaximizerTest {
     @Test
     public void doesntCrashOnInvalidData() {
       // you can end up with effects without durations e.g. in current TCRS
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("verboseMaximizer", true),
               withItem(ItemPool.BLACK_CANDLE),
               withOverrideModifiers(
-                  ModifierType.ITEM, ItemPool.BLACK_CANDLE, "Effect: \"Rainy Soul Miasma\""));
-
-      try (cleanups) {
+                  ModifierType.ITEM, ItemPool.BLACK_CANDLE, "Effect: \"Rainy Soul Miasma\""))) {
         maximize("muscle");
 
         var boosts = getBoosts();
@@ -736,10 +689,9 @@ public class MaximizerTest {
 
     @Test
     public void itemsCanHaveAtMostTwoBeesByDefault() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withPath(Path.BEES_HATE_YOU), withEquippableItem("bubblewrap bottlecap turtleban"));
-      try (cleanups) {
+              withPath(Path.BEES_HATE_YOU), withEquippableItem("bubblewrap bottlecap turtleban"))) {
         maximize("mys");
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
       }
@@ -747,10 +699,9 @@ public class MaximizerTest {
 
     @Test
     public void itemsCanHaveAtMostBeeosityBees() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withPath(Path.BEES_HATE_YOU), withEquippableItem("bubblewrap bottlecap turtleban"));
-      try (cleanups) {
+              withPath(Path.BEES_HATE_YOU), withEquippableItem("bubblewrap bottlecap turtleban"))) {
         maximize("mys, 5beeosity");
         assertThat(
             getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bubblewrap bottlecap turtleban")));
@@ -759,8 +710,7 @@ public class MaximizerTest {
 
     @Test
     public void beeosityDoesntApplyOutsideBeePath() {
-      final var cleanups = new Cleanups(withEquippableItem("bubblewrap bottlecap turtleban"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("bubblewrap bottlecap turtleban"))) {
         maximize("mys");
         assertThat(
             getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bubblewrap bottlecap turtleban")));
@@ -769,7 +719,7 @@ public class MaximizerTest {
 
     @Test
     void duplicateTwoBeeRequirementDoesNotAllowAThirdBee() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.BEES_HATE_YOU),
               withEquippableItem("Buddy Bjorn"),
@@ -789,13 +739,11 @@ public class MaximizerTest {
     class Crown {
       @Test
       public void canCrownFamiliarsWithBeesOutsideBeecore() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
                 withEquippableItem("Crown of Thrones"),
                 withFamiliarInTerrarium(FamiliarPool.LOBSTER), // 15% spell damage
-                withFamiliarInTerrarium(FamiliarPool.GALLOPING_GRILL)); // 10% spell damage
-
-        try (cleanups) {
+                withFamiliarInTerrarium(FamiliarPool.GALLOPING_GRILL))) {
           maximize("spell dmg");
 
           // used the lobster in the throne.
@@ -805,14 +753,12 @@ public class MaximizerTest {
 
       @Test
       public void cannotCrownFamiliarsWithBeesInBeecore() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
                 withPath(Path.BEES_HATE_YOU),
                 withEquippableItem("Crown of Thrones"),
                 withFamiliarInTerrarium(FamiliarPool.LOBSTER), // 15% spell damage
-                withFamiliarInTerrarium(FamiliarPool.GALLOPING_GRILL)); // 10% spell damage
-
-        try (cleanups) {
+                withFamiliarInTerrarium(FamiliarPool.GALLOPING_GRILL))) {
           maximize("spell dmg");
 
           // used the grill in the throne.
@@ -826,9 +772,7 @@ public class MaximizerTest {
     class Potions {
       @Test
       public void canUsePotionsWithBeesOutsideBeecore() {
-        final var cleanups = new Cleanups(withItem("baggie of powdered sugar"));
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withItem("baggie of powdered sugar"))) {
           maximize("meat drop");
 
           assertThat(
@@ -839,10 +783,8 @@ public class MaximizerTest {
 
       @Test
       public void cannotUsePotionsWithBeesInBeecore() {
-        final var cleanups =
-            new Cleanups(withPath(Path.BEES_HATE_YOU), withItem("baggie of powdered sugar"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withPath(Path.BEES_HATE_YOU), withItem("baggie of powdered sugar"))) {
           maximize("meat drop");
 
           assertThat(
@@ -857,9 +799,7 @@ public class MaximizerTest {
   class Plumber {
     @Test
     public void plumberCommandsErrorOutsidePlumber() {
-      final var cleanups = new Cleanups(withPath(Path.AVATAR_OF_BORIS));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.AVATAR_OF_BORIS))) {
         assertFalse(maximize("plumber"));
         assertFalse(maximize("cold plumber"));
       }
@@ -867,13 +807,11 @@ public class MaximizerTest {
 
     @Test
     public void plumberCommandForcesSomePlumberItem() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.PATH_OF_THE_PLUMBER),
               withEquippableItem("work boots"),
-              withEquippableItem("shiny ring", 3));
-
-      try (cleanups) {
+              withEquippableItem("shiny ring", 3))) {
         assertTrue(maximize("plumber, mox"));
         assertThat(getBoosts(), hasItem(recommends("work boots")));
       }
@@ -881,15 +819,13 @@ public class MaximizerTest {
 
     @Test
     public void coldPlumberCommandForcesFlowerAndFrostyButton() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.PATH_OF_THE_PLUMBER),
               withEquippableItem("work boots"),
               withEquippableItem("bonfire flower"),
               withEquippableItem("frosty button"),
-              withEquippableItem("shiny ring", 3));
-
-      try (cleanups) {
+              withEquippableItem("shiny ring", 3))) {
         assertTrue(maximize("cold plumber, mox"));
         assertThat(getBoosts(), hasItem(recommends("bonfire flower")));
         assertThat(getBoosts(), hasItem(recommends("frosty button")));
@@ -901,14 +837,12 @@ public class MaximizerTest {
   class GelatinousNoob {
     @Test
     public void canAbsorbItemsForSkills() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.GELATINOUS_NOOB),
               withItem("Knob mushroom"),
               withItem("beer lens"),
-              withItem("crossbow string"));
-
-      try (cleanups) {
+              withItem("crossbow string"))) {
         assertTrue(maximize("meat"));
         assertThat(
             getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶303")))); // Knob mushroom
@@ -921,9 +855,7 @@ public class MaximizerTest {
 
     @Test
     public void canAbsorbEquipmentForEnchants() {
-      final var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB), withItem("disco mask"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.GELATINOUS_NOOB), withItem("disco mask"))) {
         assertTrue(maximize("moxie -tie"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶9")))); // disco mask
@@ -932,9 +864,7 @@ public class MaximizerTest {
 
     @Test
     public void canAbsorbHelmetTurtleForEnchants() {
-      final var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB), withItem("helmet turtle"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withPath(Path.GELATINOUS_NOOB), withItem("helmet turtle"))) {
         assertTrue(maximize("muscle -tie"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
         assertThat(
@@ -944,13 +874,11 @@ public class MaximizerTest {
 
     @Test
     public void canRetrieveAndAbsorbEquipment() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.GELATINOUS_NOOB),
               withProperty("autoSatisfyWithCloset", true),
-              withItemInCloset(ItemPool.HELMET_TURTLE));
-
-      try (cleanups) {
+              withItemInCloset(ItemPool.HELMET_TURTLE))) {
         assertTrue(maximize("muscle -tie"));
         assertThat(
             getBoosts(),
@@ -967,13 +895,11 @@ public class MaximizerTest {
 
     @Test
     public void canBenefitFromOutfits() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.GELATINOUS_NOOB),
               withEquippableItem("bugbear beanie"),
-              withEquippableItem("bugbear bungguard"));
-
-      try (cleanups) {
+              withEquippableItem("bugbear bungguard"))) {
         assertTrue(maximize("spell dmg -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bugbear beanie")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bugbear bungguard")));
@@ -982,14 +908,12 @@ public class MaximizerTest {
 
     @Test
     public void canBenefitFromOutfitsWithWeapons() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.GELATINOUS_NOOB),
               withEquippableItem("The Jokester's wig"),
               withEquippableItem("The Jokester's gun"),
-              withEquippableItem("The Jokester's pants"));
-
-      try (cleanups) {
+              withEquippableItem("The Jokester's pants"))) {
         assertTrue(maximize("meat -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "The Jokester's wig")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "The Jokester's gun")));
@@ -1002,10 +926,9 @@ public class MaximizerTest {
   class Letter {
     @Test
     public void equipLongestItems() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("spiked femur"), withEquippableItem("sweet ninja sword"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEquippableItem("spiked femur"), withEquippableItem("sweet ninja sword"))) {
         maximize("letter");
 
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "sweet ninja sword")));
@@ -1014,14 +937,12 @@ public class MaximizerTest {
 
     @Test
     public void equipMostLetterItems() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("asparagus knife"),
               withEquippableItem("sweet ninja sword"),
               withEquippableItem("Fourth of May Cosplay Saber"),
-              withEquippableItem("old sweatpants"));
-
-      try (cleanups) {
+              withEquippableItem("old sweatpants"))) {
         maximize("letter n");
 
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "sweet ninja sword")));
@@ -1031,10 +952,8 @@ public class MaximizerTest {
 
     @Test
     public void equipMostNumberItems() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("X-37 gun"), withEquippableItem("sweet ninja sword"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem("X-37 gun"), withEquippableItem("sweet ninja sword"))) {
         maximize("number");
 
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "X-37 gun")));
@@ -1046,14 +965,12 @@ public class MaximizerTest {
   class WeaponModifiers {
     @Test
     public void clubModifierDoesntAffectOffhand() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill("Double-Fisted Skull Smashing"),
               withEquippableItem("flaming crutch", 2),
               withEquippableItem("white sword", 2),
-              withEquippableItem("dense meat sword"));
-
-      try (cleanups) {
+              withEquippableItem("dense meat sword"))) {
         assertTrue(EquipmentManager.canEquip("white sword"), "Can equip white sword");
         assertTrue(EquipmentManager.canEquip("flaming crutch"), "Can equip flaming crutch");
         assertTrue(maximize("mus, club"));
@@ -1065,9 +982,7 @@ public class MaximizerTest {
 
     @Test
     public void clubModifierWorksWithoutTieBreaker() {
-      final var cleanups = new Cleanups(withEquippableItem("lawn dart"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("lawn dart"))) {
         assertTrue(maximize("-tie, club"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "lawn dart")));
       }
@@ -1075,9 +990,7 @@ public class MaximizerTest {
 
     @Test
     public void shieldModifierWorksWithoutTieBreaker() {
-      final var cleanups = new Cleanups(withEquippableItem("vinyl shield"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("vinyl shield"))) {
         assertTrue(maximize("-tie, shield"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "vinyl shield")));
       }
@@ -1085,10 +998,9 @@ public class MaximizerTest {
 
     @Test
     public void swordModifierFavorsSword() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("sweet ninja sword"), withEquippableItem("spiked femur"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEquippableItem("sweet ninja sword"), withEquippableItem("spiked femur"))) {
         assertTrue(maximize("spooky dmg, sword"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "sweet ninja sword")));
       }
@@ -1099,15 +1011,13 @@ public class MaximizerTest {
 
   @Test
   public void maximizeGiveBestScoreWithEffectsAtNoncombatLimit() {
-    final var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Space Trip safety headphones"),
             withEquippableItem("Krampus Horn"),
             // get ourselves to -25 combat
             withEffect("Shelter of Shed"),
-            withEffect("Smooth Movements"));
-
-    try (cleanups) {
+            withEffect("Smooth Movements"))) {
       assertTrue(
           EquipmentManager.canEquip("Space Trip safety headphones"),
           "Cannot equip Space Trip safety headphones");
@@ -1135,10 +1045,8 @@ public class MaximizerTest {
   class Underwater {
     @Test
     public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
-      final var cleanups =
-          new Cleanups(withLocation("Noob Cave"), withEquippableItem("Mer-kin sneakmask"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withLocation("Noob Cave"), withEquippableItem("Mer-kin sneakmask"))) {
         assertTrue(maximize("-combat -tie"));
         assertEquals(0, modFor(DoubleModifier.COMBAT_RATE), 0.01);
 
@@ -1148,10 +1056,8 @@ public class MaximizerTest {
 
     @Test
     public void underwaterZonesCheckUnderwaterNegativeCombat() {
-      final var cleanups =
-          new Cleanups(withLocation("The Ice Hole"), withEquippableItem("Mer-kin sneakmask"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withLocation("The Ice Hole"), withEquippableItem("Mer-kin sneakmask"))) {
         assertEquals(
             Environment.UNDERWATER, AdventureDatabase.getEnvironment(Modifiers.currentLocation));
         assertTrue(maximize("-combat -tie"));
@@ -1165,10 +1071,8 @@ public class MaximizerTest {
   class Outfits {
     @Test
     public void considersOutfitsIfHelpful() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("eldritch hat"), withEquippableItem("eldritch pants"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem("eldritch hat"), withEquippableItem("eldritch pants"))) {
         assertTrue(maximize("item -tie"));
 
         assertEquals(50, modFor(DoubleModifier.ITEMDROP), 0.01);
@@ -1179,13 +1083,11 @@ public class MaximizerTest {
 
     @Test
     public void avoidsOutfitsIfOtherItemsBetter() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("eldritch hat"),
               withEquippableItem("eldritch pants"),
-              withEquippableItem("Team Avarice cap"));
-
-      try (cleanups) {
+              withEquippableItem("Team Avarice cap"))) {
         assertTrue(maximize("item -tie"));
 
         assertEquals(100, modFor(DoubleModifier.ITEMDROP), 0.01);
@@ -1195,15 +1097,13 @@ public class MaximizerTest {
 
     @Test
     public void forcingOutfitRequiresThatOutfit() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("bounty-hunting helmet"),
               withEquippableItem("bounty-hunting rifle"),
               withEquippableItem("bounty-hunting pants"),
               withEquippableItem("eldritch hat"),
-              withEquippableItem("eldritch pants"));
-
-      try (cleanups) {
+              withEquippableItem("eldritch pants"))) {
         assertTrue(maximize("item -tie"));
 
         assertEquals(70, modFor(DoubleModifier.ITEMDROP), 0.01);
@@ -1227,7 +1127,7 @@ public class MaximizerTest {
 
     @Test
     public void itShouldKeepSlimeOutfit() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withItem("Bonestabber"),
               withItem("Scepter of Loathing"),
@@ -1241,9 +1141,7 @@ public class MaximizerTest {
               withEquippableItem("hardened slime pants"),
               withEquippableItem("Pocket Square of Loathing"),
               withEquippableItem("perfect Christmas scarf"),
-              withEquippableItem("hardened slime belt"));
-
-      try (cleanups) {
+              withEquippableItem("hardened slime belt"))) {
         maximizeAny("spooky resistance");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "hardened slime hat")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "hardened slime pants")));
@@ -1256,11 +1154,9 @@ public class MaximizerTest {
   class Synergy {
     @Test
     public void considersBrimstoneIfHelpful() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem("Brimstone Beret"), withEquippableItem("Brimstone Boxers"));
-
-      try (cleanups) {
+              withEquippableItem("Brimstone Beret"), withEquippableItem("Brimstone Boxers"))) {
         assertTrue(maximize("ml -tie"));
         assertEquals(4, modFor(DoubleModifier.MONSTER_LEVEL), 0.01);
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Brimstone Beret")));
@@ -1272,11 +1168,9 @@ public class MaximizerTest {
     class Smithsness {
       @Test
       public void considersSmithsnessIfHelpful() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
-                withEquippableItem("Half a Purse"), withEquippableItem("Hairpiece On Fire"));
-
-        try (cleanups) {
+                withEquippableItem("Half a Purse"), withEquippableItem("Hairpiece On Fire"))) {
           assertTrue(maximize("meat -tie"));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "Half a Purse")));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Hairpiece On Fire")));
@@ -1285,13 +1179,11 @@ public class MaximizerTest {
 
       @Test
       public void usesFlaskfullOfHollowWithSmithsness() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
                 withItem("Flaskfull of Hollow"),
                 withStats(100, 100, 100),
-                withEquipped(Slot.PANTS, "Vicar's Tutu"));
-
-        try (cleanups) {
+                withEquipped(Slot.PANTS, "Vicar's Tutu"))) {
           assertTrue(maximize("muscle -tie"));
           assertThat(
               getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Flaskfull of Hollow"))));
@@ -1300,10 +1192,7 @@ public class MaximizerTest {
 
       @Test
       public void usesFlaskfullOfHollow() {
-        final var cleanups =
-            new Cleanups(withItem("Flaskfull of Hollow"), withStats(100, 100, 100));
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withItem("Flaskfull of Hollow"), withStats(100, 100, 100))) {
           assertTrue(maximize("muscle -tie"));
           assertThat(
               getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Flaskfull of Hollow"))));
@@ -1313,11 +1202,9 @@ public class MaximizerTest {
 
     @Test
     public void considersCloathingIfHelpful() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem("Goggles of Loathing"), withEquippableItem("Jeans of Loathing"));
-
-      try (cleanups) {
+              withEquippableItem("Goggles of Loathing"), withEquippableItem("Jeans of Loathing"))) {
         assertTrue(maximize("item -tie"));
         assertEquals(2, modFor(DoubleModifier.ITEMDROP), 0.01);
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Goggles of Loathing")));
@@ -1329,15 +1216,13 @@ public class MaximizerTest {
     class SlimeHatesIt {
       @Test
       public void considersInSlimeTube() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
                 withLocation("The Slime Tube"),
                 withEquippableItem("pernicious cudgel"),
                 withEquippableItem("grisly shield"),
                 withEquippableItem("shield of the Skeleton Lord"),
-                withItem("bitter pill"));
-
-        try (cleanups) {
+                withItem("bitter pill"))) {
           assertTrue(maximize("ml -tie"));
 
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "pernicious cudgel")));
@@ -1348,14 +1233,12 @@ public class MaximizerTest {
 
       @Test
       public void doesntCountIfNotInSlimeTube() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
                 withLocation("Noob Cave"),
                 withEquippableItem("pernicious cudgel"),
                 withEquippableItem("grisly shield"),
-                withEquippableItem("shield of the Skeleton Lord"));
-
-        try (cleanups) {
+                withEquippableItem("shield of the Skeleton Lord"))) {
           assertTrue(maximize("ml -tie"));
 
           assertThat(
@@ -1368,15 +1251,13 @@ public class MaximizerTest {
     class HoboPower {
       @Test
       public void usesHoboPowerIfPossible() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
                 withEquippableItem("Hodgman's garbage sticker"),
                 withEquippableItem("Hodgman's bow tie"),
                 withEquippableItem("Hodgman's lobsterskin pants"),
                 withEquippableItem("Hodgman's porkpie hat"),
-                withEquippableItem("silver cow creamer"));
-
-        try (cleanups) {
+                withEquippableItem("silver cow creamer"))) {
           assertTrue(maximize("meat -tie"));
 
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Hodgman's porkpie hat")));
@@ -1390,11 +1271,10 @@ public class MaximizerTest {
 
       @Test
       public void hoboPowerDoesntCountWithoutOffhand() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
-                withEquippableItem("Hodgman's bow tie"), withEquippableItem("silver cow creamer"));
-
-        try (cleanups) {
+                withEquippableItem("Hodgman's bow tie"),
+                withEquippableItem("silver cow creamer"))) {
           assertTrue(maximize("meat -tie"));
 
           assertEquals(30, modFor(DoubleModifier.MEATDROP), 0.01);
@@ -1408,14 +1288,12 @@ public class MaximizerTest {
 
     @Test
     void considersMcHugeLargeIfHelpful() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.MCHUGELARGE_DUFFEL_BAG),
               withEquippableItem(ItemPool.MCHUGELARGE_LEFT_POLE),
               withEquippableItem(ItemPool.MCHUGELARGE_RIGHT_POLE),
-              withEquippableItem(ItemPool.FLAMING_CARDBOARD_SWORD));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.FLAMING_CARDBOARD_SWORD))) {
         assertTrue(maximize("hot dmg -tie"));
         assertEquals(15, modFor(DoubleModifier.HOT_DAMAGE), 0.01);
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "McHugeLarge duffel bag")));
@@ -1429,13 +1307,11 @@ public class MaximizerTest {
   class Mutex {
     @Test
     public void equipAtMostOneHalo() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.SHINING_HALO),
               withEquippableItem(ItemPool.TIME_HALO),
-              withEquippableItem(ItemPool.TIME_SWORD));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.TIME_SWORD))) {
         assertTrue(maximize("adv, exp"));
 
         assertEquals(45, modFor(DoubleModifier.ADVENTURES), 0.01);
@@ -1451,14 +1327,12 @@ public class MaximizerTest {
   class ReplaceableMutex {
     @Test
     public void suggestBetterFacialExpression() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withMoxie(100),
               withEffect("Disco Smirk"),
               withSkill("Disco Smirk"),
-              withSkill("Quiet Desperation"));
-
-      try (cleanups) {
+              withSkill("Quiet Desperation"))) {
         assertTrue(maximize("moxie"));
 
         assertThat(getBoosts(), hasItem(recommendsEffect("Quiet Desperation")));
@@ -1467,14 +1341,12 @@ public class MaximizerTest {
 
     @Test
     public void doNotSuggestWorseFacialExpression() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withMoxie(100),
               withEffect("Quiet Desperation"),
               withSkill("Disco Smirk"),
-              withSkill("Quiet Desperation"));
-
-      try (cleanups) {
+              withSkill("Quiet Desperation"))) {
         assertTrue(maximize("moxie"));
 
         assertThat(getBoosts(), not(hasItem(recommendsEffect("Disco Smirk"))));
@@ -1483,14 +1355,12 @@ public class MaximizerTest {
 
     @Test
     public void suggestBetterShanty() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400),
               withEffect("Only Dogs Love a Drunken Sailor"),
               withSkill("Only Dogs Love a Drunken Sailor"),
-              withSkill("Who's Going to Pay This Drunken Sailor?"));
-
-      try (cleanups) {
+              withSkill("Who's Going to Pay This Drunken Sailor?"))) {
         assertTrue(maximize("item"));
 
         assertThat(
@@ -1500,14 +1370,12 @@ public class MaximizerTest {
 
     @Test
     public void doNotSuggestWorseShanty() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400),
               withEffect("Who's Going to Pay This Drunken Sailor?"),
               withSkill("Only Dogs Love a Drunken Sailor"),
-              withSkill("Who's Going to Pay This Drunken Sailor?"));
-
-      try (cleanups) {
+              withSkill("Who's Going to Pay This Drunken Sailor?"))) {
         assertTrue(maximize("item"));
 
         assertThat(getBoosts(), not(hasItem(recommendsEffect("Only Dogs Love a Drunken Sailor"))));
@@ -1519,11 +1387,10 @@ public class MaximizerTest {
   class Modeables {
     @Test
     public void canFoldUmbrella() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem("unbreakable umbrella"), withProperty("umbrellaState", "cocoon"));
-
-      try (cleanups) {
+              withEquippableItem("unbreakable umbrella"),
+              withProperty("umbrellaState", "cocoon"))) {
         assertTrue(maximize("Monster Level Percent"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella broken"))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "unbreakable umbrella")));
@@ -1532,14 +1399,12 @@ public class MaximizerTest {
 
     @Test
     public void expShouldSuggestUmbrella() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withEquipped(Slot.PANTS, "old patched suit-pants"),
               withEquippableItem("Microplushie: Hipsterine"),
-              withProperty("umbrellaState", "cocoon"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "cocoon"))) {
         assertTrue(maximize("exp"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella broken"))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "unbreakable umbrella")));
@@ -1548,14 +1413,12 @@ public class MaximizerTest {
 
     @Test
     public void expShouldNotSuggestUmbrellaIfBetterInSlot() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withEquipped(Slot.PANTS, "old patched suit-pants"),
               withEquippableItem("vinyl shield"),
-              withProperty("umbrellaState", "cocoon"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "cocoon"))) {
         assertTrue(maximize("exp"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "vinyl shield")));
       }
@@ -1563,13 +1426,11 @@ public class MaximizerTest {
 
     @Test
     public void chooseForwardFacingUmbrellaToSatisfyShield() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withEquippableItem("tip jar"),
-              withEquipped(Slot.PANTS, "old sweatpants"));
-
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "old sweatpants"))) {
         assertTrue(maximize("meat, shield"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella forward-facing"))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "unbreakable umbrella")));
@@ -1578,14 +1439,12 @@ public class MaximizerTest {
 
     @Test
     public void edPieceChoosesFishWithSea() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("The Crown of Ed the Undying"),
               withEquippableItem("star shirt"),
               withEquipped(Slot.PANTS, "old sweatpants"),
-              withProperty("edPiece", "puma"));
-
-      try (cleanups) {
+              withProperty("edPiece", "puma"))) {
         assertTrue(maximize("muscle, sea"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece fish"))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "The Crown of Ed the Undying")));
@@ -1594,14 +1453,12 @@ public class MaximizerTest {
 
     @Test
     public void edPieceChoosesBasedOnModesWithoutSea() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("The Crown of Ed the Undying"),
               withEquippableItem("star shirt"),
               withEquipped(Slot.PANTS, "old sweatpants"),
-              withProperty("edPiece", "puma"));
-
-      try (cleanups) {
+              withProperty("edPiece", "puma"))) {
         assertTrue(maximize("muscle"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece bear"))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "The Crown of Ed the Undying")));
@@ -1610,12 +1467,11 @@ public class MaximizerTest {
 
     @Test
     public void multipleModeables() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("backup camera"),
               withEquippableItem("unbreakable umbrella"),
-              withEquipped(Slot.PANTS, "old sweatpants"));
-      try (cleanups) {
+              withEquipped(Slot.PANTS, "old sweatpants"))) {
         assertTrue(maximize("ml, -combat, equip backup camera, equip unbreakable umbrella"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella cocoon"))));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera ml"))));
@@ -1624,13 +1480,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSelectUmbrellaIfNegativeToOurGoal() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withEquippableItem("old sweatpants"),
-              withEquippableItem("star boomerang"));
-
-      try (cleanups) {
+              withEquippableItem("star boomerang"))) {
         assertTrue(maximize("-hp"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "star boomerang")));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
@@ -1639,15 +1493,13 @@ public class MaximizerTest {
 
     @Test
     public void equipUmbrellaOnLeftHandMan() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withFamiliar(FamiliarPool.LEFT_HAND),
               withEquipped(Slot.PANTS, "old patched suit-pants"),
               withEquippableItem("Microplushie: Hipsterine"),
-              withProperty("umbrellaState", "cocoon"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "cocoon"))) {
         assertTrue(maximize("exp, -offhand"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "unbreakable umbrella")));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
@@ -1656,15 +1508,13 @@ public class MaximizerTest {
 
     @Test
     public void suggestEquippingUmbrellaOnLeftHandMan() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
               withEquipped(Slot.PANTS, "old patched suit-pants"),
               withEquippableItem("Microplushie: Hipsterine"),
-              withProperty("umbrellaState", "cocoon"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "cocoon"))) {
         assertTrue(maximize("exp, -offhand, switch left-hand man"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("familiar Left-Hand Man"))));
         assertThat(
@@ -1675,15 +1525,13 @@ public class MaximizerTest {
 
     @Test
     public void suggestEquippingSomethingBetterThanUmbrellaOnLeftHandMan() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
               withEquipped(Slot.PANTS, "old patched suit-pants"),
               withEquippableItem("shield of the Skeleton Lord"),
-              withProperty("umbrellaState", "cocoon"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "cocoon"))) {
         assertTrue(maximize("exp, -offhand, switch left-hand man"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("familiar Left-Hand Man"))));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("equip familiar ¶9890"))));
@@ -1692,14 +1540,12 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestTunedRetrocape() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unwrapped knock-off retro superhero cape"),
               withEquippableItem("palm-frond cloak"),
               withProperty("retroCapeSuperhero", "vampire"),
-              withProperty("retroCapeWashingInstructions", "thrill"));
-
-      try (cleanups) {
+              withProperty("retroCapeWashingInstructions", "thrill"))) {
         assertTrue(maximize("hot res"));
         assertThat(
             getBoosts(),
@@ -1710,13 +1556,11 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestTunedSnowsuit() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("Snow Suit"),
               withEquippableItem("wax lips"),
-              withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL))) {
         assertTrue(maximize("exp, hp regen"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "Snow Suit")));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("snowsuit goatee"))));
@@ -1725,13 +1569,11 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestCameraIfSecondBest() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("backup camera"),
               withEquippableItem("incredibly dense meat gem"),
-              withProperty("backupCameraMode", "ml"));
-
-      try (cleanups) {
+              withProperty("backupCameraMode", "ml"))) {
         assertTrue(maximize("meat"));
         assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
         assertThat(getBoosts(), hasItem(recommends("incredibly dense meat gem")));
@@ -1741,10 +1583,9 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestCameraIfSlotsExcluded() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"))) {
         assertTrue(maximize("meat -acc1 -acc2"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "backup camera")));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera meat"))));
@@ -1753,9 +1594,9 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestPullableCameraIfNotRestricted() {
-      final var cleanups =
-          new Cleanups(withItemInStorage("backup camera"), withProperty("backupCameraMode", "ml"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withItemInStorage("backup camera"), withProperty("backupCameraMode", "ml"))) {
         maximizeAny("meat");
         assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("pull"))));
@@ -1764,14 +1605,12 @@ public class MaximizerTest {
 
     @Test
     public void shouldNotSuggestPullableCameraIfRestricted() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withItemInStorage("backup camera"),
               withProperty("backupCameraMode", "ml"),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.ITEMS, "backup camera"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "backup camera"))) {
         maximizeAny("meat");
         assertThat(getBoosts(), not(hasItem(recommends(ItemPool.BACKUP_CAMERA))));
       }
@@ -1779,11 +1618,9 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestReplicaParka() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem(ItemPool.REPLICA_JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.REPLICA_JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertTrue(maximize("dr"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "replica Jurassic Parka")));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
@@ -1792,11 +1629,9 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestUsingLedCandleWithJill() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 400), withItem(ItemPool.LED_CANDLE));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 400), withItem(ItemPool.LED_CANDLE))) {
         assertTrue(maximize("item"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("ledcandle disco"))));
       }
@@ -1804,11 +1639,9 @@ public class MaximizerTest {
 
     @Test
     public void shouldNotSuggestUsingLedCandleWithoutJill() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400), withItem(ItemPool.LED_CANDLE));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400), withItem(ItemPool.LED_CANDLE))) {
         assertTrue(maximize("item"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("ledcandle disco")))));
       }
@@ -1816,10 +1649,8 @@ public class MaximizerTest {
 
     @Test
     public void equipWithModeForcesThatMode() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         // If not asked for, "ml" would pick spikolodon
         assertTrue(maximize("ml, equip Jurassic Parka (ghostasaurus mode)"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "Jurassic Parka")));
@@ -1829,10 +1660,8 @@ public class MaximizerTest {
 
     @Test
     public void equipWithModeAcceptsAliases() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertTrue(maximize("ml, equip Jurassic Parka (spooky mode)"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
       }
@@ -1840,13 +1669,11 @@ public class MaximizerTest {
 
     @Test
     public void equipWithModeAcceptsBareParenthetical() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withEquipped(Slot.PANTS, "old sweatpants"), // Get some ML on
-              withProperty("umbrellaState", "broken"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "broken"))) {
         // If not asked for, "ml" would keep the umbrella broken
         assertTrue(maximize("ml, equip unbreakable umbrella (cocoon)"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella cocoon"))));
@@ -1855,13 +1682,11 @@ public class MaximizerTest {
 
     @Test
     public void equipWithModeAcceptsMultiWordModes() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unwrapped knock-off retro superhero cape"),
               withProperty("retroCapeSuperhero", "vampire"),
-              withProperty("retroCapeWashingInstructions", "thrill"));
-
-      try (cleanups) {
+              withProperty("retroCapeWashingInstructions", "thrill"))) {
         // If not asked for, "hot res" would pick vampire hold
         assertTrue(
             maximize("hot res, equip unwrapped knock-off retro superhero cape (robot kill mode)"));
@@ -1871,11 +1696,9 @@ public class MaximizerTest {
 
     @Test
     public void equipWithModeAppliesToReplicaParka() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem(ItemPool.REPLICA_JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.REPLICA_JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertTrue(maximize("ml, equip replica Jurassic Parka (kachungasaur mode)"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "replica Jurassic Parka")));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka kachungasaur"))));
@@ -1884,9 +1707,7 @@ public class MaximizerTest {
 
     @Test
     public void equipStillMatchesItemNamesEndingInMode() {
-      final var cleanups = new Cleanups(withEquippableItem("Jarlsberg's pan (Cosmic portal mode)"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("Jarlsberg's pan (Cosmic portal mode)"))) {
         assertTrue(maximize("spell dmg, equip Jarlsberg's pan (Cosmic portal mode)"));
         assertThat(
             getBoosts(),
@@ -1896,9 +1717,7 @@ public class MaximizerTest {
 
     @Test
     public void equipStillMatchesItemNamesEndingInMode2() {
-      final var cleanups = new Cleanups(withEquippableItem("Boris's Helm (askew)"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("Boris's Helm (askew)"))) {
         assertTrue(maximize("ml, equip Boris's Helm (askew)"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Boris's Helm (askew)")));
       }
@@ -1906,20 +1725,16 @@ public class MaximizerTest {
 
     @Test
     public void equipWithUnknownModeErrors() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertFalse(maximize("ml, equip Jurassic Parka (magical mode)"));
       }
     }
 
     @Test
     public void shouldErrorWhenModesConflict() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertFalse(
             maximize(
                 "equip Jurassic Parka (ghostasaurus mode), equip Jurassic Parka (kachungasaur mode)"));
@@ -1928,9 +1743,7 @@ public class MaximizerTest {
 
     @Test
     public void shouldErrorWhenIndirectConflict() {
-      final var cleanups = new Cleanups(withEquippableItem(ItemPool.CROWN_OF_ED));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem(ItemPool.CROWN_OF_ED))) {
         // We currently do not differnate between modes explicitly asked for or not.
         // 'sea' will give way when it's declared after, but not if it's handled first.
         assertFalse(maximize("sea, equip Crown of Ed the Undying (hyena mode)"));
@@ -1943,12 +1756,10 @@ public class MaximizerTest {
 
     @Test
     public void shouldErrorWhenIndirectConflict2() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.CROWN_OF_ED),
-              withEquippableItem(ItemPool.OLD_SCUBA_TANK));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.OLD_SCUBA_TANK))) {
         // We currently do not differnate between modes explicitly asked for or not.
         // 'sea' will give way when it's declared after, but not if it's handled first.
         // As such, this will still fail, even if we can breathe underwater
@@ -1962,12 +1773,10 @@ public class MaximizerTest {
 
     @Test
     public void softRequestShouldGiveWayWhenIndirectConflict() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.CROWN_OF_ED),
-              withEquippableItem(ItemPool.OLD_SCUBA_TANK));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.OLD_SCUBA_TANK))) {
         // 'sea' cannot override an explict mode. We equip a scuba tank to sastify 'sea'
         assertTrue(maximize("equip Crown of Ed the Undying (hyena mode), sea"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece hyena"))));
@@ -1977,12 +1786,10 @@ public class MaximizerTest {
 
     @Test
     public void doesNotChangeModeOfItemInExcludedSlot() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.ACCESSORY1, "backup camera"),
-              withProperty("backupCameraMode", "init"));
-
-      try (cleanups) {
+              withProperty("backupCameraMode", "init"))) {
         assertTrue(maximize("meat, -acc1"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("backupcamera")))));
       }
@@ -1990,13 +1797,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotChangeModeOfUmbrellaInExcludedSlot() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
               withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
-              withProperty("umbrellaState", "cocoon"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "cocoon"))) {
         assertTrue(maximize("ml, -offhand, switch left-hand man"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("umbrella")))));
       }
@@ -2004,13 +1809,11 @@ public class MaximizerTest {
 
     @Test
     public void doesChangeModeOfUmbrellaInNonExcludedSlot() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
               withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
-              withProperty("umbrellaState", "cocoon"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "cocoon"))) {
         assertTrue(maximize("ml"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella"))));
       }
@@ -2018,15 +1821,13 @@ public class MaximizerTest {
 
     @Test
     public void doesChangeModeOfUmbrellaInNonExcludedSlot2() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
               withEquipped(Slot.ACCESSORY1, "backup camera"),
               withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
               withProperty("umbrellaState", "cocoon"),
-              withProperty("backupCameraMode", "meat"));
-
-      try (cleanups) {
+              withProperty("backupCameraMode", "meat"))) {
         assertTrue(maximize("ml, -offhand"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("umbrella")))));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera"))));
@@ -2035,11 +1836,9 @@ public class MaximizerTest {
 
     @Test
     public void doesNotEquipExcludedMode() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem("backup camera"), withProperty("backupCameraMode", "init"));
-
-      try (cleanups) {
+              withEquippableItem("backup camera"), withProperty("backupCameraMode", "init"))) {
         assertTrue(maximize("meat, -tie, -equip backup camera (meat)"));
         assertThat(getBoosts(), not(hasItem(recommends(ItemPool.BACKUP_CAMERA))));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("backupcamera")))));
@@ -2048,10 +1847,9 @@ public class MaximizerTest {
 
     @Test
     public void bonusModeWinsOverNaturalValue() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("Backup camera"), withProperty("backupCameraMode", "ml"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEquippableItem("Backup camera"), withProperty("backupCameraMode", "ml"))) {
         assertTrue(maximize("init, 150 bonus Backup camera (meat)"));
         assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera meat"))));
@@ -2060,10 +1858,8 @@ public class MaximizerTest {
 
     @Test
     public void bonusWithModeAcceptsAliases() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertTrue(maximize("ml, 100 bonus Jurassic Parka (spooky mode)"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
       }
@@ -2071,13 +1867,11 @@ public class MaximizerTest {
 
     @Test
     public void bonusWithModeAcceptsModeWithoutTheWordMode() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unbreakable umbrella"),
               withEquipped(Slot.PANTS, "old sweatpants"),
-              withProperty("umbrellaState", "broken"));
-
-      try (cleanups) {
+              withProperty("umbrellaState", "broken"))) {
         assertTrue(maximize("ml, 100 bonus unbreakable umbrella (cocoon)"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella cocoon"))));
       }
@@ -2085,13 +1879,11 @@ public class MaximizerTest {
 
     @Test
     public void bonusWithModeAcceptsMultiWordModes() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("unwrapped knock-off retro superhero cape"),
               withProperty("retroCapeSuperhero", "vampire"),
-              withProperty("retroCapeWashingInstructions", "thrill"));
-
-      try (cleanups) {
+              withProperty("retroCapeWashingInstructions", "thrill"))) {
         assertTrue(
             maximize(
                 "hot res, 100 bonus unwrapped knock-off retro superhero cape (robot kill mode)"));
@@ -2101,9 +1893,7 @@ public class MaximizerTest {
 
     @Test
     public void bonusStillMatchesItemNamesEndingInMode() {
-      final var cleanups = new Cleanups(withEquippableItem("Jarlsberg's pan (Cosmic portal mode)"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("Jarlsberg's pan (Cosmic portal mode)"))) {
         assertTrue(maximize("spell dmg, 100 bonus Jarlsberg's pan (Cosmic portal mode)"));
         assertThat(
             getBoosts(),
@@ -2113,9 +1903,7 @@ public class MaximizerTest {
 
     @Test
     public void bonusStillMatchesItemNamesEndingInMode2() {
-      final var cleanups = new Cleanups(withEquippableItem("Boris's Helm (askew)"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem("Boris's Helm (askew)"))) {
         assertTrue(maximize("ml, 100 bonus Boris's Helm (askew)"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Boris's Helm (askew)")));
       }
@@ -2123,23 +1911,19 @@ public class MaximizerTest {
 
     @Test
     public void bonusWithUnknownModeErrors() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertFalse(maximize("ml, 100 bonus Jurassic Parka (magical mode)"));
       }
     }
 
     @Test
     public void dontSwitchModeForZeroScoreWithoutTiebreaker() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA),
               withSkill(SkillPool.TORSO),
-              withProperty("parkaMode", "kachungasaur"));
-
-      try (cleanups) {
+              withProperty("parkaMode", "kachungasaur"))) {
         assertTrue(maximize("+adv, -tie"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("parka")))));
       }
@@ -2147,10 +1931,9 @@ public class MaximizerTest {
 
     @Test
     public void higherBonusModeWins() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"))) {
         // 120 vs 110
         assertTrue(maximize("70 bonus backup camera (meat), 10 bonus backup camera (init)"));
         assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
@@ -2160,10 +1943,8 @@ public class MaximizerTest {
 
     @Test
     public void equipModeWinsOverBonusMode() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertTrue(
             maximize(
                 "equip Jurassic Parka (ghostasaurus mode), 100 bonus Jurassic Parka (kachungasaur mode)"));
@@ -2173,10 +1954,8 @@ public class MaximizerTest {
 
     @Test
     public void bonusModeNeverOverridesEquipModeRegardlessOfOrder() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO))) {
         assertTrue(
             maximize(
                 "100 bonus Jurassic Parka (kachungasaur mode), equip Jurassic Parka (ghostasaurus mode)"));
@@ -2186,12 +1965,10 @@ public class MaximizerTest {
 
     @Test
     public void bonusModeNeverOverridesImplicitForce() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.CROWN_OF_ED),
-              withEquippableItem(ItemPool.OLD_SCUBA_TANK));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.OLD_SCUBA_TANK))) {
         // 'sea' still forces fish mode
         assertTrue(maximize("sea, 100 bonus Crown of Ed the Undying (hyena mode)"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece fish"))));
@@ -2201,13 +1978,11 @@ public class MaximizerTest {
 
     @Test
     public void bonusScoreAndModeableScoreAddsTogether() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("backup camera"),
               withEquippableItem("incredibly dense meat gem"),
-              withProperty("backupCameraMode", "init"));
-
-      try (cleanups) {
+              withProperty("backupCameraMode", "init"))) {
         // The camera's 50 - 10 + 25 = 65 beats the gem's 60
         assertTrue(
             maximize("meat -acc1 -acc2, -10 bonus backup camera, 25 bonus backup camera (meat)"));
@@ -2220,11 +1995,10 @@ public class MaximizerTest {
 
     @Test
     public void secondBonusForSameItemOverwritesFirst() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem("backup camera"), withEquippableItem("incredibly dense meat gem"));
-
-      try (cleanups) {
+              withEquippableItem("backup camera"),
+              withEquippableItem("incredibly dense meat gem"))) {
         // The later bonus replaces the earlier one
         assertTrue(
             maximize(
@@ -2237,10 +2011,9 @@ public class MaximizerTest {
 
     @Test
     public void bonusModeWinsOverNaturalModeSelection() {
-      final var cleanups =
-          new Cleanups(withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"))) {
         assertTrue(maximize("ml, 100 bonus backup camera (meat)"));
         assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera meat"))));
@@ -2249,11 +2022,9 @@ public class MaximizerTest {
 
     @Test
     public void doesSwitchAwayFromBadBonusForMode() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem("backup camera"), withProperty("backupCameraMode", "init"));
-
-      try (cleanups) {
+              withEquippableItem("backup camera"), withProperty("backupCameraMode", "init"))) {
         assertTrue(maximize("+equip backup camera, -150 bonus backup camera (init)"));
         assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera"))));
@@ -2266,10 +2037,8 @@ public class MaximizerTest {
   class GarbageTote {
     @Test
     public void shouldSuggestEquippingGarbageToteItem1() {
-      final var cleanups =
-          new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS))) {
         assertTrue(maximize("monster level"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "tinsel tights")));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("equip pants ¶9693"))));
@@ -2278,15 +2047,13 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestEquippingGarbageToteItem2() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.REPLICA_GARBAGE_TOTE),
               withItem(ItemPool.REPLICA_HAIKU_KATANA),
               withItem(ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 5),
-              withSkill("Double-Fisted Skull Smashing"));
-
-      try (cleanups) {
+              withSkill("Double-Fisted Skull Smashing"))) {
         assertTrue(maximize("weapon damage percent"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "broken champagne bottle")));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("equip off-hand ¶9692"))));
@@ -2295,16 +2062,14 @@ public class MaximizerTest {
 
     @Test
     public void shouldFoldUnusedChampagneBottle() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.REPLICA_GARBAGE_TOTE),
               withItem(ItemPool.REPLICA_HAIKU_KATANA),
               withItem(ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 0),
               withProperty("_garbageItemChanged", false),
-              withSkill("Double-Fisted Skull Smashing"));
-
-      try (cleanups) {
+              withSkill("Double-Fisted Skull Smashing"))) {
         assertTrue(maximize("weapon damage percent"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "broken champagne bottle")));
         assertThat(
@@ -2315,10 +2080,8 @@ public class MaximizerTest {
 
     @Test
     public void shouldSuggestFoldingGarbageToteItem() {
-      final var cleanups =
-          new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS))) {
         assertTrue(maximize("weapon damage percent"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "broken champagne bottle")));
         assertThat(
@@ -2328,9 +2091,7 @@ public class MaximizerTest {
 
     @Test
     public void shouldNotSuggestUsingGarbageToteItem() {
-      final var cleanups = new Cleanups(withItem(ItemPool.TINSEL_TIGHTS));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.TINSEL_TIGHTS))) {
         assertTrue(maximize("weapon damage percent"));
         assertThat(
             getBoosts(),
@@ -2343,9 +2104,7 @@ public class MaximizerTest {
   class Horsery {
     @Test
     public void suggestsHorseryIfAvailable() {
-      var cleanups = withProperty("horseryAvailable", true);
-
-      try (cleanups) {
+      try (var _ = withProperty("horseryAvailable", true)) {
         assertTrue(maximize("-combat"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("horsery dark"))));
       }
@@ -2353,13 +2112,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSuggestHorseryIfUnaffordable() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("horseryAvailable", true),
               withProperty("_horsery", "normal horse"),
-              withMeat(0));
-
-      try (cleanups) {
+              withMeat(0))) {
         assertTrue(maximize("-combat"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("horsery dark")))));
       }
@@ -2367,13 +2124,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSuggestHorseryIfNotAllowedInStandard() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("horseryAvailable", true),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Horsery contract"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Horsery contract"))) {
         assertTrue(maximize("-combat"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("horsery dark")))));
       }
@@ -2384,14 +2139,12 @@ public class MaximizerTest {
   public class Familiars {
     @Test
     public void leftHandManEquipsItem() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.LEFT_HAND),
               withEquippableItem(ItemPool.WICKER_SHIELD, 2),
               withItem(ItemPool.STUFFED_CHEST) // equipment with no enchant to test modifiers crash
-              );
-
-      try (cleanups) {
+              )) {
         assertTrue(maximize("moxie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "wicker shield")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "wicker shield")));
@@ -2400,14 +2153,12 @@ public class MaximizerTest {
 
     @Test
     public void leftHandManConsidersRequestedItems() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("big stick"), // 2-handed weapon
               withEquippableItem("bread basket"),
               withEquippableItem("cyborg doll"),
-              withFamiliar(FamiliarPool.LEFT_HAND));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.LEFT_HAND))) {
         assertTrue(maximize("equip bread basket -familiar"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "bread basket")));
@@ -2434,14 +2185,12 @@ public class MaximizerTest {
 
     @Test
     public void switchLeftHandManConsidersRequestedItems() {
-      final var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("big stick"), // 2-handed weapon
               withEquippableItem("bread basket"),
               withEquippableItem("cyborg doll"),
-              withFamiliarInTerrarium(FamiliarPool.LEFT_HAND));
-
-      try (cleanups) {
+              withFamiliarInTerrarium(FamiliarPool.LEFT_HAND))) {
         assertTrue(maximize("equip bread basket -familiar +switch left-hand man"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "bread basket")));
@@ -2468,13 +2217,11 @@ public class MaximizerTest {
 
     @Test
     public void switchFamiliarConsidersGenericItems() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
               withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS) // 4 adv with any familiar
-              );
-
-      try (cleanups) {
+              )) {
         assertTrue(maximize("adv -tie +switch mosquito"));
         assertThat(
             getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "solid shifting time weirdness")));
@@ -2484,7 +2231,7 @@ public class MaximizerTest {
 
     @Test
     public void switchMultipleFamiliarsConsidersMultipleItems() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
               withFamiliarInTerrarium(FamiliarPool.HAND),
@@ -2493,9 +2240,7 @@ public class MaximizerTest {
               withItem(ItemPool.TRICK_TOT_CANDY), // 0 adv
               withItem(ItemPool.TIME_SWORD), // 3 adv with hand
               withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS) // 4 adv with any familiar
-              );
-
-      try (cleanups) {
+              )) {
         assertTrue(
             maximize(
                 "adv -weapon -offhand -tie +switch tot +switch disembodied hand +switch mosquito"));
@@ -2507,14 +2252,12 @@ public class MaximizerTest {
 
     @Test
     public void switchMultipleFamiliarsWithFoldable() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.MOSQUITO),
               withFamiliarInTerrarium(FamiliarPool.BADGER),
               withFamiliarInTerrarium(FamiliarPool.PURSE_RAT, 400),
-              withItem(ItemPool.LIARS_PANTS));
-
-      try (cleanups) {
+              withItem(ItemPool.LIARS_PANTS))) {
         assertTrue(maximize("ml +switch badger +switch purse rat"));
         assertThat(
             getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "flaming familiar doppelgänger")));
@@ -2527,15 +2270,13 @@ public class MaximizerTest {
   public class Uniques {
     @Test
     public void suggestsBestNonStackingWatchForAdventures() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("Counterclockwise Watch"), // 10, watch
               withEquippableItem("grandfather watch"), // 6, also a watch
               withEquippableItem("plexiglass pocketwatch"), // 3, stacks
               withEquippableItem("gold wedding ring") // 1
-              );
-
-      try (cleanups) {
+              )) {
         assertTrue(maximize("adv"));
         assertEquals(54, modFor(DoubleModifier.ADVENTURES), 0.01);
         assertThat(getBoosts(), hasItem(recommends("Counterclockwise Watch")));
@@ -2546,13 +2287,11 @@ public class MaximizerTest {
 
     @Test
     public void suggestsNoAdventureGearInSlowAndSteady() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.SLOW_AND_STEADY),
               withEquippableItem("Counterclockwise Watch"),
-              withEquippableItem("gold wedding ring"));
-
-      try (cleanups) {
+              withEquippableItem("gold wedding ring"))) {
         assertTrue(maximize("adv"));
         assertEquals(100, modFor(DoubleModifier.ADVENTURES), 0.01);
         assertThat(getBoosts(), not(hasItem(recommends("Counterclockwise Watch"))));
@@ -2562,13 +2301,11 @@ public class MaximizerTest {
 
     @Test
     public void watchesDontStackOutsideAdventuresEither() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.SASQ_WATCH), // 3, watch
               withEquippableItem("Crimbolex watch") // 5, also a watch
-              );
-
-      try (cleanups) {
+              )) {
         assertTrue(maximize("fites"));
         assertEquals(15, modFor(DoubleModifier.PVP_FIGHTS), 0.01);
         assertThat(getBoosts(), hasItem(recommends("Crimbolex watch")));
@@ -2578,9 +2315,7 @@ public class MaximizerTest {
 
     @Test
     public void surgeonosityItemsStackOutsideSurgeonosity() {
-      var cleanups = withEquippableItem("surgical mask", 3);
-
-      try (cleanups) {
+      try (var _ = withEquippableItem("surgical mask", 3)) {
         assertTrue(maximize("mp, -tie"));
         assertEquals(120, modFor(DoubleModifier.MP), 0.01);
         assertThat(
@@ -2594,9 +2329,7 @@ public class MaximizerTest {
 
     @Test
     public void clownosityItemsStackOutsideClownosity() {
-      var cleanups = withEquippableItem("clownskin belt", 3);
-
-      try (cleanups) {
+      try (var _ = withEquippableItem("clownskin belt", 3)) {
         assertTrue(maximize("mp, -tie"));
         assertEquals(45, modFor(DoubleModifier.MP), 0.01);
         assertThat(
@@ -2610,9 +2343,7 @@ public class MaximizerTest {
 
     @Test
     public void raveosityItemsStackOutsideRaveosity() {
-      var cleanups = withEquippableItem("blue glowstick", 3);
-
-      try (cleanups) {
+      try (var _ = withEquippableItem("blue glowstick", 3)) {
         assertTrue(maximize("mp, -tie"));
         assertEquals(15, modFor(DoubleModifier.MP), 0.01);
         assertThat(
@@ -2626,12 +2357,10 @@ public class MaximizerTest {
 
     @Test
     public void brimstoneItemsStackOutsideBrimstone() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("Brimstone Bludgeon", 3),
-              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING));
-
-      try (cleanups) {
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING))) {
         assertTrue(maximize("muscle, -tie"));
         assertEquals(100, modFor(DoubleModifier.MUS_PCT), 0.01);
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "Brimstone Bludgeon")));
@@ -2642,12 +2371,10 @@ public class MaximizerTest {
 
     @Test
     public void cloathingItemsStackOutsideCloathing() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("Stick-Knife of Loathing", 3),
-              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING));
-
-      try (cleanups) {
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING))) {
         assertTrue(maximize("spell dmg, -tie"));
         assertEquals(400, modFor(DoubleModifier.SPELL_DAMAGE_PCT), 0.01);
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "Stick-Knife of Loathing")));
@@ -2661,9 +2388,7 @@ public class MaximizerTest {
   public class Foldables {
     @Test
     public void forcedFoldablePreventsOtherSlots() {
-      var cleanups = withEquippableItem(ItemPool.ICE_SICKLE);
-
-      try (cleanups) {
+      try (var _ = withEquippableItem(ItemPool.ICE_SICKLE)) {
         assertTrue(maximize("ml, +equip ice baby"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "ice baby")));
@@ -2672,13 +2397,11 @@ public class MaximizerTest {
 
     @Test
     public void prefersFoldableInSlotWithHigherScore() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.ORIGAMI_MAGAZINE),
               withSkill(SkillPool.TORSO),
-              withFamiliar(FamiliarPool.GHUOL_WHELP));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.GHUOL_WHELP))) {
         assertTrue(maximize("meat, sleaze dmg, -tie"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "origami pasties")));
@@ -2688,9 +2411,7 @@ public class MaximizerTest {
 
     @Test
     public void singleFoldSourceProducesRequestedForm() {
-      var cleanups = new Cleanups(withItem(ItemPool.MAKESHIFT_CRANE), withStats(0, 75, 35));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.MAKESHIFT_CRANE), withStats(0, 75, 35))) {
         assertTrue(maximize("+equip makeshift cape"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "makeshift cape")));
       }
@@ -2708,14 +2429,12 @@ public class MaximizerTest {
 
       @Test
       public void requiresConditionToSucceed() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withEquippableItem("aerogel anvil"),
                 withEquippableItem("Baron von Ratsworth's monocle"),
                 withEquippableItem("observational glasses"),
-                withEquippableItem("ring of the Skeleton Lord"));
-
-        try (cleanups) {
+                withEquippableItem("ring of the Skeleton Lord"))) {
           assertTrue(maximize("never fumble"));
           assertThat(getBoosts(), hasItem(recommends("aerogel anvil")));
           assertThat(getBoosts(), hasItem(recommends("ring of the Skeleton Lord")));
@@ -2733,7 +2452,7 @@ public class MaximizerTest {
 
       @Test
       public void fledgesOrOutfitBothCount() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withEquippableItem("eyepatch"),
                 withEquippableItem("swashbuckling pants"),
@@ -2742,9 +2461,7 @@ public class MaximizerTest {
                 withEquippableItem("pirate fledges"),
                 withEquippableItem("moustache sock"),
                 withEquippableItem("tube sock"),
-                withEquippableItem("mirrored aviator shades"));
-
-        try (cleanups) {
+                withEquippableItem("mirrored aviator shades"))) {
           assertTrue(maximize("pirate, meat, -tie"));
           assertThat(getBoosts(), hasItem(recommends("pirate fledges")));
           assertThat(getBoosts(), hasItem(recommends("Pantsgiving")));
@@ -2768,15 +2485,13 @@ public class MaximizerTest {
 
       @Test
       public void prefersSeaGearToHigherScore() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withFamiliar(FamiliarPool.MOSQUITO),
                 withEquippableItem(ItemPool.DAS_BOOT),
                 withEquippableItem("Mer-kin scholar mask"),
                 withEquippableItem("Lens of Violence"),
-                withEquippableItem("old SCUBA tank"));
-
-        try (cleanups) {
+                withEquippableItem("old SCUBA tank"))) {
           assertTrue(maximize("item, sea"));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Mer-kin scholar mask")));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "das boot")));
@@ -2789,14 +2504,12 @@ public class MaximizerTest {
     class ModBonus {
       @Test
       public void canApplySameModbonusMultipleTimes() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withEquippableItem(ItemPool.PANTSGIVING),
                 withEquippableItem("black greaves"),
                 withEquippableItem("Camp Scout backpack"),
-                withEquippableItem("barskin cloak"));
-
-        try (cleanups) {
+                withEquippableItem("barskin cloak"))) {
           assertTrue(maximize("muscle, 100 modbonus Drops Items"));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "Pantsgiving")));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "Camp Scout backpack")));
@@ -2805,12 +2518,10 @@ public class MaximizerTest {
 
       @Test
       public void betterModbonusWins() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withEquippableItem("garbage sticker"),
-                withEquippableItem(ItemPool.LEGENDARY_SEAL_CLUBBING_CLUB));
-
-        try (cleanups) {
+                withEquippableItem(ItemPool.LEGENDARY_SEAL_CLUBBING_CLUB))) {
           assertTrue(maximize("100 modbonus Drops Meat, 50 modbonus Attacks Can't Miss"));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "garbage sticker")));
         }
@@ -2818,10 +2529,9 @@ public class MaximizerTest {
 
       @Test
       public void succeedsEvenIfNoModbonusAvailable() {
-        var cleanups =
-            new Cleanups(withEquippableItem("black greaves"), withEquippableItem("barskin cloak"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(
+                withEquippableItem("black greaves"), withEquippableItem("barskin cloak"))) {
           assertTrue(maximize("muscle, 100 modbonus Drops Items"));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "black greaves")));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "barskin cloak")));
@@ -2830,13 +2540,11 @@ public class MaximizerTest {
 
       @Test
       public void adjustsModeableToAchieveModbonus() {
-        final var cleanups =
+        try (var _ =
             new Cleanups(
                 withEquippableItem("The Crown of Ed the Undying"),
                 withEquippableItem("hangman's hood"),
-                withProperty("edPiece", "puma"));
-
-        try (cleanups) {
+                withProperty("edPiece", "puma"))) {
           assertTrue(maximize("muscle, 100 modbonus Adventure Underwater"));
           assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "The Crown of Ed the Undying")));
           assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece fish"))));
@@ -2849,13 +2557,11 @@ public class MaximizerTest {
   public class Chefstaves {
     @Test
     public void cantEquipCheffstaffsOnLeftHandMan() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("Staff of Kitchen Royalty"),
               withFamiliar(FamiliarPool.LEFT_HAND),
-              withSkill(SkillPool.SPIRIT_OF_RIGATONI));
-
-      try (cleanups) {
+              withSkill(SkillPool.SPIRIT_OF_RIGATONI))) {
         assertTrue(maximize("spell dmg, -weapon"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FAMILIAR))));
       }
@@ -2863,13 +2569,11 @@ public class MaximizerTest {
 
     @Test
     public void mustEquipSauceGloveForChefstaff() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("Staff of Kitchen Royalty"),
               withEquippableItem("special sauce glove"),
-              withClass(AscensionClass.SAUCEROR));
-
-      try (cleanups) {
+              withClass(AscensionClass.SAUCEROR))) {
         assertTrue(maximize("spell dmg, -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "Staff of Kitchen Royalty")));
         assertThat(getBoosts(), hasItem(recommends("special sauce glove")));
@@ -2878,13 +2582,11 @@ public class MaximizerTest {
 
     @Test
     public void cannotUseSauceGloveIfNotSauceror() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("Staff of Kitchen Royalty"),
               withEquippableItem("special sauce glove"),
-              withClass(AscensionClass.SEAL_CLUBBER));
-
-      try (cleanups) {
+              withClass(AscensionClass.SEAL_CLUBBER))) {
         assertTrue(maximize("spell dmg, -tie"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
       }
@@ -2892,12 +2594,10 @@ public class MaximizerTest {
 
     @Test
     public void canUseSkillToEquipChefstaves() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("Staff of Kitchen Royalty"),
-              withSkill(SkillPool.SPIRIT_OF_RIGATONI));
-
-      try (cleanups) {
+              withSkill(SkillPool.SPIRIT_OF_RIGATONI))) {
         assertTrue(maximize("spell dmg, -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "Staff of Kitchen Royalty")));
       }
@@ -2908,9 +2608,7 @@ public class MaximizerTest {
   public class VampireVintnerWine {
     @Test
     public void doesNotSuggestVintnerWineIfUnavailable() {
-      var cleanups = new Cleanups(withItem(ItemPool.VAMPIRE_VINTNER_WINE, 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.VAMPIRE_VINTNER_WINE, 0))) {
         assertTrue(maximize("Item Drop"));
         assertThat(
             getBoosts(),
@@ -2920,13 +2618,11 @@ public class MaximizerTest {
 
     @Test
     public void doesSuggestVintnerWineIfAvailableWithCorrectEffect() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.VAMPIRE_VINTNER_WINE, 1),
               withProperty("vintnerWineEffect", "Wine-Hot"),
-              withProperty("vintnerWineLevel", 12));
-
-      try (cleanups) {
+              withProperty("vintnerWineLevel", 12))) {
         assertTrue(maximize("Item Drop"));
         assertThat(
             getBoosts(),
@@ -2936,13 +2632,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSuggestVintnerWineIfAvailableWithWrongEffect() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.VAMPIRE_VINTNER_WINE, 1),
               withProperty("vintnerWineEffect", "Wine-Hot"),
-              withProperty("vintnerWineLevel", 12));
-
-      try (cleanups) {
+              withProperty("vintnerWineLevel", 12))) {
         assertTrue(maximize("Monster Level"));
         assertThat(
             getBoosts(),
@@ -2955,9 +2649,7 @@ public class MaximizerTest {
   class Skills {
     @Test
     public void suggestsSkillsIfRelevant() {
-      var cleanups = new Cleanups(withSkill(SkillPool.SCARYSAUCE));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withSkill(SkillPool.SCARYSAUCE))) {
         assertTrue(maximize("cold res"));
         assertThat(
             getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scarysauce"))));
@@ -2969,11 +2661,9 @@ public class MaximizerTest {
 
     @Test
     public void suggestsSpecialEffectsFromSkillsIfHaveEquipment() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withSkill(SkillPool.SCARYSAUCE), withEquippableItem(ItemPool.VELOUR_VISCOMETER));
-
-      try (cleanups) {
+              withSkill(SkillPool.SCARYSAUCE), withEquippableItem(ItemPool.VELOUR_VISCOMETER))) {
         assertTrue(maximize("cold res"));
         assertThat(
             getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scarysauce"))));
@@ -2985,11 +2675,9 @@ public class MaximizerTest {
 
     @Test
     public void suggestsSpiceHazeForNonPastamancer() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.ACCORDION_THIEF), withSkill(SkillPool.BIND_SPICE_GHOST));
-
-      try (cleanups) {
+              withClass(AscensionClass.ACCORDION_THIEF), withSkill(SkillPool.BIND_SPICE_GHOST))) {
         maximize("item");
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Bind Spice Ghost"))));
       }
@@ -2997,11 +2685,9 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSuggestSpiceHazeForPastamancer() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withClass(AscensionClass.PASTAMANCER), withSkill(SkillPool.BIND_SPICE_GHOST));
-
-      try (cleanups) {
+              withClass(AscensionClass.PASTAMANCER), withSkill(SkillPool.BIND_SPICE_GHOST))) {
         maximize("item");
         assertThat(
             getBoosts(), not(hasItem(hasProperty("cmd", startsWith("cast 1 Bind Spice Ghost")))));
@@ -3013,7 +2699,7 @@ public class MaximizerTest {
   class BirdOfTheDay {
     @Test
     public void suggestsBirdIfRelevant() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_canSeekBirds", true),
               withProperty("_birdOfTheDay", "Filthy Smiling Pine Parrot"),
@@ -3033,9 +2719,7 @@ public class MaximizerTest {
               withOverrideModifiers(
                   ModifierType.EFFECT,
                   2552,
-                  "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"));
-
-      try (cleanups) {
+                  "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"))) {
         assertTrue(maximize("mp regen"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Seek out a Bird"))));
         assertThat(
@@ -3049,7 +2733,7 @@ public class MaximizerTest {
   class PassiveDamage {
     @Test
     public void suggestsPassiveDamage() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.HIPPY_PROTEST_BUTTON),
               withEquippableItem(ItemPool.BOTTLE_OPENER_BELT_BUCKLE),
@@ -3061,9 +2745,7 @@ public class MaximizerTest {
               withEquippableItem(ItemPool.SERRATED_PROBOSCIS_EXTENSION),
               withSkill(SkillPool.JALAPENO_SAUCESPHERE),
               withItem(ItemPool.CHEAP_CIGAR_BUTT),
-              withFamiliar(FamiliarPool.MOSQUITO));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.MOSQUITO))) {
         assertTrue(maximize("passive dmg"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "hot plate")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "ant rake")));
@@ -3078,14 +2760,12 @@ public class MaximizerTest {
 
     @Test
     public void suggestsUnderwaterPassiveDamageUnderwater() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.EELSKIN_HAT),
               withEquippableItem(ItemPool.EELSKIN_PANTS),
               withEquippableItem(ItemPool.EELSKIN_SHIELD),
-              withLocation("The Ice Hole"));
-
-      try (cleanups) {
+              withLocation("The Ice Hole"))) {
         assertTrue(maximize("passive dmg -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "eelskin hat")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "eelskin pants")));
@@ -3095,14 +2775,12 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSuggestUnderwaterPassiveDamageIfNotUnderwater() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.EELSKIN_HAT),
               withEquippableItem(ItemPool.EELSKIN_PANTS),
               withEquippableItem(ItemPool.EELSKIN_SHIELD),
-              withLocation("Noob Cave"));
-
-      try (cleanups) {
+              withLocation("Noob Cave"))) {
         assertTrue(maximize("passive dmg -tie"));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.PANTS))));
@@ -3119,9 +2797,7 @@ public class MaximizerTest {
 
     @Test
     public void suggestsWitchessIfOwned() {
-      var cleanups = new Cleanups(withWitchess);
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withWitchess)) {
         assertTrue(maximize("familiar weight"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("witchess"))));
       }
@@ -3129,14 +2805,12 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSuggestWitchessWhenOutOfStandard() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.STANDARD),
               withRestricted(true),
               withNotAllowedInStandard(RestrictedItemType.ITEMS, "Witchess Set"),
-              withWitchess);
-
-      try (cleanups) {
+              withWitchess)) {
         assertTrue(maximize("familiar weight"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("witchess")))));
       }
@@ -3144,15 +2818,13 @@ public class MaximizerTest {
 
     @Test
     public void suggestsWitchessWhenOutOfStandardForLegacyOfLoathing() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.LEGACY_OF_LOATHING),
               withRestricted(true),
               withProperty("replicaWitchessSetAvailable", true),
               withNotAllowedInStandard(RestrictedItemType.ITEMS, "Witchess Set"),
-              withWitchess);
-
-      try (cleanups) {
+              withWitchess)) {
         assertTrue(maximize("familiar weight"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("witchess"))));
       }
@@ -3163,9 +2835,7 @@ public class MaximizerTest {
   class GreatestAmericanPants {
     @Test
     public void suggestsGap() {
-      var cleanups = withEquipped(Slot.PANTS, ItemPool.GREAT_PANTS);
-
-      try (cleanups) {
+      try (var _ = withEquipped(Slot.PANTS, ItemPool.GREAT_PANTS)) {
         assertTrue(maximize("item"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("gap vision"))));
       }
@@ -3173,12 +2843,10 @@ public class MaximizerTest {
 
     @Test
     public void suggestsReplicaGap() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.LEGACY_OF_LOATHING),
-              withEquipped(Slot.PANTS, ItemPool.REPLICA_GREAT_PANTS));
-
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.REPLICA_GREAT_PANTS))) {
         assertTrue(maximize("hot res"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("gap structure"))));
       }
@@ -3189,13 +2857,11 @@ public class MaximizerTest {
   class CardSleeve {
     @Test
     public void suggestCardSleeveSlot() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem("card sleeve"),
               withEquippableItem("sturdy cane"),
-              withEquippableItem("Alice's Army Foil Lanceman"));
-
-      try (cleanups) {
+              withEquippableItem("Alice's Army Foil Lanceman"))) {
         assertTrue(maximize("PvP Fights"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "card sleeve")));
         assertThat(
@@ -3207,11 +2873,10 @@ public class MaximizerTest {
     public void canReplaceCardSleeveNonDestructively() {
       // A card sleeve item can be switched non-destructively, we can consider it
       // This is unlike the folder holder, which destroys the replaced item
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem(ItemPool.CARD_SLEEVE), withEquippableItem("Alice's Army Sniper"));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.CARD_SLEEVE),
+              withEquippableItem("Alice's Army Sniper"))) {
         maximizeAny("+equip card sleeve, Weapon Damage");
         assertFalse(Maximizer.best.failed);
         assertThat(getBoosts(), hasItem(recommends(ItemPool.CARD_SLEEVE)));
@@ -3226,11 +2891,9 @@ public class MaximizerTest {
     public void doesNotRecommendReplacingFolderDestructively() {
       // Folders are destroyed when the slot is replaced, it's not handled by default
       // This is unlike the card sleeve, which doesn't destroy the replaced item
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withEquippableItem(ItemPool.FOLDER_HOLDER), withEquippableItem("Folder (red)"));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.FOLDER_HOLDER), withEquippableItem("Folder (red)"))) {
         maximizeAny("+equip over-the-shoulder folder holder, muscle");
         assertFalse(Maximizer.best.failed);
         assertThat(getBoosts(), hasItem(recommends(ItemPool.FOLDER_HOLDER)));
@@ -3245,12 +2908,10 @@ public class MaximizerTest {
     public void doesNotRecommendReplacingStickerDestructively() {
       // Stickers are destroyed (peeled off) when the slot is replaced, it's not handled by
       // default. This is unlike the card sleeve, which doesn't destroy the replaced item
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.STICKER_SWORD),
-              withEquippableItem(ItemPool.UNICORN_STICKER));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.UNICORN_STICKER))) {
         maximizeAny("+equip scratch 'n' sniff sword, muscle");
         assertFalse(Maximizer.best.failed);
         assertThat(getBoosts(), hasItem(recommends(ItemPool.STICKER_SWORD)));
@@ -3265,13 +2926,11 @@ public class MaximizerTest {
     public void doesNotRecommendReplacingBootDecorationsDestructively() {
       // Boot skins and spurs are destroyed when the slot is replaced, it's not handled by
       // default. This is unlike the card sleeve, which doesn't destroy the replaced item
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.COWBOY_BOOTS),
               withEquippableItem(ItemPool.MOUNTAIN_SKIN),
-              withEquippableItem(ItemPool.QUICKSILVER_SPURS));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.QUICKSILVER_SPURS))) {
         maximizeAny("+equip your cowboy boots, muscle");
         assertFalse(Maximizer.best.failed);
         assertThat(getBoosts(), hasItem(recommends(ItemPool.COWBOY_BOOTS)));
@@ -3285,13 +2944,11 @@ public class MaximizerTest {
   class LegacyOfLoathing {
     @Test
     public void shouldNotSuggestPullingEquipmentInLegacyOfLoathing() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.LEGACY_OF_LOATHING),
               withItemInStorage(ItemPool.POWERFUL_GLOVE),
-              withInteractivity(false));
-
-      try (cleanups) {
+              withInteractivity(false))) {
         maximizeAny("hp");
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("pull")))));
       }
@@ -3299,14 +2956,12 @@ public class MaximizerTest {
 
     @Test
     public void shouldNotSuggestPullingFreePullsInLegacyOfLoathingHardcore() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.LEGACY_OF_LOATHING),
               withItemInFreepulls(ItemPool.RETROSPECS),
               withHardcore(),
-              withInteractivity(false));
-
-      try (cleanups) {
+              withInteractivity(false))) {
         maximizeAny("mus");
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("free pull")))));
       }
@@ -3317,9 +2972,7 @@ public class MaximizerTest {
   class Mcd {
     @Test
     public void doesNotSuggestMcdIfSignless() {
-      var cleanups = withSign(ZodiacSign.NONE);
-
-      try (cleanups) {
+      try (var _ = withSign(ZodiacSign.NONE)) {
         maximize("ml");
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mcd")))));
       }
@@ -3327,9 +2980,7 @@ public class MaximizerTest {
 
     @Test
     public void suggestsMcdWhenBoostingML() {
-      var cleanups = withSign(ZodiacSign.MONGOOSE);
-
-      try (cleanups) {
+      try (var _ = withSign(ZodiacSign.MONGOOSE)) {
         maximize("ml");
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("mcd 10"))));
       }
@@ -3337,9 +2988,7 @@ public class MaximizerTest {
 
     @Test
     public void suggestsTurningOffMcdWithNegativeML() {
-      var cleanups = new Cleanups(withSign(ZodiacSign.MONGOOSE), withMCD(5));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withSign(ZodiacSign.MONGOOSE), withMCD(5))) {
         maximize("-ml");
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("mcd 0"))));
       }
@@ -3347,9 +2996,7 @@ public class MaximizerTest {
 
     @Test
     public void suggestsMcdElevenWhenCanadiaSign() {
-      var cleanups = withSign(ZodiacSign.MARMOT);
-
-      try (cleanups) {
+      try (var _ = withSign(ZodiacSign.MARMOT)) {
         maximize("ml");
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("mcd 11"))));
       }
@@ -3360,9 +3007,7 @@ public class MaximizerTest {
   class AprilBand {
     @Test
     public void recommendsAprilBand() {
-      var cleanups = withItem(ItemPool.APRILING_BAND_HELMET);
-
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.APRILING_BAND_HELMET)) {
         maximize("combat");
 
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("aprilband effect c"))));
@@ -3381,9 +3026,8 @@ public class MaximizerTest {
   class Mayam {
     @Test
     public void recommendsMayamResonanceWithItem() {
-      var cleanups =
-          new Cleanups(withItem(ItemPool.MAYAM_CALENDAR), withProperty("_mayamSymbolsUsed", ""));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withItem(ItemPool.MAYAM_CALENDAR), withProperty("_mayamSymbolsUsed", ""))) {
         maximize("food drop");
 
         assertThat(
@@ -3394,8 +3038,7 @@ public class MaximizerTest {
 
     @Test
     public void doesNotRecommendMayamWithoutItem() {
-      var cleanups = withProperty("_mayamSymbolsUsed", "");
-      try (cleanups) {
+      try (var _ = withProperty("_mayamSymbolsUsed", "")) {
         maximize("food drop");
 
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mayam ")))));
@@ -3404,8 +3047,7 @@ public class MaximizerTest {
 
     @Test
     public void doesNotRecommendMayamIfUsed() {
-      var cleanups = withProperty("_mayamSymbolsUsed", "yam1,yam2,cheese,clock");
-      try (cleanups) {
+      try (var _ = withProperty("_mayamSymbolsUsed", "yam1,yam2,cheese,clock")) {
         maximize("food drop");
 
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mayam ")))));
@@ -3417,12 +3059,11 @@ public class MaximizerTest {
   class CampAway {
     @Test
     public void recommendsCampAwayCloud() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("getawayCampsiteUnlocked", true),
               withProperty("_campAwayCloudBuffs", 0),
-              withProperty("_campAwaySmileBuffs", 0));
-      try (cleanups) {
+              withProperty("_campAwaySmileBuffs", 0))) {
         maximize("Muscle Experience Percent");
         assertThat(getBoosts(), hasItem(hasProperty("cmd", is("campaway cloud"))));
       }
@@ -3430,12 +3071,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotRecommendCampAwayCloudIfUsed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("getawayCampsiteUnlocked", true),
               withProperty("_campAwayCloudBuffs", 1),
-              withProperty("_campAwaySmileBuffs", 0));
-      try (cleanups) {
+              withProperty("_campAwaySmileBuffs", 0))) {
         maximize("Muscle Experience Percent");
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("campaway cloud")))));
       }
@@ -3443,12 +3083,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotRecommendCampAwayCloudIfNotOwned() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("getawayCampsiteUnlocked", false),
               withProperty("_campAwayCloudBuffs", 0),
-              withProperty("_campAwaySmileBuffs", 0));
-      try (cleanups) {
+              withProperty("_campAwaySmileBuffs", 0))) {
         maximize("Muscle Experience Percent");
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("campaway cloud")))));
       }
@@ -3456,14 +3095,13 @@ public class MaximizerTest {
 
     @Test
     public void recommendsCampAwayCloudInOldPath() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withRestricted(false),
               withNotAllowedInStandard(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure"),
               withProperty("getawayCampsiteUnlocked", true),
               withProperty("_campAwayCloudBuffs", 0),
-              withProperty("_campAwaySmileBuffs", 0));
-      try (cleanups) {
+              withProperty("_campAwaySmileBuffs", 0))) {
         maximize("Muscle Experience Percent");
         assertThat(getBoosts(), hasItem(hasProperty("cmd", is("campaway cloud"))));
       }
@@ -3471,14 +3109,13 @@ public class MaximizerTest {
 
     @Test
     public void doesNotRecommendCampAwayCloudIfUnderStandardRestriction() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withRestricted(true),
               withNotAllowedInStandard(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure"),
               withProperty("getawayCampsiteUnlocked", true),
               withProperty("_campAwayCloudBuffs", 0),
-              withProperty("_campAwaySmileBuffs", 0));
-      try (cleanups) {
+              withProperty("_campAwaySmileBuffs", 0))) {
         maximize("Muscle Experience Percent");
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("campaway cloud")))));
       }
@@ -3489,10 +3126,8 @@ public class MaximizerTest {
   class StinkyCheese {
     @Test
     public void weightsStinkyCheese() {
-      var cleanups =
-          new Cleanups(withItem(ItemPool.STINKY_CHEESE_SWORD), withItem(ItemPool.JUNE_CLEAVER));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withItem(ItemPool.STINKY_CHEESE_SWORD), withItem(ItemPool.JUNE_CLEAVER))) {
         maximize("10stinky cheese, 5bonus June cleaver, -pants -offhand -acc1 -acc2 -acc3");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "stinky cheese sword")));
         assertEquals(1, modFor(BitmapModifier.STINKYCHEESE), 0.01);
@@ -3501,12 +3136,10 @@ public class MaximizerTest {
 
     @Test
     public void doesNotOvercountSameItem() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.STINKY_CHEESE_SWORD, 7),
-              withEquippableItem(ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY, 3));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY, 3))) {
         maximize("30stinky cheese, item");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "stinky cheese sword")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "stinky cheese wheel")));
@@ -3525,13 +3158,11 @@ public class MaximizerTest {
 
   @Test
   public void prismaticBeretProvidesHatDrop() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem(ItemPool.PRISMATIC_BERET),
             withEquippableItem(ItemPool.GINGERBREAD_MASK),
-            withEquipped(ItemPool.GREAT_WOLFS_BEASTLY_TROUSERS));
-
-    try (cleanups) {
+            withEquipped(ItemPool.GREAT_WOLFS_BEASTLY_TROUSERS))) {
       maximize("hat drop");
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "prismatic beret")));
       assertEquals(31, modFor(DoubleModifier.HATDROP), 0.01);
@@ -3542,9 +3173,7 @@ public class MaximizerTest {
   class Wishable {
     @Test
     public void recommendsOnlyWishableEffects() {
-      var cleanups = new Cleanups(withItem(ItemPool.POCKET_WISH));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.POCKET_WISH))) {
         maximize("-combat");
         var boosts = getBoosts();
         assertThat(boosts, hasItem(hasProperty("cmd", startsWith("genie effect Disquiet Riot"))));
@@ -3556,13 +3185,11 @@ public class MaximizerTest {
 
     @Test
     public void recommendsPawableEffectsWithPaw() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.CURSED_MONKEY_PAW),
               withProperty("_monkeyPawWishesUsed", 3),
-              withProperty("verboseMaximizer", true));
-
-      try (cleanups) {
+              withProperty("verboseMaximizer", true))) {
         maximize("-combat");
         var boosts = getBoosts();
         assertThat(boosts, hasItem(hasProperty("cmd", equalTo("monkeypaw effect Disquiet Riot"))));
@@ -3582,10 +3209,8 @@ public class MaximizerTest {
 
     @Test
     public void acquiresWishIfItIsMallBuyable() {
-      var cleanups =
-          new Cleanups(withProperty("autoSatisfyWithMall", true), withInteractivity(true));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("autoSatisfyWithMall", true), withInteractivity(true))) {
         maximize("-combat");
         var boosts = getBoosts();
         assertThat(
@@ -3602,10 +3227,8 @@ public class MaximizerTest {
 
     @Test
     public void acquiresAlliedRadioIfItIsMallBuyable() {
-      var cleanups =
-          new Cleanups(withProperty("autoSatisfyWithMall", true), withInteractivity(true));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("autoSatisfyWithMall", true), withInteractivity(true))) {
         maximize("item");
         var boosts = getBoosts();
         assertThat(
@@ -3625,11 +3248,9 @@ public class MaximizerTest {
   class Holiday {
     @Test
     public void recommendsCrystallizedSpiceInAutumn() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem(ItemPool.CRYSTALLIZED_PUMPKIN_SPICE), withDay(2025, Month.OCTOBER, 11));
-
-      try (cleanups) {
+              withItem(ItemPool.CRYSTALLIZED_PUMPKIN_SPICE), withDay(2025, Month.OCTOBER, 11))) {
         maximize("item");
         var boosts = getBoosts();
         assertThat(
@@ -3639,11 +3260,9 @@ public class MaximizerTest {
 
     @Test
     public void doesNotRecommendCrystallizedSpiceOutsideAutumn() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem(ItemPool.CRYSTALLIZED_PUMPKIN_SPICE), withDay(2025, Month.DECEMBER, 11));
-
-      try (cleanups) {
+              withItem(ItemPool.CRYSTALLIZED_PUMPKIN_SPICE), withDay(2025, Month.DECEMBER, 11))) {
         maximize("item");
         var boosts = getBoosts();
         assertThat(
@@ -3653,10 +3272,9 @@ public class MaximizerTest {
 
     @Test
     public void recommendsM242OnDependenceDay() {
-      var cleanups =
-          new Cleanups(withItem(ItemPool.M282), withDay(2025, Month.OCTOBER, 30), withMuscle(100));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withItem(ItemPool.M282), withDay(2025, Month.OCTOBER, 30), withMuscle(100))) {
         maximize("muscle");
         var boosts = getBoosts();
         assertThat(boosts, hasItem(hasProperty("cmd", equalTo("use 1 M-242"))));
@@ -3665,10 +3283,9 @@ public class MaximizerTest {
 
     @Test
     public void doesNotRecommendM242OutsideDependenceDay() {
-      var cleanups =
-          new Cleanups(withItem(ItemPool.M282), withDay(2025, Month.DECEMBER, 11), withMuscle(100));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withItem(ItemPool.M282), withDay(2025, Month.DECEMBER, 11), withMuscle(100))) {
         maximize("muscle");
         var boosts = getBoosts();
         assertThat(boosts, not(hasItem(hasProperty("cmd", equalTo("use 1 M-242")))));
@@ -3680,15 +3297,13 @@ public class MaximizerTest {
   class Unarmed {
     @Test
     public void recommendBetterUnarmed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(ItemPool.TIME_SWORD),
               withEquipped(Slot.ACCESSORY1, ItemPool.EXTREME_AMULET),
               withEquipped(Slot.ACCESSORY2, ItemPool.EXTREME_AMULET),
               withEquipped(Slot.ACCESSORY3, ItemPool.EXTREME_AMULET),
-              withEquippableItem(ItemPool.TIME_HALO));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.TIME_HALO))) {
         maximize("adv");
         var boosts = getBoosts();
         assertThat(boosts, hasItem(hasProperty("cmd", startsWith("unequip weapon"))));
@@ -3698,16 +3313,14 @@ public class MaximizerTest {
 
     @Test
     public void dontRecommendWorseUnarmed() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.ACCESSORY1, ItemPool.GOLD_WEDDING_RING),
               withEquipped(Slot.ACCESSORY2, ItemPool.TINY_PLASTIC_GOLDEN_GUNDAM),
               withEquipped(Slot.ACCESSORY3, ItemPool.TIME_HALO),
               withEquippableItem(ItemPool.TIME_SWORD),
               withEquippableItem(ItemPool.NOVELTY_MONORAIL_TICKET),
-              withEquippableItem(ItemPool.TINY_PLASTIC_CRIMBO_REINDEER));
-
-      try (cleanups) {
+              withEquippableItem(ItemPool.TINY_PLASTIC_CRIMBO_REINDEER))) {
         maximize("adv");
         var boosts = getBoosts();
         assertThat(boosts, hasItem(recommends(ItemPool.TIME_SWORD)));
@@ -3720,14 +3333,12 @@ public class MaximizerTest {
 
   @Test
   void canMaximizeRolloverEffectDuration() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem(ItemPool.SILENT_NIGHTLIGHT),
             withEquippableItem(ItemPool.SPACEGATE_MILITARY_INSIGNIA),
             withEquippableItem(ItemPool.SPACEGATE_SCIENTIST_INSIGNIA),
-            withEquippableItem(ItemPool.SHINY_HOOD_ORNAMENT, 3));
-
-    try (cleanups) {
+            withEquippableItem(ItemPool.SHINY_HOOD_ORNAMENT, 3))) {
       maximize(
           "10.0 adv, 0.001 rollover effect duration, switch disembodied hand, switch left-hand man, -tie");
       assertThat(getBoosts(), hasItem(recommends(ItemPool.SPACEGATE_SCIENTIST_INSIGNIA)));
@@ -3738,11 +3349,9 @@ public class MaximizerTest {
 
   @Test
   void shouldSuggestHolsteringIfAvailable() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withClass(AscensionClass.COW_PUNCHER), withEquippableItem(ItemPool.CUSTOM_SIXGUN));
-
-    try (cleanups) {
+            withClass(AscensionClass.COW_PUNCHER), withEquippableItem(ItemPool.CUSTOM_SIXGUN))) {
       maximize("muscle");
       assertThat(getBoosts(), hasItem(recommends(ItemPool.CUSTOM_SIXGUN)));
     }
@@ -3752,14 +3361,12 @@ public class MaximizerTest {
   class DamageReduction {
     @Test
     void maximizerCountsInnateShieldDamageReductionAndEnchant() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquippableItem(ItemPool.OLD_SCHOOL_FLYING_DISC), // base 14, 10 enchant
               withEquippableItem(ItemPool.ASTRAL_SHIELD), // higher base: 15
               withEquippableItem(ItemPool.FURRY_YAM_BUCKLER) // higher enchant: 11
-              );
-
-      try (cleanups) {
+              )) {
         assertTrue(maximize("dr"));
         assertThat(getBoosts(), hasItem(recommends(ItemPool.OLD_SCHOOL_FLYING_DISC)));
         assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(24.0));
@@ -3768,9 +3375,7 @@ public class MaximizerTest {
 
     @Test
     void maximizerAddsShieldsWithNoBaseEnchants() {
-      var cleanups = new Cleanups(withEquippableItem(ItemPool.FLAK_SHIELD));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEquippableItem(ItemPool.FLAK_SHIELD))) {
         assertTrue(maximize("dr"));
         assertThat(getBoosts(), hasItem(recommends(ItemPool.FLAK_SHIELD)));
         assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(9.0));
@@ -3781,7 +3386,7 @@ public class MaximizerTest {
   @Test
   void keepsCurrentEquipmentWhenCombinationLimitIsReached() {
     var watch = ItemPool.get("grandfather watch");
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withItem("Boots of Twilight Whispers"),
             withEquipped(Slot.ACCESSORY1, "Elf Guard insignia (general)"),
@@ -3802,7 +3407,7 @@ public class MaximizerTest {
   @Test
   void currentKeywordControlsWhetherEquippedItemsAreConsidered() {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withOverrideModifiers(ModifierType.ITEM, alternative, "Item Drop: +20"),
@@ -3850,7 +3455,7 @@ public class MaximizerTest {
       })
   void recognizesModifierAliases(String expression, String modifiers) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, modifiers),
             withOverrideModifiers(ModifierType.ITEM, alternative, "Meat Drop: +100"),
@@ -3878,7 +3483,7 @@ public class MaximizerTest {
   void anyResistanceScoresTotalResistanceAcrossElements(
       String variedModifiers, String concentratedModifiers, String expected, String unexpected) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, variedModifiers),
             withOverrideModifiers(ModifierType.ITEM, alternative, concentratedModifiers),
@@ -3893,7 +3498,7 @@ public class MaximizerTest {
   @Test
   void allResistanceModifierContributesToEveryElement() {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "All Resistance: +1"),
             withOverrideModifiers(ModifierType.ITEM, alternative, "Spooky Resistance: +4"),
@@ -3909,7 +3514,7 @@ public class MaximizerTest {
   @CsvSource({"any resistance, helmet turtle", "all resistance, bounty-hunting helmet"})
   void distinguishesAnyResistanceFromAllResistance(String expression, String expected) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Cold Resistance: +6"),
             withOverrideModifiers(ModifierType.ITEM, alternative, "All Resistance: +1"),
@@ -3925,7 +3530,7 @@ public class MaximizerTest {
       delimiter = '|',
       value = {"utensil | pasta spoon", "knife | asparagus knife", "accordion | aerogel accordion"})
   void honorsWeaponRequirements(String expression, String itemName) {
-    try (var cleanups = new Cleanups(withStats(100, 100, 100), withEquippableItem(itemName))) {
+    try (var _ = new Cleanups(withStats(100, 100, 100), withEquippableItem(itemName))) {
       assertTrue(maximize(expression + ", -tie"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, itemName)));
     }
@@ -3944,7 +3549,7 @@ public class MaximizerTest {
       String qualifier, String expected, String alternative) {
     int expectedId = ItemPool.get(expected).getItemId();
     int alternativeId = ItemPool.get(alternative).getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withStats(100, 100, 100),
             withOverrideModifiers(ModifierType.ITEM, expectedId, "Item Drop: +10"),
@@ -3960,7 +3565,7 @@ public class MaximizerTest {
   @ParameterizedTest
   @CsvSource({"ACCORDION_THIEF, true", "SEAL_CLUBBER, false"})
   void stolenAccordionRequirementRespectsClass(AscensionClass ascensionClass, boolean recommended) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(ascensionClass),
             withStats(100, 100, 100),
@@ -3988,14 +3593,14 @@ public class MaximizerTest {
       })
   void classRestrictedEquipmentIsRecommendedOnlyToItsClass(
       String itemName, AscensionClass requiredClass, AscensionClass otherClass, String expression) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(requiredClass), withStats(100, 100, 100), withEquippableItem(itemName))) {
       assertTrue(maximize(expression + ", -tie"));
       assertThat(getBoosts(), hasItem(recommends(itemName)));
     }
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(otherClass), withStats(100, 100, 100), withEquippableItem(itemName))) {
       assertTrue(maximize(expression + ", -tie"));
@@ -4007,7 +3612,7 @@ public class MaximizerTest {
   @ValueSource(strings = {"Cold", "Hot", "Sleaze", "Spooky", "Stench"})
   void elementalImmunityOutweighsOrdinaryStatsAndResistance(String element) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(
                 ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Muscle: +10, " + element + " Immunity"),
@@ -4025,7 +3630,7 @@ public class MaximizerTest {
   @ValueSource(strings = {"Cold", "Hot", "Sleaze", "Spooky", "Stench"})
   void elementalVulnerabilityOutweighsOrdinaryStats(String element) {
     int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(
                 ModifierType.ITEM,
@@ -4092,7 +3697,7 @@ public class MaximizerTest {
 
   @Test
   void coldPlumberExplainsWhyItCannotRecommendEquipment() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.PLUMBER),
             withPath(Path.PATH_OF_THE_PLUMBER),
@@ -4110,7 +3715,7 @@ public class MaximizerTest {
   })
   void silentHunterRecommendationDependsOnCharacterClass(
       AscensionClass ascensionClass, String expected, String unavailable) {
-    try (var cleanups = new Cleanups(withClass(ascensionClass), withSkill("Silent Hunter"))) {
+    try (var _ = new Cleanups(withClass(ascensionClass), withSkill("Silent Hunter"))) {
       assertTrue(maximize("initiative, -tie"));
 
       assertThat(getBoosts(), hasItem(recommendsEffect(expected)));
@@ -4122,7 +3727,7 @@ public class MaximizerTest {
   @CsvSource({"false, true", "true, false"})
   void noAdventuresPreferenceControlsAdventureCostEffects(
       boolean noAdventures, boolean recommended) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withAdventuresLeft(3),
             withItem(ItemPool.GONG),
@@ -4139,7 +3744,7 @@ public class MaximizerTest {
   @ParameterizedTest
   @CsvSource({"4, true", "5, false"})
   void dailyUsePreferenceControlsEffectSource(int buffsUsed, boolean recommended) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.PANTS, ItemPool.GREAT_PANTS), withProperty("_gapBuffs", buffsUsed))) {
       assertTrue(maximize("item drop"));
@@ -4153,7 +3758,7 @@ public class MaximizerTest {
 
   @Test
   void outfitWithoutANameKeepsTheCurrentlyWornOutfit() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOutfit(OutfitPool.WAR_FRAT_OUTFIT),
             withAdjustmentsRecalculated(),
@@ -4174,7 +3779,7 @@ public class MaximizerTest {
 
   @Test
   void outfitWithoutANameDoesNotForceAnOutfitWhenNoneIsWorn() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.HAT, "helmet turtle"),
             withEquipped(Slot.PANTS, "old sweatpants"),
@@ -4186,7 +3791,7 @@ public class MaximizerTest {
 
   @Test
   void negativeSwitchForSameFamiliarDoesNotCancelPositiveSwitch() {
-    try (var cleanups = withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY)) {
+    try (var _ = withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY)) {
       assertTrue(maximize("switch Baby Gravy Fairy, -switch Baby Gravy Fairy, item drop"));
 
       assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy"))));
@@ -4195,7 +3800,7 @@ public class MaximizerTest {
 
   @Test
   void negativeFamiliarSwitchIsUsedWhenPositiveSwitchIsUnavailable() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
             withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS))) {
@@ -4207,7 +3812,7 @@ public class MaximizerTest {
 
   @Test
   void positiveFamiliarSwitchTakesPriorityOverNegativeSwitch() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
             withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
@@ -4227,7 +3832,7 @@ public class MaximizerTest {
 
   @Test
   void moxiePlumberPrefersFancyBoots() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.PLUMBER),
             withPath(Path.PATH_OF_THE_PLUMBER),
@@ -4242,7 +3847,7 @@ public class MaximizerTest {
 
   @Test
   void recommendsWeaponAndOffhandSynergy() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withStats(100, 100, 100),
             withEquippableItem("lupine sword"),
@@ -4256,7 +3861,7 @@ public class MaximizerTest {
 
   @Test
   void recommendsThreeAccessorySynergy() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withStats(100, 100, 100),
             withEquippableItem("monstrous monocle"),
@@ -4275,7 +3880,7 @@ public class MaximizerTest {
   @ParameterizedTest
   @CsvSource({"DISCO_BANDIT, true", "SEAL_CLUBBER, false"})
   void doubleBarreledAvailabilityDependsOnClass(AscensionClass ascensionClass, boolean available) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withClass(ascensionClass), withProperty("barrelShrineUnlocked", true))) {
       assertTrue(maximize("ranged damage percent, -tie"));
 
@@ -4294,7 +3899,7 @@ public class MaximizerTest {
   })
   void motorbikeMufflerControlsRevEngineEffect(
       String muffler, String expression, String expected, String unavailable) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.AVATAR_OF_SNEAKY_PETE),
             withPath(Path.AVATAR_OF_SNEAKY_PETE),
@@ -4309,7 +3914,7 @@ public class MaximizerTest {
 
   @Test
   void turtleTamerCanChangeBlessing() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.TURTLE_TAMER), withSkill("Blessing of She-Who-Was"))) {
       assertTrue(maximize("mysticality, -tie"));
@@ -4320,7 +3925,7 @@ public class MaximizerTest {
 
   @Test
   void turtleTamerCanGainBoonMatchingCurrentBlessing() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.TURTLE_TAMER),
             withSkill("Spirit Boon"),
@@ -4333,7 +3938,7 @@ public class MaximizerTest {
 
   @Test
   void turtleTamerCanBecomeAvatarFromGloriousBlessing() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.TURTLE_TAMER),
             withSkill("Turtle Power"),
@@ -4346,7 +3951,7 @@ public class MaximizerTest {
 
   @Test
   void crownAndBjornUseDifferentFamiliars() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem("Crown of Thrones"),
             withEquippableItem("Buddy Bjorn"),
@@ -4374,7 +3979,7 @@ public class MaximizerTest {
         })
     void unavailableOutsideItsPath(String itemName, Path path, AscensionClass ascensionClass) {
       int itemId = ItemPool.get(itemName).getItemId();
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.SEAL_CLUBBER),
               withHardcore(),
@@ -4400,7 +4005,7 @@ public class MaximizerTest {
         })
     void availableInItsPath(String itemName, Path path, AscensionClass ascensionClass) {
       int itemId = ItemPool.get(itemName).getItemId();
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(path),
               withClass(ascensionClass),
@@ -4420,7 +4025,7 @@ public class MaximizerTest {
     @Test
     void chargedGarbageShirtBeatsAHigherUnchargedExperienceModifier() {
       int alternative = ItemPool.get("astral shirt").getItemId();
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill("Torso Awareness"),
               withProperty("garbageShirtCharge", 1),
@@ -4436,7 +4041,7 @@ public class MaximizerTest {
     @Test
     void dischargedGarbageShirtLosesToAHigherExperienceModifier() {
       int alternative = ItemPool.get("astral shirt").getItemId();
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill("Torso Awareness"),
               withProperty("garbageShirtCharge", 0),
@@ -4461,7 +4066,7 @@ public class MaximizerTest {
   void familiarCanWearItsSpecialEquipment(String familiarName, String itemName, String forcedItem) {
     int itemId = ItemPool.get(itemName).getItemId();
     int forcedItemId = ItemPool.get(forcedItem).getItemId();
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarDatabase.getFamiliarId(familiarName), 400),
             withOverrideModifiers(ModifierType.ITEM, forcedItemId, "Item Drop: +20"),
@@ -4475,7 +4080,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationIncludesClosetRetrievalCommand() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withProperty("autoSatisfyWithCloset", true),
@@ -4494,12 +4099,12 @@ public class MaximizerTest {
 
   @Test
   void recommendationIncludesStashRetrievalCommand() {
-    try (var clanCleanup = withClan(1, "Test Clan")) {
+    try (var _ = withClan(1, "Test Clan")) {
       boolean hadClan = KoLCharacter.hasClan();
       KoLCharacter.setClan(true);
       ClanManager.setStashRetrieved();
 
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               new Cleanups(() -> KoLCharacter.setClan(hadClan)),
               withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
@@ -4520,7 +4125,7 @@ public class MaximizerTest {
 
   @Test
   void mallRecommendationIncludesAcquisitionText() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withProperty("autoSatisfyWithMall", true),
@@ -4535,7 +4140,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationIncludesPullCommand() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withInteractivity(false),
@@ -4553,7 +4158,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationAcquiresAndFoldsAccessibleEquipment() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +10"),
             withProperty("autoSatisfyWithCloset", true),
@@ -4579,7 +4184,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationPullsAndFoldsStoredEquipment() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +10"),
             withProperty("maximizerFoldables", true),
@@ -4605,7 +4210,7 @@ public class MaximizerTest {
 
   @Test
   void recommendationBuysToStorageAndPullsEquipment() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
             withProperty("autoSatisfyWithMall", true),
@@ -4630,7 +4235,7 @@ public class MaximizerTest {
   @ParameterizedTest
   @ValueSource(strings = {"Drops Items", "Drops Meat"})
   void defaultTiebreakerPrefersSpecialEquipment(String specialModifier) {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(
                 ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10, " + specialModifier),
@@ -4649,7 +4254,7 @@ public class MaximizerTest {
   @Test
   void defaultTiebreakerPrefersEquipmentWithARolloverEffect() {
     int oldSweatpants = ItemPool.OLD_SWEATPANTS;
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withOverrideModifiers(
                 ModifierType.ITEM,
@@ -4665,7 +4270,7 @@ public class MaximizerTest {
 
   @Test
   void doubleFistedSkillCanPutRangedWeaponsInBothHands() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill("Double-Fisted Skull Smashing"),
             withOverrideModifiers(
@@ -4680,7 +4285,7 @@ public class MaximizerTest {
 
   @Test
   void hatTrickDoesNotRecommendTheNormalHatSlot() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withClass(AscensionClass.SEAL_CLUBBER),
             withPath(Path.HAT_TRICK),
@@ -4695,7 +4300,7 @@ public class MaximizerTest {
   @Test
   void speculativeSearchLeavesEquippedItemsUnchanged() {
     var equipped = ItemPool.get("helmet turtle");
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(Slot.HAT, equipped), withEquippableItem("bounty-hunting helmet"))) {
       assertTrue(maximize("item"));
@@ -4707,7 +4312,7 @@ public class MaximizerTest {
 
   @Test
   void emptyKeywordRecommendsKeepingOccupiedSlots() {
-    try (var cleanups = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
+    try (var _ = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
       assertTrue(maximize("empty"));
       assertThat(getBoosts(), contains(hasToString(containsString("keep hat: helmet turtle"))));
     }

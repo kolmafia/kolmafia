@@ -61,7 +61,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
     public void birdModeNotOnJourney() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
@@ -70,8 +70,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withLimitMode(LimitMode.NONE),
               withPasswordHash("gong"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
         client.addResponse(200, html("request/test_choose_bird_form.html"));
@@ -104,7 +103,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
     public void birdModeOnJourney(LimitMode lm) {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
@@ -112,8 +111,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withContinuationState(),
               withLimitMode(lm),
               withNoEffects(),
-              withEffect(lm.effectName(), 1));
-      try (cleanups) {
+              withEffect(lm.effectName(), 1))) {
         String output = execute("bird");
         assertThat(output, containsString("You can't use a gong right now."));
         assertErrorState();
@@ -128,7 +126,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
     public void birdModeAtEndOfJourney(int snarfblat) {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
@@ -139,8 +137,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withProperty("welcomeBackAdv", snarfblat),
               withPasswordHash("gong"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         client.addResponse(302, Map.of("location", List.of("choice.php")), "");
         client.addResponse(200, html("request/test_leave_reincarnation.html"));
         client.addResponse(200, html("request/test_get_bird_reward.html"));

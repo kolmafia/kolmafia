@@ -1029,7 +1029,7 @@ public class SVNManager extends ScriptManager {
                   if (!executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
                     executor.shutdownNow();
                   }
-                } catch (InterruptedException e) {
+                } catch (InterruptedException _) {
                   executor.shutdownNow();
                 }
               }

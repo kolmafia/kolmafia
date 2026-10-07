@@ -42,15 +42,14 @@ public class BreakfastManagerTest {
     public void shouldPumpHighTopsThrice() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withInteractivity(true),
               withProperty("useCrimboToysSoftcore", true),
               withProperty("_highTopPumps", 0),
               withProperty("highTopPumped", 0),
-              withItem(ItemPool.PUMP_UP_HIGH_TOPS));
-      try (cleanups) {
+              withItem(ItemPool.PUMP_UP_HIGH_TOPS))) {
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
@@ -79,15 +78,14 @@ public class BreakfastManagerTest {
     public void shouldPumpHighTopsTwice() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withInteractivity(true),
               withProperty("useCrimboToysSoftcore", true),
               withProperty("_highTopPumps", 1),
               withProperty("highTopPumped", 1),
-              withItem(ItemPool.PUMP_UP_HIGH_TOPS));
-      try (cleanups) {
+              withItem(ItemPool.PUMP_UP_HIGH_TOPS))) {
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
@@ -114,15 +112,14 @@ public class BreakfastManagerTest {
     public void shouldPumpHighTopsOnce() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withInteractivity(true),
               withProperty("useCrimboToysSoftcore", true),
               withProperty("_highTopPumps", 2),
               withProperty("highTopPumped", 2),
-              withItem(ItemPool.PUMP_UP_HIGH_TOPS));
-      try (cleanups) {
+              withItem(ItemPool.PUMP_UP_HIGH_TOPS))) {
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
@@ -147,15 +144,14 @@ public class BreakfastManagerTest {
     public void shouldNotOverpumpHighTops() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withInteractivity(true),
               withProperty("useCrimboToysSoftcore", true),
               withProperty("_highTopPumps", 3),
               withProperty("highTopPumped", 10),
-              withItem(ItemPool.PUMP_UP_HIGH_TOPS));
-      try (cleanups) {
+              withItem(ItemPool.PUMP_UP_HIGH_TOPS))) {
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
@@ -177,7 +173,7 @@ public class BreakfastManagerTest {
     public void shouldUnclosetAndPumpHighTopsOnce() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withInteractivity(true),
@@ -185,8 +181,7 @@ public class BreakfastManagerTest {
               withProperty("_highTopPumps", 2),
               withProperty("highTopPumped", 2),
               withNoItems(),
-              withItemInCloset(ItemPool.PUMP_UP_HIGH_TOPS));
-      try (cleanups) {
+              withItemInCloset(ItemPool.PUMP_UP_HIGH_TOPS))) {
         client.addResponse(200, html("request/test_uncloset_pump_up_high_tops.html"));
         client.addResponse(200, html("request/test_pump_up_high_tops.html"));
         client.addResponse(200, ""); // api.php

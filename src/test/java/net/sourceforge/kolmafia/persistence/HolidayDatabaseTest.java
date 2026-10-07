@@ -49,9 +49,7 @@ class HolidayDatabaseTest {
     @ParameterizedTest
     @CsvSource({"22, true", "23, false"})
     void canDetectTodayIsMonday(final int date, final boolean isMonday) {
-      var cleanups = new Cleanups(withDay(2022, Month.AUGUST, date));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2022, Month.AUGUST, date))) {
         assertThat(HolidayDatabase.isMonday(), equalTo(isMonday));
       }
     }
@@ -176,7 +174,7 @@ class HolidayDatabaseTest {
     })
     @ParameterizedTest
     void getHoliday(final int year, final int month, final int day, final String holiday) {
-      try (var cleanups = withDay(year, Month.of(month), day)) {
+      try (var _ = withDay(year, Month.of(month), day)) {
         assertThat(HolidayDatabase.getHoliday(), is(holiday));
       }
     }
@@ -188,7 +186,7 @@ class HolidayDatabaseTest {
     })
     @ParameterizedTest
     void getHolidays(final int year, final int month, final int day, final String holiday) {
-      try (var cleanups = withDay(year, Month.of(month), day)) {
+      try (var _ = withDay(year, Month.of(month), day)) {
         assertThat(HolidayDatabase.getHolidays(), containsInAnyOrder(holiday.split(" / ")));
       }
     }
@@ -236,9 +234,7 @@ class HolidayDatabaseTest {
       "15,waning crescent,waning crescent",
     })
     void canIdentityMoonPosition(final int day, final String ronald, final String grimace) {
-      var cleanups = withDay(2022, Month.AUGUST, day);
-
-      try (cleanups) {
+      try (var _ = withDay(2022, Month.AUGUST, day)) {
         assertThat(HolidayDatabase.getRonaldPhaseAsString(), equalTo(ronald));
         assertThat(HolidayDatabase.getGrimacePhaseAsString(), equalTo(grimace));
       }
@@ -261,9 +257,7 @@ class HolidayDatabaseTest {
           "11;in front of Grimace, R side",
         })
     void canIdentifyHamburglarPosition(final int day, final String hamburglar) {
-      var cleanups = withDay(2022, Month.AUGUST, day);
-
-      try (cleanups) {
+      try (var _ = withDay(2022, Month.AUGUST, day)) {
         assertThat(HolidayDatabase.getHamburglarPositionAsString(), equalTo(hamburglar));
       }
     }
@@ -277,9 +271,7 @@ class HolidayDatabaseTest {
     })
     void canAdjustForInvalidMoonPhase(final int day, final long diff) {
 
-      var cleanups = new Cleanups(withDay(2023, Month.AUGUST, day));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withDay(2023, Month.AUGUST, day))) {
         // Phase Step 3
         HolidayDatabase.setMoonPhases(3, 2);
 

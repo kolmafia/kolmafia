@@ -28,9 +28,7 @@ public class RestoreExpressionTest {
   @ParameterizedTest
   @EnumSource(AscensionClass.class)
   public void canDetectClass(AscensionClass ascensionClass) {
-    var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
-
-    try (cleanups) {
+    try (var _ = withClass(AscensionClass.ACCORDION_THIEF)) {
       double expected = ascensionClass == AscensionClass.ACCORDION_THIEF ? 1.0 : 0.0;
 
       var exp = new RestoreExpression("class(" + ascensionClass.toString() + ")", "Detect class");
@@ -46,9 +44,7 @@ public class RestoreExpressionTest {
     "4, 0",
   })
   public void canDetectEffect(String effect, String expected) {
-    var cleanups = withEffect("Confused");
-
-    try (cleanups) {
+    try (var _ = withEffect("Confused")) {
       var exp = new RestoreExpression("effect(" + effect + ")", "Detect effect");
       assertEquals(Double.parseDouble(expected), exp.eval());
     }
@@ -62,9 +58,7 @@ public class RestoreExpressionTest {
     "39, 0",
   })
   public void canDetectSkill(String skill, double expected) {
-    var cleanups = withSkill("Natural Born Scrabbler");
-
-    try (cleanups) {
+    try (var _ = withSkill("Natural Born Scrabbler")) {
       var exp = new RestoreExpression("skill(" + skill + ")", "Detect skill");
       assertEquals(expected, exp.eval());
     }
@@ -76,9 +70,7 @@ public class RestoreExpressionTest {
     "turtle totem, 0",
   })
   public void canDetectEquip(String item, double expected) {
-    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
-
-    try (cleanups) {
+    try (var _ = withEquipped(Slot.WEAPON, "seal-clubbing club")) {
       var exp = new RestoreExpression("equipped(" + item + ")", "Detect equip");
       assertEquals(expected, exp.eval());
     }
@@ -87,9 +79,7 @@ public class RestoreExpressionTest {
   @ParameterizedTest
   @EnumSource(AscensionPath.Path.class)
   public void canDetectPath(AscensionPath.Path path) {
-    var cleanups = withPath(AscensionPath.Path.YOU_ROBOT);
-
-    try (cleanups) {
+    try (var _ = withPath(AscensionPath.Path.YOU_ROBOT)) {
       double expected = path == AscensionPath.Path.YOU_ROBOT ? 1.0 : 0.0;
 
       var exp = new RestoreExpression("path(" + path.toString() + ")", "Detect class");

@@ -19,7 +19,7 @@ public class UseSkillCommand extends AbstractCommand {
   @Override
   public void run(final String command, final String parameters) {
     if (parameters.length() > 0) {
-      try (Checkpoint checkpoint = new Checkpoint()) {
+      try (Checkpoint _ = new Checkpoint()) {
         UseSkillCommand.cast(parameters);
       }
       return;

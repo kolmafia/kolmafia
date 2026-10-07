@@ -12,9 +12,7 @@ public class ThriftyRequestTest {
 
   @Test
   public void shouldCheckThriftyItems() {
-    var cleanups = withNextResponse(200, html("request/test_request_thrifty_2026.html"));
-
-    try (cleanups) {
+    try (var _ = withNextResponse(200, html("request/test_request_thrifty_2026.html"))) {
       ThriftyRequest.initialize();
 
       assertTrue(ThriftyRequest.isAllowed(RestrictedItemType.ITEMS, "seal-clubbing club"));

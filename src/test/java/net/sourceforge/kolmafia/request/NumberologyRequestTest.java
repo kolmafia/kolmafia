@@ -26,13 +26,11 @@ class NumberologyRequestTest {
   @ParameterizedTest
   @CsvSource({"true,5", "false,2"})
   void numberologyLimitedUnderRestrictions(boolean canInteract, int remainingUsesExpected) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withInteractivity(canInteract),
             withProperty("_universeCalculated", 1),
-            withProperty("skillLevel144", 6));
-
-    try (cleanups) {
+            withProperty("skillLevel144", 6))) {
       int remainingUses =
           DailyLimitType.CAST.getDailyLimit(SkillPool.CALCULATE_THE_UNIVERSE).getUsesRemaining();
       assertEquals(remainingUsesExpected, remainingUses);
@@ -42,14 +40,12 @@ class NumberologyRequestTest {
   @ParameterizedTest
   @CsvSource({"true", "false"})
   void thirdInRunCastDoesNotLockOutTheDay(boolean canInteract) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withInteractivity(canInteract),
             withProperty("_universeCalculated", 2),
             withProperty("skillLevel144", 6),
-            withPostChoice2(1103, 0));
-
-    try (cleanups) {
+            withPostChoice2(1103, 0))) {
       assertThat("_universeCalculated", isSetTo(3));
     }
   }

@@ -50,8 +50,7 @@ public class MallPurchaseRequestTest {
     @Test
     public void itCountsItemsInInventory() {
       AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-      var cleanups = new Cleanups(withInteractivity(true), withItem(item));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInteractivity(true), withItem(item))) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
         assertTrue(request.getCurrentCount() == 1);
       }
@@ -60,8 +59,7 @@ public class MallPurchaseRequestTest {
     @Test
     public void itCountsItemsInStorage() {
       AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-      var cleanups = new Cleanups(withInteractivity(false), withItemInStorage(item));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInteractivity(false), withItemInStorage(item))) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
         assertTrue(request.getCurrentCount() == 1);
       }
@@ -70,8 +68,7 @@ public class MallPurchaseRequestTest {
     @Test
     public void itCountsItemsInFreepulls() {
       AdventureResult item = ItemPool.get(ItemPool.TOILET_PAPER, 1);
-      var cleanups = new Cleanups(withInteractivity(false), withItemInFreepulls(item));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInteractivity(false), withItemInFreepulls(item))) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
         assertTrue(request.getCurrentCount() == 1);
       }
@@ -83,8 +80,7 @@ public class MallPurchaseRequestTest {
     @Test
     public void disabledStoresAreGray() {
       AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-      var cleanups = new Cleanups(withInteractivity(true), withMeat(100));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInteractivity(true), withMeat(100))) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
         assertEquals(null, request.color());
         MallPurchaseRequest.addDisabledStore(request.getShopId());
@@ -95,8 +91,7 @@ public class MallPurchaseRequestTest {
     @Test
     public void ignoringStoresAreGray() {
       AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-      var cleanups = new Cleanups(withInteractivity(true), withMeat(100));
-      try (cleanups) {
+      try (var _ = new Cleanups(withInteractivity(true), withMeat(100))) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
         assertEquals(null, request.color());
         MallPurchaseRequest.addIgnoringStore(request.getShopId());
@@ -107,9 +102,8 @@ public class MallPurchaseRequestTest {
     @Test
     public void forbiddenStoresAreRed() {
       AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-      var cleanups =
-          new Cleanups(withInteractivity(true), withMeat(100), withProperty("forbiddenStores"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withInteractivity(true), withMeat(100), withProperty("forbiddenStores"))) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
         assertEquals(null, request.color());
         MallPurchaseRequest.addForbiddenStore(request.getShopId());
@@ -209,8 +203,7 @@ public class MallPurchaseRequestTest {
   class ParseResponse {
     @Test
     public void perDayLimitDoesNotSetError() {
-      var cleanups = withContinuationState();
-      try (cleanups) {
+      try (var _ = withContinuationState()) {
         String urlString =
             "mallstore.php?whichstore=12345&buying=1&ajax=1&whichitem=123.100&quantity=5";
         MallPurchaseRequest.parseResponse(urlString, html("request/test_mall_per_day_limit.html"));

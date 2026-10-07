@@ -27,9 +27,7 @@ public class NemesisDecoratorTest {
   class DiscoBandit {
     @Test
     public void decoratesRaverSpecialMove() {
-      var cleanups = withNextMonster("breakdancing raver");
-
-      try (cleanups) {
+      try (var _ = withNextMonster("breakdancing raver")) {
         StringBuffer text =
             new StringBuffer(
                 html("request/test_raver_special_move_no_previous_selected_skill.html"));
@@ -65,9 +63,7 @@ public class NemesisDecoratorTest {
 
     @Test
     public void decoratesRaverSpecialMoveAndRemovesPreviousSelection() {
-      var cleanups = withNextMonster("pop-and-lock raver");
-
-      try (cleanups) {
+      try (var _ = withNextMonster("pop-and-lock raver")) {
         StringBuffer text =
             new StringBuffer(html("request/test_raver_special_move_previous_selected_skill.html"));
 
@@ -108,9 +104,7 @@ public class NemesisDecoratorTest {
 
     @Test
     public void doesntDecorateRaverNoSpecialMove() {
-      var cleanups = withNextMonster("pop-and-lock raver raver");
-
-      try (cleanups) {
+      try (var _ = withNextMonster("pop-and-lock raver raver")) {
         StringBuffer text = new StringBuffer(html("request/test_raver_no_special_move.html"));
 
         String before = text.toString();

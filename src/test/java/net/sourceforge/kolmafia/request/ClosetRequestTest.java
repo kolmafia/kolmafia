@@ -29,7 +29,7 @@ public class ClosetRequestTest {
 
   @Test
   void shouldRefreshCloset() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withNoItemsInCloset(),
             withMeatInCloset(0),
@@ -39,9 +39,7 @@ public class ClosetRequestTest {
                     + html("request/test_api_closet.json")
                     + ",\"status\":"
                     + html("request/test_status2.json")
-                    + "}"));
-
-    try (cleanups) {
+                    + "}"))) {
       ClosetRequest.refresh();
 
       assertThat(KoLCharacter.getClosetMeat(), is(54321L));

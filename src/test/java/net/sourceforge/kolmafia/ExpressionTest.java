@@ -60,8 +60,7 @@ public class ExpressionTest {
 
   @Test
   public void canReadAdventuresLeftBytecode() {
-    var cleanups = withAdventuresLeft(69);
-    try (cleanups) {
+    try (var _ = withAdventuresLeft(69)) {
       var exp = new Expression("advsleft", "Adventures left");
       assertThat(exp.eval(), is(69.0));
     }
@@ -116,9 +115,7 @@ public class ExpressionTest {
       "45, 45",
     })
     public void canReadPrefs(String prefValue, String expected) {
-      var cleanups = withProperty("test", prefValue);
-
-      try (cleanups) {
+      try (var _ = withProperty("test", prefValue)) {
         var exp = new Expression("pref(test)", "pref(test) where pref = " + prefValue);
         assertEquals(Double.parseDouble(expected), exp.eval());
       }
@@ -129,9 +126,7 @@ public class ExpressionTest {
       "abc, 1", "xyz, 0",
     })
     public void canComparePrefs(String prefValue, String expected) {
-      var cleanups = withProperty("test", prefValue);
-
-      try (cleanups) {
+      try (var _ = withProperty("test", prefValue)) {
         var exp = new Expression("pref(test,abc)", "pref(test,abc) where pref = " + prefValue);
         assertEquals(Double.parseDouble(expected), exp.eval());
       }
@@ -166,13 +161,11 @@ public class ExpressionTest {
 
   @Test
   void canReportItemCountsById() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.UNIVERSAL_SEASONING, 4),
             withItemInCloset(ItemPool.UNIVERSAL_SEASONING, 2),
-            withItemInStorage(ItemPool.UNIVERSAL_SEASONING, 1));
-
-    try (cleanups) {
+            withItemInStorage(ItemPool.UNIVERSAL_SEASONING, 1))) {
       var exp = new Expression("haveitem(Universal Seasoning)", "have universal seasoning");
       assertThat(exp.eval(), is(4.0));
     }
@@ -180,9 +173,7 @@ public class ExpressionTest {
 
   @Test
   void canReportItemCountsByName() {
-    var cleanups = new Cleanups(withItem(ItemPool.FILET_OF_TANGY_GNAT, 2));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.FILET_OF_TANGY_GNAT, 2))) {
       var exp = new Expression("haveitem(2528)", "have filet of tangy gnat");
       assertThat(exp.eval(), is(2.0));
     }
@@ -191,9 +182,7 @@ public class ExpressionTest {
   @ParameterizedTest
   @CsvSource({"true,7", "false,3"})
   void interactExpressions(boolean canInteract, double expectedOutput) {
-    var cleanups = new Cleanups(withInteractivity(canInteract));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withInteractivity(canInteract))) {
       var exp = new ModifierExpression("interact*7+(1-interact)*3", "Test expression");
       assertThat(exp.eval(), equalTo(expectedOutput));
     }
@@ -202,9 +191,7 @@ public class ExpressionTest {
   @ParameterizedTest
   @CsvSource({"true,7", "false,3"})
   void restrictedExpressions(boolean restricted, double expectedOutput) {
-    var cleanups = new Cleanups(withRestricted(restricted));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withRestricted(restricted))) {
       var exp = new ModifierExpression("restricted*7+(1-restricted)*3", "Test expression");
       assertThat(exp.eval(), equalTo(expectedOutput));
     }
@@ -214,9 +201,7 @@ public class ExpressionTest {
   class Overrides {
     @Test
     void overridePref() {
-      var cleanups = new Cleanups(withProperty("test", "abc"), withProperty("testOverride", "xyz"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("test", "abc"), withProperty("testOverride", "xyz"))) {
         ExpressionOverrides overrides = new ExpressionOverrides();
 
         overrides.setPref("testOverride", "overridden");

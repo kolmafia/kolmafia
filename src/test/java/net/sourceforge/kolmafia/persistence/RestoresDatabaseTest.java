@@ -21,9 +21,7 @@ public class RestoresDatabaseTest {
 
   @Test
   void returnsExpectedFieldsForStatelyRestore() {
-    var cleanups = new Cleanups(withProperty("_aprilShower", 0));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_aprilShower", 0))) {
       String name = "April Shower";
 
       assertThat(RestoresDatabase.getType(name), is("loc"));

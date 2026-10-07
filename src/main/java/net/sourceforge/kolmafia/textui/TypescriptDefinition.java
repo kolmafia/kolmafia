@@ -539,7 +539,7 @@ public class TypescriptDefinition {
             entry.getValue().getBytes(),
             StandardOpenOption.TRUNCATE_EXISTING,
             StandardOpenOption.CREATE);
-      } catch (IOException e) {
+      } catch (IOException _) {
         System.out.println("Cannot write to " + file);
       }
     }

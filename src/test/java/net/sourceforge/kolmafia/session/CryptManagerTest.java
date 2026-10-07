@@ -44,14 +44,13 @@ public class CryptManagerTest {
   class VisitCyrpt {
     @Test
     void parsesFourCornerCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 1000));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 1000))) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_four_corners.html");
         ResponseTextParser.externalUpdate(request);
@@ -66,14 +65,13 @@ public class CryptManagerTest {
 
     @Test
     void parsesThreeCornerCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 1000));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 1000))) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_three_corners.html");
         ResponseTextParser.externalUpdate(request);
@@ -88,14 +86,13 @@ public class CryptManagerTest {
 
     @Test
     void parsesTwoCornerCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 1000));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 1000))) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_two_corners.html");
         ResponseTextParser.externalUpdate(request);
@@ -110,14 +107,13 @@ public class CryptManagerTest {
 
     @Test
     void parsesOneCornerCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 1000));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 1000))) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_one_corner.html");
         ResponseTextParser.externalUpdate(request);
@@ -132,14 +128,13 @@ public class CryptManagerTest {
 
     @Test
     void parsesHaertCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 1000));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 1000))) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_haert.html");
         ResponseTextParser.externalUpdate(request);
@@ -154,14 +149,13 @@ public class CryptManagerTest {
 
     @Test
     void parsesEmptyCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 1000));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 1000))) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_empty.html");
         ResponseTextParser.externalUpdate(request);
@@ -181,7 +175,7 @@ public class CryptManagerTest {
     void adjustsEvilnessWhenFightAndDefeatBoss() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withLocation("The Defiled Cranny"),
@@ -189,8 +183,7 @@ public class CryptManagerTest {
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 100));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 100))) {
         client.addResponse(302, Map.of("location", List.of("fight.php")), "");
         client.addResponse(200, html("request/test_cyrpt_boss_encounter.html"));
         client.addResponse(200, "");
@@ -224,7 +217,7 @@ public class CryptManagerTest {
     void adjustsEvilnessWhenDefeatLastBoss() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withLocation("The Defiled Cranny"),
@@ -232,8 +225,7 @@ public class CryptManagerTest {
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptCrannyEvilness", 13),
               withProperty("cyrptAlcoveEvilness", 0),
-              withProperty("cyrptTotalEvilness", 13));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 13))) {
         client.addResponse(302, Map.of("location", List.of("fight.php")), "");
         client.addResponse(200, html("request/test_cyrpt_boss_encounter.html"));
         client.addResponse(200, "");
@@ -264,14 +256,13 @@ public class CryptManagerTest {
     void adjustsEvilnessWhenDefeatBonerdagon() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
               withLocation("Haert of the Cyrpt"),
               withProperty("cyrptTotalEvilness", 999),
-              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED));
-      try (cleanups) {
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED))) {
         // crypt.php?action=heart -> choice.php -> fight.php
         // We'll skip simulating the choice
         client.addResponse(302, Map.of("location", List.of("fight.php")), "");

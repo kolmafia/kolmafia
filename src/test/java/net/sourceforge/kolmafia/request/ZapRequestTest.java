@@ -29,9 +29,7 @@ public class ZapRequestTest {
 
   @Test
   public void buildsARequestWithUnzappableAndWand() {
-    var cleanups = withItem("pine wand");
-
-    try (cleanups) {
+    try (var _ = withItem("pine wand")) {
       AdventureResult accord = ItemPool.get(ItemPool.HERMIT_PERMIT);
       var zapRequest = new ZapRequest(accord);
       assertNotNull(zapRequest);
@@ -40,9 +38,7 @@ public class ZapRequestTest {
 
   @Test
   public void buildsARequestWithZappableAndWand() {
-    var cleanups = withItem("pine wand");
-
-    try (cleanups) {
+    try (var _ = withItem("pine wand")) {
       AdventureResult bacon = ItemPool.get(ItemPool.BACONSTONE);
       var zapRequest = new ZapRequest(bacon);
       assertNotNull(zapRequest);

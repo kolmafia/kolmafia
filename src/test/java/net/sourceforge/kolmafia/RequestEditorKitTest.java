@@ -121,16 +121,14 @@ public class RequestEditorKitTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void addsDecorations(final boolean addComplexFeatures) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("relayShowSpoilers", true),
               withProperty(
                   "violetFogLayout",
                   "0,0,0,0,0,0,0,0,57,0,53,0,0,0,0,0,0,0,0,0,0,66,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,67,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50,0,0,0,0,0,0,0,0,0,0,0,0,0,0"),
               withProperty("lastVioletFogMap", KoLCharacter.getAscensions()),
-              withProperty("violetFogGoal", 7));
-
-      try (cleanups) {
+              withProperty("violetFogGoal", 7))) {
         VioletFogManager.reset();
         var buffer =
             new StringBuffer(html("request/test_choice_violet_fog_66_that_way_to_51.html"));
@@ -183,13 +181,11 @@ public class RequestEditorKitTest {
     @MethodSource("provideWarUniformArguments")
     void addsWarUniformTextIfEquipped(String nativeText, String addedText) {
       // TODO: Test rune computation for attack.
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.HAT, ItemPool.DWARVISH_WAR_HELMET),
               withEquipped(Slot.PANTS, ItemPool.DWARVISH_WAR_KILT),
-              withEquipped(Slot.WEAPON, ItemPool.DWARVISH_WAR_MATTOCK));
-
-      try (cleanups) {
+              withEquipped(Slot.WEAPON, ItemPool.DWARVISH_WAR_MATTOCK))) {
         var buffer = new StringBuffer(nativeText);
         RequestEditorKit.getFeatureRichHTML("fight.php", buffer, false);
         assertThat(buffer.toString(), containsString(addedText));
@@ -218,9 +214,7 @@ public class RequestEditorKitTest {
     "stench zombie, 'Dreadsylvanian Almanac page (1 no mod), Freddy Kruegerand (5 no mod), muddy skirt (0.1 cond)'"
   })
   public void addsSimpleItemDrops(final String monsterName, final String itemDropString) {
-    var cleanups = new Cleanups(withNextMonster(monsterName));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withNextMonster(monsterName))) {
       var buffer = new StringBuffer("<span id='monname'>" + monsterName + "</span>");
       RequestEditorKit.getFeatureRichHTML("fight.php", buffer, false);
       assertThat(buffer.toString(), containsString("Drops: " + itemDropString));
@@ -257,14 +251,13 @@ public class RequestEditorKitTest {
   class Cyrpt {
     @Test
     void decoratesFourCornerCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 200));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 200))) {
         var html = html("request/test_cyrpt_four_corners.html");
         CryptManager.visitCrypt(html);
 
@@ -281,14 +274,13 @@ public class RequestEditorKitTest {
 
     @Test
     void decoratesThreeCornerCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 200));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 200))) {
         var html = html("request/test_cyrpt_three_corners.html");
         CryptManager.visitCrypt(html);
 
@@ -305,14 +297,13 @@ public class RequestEditorKitTest {
 
     @Test
     void decoratesTwoCornerCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptNicheEvilness", 50),
               withProperty("cyrptCrannyEvilness", 50),
               withProperty("cyrptAlcoveEvilness", 50),
-              withProperty("cyrptTotalEvilness", 200));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 200))) {
         var html = html("request/test_cyrpt_two_corners.html");
         CryptManager.visitCrypt(html);
 
@@ -329,14 +320,13 @@ public class RequestEditorKitTest {
 
     @Test
     void doesNotDecorateEvilness0Cyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptCrannyEvilness", 0),
               withProperty("cyrptAlcoveEvilness", 0),
-              withProperty("cyrptTotalEvilness", 0));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 0))) {
         var html = html("request/test_cyrpt_haert.html");
         CryptManager.visitCrypt(html);
 
@@ -353,14 +343,13 @@ public class RequestEditorKitTest {
 
     @Test
     void doesNotDecorateEvilness999Cyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptCrannyEvilness", 0),
               withProperty("cyrptAlcoveEvilness", 0),
-              withProperty("cyrptTotalEvilness", 999));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 999))) {
         var html = html("request/test_cyrpt_haert.html");
         CryptManager.visitCrypt(html);
 
@@ -377,14 +366,13 @@ public class RequestEditorKitTest {
 
     @Test
     void doesNotDecorateEmptyCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptCrannyEvilness", 0),
               withProperty("cyrptAlcoveEvilness", 0),
-              withProperty("cyrptTotalEvilness", 0));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 0))) {
         var html = html("request/test_cyrpt_empty.html");
         CryptManager.visitCrypt(html);
 
@@ -401,14 +389,13 @@ public class RequestEditorKitTest {
 
     @Test
     void doesNotDecorateBogusEvilnessCyrpt() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptCrannyEvilness", 11),
               withProperty("cyrptAlcoveEvilness", 0),
-              withProperty("cyrptTotalEvilness", 11));
-      try (cleanups) {
+              withProperty("cyrptTotalEvilness", 11))) {
         var html = html("request/test_cyrpt_haert.html");
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("crypt.php", buffer, true);
@@ -426,9 +413,7 @@ public class RequestEditorKitTest {
   class CosmeticModifiers {
     @Test
     void canAddCustomModifiersToMonsterWithNone() {
-      var cleanups = withProperty("extraCosmeticModifiers", "wobble");
-
-      try (cleanups) {
+      try (var _ = withProperty("extraCosmeticModifiers", "wobble")) {
         var text = html("request/test_fight_fleaman.html");
         var buffer = new StringBuffer(text);
         RequestEditorKit.suppressPowerPixellation(buffer);
@@ -439,9 +424,7 @@ public class RequestEditorKitTest {
 
     @Test
     void canAddCustomModifiersToMonsterWithSome() {
-      var cleanups = withProperty("extraCosmeticModifiers", "wobble");
-
-      try (cleanups) {
+      try (var _ = withProperty("extraCosmeticModifiers", "wobble")) {
         var text = html("request/test_fight_mimeograph.html");
         var buffer = new StringBuffer(text);
         RequestEditorKit.suppressPowerPixellation(buffer);
@@ -452,9 +435,7 @@ public class RequestEditorKitTest {
 
     @Test
     void canSuppressPowerPixellation() {
-      var cleanups = withProperty("suppressPowerPixellation", "true");
-
-      try (cleanups) {
+      try (var _ = withProperty("suppressPowerPixellation", "true")) {
         var text = html("request/test_fight_oil_slick.html");
         var buffer = new StringBuffer(text);
         RequestEditorKit.suppressPowerPixellation(buffer);
@@ -465,12 +446,10 @@ public class RequestEditorKitTest {
 
     @Test
     void canSuppressPowerPixellationWhileAddingModifier() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("suppressPowerPixellation", "true"),
-              withProperty("extraCosmeticModifiers", "drunk,floating"));
-
-      try (cleanups) {
+              withProperty("extraCosmeticModifiers", "drunk,floating"))) {
         var text = html("request/test_fight_oil_slick.html");
         var buffer = new StringBuffer(text);
         RequestEditorKit.suppressPowerPixellation(buffer);
@@ -505,12 +484,11 @@ public class RequestEditorKitTest {
 
     @Test
     void decoratesABooPeakTheHorror() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("relayShowSpoilers", true),
               withItem(ItemPool.BOO_CLUE),
-              withPasswordHash("BOO"));
-      try (cleanups) {
+              withPasswordHash("BOO"))) {
         var buffer = new StringBuffer(html("request/test_aboo_peak_flee_the_horror.html"));
         RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=611&option=2", buffer, true);
         var contents = buffer.toString();
@@ -524,12 +502,11 @@ public class RequestEditorKitTest {
 
     @Test
     void decoratesHauntedBallroomRottingMatilda() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("relayShowSpoilers", true),
               withItem(ItemPool.DANCE_CARD),
-              withPasswordHash("DANCE"));
-      try (cleanups) {
+              withPasswordHash("DANCE"))) {
         var buffer = new StringBuffer(html("request/test_haunted_ballroom_rotting_matilda.html"));
         RequestEditorKit.getFeatureRichHTML(
             "adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM, buffer, true);
@@ -547,11 +524,10 @@ public class RequestEditorKitTest {
   class CyberRealm {
     @Test
     void decorationControlledBySettings() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("suppressCyberRealmDarkMode", false),
-              withProperty("suppressCyberRealmGreenImages", false));
-      try (cleanups) {
+              withProperty("suppressCyberRealmGreenImages", false))) {
         var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
         RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
         var contents = buffer.toString();
@@ -562,11 +538,10 @@ public class RequestEditorKitTest {
 
     @Test
     void canSuppressDarkMode() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("suppressCyberRealmDarkMode", true),
-              withProperty("suppressCyberRealmGreenImages", false));
-      try (cleanups) {
+              withProperty("suppressCyberRealmGreenImages", false))) {
         var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
         RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
         var contents = buffer.toString();
@@ -576,11 +551,10 @@ public class RequestEditorKitTest {
 
     @Test
     void canSuppressGreenImages() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("suppressCyberRealmDarkMode", false),
-              withProperty("suppressCyberRealmGreenImages", true));
-      try (cleanups) {
+              withProperty("suppressCyberRealmGreenImages", true))) {
         var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
         RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
         var contents = buffer.toString();
@@ -623,9 +597,8 @@ public class RequestEditorKitTest {
   class Darkness {
     @Test
     void decoratesDarnessFightWithActualMonsterName() {
-      var cleanups =
-          new Cleanups(withProperty("relayShowSpoilers", true), withNextMonster("The Bush"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("relayShowSpoilers", true), withNextMonster("The Bush"))) {
         var buffer = new StringBuffer(html("request/test_fight_the_darkness.html"));
         var original = buffer.toString();
         assertThat(original, containsString("<span id='monname'>the darkness</span>"));
@@ -642,9 +615,7 @@ public class RequestEditorKitTest {
 
   @Test
   void decoratesPlayBallMessage() {
-    var cleanups = withPasswordHash("BALL");
-
-    try (cleanups) {
+    try (var _ = withPasswordHash("BALL")) {
       var html = html("request/test_combat_play_ball.html");
       var buffer = new StringBuffer(html);
       RequestEditorKit.getFeatureRichHTML("fight.php?action=attack", buffer, false);
@@ -660,13 +631,11 @@ public class RequestEditorKitTest {
     @Test
     void decoratesStandardChoice() {
       var html = html("request/test_choice_manager_unknown_tomb_1.html");
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("relayShowSpoilers", true),
               withClass(AscensionClass.ACCORDION_THIEF),
-              withChoice(1049, html));
-
-      try (cleanups) {
+              withChoice(1049, html))) {
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1049", buffer, false);
         var str = buffer.toString();
@@ -688,9 +657,7 @@ public class RequestEditorKitTest {
     @Test
     void decoratesBaseballChoice() {
       var html = html("request/test_choice_baseball_no_bats.html");
-      var cleanups = new Cleanups(withProperty("relayShowSpoilers", true), withChoice(1598, html));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("relayShowSpoilers", true), withChoice(1598, html))) {
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1598", buffer, false);
         var str = buffer.toString();
@@ -713,8 +680,7 @@ public class RequestEditorKitTest {
     @Test
     void doesNotDecorateChoiceWithoutSpoilers() {
       var html = html("request/test_bastille_game1_0.html");
-      var cleanups = new Cleanups(withProperty("relayShowSpoilers", true), withChoice(1313, html));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("relayShowSpoilers", true), withChoice(1313, html))) {
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1313", buffer, false);
         var str = buffer.toString();

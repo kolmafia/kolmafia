@@ -110,9 +110,7 @@ public class GuildRequestTest {
       // Requesting: choice.php?forceoption=0
       // Requesting: choice.php?pwd&whichchoice=930&option=1
 
-      var cleanups = withProperty("questG02Whitecastle", "unstarted");
-
-      try (cleanups) {
+      try (var _ = withProperty("questG02Whitecastle", "unstarted")) {
         // talk with "ocg"
         GenericRequest request = new GenericRequest("choice.php?forceoption=0");
         String responseText = html("request/test_guild_quest_citadel_started_0.html");
@@ -146,9 +144,7 @@ public class GuildRequestTest {
       // Field: location = [choice.php?forceoption=0]
       // Requesting: choice.php?forceoption=0
 
-      var cleanups = withItem(ItemPool.CITADEL_SATCHEL);
-
-      try (cleanups) {
+      try (var _ = withItem(ItemPool.CITADEL_SATCHEL)) {
         // talk with "ocg"
         GenericRequest request = new GenericRequest("choice.php?forceoption=0");
         String responseText = html("request/test_guild_quest_citadel_finished.html");
@@ -205,13 +201,11 @@ public class GuildRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.NEMESIS, "step15"),
-              withoutItem(ItemPool.EL_SOMBRERO_DE_LOPEZ));
-
-      try (cleanups) {
+              withoutItem(ItemPool.EL_SOMBRERO_DE_LOPEZ))) {
         client.addResponse(
             302, Map.of("location", List.of("fight.php?ireallymeanit=1742736449")), "");
         client.addResponse(200, html("request/test_nemesis_caveboss_1.html"));
@@ -248,14 +242,12 @@ public class GuildRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withoutCounters(),
               withProperty("relayCounters", ""),
-              withQuestProgress(Quest.NEMESIS, "step16"));
-
-      try (cleanups) {
+              withQuestProgress(Quest.NEMESIS, "step16"))) {
         client.addResponse(200, html("request/test_nemesis_caveboss_guild_1.html"));
         client.addResponse(200, html("request/test_nemesis_caveboss_guild_2.html"));
         client.addResponse(200, ""); // api.php

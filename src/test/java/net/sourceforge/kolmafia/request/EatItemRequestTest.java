@@ -84,9 +84,7 @@ class EatItemRequestTest {
     @Test
     void aioliResponseSetsPreference() {
       RequestLoggerOutput.startStream();
-      var cleanups = withProperty("miniKiwiAiolisUsed", 1);
-
-      try (cleanups) {
+      try (var _ = withProperty("miniKiwiAiolisUsed", 1)) {
         var req = new EatItemRequest(ItemPool.get(ItemPool.LEMON));
         req.responseText = html("request/test_eat_kiwi_aioli.html");
         req.processResults();
@@ -107,8 +105,7 @@ class EatItemRequestTest {
       "11000, deepDishOfLegendEaten"
     })
     public void canTrackCookbookbatFoodsSuccess(Integer itemId, String prefname) {
-      var cleanups = withProperty(prefname, false);
-      try (cleanups) {
+      try (var _ = withProperty(prefname, false)) {
         assertFalse(Preferences.getBoolean(prefname));
         var req = new EatItemRequest(ItemPool.get(itemId));
         req.responseText = "";
@@ -124,8 +121,7 @@ class EatItemRequestTest {
       "11000, deepDishOfLegendEaten"
     })
     public void canTrackCookbookbatFoodsFailure(Integer itemId, String prefname) {
-      var cleanups = withProperty(prefname, false);
-      try (cleanups) {
+      try (var _ = withProperty(prefname, false)) {
         assertFalse(Preferences.getBoolean(prefname));
         var req = new EatItemRequest(ItemPool.get(itemId));
         req.responseText = "You may only eat one of those per lifetime";
@@ -141,8 +137,7 @@ class EatItemRequestTest {
       "11000, deepDishOfLegendEaten"
     })
     public void canPredictCookbookbatFoodsLimit(Integer itemId, String prefname) {
-      var cleanups = withProperty(prefname, false);
-      try (cleanups) {
+      try (var _ = withProperty(prefname, false)) {
         assertEquals(1, EatItemRequest.maximumUses(itemId));
         Preferences.setBoolean(prefname, true);
         assertEquals(0, EatItemRequest.maximumUses(itemId));
@@ -154,9 +149,8 @@ class EatItemRequestTest {
   class GhostPepper {
     @Test
     public void tracksSuccessfulConsumption() {
-      var cleanups =
-          new Cleanups(withProperty("ghostPepperTurnsLeft"), withItem(ItemPool.GHOST_PEPPER));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("ghostPepperTurnsLeft"), withItem(ItemPool.GHOST_PEPPER))) {
         var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
         req.responseText = html("request/test_eat_ghost_pepper_success.html");
         req.processResults();
@@ -167,9 +161,8 @@ class EatItemRequestTest {
 
     @Test
     public void tracksUnsuccessfulConsumption() {
-      var cleanups =
-          new Cleanups(withProperty("ghostPepperTurnsLeft", 3), withItem(ItemPool.GHOST_PEPPER));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("ghostPepperTurnsLeft", 3), withItem(ItemPool.GHOST_PEPPER))) {
         var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
         req.responseText = html("request/test_eat_ghost_pepper_failure.html");
         req.processResults();
@@ -180,8 +173,7 @@ class EatItemRequestTest {
 
     @Test
     public void guessesOldTimer() {
-      var cleanups = withProperty("ghostPepperTurnsLeft", 0);
-      try (cleanups) {
+      try (var _ = withProperty("ghostPepperTurnsLeft", 0)) {
         var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
         req.responseText = html("request/test_eat_ghost_pepper_failure.html");
         req.processResults();
@@ -191,8 +183,7 @@ class EatItemRequestTest {
 
     @Test
     public void maximumUsesOneNormally() {
-      var cleanups = withProperty("ghostPepperTurnsLeft", 0);
-      try (cleanups) {
+      try (var _ = withProperty("ghostPepperTurnsLeft", 0)) {
         var uses = EatItemRequest.maximumUses(ItemPool.GHOST_PEPPER);
         assertThat(uses, is(1));
       }
@@ -200,8 +191,7 @@ class EatItemRequestTest {
 
     @Test
     public void maximumUsesZeroWhenTimerGoing() {
-      var cleanups = withProperty("ghostPepperTurnsLeft", 1);
-      try (cleanups) {
+      try (var _ = withProperty("ghostPepperTurnsLeft", 1)) {
         var uses = EatItemRequest.maximumUses(ItemPool.GHOST_PEPPER);
         assertThat(uses, is(0));
       }
@@ -214,8 +204,7 @@ class EatItemRequestTest {
     "You slather the jelly all over your skin. You feel all stinky and bothered and you're sure nobody is coming near you. , true"
   })
   public void stenchJellySetsNCForcerFlag(String responseText, String result) {
-    var cleanups = withProperty("noncombatForcerActive", false);
-    try (cleanups) {
+    try (var _ = withProperty("noncombatForcerActive", false)) {
       var req = new EatItemRequest(ItemPool.get(ItemPool.STENCH_TOAST));
       req.responseText = responseText;
       req.processResults();
@@ -231,7 +220,7 @@ class EatItemRequestTest {
       ItemPool.TOAST + ", false",
     })
     void jarlsbergOnlyAllowsCertainFood(final int itemId, final boolean allowed) {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.AVATAR_OF_JARLSBERG),
               withClass(AscensionClass.AVATAR_OF_JARLSBERG),
@@ -250,7 +239,7 @@ class EatItemRequestTest {
       ItemPool.TOAST + ", false",
     })
     void zombieOnlyAllowsCertainFood(final int itemId, final boolean allowed) {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.ZOMBIE_SLAYER),
               withClass(AscensionClass.ZOMBIE_MASTER),
@@ -264,7 +253,7 @@ class EatItemRequestTest {
 
     @Test
     void vampyresCanOnlyEatBloodFood() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.DARK_GYFFTE),
               withClass(AscensionClass.VAMPYRE),
@@ -278,7 +267,7 @@ class EatItemRequestTest {
 
     @Test
     void nonVampyresCannotEatBloodFood() {
-      try (var cleanups = new Cleanups(withFullness(0))) {
+      try (var _ = new Cleanups(withFullness(0))) {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.BLOOD_SNOWCONE), is(0));
         assertThat(DrinkItemRequest.limiter, is("not being a Vampyre"));
       }
@@ -300,14 +289,14 @@ class EatItemRequestTest {
 
     @Test
     void magicalSausagesDayLimited() {
-      try (var cleanups = withProperty("_sausagesEaten", 3)) {
+      try (var _ = withProperty("_sausagesEaten", 3)) {
         assertThat(EatItemRequest.maximumUses(ItemPool.MAGICAL_SAUSAGE), is(20));
       }
     }
 
     @Test
     void cbbFoodsAreAscensionLimited() {
-      try (var cleanups = withProperty("deepDishOfLegendEaten", true)) {
+      try (var _ = withProperty("deepDishOfLegendEaten", true)) {
         assertThat(EatItemRequest.maximumUses(ItemPool.DEEP_DISH_OF_LEGEND), is(0));
         assertThat(EatItemRequest.limiter, is("lifetime limit"));
       }
@@ -316,7 +305,7 @@ class EatItemRequestTest {
 
   @Test
   void consumesLegendaryNoodles() {
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.TUBETTO_GELATTO),
             withFullness(1),
@@ -357,10 +346,9 @@ class EatItemRequestTest {
 
   @Test
   public void setsPreferenceForSpiceGhostConsumption() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withClass(AscensionClass.PASTAMANCER), withProperty("_legendarySpiceGhostFood"));
-    try (cleanups) {
+            withClass(AscensionClass.PASTAMANCER), withProperty("_legendarySpiceGhostFood"))) {
       var req = new EatItemRequest(ItemPool.get(ItemPool.JUMPING_HORSERADISH));
       req.responseText = html("request/test_eat_spice_ghost.html");
       req.processResults();
@@ -372,8 +360,7 @@ class EatItemRequestTest {
   @CsvSource({"1,a dieting pill charge", "2,2 dieting pill charges"})
   void parsesDietingPillUse(int count, String logPhrase) {
     RequestLoggerOutput.startStream();
-    var cleanups = withProperty("dietingPillCharges", 3);
-    try (cleanups) {
+    try (var _ = withProperty("dietingPillCharges", 3)) {
       var req = new EatItemRequest(ItemPool.get(ItemPool.JUMPING_HORSERADISH, count));
       req.responseText = html("request/test_eat_dietingpill_x" + count + ".html");
       req.processResults();

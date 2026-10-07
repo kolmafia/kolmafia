@@ -174,8 +174,7 @@ class FaxBotDatabaseTest {
       // different.
       globalCleanup.close();
       FaxBotDatabase.resetInitialization();
-      var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
-      try (cleanups) {
+      try (var _ = new Cleanups(withNextResponse(200, response), withProperty(property, false))) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
         assertTrue(getBoolean(property));
@@ -187,8 +186,7 @@ class FaxBotDatabaseTest {
     public void checkPreferenceWhenFiles() {
       String property = "_faxDataChanged";
       FaxBotDatabase.resetInitialization();
-      var cleanups = new Cleanups(withNextResponse(200, ""), withProperty(property, false));
-      try (cleanups) {
+      try (var _ = new Cleanups(withNextResponse(200, ""), withProperty(property, false))) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
         assertTrue(getBoolean(property));

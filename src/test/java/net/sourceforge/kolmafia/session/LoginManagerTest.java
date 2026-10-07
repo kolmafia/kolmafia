@@ -16,7 +16,7 @@ class LoginManagerTest {
     "2020, 5, 5, '6 days until Labór Day, Moxie bonus today and tomorrow.'",
   })
   void getCurrentHoliday(final int year, final int month, final int day, final String text) {
-    try (var cleanups = withDay(year, Month.of(month), day)) {
+    try (var _ = withDay(year, Month.of(month), day)) {
       assertThat(LoginManager.getCurrentHoliday(), is(text));
     }
   }

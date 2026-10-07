@@ -192,11 +192,11 @@ public class Maximizer {
       Maximizer.combinationLimit = Preferences.getLong("maximizerCombinationLimit");
       try {
         Maximizer.eval.enumerateEquipment(equipScope, maxPrice, priceLevel);
-      } catch (MaximizerExceededException e) {
+      } catch (MaximizerExceededException _) {
         Maximizer.boosts.add(
             new Boost(
                 "", "(maximum achieved, no further combinations checked)", Slot.NONE, null, 0.0));
-      } catch (MaximizerLimitException e) {
+      } catch (MaximizerLimitException _) {
         Maximizer.boosts.add(
             new Boost(
                 "",
@@ -204,7 +204,7 @@ public class Maximizer {
                 Slot.NONE,
                 null,
                 0.0));
-      } catch (MaximizerInterruptedException e) {
+      } catch (MaximizerInterruptedException _) {
         KoLmafia.forceContinue();
         Maximizer.boosts.add(
             new Boost(
@@ -911,7 +911,7 @@ public class Maximizer {
               if (Preferences.getString("demonName" + num).isEmpty()) {
                 cmd = "";
               }
-            } catch (Exception ignored) {
+            } catch (Exception _) {
             }
           }
           // Existential Torment is 20 turns, but won't appear here as the effects are unknown

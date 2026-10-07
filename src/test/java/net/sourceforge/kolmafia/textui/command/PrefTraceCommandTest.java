@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 
-import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -35,8 +34,7 @@ public class PrefTraceCommandTest extends AbstractCommandTestBase {
     execute("_VYKEACompanionType");
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = withProperty("_VYKEACompanionType", "couch");
-    try (cleanups) {
+    try (var _ = withProperty("_VYKEACompanionType", "couch")) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("ptrace: _VYKEACompanionType = couch"));
     }
@@ -50,8 +48,7 @@ public class PrefTraceCommandTest extends AbstractCommandTestBase {
     assertThat(output, containsString("Previously watched prefs have been cleared"));
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = withProperty("_VYKEACompanionType", "couch");
-    try (cleanups) {
+    try (var _ = withProperty("_VYKEACompanionType", "couch")) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, not(containsString("ptrace")));
     }

@@ -69,11 +69,10 @@ public class ProxyRecordValueTest {
               DataTypes.makeLocationValue(
                   AdventureDatabase.getAdventure(AdventurePool.HAUNTED_BILLIARDS_ROOM)));
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withAdventuresSpent(AdventurePool.HAUNTED_BILLIARDS_ROOM, 5),
-              withProperty("lastNoncombat" + AdventurePool.HAUNTED_BILLIARDS_ROOM, 3));
-      try (cleanups) {
+              withProperty("lastNoncombat" + AdventurePool.HAUNTED_BILLIARDS_ROOM, 3))) {
         assertThat(location.get_id(), is(AdventurePool.HAUNTED_BILLIARDS_ROOM));
         assertThat(location.get_nocombats(), is(false));
         assertThat(location.get_combat_percent(), is(85.0));

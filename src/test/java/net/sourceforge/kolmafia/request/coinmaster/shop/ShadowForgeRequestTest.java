@@ -43,7 +43,7 @@ public class ShadowForgeRequestTest {
   void openingShadowForgeAllowsCreation() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("lastShadowForgeUnlockAdventure", -1),
@@ -51,9 +51,7 @@ public class ShadowForgeRequestTest {
             withItem(ItemPool.SHADOW_FLUID),
             withItem(ItemPool.SHADOW_FLAME),
             withItem(ItemPool.RUFUS_SHADOW_LODESTONE),
-            withLocation("Shadow Rift"));
-
-    try (cleanups) {
+            withLocation("Shadow Rift"))) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_follow_rufus_lodestone.html"));
       client.addResponse(200, ""); // api.php

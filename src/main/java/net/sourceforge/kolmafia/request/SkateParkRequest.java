@@ -106,7 +106,7 @@ public class SkateParkRequest extends GenericRequest {
   @Override
   public void run() {
     // Equip for underwater adventuring if not
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       SkateParkRequest.equip();
       super.run();
     }

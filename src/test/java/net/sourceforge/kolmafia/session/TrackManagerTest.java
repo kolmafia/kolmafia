@@ -70,14 +70,12 @@ class TrackManagerTest {
 
     @Test
     void loadTrackedMonsters() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withNosyNose(),
               withTrackedMonsters(
-                  "gingerbread lawyer:Transcendent Olfaction:118:unhinged survivor:Nosy Nose:119:grizzled survivor:Gallapagosian Mating Call:119:cat-alien:Offer Latte to Opponent:119:alielf:Monkey Point:119:whiny survivor:Be Superficially interested:119"));
-
-      try (cleanups) {
+                  "gingerbread lawyer:Transcendent Olfaction:118:unhinged survivor:Nosy Nose:119:grizzled survivor:Gallapagosian Mating Call:119:cat-alien:Offer Latte to Opponent:119:alielf:Monkey Point:119:whiny survivor:Be Superficially interested:119"))) {
         assertTrue(isTracked("gingerbread lawyer"));
         assertTrue(isTracked("unhinged survivor"));
         assertTrue(isTracked("grizzled survivor"));
@@ -91,16 +89,14 @@ class TrackManagerTest {
 
     @Test
     void loadTrackedPhyla() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(1),
               withBeastlyOdor(),
               withEwTheHumanity(),
               withSnapper(),
               withTrackedPhyla(
-                  "beast:A Beastly Odor:1:dude:Ew, The Humanity:1:fish:Red-Nosed Snapper:1"));
-
-      try (cleanups) {
+                  "beast:A Beastly Odor:1:dude:Ew, The Humanity:1:fish:Red-Nosed Snapper:1"))) {
         assertTrue(isTracked("vampire bat"));
         assertTrue(isTracked("unhinged survivor"));
         assertTrue(isTracked("clubfish"));
@@ -111,13 +107,11 @@ class TrackManagerTest {
 
     @Test
     void loadTrackedMonstersSkipsInvalidTracker() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withTrackedMonsters(
-                  "gingerbread lawyer:made up tracker:118:unhinged survivor:Monkey Point:119"));
-
-      try (cleanups) {
+                  "gingerbread lawyer:made up tracker:118:unhinged survivor:Monkey Point:119"))) {
         assertFalse(isTracked("gingerbread lawyer"));
         assertTrue(isTracked("unhinged survivor"));
       }
@@ -129,9 +123,7 @@ class TrackManagerTest {
 
     @Test
     void recalculate() {
-      var cleanups = new Cleanups(withCurrentRun(), withTrackedMonsters(""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(), withTrackedMonsters(""))) {
         // This will be removed because it's run out.
         KoLCharacter.setCurrentRun(69);
         TrackManager.trackMonster(CRATE, Tracker.LATTE);
@@ -153,9 +145,7 @@ class TrackManagerTest {
 
     @Test
     void recalculateSortsNonMatchingPrefs() {
-      var cleanups = new Cleanups(withCurrentRun(420), withTrackedMonsters("crate:snokebomb:69"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(420), withTrackedMonsters("crate:snokebomb:69"))) {
         TrackManager.trackMonster(SMUT_ORC_NAILER, Tracker.CREAM_JIGGLE);
         TrackManager.recalculate();
 
@@ -170,13 +160,11 @@ class TrackManagerTest {
 
     @Test
     void resetRollover() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withTrackedMonsters(
-                  "spooky vampire:Gallapagosian Mating Call:114:smut orc nailer:Offer Latte to Opponent:115:gingerbread lawyer:Staff of the Cream of the Cream:118:Elf Guard armorer:prank Crimbo card:119"));
-
-      try (cleanups) {
+                  "spooky vampire:Gallapagosian Mating Call:114:smut orc nailer:Offer Latte to Opponent:115:gingerbread lawyer:Staff of the Cream of the Cream:118:Elf Guard armorer:prank Crimbo card:119"))) {
         TrackManager.resetRollover();
 
         assertThat("trackedMonsters", isSetTo(""));
@@ -185,13 +173,11 @@ class TrackManagerTest {
 
     @Test
     void resetAvatar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withTrackedMonsters(
-                  "smut orc nailer:Make Friends:115:gingerbread lawyer:Curse of Stench:118:unhinged survivor:Long Con:119:grizzled survivor:Motif:119:spooky vampire:Gallapagosian Mating Call:120"));
-
-      try (cleanups) {
+                  "smut orc nailer:Make Friends:115:gingerbread lawyer:Curse of Stench:118:unhinged survivor:Long Con:119:grizzled survivor:Motif:119:spooky vampire:Gallapagosian Mating Call:120"))) {
         TrackManager.resetAvatar();
 
         assertThat("trackedMonsters", isSetTo("spooky vampire:Gallapagosian Mating Call:120"));
@@ -200,12 +186,11 @@ class TrackManagerTest {
 
     @Test
     void resetAscension() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(128),
               withTrackedMonsters(
-                  "smut orc nailer:Transcendent Olfaction:115:gingerbread lawyer:Monkey Point:118:unhinged survivor:Staff of the Cream of the Cream:119:spooky vampire:Gallapagosian Mating Call:120"));
-      try (cleanups) {
+                  "smut orc nailer:Transcendent Olfaction:115:gingerbread lawyer:Monkey Point:118:unhinged survivor:Staff of the Cream of the Cream:119:spooky vampire:Gallapagosian Mating Call:120"))) {
         TrackManager.resetAscension();
 
         assertThat("trackedMonsters", isSetTo(""));
@@ -222,13 +207,11 @@ class TrackManagerTest {
           },
           delimiter = '|')
       void effectTracksStayWithEffect(int effectId, String trackName) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withCurrentRun(4),
                 withEffect(effectId),
-                withTrackedPhyla("crate:" + trackName + ":3"));
-
-        try (cleanups) {
+                withTrackedPhyla("crate:" + trackName + ":3"))) {
           TrackManager.recalculate();
 
           assertThat("trackedPhyla", isSetTo("crate:" + trackName + ":3"));
@@ -242,10 +225,8 @@ class TrackManagerTest {
             "Ew, The Humanity",
           })
       void effectTracksExpireWithoutEffect(String trackName) {
-        var cleanups =
-            new Cleanups(withCurrentRun(4), withTrackedPhyla("crate:" + trackName + ":3"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withCurrentRun(4), withTrackedPhyla("crate:" + trackName + ":3"))) {
           TrackManager.recalculate();
 
           assertThat("trackedPhyla", isSetTo(""));
@@ -258,11 +239,9 @@ class TrackManagerTest {
   class TrackMonster {
     @Test
     void trackCurrentMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withCurrentRun(123), withProperty("trackedMonsters"), withNextMonster("W imp"));
-
-      try (cleanups) {
+              withCurrentRun(123), withProperty("trackedMonsters"), withNextMonster("W imp"))) {
         TrackManager.trackCurrentMonster(Tracker.MOTIF);
         assertTrue(isTracked("W imp"));
       }
@@ -270,13 +249,11 @@ class TrackManagerTest {
 
     @Test
     void trackCurrentMonsterWithNoCurrentMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(123),
               withTrackedMonsters("spooky vampire:ice house:0"),
-              withNextMonster((MonsterData) null));
-
-      try (cleanups) {
+              withNextMonster((MonsterData) null))) {
         TrackManager.trackCurrentMonster(Tracker.PERCEIVE_SOUL);
 
         // Still well-formed
@@ -286,9 +263,7 @@ class TrackManagerTest {
 
     @Test
     void trackMonster() {
-      var cleanups = new Cleanups(withCurrentRun(123), withProperty("trackedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(123), withProperty("trackedMonsters"))) {
         TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.LONG_CON);
 
         assertTrue(isTracked("spooky mummy"));
@@ -297,9 +272,7 @@ class TrackManagerTest {
 
     @Test
     void trackMonsterWorksOnRetrack() {
-      var cleanups = new Cleanups(withCurrentRun(1), withProperty("trackedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(1), withProperty("trackedMonsters"))) {
         TrackManager.trackMonster(ELF_GUARD_ARMORER, Tracker.PRANK_CARD);
         assertThat("trackedMonsters", isSetTo("Elf Guard armorer:prank Crimbo card:1"));
 
@@ -311,9 +284,7 @@ class TrackManagerTest {
 
     @Test
     void oneExpiringTrackLeavesTheOther() {
-      var cleanups = new Cleanups(withCurrentRun(), withProperty("trackedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(), withProperty("trackedMonsters"))) {
         KoLCharacter.setCurrentRun(100);
         TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.LATTE);
         KoLCharacter.setCurrentRun(105);
@@ -325,9 +296,7 @@ class TrackManagerTest {
 
     @Test
     void oneOverwritingTrackLeavesTheOther() {
-      var cleanups = new Cleanups(withCurrentRun(), withProperty("trackedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(), withProperty("trackedMonsters"))) {
         KoLCharacter.setCurrentRun(100);
         TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.LATTE);
         KoLCharacter.setCurrentRun(105);
@@ -342,9 +311,7 @@ class TrackManagerTest {
 
     @Test
     void oneOverwritingUnrelatedTrackLeavesTheOther() {
-      var cleanups = new Cleanups(withCurrentRun(), withProperty("trackedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(), withProperty("trackedMonsters"))) {
         KoLCharacter.setCurrentRun(100);
         TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.LATTE);
         KoLCharacter.setCurrentRun(105);
@@ -363,9 +330,7 @@ class TrackManagerTest {
       "153, false",
     })
     void trackMonsterCorrectOnTurnCost(final int turns, final boolean tracked) {
-      var cleanups = new Cleanups(withCurrentRun(123), withProperty("trackedMonsters"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withCurrentRun(123), withProperty("trackedMonsters"))) {
         TrackManager.trackMonster(TAN_GNAT, Tracker.LATTE);
 
         KoLCharacter.setCurrentRun(turns);
@@ -377,10 +342,8 @@ class TrackManagerTest {
     class Legacy {
       @Test
       void olfactedMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("olfactedMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("olfactedMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.OLFACTION);
 
           assertTrue(isTracked("spooky mummy"));
@@ -390,11 +353,11 @@ class TrackManagerTest {
 
       @Test
       void nosyNoseMonster() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("banishedMonsters"), withNosyNose(), withProperty("nosyNoseMonster"));
-
-        try (cleanups) {
+                withProperty("banishedMonsters"),
+                withNosyNose(),
+                withProperty("nosyNoseMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.NOSY_NOSE);
 
           assertTrue(isTracked("spooky mummy"));
@@ -404,10 +367,8 @@ class TrackManagerTest {
 
       @Test
       void gallapagosMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("_gallapagosMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_gallapagosMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.GALLAPAGOS);
 
           assertTrue(isTracked("spooky mummy"));
@@ -417,10 +378,8 @@ class TrackManagerTest {
 
       @Test
       void latteMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("_latteMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_latteMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.LATTE);
 
           assertTrue(isTracked("spooky mummy"));
@@ -430,11 +389,9 @@ class TrackManagerTest {
 
       @Test
       void superficiallyInterestedMonster() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("banishedMonsters"), withProperty("superficiallyInterestedMonster"));
-
-        try (cleanups) {
+                withProperty("banishedMonsters"), withProperty("superficiallyInterestedMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.SUPERFICIAL);
 
           assertTrue(isTracked("spooky mummy"));
@@ -444,10 +401,8 @@ class TrackManagerTest {
 
       @Test
       void jiggleCreamedMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("_jiggleCreamedMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_jiggleCreamedMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.CREAM_JIGGLE);
 
           assertTrue(isTracked("spooky mummy"));
@@ -457,10 +412,8 @@ class TrackManagerTest {
 
       @Test
       void makeFriendsMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("makeFriendsMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("makeFriendsMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.MAKE_FRIENDS);
 
           assertTrue(isTracked("spooky mummy"));
@@ -470,10 +423,8 @@ class TrackManagerTest {
 
       @Test
       void stenchCursedMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("stenchCursedMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("stenchCursedMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.CURSE_OF_STENCH);
 
           assertTrue(isTracked("spooky mummy"));
@@ -483,10 +434,8 @@ class TrackManagerTest {
 
       @Test
       void longConMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("longConMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("longConMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.LONG_CON);
 
           assertTrue(isTracked("spooky mummy"));
@@ -496,9 +445,7 @@ class TrackManagerTest {
 
       @Test
       void motifMonster() {
-        var cleanups = new Cleanups(withProperty("banishedMonsters"), withProperty("motifMonster"));
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("banishedMonsters"), withProperty("motifMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.MOTIF);
 
           assertTrue(isTracked("spooky mummy"));
@@ -508,10 +455,8 @@ class TrackManagerTest {
 
       @Test
       void monkeyPointMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("monkeyPointMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("monkeyPointMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.MONKEY_POINT);
 
           assertTrue(isTracked("spooky mummy"));
@@ -521,10 +466,8 @@ class TrackManagerTest {
 
       @Test
       void prankCardMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("_prankCardMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_prankCardMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.PRANK_CARD);
 
           assertTrue(isTracked("spooky mummy"));
@@ -534,10 +477,8 @@ class TrackManagerTest {
 
       @Test
       void trickCoinMonster() {
-        var cleanups =
-            new Cleanups(withProperty("banishedMonsters"), withProperty("_trickCoinMonster"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_trickCoinMonster"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.TRICK_COIN);
 
           assertTrue(isTracked("spooky mummy"));
@@ -547,11 +488,9 @@ class TrackManagerTest {
 
       @Test
       void redSnapperPhylum() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withProperty("banishedPhyla"), withSnapper(), withProperty("redSnapperPhylum"));
-
-        try (cleanups) {
+                withProperty("banishedPhyla"), withSnapper(), withProperty("redSnapperPhylum"))) {
           TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.RED_SNAPPER);
 
           assertTrue(isTracked("spooky mummy"));
@@ -565,25 +504,21 @@ class TrackManagerTest {
   class Zootomist {
     @Test
     void trackDuration() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTrackedMonsters("spooky vampire:Left %n Kick:0"),
-              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER));
-
-      try (cleanups) {
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER))) {
         assertThat(Tracker.LEFT_ZOOT_KICK.getCopies(), equalTo(5));
       }
     }
 
     @Test
     void rightKickClearsLeftKick() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTrackedMonsters("spooky vampire:Left %n Kick:0"),
               withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER),
-              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.HEAT_WAVE));
-
-      try (cleanups) {
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.HEAT_WAVE))) {
         TrackManager.trackMonster(CRATE, Tracker.RIGHT_ZOOT_KICK);
         assertThat("trackedMonsters", isSetTo("crate:Right %n Kick:0"));
       }
@@ -591,13 +526,11 @@ class TrackManagerTest {
 
     @Test
     void leftKickClearsRightKick() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withTrackedMonsters("spooky vampire:Right %n Kick:0"),
               withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER),
-              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.HEAT_WAVE));
-
-      try (cleanups) {
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.HEAT_WAVE))) {
         TrackManager.trackMonster(CRATE, Tracker.LEFT_ZOOT_KICK);
         assertThat("trackedMonsters", isSetTo("crate:Left %n Kick:0"));
       }

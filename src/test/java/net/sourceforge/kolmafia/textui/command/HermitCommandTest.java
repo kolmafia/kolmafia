@@ -27,9 +27,7 @@ public class HermitCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void acquiresJabaneroPepper() {
-    var cleanups = withItems(ItemPool.WORTHLESS_TRINKET, ItemPool.HERMIT_PERMIT);
-
-    try (cleanups) {
+    try (var _ = withItems(ItemPool.WORTHLESS_TRINKET, ItemPool.HERMIT_PERMIT)) {
       execute("jabanero");
     }
 

@@ -68,7 +68,7 @@ public class CrossStreamsCommand extends AbstractCommand {
     }
 
     // Equip if not equipped
-    try (Checkpoint checkpoint = new Checkpoint(equipped)) {
+    try (Checkpoint _ = new Checkpoint(equipped)) {
       if (!equipped) {
         RequestThread.postRequest(
             new EquipmentRequest(CrossStreamsCommand.PROTON_ACCELERATOR, Slot.CONTAINER));

@@ -59,15 +59,13 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
     @Test
     void respectsFreeRest() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHP(1, 100, 100),
               withHttpClientBuilder(builder),
               withItem(ItemPool.MOTHERS_NECKLACE),
               withProperty("timesRested", 0),
-              withAdjustmentsRecalculated());
-
-      try (cleanups) {
+              withAdjustmentsRecalculated())) {
         execute("rest free 8");
         assertContinueState();
         var requests = builder.client.getRequests();
@@ -78,14 +76,12 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
     @Test
     void restsAtCampaway() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHP(1, 100, 100),
               withHttpClientBuilder(builder),
               withAdventuresLeft(1),
-              withCampaway());
-
-      try (cleanups) {
+              withCampaway())) {
         execute("rest campaway 3");
         assertContinueState();
         var requests = builder.client.getRequests();
@@ -101,14 +97,12 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
     @Test
     void restsAtChateau() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHP(1, 100, 100),
               withHttpClientBuilder(builder),
               withAdventuresLeft(1),
-              withChateau());
-
-      try (cleanups) {
+              withChateau())) {
         execute("rest chateau 2");
         assertContinueState();
         var requests = builder.client.getRequests();
@@ -124,10 +118,9 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
     @Test
     void failsToRestIfSpecifiedLocationUnavailable() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
-          new Cleanups(withHP(1, 100, 100), withHttpClientBuilder(builder), withAdventuresLeft(1));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withHP(1, 100, 100), withHttpClientBuilder(builder), withAdventuresLeft(1))) {
         var output = execute("rest campaway");
         assertErrorState();
         assertThat(
@@ -141,15 +134,13 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
     @Test
     void restsAtCampgroundDespiteBetterOptions() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHP(1, 100, 100),
               withHttpClientBuilder(builder),
               withAdventuresLeft(1),
               withCampaway(),
-              withChateau());
-
-      try (cleanups) {
+              withChateau())) {
         execute("rest campground");
         assertContinueState();
         var requests = builder.client.getRequests();
@@ -161,15 +152,13 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
     @Test
     void failsWithNoOptionsDueToPath() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHP(1, 100, 100),
               withHttpClientBuilder(builder),
               withPath(AscensionPath.Path.ACTUALLY_ED_THE_UNDYING),
               withClass(AscensionClass.ED),
-              withAdventuresLeft(1));
-
-      try (cleanups) {
+              withAdventuresLeft(1))) {
         var output = execute("rest");
         assertErrorState();
         assertThat(output, containsString("You have no available resting spots right now."));
@@ -181,14 +170,12 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
     @Test
     void failsWithNoOptionsDueToLimitMode() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHP(1, 100, 100),
               withHttpClientBuilder(builder),
               withLimitMode(LimitMode.BATMAN),
-              withAdventuresLeft(1));
-
-      try (cleanups) {
+              withAdventuresLeft(1))) {
         var output = execute("rest");
         assertErrorState();
         assertThat(output, containsString("You have no available resting spots right now."));
@@ -200,9 +187,7 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
 
   @Test
   void errorsWithNoCampgroundLimitMode() {
-    var cleanups = new Cleanups(withLimitMode(LimitMode.SPELUNKY), withAdventuresLeft(1));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withLimitMode(LimitMode.SPELUNKY), withAdventuresLeft(1))) {
       var output = execute("workshed");
       assertErrorState();
       assertThat(output, containsString("You don't have a campground right now."));
@@ -211,13 +196,11 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
 
   @Test
   void errorsWithNoCampgroundPath() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.ACTUALLY_ED_THE_UNDYING),
             withClass(AscensionClass.ED),
-            withAdventuresLeft(1));
-
-    try (cleanups) {
+            withAdventuresLeft(1))) {
       var output = execute("workshed");
       assertErrorState();
       assertThat(output, containsString("You don't have a campground right now."));
@@ -228,13 +211,11 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
   @CsvSource({"vault5, vault5", "terminal, vault_term"})
   void directsToShelterInNuclearAutumn(final String params, final String action) {
     var builder = new FakeHttpClientBuilder();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(AscensionPath.Path.NUCLEAR_AUTUMN),
-            withAdventuresLeft(1));
-
-    try (cleanups) {
+            withAdventuresLeft(1))) {
       execute(params);
       assertContinueState();
       var requests = builder.client.getRequests();
@@ -250,9 +231,7 @@ public class CampgroundCommandTest extends AbstractCommandTestBase {
   @Test
   void handlesNormalCampgroundRequest() {
     var builder = new FakeHttpClientBuilder();
-    var cleanups = new Cleanups(withHttpClientBuilder(builder), withAdventuresLeft(1));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder), withAdventuresLeft(1))) {
       execute("workshed 2");
       assertContinueState();
       var requests = builder.client.getRequests();

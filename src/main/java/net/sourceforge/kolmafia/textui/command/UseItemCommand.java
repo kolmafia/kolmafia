@@ -38,7 +38,7 @@ public class UseItemCommand extends AbstractCommand {
 
     var limitmode = KoLCharacter.getLimitMode();
 
-    try (Checkpoint checkpoint = new Checkpoint(() -> KoLCharacter.getLimitMode() != limitmode)) {
+    try (Checkpoint _ = new Checkpoint(() -> KoLCharacter.getLimitMode() != limitmode)) {
       UseItemCommand.use(command, parameters);
     }
   }

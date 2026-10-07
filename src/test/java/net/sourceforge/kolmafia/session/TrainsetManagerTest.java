@@ -28,13 +28,11 @@ public class TrainsetManagerTest {
 
   @Test
   public void canDetectTrainConfiguration() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("trainsetConfiguration", ""),
             withProperty("trainsetPosition", 0),
-            withChoice(1485, html("request/test_trainset_detects_configuration.html")));
-
-    try (cleanups) {
+            withChoice(1485, html("request/test_trainset_detects_configuration.html")))) {
       assertThat("trainsetPosition", isSetTo(0));
       assertThat(
           "trainsetConfiguration",
@@ -45,13 +43,11 @@ public class TrainsetManagerTest {
 
   @Test
   public void canDetectTrainStationMovement() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("trainsetPosition", 42),
             withWorkshedItem(ItemPool.MODEL_TRAIN_SET),
-            withFight(0));
-
-    try (cleanups) {
+            withFight(0))) {
       String html = html("request/test_trainset_fight_diner_food.html");
 
       FightRequest.updateCombatData(null, null, html);
@@ -62,13 +58,11 @@ public class TrainsetManagerTest {
 
   @Test
   public void canDetectTrainStationMovementEmptyTrack() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("trainsetPosition", 42),
             withWorkshedItem(ItemPool.MODEL_TRAIN_SET),
-            withFight(0));
-
-    try (cleanups) {
+            withFight(0))) {
       String html = html("request/test_trainset_detects_movement_empty_track.html");
 
       FightRequest.updateCombatData(null, null, html);
@@ -81,14 +75,12 @@ public class TrainsetManagerTest {
   @CsvSource({"84, Trackside Diner, true", "83, Trackside Diner, false"})
   public void canDetectExpectedTrainpiece(
       int stationPosition, String stationName, boolean expectedResult) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("trainsetPosition", stationPosition),
             withProperty(
                 "trainsetConfiguration",
-                "coal_hopper,meat_mine,brawn_silo,grain_silo,candy_factory,trackside_diner,logging_mill,viewing_platform"));
-
-    try (cleanups) {
+                "coal_hopper,meat_mine,brawn_silo,grain_silo,candy_factory,trackside_diner,logging_mill,viewing_platform"))) {
       boolean result = TrainsetManager.onTrainsetMove(stationName);
 
       assertEquals(expectedResult, result);
@@ -99,15 +91,13 @@ public class TrainsetManagerTest {
   public void canHandleUnexpectedConfigurationCooldown() {
     // Test when we're not allowed to configure the trainset, but the properties said we could
     // An example is that a user played 20 fights, then switched configuration outside of mafia
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("trainsetConfiguration", 0),
             withProperty("lastTrainsetConfiguration", 0),
             withProperty("trainsetPosition", 20),
             withChoice(
-                1485, html("request/test_trainset_detects_configuration_bad_tracking.html")));
-
-    try (cleanups) {
+                1485, html("request/test_trainset_detects_configuration_bad_tracking.html")))) {
       // Disabled as we cannot check our last position due to missing information
       // assertThat("trainsetPosition", isSetTo(0));
 
@@ -135,15 +125,13 @@ public class TrainsetManagerTest {
     // With 5 laps remaining, the last configured should be -1 to -7 turns behind.
     // Therefore, lastTrainsetConfiguration is expected to be in the range 11 to 17
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("trainsetConfiguration", ""),
             withProperty("lastTrainsetConfiguration", lastConfigured),
             withProperty("trainsetPosition", 18),
             withChoice(
-                1485, html("request/test_trainset_detects_configuration_bad_tracking.html")));
-
-    try (cleanups) {
+                1485, html("request/test_trainset_detects_configuration_bad_tracking.html")))) {
       // Disabled as we cannot check our last position due to missing information
       // assertThat("trainsetPosition", isSetTo(0));
 
@@ -155,13 +143,11 @@ public class TrainsetManagerTest {
   @Test
   public void canHandleUnexpectedConfigurationCooldownMissing() {
     // Test when we're allowed to configure the trainset, but we expected otherwise
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("lastTrainsetConfiguration", 10),
             withProperty("trainsetPosition", 24),
-            withChoice(1485, html("request/test_trainset_detects_configuration.html")));
-
-    try (cleanups) {
+            withChoice(1485, html("request/test_trainset_detects_configuration.html")))) {
       assertThat("trainsetPosition", isSetTo(24));
 
       // Cooldown is expected to be trainsetPosition - 40
@@ -177,13 +163,11 @@ public class TrainsetManagerTest {
     // Note that this could force lastTrainsetConfiguration to update as well if configuration state
     // is different from expected, but that's not a real
     // issue.
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("lastTrainsetConfiguration", -40),
             withProperty("trainsetPosition", 10),
-            withChoice(1485, html("request/test_trainset_detects_configuration.html")));
-
-    try (cleanups) {
+            withChoice(1485, html("request/test_trainset_detects_configuration.html")))) {
       // As 10 > 8, it's moved up to the next multiple of 8 which is 16
       assertThat("trainsetPosition", isSetTo(16));
       // Cooldown is expected to be at least trainsetPosition - 40 as we can configure this trainset
@@ -194,14 +178,12 @@ public class TrainsetManagerTest {
   @Test
   public void canTrackConfigurationChanged() {
     // Track when we've just reconfigured our trainset
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("trainsetConfiguration", ""),
             withProperty("lastTrainsetConfiguration", 0),
             withProperty("trainsetPosition", 20),
-            withChoice(1485, html("request/test_trainset_detects_configuration_updated.html")));
-
-    try (cleanups) {
+            withChoice(1485, html("request/test_trainset_detects_configuration_updated.html")))) {
       assertThat("trainsetPosition", isSetTo(20));
       assertThat(
           "trainsetConfiguration",
@@ -218,25 +200,22 @@ public class TrainsetManagerTest {
     // As such, we should be checking lastTrainsetConfiguration to determine if it has been
     // modified.
     // If lastTrainsetConfiguration is equal to trainsetPosition, it should not be updated.
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("lastTrainsetConfiguration", 0),
             withProperty("trainsetPosition", 0),
-            withChoice(1485, html("request/test_trainset_detects_configuration.html")));
-
-    try (cleanups) {
+            withChoice(1485, html("request/test_trainset_detects_configuration.html")))) {
       assertThat("lastTrainsetConfiguration", isSetTo(0));
     }
   }
 
   @Test
   void canParseOneLapRemaining() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("lastTrainsetConfiguration", -40),
             withProperty("TrainsetPosition", 7),
-            withChoice(1485, html("request/test_trainset_one_lap.html")));
-    try (cleanups) {
+            withChoice(1485, html("request/test_trainset_one_lap.html")))) {
       assertThat("lastTrainsetConfiguration", isSetTo(-33));
     }
   }

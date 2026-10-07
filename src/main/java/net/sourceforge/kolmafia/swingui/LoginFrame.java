@@ -146,7 +146,7 @@ public class LoginFrame extends GenericFrame {
                     }
                   }
                 });
-          } catch (URISyntaxException e) {
+          } catch (URISyntaxException _) {
             // wasn't a url line
           }
 

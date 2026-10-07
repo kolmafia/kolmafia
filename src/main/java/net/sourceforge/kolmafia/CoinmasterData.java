@@ -1472,7 +1472,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
           requestClass.getConstructor(parameters);
       Object[] initargs = new Object[0];
       return constructor.newInstance(initargs);
-    } catch (Exception e) {
+    } catch (Exception _) {
       return null;
     }
   }
@@ -1494,7 +1494,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       initargs[0] = buying;
       initargs[1] = items;
       return constructor.newInstance(initargs);
-    } catch (Exception e) {
+    } catch (Exception _) {
       return null;
     }
   }

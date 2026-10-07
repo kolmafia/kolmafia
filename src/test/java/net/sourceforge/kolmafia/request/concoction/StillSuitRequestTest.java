@@ -23,11 +23,9 @@ class StillSuitRequestTest {
 
   @Test
   void canMakeIfStillSuitIsInTerrarium() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withFamiliarInTerrarium(FamiliarPool.BOWLET), withProperty("familiarSweat", 20));
-
-    try (cleanups) {
+            withFamiliarInTerrarium(FamiliarPool.BOWLET), withProperty("familiarSweat", 20))) {
       var fam = KoLCharacter.usableFamiliar(FamiliarPool.BOWLET);
       fam.setItem(ItemPool.get(ItemPool.STILLSUIT));
       assertThat(StillSuitRequest.canMake(), is(true));

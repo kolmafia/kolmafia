@@ -45,9 +45,7 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doNotCheckWithNoWorkshedItem() {
-    var cleanups = new Cleanups(withWorkshedItem(-1));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withWorkshedItem(-1))) {
       String output = execute("");
       assertThat(output, containsString("You do not have a Cold Medicine Cabinet installed."));
     }
@@ -55,9 +53,7 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doNotCheckWithWrongWorkshedItem() {
-    var cleanups = new Cleanups(withWorkshedItem(ItemPool.DIABOLIC_PIZZA_CUBE));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withWorkshedItem(ItemPool.DIABOLIC_PIZZA_CUBE))) {
       String output = execute("");
       assertThat(output, containsString("You do not have a Cold Medicine Cabinet installed."));
     }
@@ -65,10 +61,8 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
   @Test
   void errorsWithInvalidParameter() {
-    var cleanups =
-        new Cleanups(withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET), withContinuationState());
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET), withContinuationState())) {
       var output = execute("beans");
       assertThat(output, containsString("not recognised"));
       assertErrorState();
@@ -77,12 +71,10 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
   @Test
   void handlesAllConsultsUsed() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-            withProperty("_coldMedicineConsults", 5));
-
-    try (cleanups) {
+            withProperty("_coldMedicineConsults", 5))) {
       var output = execute("");
 
       assertThat(output, containsString("5/5 consults"));
@@ -103,13 +95,12 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       @ParameterizedTest
       @CsvSource({"0, ice crown", "1, frozen jeans", "2, ice wrap", "3, ice wrap", "4, ice wrap"})
       void showsRightEquipmentForNumberTaken(int taken, String itemName) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("_coldMedicineEquipmentTaken", taken),
                 withProperty("_nextColdMedicineConsult", 1),
                 withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-                withTurnsPlayed(0));
-        try (cleanups) {
+                withTurnsPlayed(0))) {
           String output = execute("");
 
           assertThat(output, containsString("Your next equipment should be " + itemName));
@@ -135,16 +126,14 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
         "3, 3, 3, Doc's Medical-Grade Wine",
       })
       void showsRightWineForStatBuff(int mus, int mys, int mox, String itemName) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withMuscle(1, mus),
                 withMysticality(1, mys),
                 withMoxie(1, mox),
                 withProperty("_nextColdMedicineConsult", 1),
                 withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-                withTurnsPlayed(0));
-
-        try (cleanups) {
+                withTurnsPlayed(0))) {
           String output = execute("");
 
           assertThat(output, containsString("Your next booze should be " + itemName));
@@ -154,13 +143,12 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
       @Test
       void guessesIfDueButInFight() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withFight(),
                 withProperty("_nextColdMedicineConsult", 0),
                 withTurnsPlayed(1),
-                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET));
-        try (cleanups) {
+                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET))) {
           String output = execute("");
           assertThat(output, containsString("Your next equipment should be"));
         }
@@ -168,13 +156,12 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
       @Test
       void guessesIfDueButInChoice() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHandlingChoice(),
                 withProperty("_nextColdMedicineConsult", 0),
                 withTurnsPlayed(1),
-                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET));
-        try (cleanups) {
+                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET))) {
           String output = execute("");
           assertThat(output, containsString("Your next equipment should be"));
         }
@@ -197,14 +184,12 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
         "?, unknown"
       })
       void showsRightPillForRightMajority(String environment, String pill) {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("lastCombatEnvironments", environment.repeat(11) + "x".repeat(9)),
                 withProperty("_nextColdMedicineConsult", 1),
                 withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-                withTurnsPlayed(0));
-
-        try (cleanups) {
+                withTurnsPlayed(0))) {
           String output = execute("");
 
           var guess =
@@ -216,14 +201,12 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
       @Test
       void showsFleshazoleForNoOverallMajority() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withProperty("lastCombatEnvironments", "iiiiiioooooouuuuuuio"),
                 withProperty("_nextColdMedicineConsult", 1),
                 withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-                withTurnsPlayed(0));
-
-        try (cleanups) {
+                withTurnsPlayed(0))) {
           String output = execute("");
 
           assertThat(output, containsString("Your next pill should be Fleshazole&trade;"));
@@ -242,14 +225,12 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
     @Test
     void canCheckCabinet() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
               withProperty("_nextColdMedicineConsult", 0),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-              withTurnsPlayed(1));
-
-      try (cleanups) {
+              withTurnsPlayed(1))) {
         String output = execute("");
 
         assertThat(output, containsString("Your next equipment is ice wrap\n"));
@@ -262,15 +243,13 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
     @Test
     void canHandleBogusCabinetResponse() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, "unknown"),
               withProperty("_nextColdMedicineConsult", 0),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(1),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         String output = execute("");
 
         assertThat(output, containsString("Cold Medicine Cabinet choice could not be parsed.\n"));
@@ -293,15 +272,13 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
     @Test
     void cannotCollectIfNoMoreConsults() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_nextColdMedicineConsult", 0),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(1),
               withProperty("_coldMedicineConsults", 5),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         var output = execute("food");
 
         assertThat(output, containsString("You do not have any consults"));
@@ -311,15 +288,13 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
     @Test
     void cannotCollectIfNoConsultReady() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_nextColdMedicineConsult", 5),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(0),
               withProperty("_coldMedicineConsults", 2),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         var output = execute("equipment");
 
         assertThat(output, containsString("You are not due a consult (5 turns to go)."));
@@ -338,16 +313,14 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       "pill, 5"
     })
     void canCollectItem(String command, int decision) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_nextColdMedicineConsult", 0),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(5),
               withProperty("_coldMedicineConsults", 2),
               withContinuationState(),
-              withHandlingChoice(false));
-
-      try (cleanups) {
+              withHandlingChoice(false))) {
         execute(command);
 
         var requests = getRequests();
@@ -369,15 +342,13 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
     @Test
     void GuessNextPillsWithNoUnknownOrUnderwaterEnvironments() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
               withProperty("lastCombatEnvironments", "iiiiiioooooouuuuuuio"),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(0),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         String output = execute("plan");
         assertThat(
             output,
@@ -398,15 +369,13 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
     @Test
     void GuessNextPillsWithUnknownEnvironments() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
               withProperty("lastCombatEnvironments", "???????uuuuuuuuooooo"),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(0),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         String output = execute("plan");
         assertThat(
             output,
@@ -428,15 +397,13 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
     @Test
     void GuessNextPillsWithAllTypesOfEnvironments() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
               withProperty("lastCombatEnvironments", "xxx???ii?ouuuuooiixx"),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(0),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         String output = execute("plan");
         assertThat(
             output,
@@ -457,15 +424,13 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
     @Test
     void GuessNextPillsWithExistingMajority() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
               withProperty("lastCombatEnvironments", "uuuuuuuuuuuiioxiiuo?"),
               withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(0),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         String output = execute("plan");
         assertThat(
             output,

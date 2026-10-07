@@ -137,7 +137,7 @@ public class AshRuntime extends AbstractRuntime {
     try {
       this.parser = new Parser(scriptFile, stream, null);
       this.scope = parser.parse();
-    } catch (InterruptedException e) {
+    } catch (InterruptedException _) {
       // Unlikely, but just in case.
       return false;
     } catch (Exception e) {
@@ -192,7 +192,7 @@ public class AshRuntime extends AbstractRuntime {
       return this.executeScope(this.scope, functionName, parameters, executeTopLevel);
     } catch (ScriptException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, e.getMessage());
-    } catch (StackOverflowError e) {
+    } catch (StackOverflowError _) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR,
           "Stack overflow during ASH script: "
@@ -303,7 +303,7 @@ public class AshRuntime extends AbstractRuntime {
 
         try {
           value = DataTypes.coerceValue(type, input, false);
-        } catch (Exception e) {
+        } catch (Exception _) {
           value = null;
         }
 
@@ -332,7 +332,7 @@ public class AshRuntime extends AbstractRuntime {
         Value value = null;
         try {
           value = DataTypes.coerceValue(paramType, input, false);
-        } catch (Exception e) {
+        } catch (Exception _) {
         }
         if (value == null) {
           RequestLogger.printLine("Bad " + paramType.toString() + " value: \"" + input + "\"");

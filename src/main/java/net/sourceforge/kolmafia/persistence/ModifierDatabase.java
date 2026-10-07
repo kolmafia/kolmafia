@@ -1743,7 +1743,7 @@ public class ModifierDatabase {
   /** Reparsing an item must reuse the same bits, of which there are only 32 to hand out. */
   private static int getBitmapMask(
       final BitmapModifier mod, final Lookup lookup, final int bitcount) {
-    var assigned = bitmapMasksBySource.computeIfAbsent(mod, k -> new HashMap<>());
+    var assigned = bitmapMasksBySource.computeIfAbsent(mod, _ -> new HashMap<>());
     Integer known = assigned.get(lookup.toString());
     if (known != null) {
       return known;

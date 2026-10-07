@@ -35,8 +35,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustBeInNoob() {
-    var cleanups = withPath(Path.NONE);
-    try (cleanups) {
+    try (var _ = withPath(Path.NONE)) {
       String output = execute("1 helmet turtle");
       assertThat(output, containsString("not in a Gelatinous Noob"));
       assertErrorState();
@@ -45,8 +44,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyItem() {
-    var cleanups = withPath(Path.GELATINOUS_NOOB);
-    try (cleanups) {
+    try (var _ = withPath(Path.GELATINOUS_NOOB)) {
       String output = execute("");
 
       assertThat(output, containsString("No items specified"));
@@ -56,8 +54,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveAbsorbs() {
-    var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB), withUsedAbsorbs(100));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.GELATINOUS_NOOB), withUsedAbsorbs(100))) {
       String output = execute("1 helmet turtle");
 
       assertThat(output, containsString("Cannot absorb items"));
@@ -67,8 +64,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidItem() {
-    var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.GELATINOUS_NOOB))) {
       String output = execute("invalid item");
 
       assertThat(output, containsString("What item"));
@@ -78,8 +74,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveItem() {
-    var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.GELATINOUS_NOOB))) {
       String output = execute("1 dirty bottlecap");
 
       assertThat(output, containsString("Item not accessible"));
@@ -89,13 +84,11 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canDetectFailedAbsorbItems() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.GELATINOUS_NOOB),
             withItem("A Light that Never Goes Out", 15),
-            withUsedAbsorbs(0));
-
-    try (cleanups) {
+            withUsedAbsorbs(0))) {
       String output = execute("15 A Light that Never Goes Out");
 
       assertThat("_noobSkillCount", isSetTo(0));
@@ -108,14 +101,13 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
   void canAbsorbItems() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.GELATINOUS_NOOB),
             withHttpClientBuilder(builder),
             withItem("A Light that Never Goes Out", 15),
             withLevel(15),
-            withUsedAbsorbs(0));
-    try (cleanups) {
+            withUsedAbsorbs(0))) {
       for (int i = 0; i < 15; i++) {
         client.addResponse(200, "");
       }
@@ -142,7 +134,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
   void canCreateItemsToAbsorb() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.GELATINOUS_NOOB),
             withHttpClientBuilder(builder),
@@ -150,8 +142,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
             withItem("strawberry", 1),
             withUsedAbsorbs(0),
             withRange(),
-            withConcoctionRefresh());
-    try (cleanups) {
+            withConcoctionRefresh())) {
       execute("Strawberry pie");
     }
 

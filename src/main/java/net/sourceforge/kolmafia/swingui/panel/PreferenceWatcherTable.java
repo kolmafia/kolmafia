@@ -46,7 +46,7 @@ public class PreferenceWatcherTable extends JTable {
 
     menuItem = new JMenuItem("Add new watcher");
     menuItem.addActionListener(
-        (e) -> {
+        (_) -> {
           var value = InputFieldUtilities.input("Preference to watch");
           if (value != null) {
             this.getModel().addPreference(value);
@@ -55,7 +55,7 @@ public class PreferenceWatcherTable extends JTable {
     popup.add(menuItem);
 
     menuItem = new JMenuItem("Remove selected watcher");
-    menuItem.addActionListener((e) -> this.removePreference());
+    menuItem.addActionListener((_) -> this.removePreference());
     popup.add(menuItem);
 
     var listener = new PopupListener(popup);

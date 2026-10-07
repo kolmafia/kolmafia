@@ -48,9 +48,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void errorsWithInvalidCommand() {
-    var cleanups = hasAutumnaton();
-
-    try (cleanups) {
+    try (var _ = hasAutumnaton()) {
       String output = execute("frobnort");
       assertErrorState();
       assertThat(output, containsString("Usage: autumnaton <blank>"));
@@ -61,9 +59,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
   class Status {
     @Test
     void noLocationNoAutumnaton() {
-      var cleanups = new Cleanups(hasAutumnaton(), withProperty("autumnatonQuestLocation", ""));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(hasAutumnaton(), withProperty("autumnatonQuestLocation", ""))) {
         String output = execute("");
         assertThat(output, containsString("Your autumn-aton is in an unknown location."));
       }
@@ -71,13 +67,11 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void noLocation() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
-              withProperty("autumnatonQuestLocation", ""));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestLocation", ""))) {
         String output = execute("");
         assertThat(output, containsString("Your autumn-aton is ready to be sent somewhere."));
       }
@@ -85,15 +79,13 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void noLocationUpgradesAvailable() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
               withProperty("autumnatonQuestLocation", ""),
               withNextResponse(
-                  200, html("request/test_choice_autumnaton_upgrade_available_one.html")));
-
-      try (cleanups) {
+                  200, html("request/test_choice_autumnaton_upgrade_available_one.html")))) {
         String output = execute("");
         assertThat(output, containsString("Your autumn-aton is ready to be sent somewhere."));
         assertThat(output, containsString("Your autumn-aton has upgrades available: dual exhaust"));
@@ -102,15 +94,13 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void locationZeroTurns() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
               withProperty("autumnatonQuestLocation", "The Deep Dark Jungle"),
               withTurnsPlayed(1),
-              withProperty("autumnatonQuestTurn", 1));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestTurn", 1))) {
         String output = execute("");
         assertThat(
             output, containsString("Your autumn-aton is plundering in The Deep Dark Jungle."));
@@ -120,15 +110,13 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void locationOneTurn() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
               withProperty("autumnatonQuestLocation", "The Deep Dark Jungle"),
               withTurnsPlayed(1),
-              withProperty("autumnatonQuestTurn", 2));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestTurn", 2))) {
         String output = execute("");
         assertThat(
             output, containsString("Your autumn-aton is plundering in The Deep Dark Jungle."));
@@ -138,15 +126,13 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void locationManyTurns() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
               withProperty("autumnatonQuestLocation", "The Deep Dark Jungle"),
               withTurnsPlayed(1),
-              withProperty("autumnatonQuestTurn", 12));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestTurn", 12))) {
         String output = execute("");
         assertThat(
             output, containsString("Your autumn-aton is plundering in The Deep Dark Jungle."));
@@ -159,9 +145,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
   class Send {
     @Test
     void errorsWithAbsentAutumnaton() {
-      var cleanups = hasAutumnaton();
-
-      try (cleanups) {
+      try (var _ = hasAutumnaton()) {
         String output = execute("send ");
         assertErrorState();
         assertThat(output, containsString("Your autumn-aton is away"));
@@ -170,9 +154,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithNoLocation() {
-      var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON))) {
         String output = execute("send");
         assertErrorState();
         assertThat(output, containsString("Where do you want to send the little guy?"));
@@ -181,9 +163,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithOnlySpacesForLocation() {
-      var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON))) {
         String output = execute("send   ");
         assertErrorState();
         assertThat(output, containsString("Where do you want to send the little guy?"));
@@ -192,9 +172,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithBadLocation() {
-      var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON))) {
         String output = execute("send trogdor");
         assertErrorState();
         assertThat(output, containsString("I don't understand where trogdor is."));
@@ -203,9 +181,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithNonSnarfblatLocation() {
-      var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON))) {
         String output = execute("send Tavern Cellar");
         assertErrorState();
         assertThat(output, containsString("The Typical Tavern Cellar is not a valid location"));
@@ -218,14 +194,12 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
       builder.client.addResponse(200, html("request/test_choice_autumnaton_all_upgrades.html"));
       builder.client.addResponse(200, html("request/test_choice_autumnaton_quest_kitchen.html"));
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
               withHttpClientBuilder(builder),
-              withProperty("autumnatonQuestLocation", ""));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestLocation", ""))) {
         String output = execute("send noob cave");
 
         assertThat(output, containsString("Sending autumn-aton to Noob Cave"));
@@ -240,14 +214,12 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
       builder.client.addResponse(200, html("request/test_choice_autumnaton_all_upgrades.html"));
       builder.client.addResponse(200, html("request/test_choice_autumnaton_quest_fail.html"));
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
               withHttpClientBuilder(builder),
-              withProperty("autumnatonQuestLocation", ""));
-
-      try (cleanups) {
+              withProperty("autumnatonQuestLocation", ""))) {
         String output = execute("send Hobopolis Town Square");
 
         assertThat(output, containsString("Sending autumn-aton to Hobopolis Town Square"));
@@ -264,13 +236,11 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
   class Upgrade {
     @Test
     public void errorsIfNoUpgrades() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
-              withNextResponse(200, html("request/test_choice_autumnaton_many_upgrades.html")));
-
-      try (cleanups) {
+              withNextResponse(200, html("request/test_choice_autumnaton_many_upgrades.html")))) {
         String output = execute("upgrade");
         assertErrorState();
         assertThat(output, containsString("No upgrades available"));
@@ -284,15 +254,14 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
       "many, Added upgrades energy-absorptive hat and vision extender and dual exhaust"
     })
     public void upgradesIfUpgrades(String filePart, String upgrades) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
               withNextResponse(
                   200,
-                  html("request/test_choice_autumnaton_upgrade_available_" + filePart + ".html")));
-
-      try (cleanups) {
+                  html(
+                      "request/test_choice_autumnaton_upgrade_available_" + filePart + ".html")))) {
         String output = execute("upgrade");
         assertContinueState();
         assertThat(output, containsString(upgrades));
@@ -303,14 +272,12 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
     class Locations {
       @Test
       public void doesNotCrashWithAbsentLocations() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 hasAutumnaton(),
                 withItem(ItemPool.AUTUMNATON),
                 withProperty("autumnatonUpgrades", ""),
-                withNextResponse(200, html("request/test_choice_autumnaton_old_locations.html")));
-
-        try (cleanups) {
+                withNextResponse(200, html("request/test_choice_autumnaton_old_locations.html")))) {
           String output = execute("locations");
           assertContinueState();
           assertThat(output, containsString("<li>The Haunted Wine Cellar</li>"));
@@ -319,14 +286,12 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
       @Test
       public void showsLocations() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 hasAutumnaton(),
                 withItem(ItemPool.AUTUMNATON),
                 withProperty("autumnatonUpgrades", ""),
-                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
-
-        try (cleanups) {
+                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")))) {
           String output = execute("locations");
           assertContinueState();
           // Daily Dungeon
@@ -341,14 +306,12 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
       @Test
       public void doesNotShowUpgradeIfHaveUpgrade() {
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 hasAutumnaton(),
                 withItem(ItemPool.AUTUMNATON),
                 withProperty("autumnatonUpgrades", "cowcatcher"),
-                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
-
-        try (cleanups) {
+                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")))) {
           String output = execute("locations");
           assertContinueState();
           // Daily Dungeon

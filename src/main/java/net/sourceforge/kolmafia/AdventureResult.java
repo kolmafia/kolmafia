@@ -1103,7 +1103,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       AdventureResult item;
       try {
         item = this.clone();
-      } catch (CloneNotSupportedException e) {
+      } catch (CloneNotSupportedException _) {
         // This should not happen. Hope for the best.
         item = new AdventureResult(Priority.NONE, this.name);
         item.priority = Priority.ITEM;
@@ -1118,7 +1118,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       AdventureResult effect;
       try {
         effect = this.clone();
-      } catch (CloneNotSupportedException e) {
+      } catch (CloneNotSupportedException _) {
         // This should not happen. Hope for the best.
         effect = new AdventureResult(Priority.NONE, this.name);
         effect.priority = Priority.EFFECT;
@@ -1454,7 +1454,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         item.count = AdventureLongCountResult.intCount(quantity);
         item.longCount = quantity;
         return item;
-      } catch (CloneNotSupportedException e) {
+      } catch (CloneNotSupportedException _) {
         // This should not happen. Hope for the best.
         return new AdventureLongCountResult(this.name, quantity);
       }

@@ -27,9 +27,7 @@ public class IslandDecoratorTest {
 
   @Test
   public void decoratesGremlinMessage() {
-    var cleanups = withItem(ItemPool.MOLYBDENUM_MAGNET);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.MOLYBDENUM_MAGNET)) {
       StringBuffer text = new StringBuffer(html("request/test_fight_gremlin_good.html"));
       MonsterData gremlin = MonsterDatabase.findMonsterById(551);
 
@@ -44,13 +42,11 @@ public class IslandDecoratorTest {
 
   @Test
   public void decoratesNuns() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("lastBattlefieldReset", 0),
             withProperty("currentNunneryMeat", 50292),
-            withEffect(EffectPool.SYNTHESIS_GREED));
-
-    try (cleanups) {
+            withEffect(EffectPool.SYNTHESIS_GREED))) {
       var text = new StringBuffer(html("request/test_island_nuns.html"));
 
       IslandManager.ensureUpdatedBigIsland();

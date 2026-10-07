@@ -57,9 +57,8 @@ public class OceanManagerTest {
     @Test
     public void canGetPowerSphere() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withMeat(977), withHandlingChoice(189));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withMeat(977), withHandlingChoice(189))) {
         builder.client.addResponse(302, Map.of("location", List.of("ocean.php?intro=1")), "");
         builder.client.addResponse(200, html("request/test_ocean_intro.html"));
         builder.client.addResponse(200, ""); // api.php
@@ -102,13 +101,12 @@ public class OceanManagerTest {
     @Test
     public void canGetTrapezoid() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withMeat(977),
               withHandlingChoice(189),
-              withItem(ItemPool.POWER_SPHERE));
-      try (cleanups) {
+              withItem(ItemPool.POWER_SPHERE))) {
         builder.client.addResponse(302, Map.of("location", List.of("ocean.php?intro=1")), "");
         builder.client.addResponse(200, html("request/test_ocean_intro.html"));
         builder.client.addResponse(200, ""); // api.php
@@ -169,8 +167,7 @@ public class OceanManagerTest {
     @ParameterizedTest
     @ValueSource(strings = {"muscle", "mysticality", "moxie", "sand", "altar", "sphere", "plinth"})
     public void canChooseDestinationFromProperty(String keyword) {
-      var cleanups = new Cleanups(withProperty("oceanDestination", keyword));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("oceanDestination", keyword))) {
         List<Point> destinations = OceanManager.getDestinations(keyword);
         Point destination = OceanManager.getDestination();
         assertNotNull(destination);
@@ -180,8 +177,7 @@ public class OceanManagerTest {
 
     @Test
     public void canChooseRandomDestination() {
-      var cleanups = new Cleanups(withProperty("oceanDestination", "random"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("oceanDestination", "random"))) {
         Point destination = OceanManager.getDestination();
         assertNotNull(destination);
       }
@@ -189,8 +185,7 @@ public class OceanManagerTest {
 
     @Test
     public void canChooseSpecificDestination() {
-      var cleanups = new Cleanups(withProperty("oceanDestination", "50,50"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("oceanDestination", "50,50"))) {
         Point destination = OceanManager.getDestination();
         assertNotNull(destination);
         assertEquals("50,50", destination.toString());
@@ -201,12 +196,11 @@ public class OceanManagerTest {
     public void manualControlAborts() {
       var builder = new FakeHttpClientBuilder();
       RequestLoggerOutput.startStream();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("oceanDestination", "manual"),
-              withContinuationState());
-      try (cleanups) {
+              withContinuationState())) {
         OceanManager.processOceanAdventure();
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
         var text = RequestLoggerOutput.stopStream();
@@ -220,9 +214,8 @@ public class OceanManagerTest {
     public void rejectsMainlandDestination() {
       var builder = new FakeHttpClientBuilder();
       RequestLoggerOutput.startStream();
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withProperty("oceanDestination", "12,12"));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withProperty("oceanDestination", "12,12"))) {
         builder.client.addResponse(200, "");
         // OceanDestinationComboBox should disallow oceanDestination from
         // having coordinates on the mainland. However, if the user somehow did
@@ -280,7 +273,7 @@ public class OceanManagerTest {
     @Test
     public void canAutomateWithManualControl() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
@@ -290,8 +283,7 @@ public class OceanManagerTest {
               withProperty("oceanAction", "continue"),
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("choice"),
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         // adventure.php?snarfblat=159
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -321,7 +313,7 @@ public class OceanManagerTest {
     @Test
     public void canAutomateWithKeywordDestination() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
@@ -331,8 +323,7 @@ public class OceanManagerTest {
               withProperty("oceanAction", "continue"),
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("choice"),
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         // choice.php?forceoption=0
@@ -377,7 +368,7 @@ public class OceanManagerTest {
     @Test
     public void canAutomateWithCoordinatesDestination() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withContinuationState(),
@@ -387,8 +378,7 @@ public class OceanManagerTest {
               withProperty("oceanAction", "continue"),
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("choice"),
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         // choice.php?forceoption=0

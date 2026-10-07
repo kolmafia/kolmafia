@@ -37,7 +37,7 @@ public class QuantumTerrariumRequestTest {
     mocked
         .when(() -> ApiRequest.updateStatus(anyBoolean()))
         .thenAnswer(
-            invocation -> {
+            _ -> {
               request.processResults();
               return null;
             });
@@ -58,15 +58,13 @@ public class QuantumTerrariumRequestTest {
     int basemysticality = jsonObject.getIntValue("basemysticality");
     int basemoxie = jsonObject.getIntValue("basemoxie");
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.QUANTUM),
             withClass(AscensionClass.ACCORDION_THIEF),
             withStats(basemuscle, basemysticality, basemoxie),
             withSkill("Amphibian Sympathy"),
-            mockApiRequest(apiRequest));
-
-    try (cleanups) {
+            mockApiRequest(apiRequest))) {
       String urlString = "qterrarium.php";
       String responseText = html("request/test_quantum_terrarium_visit.html");
       QuantumTerrariumRequest.parseResponse(urlString, responseText);

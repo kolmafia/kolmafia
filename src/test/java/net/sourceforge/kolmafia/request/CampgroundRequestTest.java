@@ -90,13 +90,13 @@ public class CampgroundRequestTest {
     mocked
         .when(() -> ApiRequest.updateStatus())
         .thenAnswer(
-            invocation -> {
+            _ -> {
               // UseSkillRequest just cares that MP is updated.
               KoLCharacter.setMP(500, 1000, 1000);
               return null;
             });
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("libramSummons", 0),
             withMP(1000, 1000, 1000),
@@ -121,14 +121,12 @@ public class CampgroundRequestTest {
   class Rests {
     @Test
     void doesNotCountFailedRests() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // A rest did not get processed by the game, because it is pointless to rest
               // (full HP, full MP, no Beaten Up)
               withNextResponse(200, html("request/test_do_not_count_failed_rests.html")),
-              withProperty("timesRested", 137));
-
-      try (cleanups) {
+              withProperty("timesRested", 137))) {
         new GenericRequest("campground.php?action=rest").run();
         // timesRested did not increase
         assertThat("timesRested", isSetTo(137));
@@ -137,13 +135,11 @@ public class CampgroundRequestTest {
 
     @Test
     void countsSuccessfulRests() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               // A successful rest
               withNextResponse(200, html("request/test_count_successful_rests.html")),
-              withProperty("timesRested", 137));
-
-      try (cleanups) {
+              withProperty("timesRested", 137))) {
         new GenericRequest("campground.php?action=rest").run();
         // timesRested did increase
         assertThat("timesRested", isSetTo(138));
@@ -152,13 +148,11 @@ public class CampgroundRequestTest {
 
     @Test
     void trackCinchoLoosening() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, html("request/test_rest_cincho_loosens.html")),
               withProperty("_cinchUsed", 75),
-              withProperty("_cinchoRests", 2));
-
-      try (cleanups) {
+              withProperty("_cinchoRests", 2))) {
         new GenericRequest("campground.php?action=rest").run();
 
         assertThat("_cinchUsed", isSetTo(45));
@@ -168,13 +162,11 @@ public class CampgroundRequestTest {
 
     @Test
     void trackKnuckleboneDrop() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withNextResponse(200, html("request/test_campground_rest_knucklebone.html")),
               withProperty("_knuckleboneRests", 2),
-              withProperty("_knuckleboneDrops", 50));
-
-      try (cleanups) {
+              withProperty("_knuckleboneDrops", 50))) {
         new GenericRequest("campground.php?action=rest").run();
 
         assertThat("_knuckleboneRests", isSetTo(3));
@@ -184,13 +176,11 @@ public class CampgroundRequestTest {
 
     @Test
     void trackMiniKiwiDrop() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withDwelling(ItemPool.MINI_KIWI_TIPI),
               withNextResponse(200, html("request/test_campground_rest_knucklebone.html")),
-              withProperty("_miniKiwiTipiDrop", false));
-
-      try (cleanups) {
+              withProperty("_miniKiwiTipiDrop", false))) {
         new GenericRequest("campground.php?action=rest").run();
 
         assertThat("_miniKiwiTipiDrop", isSetTo(true));
@@ -358,16 +348,14 @@ public class CampgroundRequestTest {
 
     @Test
     void canTrackRockGardenHarvest() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCampgroundItem(ItemPool.MILESTONE),
               withCampgroundItem(ItemPool.GROVELING_GRAVEL),
               withCampgroundItem(ItemPool.WHETSTONE),
               withNextResponse(
                   200, html("request/test_campground_tracks_rock_garden_harvest.html")),
-              withItem(ItemPool.WHETSTONE, 0));
-
-      try (cleanups) {
+              withItem(ItemPool.WHETSTONE, 0))) {
         new GenericRequest("campground.php?action=rgarden3&pwd").run();
 
         assertThat(KoLConstants.inventory, hasItem(ItemPool.get(ItemPool.WHETSTONE)));
@@ -447,15 +435,13 @@ public class CampgroundRequestTest {
 
     @Test
     void canTrackBlackMonolithFirstUse() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH),
               withNextResponse(
                   200, html("request/test_campground_tracks_black_monolith_first_use.html")),
               withProperty("_blackMonolithUsed", false),
-              withNoEffects());
-
-      try (cleanups) {
+              withNoEffects())) {
         new GenericRequest("campground.php?action=monolith").run();
         assertThat("_blackMonolithUsed", isSetTo(true));
         assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(50));
@@ -464,15 +450,13 @@ public class CampgroundRequestTest {
 
     @Test
     void canTrackBlackMonolithSecondUse() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH),
               withNextResponse(
                   200, html("request/test_campground_tracks_black_monolith_second_use.html")),
               withProperty("_blackMonolithUsed", false),
-              withNoEffects());
-
-      try (cleanups) {
+              withNoEffects())) {
         new GenericRequest("campground.php?action=monolith").run();
         assertThat("_blackMonolithUsed", isSetTo(true));
         assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(0));
@@ -484,9 +468,7 @@ public class CampgroundRequestTest {
   class Dwelling {
     @Test
     void canDetectMeatMaid() {
-      var cleanups = new Cleanups(withEmptyCampground());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEmptyCampground())) {
         String page = html("request/test_campground_inspect_dwelling.html");
         CampgroundRequest.parseResponse("campground.php?action=inspectdwelling", page);
         assertCampgroundItemCount(ItemPool.CLOCKWORK_MAID, 1);
@@ -495,9 +477,7 @@ public class CampgroundRequestTest {
 
     @Test
     void canParseContentsOfDwellingWithoutDwelling() {
-      var cleanups = new Cleanups(withEmptyCampground());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEmptyCampground())) {
         var page = html("request/test_campground_meat_butler.html");
         CampgroundRequest.parseResponse("campground.php?action=inspectdwelling", page);
         assertCampgroundItemCount(ItemPool.MEAT_BUTLER, 1);
@@ -506,13 +486,11 @@ public class CampgroundRequestTest {
 
     @Test
     void doNotCheckDwellingInVampyre() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(AscensionPath.Path.DARK_GYFFTE),
               withClass(AscensionClass.VAMPYRE),
-              withContinuationState());
-
-      try (cleanups) {
+              withContinuationState())) {
         CampgroundRequest.parseResponse(
             "campground.php", html("request/test_campground_vampyre.html"));
 
@@ -525,9 +503,8 @@ public class CampgroundRequestTest {
     void canDetectMeatFromMeatButler() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withEmptyCampground(), withMeat(0));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withHttpClientBuilder(builder), withEmptyCampground(), withMeat(0))) {
         RequestLoggerOutput.startStream();
         client.addResponse(200, html("request/test_campground_meat_butler.html"));
         var request = new GenericRequest("campground.php?action=inspectdwelling");
@@ -548,9 +525,7 @@ public class CampgroundRequestTest {
 
   @Test
   void canParseBurningLeavesInSmall() {
-    var cleanups = new Cleanups(withEmptyCampground(), withPath(Path.SMALL));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withEmptyCampground(), withPath(Path.SMALL))) {
       String page = html("request/test_campground_small.html");
       CampgroundRequest.parseResponse("campground.php", page);
       assertCampgroundItemCount(ItemPool.A_GUIDE_TO_BURNING_LEAVES, 1);
@@ -561,9 +536,7 @@ public class CampgroundRequestTest {
   class PsychoJar {
     @Test
     void canDetectJickJar() {
-      var cleanups = new Cleanups(withEmptyCampground());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withEmptyCampground())) {
         CampgroundRequest.parseResponse(
             "campground.php", html("request/test_campground_jickjar.html"));
         assertCampgroundItemCount(ItemPool.JICK_JAR, 1);
@@ -573,9 +546,7 @@ public class CampgroundRequestTest {
 
   @Test
   void canParseDwellingDec2024() {
-    var cleanups = new Cleanups(withEmptyCampground());
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withEmptyCampground())) {
       String page = html("request/test_campground_dwelling_dec2024.html");
       CampgroundRequest.parseResponse("campground.php?action=inspectdwelling", page);
       assertCampgroundItemCount(ItemPool.FOREST_CANOPY_BED, 1);

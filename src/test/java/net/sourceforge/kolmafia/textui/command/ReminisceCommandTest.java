@@ -45,10 +45,9 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   void cannotFightMoreThanThree() {
     LocketManager.rememberMonster(1204);
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withItem("combat lover's locket"), withProperty("_locketMonstersFought", "1,3,5"));
-    try (cleanups) {
+            withItem("combat lover's locket"), withProperty("_locketMonstersFought", "1,3,5"))) {
       String output = execute("Black Crayon Penguin");
       assertThat(output, containsString("You can only"));
       assertErrorState();
@@ -57,8 +56,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustReminisceSomething() {
-    var cleanups = withItem("combat lover's locket");
-    try (cleanups) {
+    try (var _ = withItem("combat lover's locket")) {
       String output = execute("");
 
       assertThat(output, containsString("No monster"));
@@ -68,8 +66,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustReminisceAValidMonster() {
-    var cleanups = withItem("combat lover's locket");
-    try (cleanups) {
+    try (var _ = withItem("combat lover's locket")) {
       String output = execute("monster that does not exist purple monkey dishwasher");
 
       assertThat(output, containsString("does not match a monster"));
@@ -81,9 +78,9 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   void cannotFightSameMonsterTwice() {
     LocketManager.rememberMonster(1);
 
-    var cleanups =
-        new Cleanups(withItem("combat lover's locket"), withProperty("_locketMonstersFought", "1"));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withItem("combat lover's locket"), withProperty("_locketMonstersFought", "1"))) {
       String output = execute("1");
 
       assertThat(output, containsString("You've already"));
@@ -94,8 +91,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   @Test
   void cannotFightMonsterNotInLocket() {
     assertThat(LocketManager.getMonsters(), not(hasItem(1)));
-    var cleanups = withItem("combat lover's locket");
-    try (cleanups) {
+    try (var _ = withItem("combat lover's locket")) {
       String output = execute("1");
 
       assertThat(output, containsString("You do not have"));
@@ -106,8 +102,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   @Test
   void parsesMonsterById() {
     LocketManager.rememberMonster(1);
-    var cleanups = withItem("combat lover's locket");
-    try (cleanups) {
+    try (var _ = withItem("combat lover's locket")) {
       String output = execute("1", true);
 
       assertThat(output, containsString("spooky vampire"));
@@ -118,8 +113,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   @Test
   void parsesMonsterByName() {
     LocketManager.rememberMonster(1);
-    var cleanups = withItem("combat lover's locket");
-    try (cleanups) {
+    try (var _ = withItem("combat lover's locket")) {
       String output = execute("spooky vampire", true);
 
       assertThat(output, containsString("spooky vampire"));

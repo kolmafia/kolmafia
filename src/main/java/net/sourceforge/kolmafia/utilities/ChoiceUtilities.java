@@ -415,7 +415,7 @@ public class ChoiceUtilities {
     for (FormChoice form : parseFormChoices(responseText)) {
       if (!form.hidden().isEmpty()) {
         hiddens
-            .computeIfAbsent(form.decision(), (k) -> new TreeSet<>())
+            .computeIfAbsent(form.decision(), (_) -> new TreeSet<>())
             .addAll(form.hidden().keySet());
       }
     }

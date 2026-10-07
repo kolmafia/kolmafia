@@ -126,8 +126,7 @@ public class RelayAutomationTest {
       private void canAutomateDvoraksRevengeFromRelayBrowserForPath(AscensionPath.Path path) {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups = new Cleanups(withDvorak(builder), withPath(path));
-        try (cleanups) {
+        try (var _ = new Cleanups(withDvorak(builder), withPath(path))) {
           client.addResponse(200, html("request/test_automation_dvorak_0.html"));
           addDvorakResponses(builder);
 
@@ -161,8 +160,7 @@ public class RelayAutomationTest {
       public void canStepThroughDvoraksRevengeFromRelayBrowser() {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups = new Cleanups(withDvorak(builder));
-        try (cleanups) {
+        try (var _ = new Cleanups(withDvorak(builder))) {
           client.addResponse(200, html("request/test_automation_dvorak_0.html"));
           addDvorakResponses(builder);
 
@@ -200,8 +198,7 @@ public class RelayAutomationTest {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
         var path = AscensionPath.nameToPath(pathName);
-        var cleanups = new Cleanups(withDvorak(builder), withPath(path));
-        try (cleanups) {
+        try (var _ = new Cleanups(withDvorak(builder), withPath(path))) {
           client.addResponse(302, Map.of("location", List.of("tiles.php")), "");
           client.addResponse(200, html("request/test_automation_dvorak_0.html"));
           client.addResponse(200, ""); // api.php
@@ -232,10 +229,9 @@ public class RelayAutomationTest {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
         var path = AscensionPath.nameToPath(pathName);
-        var cleanups =
+        try (var _ =
             new Cleanups(
-                withDvorak(builder), withQuestProgress(Quest.WORSHIP, "step2"), withPath(path));
-        try (cleanups) {
+                withDvorak(builder), withQuestProgress(Quest.WORSHIP, "step2"), withPath(path))) {
           client.addResponse(200, html("request/test_temple_puzzle_0.html"));
           client.addResponse(200, html("request/test_temple_puzzle_1.html"));
           client.addResponse(302, Map.of("location", List.of("tiles.php")), "");

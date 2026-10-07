@@ -226,9 +226,7 @@ public class MaximizerFrameTest {
 
     @Test
     void enableOnlyPersistedFilters() {
-      var cleanups = new Cleanups(withProperty("maximizerLastFilters", "equip,cast"));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("maximizerLastFilters", "equip,cast"))) {
         MaximizerFrame maximizerFrame = new MaximizerFrame();
         KoLConstants.filterType[] persisted = {
           KoLConstants.filterType.EQUIP, KoLConstants.filterType.CAST
@@ -245,15 +243,13 @@ public class MaximizerFrameTest {
 
     @Test
     void disableFullOrgansEvenIfPersisted() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty(
                   "maximizerLastFilters", "equip,cast,wish,other,usable,booze,food,spleen"),
               withInebriety(KoLCharacter.getLiverCapacity()),
               withFullness(KoLCharacter.getStomachCapacity()),
-              withSpleenUse(KoLCharacter.getSpleenLimit()));
-
-      try (cleanups) {
+              withSpleenUse(KoLCharacter.getSpleenLimit()))) {
         MaximizerFrame maximizerFrame = new MaximizerFrame();
         KoLConstants.filterType[] fullOrgans = {
           KoLConstants.filterType.BOOZE,
@@ -274,10 +270,8 @@ public class MaximizerFrameTest {
     class UpdateFilters {
       @Test
       void disableFilters() {
-        var cleanups =
-            new Cleanups(withProperty("maximizerLastFilters", "equip,cast,wish,other,usable"));
-
-        try (cleanups) {
+        try (var _ =
+            new Cleanups(withProperty("maximizerLastFilters", "equip,cast,wish,other,usable"))) {
           MaximizerFrame maximizerFrame = new MaximizerFrame();
           KoLConstants.filterType[] disabled = {
             KoLConstants.filterType.WISH, KoLConstants.filterType.USABLE,
@@ -296,9 +290,7 @@ public class MaximizerFrameTest {
 
       @Test
       void enableFilters() {
-        var cleanups = new Cleanups(withProperty("maximizerLastFilters", "equip"));
-
-        try (cleanups) {
+        try (var _ = new Cleanups(withProperty("maximizerLastFilters", "equip"))) {
           MaximizerFrame maximizerFrame = new MaximizerFrame();
           KoLConstants.filterType[] enabled = {
             KoLConstants.filterType.BOOZE,

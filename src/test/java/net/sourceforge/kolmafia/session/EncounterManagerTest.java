@@ -196,8 +196,7 @@ class EncounterManagerTest {
 
   @Test
   void canRecogniseBadmoonAutostopInBadmoon() {
-    var cleanups = withSign(ZodiacSign.BAD_MOON);
-    try (cleanups) {
+    try (var _ = withSign(ZodiacSign.BAD_MOON)) {
       boolean actual = EncounterManager.isAutoStop("Getting Hammered");
 
       assertThat(actual, equalTo(true));
@@ -233,14 +232,12 @@ class EncounterManagerTest {
 
     @Test
     void isRomanticEncounterBasedOnMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCounter(10, "Romantic Monster window end loc=* type=wander", "rparen.gif"),
               withNextAdventure("The Deep Machine Tunnels"),
               withProperty("romanticTarget", "Witchess Knight"),
-              withNextMonster("Witchess Knight"));
-
-      try (cleanups) {
+              withNextMonster("Witchess Knight"))) {
         String html = html("request/test_fight_witchess_knight_in_dmt.html");
         boolean actual = EncounterManager.isRomanticEncounter(html, true);
         assertThat(actual, is(true));
@@ -272,16 +269,14 @@ class EncounterManagerTest {
 
     @Test
     void isEnamorangEncounterBasedOnMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(0),
               withCounter(1, "Enamorang Monster loc=* type=wander", "rparen.gif"),
               withCurrentRun(1),
               withNextAdventure("The Deep Machine Tunnels"),
               withProperty("enamorangMonster", "Witchess Knight"),
-              withNextMonster("Witchess Knight"));
-
-      try (cleanups) {
+              withNextMonster("Witchess Knight"))) {
         String html = html("request/test_fight_witchess_knight_in_dmt.html");
         boolean actual = EncounterManager.isEnamorangEncounter(html, true);
         assertThat(actual, is(true));
@@ -312,16 +307,14 @@ class EncounterManagerTest {
 
     @Test
     void isDigitizedEncounterBasedOnMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(0),
               withCounter(1, "Digitize Monster loc=* type=wander", "watch.gif"),
               withCurrentRun(1),
               withNextAdventure("The Deep Machine Tunnels"),
               withProperty("_sourceTerminalDigitizeMonster", "Witchess Knight"),
-              withNextMonster("Witchess Knight"));
-
-      try (cleanups) {
+              withNextMonster("Witchess Knight"))) {
         String html = html("request/test_fight_witchess_knight_in_dmt.html");
         boolean actual = EncounterManager.isDigitizedEncounter(html, true);
         assertThat(actual, is(true));
@@ -448,16 +441,14 @@ class EncounterManagerTest {
 
     @Test
     void isSpookyVHSTapeEncounterBasedOnMonster() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(0),
               withCounter(1, "Spooky VHS Tape Monster loc=* type=wander", "watch.gif"),
               withCurrentRun(1),
               withNextAdventure("The Deep Machine Tunnels"),
               withProperty("spookyVHSTapeMonster", "Witchess Knight"),
-              withNextMonster("Witchess Knight"));
-
-      try (cleanups) {
+              withNextMonster("Witchess Knight"))) {
         String html = html("request/test_fight_witchess_knight_in_dmt.html");
         boolean actual = EncounterManager.isSpookyVHSTapeMonster(html, true);
         assertThat(actual, is(true));
@@ -478,9 +469,7 @@ class EncounterManagerTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void isRelativityMonster(boolean relativityMonster) {
-    var cleanups = new Cleanups(withProperty("_relativityMonster", relativityMonster));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_relativityMonster", relativityMonster))) {
       boolean actual = EncounterManager.isRelativityMonster();
 
       assertThat(actual, equalTo(relativityMonster));
@@ -491,9 +480,7 @@ class EncounterManagerTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void isAfterimageMonster(boolean afterimageMonster) {
-    var cleanups = new Cleanups(withProperty("_afterimageMonster", afterimageMonster));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_afterimageMonster", afterimageMonster))) {
       boolean actual = EncounterManager.isAfterimageMonster();
 
       assertThat(actual, equalTo(afterimageMonster));
@@ -504,9 +491,7 @@ class EncounterManagerTest {
   @Test
   void isRainManEncounter() {
     String html = html("request/test_fight_rainman_monster.html");
-    var cleanups = new Cleanups(withPath(Path.HEAVY_RAINS));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.HEAVY_RAINS))) {
       boolean actual = EncounterManager.isRainManEncounter(html);
 
       assertThat(actual, is(true));
@@ -713,10 +698,9 @@ class EncounterManagerTest {
 
   @Test
   void handlesCapmCaronchEncounter() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.CARONCH_DENTURES), withItem(ItemPool.FRATHOUSE_BLUEPRINTS));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withItem(ItemPool.CARONCH_DENTURES), withItem(ItemPool.FRATHOUSE_BLUEPRINTS))) {
       EncounterManager.registerEncounter(
           "Step Up to the Table, Put the Ball in Play", "Noncombat", "");
 
@@ -728,9 +712,7 @@ class EncounterManagerTest {
 
   @Test
   void handlesGrandmaSeaMonkeyUnlockEncounter() {
-    var cleanups = withItem(ItemPool.GRANDMAS_MAP);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.GRANDMAS_MAP)) {
       EncounterManager.registerEncounter("Granny, Does Your Dogfish Bite?", "Noncombat", "");
 
       assertThat(InventoryManager.getCount(ItemPool.GRANDMAS_MAP), equalTo(0));

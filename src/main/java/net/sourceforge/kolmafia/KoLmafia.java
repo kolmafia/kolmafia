@@ -225,7 +225,7 @@ public abstract class KoLmafia {
       KoLmafia.SESSION_HOLDER = null;
       KoLmafia.SESSION_CHANNEL.close();
       KoLmafia.SESSION_FILE.delete();
-    } catch (Exception e) {
+    } catch (Exception _) {
       // That means the file either doesn't exist or
       // the session holder was somehow closed.
       // Ignore and fall through.
@@ -437,7 +437,7 @@ public abstract class KoLmafia {
       UIManager.setLookAndFeel(lookAndFeel);
       KoLmafiaGUI.applyFlatLafMenuBarSettings();
       JFrame.setDefaultLookAndFeelDecorated(System.getProperty("os.name").startsWith("Mac"));
-    } catch (Exception e) {
+    } catch (Exception _) {
       // Should not happen, as we checked to see if
       // the look and feel was installed first.
 
@@ -474,7 +474,7 @@ public abstract class KoLmafia {
       try {
         // try to load the class to confirm it exists
         Class.forName(value);
-      } catch (ClassNotFoundException e) {
+      } catch (ClassNotFoundException _) {
         RequestLogger.printLine("Failed to load class " + value + " for Theme " + key);
         continue;
       }

@@ -272,7 +272,7 @@ public class BuffBotDatabase {
           while ((line = reader.readLine()) != null) {
             responseText.append(line);
           }
-        } catch (Exception e) {
+        } catch (Exception _) {
           return;
         }
       } catch (IOException e) {

@@ -854,7 +854,7 @@ public class ConcoctionDatabase {
     // empty.
     ConcoctionDatabase.refreshConcoctionsNow();
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       ConcoctionDatabase.handleQueue(toProcess, type, consumptionType);
     }
 

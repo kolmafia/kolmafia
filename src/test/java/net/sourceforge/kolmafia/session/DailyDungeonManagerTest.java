@@ -40,12 +40,10 @@ public class DailyDungeonManagerTest {
       "15,D???_????_????,c15_enter_treasure",
     })
     public void enterDailyDungeonNcRoom(int chamber, String rooms, String responseFile) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_lastDailyDungeonRoom", 0),
-              withProperty("dailyDungeonRooms", "D???_????_????"));
-
-      try (cleanups) {
+              withProperty("dailyDungeonRooms", "D???_????_????"))) {
         var req = new GenericRequest("choice.php?forceoption=0");
         req.responseText = html("request/test_dailydungeon_" + responseFile + ".html");
         ChoiceManager.visitChoice(req);
@@ -57,13 +55,11 @@ public class DailyDungeonManagerTest {
 
     @Test
     public void enterDailyDungeonCombat() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation("The Daily Dungeon"),
               withProperty("_lastDailyDungeonRoom", 0),
-              withProperty("dailyDungeonRooms", "DTTD_??T?_????"));
-
-      try (cleanups) {
+              withProperty("dailyDungeonRooms", "DTTD_??T?_????"))) {
         var resp = html("request/test_dailydungeon_c09_enter_combat.html");
         FightRequest.updateCombatData(null, null, resp);
 
@@ -85,24 +81,21 @@ public class DailyDungeonManagerTest {
       "690,2,4,7", // treasure skip
     })
     void tracksDailyDungeonNcRoomExit(int choiceNum, int choice, int lastRoom, int currentRoom) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("_lastDailyDungeonRoom", lastRoom), withPostChoice1(choiceNum, choice));
-
-      try (cleanups) {
+              withProperty("_lastDailyDungeonRoom", lastRoom),
+              withPostChoice1(choiceNum, choice))) {
         assertThat("_lastDailyDungeonRoom", isSetTo(currentRoom));
       }
     }
 
     @Test
     void tracksDailyDungeonCompletion() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_lastDailyDungeonRoom", 0),
               withProperty("dailyDungeonDone", false),
-              withPostChoice1(689, 1, html("request/test_dailydungeon_c15_exit_treasure.html")));
-
-      try (cleanups) {
+              withPostChoice1(689, 1, html("request/test_dailydungeon_c15_exit_treasure.html")))) {
         assertThat("_lastDailyDungeonRoom", isSetTo(15));
         assertThat("dailyDungeonDone", isSetTo(true));
       }
@@ -110,13 +103,12 @@ public class DailyDungeonManagerTest {
 
     @Test
     public void dailyDungeonMonsterVictory() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withNextMonster("dairy ooze"),
               withLastLocation("The Daily Dungeon"),
-              withProperty("_lastDailyDungeonRoom", 1));
-      try (cleanups) {
+              withProperty("_lastDailyDungeonRoom", 1))) {
         FightRequest.updateFinalRoundData("", true, false);
         assertThat("_lastDailyDungeonRoom", isSetTo(2));
       }
@@ -124,13 +116,12 @@ public class DailyDungeonManagerTest {
 
     @Test
     public void dailyDungeonWrongMonsterVictoryIgnored() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withNextMonster("Quantum Mechanic"),
               withLastLocation("The Daily Dungeon"),
-              withProperty("_lastDailyDungeonRoom", 1));
-      try (cleanups) {
+              withProperty("_lastDailyDungeonRoom", 1))) {
         FightRequest.updateFinalRoundData("", true, false);
         assertThat("_lastDailyDungeonRoom", isSetTo(1));
       }
@@ -138,13 +129,12 @@ public class DailyDungeonManagerTest {
 
     @Test
     public void dailyDungeonMonsterLoss() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFight(),
               withNextMonster("dairy ooze"),
               withLastLocation("The Daily Dungeon"),
-              withProperty("_lastDailyDungeonRoom", 1));
-      try (cleanups) {
+              withProperty("_lastDailyDungeonRoom", 1))) {
         FightRequest.updateFinalRoundData("", false, true);
         assertThat("_lastDailyDungeonRoom", isSetTo(1));
       }
@@ -153,11 +143,10 @@ public class DailyDungeonManagerTest {
 
   @Test
   public void roomUpdateGeneratesValidPref() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("dailyDungeonRooms", "xyzabc"), withProperty("_lastDailyDungeonRoom", 8));
-
-    try (cleanups) {
+            withProperty("dailyDungeonRooms", "xyzabc"),
+            withProperty("_lastDailyDungeonRoom", 8))) {
       DailyDungeonManager.handleRoomCompletion(9, DailyDungeonManager.RoomType.TRAP);
       assertThat("_lastDailyDungeonRoom", isSetTo(9));
       assertThat("dailyDungeonRooms", isSetTo("????_???T_????"));
@@ -180,11 +169,10 @@ public class DailyDungeonManagerTest {
 
   @Test
   public void noChamberNoAction() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("dailyDungeonRooms", "????_????_????"),
-            withProperty("_lastDailyDungeonRoom", 8));
-    try (cleanups) {
+            withProperty("_lastDailyDungeonRoom", 8))) {
       handleRoomEntrance("Not real text", DailyDungeonManager.RoomType.DOOR);
       assertThat("_lastDailyDungeonRoom", isSetTo(8));
       assertThat("dailyDungeonRooms", isSetTo("????_????_????"));
@@ -195,8 +183,7 @@ public class DailyDungeonManagerTest {
   @CsvSource({"0, NotReal, NotReal", "1, NotReal, T???_????_????", "15, NotReal, NotReal"})
   public void badChamberNoAction(int chamber, String before, String later) {
 
-    var cleanups = new Cleanups(withProperty("dailyDungeonRooms", before));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("dailyDungeonRooms", before))) {
       updateDailyDungeonRoom(chamber, DailyDungeonManager.RoomType.TRAP);
       assertThat("dailyDungeonRooms", isSetTo(later));
     }

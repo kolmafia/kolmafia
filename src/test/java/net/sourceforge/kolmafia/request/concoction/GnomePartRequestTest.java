@@ -31,11 +31,9 @@ class GnomePartRequestTest {
 
   @Test
   void canMakePart() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withFamiliar(FamiliarPool.REAGNIMATED_GNOME), withProperty("_gnomePart", false));
-
-    try (cleanups) {
+            withFamiliar(FamiliarPool.REAGNIMATED_GNOME), withProperty("_gnomePart", false))) {
       var canMake = GnomePartRequest.canMake(ConcoctionPool.get(ItemPool.GNOMISH_EAR));
       assertThat(canMake, is(1));
     }
@@ -43,9 +41,7 @@ class GnomePartRequestTest {
 
   @Test
   void cannotMakePartWithoutReagnimatedGnome() {
-    var cleanups = new Cleanups(withProperty("_gnomePart", false));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_gnomePart", false))) {
       var canMake = GnomePartRequest.canMake(ConcoctionPool.get(ItemPool.GNOMISH_EAR));
       assertThat(canMake, is(0));
     }
@@ -53,11 +49,9 @@ class GnomePartRequestTest {
 
   @Test
   void cannotMakeSecondPart() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withFamiliar(FamiliarPool.REAGNIMATED_GNOME), withProperty("_gnomePart", true));
-
-    try (cleanups) {
+            withFamiliar(FamiliarPool.REAGNIMATED_GNOME), withProperty("_gnomePart", true))) {
       var canMake = GnomePartRequest.canMake(ConcoctionPool.get(ItemPool.GNOMISH_EAR));
       assertThat(canMake, is(0));
     }
@@ -65,11 +59,9 @@ class GnomePartRequestTest {
 
   @Test
   void cannotMakeInvalidPart() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withFamiliar(FamiliarPool.REAGNIMATED_GNOME), withProperty("_gnomePart", false));
-
-    try (cleanups) {
+            withFamiliar(FamiliarPool.REAGNIMATED_GNOME), withProperty("_gnomePart", false))) {
       var canMake = GnomePartRequest.canMake(ConcoctionPool.get(ItemPool.SEAL_CLUB));
       assertThat(canMake, is(0));
     }
@@ -79,14 +71,12 @@ class GnomePartRequestTest {
   void createsAKgnee() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withFamiliarInTerrarium(FamiliarPool.REAGNIMATED_GNOME),
             withFamiliar(FamiliarPool.CARNIE),
-            withProperty("_gnomePart", false));
-
-    try (cleanups) {
+            withProperty("_gnomePart", false))) {
       builder.client.addResponse(new FakeHttpResponse<>(200, "You take"));
       builder.client.addResponse(
           new FakeHttpResponse<>(200, html("request/test_choice_pick_a_part.html")));

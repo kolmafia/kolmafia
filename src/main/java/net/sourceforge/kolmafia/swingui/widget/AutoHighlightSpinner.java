@@ -62,7 +62,7 @@ public class AutoHighlightSpinner extends JSpinner {
           AutoHighlightNumberEditor.this.changing = true;
           AutoHighlightSpinner.this.setValue(value);
           AutoHighlightNumberEditor.this.changing = false;
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
       }
     }

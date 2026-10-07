@@ -50,13 +50,11 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
 
   @Test
   void usesRemaining() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.HANDHELD_ALLIED_RADIO, 6),
             withItem(ItemPool.ALLIED_RADIO_BACKPACK),
-            withProperty("_alliedRadioDropsUsed", 1));
-
-    try (cleanups) {
+            withProperty("_alliedRadioDropsUsed", 1))) {
       assertThat(AlliedRadioCommand.usesRemaining(), equalTo(8));
     }
   }
@@ -71,9 +69,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresParameter() {
-      var cleanups = withRadio();
-
-      try (cleanups) {
+      try (var _ = withRadio()) {
         String output = execute("item");
         assertThat(output, containsString("Which item do you want?"));
       }
@@ -81,9 +77,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresValidParameter() {
-      var cleanups = withRadio();
-
-      try (cleanups) {
+      try (var _ = withRadio()) {
         String output = execute("item mystery");
         assertThat(output, containsString("I don't understand what item mystery is."));
       }
@@ -100,9 +94,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresParameter() {
-      var cleanups = withRadio();
-
-      try (cleanups) {
+      try (var _ = withRadio()) {
         String output = execute("effect");
         assertThat(output, containsString("Which effect do you want?"));
       }
@@ -110,9 +102,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresValidParameter() {
-      var cleanups = withRadio();
-
-      try (cleanups) {
+      try (var _ = withRadio()) {
         String output = execute("effect mystery");
         assertThat(output, containsString("I don't understand what effect mystery is."));
       }
@@ -129,9 +119,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresParameter() {
-      var cleanups = withRadio();
-
-      try (cleanups) {
+      try (var _ = withRadio()) {
         String output = execute("misc");
         assertThat(output, containsString("Which miscellaneous supplies do you want?"));
       }
@@ -139,9 +127,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresValidParameter() {
-      var cleanups = withRadio();
-
-      try (cleanups) {
+      try (var _ = withRadio()) {
         String output = execute("misc mystery");
         assertThat(output, containsString("I don't understand what supplies mystery is."));
       }
@@ -172,9 +158,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
     void effect(String params, String request) {
       var setup = setupClient();
       var client = setup.client;
-      var cleanups = setup.cleanups;
-
-      try (cleanups) {
+      try (var _ = setup.cleanups) {
         addResponses(client);
 
         execute(params);
@@ -201,9 +185,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
     void item(String params, String request) {
       var setup = setupClient();
       var client = setup.client;
-      var cleanups = setup.cleanups;
-
-      try (cleanups) {
+      try (var _ = setup.cleanups) {
         addResponses(client);
 
         execute(params);
@@ -220,9 +202,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
     void misc(String params, String request) {
       var setup = setupClient();
       var client = setup.client;
-      var cleanups = setup.cleanups;
-
-      try (cleanups) {
+      try (var _ = setup.cleanups) {
         addResponses(client);
 
         execute(params);
@@ -241,9 +221,7 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
     void request(String params, String request) {
       var setup = setupClient();
       var client = setup.client;
-      var cleanups = setup.cleanups;
-
-      try (cleanups) {
+      try (var _ = setup.cleanups) {
         addResponses(client);
 
         execute(params);

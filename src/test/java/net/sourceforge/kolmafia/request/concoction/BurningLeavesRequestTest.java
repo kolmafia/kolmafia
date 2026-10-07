@@ -38,15 +38,13 @@ public class BurningLeavesRequestTest {
     builder.client.addResponse(
         200, html("request/test_choice_burning_leaves_just_burned_one.html"));
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
             withProperty("_leavesJumped", false),
             withItem(ItemPool.INFLAMMABLE_LEAF, 2),
-            withHttpClientBuilder(builder));
-
-    try (cleanups) {
+            withHttpClientBuilder(builder))) {
       BurningLeavesRequest.visit();
       RequestThread.postRequest(new BurningLeavesRequest(1));
 
@@ -58,14 +56,12 @@ public class BurningLeavesRequestTest {
 
   @Test
   void canDiscoverState() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
             withProperty("_leavesJumped", false),
-            withChoice(1510, html("request/test_choice_burning_leaves_already_jumped.html")));
-
-    try (cleanups) {
+            withChoice(1510, html("request/test_choice_burning_leaves_already_jumped.html")))) {
       assertThat("_leavesBurned", isSetTo(3));
       assertThat("_leavesJumped", isSetTo(true));
     }
@@ -73,14 +69,12 @@ public class BurningLeavesRequestTest {
 
   @Test
   void canParseJump() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
             withProperty("_leavesJumped", false),
-            withChoice(1510, 2, html("request/test_choice_burning_leaves_just_jumped.html")));
-
-    try (cleanups) {
+            withChoice(1510, 2, html("request/test_choice_burning_leaves_just_jumped.html")))) {
       assertThat("_leavesBurned", isSetTo(0));
       assertThat("_leavesJumped", isSetTo(true));
     }
@@ -88,15 +82,16 @@ public class BurningLeavesRequestTest {
 
   @Test
   void canDetectMaxLassosMade() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
             withProperty("_leafLassosCrafted", 0),
             withChoice(
-                1510, 1, "leaves=69", html("request/test_choice_burning_leaves_max_summon.html")));
-
-    try (cleanups) {
+                1510,
+                1,
+                "leaves=69",
+                html("request/test_choice_burning_leaves_max_summon.html")))) {
       assertThat("_leavesBurned", isSetTo(0));
       assertThat("_leafLassosCrafted", isSetTo(3));
     }
@@ -104,15 +99,16 @@ public class BurningLeavesRequestTest {
 
   @Test
   void canDetectMaxMonstersFought() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
             withProperty("_leafMonstersFought", 0),
             withChoice(
-                1510, 1, "leaves=666", html("request/test_choice_burning_leaves_max_summon.html")));
-
-    try (cleanups) {
+                1510,
+                1,
+                "leaves=666",
+                html("request/test_choice_burning_leaves_max_summon.html")))) {
       assertThat("_leavesBurned", isSetTo(0));
       assertThat("_leafMonstersFought", isSetTo(5));
     }

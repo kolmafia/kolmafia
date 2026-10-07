@@ -40,7 +40,7 @@ class ApiRequestTest {
 
   @Test
   void parseZootomistGrafts() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.Z_IS_FOR_ZOOTOMIST),
             withProperty("zootGraftedHeadFamiliar", 25),
@@ -53,9 +53,7 @@ class ApiRequestTest {
             withProperty("zootGraftedButtCheekLeftFamiliar", 25),
             withProperty("zootGraftedButtCheekRightFamiliar", 25),
             withProperty("zootGraftedFootLeftFamiliar", 25),
-            withProperty("zootGraftedFootRightFamiliar", 25));
-
-    try (cleanups) {
+            withProperty("zootGraftedFootRightFamiliar", 25))) {
       var json =
           JSONObject.parseObject(
               """
@@ -85,9 +83,7 @@ class ApiRequestTest {
 
   @Test
   void ascendingKeyPutsUsInValhalla() {
-    var cleanups = new Cleanups(() -> CharPaneRequest.setInValhalla(false));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(() -> CharPaneRequest.setInValhalla(false))) {
       ApiRequest.parseStatus(json(html("request/test_api_status_valhalla.json")));
 
       assertTrue(CharPaneRequest.inValhalla());
@@ -98,9 +94,7 @@ class ApiRequestTest {
 
   @Test
   void absentAscendingKeyTakesUsOutOfValhalla() {
-    var cleanups = new Cleanups(() -> CharPaneRequest.setInValhalla(false));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(() -> CharPaneRequest.setInValhalla(false))) {
       CharPaneRequest.setInValhalla(true);
       ApiRequest.parseStatus(json(html("request/test_crimbo_ghost_api.json")));
 
@@ -131,7 +125,7 @@ class ApiRequestTest {
   void refreshesSeveralThingsInOneRequest() {
     var builder = new FakeHttpClientBuilder();
 
-    try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder))) {
       ApiRequest.refresh(What.INVENTORY, What.CLOSET);
 
       var requests = builder.client.getRequests();
@@ -144,7 +138,7 @@ class ApiRequestTest {
   void updatesStatusFromApiAlone() {
     var builder = new FakeHttpClientBuilder();
 
-    try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder))) {
       ApiRequest.updateStatus();
 
       var requests = builder.client.getRequests();
@@ -157,7 +151,7 @@ class ApiRequestTest {
   void updatesStatusFromApiAndCharpaneInPokefam() {
     var builder = new FakeHttpClientBuilder();
 
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withHttpClientBuilder(builder), withPath(AscensionPath.Path.POKEFAM))) {
       ApiRequest.updateStatus();
 
@@ -170,8 +164,7 @@ class ApiRequestTest {
 
   @Test
   void parsesClosetAndStorageFromStatus() {
-    try (var cleanups =
-        new Cleanups(withMeatInCloset(0), withMeatInStorage(0), withPullsRemaining(0))) {
+    try (var _ = new Cleanups(withMeatInCloset(0), withMeatInStorage(0), withPullsRemaining(0))) {
       ApiRequest.parseStatus(json(html("request/test_status2.json")));
 
       assertThat(KoLCharacter.getClosetMeat(), is(54321L));

@@ -14,9 +14,7 @@ import org.junit.jupiter.api.Test;
 class ListCellRendererFactoryTest {
   @Test
   void canRenderFortuneCookie() {
-    var cleanups = new Cleanups(withItem(ItemPool.FORTUNE_COOKIE));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.FORTUNE_COOKIE))) {
       var food = ConcoctionPool.get(ItemPool.FORTUNE_COOKIE);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();
@@ -31,9 +29,7 @@ class ListCellRendererFactoryTest {
 
   @Test
   void canRenderPlainPizza() {
-    var cleanups = new Cleanups(withItem(ItemPool.PLAIN_PIZZA));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.PLAIN_PIZZA))) {
       var food = ConcoctionPool.get(ItemPool.PLAIN_PIZZA);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();
@@ -48,9 +44,7 @@ class ListCellRendererFactoryTest {
 
   @Test
   void canRenderBlackberry() {
-    var cleanups = new Cleanups(withItem(ItemPool.BLACKBERRY), withLevel(2));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.BLACKBERRY), withLevel(2))) {
       var food = ConcoctionPool.get(ItemPool.BLACKBERRY);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();
@@ -65,9 +59,7 @@ class ListCellRendererFactoryTest {
 
   @Test
   void graysOutWhenRequirementsNotMet() {
-    var cleanups = new Cleanups(withItem(ItemPool.BLACKBERRY), withLevel(1));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.BLACKBERRY), withLevel(1))) {
       var food = ConcoctionPool.get(ItemPool.BLACKBERRY);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();
@@ -82,9 +74,7 @@ class ListCellRendererFactoryTest {
 
   @Test
   void canRenderDrippyPlum() {
-    var cleanups = new Cleanups(withItem(ItemPool.DRIPPY_PLUM));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.DRIPPY_PLUM))) {
       var food = ConcoctionPool.get(ItemPool.DRIPPY_PLUM);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();
@@ -99,9 +89,7 @@ class ListCellRendererFactoryTest {
 
   @Test
   void canRenderAstralHotDog() {
-    var cleanups = new Cleanups(withItem(ItemPool.ASTRAL_HOT_DOG), withLevel(8));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.ASTRAL_HOT_DOG), withLevel(8))) {
       var food = ConcoctionPool.get(ItemPool.ASTRAL_HOT_DOG);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();
@@ -116,9 +104,7 @@ class ListCellRendererFactoryTest {
 
   @Test
   void canRenderFishTaco() {
-    var cleanups = new Cleanups(withItem(ItemPool.TACO_DAN_FISH_TACO), withLevel(8));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.TACO_DAN_FISH_TACO), withLevel(8))) {
       var food = ConcoctionPool.get(ItemPool.TACO_DAN_FISH_TACO);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();
@@ -133,9 +119,7 @@ class ListCellRendererFactoryTest {
 
   @Test
   void canRenderMrBurnsger() {
-    var cleanups = new Cleanups(withItem(ItemPool.MR_BURNSGER), withLevel(8));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.MR_BURNSGER), withLevel(8))) {
       var food = ConcoctionPool.get(ItemPool.MR_BURNSGER);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();
@@ -150,9 +134,7 @@ class ListCellRendererFactoryTest {
 
   @Test
   void noColourRenderedWhenSelected() {
-    var cleanups = new Cleanups(withItem(ItemPool.FORTUNE_COOKIE));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem(ItemPool.FORTUNE_COOKIE))) {
       var food = ConcoctionPool.get(ItemPool.FORTUNE_COOKIE);
       food.calculate2();
       var renderer = new ListCellRendererFactory.DefaultRenderer();

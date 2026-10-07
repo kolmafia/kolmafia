@@ -108,9 +108,7 @@ class DailyLimitDatabaseTest {
       SkillPool.REPLACE_ENEMY + ", 7",
     })
     void canGetUsesRemainingForPowerfulGloveSkills(int skillId, int remaining) {
-      var cleanups = new Cleanups(withProperty("_powerfulGloveBatteryPowerUsed", 30));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_powerfulGloveBatteryPowerUsed", 30))) {
         var limit = DailyLimitType.CAST.getDailyLimit(skillId);
         assertThat(limit.getUsesRemaining(), equalTo(remaining));
       }
@@ -136,8 +134,7 @@ class DailyLimitDatabaseTest {
       // Summon Stickers
       var limit = DailyLimitType.CAST.getDailyLimit(7214);
 
-      var cleanups = withInteractivity(interactive);
-      try (cleanups) {
+      try (var _ = withInteractivity(interactive)) {
         assertThat(limit.getUses(), equalTo(interactive ? 1 : 2));
       }
     }
@@ -179,9 +176,7 @@ class DailyLimitDatabaseTest {
       "2, 2", "5, 5", "9, 5",
     })
     void canSetDailyUsesForRegularEntries(int value, int result) {
-      var cleanups = new Cleanups(withProperty("_jerksHealthMagazinesUsed", 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_jerksHealthMagazinesUsed", 0))) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
         limit.set(value);
 
@@ -191,9 +186,7 @@ class DailyLimitDatabaseTest {
 
     @Test
     void canSetMaxUsesForRegularEntries() {
-      var cleanups = new Cleanups(withProperty("_jerksHealthMagazinesUsed", 0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_jerksHealthMagazinesUsed", 0))) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
         limit.setToMax();
 
@@ -204,9 +197,7 @@ class DailyLimitDatabaseTest {
     @ParameterizedTest
     @CsvSource({"1, true", "2, true", "0, false", "-10, false"})
     void canSetDailyUsesForBooleanEntries(int value, boolean result) {
-      var cleanups = new Cleanups(withProperty("_jingleBellUsed", false));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_jingleBellUsed", false))) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JINGLE_BELL);
         limit.set(value);
 
@@ -216,9 +207,7 @@ class DailyLimitDatabaseTest {
 
     @Test
     void canSetMaxUsesForBooleanEntries() {
-      var cleanups = new Cleanups(withProperty("_jingleBellUsed", false));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("_jingleBellUsed", false))) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JINGLE_BELL);
         limit.setToMax();
 
@@ -243,11 +232,9 @@ class DailyLimitDatabaseTest {
     @ParameterizedTest
     @CsvSource({"16, true", "11, false"})
     void canDetectBackupCameraLimits(int limitExpected, boolean youRobotPath) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withPath(youRobotPath ? AscensionPath.Path.YOU_ROBOT : AscensionPath.Path.NONE));
-
-      try (cleanups) {
+              withPath(youRobotPath ? AscensionPath.Path.YOU_ROBOT : AscensionPath.Path.NONE))) {
         var limit = DailyLimitType.CAST.getDailyLimit(SkillPool.BACK_UP);
         assertThat(
             limit.getMaxMessage(),
@@ -268,12 +255,10 @@ class DailyLimitDatabaseTest {
 
     @Test
     void incrementingSummonKokomoResortPassBackfillsDeprecatedPref() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_summonResortPassUsed", false),
-              withProperty("_summonResortPassesUsed", 0));
-
-      try (cleanups) {
+              withProperty("_summonResortPassesUsed", 0))) {
         var limit = DailyLimitType.CAST.getDailyLimit(SkillPool.SUMMON_KOKOMO_RESORT_PASS);
         limit.increment();
 

@@ -37,9 +37,8 @@ class StationaryButtonDecoratorTest {
   class ActionName {
     @Test
     void dartSkillsArePrettified() {
-      var cleanups =
-          new Cleanups(withProperty("_currentDartboard", ""), withProperty("_dartsLeft", 0));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("_currentDartboard", ""), withProperty("_dartsLeft", 0))) {
         String responseText = html("request/test_fight_dartboard.html");
 
         FightRequest.parseDartboard(responseText);
@@ -87,13 +86,12 @@ class StationaryButtonDecoratorTest {
 
     @Test
     void zootomistSkillsArePrettified() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("zootGraftedHandLeftFamiliar", 171),
               withProperty("zootGraftedHandRightFamiliar", 303),
               withProperty("zootGraftedFootLeftFamiliar", 307),
-              withProperty("zootGraftedFootRightFamiliar", 311));
-      try (cleanups) {
+              withProperty("zootGraftedFootRightFamiliar", 311))) {
         assertEquals("Left %n Punch", SkillDatabase.getSkillName(SkillPool.LEFT_PUNCH));
         assertEquals(
             "Left Gelatinous Cubeling Punch",
@@ -122,11 +120,9 @@ class StationaryButtonDecoratorTest {
 
     @Test
     void stealHeartIncludesCurrentHearts() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("heartstoneLetters", "t"), withFight(), withNextMonster("oil cartel"));
-
-      try (cleanups) {
+              withProperty("heartstoneLetters", "t"), withFight(), withNextMonster("oil cartel"))) {
         assertEquals(
             "Steal Monster's Heart: T -> TA",
             SkillDatabase.getPrettySkillName(SkillPool.STEAL_HEART));
@@ -137,13 +133,11 @@ class StationaryButtonDecoratorTest {
 
     @Test
     void stealHeartRestartsWordWhenFull() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("heartstoneLetters", "GONE"),
               withFight(),
-              withNextMonster("oil cartel"));
-
-      try (cleanups) {
+              withNextMonster("oil cartel"))) {
         assertEquals(
             "Steal Monster's Heart: GONE -> A",
             SkillDatabase.getPrettySkillName(SkillPool.STEAL_HEART));
@@ -158,9 +152,7 @@ class StationaryButtonDecoratorTest {
     @Test
     void useTheForceButtonsHaveQuoteMarks() {
       var html = html("request/test_choice_use_the_force.html");
-      var cleanups = new Cleanups(withChoice(1387, html));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withChoice(1387, html))) {
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1387", buffer, false);
         var doc = Jsoup.parse(buffer.toString());

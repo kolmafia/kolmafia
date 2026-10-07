@@ -86,8 +86,7 @@ class AscensionClassTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void canGetDefaultStun(final boolean considerShadowNoodles) {
-    var cleanups = new Cleanups(withProperty("considerShadowNoodles", considerShadowNoodles));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("considerShadowNoodles", considerShadowNoodles))) {
       assertThat(
           AscensionClass.DISCO_BANDIT.getStun(),
           equalTo(considerShadowNoodles ? "Shadow Noodles" : "none"));
@@ -151,9 +150,7 @@ class AscensionClassTest {
     "DISCO_BANDIT, MOXIE",
   })
   void canGetMainStatForCurrentClass(AscensionClass clazz, KoLConstants.Stat stat) {
-    var cleanups = new Cleanups(withClass(clazz));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withClass(clazz))) {
       assertThat(clazz.getMainStat(), equalTo(stat));
     }
   }

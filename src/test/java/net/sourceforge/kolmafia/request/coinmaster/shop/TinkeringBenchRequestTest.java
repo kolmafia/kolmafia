@@ -43,31 +43,29 @@ public class TinkeringBenchRequestTest {
   class canMake {
     @Test
     void savageBeastCannotCreate() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.SAVAGE_BEAST),
-              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 10));
-      try (cleanups) {
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 10))) {
         assertThat(TinkeringBenchRequest.DATA.isAccessible(), is(false));
       }
     }
 
     @Test
     void mildManneredProcessorCanCreate() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
-              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 1));
-      try (cleanups) {
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 1))) {
         assertThat(TinkeringBenchRequest.DATA.isAccessible(), is(true));
       }
     }
 
     @Test
     void cannotCreateDuplicateItems() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
@@ -76,8 +74,7 @@ public class TinkeringBenchRequestTest {
               withItem(ItemPool.QUICK_RELEASE_BELT_POUCH),
               withItem(ItemPool.MOTION_SENSOR),
               withItem(ItemPool.FOCUSED_MAGNETRON_PISTOL),
-              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 3));
-      try (cleanups) {
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 3))) {
         assertThat(TinkeringBenchRequest.canMake(ItemPool.BIPHASIC_MOLECULAR_OCULUS), is(false));
         assertThat(TinkeringBenchRequest.canMake(ItemPool.TRIPHASIC_MOLECULAR_OCULUS), is(true));
         assertThat(TinkeringBenchRequest.canMake(ItemPool.HIGH_TENSION_EXOSKELETON), is(false));
@@ -95,7 +92,7 @@ public class TinkeringBenchRequestTest {
 
     @Test
     void canUpgradeEquippedItems() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
@@ -104,8 +101,7 @@ public class TinkeringBenchRequestTest {
               withEquipped(Slot.ACCESSORY1, ItemPool.QUICK_RELEASE_BELT_POUCH),
               withEquipped(Slot.ACCESSORY2, ItemPool.MOTION_SENSOR),
               withEquipped(Slot.WEAPON, ItemPool.FOCUSED_MAGNETRON_PISTOL),
-              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 3));
-      try (cleanups) {
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 3))) {
         assertThat(TinkeringBenchRequest.canMake(ItemPool.BIPHASIC_MOLECULAR_OCULUS), is(false));
         assertThat(TinkeringBenchRequest.canMake(ItemPool.TRIPHASIC_MOLECULAR_OCULUS), is(true));
         assertThat(TinkeringBenchRequest.canMake(ItemPool.HIGH_TENSION_EXOSKELETON), is(false));
@@ -128,16 +124,14 @@ public class TinkeringBenchRequestTest {
     var client = builder.client;
     SessionLoggerOutput.startStream();
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.WEREPROFESSOR),
             withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
             withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 2),
             withItem(ItemPool.QUICK_RELEASE_FANNYPACK),
-            withItem(ItemPool.QUICK_RELEASE_UTILITY_BELT, 0));
-
-    try (cleanups) {
+            withItem(ItemPool.QUICK_RELEASE_UTILITY_BELT, 0))) {
       builder.client.addResponse(200, html("request/test_tinkering_bench_buy.html"));
       builder.client.addResponse(200, "");
 
@@ -172,16 +166,14 @@ public class TinkeringBenchRequestTest {
     var client = builder.client;
     SessionLoggerOutput.startStream();
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.WEREPROFESSOR),
             withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
             withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 2),
             withEquipped(Slot.ACCESSORY2, ItemPool.QUICK_RELEASE_FANNYPACK),
-            withItem(ItemPool.QUICK_RELEASE_UTILITY_BELT, 0));
-
-    try (cleanups) {
+            withItem(ItemPool.QUICK_RELEASE_UTILITY_BELT, 0))) {
       builder.client.addResponse(200, html("request/test_remove_fannypack.html"));
       builder.client.addResponse(200, "");
       builder.client.addResponse(200, html("request/test_tinkering_bench_buy.html"));

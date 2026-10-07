@@ -212,8 +212,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canFindAvatarOnCharSheet() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       String responseText = html("request/test_scrapheap_charsheet.html");
 
       // Verify that the properties and avatar are not set
@@ -228,8 +227,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canFindAvatarOnCharPane() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       String responseText = html("request/test_scrapheap_charpane.html");
 
       // Verify that the properties and avatar are not set
@@ -245,8 +243,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canFindAvatarOnReassemblyStationVisit() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       // Verify that the properties and avatar are not set
       verifyNoAvatarOrProperties();
 
@@ -265,8 +262,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canHandleThreePartAvatar() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       // Verify that the properties and avatar are not set
       verifyNoAvatarOrProperties();
 
@@ -301,8 +297,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canDiscoverStatbotCostOnVisit() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       String urlString = "choice.php?forceoption=0";
       String html = html("request/test_scrapheap_visit_statbot.html");
       GenericRequest request = new GenericRequest(urlString);
@@ -318,8 +313,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canDiscoverStatbotCostOnActivation() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       String urlString = "choice.php?pwd&whichchoice=1447&option=3";
       String html = html("request/test_scrapheap_activate_statbot.html");
       GenericRequest request = new GenericRequest(urlString);
@@ -335,8 +329,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canDiscoverStatbotCostOnFailedActivation() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       String urlString = "choice.php?pwd&whichchoice=1447&option=3";
       String html = html("request/test_scrapheap_activate_statbot_fails.html");
       GenericRequest request = new GenericRequest(urlString);
@@ -352,8 +345,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canRegisterRequests() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       String urlString = "choice.php?whichchoice=1445&show=cpus";
       String expected = "Inspecting CPU Upgrade options at the Reassembly Station.";
       assertTrue(YouRobotManager.registerRequest(urlString));
@@ -414,8 +406,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canPayUpgradeCosts() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       KoLCharacter.setYouRobotEnergy(100);
       KoLCharacter.setYouRobotScraps(100);
 
@@ -442,8 +433,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canTrackChangesInCombatSkills() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       // Start with no known combat skills.
 
       assertFalse(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
@@ -498,8 +488,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void willUnequipWhenSwapOutEquipPart() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       // Look at Top Attachments
       String urlString = "choice.php?whichchoice=1445&show=top";
       String html = html("request/test_scrapheap_show_top.html");
@@ -534,8 +523,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void willUnsetFamiliarWhenUnequipBirdCage() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       // Look at Top Attachments
       String urlString = "choice.php?whichchoice=1445&show=top";
       String html = html("request/test_scrapheap_show_top_bird_cage.html");
@@ -571,8 +559,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void willAddCPUUpgrades() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       // Look at CPU Upgrades
       String urlString = "choice.php?whichchoice=1445&show=cpus";
       String html = html("request/test_scrapheap_show_cpus.html");
@@ -627,8 +614,7 @@ public class YouRobotManagerTest {
   public void willAllowPotionUsage() {
     TestListener potionListener = new TestListener("(potions)");
 
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       // Start with no CPU upgrades. We cannot use potions.
       assertFalse(YouRobotManager.canUsePotions());
 
@@ -673,8 +659,7 @@ public class YouRobotManagerTest {
   public void canSetAvatarAndGetSignal() {
     TestListener avatarListener = new TestListener("(avatar)");
 
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       // We started out with an avatar = ""
       // Verify that if we set the same avatar, our listener doesn't fire.
       KoLCharacter.setAvatar("");
@@ -726,8 +711,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canTrackStatbotEnergyCost() {
-    var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.YOU_ROBOT))) {
       KoLCharacter.setYouRobotEnergy(100);
 
       String urlString = "choice.php?forceoption=0";

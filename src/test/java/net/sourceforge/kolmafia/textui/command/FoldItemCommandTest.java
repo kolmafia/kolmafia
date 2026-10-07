@@ -43,14 +43,12 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void findClosestFoldableTest() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             // Spooky Putty mitre > leotard > ball > sheet > snake
             withItem(ItemPool.SPOOKY_PUTTY_MITRE),
             // the sheet is a bait; closer but in the wrong direction
-            withItem(ItemPool.SPOOKY_PUTTY_SHEET));
-
-    try (cleanups) {
+            withItem(ItemPool.SPOOKY_PUTTY_SHEET))) {
       String output = execute("spooky putty ball", true);
 
       assertContinueState();
@@ -60,14 +58,12 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void loopAroundFoldableListTest() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             // Spooky Putty mitre > leotard > ball > sheet > snake
             withItem(ItemPool.SPOOKY_PUTTY_SNAKE),
             // bait, again
-            withItem(ItemPool.SPOOKY_PUTTY_BALL));
-
-    try (cleanups) {
+            withItem(ItemPool.SPOOKY_PUTTY_BALL))) {
       String output = execute("spooky putty leotard", true);
 
       assertContinueState();
@@ -77,12 +73,10 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void restoreHPWhenNeededTest() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             // Spooky Putty mitre > leotard > ball > sheet > snake
-            withItem(ItemPool.SPOOKY_PUTTY_SNAKE), withHP(5, 100, 100));
-
-    try (cleanups) {
+            withItem(ItemPool.SPOOKY_PUTTY_SNAKE), withHP(5, 100, 100))) {
       String output = execute("spooky putty mitre");
 
       // We didn't give it anything to restore HP with, so we can use that to tell it tried
@@ -94,9 +88,7 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
   @Test
   public void unequipsFoldable() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SPOOKY_PUTTY_SNAKE));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SPOOKY_PUTTY_SNAKE))) {
       execute("Spooky Putty mitre");
       assertContinueState();
 
@@ -112,9 +104,7 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
   class GarbageTote {
     @Test
     public void checkGarbageToteItem() {
-      var cleanups = new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withSkill(SkillPool.TORSO))) {
         String output = execute("makeshift garbage shirt", true);
         assertContinueState();
         assertThat(output, containsString("January's Garbage Tote => makeshift garbage shirt"));
@@ -124,9 +114,7 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     @Test
     public void foldGarbageToteItem() {
       HttpClientWrapper.setupFakeClient();
-      var cleanups = new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withSkill(SkillPool.TORSO))) {
         execute("makeshift garbage shirt");
         assertContinueState();
 
@@ -141,15 +129,13 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     public void retrieveGarbageTote() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
               withItemInCloset(ItemPool.GARBAGE_TOTE),
               withProperty("autoSatisfyWithCloset", true),
-              withHandlingChoice(false));
-
-      try (cleanups) {
+              withHandlingChoice(false))) {
         client.addResponse(200, html("request/test_uncloset_garbage_tote.html"));
 
         execute("tinsel tights");
@@ -168,16 +154,14 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     public void retrieveGarbageToteWithItem() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
               withItem(ItemPool.WAD_OF_TAPE),
               withItemInCloset(ItemPool.GARBAGE_TOTE),
               withProperty("autoSatisfyWithCloset", true),
-              withHandlingChoice(false));
-
-      try (cleanups) {
+              withHandlingChoice(false))) {
         client.addResponse(200, html("request/test_uncloset_garbage_tote.html"));
 
         execute("tinsel tights");
@@ -196,13 +180,11 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     public void cannotRetrieveGarbageTote() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItemInCloset(ItemPool.GARBAGE_TOTE),
-              withHandlingChoice(false));
-
-      try (cleanups) {
+              withHandlingChoice(false))) {
         String output = execute("broken champagne bottle");
         assertThat(output, containsString("You don't have anything transformable into that item!"));
         assertErrorState();
@@ -216,14 +198,12 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     public void cannotTransformWithoutGarbageTote() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItemInCloset(ItemPool.GARBAGE_TOTE),
               withItem(ItemPool.TINSEL_TIGHTS),
-              withHandlingChoice(false));
-
-      try (cleanups) {
+              withHandlingChoice(false))) {
         String output = execute("broken champagne bottle");
         // You need 1 more January's Garbage Tote to continue.
         // Unable to retrieve your January's Garbage Tote
@@ -237,10 +217,9 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void checkReplicaGarbageToteItem() {
-      var cleanups =
-          new Cleanups(withItem(ItemPool.REPLICA_GARBAGE_TOTE), withPath(Path.LEGACY_OF_LOATHING));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withItem(ItemPool.REPLICA_GARBAGE_TOTE), withPath(Path.LEGACY_OF_LOATHING))) {
         String output = execute("tinsel tights", true);
         assertContinueState();
         assertThat(output, containsString("replica January's Garbage Tote => tinsel tights"));
@@ -250,10 +229,9 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     @Test
     public void foldReplicaGarbageToteItem() {
       HttpClientWrapper.setupFakeClient();
-      var cleanups =
-          new Cleanups(withItem(ItemPool.REPLICA_GARBAGE_TOTE), withPath(Path.LEGACY_OF_LOATHING));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withItem(ItemPool.REPLICA_GARBAGE_TOTE), withPath(Path.LEGACY_OF_LOATHING))) {
         execute("tinsel tights");
         assertContinueState();
 
@@ -270,9 +248,7 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     @Test
     public void foldMakeshiftFromFamiliarHatchling() {
       HttpClientWrapper.setupFakeClient();
-      var cleanups = new Cleanups(withItem(ItemPool.MAKESHIFT_CRANE));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.MAKESHIFT_CRANE))) {
         execute("makeshift turban");
         assertContinueState();
 
@@ -287,12 +263,10 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
   class AmbiguousFold {
     @Test
     public void errorOnAmbiguousFold() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.STINKY_CHEESE_SWORD),
-              withEquipped(Slot.PANTS, ItemPool.STINKY_CHEESE_DIAPER));
-
-      try (cleanups) {
+              withEquipped(Slot.PANTS, ItemPool.STINKY_CHEESE_DIAPER))) {
         String output = execute("stinky cheese eye");
         assertErrorState();
         assertThat(output, containsString("Unequip the item you want to fold into that."));
@@ -302,13 +276,11 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     @Test
     public void itemInInventoryIsNotAmbiguous() {
       HttpClientWrapper.setupFakeClient();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.STINKY_CHEESE_SWORD),
               withEquipped(Slot.PANTS, ItemPool.STINKY_CHEESE_DIAPER),
-              withItem(ItemPool.STINKY_CHEESE_WHEEL));
-
-      try (cleanups) {
+              withItem(ItemPool.STINKY_CHEESE_WHEEL))) {
         execute("stinky cheese eye");
         assertContinueState();
 
@@ -321,13 +293,11 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     @Test
     public void doNotErrorOnAmbiguousFoldWithPreference() {
       HttpClientWrapper.setupFakeClient();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.WEAPON, ItemPool.STINKY_CHEESE_SWORD),
               withEquipped(Slot.PANTS, ItemPool.STINKY_CHEESE_DIAPER),
-              withProperty("errorOnAmbiguousFold", false));
-
-      try (cleanups) {
+              withProperty("errorOnAmbiguousFold", false))) {
         String output = execute("stinky cheese eye", true);
         assertContinueState();
         assertThat(output, containsString("stinky cheese diaper => stinky cheese eye"));

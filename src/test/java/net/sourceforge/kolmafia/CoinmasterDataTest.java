@@ -43,9 +43,8 @@ class CoinmasterDataTest {
     @Test
     void withUnknownSkill() {
       var data = GeneticFiddlingRequest.DATA;
-      var cleanups =
-          new Cleanups(withPath(Path.NUCLEAR_AUTUMN), withoutSkill(SkillPool.EXTRA_MUSCLES));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withPath(Path.NUCLEAR_AUTUMN), withoutSkill(SkillPool.EXTRA_MUSCLES))) {
         assertThat(data.availableSkill(SkillPool.EXTRA_MUSCLES), is(true));
       }
     }
@@ -53,9 +52,8 @@ class CoinmasterDataTest {
     @Test
     void withKnownSkill() {
       var data = GeneticFiddlingRequest.DATA;
-      var cleanups =
-          new Cleanups(withPath(Path.NUCLEAR_AUTUMN), withSkill(SkillPool.EXTRA_MUSCLES));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withPath(Path.NUCLEAR_AUTUMN), withSkill(SkillPool.EXTRA_MUSCLES))) {
         assertThat(data.availableSkill(SkillPool.EXTRA_MUSCLES), is(false));
       }
     }

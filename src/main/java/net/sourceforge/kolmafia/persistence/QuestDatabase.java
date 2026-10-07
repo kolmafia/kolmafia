@@ -1082,7 +1082,7 @@ public class QuestDatabase {
           if (nextStep > currentStep) {
             shouldSet = true;
           }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
           shouldSet = true;
         }
       }
@@ -1139,7 +1139,7 @@ public class QuestDatabase {
             // step we're comparing to is equal or greater
             return false;
           }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
           return false;
         }
       } else {
@@ -1212,7 +1212,7 @@ public class QuestDatabase {
         } else {
           return "step" + nextStep;
         }
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         return "";
       }
     }

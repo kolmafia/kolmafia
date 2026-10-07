@@ -184,9 +184,7 @@ public class PriceToAcquireTest {
   public void canMockGetMallPrice() {
     Map<Integer, Integer> priceMap = makePriceMap();
     Map<Integer, Integer> oldPriceMap = makeOldPriceMap();
-    Cleanups cleanups = mockGetMallPrice(priceMap, oldPriceMap);
-
-    try (cleanups) {
+    try (var _ = mockGetMallPrice(priceMap, oldPriceMap)) {
       for (Entry<Integer, Integer> entry : priceMap.entrySet()) {
         int itemid = entry.getKey();
         AdventureResult item = ItemPool.get(itemid, 1);
@@ -210,11 +208,11 @@ public class PriceToAcquireTest {
   public void canMockIsPermittedMethod() {
     AdventureResult item = ItemPool.get(ItemPool.DRIVE_BY_SHOOTING, 0);
     Set<Integer> unpermitted = new HashSet<>();
-    try (var cleanups = mockIsPermittedMethod(unpermitted)) {
+    try (var _ = mockIsPermittedMethod(unpermitted)) {
       assertTrue(ConcoctionDatabase.isPermittedMethod(item));
     }
     unpermitted.add(item.getItemId());
-    try (var cleanups = mockIsPermittedMethod(unpermitted)) {
+    try (var _ = mockIsPermittedMethod(unpermitted)) {
       assertFalse(ConcoctionDatabase.isPermittedMethod(item));
     }
   }
@@ -347,8 +345,7 @@ public class PriceToAcquireTest {
     oldPriceMap.put(ItemPool.BUNCH_OF_SQUARE_GRAPES, 130);
     oldPriceMap.put(ItemPool.FISH_HEAD, 2000);
 
-    Cleanups cleanups = new Cleanups(mockGetMallPrice(priceMap, oldPriceMap));
-    try (cleanups) {
+    try (var _ = new Cleanups(mockGetMallPrice(priceMap, oldPriceMap))) {
       // valueOfInventory = 0; everything is free
       float factor = setValueOfInventory(0.0f);
       boolean exact = false; // use "old" mall prices
@@ -499,8 +496,7 @@ public class PriceToAcquireTest {
     Cleanups mockedMallPrices = mockGetMallPrice(priceMap, priceMap);
     Cleanups mockedPermittedMethods = mockIsPermittedMethod(unpermitted);
 
-    Cleanups cleanups = new Cleanups(mockedMallPrices, mockedPermittedMethods);
-    try (cleanups) {
+    try (var _ = new Cleanups(mockedMallPrices, mockedPermittedMethods)) {
       // We will be testing with no items in inventory.
       // Therefore, we will need to purchase everything from mall or NPCs.
 
@@ -568,8 +564,7 @@ public class PriceToAcquireTest {
     Cleanups mockedMallPrices = mockGetMallPrice(priceMap, priceMap);
     Cleanups mockedPermittedMethods = mockIsPermittedMethod(unpermitted);
 
-    Cleanups cleanups = new Cleanups(mockedMallPrices, mockedPermittedMethods);
-    try (cleanups) {
+    try (var _ = new Cleanups(mockedMallPrices, mockedPermittedMethods)) {
       // Test with 5 of each ingredient in inventory.
 
       AdventureResult.addResultToList(KoLConstants.inventory, PERFECT_ICE_CUBE.getInstance(5));
@@ -630,13 +625,12 @@ public class PriceToAcquireTest {
       Cleanups mockedMallPrices = mockGetMallPrice(priceMap, priceMap);
       // Don't mock permitted methods; account for skills, conditions, valueOfAdventure
 
-      Cleanups cleanups =
+      try (var _ =
           new Cleanups(
               mockedMallPrices,
               withItem("tenderizing hammer"),
               withAdventuresLeft(10),
-              withProperty("valueOfAdventure", 500));
-      try (cleanups) {
+              withProperty("valueOfAdventure", 500))) {
         // We will be testing with no items in inventory.
         // Therefore, we will need to purchase everything from mall or NPCs.
         ConcoctionDatabase.refreshConcoctions();
@@ -664,9 +658,8 @@ public class PriceToAcquireTest {
       Cleanups mockedMallPrices = mockGetMallPrice(priceMap, priceMap);
       // Don't mock permitted methods; account for skills, conditions, valueOfAdventure
 
-      Cleanups cleanups =
-          new Cleanups(mockedMallPrices, withSign(ZodiacSign.MONGOOSE), withAdventuresLeft(0));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(mockedMallPrices, withSign(ZodiacSign.MONGOOSE), withAdventuresLeft(0))) {
         // We will be testing with no items in inventory.
         // Therefore, we will need to purchase everything from mall or NPCs.
         ConcoctionDatabase.refreshConcoctions();
@@ -706,9 +699,8 @@ public class PriceToAcquireTest {
     Map<Integer, Integer> priceMap = makePriceMap();
     Set<Integer> unpermitted = new HashSet<>();
 
-    Cleanups cleanups =
-        new Cleanups(mockGetMallPrice(priceMap, priceMap), mockIsPermittedMethod(unpermitted));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(mockGetMallPrice(priceMap, priceMap), mockIsPermittedMethod(unpermitted))) {
       // We want to test that items in an "accessible" source will
       // account for (some of) the cost to acquire N of an item.
       //

@@ -56,12 +56,10 @@ public class CrystalBallManagerTest {
 
   @Test
   public void crystalBallZoneTest() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
-
-    try (cleanups) {
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"))) {
       assertTrue(CrystalBallManager.isCrystalBallZone("The Smut Orc Logging Camp"));
       assertTrue(CrystalBallManager.isCrystalBallZone("The Defiled Nook"));
       assertFalse(CrystalBallManager.isCrystalBallZone("The Defiled Niche"));
@@ -75,11 +73,10 @@ public class CrystalBallManagerTest {
     "spiny skelelton, The Defiled Niche, false"
   })
   public void canIdentifyPredictedMonster(String monsterName, String locationName, String result) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
-    try (cleanups) {
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"))) {
       // From String
       assertEquals(
           Boolean.parseBoolean(result),
@@ -102,12 +99,11 @@ public class CrystalBallManagerTest {
   })
   public void canIdentifyAmbiguousPredictedMonster(
       String predictionMonster, String monsterName, String result) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
             withEquipped(Slot.FAMILIAR, "miniature crystal ball"),
-            withProperty("crystalBallPredictions", "0:The Defiled Nook:" + predictionMonster));
-    try (cleanups) {
+            withProperty("crystalBallPredictions", "0:The Defiled Nook:" + predictionMonster))) {
       CrystalBallManager.reset();
       // From String
       assertEquals(
@@ -128,11 +124,10 @@ public class CrystalBallManagerTest {
 
   @Test
   public void crystalBallMonsterTestNextEncounter() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
-    try (cleanups) {
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"))) {
       assertFalse(CrystalBallManager.isCrystalBallMonster());
 
       MonsterStatusTracker.setNextMonster(SKELTEON);
@@ -152,12 +147,10 @@ public class CrystalBallManagerTest {
 
   @Test
   public void canParsePonderWithoutUpdatingTurn() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCurrentRun(1),
-            withProperty("crystalBallPredictions", "0:Twin Peak:Creepy Ginger Twin"));
-
-    try (cleanups) {
+            withProperty("crystalBallPredictions", "0:Twin Peak:Creepy Ginger Twin"))) {
       CrystalBallManager.reset();
       String html = html("request/test_ponder_orb_one_prediction.html");
       CrystalBallManager.parsePonder(html);
@@ -232,14 +225,13 @@ public class CrystalBallManagerTest {
 
   @Test
   public void testPredictionDoesNotExpireSameZone() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
             withEquipped(Slot.FAMILIAR, "miniature crystal ball"),
             withCurrentRun(0),
             withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"),
-            withLastLocation("The Smut Orc Logging Camp"));
-    try (cleanups) {
+            withLastLocation("The Smut Orc Logging Camp"))) {
       CrystalBallManager.reset();
       KoLCharacter.setCurrentRun(2);
 
@@ -251,14 +243,14 @@ public class CrystalBallManagerTest {
 
   @Test
   public void testPredictionDoesNotExpireSameTurn() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
             withEquipped(Slot.FAMILIAR, "miniature crystal ball"),
             withCurrentRun(0),
             withLastLocation("The Middle Chamber"),
-            withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"));
-    try (cleanups) {
+            withProperty(
+                "crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"))) {
       CrystalBallManager.reset();
       KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure(406));
 
@@ -270,14 +262,14 @@ public class CrystalBallManagerTest {
 
   @Test
   public void testPredictionExpiresNewZoneNewTurn() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
             withEquipped(Slot.FAMILIAR, "miniature crystal ball"),
             withCurrentRun(0),
             withLastLocation("The Smut Orc Logging Camp"),
-            withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"));
-    try (cleanups) {
+            withProperty(
+                "crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"))) {
       CrystalBallManager.reset();
       KoLCharacter.setCurrentRun(2);
 
@@ -296,7 +288,7 @@ public class CrystalBallManagerTest {
     // The Throne Room does not count as a new location to KoL for the purposes of predictions
     // However, mafia does count it as a location change
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withLastLocation("Cobb's Knob Harem"),
             withNextResponse(
@@ -304,9 +296,7 @@ public class CrystalBallManagerTest {
                 new FakeHttpResponse<>(
                     200,
                     new HashMap<>(),
-                    html("request/test_adventure_last_vanilla_location_unchanged.html"))));
-
-    try (cleanups) {
+                    html("request/test_adventure_last_vanilla_location_unchanged.html"))))) {
       GenericRequest request = new GenericRequest("cobbsknob.php?action=throneroom");
       request.run();
 
@@ -317,7 +307,7 @@ public class CrystalBallManagerTest {
 
   @Test
   public void testVanillaAndMafiaTracksNormalLocation() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withLastLocation("Cobb's Knob Harem"),
             withNextResponse(
@@ -325,11 +315,7 @@ public class CrystalBallManagerTest {
                 new FakeHttpResponse<>(
                     200,
                     new HashMap<>(),
-                    html("request/test_adventure_last_vanilla_location_unchanged.html"))));
-
-    // The Throne Room does not count as a new location to KoL for the purposes of predictions
-    // However, mafia does count it as one.
-    try (cleanups) {
+                    html("request/test_adventure_last_vanilla_location_unchanged.html"))))) {
       GenericRequest request = new GenericRequest("cobbsknob.php?action=throneroom");
       request.run();
 
@@ -343,7 +329,7 @@ public class CrystalBallManagerTest {
     // The Cake Arena counts as a new location to KoL
     // However, mafia does not count this as a real zone
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withLastLocation("Cobb's Knob Harem"),
             withFamiliar(FamiliarPool.GREY_GOOSE),
@@ -360,9 +346,7 @@ public class CrystalBallManagerTest {
                 new FakeHttpResponse<>(
                     200,
                     new HashMap<>(),
-                    html("request/test_adventure_internally_tracks_cake_arena_status.json"))));
-
-    try (cleanups) {
+                    html("request/test_adventure_internally_tracks_cake_arena_status.json"))))) {
       new GenericRequest("arena.php").run();
       new GenericRequest("arena.php?action=go&whichopp=3&event=1").run();
 
@@ -378,7 +362,7 @@ public class CrystalBallManagerTest {
     // The Cake Arena counts as a new location to KoL
     // However, mafia does not count this as a real zone
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withLastLocation("The Hidden Office Building"),
             withFamiliar(FamiliarPool.GREY_GOOSE),
@@ -402,9 +386,7 @@ public class CrystalBallManagerTest {
             withProperty(
                 "crystalBallPredictions", "291:The Hidden Office Building:pygmy headhunter"),
             withGender(Gender.FEMALE),
-            withCurrentRun(0));
-
-    try (cleanups) {
+            withCurrentRun(0))) {
       CrystalBallManager.reset();
 
       ApiRequest.updateStatus(true);
@@ -430,7 +412,7 @@ public class CrystalBallManagerTest {
     // The Cake Arena counts as a new location to KoL
     // However, mafia does not count this as a real zone
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withLastLocation("Cobb's Knob Harem"),
             withFamiliar(FamiliarPool.GREY_GOOSE),
@@ -451,9 +433,7 @@ public class CrystalBallManagerTest {
                         "request/test_adventure_crystal_ball_handles_noncombat_api_afteradventure.json"))),
             withProperty("crystalBallPredictions", "522:The Middle Chamber:tomb rat"),
             withGender(Gender.FEMALE),
-            withCurrentRun(0));
-
-    try (cleanups) {
+            withCurrentRun(0))) {
       CrystalBallManager.reset();
 
       ApiRequest.updateStatus(true);

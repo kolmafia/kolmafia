@@ -21,13 +21,11 @@ public class StandardRequestTest {
 
   @Test
   public void shouldCheckStandardItems() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPasswordHash("hello"),
             withRestricted(true),
-            withNextResponse(200, html("request/test_request_standard_2012.html")));
-
-    try (cleanups) {
+            withNextResponse(200, html("request/test_request_standard_2012.html")))) {
       StandardRequest.initialize(true);
 
       assertTrue(StandardRequest.isAllowed(RestrictedItemType.ITEMS, "seal-clubbing club"));
@@ -46,9 +44,7 @@ public class StandardRequestTest {
 
   @Test
   public void onlyEvergreenItemsAllowedInThrifty() {
-    var cleanups = new Cleanups(withPath(Path.THRIFTY));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withPath(Path.THRIFTY))) {
       assertThat(StandardRequest.isAllowed(RestrictedItemType.ITEMS, "datastick"), equalTo(false));
       assertThat(
           StandardRequest.isAllowed(

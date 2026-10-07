@@ -56,7 +56,7 @@ public class NamespaceInterpreter extends AshRuntime {
           // The user changed the script since it was validated
           KoLmafia.updateDisplay(MafiaState.ERROR, e.getMessage());
           return false;
-        } catch (InterruptedException e) {
+        } catch (InterruptedException _) {
           // Unlikely, but just in case.
           return false;
         } catch (Exception e) {

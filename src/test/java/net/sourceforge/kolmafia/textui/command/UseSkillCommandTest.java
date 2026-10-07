@@ -18,15 +18,13 @@ public class UseSkillCommandTest extends AbstractCommandTestBase {
 
   @Test
   void expandsKnownShorthand() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill(SkillPool.ODE_TO_BOOZE),
             withSkill("CHEAT CODE: Invisible Avatar"),
             withSkill("CHEAT CODE: Triple Size"),
             withItem(ItemPool.ANTIQUE_ACCORDION),
-            withMP(100, 100, 100));
-
-    try (cleanups) {
+            withMP(100, 100, 100))) {
       String output = execute("ode");
 
       assertContinueState();
@@ -36,13 +34,11 @@ public class UseSkillCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doesNotExpandUnknownShorthand() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill(SkillPool.ODE_TO_BOOZE),
             withSkill("CHEAT CODE: Invisible Avatar"),
-            withSkill("CHEAT CODE: Triple Size"));
-
-    try (cleanups) {
+            withSkill("CHEAT CODE: Triple Size"))) {
       String output = execute("od");
 
       assertErrorState();
@@ -52,9 +48,7 @@ public class UseSkillCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canCastDiscoNap() {
-    var cleanups = new Cleanups(withSkill(SkillPool.DISCO_NAP), withMP(100, 100, 100));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withSkill(SkillPool.DISCO_NAP), withMP(100, 100, 100))) {
       String output = execute("disco nap");
 
       assertContinueState();
@@ -64,9 +58,7 @@ public class UseSkillCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canCastSkillsForEffects() {
-    var cleanups = new Cleanups(withSkill(SkillPool.EMPATHY_OF_THE_NEWT), withMP(100, 100, 100));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withSkill(SkillPool.EMPATHY_OF_THE_NEWT), withMP(100, 100, 100))) {
       String output = execute("empathy ^ empathy");
 
       assertContinueState();

@@ -142,7 +142,7 @@ class PreferencesFile {
           p = recovered;
           KoLmafia.updateDisplay(
               "Preferences was partially recovered from corruption, no valid backup exists.");
-        } catch (IOException e) {
+        } catch (IOException _) {
           p = new Properties();
           KoLmafia.updateDisplay("Preferences could not be read and no valid backup exists.");
         }
@@ -177,7 +177,7 @@ class PreferencesFile {
     }
     try {
       return !FileUtilities.containsNullBytes(file);
-    } catch (IOException e) {
+    } catch (IOException _) {
       return false;
     }
   }
@@ -346,7 +346,7 @@ class PreferencesFile {
     }
     try {
       return !FileUtilities.containsNullBytes(file);
-    } catch (IOException e) {
+    } catch (IOException _) {
       return false;
     }
   }
@@ -362,7 +362,7 @@ class PreferencesFile {
           dest.toPath(),
           StandardCopyOption.ATOMIC_MOVE,
           StandardCopyOption.REPLACE_EXISTING);
-    } catch (AtomicMoveNotSupportedException e) {
+    } catch (AtomicMoveNotSupportedException _) {
       Files.move(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
   }

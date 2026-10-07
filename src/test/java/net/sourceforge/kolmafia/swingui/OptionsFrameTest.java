@@ -72,8 +72,7 @@ public class OptionsFrameTest {
       JCheckBox box = checkbox.getCheckBox();
       assertFalse(box.isSelected());
 
-      var cleanups = new Cleanups(withProperty(pref, true));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(pref, true))) {
         assertTrue(box.isSelected());
       }
       assertFalse(box.isSelected());
@@ -90,8 +89,7 @@ public class OptionsFrameTest {
       PreferenceCheckBox checkbox = (PreferenceCheckBox) components[0];
       JCheckBox box = checkbox.getCheckBox();
 
-      var cleanups = new Cleanups(withProperty(pref, false));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(pref, false))) {
         assertFalse(box.isSelected());
         assertFalse(Preferences.getBoolean(pref));
         box.setSelected(true);
@@ -150,8 +148,7 @@ public class OptionsFrameTest {
       JTextField field = textfield.getTextField();
       assertEquals("0", field.getText());
 
-      var cleanups = new Cleanups(withProperty(pref, 10));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(pref, 10))) {
         assertEquals("10", field.getText());
       }
       assertEquals("0", field.getText());
@@ -169,8 +166,7 @@ public class OptionsFrameTest {
       JTextField field = textfield.getTextField();
       assertEquals("0", field.getText());
 
-      var cleanups = new Cleanups(withProperty(pref, 10));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(pref, 10))) {
         assertEquals("10", field.getText());
         field.setText("20");
         // fire listener
@@ -223,8 +219,7 @@ public class OptionsFrameTest {
       SmartButtonGroup group = buttongroup.getButtonGroup();
       assertEquals(0, group.getSelectedIndex());
 
-      var cleanups = new Cleanups(withProperty(pref, 1));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(pref, 1))) {
         assertEquals(1, group.getSelectedIndex());
       }
       assertEquals(0, group.getSelectedIndex());
@@ -243,8 +238,7 @@ public class OptionsFrameTest {
       AbstractButton[] buttons =
           Collections.list(group.getElements()).toArray(new AbstractButton[0]);
 
-      var cleanups = new Cleanups(withProperty(pref, 1));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(pref, 1))) {
         assertEquals(1, group.getSelectedIndex());
         group.setSelectedIndex(2);
         fireActionListeners(buttons[2]);

@@ -73,9 +73,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void warnAgainstUnknownInput() {
-    var cleanups = new Cleanups(withItem("backup camera"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("backup camera"))) {
       String output = execute("rverser");
 
       assertThat(output, containsString("not recognised"));
@@ -87,9 +85,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canChangeMode() {
-    var cleanups = new Cleanups(withItem("backup camera"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("backup camera"))) {
       execute("init");
 
       var requests = getRequests();
@@ -102,9 +98,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canChangeModeWithCapitalization() {
-    var cleanups = new Cleanups(withItem("backup camera"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("backup camera"))) {
       execute("InIt");
 
       var requests = getRequests();
@@ -118,7 +112,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
   @Test
   public void canHandleAlreadySelectedOption() {
     // The same page is returned when an invalid option is selected
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem("backup camera"),
             withNextResponse(
@@ -129,9 +123,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
                 new FakeHttpResponse<>(
                     200, html("request/test_command_backupcamera_handles_unavailable_option.html")),
                 new FakeHttpResponse<>(
-                    200, html("request/test_command_backupcamera_leave_choice.html"))));
-
-    try (cleanups) {
+                    200, html("request/test_command_backupcamera_leave_choice.html"))))) {
       execute("ml");
 
       var requests =
@@ -150,9 +142,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
   @ValueSource(strings = {"off", "disable"})
   public void canDisableReverser(String disable) {
     // But... why?
-    var cleanups = new Cleanups(withItem("backup camera"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("backup camera"))) {
       execute("reverser " + disable);
 
       var requests = getRequests();
@@ -166,9 +156,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @ValueSource(strings = {"", "enable"})
   public void canEnableReverser(String enable) {
-    var cleanups = new Cleanups(withItem("backup camera"));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("backup camera"))) {
       String output = execute("reverser " + enable);
 
       var requests = getRequests();

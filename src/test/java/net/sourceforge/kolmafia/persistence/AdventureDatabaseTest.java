@@ -103,8 +103,7 @@ public class AdventureDatabaseTest {
 
     @Test
     public void canFindGenericShadowRiftAdventure() {
-      var cleanups = new Cleanups(withProperty("shadowRiftIngress", ""));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("shadowRiftIngress", ""))) {
         var adventure = AdventureDatabase.getAdventureByURL(SHADOW_RIFT_URL);
         assertNotNull(adventure);
         assertThat(adventure.getAdventureName(), is("Shadow Rift"));
@@ -128,8 +127,7 @@ public class AdventureDatabaseTest {
       "town_right, Shadow Rift (The Right Side of the Tracks)",
     })
     public void canFindShadowRiftAdventureFromProperty(String property, String adventureName) {
-      var cleanups = new Cleanups(withProperty("shadowRiftIngress", property));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("shadowRiftIngress", property))) {
         var adventure = AdventureDatabase.getAdventureByURL(SHADOW_RIFT_URL);
         assertNotNull(adventure);
         assertThat(adventure.getAdventureName(), is(adventureName));
@@ -171,8 +169,7 @@ public class AdventureDatabaseTest {
 
     @Test
     public void canMinimizeRedirections() {
-      var cleanups = new Cleanups(withProperty("shadowRiftIngress", ""));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("shadowRiftIngress", ""))) {
         // Enter a rift for the first time
         runRiftAdventure(ShadowRift.CITY, true);
         // Enter the same rift again
@@ -186,9 +183,8 @@ public class AdventureDatabaseTest {
 
     @Test
     public void willUseFreeURLWithShadowAffinity() {
-      var cleanups =
-          new Cleanups(withProperty("shadowRiftIngress", ""), withEffect("Shadow Affinity", 11));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("shadowRiftIngress", ""), withEffect("Shadow Affinity", 11))) {
         // Enter a rift for the first time
         runRiftAdventure(ShadowRift.CITY, true);
         // Enter the same rift again

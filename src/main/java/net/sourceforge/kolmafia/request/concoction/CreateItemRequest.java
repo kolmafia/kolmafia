@@ -298,7 +298,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
   public void runCreateItemLoop() {
     // Save outfit in case we need to equip something - like a Grimacite hammer
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       this.createItemLoop();
     }
   }

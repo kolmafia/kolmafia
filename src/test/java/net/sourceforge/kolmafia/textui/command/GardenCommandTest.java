@@ -39,9 +39,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
   class Thanksgarden {
     @Test
     public void inspectsThanksgarden() {
-      var cleanups = withCampgroundItem(ItemPool.CORNUCOPIA, 1);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(ItemPool.CORNUCOPIA, 1)) {
         String output = execute("");
         assertThat(output, containsString("Your thanksgarden garden has 1 cornucopia in it."));
       }
@@ -49,9 +47,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void inspectsThanksgardenPlural() {
-      var cleanups = withCampgroundItem(ItemPool.CORNUCOPIA, 2);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(ItemPool.CORNUCOPIA, 2)) {
         String output = execute("");
         assertThat(output, containsString("Your thanksgarden garden has 2 cornucopias in it."));
       }
@@ -62,9 +58,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
   class Grass {
     @Test
     public void inspectsEmptyGrassGarden() {
-      var cleanups = withCampgroundItem(CampgroundRequest.NO_TALL_GRASS);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(CampgroundRequest.NO_TALL_GRASS)) {
         String output = execute("");
         assertThat(output, containsString("Your grass garden has 0 patches of tall grass in it."));
       }
@@ -72,9 +66,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void inspectsPartialGrassGarden() {
-      var cleanups = withCampgroundItem(CampgroundRequest.FOUR_TALL_GRASS);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(CampgroundRequest.FOUR_TALL_GRASS)) {
         String output = execute("");
         assertThat(output, containsString("Your grass garden has 4 patches of tall grass in it."));
       }
@@ -82,9 +74,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void inspectsFullGrassGarden() {
-      var cleanups = withCampgroundItem(CampgroundRequest.VERY_TALL_GRASS);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(CampgroundRequest.VERY_TALL_GRASS)) {
         String output = execute("");
         assertThat(
             output, containsString("Your grass garden has 1 patch of very tall grass in it."));
@@ -93,9 +83,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void picksTallGrass() {
-      var cleanups = withCampgroundItem(CampgroundRequest.FOUR_TALL_GRASS);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(CampgroundRequest.FOUR_TALL_GRASS)) {
         execute("pick");
 
         var requests = getRequests();
@@ -109,9 +97,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void picksVeryTallGrass() {
-      var cleanups = withCampgroundItem(CampgroundRequest.VERY_TALL_GRASS);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(CampgroundRequest.VERY_TALL_GRASS)) {
         execute("pick");
 
         var requests = getRequests();
@@ -164,9 +150,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
   class Rock {
     @Test
     public void inspectsEmptyRockGarden() {
-      var cleanups = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 0);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 0)) {
         String output = execute("");
         assertThat(output, containsString("Your rock garden has nothing in it."));
       }
@@ -174,9 +158,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void inspectsPartialRockGarden() {
-      var cleanups = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 1);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 1)) {
         String output = execute("");
         assertThat(output, containsString("Your rock garden has 1 groveling gravel in it."));
       }
@@ -184,13 +166,11 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void inspectsFullRockGarden() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCampgroundItem(ItemPool.FRUITY_PEBBLE, 2),
               withCampgroundItem(ItemPool.BOLDER_BOULDER, 2),
-              withCampgroundItem(ItemPool.HARD_ROCK, 2));
-
-      try (cleanups) {
+              withCampgroundItem(ItemPool.HARD_ROCK, 2))) {
         String output = execute("");
         assertThat(
             output,
@@ -201,9 +181,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void picksPartialRockGarden() {
-      var cleanups = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 1);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 1)) {
         execute("pick");
 
         var requests = getRequests();
@@ -214,13 +192,11 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void picksFullRockGarden() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCampgroundItem(ItemPool.FRUITY_PEBBLE, 2),
               withCampgroundItem(ItemPool.BOLDER_BOULDER, 2),
-              withCampgroundItem(ItemPool.HARD_ROCK, 2));
-
-      try (cleanups) {
+              withCampgroundItem(ItemPool.HARD_ROCK, 2))) {
         execute("pick");
 
         var requests = getRequests();
@@ -233,9 +209,7 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void skipsEmptySlotsInPartialRockGarden() {
-      var cleanups = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 1);
-
-      try (cleanups) {
+      try (var _ = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 1)) {
         var output = execute("pick plot2 plot3");
         assertThat(output, containsString("There is nothing to pick in plot2."));
         assertThat(output, containsString("There is nothing to pick in plot3."));
@@ -247,13 +221,11 @@ public class GardenCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void picksSelectPlotsInFullRockGarden() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCampgroundItem(ItemPool.FRUITY_PEBBLE, 2),
               withCampgroundItem(ItemPool.BOLDER_BOULDER, 2),
-              withCampgroundItem(ItemPool.HARD_ROCK, 2));
-
-      try (cleanups) {
+              withCampgroundItem(ItemPool.HARD_ROCK, 2))) {
         var output = execute("pick plot1 plot3");
         assertThat(output, containsString("Harvesting plot1: fruity pebble (2)"));
         assertThat(output, containsString("Harvesting plot3: hard rock (2)"));

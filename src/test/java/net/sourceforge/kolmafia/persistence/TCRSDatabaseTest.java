@@ -216,13 +216,12 @@ class TCRSDatabaseTest {
   @Test
   void derivedModifiersReachTheCharacter() {
     // What logging in does: derive, then put the enchantments on the character.
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
             withClass(AscensionClass.SEAL_CLUBBER),
             withSign(ZodiacSign.OPOSSUM),
-            withEquipped(Slot.HAT, ItemPool.PLEXIGLASS_PITH_HELMET));
-    try (cleanups) {
+            withEquipped(Slot.HAT, ItemPool.PLEXIGLASS_PITH_HELMET))) {
       TCRSDatabase.loadTCRSData(true);
 
       var tcrs = TCRSDatabase.getData(ItemPool.PLEXIGLASS_PITH_HELMET);
@@ -237,12 +236,11 @@ class TCRSDatabaseTest {
 
   @Test
   public void enchantCountCorrect() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
             withClass(AscensionClass.SEAL_CLUBBER),
-            withSign(ZodiacSign.MONGOOSE));
-    try (cleanups) {
+            withSign(ZodiacSign.MONGOOSE))) {
       TCRSDatabase.loadTCRSData(false);
       assertThat(TCRSDatabase.enchantCount(ItemPool.ASSHAT), equalTo(2));
     }
@@ -250,12 +248,11 @@ class TCRSDatabaseTest {
 
   @Test
   void shieldDamageReductionNotDoubled() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
             withClass(AscensionClass.SEAL_CLUBBER),
-            withSign(ZodiacSign.MONGOOSE));
-    try (cleanups) {
+            withSign(ZodiacSign.MONGOOSE))) {
       TCRSDatabase.loadTCRSData(true);
       for (var id : new int[] {662, 1034, 3258}) {
         var storedDR =
@@ -340,12 +337,11 @@ class TCRSDatabaseTest {
     try (var out = Files.newBufferedWriter(reportFile)) {
       for (var ascensionClass : AscensionClass.standardClasses) {
         for (var sign : ZodiacSign.standardZodiacSigns) {
-          var cleanups =
+          try (var _ =
               new Cleanups(
                   withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
                   withClass(ascensionClass),
-                  withSign(sign));
-          try (cleanups) {
+                  withSign(sign))) {
             // Not loadTCRSData, which derives: the recorded file is the ground truth here.
             TCRSDatabase.load(ascensionClass, sign, false);
             for (var i : ItemDatabase.entrySet()) {
@@ -542,13 +538,11 @@ class TCRSDatabaseTest {
 
   @Test
   public void campgroundItemsRetainModifiers() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
             withClass(AscensionClass.SEAL_CLUBBER),
-            withSign(ZodiacSign.MONGOOSE));
-
-    try (cleanups) {
+            withSign(ZodiacSign.MONGOOSE))) {
       TCRSDatabase.loadTCRSData();
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.MAID);
       assertThat(mods.getDouble(DoubleModifier.ADVENTURES), is(4.0));
@@ -557,13 +551,11 @@ class TCRSDatabaseTest {
 
   @Test
   public void chateauItemsRetainModifiers() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
             withClass(AscensionClass.SEAL_CLUBBER),
-            withSign(ZodiacSign.MONGOOSE));
-
-    try (cleanups) {
+            withSign(ZodiacSign.MONGOOSE))) {
       TCRSDatabase.loadTCRSData();
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.CHATEAU_SKYLIGHT);
       assertThat(mods.getDouble(DoubleModifier.ADVENTURES), is(3.0));

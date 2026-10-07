@@ -45,13 +45,12 @@ class CurseRequestTest {
     public void canTrainYourselfFirstTime() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
               withProperty("crimboTrainingSkill", 0),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
+              withProperty("_crimboTraining", false))) {
         client.addResponse(200, html("request/test_use_crimbo_training_1.html"));
         client.addResponse(200, ""); // api.php
 
@@ -76,12 +75,11 @@ class CurseRequestTest {
     public void canTrainAnotherPersonOncePerDay() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
+              withProperty("_crimboTraining", false))) {
         client.addResponse(200, html("request/test_use_crimbo_training_1b.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_use_crimbo_training_2.html"));
@@ -117,12 +115,11 @@ class CurseRequestTest {
     public void canDetectOtherPlayerAlreadyTrained() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
+              withProperty("_crimboTraining", false))) {
         client.addResponse(200, html("request/test_use_crimbo_training_1.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_use_crimbo_training_2.html"));
@@ -157,12 +154,11 @@ class CurseRequestTest {
     public void canTrainOnlyOneOtherPersonPerDay() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
+              withProperty("_crimboTraining", false))) {
         client.addResponse(200, html("request/test_use_crimbo_training_1c.html"));
         client.addResponse(200, ""); // api.php
 
@@ -187,12 +183,11 @@ class CurseRequestTest {
     public void canTrainOnlyOneOtherPersonPerDayFromCursePHP() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
+              withProperty("_crimboTraining", false))) {
         client.addResponse(200, html("request/test_use_crimbo_training_3b.html"));
         client.addResponse(200, ""); // api.php
 
@@ -225,12 +220,11 @@ class CurseRequestTest {
     public void cantPlayWithSomebodyInRonin() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.PING_PONG_TABLE),
-              withProperty("_pingPongGame", false));
-      try (cleanups) {
+              withProperty("_pingPongGame", false))) {
         client.addResponse(200, html("request/test_use_ping_pong_table.html"));
         client.addResponse(200, html("request/test_use_ping_pong_table_ronin.html"));
         client.addResponse(200, ""); // api.php
@@ -261,13 +255,12 @@ class CurseRequestTest {
     public void winningGameConsumesUse() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.PING_PONG_TABLE),
               withProperty("_pingPongGame", false),
-              withNoEffects());
-      try (cleanups) {
+              withNoEffects())) {
         client.addResponse(200, html("request/test_use_ping_pong_table_prowess.html"));
         client.addResponse(200, ""); // api.php
 
@@ -296,13 +289,12 @@ class CurseRequestTest {
     public void losingGameConsumesUse() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.PING_PONG_TABLE),
               withProperty("_pingPongGame", false),
-              withNoEffects());
-      try (cleanups) {
+              withNoEffects())) {
         client.addResponse(200, html("request/test_use_ping_pong_table_persistence.html"));
         client.addResponse(200, ""); // api.php
 
@@ -331,12 +323,11 @@ class CurseRequestTest {
     public void canOnlyPlayOncePerDay() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.PING_PONG_TABLE),
-              withProperty("_pingPongGame", false));
-      try (cleanups) {
+              withProperty("_pingPongGame", false))) {
         client.addResponse(200, html("request/test_use_ping_pong_table_used.html"));
 
         assertThat(UseItemRequest.maximumUses(ItemPool.PING_PONG_TABLE), is(1));

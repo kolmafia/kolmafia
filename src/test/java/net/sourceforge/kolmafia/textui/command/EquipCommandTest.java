@@ -31,9 +31,7 @@ public class EquipCommandTest extends AbstractCommandTestBase {
   @Test
   public void equipOffhand() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = withEquippableItem(ItemPool.HOT_PLATE);
-
-    try (cleanups) {
+    try (var _ = withEquippableItem(ItemPool.HOT_PLATE)) {
       execute("hot plate");
       assertContinueState();
 
@@ -47,15 +45,13 @@ public class EquipCommandTest extends AbstractCommandTestBase {
   @Test
   public void equipFolder() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.FOLDER_01),
             withEquipped(Slot.FOLDER1, ItemPool.FOLDER_19),
             withEquipped(Slot.FOLDER2, ItemPool.FOLDER_22),
             withHandlingChoice(false) // escape the choice
-            );
-
-    try (cleanups) {
+            )) {
       execute("folder3 folder (red)");
       assertContinueState();
 
@@ -69,14 +65,12 @@ public class EquipCommandTest extends AbstractCommandTestBase {
   @Test
   public void insertsCodpieceGemWithoutMeetingItsEquipmentRequirement() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withStats(1, 1, 1),
             withItem(ItemPool.BLACK_CATSEYE_MARBLE),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
-            withHandlingChoice(false));
-
-    try (cleanups) {
+            withHandlingChoice(false))) {
       execute("codpiece1 black catseye marble");
       assertContinueState();
 
@@ -91,12 +85,10 @@ public class EquipCommandTest extends AbstractCommandTestBase {
   @Test
   public void rejectsNonGemInCodpieceSlot() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquippableItem(ItemPool.HOT_PLATE),
-            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE));
-
-    try (cleanups) {
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE))) {
       execute("codpiece1 hot plate");
       assertErrorState();
       assertThat(getRequests(), hasSize(0));

@@ -43,9 +43,7 @@ public class CampAwayCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustUseValidCommand() {
-    var cleanups = withCampsite(0, 0);
-
-    try (cleanups) {
+    try (var _ = withCampsite(0, 0)) {
       String output = execute("test");
       assertErrorState();
       assertThat(output.trim(), is("Campaway command not recognized"));
@@ -65,9 +63,7 @@ public class CampAwayCommandTest extends AbstractCommandTestBase {
     "0,3,smile,Already used all smile buffs today"
   })
   void failsIfUsed(int cloudBuffs, int smileBuffs, String command, String error) {
-    var cleanups = withCampsite(cloudBuffs, smileBuffs);
-
-    try (cleanups) {
+    try (var _ = withCampsite(cloudBuffs, smileBuffs)) {
       String output = execute(command);
       assertErrorState();
       assertThat(output, containsString(error));
@@ -77,9 +73,7 @@ public class CampAwayCommandTest extends AbstractCommandTestBase {
   @Test
   void makesRequests() {
     var builder = new FakeHttpClientBuilder();
-    var cleanups = new Cleanups(withHttpClientBuilder(builder), withCampsite(0, 0));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withHttpClientBuilder(builder), withCampsite(0, 0))) {
       String output = execute("cloud");
       var requests = builder.client.getRequests();
 

@@ -310,7 +310,7 @@ public class EffectDatabase {
         int effectId = -1;
         try {
           effectId = StringUtilities.parseInt(idString);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
         return effectId;
       }
@@ -352,7 +352,7 @@ public class EffectDatabase {
         int effectId = -1;
         try {
           effectId = StringUtilities.parseInt(idString);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
         int[] ids = new int[1];
         ids[0] = effectId;
@@ -486,7 +486,7 @@ public class EffectDatabase {
           List<String> list = new ArrayList<>();
           list.add(substring);
           return list;
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
       }
     }

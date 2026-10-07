@@ -108,9 +108,7 @@ class CharPaneRequestTest {
 
   @Test
   void canParseSnowsuit() {
-    var cleanups = new Cleanups(withProperty("snowsuit", ""));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("snowsuit", ""))) {
       CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
       assertThat("snowsuit", isSetTo("hat"));
     }
@@ -156,10 +154,9 @@ class CharPaneRequestTest {
   class NonCombatForcers {
     @Test
     void anyNoncombatForcerSetsFlagInApi() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("noncombatForcerActive", false), withProperty("noncombatForcers", ""));
-      try (cleanups) {
+              withProperty("noncombatForcerActive", false), withProperty("noncombatForcers", ""))) {
         var json =
             ApiRequest.getJSON(html("request/test_api_status_noncomforcers.json"), "testing");
         assertThat(json, notNullValue());
@@ -175,11 +172,10 @@ class CharPaneRequestTest {
 
     @Test
     void absenceOfNoncombatForcerUnsetsFlagInApi() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("noncombatForcerActive", true),
-              withProperty("noncombatForcers", "stench jelly"));
-      try (cleanups) {
+              withProperty("noncombatForcers", "stench jelly"))) {
         var json =
             ApiRequest.getJSON(
                 html("request/test_adventure_crystal_ball_handles_noncombat_api_preadventure.json"),
@@ -200,11 +196,9 @@ class CharPaneRequestTest {
           "test_parse_charpane_for_noncombat_forcers_compact.html"
         })
     void canParseNoncombatModifiersInCharpane(String fileName) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("noncombatForcerActive", false), withProperty("noncombatForcers", ""));
-
-      try (cleanups) {
+              withProperty("noncombatForcerActive", false), withProperty("noncombatForcers", ""))) {
         CharPaneRequest.processResults(html("request/" + fileName));
         assertThat("noncombatForcerActive", isSetTo(true));
         assertThat(
@@ -215,12 +209,10 @@ class CharPaneRequestTest {
 
     @Test
     void canParseAbsenceOfNoncombatModifiersInCharpane() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("noncombatForcerActive", true),
-              withProperty("noncombatForcers", "stench jelly"));
-
-      try (cleanups) {
+              withProperty("noncombatForcers", "stench jelly"))) {
         // This one doesn't have any noncombat modifiers
         CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
         assertThat("noncombatForcerActive", isSetTo(false));
@@ -237,10 +229,8 @@ class CharPaneRequestTest {
       "request/test_charpane_sweatiness_compact.html, 69",
     })
     void parseSweatiness(String responseHtml, int expectedValue) {
-      var cleanups =
-          new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 0));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 0))) {
         var result = CharPaneRequest.processResults(html(responseHtml));
         assertThat(result, equalTo(true));
         assertThat("sweat", isSetTo(expectedValue));
@@ -249,10 +239,9 @@ class CharPaneRequestTest {
 
     @Test
     void recogniseNoSweatinessDisplayedMeansZeroIfPantsEquipped() {
-      var cleanups =
-          new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 11));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 11))) {
         var result = CharPaneRequest.processResults(html("request/test_charpane_basic.html"));
         assertThat(result, equalTo(true));
         assertThat("sweat", isSetTo(0));
@@ -265,14 +254,12 @@ class CharPaneRequestTest {
     @ParameterizedTest
     @CsvSource({"black, 0", "blue, 2000", "green, 4000", "red, 6000"})
     void parseScore(String color, int expectedScore) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(ItemPool.TRANSFUNCTIONER),
               withProperty("8BitScore", 0),
               withProperty("8BitColor", ""),
-              withProperty("8BitBonusTurns", 0));
-
-      try (cleanups) {
+              withProperty("8BitBonusTurns", 0))) {
         var responseText = html("request/test_charpane_8bit_" + color + "_score.html");
         var result = CharPaneRequest.processResults(responseText);
         assertThat(result, equalTo(true));
@@ -287,10 +274,8 @@ class CharPaneRequestTest {
   class Comma {
     @Test
     void commaGrantsGreyGooseSkills() {
-      var cleanups =
-          new Cleanups(withFamiliar(FamiliarPool.CHAMELEON, 200), withProperty("commaFamiliar"));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withFamiliar(FamiliarPool.CHAMELEON, 200), withProperty("commaFamiliar"))) {
         CharPaneRequest.processResults(html("request/test_charpane_comma_as_goose.html"));
         assertThat("commaFamiliar", isSetTo("Grey Goose"));
         assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(true));
@@ -307,9 +292,7 @@ class CharPaneRequestTest {
   class Effects {
     @Test
     void canParseEffectDurations() {
-      var cleanups = withNoEffects();
-
-      try (cleanups) {
+      try (var _ = withNoEffects()) {
         CharPaneRequest.processResults(html("request/test_charpane_citizen_of_a_zone.html"));
 
         // normal
@@ -334,9 +317,7 @@ class CharPaneRequestTest {
   class Consumption {
     @Test
     void canParseInebriety() {
-      var cleanups = new Cleanups(withInebriety(0));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withInebriety(0))) {
         CharPaneRequest.processResults(html("request/test_charpane_sauce.html"));
         assertThat(KoLCharacter.getInebriety(), is(10));
       }
@@ -345,13 +326,11 @@ class CharPaneRequestTest {
     @Test
     void canParseInebrietyInGelnoob() {
       // You can still get drunk in Gelatinous Noob by using a drunk bang potion
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withClass(AscensionClass.GELATINOUS_NOOB),
               withPath(Path.GELATINOUS_NOOB),
-              withInebriety(0));
-
-      try (cleanups) {
+              withInebriety(0))) {
         CharPaneRequest.processResults(html("request/test_charpane_drunk_in_gelnoob.html"));
         assertThat(KoLCharacter.getInebriety(), is(1));
       }
@@ -362,12 +341,11 @@ class CharPaneRequestTest {
   class WereProfessor {
     @Test
     void canTrackWereProfessorStats() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
-              withProperty("wereProfessorTransformTurns", 5));
-      try (cleanups) {
+              withProperty("wereProfessorTransformTurns", 5))) {
         CharPaneRequest.processResults(html("request/test_charpane_research.html"));
         assertThat("wereProfessorResearchPoints", isSetTo(74));
         assertThat("wereProfessorTransformTurns", isSetTo(25));
@@ -376,12 +354,11 @@ class CharPaneRequestTest {
 
     @Test
     void canTrackCompactWereProfessorStats() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
-              withProperty("wereProfessorTransformTurns", 5));
-      try (cleanups) {
+              withProperty("wereProfessorTransformTurns", 5))) {
         CharPaneRequest.processResults(html("request/test_charpane_compact_research.html"));
         assertThat("wereProfessorResearchPoints", isSetTo(15));
         assertThat("wereProfessorTransformTurns", isSetTo(11));
@@ -396,7 +373,7 @@ class CharPaneRequestTest {
 
     @Test
     void canTrackPirateRealmStats() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withLastLocation(PIRATEREALM),
               withProperty("availableFunPoints", 0),
@@ -404,8 +381,7 @@ class CharPaneRequestTest {
               withProperty("_pirateRealmGlue", 0),
               withProperty("_pirateRealmGrog", 0),
               withProperty("_pirateRealmGrub", 0),
-              withProperty("_pirateRealmGuns", 0));
-      try (cleanups) {
+              withProperty("_pirateRealmGuns", 0))) {
         CharPaneRequest.processResults(html("request/test_charpane_piraterealm.html"));
         assertThat("availableFunPoints", isSetTo(139));
         assertThat("_pirateRealmGold", isSetTo(186));
@@ -420,9 +396,9 @@ class CharPaneRequestTest {
   @ParameterizedTest
   @CsvSource({"test_charpane_trail_basic.html,tutorial.php", "test_charpane_trail_compact.html,''"})
   void tracksLastAdventureAndTrail(String fileName, String container) {
-    var cleanups =
-        new Cleanups(withLastLocation((KoLAdventure) null), withProperty("lastAdventureTrail", ""));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withLastLocation((KoLAdventure) null), withProperty("lastAdventureTrail", ""))) {
       CharPaneRequest.processResults(html("request/" + fileName));
       assertThat("lastAdventure", isSetTo("Noob Cave"));
       assertThat("lastAdventureContainer", isSetTo(container));
@@ -436,9 +412,7 @@ class CharPaneRequestTest {
 
   @Test
   void processAbsorbs() {
-    var cleanups = withPath(Path.GELATINOUS_NOOB);
-
-    try (cleanups) {
+    try (var _ = withPath(Path.GELATINOUS_NOOB)) {
       CharPaneRequest.processResults(html("request/test_gel_noob_charsheet.html"));
       var mods =
           ModifierDatabase.getStringModifier(
@@ -451,9 +425,7 @@ class CharPaneRequestTest {
   class Paradoxicity {
     @Test
     void canParseCharpaneParadoxicity() {
-      var cleanups = new Cleanups(withParadoxicity(0), withEquipped(ItemPool.MOBIUS_RING));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withParadoxicity(0), withEquipped(ItemPool.MOBIUS_RING))) {
         CharPaneRequest.processResults(html("request/test_charpane_paradoxicity.html"));
         assertThat(KoLCharacter.getParadoxicity(), is(2));
       }
@@ -461,9 +433,7 @@ class CharPaneRequestTest {
 
     @Test
     void canParseCompactCharpaneParadoxicity() {
-      var cleanups = new Cleanups(withParadoxicity(0), withEquipped(ItemPool.MOBIUS_RING));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withParadoxicity(0), withEquipped(ItemPool.MOBIUS_RING))) {
         CharPaneRequest.processResults(html("request/test_charpane_compact_paradoxicity.html"));
         assertThat(KoLCharacter.getParadoxicity(), is(2));
       }
@@ -472,13 +442,11 @@ class CharPaneRequestTest {
 
   @Test
   void parsePokefamTeam() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(Path.POKEFAM),
             withRestricted(true),
-            withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Slotter"));
-
-    try (cleanups) {
+            withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Slotter"))) {
       CharPaneRequest.processResults(html("request/test_charpane_pokefam.html"));
       // check team
       var team = KoLCharacter.getPokeTeam();
@@ -495,13 +463,11 @@ class CharPaneRequestTest {
   class ShrunkenHead {
     @Test
     void parseShrunkenHead() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("shrunkenHeadZombieMonster"),
               withProperty("shrunkenHeadZombieAbilities"),
-              withProperty("shrunkenHeadZombieHP"));
-
-      try (cleanups) {
+              withProperty("shrunkenHeadZombieHP"))) {
         CharPaneRequest.processResults(html("request/test_charpane_shrunken_head.html"));
         assertThat("shrunkenHeadZombieMonster", isSetTo("me4t begZ0r"));
         assertThat(
@@ -513,13 +479,11 @@ class CharPaneRequestTest {
 
     @Test
     void parseShrunkenHeadCompact() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("shrunkenHeadZombieMonster"),
               withProperty("shrunkenHeadZombieAbilities"),
-              withProperty("shrunkenHeadZombieHP"));
-
-      try (cleanups) {
+              withProperty("shrunkenHeadZombieHP"))) {
         CharPaneRequest.processResults(html("request/test_charpane_shrunken_head_compact.html"));
         assertThat("shrunkenHeadZombieMonster", isSetTo("BRICKO ooze"));
         assertThat(
@@ -535,11 +499,9 @@ class CharPaneRequestTest {
   class LegendaryNoodles {
     @Test
     void canParseLegendaryAmygdalaCharpane() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("legendaryNoodlesAmygdala"), withProperty("noncombatForcerActive"));
-
-      try (cleanups) {
+              withProperty("legendaryNoodlesAmygdala"), withProperty("noncombatForcerActive"))) {
         CharPaneRequest.processResults(html("request/test_charpane_legendary_amygdala.html"));
         assertThat("legendaryNoodlesAmygdala", isSetTo(5));
         assertThat("noncombatForcerActive", isSetTo(false));
@@ -548,14 +510,12 @@ class CharPaneRequestTest {
 
     @Test
     void canParseAllLegendaryCharpane() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("legendaryNoodlesAmygdala"),
               withProperty("legendaryNoodlesSkin"),
               withProperty("legendaryNoodlesStomach"),
-              withProperty("noncombatForcerActive"));
-
-      try (cleanups) {
+              withProperty("noncombatForcerActive"))) {
         CharPaneRequest.processResults(html("request/test_charpane_legendary_all.html"));
         assertThat("legendaryNoodlesAmygdala", isSetTo(5));
         assertThat("legendaryNoodlesSkin", isSetTo(5));
@@ -566,9 +526,7 @@ class CharPaneRequestTest {
 
     @Test
     void canParseAbsenceOfNoodlyModifiersInCharpane() {
-      var cleanups = withProperty("legendaryNoodlesAmygdala", 3);
-
-      try (cleanups) {
+      try (var _ = withProperty("legendaryNoodlesAmygdala", 3)) {
         // This one doesn't have any modifiers
         CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
         assertThat("legendaryNoodlesAmygdala", isSetTo(0));
@@ -578,12 +536,10 @@ class CharPaneRequestTest {
 
   @Test
   void canParseFitnessTrackingSteps() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withEquipped(ItemPool.FITNESS_TRACKING_BRACELET),
-            withProperty("_fitnessTrackingSteps", 0));
-
-    try (cleanups) {
+            withProperty("_fitnessTrackingSteps", 0))) {
       var result =
           CharPaneRequest.processResults(
               html("request/test_charpane_fitness_tracking_bracelet.html"));
@@ -595,9 +551,7 @@ class CharPaneRequestTest {
   @Test
   void canParsePastaThrallExperience() {
     PastaThrallData.initialize();
-    var cleanups = new Cleanups(withClass(AscensionClass.PASTAMANCER));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withClass(AscensionClass.PASTAMANCER))) {
       CharPaneRequest.processResults(html("request/test_charpane_pasta_thrall_experience.html"));
 
       var thrall = KoLCharacter.currentPastaThrall();
@@ -612,7 +566,7 @@ class CharPaneRequestTest {
   class FamiliarStatus {
     @Test
     void parsesCurrentFamiliar() throws JSONException {
-      try (var cleanups = new Cleanups(withFamiliar(FamiliarPool.MOSQUITO))) {
+      try (var _ = new Cleanups(withFamiliar(FamiliarPool.MOSQUITO))) {
         CharPaneRequest.parseStatus(json(html("request/test_status2.json")));
 
         assertThat(KoLCharacter.getFamiliar().getId(), is(326));
@@ -621,8 +575,7 @@ class CharPaneRequestTest {
 
     @Test
     void ignoresCurrentFamiliarInPokefam() throws JSONException {
-      try (var cleanups =
-          new Cleanups(withPath(Path.POKEFAM), withFamiliar(FamiliarPool.MOSQUITO))) {
+      try (var _ = new Cleanups(withPath(Path.POKEFAM), withFamiliar(FamiliarPool.MOSQUITO))) {
         CharPaneRequest.parseStatus(json(html("request/test_status2.json")));
 
         assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MOSQUITO));

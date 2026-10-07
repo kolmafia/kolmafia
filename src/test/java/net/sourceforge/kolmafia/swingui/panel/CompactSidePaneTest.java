@@ -18,11 +18,9 @@ import org.junit.jupiter.api.Test;
 class CompactSidePaneTest {
   @Test
   void levelProgressBarIsShown() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withClass(AscensionClass.SEAL_CLUBBER), withLevel(3), withSubStats(116, 100, 100));
-
-    try (cleanups) {
+            withClass(AscensionClass.SEAL_CLUBBER), withLevel(3), withSubStats(116, 100, 100))) {
       var pane = new CompactSidePane();
       pane.run();
       assertThat(pane.levelMeter.isVisible(), is(true));
@@ -32,13 +30,11 @@ class CompactSidePaneTest {
 
   @Test
   void levelProgressBarIsNotShownInZootomist() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withPath(AscensionPath.Path.Z_IS_FOR_ZOOTOMIST),
             withLevel(3),
-            withSubStats(116, 100, 100));
-
-    try (cleanups) {
+            withSubStats(116, 100, 100))) {
       var pane = new CompactSidePane();
       pane.run();
       assertThat(pane.levelMeter.isVisible(), is(false));
@@ -47,9 +43,7 @@ class CompactSidePaneTest {
 
   @Test
   void rolloverAdventuresAndFightsAreNotShownAsBonuses() {
-    var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER))) {
       KoLCharacter.recalculateAdjustments();
       var text = CompactSidePane.modifierPopupText();
       assertThat(text, containsString("Adv 40<br>PvP 10<br>"));
@@ -58,9 +52,7 @@ class CompactSidePaneTest {
 
   @Test
   void criticalHitChanceIsNotShownAsABonus() {
-    var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER))) {
       KoLCharacter.recalculateAdjustments();
       var text = CompactSidePane.modifierPopupText();
       assertThat(text, containsString("<td>Critical</td><td>9%"));

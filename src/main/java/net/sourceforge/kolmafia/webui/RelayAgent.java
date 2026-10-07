@@ -104,7 +104,7 @@ public class RelayAgent extends Thread {
       }
 
       this.sendServerResponse();
-    } catch (IOException e) {
+    } catch (IOException _) {
     } catch (Exception e) {
       StaticEntity.printStackTrace(e, "Horrible relay failure");
     }
@@ -561,7 +561,7 @@ public class RelayAgent extends Thread {
         this.reader.close();
         this.reader = null;
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       // The only time this happens is if the
       // input is already closed.  Ignore.
     }
@@ -576,7 +576,7 @@ public class RelayAgent extends Thread {
         this.socket.close();
         this.socket = null;
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       // The only time this happens is if the
       // socket is already closed.  Ignore.
     }

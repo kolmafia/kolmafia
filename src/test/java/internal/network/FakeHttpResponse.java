@@ -48,7 +48,7 @@ public class FakeHttpResponse<T> implements HttpResponse<T> {
 
   @Override
   public HttpHeaders headers() {
-    return HttpHeaders.of(this.headers, (a, b) -> true);
+    return HttpHeaders.of(this.headers, (_, _) -> true);
   }
 
   @Override

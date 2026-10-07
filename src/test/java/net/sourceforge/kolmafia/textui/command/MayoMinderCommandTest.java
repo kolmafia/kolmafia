@@ -64,9 +64,7 @@ public class MayoMinderCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveMayoMinder() {
-    var cleanups = withWorkshedItem(ItemPool.MAYO_CLINIC);
-
-    try (cleanups) {
+    try (var _ = withWorkshedItem(ItemPool.MAYO_CLINIC)) {
       String output = execute("mayodiol");
 
       assertErrorState();
@@ -76,10 +74,8 @@ public class MayoMinderCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canSetMinder() {
-    var cleanups =
-        new Cleanups(withWorkshedItem(ItemPool.MAYO_CLINIC), withItem(ItemPool.MAYO_MINDER));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withWorkshedItem(ItemPool.MAYO_CLINIC), withItem(ItemPool.MAYO_MINDER))) {
       execute("mayostat");
 
       assertContinueState();

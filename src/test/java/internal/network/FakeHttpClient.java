@@ -130,7 +130,7 @@ public class FakeHttpClient extends HttpClient {
     publisher.close();
     try {
       body = subscriber.getBody().toCompletableFuture().get();
-    } catch (InterruptedException | ExecutionException e) {
+    } catch (InterruptedException | ExecutionException _) {
       body = null;
     }
     return new FakeHttpResponse<>(responseCode, headers, body);
@@ -167,7 +167,7 @@ public class FakeHttpClient extends HttpClient {
 
     @Override
     public HttpHeaders headers() {
-      return HttpHeaders.of(this.headers, (x, y) -> true);
+      return HttpHeaders.of(this.headers, (_, _) -> true);
     }
 
     @Override

@@ -27,8 +27,7 @@ class ReplicaMrStoreRequestTest {
 
   @Test
   void canParseReplicaYearWhenVisitStore() {
-    var cleanups = new Cleanups(withProperty("currentReplicaStoreYear", 2004));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("currentReplicaStoreYear", 2004))) {
       String responseText = html("request/test_visit_replica_mr_store.html");
       ShopRequest.parseResponse("shop.php?whichshop=mrreplica", responseText);
       assertThat("currentReplicaStoreYear", isSetTo(2007));
@@ -37,11 +36,10 @@ class ReplicaMrStoreRequestTest {
 
   @Test
   void canFilterItemsByYear() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withProperty("currentReplicaStoreYear", 2016),
-            withItem(ItemPool.REPLICA_MR_ACCESSORY, 1));
-    try (cleanups) {
+            withItem(ItemPool.REPLICA_MR_ACCESSORY, 1))) {
       CoinmasterData data = ReplicaMrStoreRequest.REPLICA_MR_STORE;
       // All items from 2016 are available
       assertThat(data.canBuyItem(ItemPool.REPLICA_WITCHESS_SET), is(true));
@@ -77,10 +75,9 @@ class ReplicaMrStoreRequestTest {
       @Values(ints = {ItemPool.REPLICA_CINCHO_DE_MAYO, ItemPool.REPLICA_MR_STORE_2002_CATALOG})
           final int itemId,
       @Values(booleans = {false, true}) final boolean haveItem) {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("currentReplicaStoreYear", 2016), withItem(itemId, haveItem ? 1 : 0));
-    try (cleanups) {
+            withProperty("currentReplicaStoreYear", 2016), withItem(itemId, haveItem ? 1 : 0))) {
       CoinmasterData data = ReplicaMrStoreRequest.REPLICA_MR_STORE;
       // Items from 2023 are available only if you do not already have one
       assertThat(data.canBuyItem(itemId), is(!haveItem));

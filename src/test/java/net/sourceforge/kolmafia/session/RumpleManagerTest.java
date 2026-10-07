@@ -60,15 +60,14 @@ public class RumpleManagerTest {
     public void canDetectMaterialsFromVisitingWorkshop() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withEmptyWorkshop(),
               withPasswordHash("gnome"),
               // If you have a password hash, KoL looks at your vinyl boots
               withGender(Gender.FEMALE),
-              withHandlingChoice(845));
-      try (cleanups) {
+              withHandlingChoice(845))) {
         var html = html("request/test_visit_workshop_1.html");
         client.addResponse(200, html);
 
@@ -98,15 +97,14 @@ public class RumpleManagerTest {
     public void canDetectMasteryFromVisitingWorkshop() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withEmptyWorkshop(),
               withPasswordHash("gnome"),
               // If you have a password hash, KoL looks at your vinyl boots
               withGender(Gender.FEMALE),
-              withHandlingChoice(845));
-      try (cleanups) {
+              withHandlingChoice(845))) {
         var html = html("request/test_visit_workshop_2.html");
         client.addResponse(200, html);
         client.addResponse(200, ""); // api.php
@@ -139,7 +137,7 @@ public class RumpleManagerTest {
       public void canLearnMasteryFromPractice(int triesLeft, int initialLeather) {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups =
+        try (var _ =
             new Cleanups(
                 withHttpClientBuilder(builder),
                 withEmptyWorkshop(),
@@ -147,8 +145,7 @@ public class RumpleManagerTest {
                 withPasswordHash("gnome"),
                 // If you have a password hash, KoL looks at your vinyl boots
                 withGender(Gender.FEMALE),
-                withHandlingChoice(849));
-        try (cleanups) {
+                withHandlingChoice(849))) {
           var html = html("request/test_practice_crafting_" + triesLeft + ".html");
           client.addResponse(200, html);
           client.addResponse(200, ""); // api.php

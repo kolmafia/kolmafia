@@ -22,7 +22,7 @@ public class RecoverCommand extends AbstractCommand {
             || parameters.equalsIgnoreCase("both");
     boolean wasRecoveryActive = RecoveryManager.isRecoveryActive();
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       RecoveryManager.setRecoveryActive(true);
 
       if (recoverHP) {

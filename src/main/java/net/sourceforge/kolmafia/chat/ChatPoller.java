@@ -364,7 +364,7 @@ public class ChatPoller extends Thread {
     }
     try {
       return Long.parseLong(text);
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException _) {
       return 0;
     }
   }

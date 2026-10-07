@@ -33,8 +33,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyParameters() {
-    var cleanups = withItem(ItemPool.GUZZLR_TABLET);
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.GUZZLR_TABLET)) {
       String output = execute("");
 
       assertErrorState();
@@ -44,9 +43,8 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void abandonMustHaveQuest() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("questGuzzlr", "unstarted"));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("questGuzzlr", "unstarted"))) {
       String output = execute("abandon");
 
       assertContinueState();
@@ -56,12 +54,11 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void cannotAbandonTwiceInADay() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.GUZZLR_TABLET),
             withProperty("_guzzlrQuestAbandoned", true),
-            withProperty("questGuzzlr", "started"));
-    try (cleanups) {
+            withProperty("questGuzzlr", "started"))) {
       String output = execute("abandon");
 
       assertErrorState();
@@ -71,9 +68,8 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void abandonAbandons() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("questGuzzlr", "started"));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("questGuzzlr", "started"))) {
       String output = execute("abandon");
 
       assertContinueState();
@@ -83,9 +79,8 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptRequiresNoClient() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("questGuzzlr", "started"));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("questGuzzlr", "started"))) {
       String output = execute("accept bronze");
 
       assertErrorState();
@@ -95,8 +90,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptRequiresValidClient() {
-    var cleanups = withItem(ItemPool.GUZZLR_TABLET);
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.GUZZLR_TABLET)) {
       String output = execute("accept silver");
 
       assertErrorState();
@@ -106,8 +100,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptBronze() {
-    var cleanups = withItem(ItemPool.GUZZLR_TABLET);
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.GUZZLR_TABLET)) {
       String output = execute("accept bronze");
 
       assertContinueState();
@@ -117,8 +110,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptGoldRequiresFiveBronze() {
-    var cleanups = withItem(ItemPool.GUZZLR_TABLET);
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.GUZZLR_TABLET)) {
       String output = execute("accept gold");
 
       assertErrorState();
@@ -129,9 +121,8 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptGold() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("guzzlrBronzeDeliveries", 5));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("guzzlrBronzeDeliveries", 5))) {
       String output = execute("accept gold");
 
       assertContinueState();
@@ -141,8 +132,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptPlatinumRequiresFiveGold() {
-    var cleanups = withItem(ItemPool.GUZZLR_TABLET);
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.GUZZLR_TABLET)) {
       String output = execute("accept platinum");
 
       assertErrorState();
@@ -153,9 +143,8 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptPlatinum() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("guzzlrGoldDeliveries", 5));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.GUZZLR_TABLET), withProperty("guzzlrGoldDeliveries", 5))) {
       String output = execute("accept platinum");
 
       assertContinueState();

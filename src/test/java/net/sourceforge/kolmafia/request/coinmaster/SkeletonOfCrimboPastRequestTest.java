@@ -19,16 +19,14 @@ import org.junit.jupiter.api.Test;
 class SkeletonOfCrimboPastRequestTest {
   @Test
   void isAccessibleWhenWeOwnFamiliar() {
-    var cleanups = withFamiliarInTerrarium(FamiliarPool.SKELETON_OF_CRIMBO_PAST);
-    try (cleanups) {
+    try (var _ = withFamiliarInTerrarium(FamiliarPool.SKELETON_OF_CRIMBO_PAST)) {
       assertThat(SkeletonOfCrimboPastRequest.accessible(), is(nullValue()));
     }
   }
 
   @Test
   void inaccessibleWhenNoFamiliar() {
-    var cleanups = withoutFamiliarInTerrarium(FamiliarPool.SKELETON_OF_CRIMBO_PAST);
-    try (cleanups) {
+    try (var _ = withoutFamiliarInTerrarium(FamiliarPool.SKELETON_OF_CRIMBO_PAST)) {
       assertThat(SkeletonOfCrimboPastRequest.accessible(), is(notNullValue()));
     }
   }
@@ -36,8 +34,7 @@ class SkeletonOfCrimboPastRequestTest {
   @Test
   void initiatesShopAccess() {
     var builder = new FakeHttpClientBuilder();
-    var cleanups = withHttpClientBuilder(builder);
-    try (cleanups) {
+    try (var _ = withHttpClientBuilder(builder)) {
       SkeletonOfCrimboPastRequest.equip();
       var requests = builder.client.getRequests();
       assertThat(requests.size(), is(1));
@@ -48,8 +45,7 @@ class SkeletonOfCrimboPastRequestTest {
   @Test
   void exitsTheShopChoice() {
     var builder = new FakeHttpClientBuilder();
-    var cleanups = withHttpClientBuilder(builder);
-    try (cleanups) {
+    try (var _ = withHttpClientBuilder(builder)) {
       SkeletonOfCrimboPastRequest.unequip();
       var requests = builder.client.getRequests();
       assertThat(requests.size(), is(1));
@@ -60,11 +56,10 @@ class SkeletonOfCrimboPastRequestTest {
   @Test
   void canBuyGruelWithBuyFunction() {
     var builder = new FakeHttpClientBuilder();
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withFamiliarInTerrarium(FamiliarPool.SKELETON_OF_CRIMBO_PAST));
-    try (cleanups) {
+            withFamiliarInTerrarium(FamiliarPool.SKELETON_OF_CRIMBO_PAST))) {
       CoinMasterRequest.buy(
           SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST,
           ItemPool.get(ItemPool.MEDICAL_GRUEL));

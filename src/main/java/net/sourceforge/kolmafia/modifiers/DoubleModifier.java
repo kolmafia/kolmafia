@@ -912,7 +912,7 @@ public enum DoubleModifier implements Modifier {
     var map = new HashMap<DoubleModifier, List<DoubleModifier>>();
     for (var mod : DOUBLE_MODIFIERS) {
       for (var sub : mod.getSubsumed()) {
-        map.computeIfAbsent(sub, key -> new ArrayList<>()).add(mod);
+        map.computeIfAbsent(sub, _ -> new ArrayList<>()).add(mod);
       }
     }
     for (var entry : map.entrySet()) {

@@ -369,7 +369,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
         newFilters.remove(f.toString().toLowerCase());
       }
       Preferences.setString("maximizerLastFilters", String.join(",", newFilters));
-    } catch (Exception Ex) {
+    } catch (Exception _) {
       // This should probably log the error...
     }
   }

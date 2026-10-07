@@ -43,12 +43,10 @@ class ChoiceAdventuresTest {
 
     @Test
     void itemDropTestWorks() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withEquipped(Slot.ACCESSORY1, "Radio KoL Maracas"),
-              withEffect(EffectPool.THERES_NO_N_IN_LOVE));
-
-      try (cleanups) {
+              withEffect(EffectPool.THERES_NO_N_IN_LOVE))) {
         var options = ChoiceAdventures.dynamicChoiceOptions(GREAT_OVERLOOK_LODGE);
         assert options != null;
         assertThat(options[1].getName(), is("need +50% item drop, have 115%"));
@@ -57,12 +55,10 @@ class ChoiceAdventuresTest {
 
     @Test
     void itemDropTestDoesntConsiderItemFairy() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400),
-              withEquipped(Slot.ACCESSORY1, "Radio KoL Maracas"));
-
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, "Radio KoL Maracas"))) {
         var options = ChoiceAdventures.dynamicChoiceOptions(GREAT_OVERLOOK_LODGE);
         assert options != null;
         assertThat(options[1].getName(), is("need +50% item drop, have 15%"));
@@ -71,12 +67,10 @@ class ChoiceAdventuresTest {
 
     @Test
     void itemDropTestDoesntConsiderFoodFairy() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT, 400),
-              withEquipped(Slot.ACCESSORY1, "Radio KoL Maracas"));
-
-      try (cleanups) {
+              withEquipped(Slot.ACCESSORY1, "Radio KoL Maracas"))) {
         var options = ChoiceAdventures.dynamicChoiceOptions(GREAT_OVERLOOK_LODGE);
         assert options != null;
         assertThat(options[1].getName(), is("need +50% item drop, have 15%"));
@@ -104,7 +98,7 @@ class ChoiceAdventuresTest {
       int bits = element.equals("elemental") ? 0 : (8 << (level - 1));
       int damage = element.equals("elemental") ? (50 * level) : (10 * level + (level - 1));
       int choice = levelToZone(level);
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty(property, value),
               // Prismatic Resistance: +9
@@ -114,8 +108,7 @@ class ChoiceAdventuresTest {
               withEffect("Synthesis: Greasy"),
               withEffect("Synthesis: Scary"),
               // Prismatic Resistance: +3
-              withEquipped(Slot.OFFHAND, "six-rainbow shield"));
-      try (cleanups) {
+              withEquipped(Slot.OFFHAND, "six-rainbow shield"))) {
         var options = ChoiceAdventures.dynamicChoiceOptions(choice);
         assertNotNull(options);
         assertEquals(2, options.length);
@@ -130,8 +123,7 @@ class ChoiceAdventuresTest {
       int bits = 0;
       int damage = 50 * level;
       int choice = levelToZone(level);
-      var cleanups = new Cleanups(withProperty(property, value));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(property, value))) {
         var options = ChoiceAdventures.dynamicChoiceOptions(choice);
         assertNotNull(options);
         assertEquals(2, options.length);
@@ -241,10 +233,8 @@ class ChoiceAdventuresTest {
 
   @Test
   void catalogCardSpoilers() {
-    var cleanups =
-        new Cleanups(withProperty("merkinCatalogChoices", "AF531.55:1:stats,AW393.55:2:clue"));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("merkinCatalogChoices", "AF531.55:1:stats,AW393.55:2:clue"))) {
       var req = new GenericRequest("choice.php?whichchoice=" + 704);
       req.responseText = html("request/test_choice_catalog_0.html");
 

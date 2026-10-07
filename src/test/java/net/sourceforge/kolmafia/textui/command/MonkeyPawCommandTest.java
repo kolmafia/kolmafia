@@ -40,9 +40,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void providesUsageIfNoParameters() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       String output = execute("");
       assertThat(
           output,
@@ -60,10 +58,9 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveWishes() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.CURSED_MONKEY_PAW), withProperty("_monkeyPawWishesUsed", 5));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withItem(ItemPool.CURSED_MONKEY_PAW), withProperty("_monkeyPawWishesUsed", 5))) {
       String output = execute("wish asdf");
 
       assertErrorState();
@@ -73,9 +70,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void wishIsPassedThrough() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       execute("wish asdf");
 
       assertContinueState();
@@ -85,9 +80,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void itemErrorsIfNoMatch() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       String output = execute("item asdf");
 
       assertErrorState();
@@ -97,9 +90,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void itemIsPassedThrough() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       execute("item spices");
 
       assertContinueState();
@@ -109,9 +100,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void itemIsPassedThroughAsValidSubstring() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       execute("item El Vibrato Punchcard (165 holes)");
 
       assertContinueState();
@@ -121,9 +110,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void effectErrorsIfNoMatch() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       String output = execute("effect asdf");
 
       assertErrorState();
@@ -133,9 +120,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void effectIsPassedThrough() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       execute("effect Wings");
 
       assertContinueState();
@@ -145,9 +130,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void effectIsPassedThroughAsValidSubstring() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       execute("effect Let's Go Shopping");
 
       assertContinueState();
@@ -157,9 +140,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   void effectIsDeniedIfCannotFindUniqueValidSubstring() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       String output = execute("effect meat.enh");
 
       assertErrorState();
@@ -169,9 +150,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void dashesAreFineInItemAndEffectNames() {
-    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.CURSED_MONKEY_PAW)) {
       execute("item sonar-in-a-biscuit");
 
       assertContinueState();

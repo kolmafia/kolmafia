@@ -41,7 +41,7 @@ public class LocketManagerTest {
 
   @Test
   public void addsFightToMonsterList() {
-    try (var cleanups = withProperty("_locketMonstersFought", "5")) {
+    try (var _ = withProperty("_locketMonstersFought", "5")) {
       var monster = MonsterDatabase.findMonster("alielf");
       LocketManager.parseFight(monster);
 
@@ -51,7 +51,7 @@ public class LocketManagerTest {
 
   @Test
   public void addsFightToMonsterListWithoutDuplicating() {
-    try (var cleanups = withProperty("_locketMonstersFought", "5,1092")) {
+    try (var _ = withProperty("_locketMonstersFought", "5,1092")) {
       var monster = MonsterDatabase.findMonster("alielf");
       LocketManager.parseFight(monster);
 
@@ -61,9 +61,9 @@ public class LocketManagerTest {
 
   @Test
   public void foughtMonstersResetsOnNewDay() {
-    try (var cleanups = withProperty("_locketMonstersFought", "5")) {
+    try (var _ = withProperty("_locketMonstersFought", "5")) {
       LocketManager.getFoughtMonsters();
-      try (var cleanups2 = withProperty("_locketMonstersFought", "")) {
+      try (var _ = withProperty("_locketMonstersFought", "")) {
         assertThat(LocketManager.getFoughtMonsters(), empty());
       }
     }

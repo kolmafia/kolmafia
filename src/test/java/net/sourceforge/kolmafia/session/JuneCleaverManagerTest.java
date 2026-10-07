@@ -46,7 +46,7 @@ public class JuneCleaverManagerTest {
     @Test
     public void canAutomateJuneCleaverAdventure() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("choiceAdventure1474", 1),
@@ -56,8 +56,7 @@ public class JuneCleaverManagerTest {
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("june"),
               // No need to look at vinyl boots
-              withGender(Gender.FEMALE));
-      try (cleanups) {
+              withGender(Gender.FEMALE))) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         // choice.php?forceoption=0

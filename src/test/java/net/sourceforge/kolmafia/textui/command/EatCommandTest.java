@@ -38,9 +38,7 @@ class EatCommandTest extends AbstractCommandTestBase {
     public void canEatGlitchSeasonReward() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withItem(ItemPool.GLITCH_ITEM));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.GLITCH_ITEM))) {
         String output = execute("glitch season");
         var requests = getRequests();
         assertThat(output, containsString("Eating 1 [glitch season reward name]..."));
@@ -53,11 +51,9 @@ class EatCommandTest extends AbstractCommandTestBase {
     public void canEatGlitchSeasonRewardAfterImplementing() {
       setupFakeClient();
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withItem(ItemPool.GLITCH_ITEM), withProperty("_glitchItemImplemented", true));
-
-      try (cleanups) {
+              withItem(ItemPool.GLITCH_ITEM), withProperty("_glitchItemImplemented", true))) {
         String output = execute("glitch season");
         var requests = getRequests();
         assertThat(output, containsString("Eating 1 [glitch season reward name]..."));
@@ -69,11 +65,11 @@ class EatCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canEatInGreyYou() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withPath(Path.GREY_YOU), withClass(AscensionClass.GREY_GOO), withItem(ItemPool.TOMATO));
-
-    try (cleanups) {
+            withPath(Path.GREY_YOU),
+            withClass(AscensionClass.GREY_GOO),
+            withItem(ItemPool.TOMATO))) {
       String output = execute("tomato");
       assertContinueState();
       assertThat(output, containsString("Eating 1 tomato"));

@@ -41,9 +41,7 @@ class GitCommandTest extends AbstractCommandTestBase {
   class Checkout {
     @Test
     void requiresUrlOfSomeSort() {
-      var cleanups = new Cleanups(withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withContinuationState())) {
         String output = execute("checkout");
         assertThat(output.trim(), equalTo("git checkout requires a repo url."));
         mocked.verifyNoInteractions();
@@ -58,9 +56,7 @@ class GitCommandTest extends AbstractCommandTestBase {
 
     @Test
     void requiresHttpOrHttps() {
-      var cleanups = new Cleanups(withContinuationState());
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withContinuationState())) {
         String output = execute("checkout git://github.com/gh-user/gh-repo.git");
         assertThat(output.trim(), equalTo("git checkout works with http(s) URLs only"));
         mocked.verifyNoInteractions();

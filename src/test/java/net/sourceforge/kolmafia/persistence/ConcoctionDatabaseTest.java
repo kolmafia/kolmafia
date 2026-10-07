@@ -44,9 +44,7 @@ public class ConcoctionDatabaseTest {
 
   @Test
   public void savingSomeBondoGivesFreeCrafts() {
-    var cleanups = new Cleanups(withEffect(EffectPool.SAVING_SOME_BONDO, 20));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withEffect(EffectPool.SAVING_SOME_BONDO, 20))) {
       // Like Inigo's, Saving Some Bondo grants one free craft per 5 turns of effect.
       assertEquals(4, ConcoctionDatabase.getFreeCraftingTurns());
     }

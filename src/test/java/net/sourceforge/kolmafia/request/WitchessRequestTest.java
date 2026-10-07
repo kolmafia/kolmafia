@@ -60,9 +60,7 @@ public class WitchessRequestTest {
   void getSuccessfulWitchessRequest(int puzzleId, boolean isSolved) {
     var solvedPart = isSolved ? "solved" : "unsolved";
     var path = "request/witchess/" + solvedPart + "/puzzle_" + puzzleId + ".html";
-    var cleanups = new Cleanups(withNextResponse(200, html(path)));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withNextResponse(200, html(path)))) {
       var req = new WitchessRequest(String.valueOf(puzzleId));
       req.run();
 
@@ -76,10 +74,8 @@ public class WitchessRequestTest {
   void alreadyHasBuffRequest(int puzzleId, boolean isSolved) {
     var solvedPart = isSolved ? "solved" : "unsolved";
     var path = "request/witchess/" + solvedPart + "/puzzle_" + puzzleId + ".html";
-    var cleanups =
-        new Cleanups(withProperty("_witchessBuff", true), withNextResponse(200, html(path)));
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("_witchessBuff", true), withNextResponse(200, html(path)))) {
       var req = new WitchessRequest(String.valueOf(puzzleId));
       req.run();
 

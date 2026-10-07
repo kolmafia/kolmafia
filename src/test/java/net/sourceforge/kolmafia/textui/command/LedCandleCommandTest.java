@@ -57,9 +57,7 @@ public class LedCandleCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyUpgrade() {
-    var cleanups = withItem(ItemPool.LED_CANDLE);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.LED_CANDLE)) {
       String output = execute("");
 
       assertErrorState();
@@ -69,9 +67,7 @@ public class LedCandleCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidUpgrade() {
-    var cleanups = withItem(ItemPool.LED_CANDLE);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.LED_CANDLE)) {
       String output = execute("dog");
 
       assertErrorState();
@@ -93,9 +89,7 @@ public class LedCandleCommandTest extends AbstractCommandTestBase {
     "attack, 4"
   })
   void canChooseUpgrades(String upgrade, int num) {
-    var cleanups = withItem(ItemPool.LED_CANDLE);
-
-    try (cleanups) {
+    try (var _ = withItem(ItemPool.LED_CANDLE)) {
       String output = execute(upgrade);
 
       assertContinueState();
@@ -111,12 +105,10 @@ public class LedCandleCommandTest extends AbstractCommandTestBase {
 
   @Test
   void worksWithEquippedCandle() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES),
-            withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
-
-    try (cleanups) {
+            withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE))) {
       String output = execute("meat");
 
       assertContinueState();

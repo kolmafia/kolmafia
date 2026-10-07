@@ -72,16 +72,14 @@ public class SkillDatabaseTest {
 
   @Test
   public void thrallsLastTenTurnsWhenNotPasta() {
-    var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
-    try (cleanups) {
+    try (var _ = withClass(AscensionClass.ACCORDION_THIEF)) {
       assertEquals(10, SkillDatabase.getEffectDuration(SkillPool.BIND_LASAGMBIE));
     }
   }
 
   @Test
   public void thrallsLastZeroTurnsWhenPasta() {
-    var cleanups = withClass(AscensionClass.PASTAMANCER);
-    try (cleanups) {
+    try (var _ = withClass(AscensionClass.PASTAMANCER)) {
       assertEquals(0, SkillDatabase.getEffectDuration(SkillPool.BIND_LASAGMBIE));
     }
   }

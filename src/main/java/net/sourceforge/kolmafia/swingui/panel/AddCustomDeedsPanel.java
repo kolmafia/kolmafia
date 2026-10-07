@@ -225,7 +225,7 @@ public class AddCustomDeedsPanel extends JPanel {
           if (this.isIntegerField) {
             try {
               Integer.parseInt(fieldText);
-            } catch (NumberFormatException exception) {
+            } catch (NumberFormatException _) {
               label.setText("BAD");
               label.setToolTipText("Integer only, please.");
             }

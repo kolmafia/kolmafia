@@ -100,7 +100,7 @@ public abstract class SystemTrayFrame {
     try {
       SystemTrayFrame.icon.displayMessage(
           message, StaticEntity.getVersion(), TrayIcon.MessageType.INFO);
-    } catch (Exception e) {
+    } catch (Exception _) {
       // Just an error when alerting the user.  It's
       // not important, so ignore the error for now.
     }

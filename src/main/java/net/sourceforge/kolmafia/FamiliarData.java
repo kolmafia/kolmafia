@@ -398,7 +398,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
                 Collectors.toMap(
                     m -> Integer.parseInt(m.group(1)),
                     m -> Integer.parseInt(m.group(2)),
-                    (first, second) -> first,
+                    (first, _) -> first,
                     LinkedHashMap<Integer, Integer>::new));
 
     // The counter wraps back to zero on the combat that earns the bonus experience

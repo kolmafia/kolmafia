@@ -134,7 +134,7 @@ public class BreakfastManager {
       return;
     }
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       if (runComplete) {
         for (Runnable action : BreakfastManager.ACTIONS) {
           action.run();

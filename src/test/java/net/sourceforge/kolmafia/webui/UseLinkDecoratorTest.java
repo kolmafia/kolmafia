@@ -26,8 +26,7 @@ class UseLinkDecoratorTest {
   class ProfessorWhatTeeShirt {
     @Test
     void gettingGarmentFromAdventureGivesNavigationLink() {
-      var cleanups = new Cleanups(withItem(ItemPool.PROFESSOR_WHAT_GARMENT));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.PROFESSOR_WHAT_GARMENT))) {
         String text = html("request/test_melvign_get_garment.html");
         var location = "adventure.php?snarfblat=387";
         UseLink link =
@@ -40,8 +39,7 @@ class UseLinkDecoratorTest {
 
     @Test
     void gettingShirtFromMelvignGivesEquipLink() {
-      var cleanups = new Cleanups(withItem(ItemPool.PROFESSOR_WHAT_TSHIRT));
-      try (cleanups) {
+      try (var _ = new Cleanups(withItem(ItemPool.PROFESSOR_WHAT_TSHIRT))) {
         String text = html("request/test_melvign_return_shirt.html");
         var location = "place.php?whichplace=mountains&action=mts_melvin";
         UseLink link =

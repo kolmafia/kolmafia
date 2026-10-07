@@ -1091,7 +1091,7 @@ public class GenericRequest implements Runnable {
       String field = GenericRequest.decodeField(matcher.group(1));
       try {
         return StringUtilities.parseIntInternal2(field);
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
       }
     }
     return -1;
@@ -1341,9 +1341,7 @@ public class GenericRequest implements Runnable {
       AdventureResult comedyItem = ItemPool.get(comedyItemID, 1);
       String text = null;
 
-      Checkpoint checkpoint = new Checkpoint();
-
-      try (checkpoint) {
+      try (var _ = new Checkpoint()) {
         if (KoLConstants.inventory.contains(comedyItem)) {
           // Unequip any 2-handed weapon before equipping an offhand
           if (offhand) {
@@ -1619,7 +1617,7 @@ public class GenericRequest implements Runnable {
     try {
       response = getClient().send(request, BodyHandlers.ofInputStream());
       return false;
-    } catch (SocketTimeoutException | InterruptedException e) {
+    } catch (SocketTimeoutException | InterruptedException _) {
       if (this.shouldUpdateDebugLog()) {
         String message = "Time out retrieving server reply (" + this.formURLString + ").";
         RequestLogger.printLine(message);
@@ -1822,7 +1820,7 @@ public class GenericRequest implements Runnable {
     if (stream != null) {
       try {
         stream.close();
-      } catch (IOException e) {
+      } catch (IOException _) {
       }
     }
   }
@@ -3083,7 +3081,7 @@ public class GenericRequest implements Runnable {
 
       this.responseCode = 200;
       this.responseText = response.toString();
-    } catch (IOException e) {
+    } catch (IOException _) {
       // This means simply that there was no file from which
       // to load the data.  Given that this is run during debug
       // tests, only, we can ignore the error.

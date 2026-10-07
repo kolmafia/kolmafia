@@ -100,7 +100,7 @@ public class ThriftyRequest extends GenericRequest {
       for (Element objectElement : data.select("span.i")) {
         String object = objectElement.text().replaceFirst(",\\s*$", "").trim().toLowerCase();
         if (!object.isEmpty()) {
-          map.computeIfAbsent(itemType, k -> new HashSet<>()).add(object);
+          map.computeIfAbsent(itemType, _ -> new HashSet<>()).add(object);
         }
       }
     }

@@ -27,10 +27,9 @@ public class HatterCommandTest extends AbstractCommandTestBase {
 
   @Test
   void notAllowedInTCRS() {
-    var cleanups =
-        new Cleanups(withPath(AscensionPath.Path.CRAZY_RANDOM_SUMMER_TWO), withContinuationState());
-
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(
+            withPath(AscensionPath.Path.CRAZY_RANDOM_SUMMER_TWO), withContinuationState())) {
       String output = execute("10");
 
       assertThat(output, containsString("You can't get Down the Rabbit Hole"));

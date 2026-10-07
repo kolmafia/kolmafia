@@ -51,9 +51,7 @@ public class KoLmafiaTest {
 
   @Test
   public void canDetectRequirementsMet() {
-    var cleanups = new Cleanups(withItem("seal-clubbing club", 20), withItem("seal tooth", 4));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("seal-clubbing club", 20), withItem("seal tooth", 4))) {
       ArrayList<AdventureResult> requirements =
           new ArrayList<>(
               List.of(
@@ -67,9 +65,7 @@ public class KoLmafiaTest {
 
   @Test
   public void canDetectRequirementsNotMet() {
-    var cleanups = new Cleanups(withItem("seal-clubbing club", 20), withItem("seal tooth", 2));
-
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("seal-clubbing club", 20), withItem("seal tooth", 2))) {
       ArrayList<AdventureResult> requirements =
           new ArrayList<>(
               List.of(
@@ -87,15 +83,13 @@ public class KoLmafiaTest {
   @Test
   public void refreshSessionSetsPassiveModifiers() {
     // This charsheet contains Stomach of Steel.
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withSkill(SkillPool.MARIACHI_MEMORY),
             withResponses(
                 Map.of(
                     "https://www.kingdomofloathing.com:443/charsheet.php",
-                    new FakeHttpResponse<>(200, html("request/test_charsheet_normal.html")))));
-
-    try (cleanups) {
+                    new FakeHttpResponse<>(200, html("request/test_charsheet_normal.html")))))) {
       // Prime the passive skill cache.
       KoLCharacter.recalculateAdjustments();
 
@@ -149,7 +143,7 @@ public class KoLmafiaTest {
       var builder = buyStarKey();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withCanAdventure(),
@@ -158,9 +152,7 @@ public class KoLmafiaTest {
               withItem(ItemPool.STAR_CHART, 1),
               withItem(ItemPool.STAR, 8),
               withItem(ItemPool.LINE, 7),
-              withConcoctionRefresh());
-
-      try (cleanups) {
+              withConcoctionRefresh())) {
         assertNull(CreateItemRequest.getInstance(ItemPool.get(ItemPool.STAR_KEY, 1)));
 
         KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("The Hole in the Sky"), 1);
@@ -177,7 +169,7 @@ public class KoLmafiaTest {
       var builder = buyStarKey();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withCanAdventure(),
@@ -187,9 +179,7 @@ public class KoLmafiaTest {
               withItem(ItemPool.STAR, 7),
               withItem(ItemPool.LINE, 7),
               withLocation("The Hole in the Sky"),
-              withConcoctionRefresh());
-
-      try (cleanups) {
+              withConcoctionRefresh())) {
         KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("The Hole in the Sky"), 1);
 
         var paths = client.getRequests().stream().map(r -> r.uri().getPath()).toList();
@@ -224,16 +214,14 @@ public class KoLmafiaTest {
       var builder = makeJarOfOil();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withCanAdventure(),
               canAccessOilPeak(),
               withGoal(ItemPool.get(ItemPool.JAR_OF_OIL, 1)),
               withItem(ItemPool.BUBBLIN_CRUDE, 12),
-              withConcoctionRefresh());
-
-      try (cleanups) {
+              withConcoctionRefresh())) {
         assertThat(
             CreateItemRequest.getInstance(ItemPool.get(ItemPool.JAR_OF_OIL, 1))
                 .getQuantityPossible(),
@@ -253,7 +241,7 @@ public class KoLmafiaTest {
       var builder = makeJarOfOil();
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withCanAdventure(),
@@ -261,9 +249,7 @@ public class KoLmafiaTest {
               withGoal(ItemPool.get(ItemPool.JAR_OF_OIL, 1)),
               withItem(ItemPool.BUBBLIN_CRUDE, 11),
               withLocation("Oil Peak"),
-              withConcoctionRefresh());
-
-      try (cleanups) {
+              withConcoctionRefresh())) {
         assertThat(
             CreateItemRequest.getInstance(ItemPool.get(ItemPool.JAR_OF_OIL, 1))
                 .getQuantityPossible(),
@@ -282,19 +268,17 @@ public class KoLmafiaTest {
     @Test
     public void keepsAdventuringWhenThereAreNoGoals() {
       var builder = new FakeHttpClientBuilder();
-      builder.client.setResponseFunc(req -> new FakeHttpResponse<>(200, "adventure.php"));
+      builder.client.setResponseFunc(_ -> new FakeHttpResponse<>(200, "adventure.php"));
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withCanAdventure(),
               canAccessOilPeak(),
               withLocation("Oil Peak"),
               withRedoSkippedAdventure(false),
-              withConcoctionRefresh());
-
-      try (cleanups) {
+              withConcoctionRefresh())) {
         assertThat(GoalManager.getGoals(), hasSize(0));
 
         KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("Oil Peak"), 2);
@@ -323,16 +307,14 @@ public class KoLmafiaTest {
           });
       var client = builder.client;
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withCanAdventure(2),
               withGoal(ItemPool.get(ItemPool.PRETENTIOUS_PAIL, 1)),
               withLocation("The Sleazy Back Alley"),
               withRedoSkippedAdventure(false),
-              withConcoctionRefresh());
-
-      try (cleanups) {
+              withConcoctionRefresh())) {
         KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("The Sleazy Back Alley"), 2);
 
         var adventures =

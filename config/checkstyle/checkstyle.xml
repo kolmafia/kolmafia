@@ -35,6 +35,9 @@
       <property name="allowStaticMemberImports" value="true"/>
     </module>
     <module name="UnnecessarySemicolonInTryWithResources"/>
+    <module name="UnusedCatchParameterShouldBeUnnamed"/>
+    <module name="UnusedLambdaParameterShouldBeUnnamed"/>
+    <module name="UnusedTryResourceShouldBeUnnamed"/>
     <module name="SuppressWarningsHolder" />
     <module name="SuppressionCommentFilter">
       <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)" />

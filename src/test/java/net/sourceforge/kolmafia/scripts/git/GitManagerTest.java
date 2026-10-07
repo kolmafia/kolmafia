@@ -172,8 +172,7 @@ public class GitManagerTest {
       CliCaller.callCli("git", "delete " + dep);
 
       // sync
-      var cleanups = Player.withProperty("gitInstallDependencies", false);
-      try (cleanups) {
+      try (var _ = Player.withProperty("gitInstallDependencies", false)) {
         String output = CliCaller.callCli("git", "sync");
         assertThat(output, not(containsString("Installing dependencies")));
       }

@@ -130,7 +130,7 @@ public class AreaCombatDataTest {
 
   @Test
   public void nonstatefulDataWithNonzeroCombatRate() {
-    try (var cleanup = withEffect(EffectPool.TAUNT_OF_HORUS)) {
+    try (var _ = withEffect(EffectPool.TAUNT_OF_HORUS)) {
       Map<MonsterData, Double> appearanceRates =
           AdventureDatabase.getAreaCombatData("Sonofa Beach").getMonsterData();
       assertThat(appearanceRates, hasEntry(MonsterDatabase.findMonster("lobsterfrogman"), 30.0));
@@ -139,11 +139,10 @@ public class AreaCombatDataTest {
 
   @Test
   public void saberCopy() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
-    try (cleanups) {
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"))) {
       Preferences.setString("_saberForceMonster", "smut orc screwer");
       Preferences.setInteger("_saberForceMonsterCount", 3);
 
@@ -170,11 +169,10 @@ public class AreaCombatDataTest {
 
   @Test
   public void crystalBallPrediction() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
-    try (cleanups) {
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"))) {
       Preferences.setString(
           "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
       CrystalBallManager.reset();
@@ -197,11 +195,10 @@ public class AreaCombatDataTest {
 
   @Test
   public void crystalBallPredictionWhenNCIsUp() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
-    try (cleanups) {
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"))) {
       Preferences.setString(
           "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
       CrystalBallManager.reset();
@@ -225,13 +222,11 @@ public class AreaCombatDataTest {
 
   @Test
   public void olfaction() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withCurrentRun(30),
             withEffect(EffectPool.ON_THE_TRAIL),
-            withTrackedMonsters("smut orc pipelayer:Transcendent Olfaction:26"));
-
-    try (cleanups) {
+            withTrackedMonsters("smut orc pipelayer:Transcendent Olfaction:26"))) {
       Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
       assertThat(
@@ -253,13 +248,11 @@ public class AreaCombatDataTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void onlyAppliesIfNosyNoseActive(boolean active) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(30),
               withFamiliar(active ? FamiliarPool.NOSY_NOSE : FamiliarPool.MOSQUITO),
-              withTrackedMonsters("swamp duck:Nosy Nose:26"));
-
-      try (cleanups) {
+              withTrackedMonsters("swamp duck:Nosy Nose:26"))) {
         var bog = AdventureDatabase.getAreaCombatData("McMillicancuddy's Bog");
         Map<MonsterData, Double> appearanceRates = bog.getMonsterData(true);
 
@@ -274,13 +267,11 @@ public class AreaCombatDataTest {
 
   @Test
   public void banishOverridesTrack() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withTrackedMonsters(
                 "smut orc nailer:Gallapagosian Mating Call:1:smut orc pipelayer:Transcendent Olfaction:2"),
-            withBanishedMonsters("smut orc pipelayer:snokebomb:2"));
-
-    try (cleanups) {
+            withBanishedMonsters("smut orc pipelayer:snokebomb:2"))) {
       Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
       assertThat(
@@ -519,35 +510,32 @@ public class AreaCombatDataTest {
   class SmutOrcLoggingCamp {
     @Test
     public void blechHouseDoesNotHappenAfterFinishingBridge() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("smutOrcNoncombatProgress", 15), // Blech House is up
               withProperty("chasmBridgeProgress", 30) // ...but bridge is finished
-              );
-      try (cleanups) {
+              )) {
         assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(100.0));
       }
     }
 
     @Test
     public void blechHouseHappensWhenEnoughProgressIsReached() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("smutOrcNoncombatProgress", 16), // Blech House is up
               withProperty("chasmBridgeProgress", 26) // and bridge is not finished yet
-              );
-      try (cleanups) {
+              )) {
         assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(0.0));
       }
     }
 
     @Test
     public void blechHouseDoesNotHappenWhenNotEnoughProgressIsReached() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("smutOrcNoncombatProgress", 12) // Blech House is not yet up
-              );
-      try (cleanups) {
+              )) {
         assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(100.0));
       }
     }
@@ -578,9 +566,7 @@ public class AreaCombatDataTest {
     public void certainCombatChanceIfEvilNotMoreThanLimit(String subZone) {
       String zone = "The Defiled " + subZone;
       String property = "cyrpt" + subZone + "Evilness";
-      var cleanups = withProperty(property, 13);
-
-      try (cleanups) {
+      try (var _ = withProperty(property, 13)) {
         var data = AdventureDatabase.getAreaCombatData(zone);
 
         assertThat(data.areaCombatPercent(), equalTo(100.0));
@@ -592,9 +578,7 @@ public class AreaCombatDataTest {
     public void givenCombatChanceIfEvilMoreThanLimit(String subZone) {
       String zone = "The Defiled " + subZone;
       String property = "cyrpt" + subZone + "Evilness";
-      var cleanups = withProperty(property, 14);
-
-      try (cleanups) {
+      try (var _ = withProperty(property, 14)) {
         var data = AdventureDatabase.getAreaCombatData(zone);
 
         assertThat(data.areaCombatPercent(), equalTo(85.0));
@@ -605,9 +589,7 @@ public class AreaCombatDataTest {
     class Alcove {
       @Test
       public void onlyBossIfEvilNotMoreThanLimit() {
-        var cleanups = withProperty("cyrptAlcoveEvilness", 13);
-
-        try (cleanups) {
+        try (var _ = withProperty("cyrptAlcoveEvilness", 13)) {
           Map<MonsterData, Double> appearanceRates =
               AdventureDatabase.getAreaCombatData("The Defiled Alcove").getMonsterData(true);
 
@@ -624,9 +606,7 @@ public class AreaCombatDataTest {
 
       @Test
       public void enemiesIfEvilMoreThanLimit() {
-        var cleanups = withProperty("cyrptAlcoveEvilness", 14);
-
-        try (cleanups) {
+        try (var _ = withProperty("cyrptAlcoveEvilness", 14)) {
           Map<MonsterData, Double> appearanceRates =
               AdventureDatabase.getAreaCombatData("The Defiled Alcove").getMonsterData(true);
 
@@ -646,9 +626,7 @@ public class AreaCombatDataTest {
     class Cranny {
       @Test
       public void onlyBossIfEvilNotMoreThanLimit() {
-        var cleanups = withProperty("cyrptCrannyEvilness", 13);
-
-        try (cleanups) {
+        try (var _ = withProperty("cyrptCrannyEvilness", 13)) {
           Map<MonsterData, Double> appearanceRates =
               AdventureDatabase.getAreaCombatData("The Defiled Cranny").getMonsterData(true);
 
@@ -664,9 +642,7 @@ public class AreaCombatDataTest {
 
       @Test
       public void enemiesIfEvilMoreThanLimit() {
-        var cleanups = withProperty("cyrptCrannyEvilness", 14);
-
-        try (cleanups) {
+        try (var _ = withProperty("cyrptCrannyEvilness", 14)) {
           Map<MonsterData, Double> appearanceRates =
               AdventureDatabase.getAreaCombatData("The Defiled Cranny").getMonsterData(true);
 
@@ -685,9 +661,7 @@ public class AreaCombatDataTest {
     class Niche {
       @Test
       public void onlyBossIfEvilNotMoreThanLimit() {
-        var cleanups = withProperty("cyrptNicheEvilness", 13);
-
-        try (cleanups) {
+        try (var _ = withProperty("cyrptNicheEvilness", 13)) {
           Map<MonsterData, Double> appearanceRates =
               AdventureDatabase.getAreaCombatData("The Defiled Niche").getMonsterData(true);
 
@@ -705,9 +679,7 @@ public class AreaCombatDataTest {
 
       @Test
       public void enemiesIfEvilMoreThanLimit() {
-        var cleanups = withProperty("cyrptNicheEvilness", 14);
-
-        try (cleanups) {
+        try (var _ = withProperty("cyrptNicheEvilness", 14)) {
           Map<MonsterData, Double> appearanceRates =
               AdventureDatabase.getAreaCombatData("The Defiled Niche").getMonsterData(true);
 
@@ -728,9 +700,7 @@ public class AreaCombatDataTest {
     class Nook {
       @Test
       public void onlyBossIfEvilNotMoreThanLimit() {
-        var cleanups = withProperty("cyrptNookEvilness", 13);
-
-        try (cleanups) {
+        try (var _ = withProperty("cyrptNookEvilness", 13)) {
           Map<MonsterData, Double> appearanceRates =
               AdventureDatabase.getAreaCombatData("The Defiled Nook").getMonsterData(true);
 
@@ -747,9 +717,7 @@ public class AreaCombatDataTest {
 
       @Test
       public void enemiesIfEvilMoreThanLimit() {
-        var cleanups = withProperty("cyrptNookEvilness", 14);
-
-        try (cleanups) {
+        try (var _ = withProperty("cyrptNookEvilness", 14)) {
           Map<MonsterData, Double> appearanceRates =
               AdventureDatabase.getAreaCombatData("The Defiled Nook").getMonsterData(true);
 
@@ -776,9 +744,7 @@ public class AreaCombatDataTest {
   class ShadowRifts {
     @Test
     public void ingressPointAffectsAvailableMonsters() {
-      var cleanups = withProperty("shadowRiftIngress", "manor3");
-
-      try (cleanups) {
+      try (var _ = withProperty("shadowRiftIngress", "manor3")) {
         Map<MonsterData, Double> appearanceRates =
             AdventureDatabase.getAreaCombatData("Shadow Rift").getMonsterData(true);
 
@@ -820,9 +786,7 @@ public class AreaCombatDataTest {
 
     @Test
     void shouldShowPickpocketRatesIfCanPickpocket() {
-      var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
-
-      try (cleanups) {
+      try (var _ = withClass(AscensionClass.ACCORDION_THIEF)) {
         var funHouse = AdventureDatabase.getAreaCombatData("The \"Fun\" House");
 
         var data = funHouse.toString(true);
@@ -834,9 +798,7 @@ public class AreaCombatDataTest {
 
     @Test
     void cookingIngredientsAreAffectedByFoodDrops() {
-      var cleanups = withEffect(EffectPool.WHET_APPETITE);
-
-      try (cleanups) {
+      try (var _ = withEffect(EffectPool.WHET_APPETITE)) {
         var lab = AdventureDatabase.getAreaCombatData("Cobb's Knob Laboratory");
 
         var data = lab.toString(true);
@@ -846,9 +808,7 @@ public class AreaCombatDataTest {
 
     @Test
     void mixingIngredientsAreAffectedByBoozeDrops() {
-      var cleanups = withEffect(EffectPool.INFERNAL_THIRST);
-
-      try (cleanups) {
+      try (var _ = withEffect(EffectPool.INFERNAL_THIRST)) {
         var iceHotel = AdventureDatabase.getAreaCombatData("The Ice Hotel");
 
         var data = iceHotel.toString(true);
@@ -861,13 +821,11 @@ public class AreaCombatDataTest {
   class RedWhiteBlueBlast {
     @Test
     public void simpleBlastBanishesOtherMonsters() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("rwbLocation", "The Smut Orc Logging Camp"),
               withProperty("rwbMonster", "smut orc jacker"),
-              withProperty("rwbMonsterCount", 2));
-
-      try (cleanups) {
+              withProperty("rwbMonsterCount", 2))) {
         Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
         assertThat(
@@ -882,14 +840,12 @@ public class AreaCombatDataTest {
 
     @Test
     public void blastForcesWithOtherCopies() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("rwbLocation", "The Smut Orc Logging Camp"),
               withProperty("rwbMonster", "smut orc jacker"),
               withProperty("rwbMonsterCount", 2),
-              withTrackedMonsters("smut orc nailer:Gallapagosian Mating Call:1"));
-
-      try (cleanups) {
+              withTrackedMonsters("smut orc nailer:Gallapagosian Mating Call:1"))) {
         Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
         assertThat(
@@ -907,14 +863,12 @@ public class AreaCombatDataTest {
   class PatrioticScreech {
     @Test
     public void screechBanishesPhylumCopies() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(30),
               withBanishedPhyla("dude:Patriotic Screech:25"),
               withBanishedMonsters("bearpig topiary animal:snokebomb:26"),
-              withEffect(EffectPool.TAUNT_OF_HORUS));
-
-      try (cleanups) {
+              withEffect(EffectPool.TAUNT_OF_HORUS))) {
         var twinPeak = AdventureDatabase.getAreaCombatData("Twin Peak");
         Map<MonsterData, Double> appearanceRates = twinPeak.getMonsterData(true);
 
@@ -938,16 +892,14 @@ public class AreaCombatDataTest {
   class PhylumTrack {
     @Test
     public void trackedPhylaStackWithTrackedMonsters() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withCurrentRun(30),
               withEffect(EffectPool.A_BEASTLY_ODOR),
               withEffect(EffectPool.EW_THE_HUMANITY),
               withTrackedPhyla("dude:Ew, The Humanity:25:beast:A Beastly Odor:25"),
               withTrackedMonsters("eagle:Gallapagosian Mating Call:26"),
-              withEffect(EffectPool.TAUNT_OF_HORUS));
-
-      try (cleanups) {
+              withEffect(EffectPool.TAUNT_OF_HORUS))) {
         var zone = AdventureDatabase.getAreaCombatData("A Mob of Zeppelin Protesters");
         Map<MonsterData, Double> appearanceRates = zone.getMonsterData(true);
 
@@ -974,9 +926,7 @@ public class AreaCombatDataTest {
       "22, 0.37",
     })
     void alienAppearanceAffectedByRonaldLight(final int dayOfJune2024, final double alienWeight) {
-      var cleanups = withDay(2024, Month.JUNE, dayOfJune2024);
-
-      try (cleanups) {
+      try (var _ = withDay(2024, Month.JUNE, dayOfJune2024)) {
         var zone = AdventureDatabase.getAreaCombatData("Domed City of Ronaldus");
         var appearanceRates = zone.getMonsterData(true);
 
@@ -1012,9 +962,7 @@ public class AreaCombatDataTest {
     @ParameterizedTest
     @CsvSource({"13, 0.25", "2, 0.0", "27, 0.37"})
     void alienAppearanceAffectedByGrimaceLight(final int dayOfJune2024, final double alienWeight) {
-      var cleanups = withDay(2024, Month.JUNE, dayOfJune2024);
-
-      try (cleanups) {
+      try (var _ = withDay(2024, Month.JUNE, dayOfJune2024)) {
         var zone = AdventureDatabase.getAreaCombatData("Domed City of Grimacia");
         var appearanceRates = zone.getMonsterData(true);
 
@@ -1065,9 +1013,7 @@ public class AreaCombatDataTest {
         final double smoochPrivate,
         final double smoochSergeant,
         final double smoochGeneral) {
-      var cleanups = withProperty("_smoochArmyHQCombats", combats);
-
-      try (cleanups) {
+      try (var _ = withProperty("_smoochArmyHQCombats", combats)) {
         var appearanceRates =
             AdventureDatabase.getAreaCombatData("The SMOOCH Army HQ").getMonsterData(true);
         assertThat(appearanceRates.get(SMOOCH_PRIVATE), closeTo(smoochPrivate, 0.001));
@@ -1078,9 +1024,7 @@ public class AreaCombatDataTest {
 
     @Test
     public void forcedNonCombat() {
-      var cleanups = withProperty("_smoochArmyHQCombats", 50);
-
-      try (cleanups) {
+      try (var _ = withProperty("_smoochArmyHQCombats", 50)) {
         var combat =
             AdventureDatabase.getAreaCombatData("The SMOOCH Army HQ").areaCombatPercent(true);
         assertThat(combat, is(0.0));
@@ -1095,9 +1039,7 @@ public class AreaCombatDataTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void trophyFishNeedsUnlocked(final boolean unlocked) {
-      var cleanups = withProperty("grandpaUnlockedTrophyFish", unlocked);
-
-      try (cleanups) {
+      try (var _ = withProperty("grandpaUnlockedTrophyFish", unlocked)) {
         var appearanceRates =
             AdventureDatabase.getAreaCombatData("The Brinier Deepers").getMonsterData(true);
         assertThat(appearanceRates.get(TROPHYFISH), unlocked ? greaterThan(0.0) : is(0.0));
@@ -1116,11 +1058,9 @@ public class AreaCombatDataTest {
     void hatchAffectsFitzsimmonsMonsters(
         final String monster, final int turnsAgo, final boolean expected) {
       var turns = 30;
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withTurnsPlayed(turns), withProperty("_lastFitzsimmonsHatch", turns - turnsAgo));
-
-      try (cleanups) {
+              withTurnsPlayed(turns), withProperty("_lastFitzsimmonsHatch", turns - turnsAgo))) {
         var appearanceRates =
             AdventureDatabase.getAreaCombatData("The Wreck of the Edgar Fitzsimmons")
                 .getMonsterData(true);
@@ -1132,9 +1072,7 @@ public class AreaCombatDataTest {
 
     @Test
     void hatchNotOpenInFirstFewTurns() {
-      var cleanups = new Cleanups(withTurnsPlayed(4), withProperty("_lastFitzsimmonsHatch", -1));
-
-      try (cleanups) {
+      try (var _ = new Cleanups(withTurnsPlayed(4), withProperty("_lastFitzsimmonsHatch", -1))) {
         var appearanceRates =
             AdventureDatabase.getAreaCombatData("The Wreck of the Edgar Fitzsimmons")
                 .getMonsterData(true);
@@ -1159,9 +1097,7 @@ public class AreaCombatDataTest {
 
     @Test
     void crateHighlightsMiddleLetter() {
-      var cleanups = withHeartstone();
-
-      try (cleanups) {
+      try (var _ = withHeartstone()) {
         var data = monsterDataFor("Noob Cave");
         assertThat(
             data, containsString("cr<span style=\"text-decoration: underline;\">a</span>te"));
@@ -1170,9 +1106,7 @@ public class AreaCombatDataTest {
 
     @Test
     void legstrongUsesBytes() {
-      var cleanups = withHeartstone();
-
-      try (cleanups) {
+      try (var _ = withHeartstone()) {
         var data = monsterDataFor("The Inner Wolf Gym");
         assertThat(
             data,
@@ -1183,9 +1117,7 @@ public class AreaCombatDataTest {
 
     @Test
     void warFratCaptainPassesNameThrough() {
-      var cleanups = withHeartstone();
-
-      try (cleanups) {
+      try (var _ = withHeartstone()) {
         var data = monsterDataFor("The Battlefield (Hippy Uniform)");
         assertThat(data, containsString("War Frat 151st Captain"));
       }
@@ -1193,9 +1125,7 @@ public class AreaCombatDataTest {
 
     @Test
     void paddlerHighlightsOnManuelName() {
-      var cleanups = withHeartstone();
-
-      try (cleanups) {
+      try (var _ = withHeartstone()) {
         var data = monsterDataFor("The Orcish Frat House");
         assertThat(
             data,
@@ -1206,9 +1136,7 @@ public class AreaCombatDataTest {
 
     @Test
     void picksCorrectLetterToHighlight() {
-      var cleanups = withHeartstone();
-
-      try (cleanups) {
+      try (var _ = withHeartstone()) {
         var data = monsterDataFor("The Castle in the Clouds in the Sky (Top Floor)");
         assertThat(
             data, containsString("Goth <span style=\"text-decoration: underline;\">G</span>iant"));
@@ -1217,9 +1145,7 @@ public class AreaCombatDataTest {
 
     @Test
     void handlesDumbAmpersandMonster() {
-      var cleanups = withHeartstone();
-
-      try (cleanups) {
+      try (var _ = withHeartstone()) {
         var data = monsterDataFor("The Road to the White Citadel");
         assertThat(
             data,
@@ -1230,9 +1156,7 @@ public class AreaCombatDataTest {
 
     @Test
     void monsterNameDoesNotStartWithManuelName() {
-      var cleanups = withHeartstone();
-
-      try (cleanups) {
+      try (var _ = withHeartstone()) {
         var data = monsterDataFor("The Outer Compound");
         assertThat(data, containsString("french guard turtle"));
       }

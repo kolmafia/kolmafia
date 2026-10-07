@@ -39,9 +39,8 @@ public class ChibiBuddyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void noStateIfNoBuddy() {
-    var cleanups =
-        new Cleanups(withoutItem(ItemPool.CHIBIBUDDY_OFF), withoutItem(ItemPool.CHIBIBUDDY_ON));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withoutItem(ItemPool.CHIBIBUDDY_OFF), withoutItem(ItemPool.CHIBIBUDDY_ON))) {
       String output = execute("");
 
       assertThat(output, containsString("You don't own a ChibiBuddy&trade;"));
@@ -51,9 +50,8 @@ public class ChibiBuddyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canShowStateIfOff() {
-    var cleanups =
-        new Cleanups(withItem(ItemPool.CHIBIBUDDY_OFF), withoutItem(ItemPool.CHIBIBUDDY_ON));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withItem(ItemPool.CHIBIBUDDY_OFF), withoutItem(ItemPool.CHIBIBUDDY_ON))) {
       String output = execute("");
 
       assertThat(output, containsString("Your ChibiBuddy&trade; is currently powered off"));
@@ -66,7 +64,7 @@ public class ChibiBuddyCommandTest extends AbstractCommandTestBase {
   void canShowState(final int daysAgo, final String daysAgoString) {
     var daycount = 10;
 
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withItem(ItemPool.CHIBIBUDDY_ON),
             withDaycount(daycount),
@@ -76,9 +74,7 @@ public class ChibiBuddyCommandTest extends AbstractCommandTestBase {
             withProperty("chibiAlignment", 3),
             withProperty("chibiFitness", 4),
             withProperty("chibiIntelligence", 5),
-            withProperty("chibiSocialization", 6));
-
-    try (cleanups) {
+            withProperty("chibiSocialization", 6))) {
       String output = execute("");
 
       assertThat(
@@ -117,9 +113,8 @@ public class ChibiBuddyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canHaveChibiChatIfNotChanged() {
-    var cleanups =
-        new Cleanups(withProperty("_chibiChanged", false), withItem(ItemPool.CHIBIBUDDY_ON));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("_chibiChanged", false), withItem(ItemPool.CHIBIBUDDY_ON))) {
       var output = execute("chat");
       assertThat(
           output, not(containsString("You've already chatted with your ChibiBuddy&trade; today")));
@@ -128,9 +123,8 @@ public class ChibiBuddyCommandTest extends AbstractCommandTestBase {
 
   @Test
   void cannotHaveChibiChatIfChanged() {
-    var cleanups =
-        new Cleanups(withProperty("_chibiChanged", true), withItem(ItemPool.CHIBIBUDDY_ON));
-    try (cleanups) {
+    try (var _ =
+        new Cleanups(withProperty("_chibiChanged", true), withItem(ItemPool.CHIBIBUDDY_ON))) {
       var output = execute("chat");
       assertThat(
           output, containsString("You've already chatted with your ChibiBuddy&trade; today"));

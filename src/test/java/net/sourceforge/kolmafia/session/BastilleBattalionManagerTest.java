@@ -916,11 +916,11 @@ public class BastilleBattalionManagerTest {
   @Test
   public void detectsNeedleMismatch() {
     var html = html("request/test_bastille_configure_0.html");
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withProperty("_bastilleStats", "MA=100,MD=110,CA=110,CD=120,PA=130,PD=150"))) {
       assertTrue(BastilleBattalionManager.checkNeedles(html));
     }
-    try (var cleanups =
+    try (var _ =
         new Cleanups(withProperty("_bastilleStats", "MA=110,MD=110,CA=110,CD=120,PA=130,PD=150"))) {
       assertFalse(BastilleBattalionManager.checkNeedles(html));
     }
@@ -930,8 +930,7 @@ public class BastilleBattalionManagerTest {
   public void revisitingMidGameKeepsStats() {
     var stats = "MA=140,MD=125,CA=140,CD=130,PA=125,PD=120";
     var html = html("request/test_bastille_end_game_start_game_1.html");
-    try (var cleanups =
-        new Cleanups(withProperty("_bastilleStats", stats), withChoice(1315, html))) {
+    try (var _ = new Cleanups(withProperty("_bastilleStats", stats), withChoice(1315, html))) {
       var request = new GenericRequest("choice.php?forceoption=0");
       request.responseText = html;
       BastilleBattalionManager.visitChoice(request);
@@ -945,7 +944,7 @@ public class BastilleBattalionManagerTest {
 
     @Test
     public void lockingInZeroCheeseRecordsOne() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_bastilleCheese", 0), withPostChoice1(1316, 1, LOCK_IN_TEXT))) {
         assertThat("_bastilleLockedInScore", isSetTo(1));
@@ -954,7 +953,7 @@ public class BastilleBattalionManagerTest {
 
     @Test
     public void lockInWithoutConfirmationIsIgnored() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withProperty("_bastilleCheese", 390), withPostChoice1(1316, 1, ""))) {
         assertThat("_bastilleLockedInScore", isSetTo(0));
       }
@@ -962,7 +961,7 @@ public class BastilleBattalionManagerTest {
 
     @Test
     public void lockingInRecordsScore() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_bastilleCheese", 390), withPostChoice1(1316, 1, LOCK_IN_TEXT))) {
         assertThat("_bastilleLockedInScore", isSetTo(390));
@@ -971,7 +970,7 @@ public class BastilleBattalionManagerTest {
 
     @Test
     public void lockingInAgainUpdatesScore() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_bastilleCheese", 500),
               withProperty("_bastilleLockedInScore", 390),
@@ -982,7 +981,7 @@ public class BastilleBattalionManagerTest {
 
     @Test
     public void playingAgainDoesNotLockIn() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withProperty("_bastilleCheese", 390), withPostChoice1(1316, 2, ""))) {
         assertThat("_bastilleLockedInScore", isSetTo(0));
       }
@@ -990,7 +989,7 @@ public class BastilleBattalionManagerTest {
 
     @Test
     public void lockedInScoreResetsDaily() {
-      try (var cleanups = new Cleanups(withProperty("_bastilleLockedInScore", 390))) {
+      try (var _ = new Cleanups(withProperty("_bastilleLockedInScore", 390))) {
         Preferences.resetDailies();
         assertThat("_bastilleLockedInScore", isSetTo(0));
       }
@@ -1001,7 +1000,7 @@ public class BastilleBattalionManagerTest {
   class StartGame {
     @Test
     public void startingWithNoGamesLeftKeepsState() {
-      try (var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_bastilleCheese", 390),
               withProperty("_bastilleOptionsTaken", "Lower the walls"),
@@ -1015,7 +1014,7 @@ public class BastilleBattalionManagerTest {
     public void startingWithNoGamesLeftDoesNotLogStart() {
       SessionLoggerOutput.startStream();
       BastilleBattalionManager.registerRequest("choice.php?whichchoice=1313&option=5");
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withPostChoice1(1313, 5, html("request/test_bastille_configure_0.html")))) {
         assertThat(SessionLoggerOutput.stopStream(), not(containsString("Starting game")));
       }
@@ -1025,7 +1024,7 @@ public class BastilleBattalionManagerTest {
     public void startingGameLogsStart() {
       SessionLoggerOutput.startStream();
       BastilleBattalionManager.registerRequest("choice.php?whichchoice=1313&option=5");
-      try (var cleanups =
+      try (var _ =
           new Cleanups(withPostChoice1(1313, 5, html("request/test_bastille_game1_0_1.html")))) {
         assertThat(SessionLoggerOutput.stopStream(), containsString("Starting game #1"));
       }

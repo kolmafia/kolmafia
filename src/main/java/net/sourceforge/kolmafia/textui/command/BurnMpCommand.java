@@ -28,7 +28,7 @@ public class BurnMpCommand extends AbstractCommand {
     }
 
     if (parameters.startsWith("extra")) {
-      try (Checkpoint checkpoint = new Checkpoint()) {
+      try (Checkpoint _ = new Checkpoint()) {
         RecoveryManager.recoverHP();
         ManaBurnManager.burnExtraMana(true);
       }
@@ -48,7 +48,7 @@ public class BurnMpCommand extends AbstractCommand {
       return;
     }
 
-    try (Checkpoint checkpoint = new Checkpoint()) {
+    try (Checkpoint _ = new Checkpoint()) {
       RecoveryManager.recoverHP();
       ManaBurnManager.burnMana(-amount);
     }

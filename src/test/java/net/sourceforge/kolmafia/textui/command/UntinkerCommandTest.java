@@ -32,8 +32,7 @@ class UntinkerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void completesQuest() {
-    var cleanups = new Cleanups(withSign(ZodiacSign.VOLE));
-    try (cleanups) {
+    try (var _ = new Cleanups(withSign(ZodiacSign.VOLE))) {
       String output = execute("");
 
       assertThat(output, containsString("Accepting quest to find the Untinker's screwdriver"));
@@ -90,8 +89,7 @@ class UntinkerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void noRequestForUntinkerNoItems() {
-    var cleanups = new Cleanups(withItem("badass belt", 1));
-    try (cleanups) {
+    try (var _ = new Cleanups(withItem("badass belt", 1))) {
       execute("0 badass belt");
 
       assertContinueState();

@@ -1043,7 +1043,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     try {
       String popText = CompactSidePane.modifierPopupText();
       this.modPopLabel.setText(popText);
-    } catch (Exception e) {
+    } catch (Exception _) {
       // Ignore errors - there seems to be a Java bug that
       // occasionally gets triggered during the setText().
     }
@@ -1101,7 +1101,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       String popText = CompactSidePane.motorcyclePopupText();
       try {
         this.motPopLabel.setText(popText);
-      } catch (Exception e) {
+      } catch (Exception _) {
         // Ignore errors - there seems to be a Java bug that
         // occasionally gets triggered during the setText().
       }

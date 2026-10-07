@@ -67,9 +67,7 @@ public class FamiliarDataTest {
 
   @Test
   void familiarReportsModifiedWeightIncludingFidoxene() {
-    var cleanups = withEffect("Fidoxene");
-
-    try (cleanups) {
+    try (var _ = withEffect("Fidoxene")) {
       var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 0);
 
       assertThat(familiar.getModifiedWeight(), equalTo(20));
@@ -78,9 +76,7 @@ public class FamiliarDataTest {
 
   @Test
   void familiarReportsModifiedWeightCorrectlyDespiteFidoxene() {
-    var cleanups = withEffect("Fidoxene");
-
-    try (cleanups) {
+    try (var _ = withEffect("Fidoxene")) {
       var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 400);
 
       assertThat(familiar.getModifiedWeight(), equalTo(20));
@@ -89,9 +85,7 @@ public class FamiliarDataTest {
 
   @Test
   void fidoxeneWorksWithNonstandardMaxBaseWeightFamiliars() {
-    var cleanups = withEffect("Fidoxene");
-
-    try (cleanups) {
+    try (var _ = withEffect("Fidoxene")) {
       var familiar = FamiliarData.registerFamiliar(FamiliarPool.STOCKING_MIMIC, 900);
 
       assertThat(familiar.getModifiedWeight(), equalTo(30));
@@ -184,8 +178,7 @@ public class FamiliarDataTest {
     var di =
         new FamiliarData.DropInfo(
             FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1);
-    var cleanups = new Cleanups(withProperty("_cookbookbatRecipeDrops", false));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_cookbookbatRecipeDrops", false))) {
       assertThat(di.dropsToday(), equalTo(0));
     }
   }
@@ -195,8 +188,7 @@ public class FamiliarDataTest {
     var di =
         new FamiliarData.DropInfo(
             FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1);
-    var cleanups = new Cleanups(withProperty("_cookbookbatRecipeDrops", true));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_cookbookbatRecipeDrops", true))) {
       assertThat(di.dropsToday(), equalTo(1));
     }
   }
@@ -211,8 +203,7 @@ public class FamiliarDataTest {
             "_powerPillDrops",
             Math.min(1 + KoLCharacter.getCurrentDays(), 11));
 
-    var cleanups = new Cleanups(withProperty("_powerPillDrops", 7));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("_powerPillDrops", 7))) {
       assertThat(di.dropsToday(), equalTo(7));
     }
   }
@@ -222,8 +213,7 @@ public class FamiliarDataTest {
   public void homemadeRobotWeightCalculationIgnoresExp(Integer upgrades, Integer weight) {
     var fam = new FamiliarData(FamiliarPool.HOMEMADE_ROBOT);
 
-    var cleanups = new Cleanups(withProperty("homemadeRobotUpgrades", upgrades));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("homemadeRobotUpgrades", upgrades))) {
       // This experience should be ignored
       fam.setExperience(69);
       assertThat(fam.getWeight(), equalTo(weight));
@@ -250,12 +240,10 @@ public class FamiliarDataTest {
 
     @Test
     public void registersExpiredFamiliars() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Pet Rock"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Pet Rock"))) {
         FamiliarData.registerFamiliarData(html("request/test_terrarium_standard.html"));
 
         assertTrue(KoLCharacter.ownedFamiliar(FamiliarPool.PET_ROCK).isPresent());
@@ -265,13 +253,11 @@ public class FamiliarDataTest {
 
     @Test
     public void registersFamiliarsInLegacyOfLoathing() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.LEGACY_OF_LOATHING),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.ITEMS, "pygmy bugbear shaman"));
-
-      try (cleanups) {
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "pygmy bugbear shaman"))) {
         FamiliarData.registerFamiliarData(html("request/test_terrarium_legacy_of_loathing.html"));
 
         assertTrue(KoLCharacter.ownedFamiliar(FamiliarPool.CRIMBO_ELF).isPresent());
@@ -317,14 +303,12 @@ public class FamiliarDataTest {
       int basemysticality = jsonObject.getIntValue("basemysticality");
       int basemoxie = jsonObject.getIntValue("basemoxie");
 
-      Cleanups cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.QUANTUM),
               withClass(AscensionClass.ACCORDION_THIEF),
               withStats(basemuscle, basemysticality, basemoxie),
-              withSkill("Amphibian Sympathy"));
-
-      try (cleanups) {
+              withSkill("Amphibian Sympathy"))) {
         ApiRequest.parseStatus(jsonObject);
         FamiliarData current = KoLCharacter.getFamiliar();
         assertEquals(famId, current.getId());
@@ -358,15 +342,13 @@ public class FamiliarDataTest {
       int basemysticality = jsonObject.getIntValue("basemysticality");
       int basemoxie = jsonObject.getIntValue("basemoxie");
 
-      Cleanups cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.QUANTUM),
               withClass(AscensionClass.ACCORDION_THIEF),
               withStats(basemuscle, basemysticality, basemoxie),
               withSkill("Amphibian Sympathy"),
-              withEquipped(Slot.HAT, "Daylight Shavings Helmet"));
-
-      try (cleanups) {
+              withEquipped(Slot.HAT, "Daylight Shavings Helmet"))) {
         ApiRequest.parseStatus(jsonObject);
         FamiliarData current = KoLCharacter.getFamiliar();
         assertEquals(famId, current.getId());
@@ -400,16 +382,14 @@ public class FamiliarDataTest {
       int famLevel = jsonObject.getIntValue("famlevel");
       boolean feasted = jsonObject.getIntValue("familiar_wellfed") == 1;
 
-      Cleanups cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.NONE),
               withEquipped(Slot.HAT, "Daylight Shavings Helmet"),
               withSkill("Amphibian Sympathy"),
               withEffect("Cute Vision"),
               withEffect("Empathy"),
-              withEffect("Leash of Linguini"));
-
-      try (cleanups) {
+              withEffect("Leash of Linguini"))) {
         // Register all familiars from the terrarium
         FamiliarData.registerFamiliarData(terrarium);
 
@@ -438,9 +418,7 @@ public class FamiliarDataTest {
   class CombatExperience {
     @Test
     public void winningAFightGrantsOneExperience() {
-      var cleanups = withFamiliar(FamiliarPool.MOSQUITO);
-
-      try (cleanups) {
+      try (var _ = withFamiliar(FamiliarPool.MOSQUITO)) {
         KoLCharacter.recalculateAdjustments();
         var familiar = KoLCharacter.getFamiliar();
         familiar.addCombatExperience("");
@@ -450,11 +428,9 @@ public class FamiliarDataTest {
 
     @Test
     public void familiarExperienceModifiersStackWithTheBase() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.MOSQUITO), withEquipped(Slot.WEAPON, "yule hatchet"));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.MOSQUITO), withEquipped(Slot.WEAPON, "yule hatchet"))) {
         KoLCharacter.recalculateAdjustments();
         var familiar = KoLCharacter.getFamiliar();
         familiar.addCombatExperience("");
@@ -464,9 +440,7 @@ public class FamiliarDataTest {
 
     @Test
     public void winningAFightWithoutAFamiliarGrantsNothing() {
-      var cleanups = withEquipped(Slot.WEAPON, "yule hatchet");
-
-      try (cleanups) {
+      try (var _ = withEquipped(Slot.WEAPON, "yule hatchet")) {
         KoLCharacter.recalculateAdjustments();
         var experience = FamiliarData.NO_FAMILIAR.getTotalExperience();
 
@@ -482,11 +456,10 @@ public class FamiliarDataTest {
     @Test
     public void doesNotAdvanceAnotherFamiliarsCounter() {
       // The Grue is familiar 11, so its entry contains the Mosquito's "1:3" as a substring
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", "1:3|11:3"));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withProperty("testudinalTeachings", "1:3|11:3"))) {
         KoLCharacter.getFamiliar().advanceTestudinalTeachings();
 
         assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:4|11:3"));
@@ -495,11 +468,9 @@ public class FamiliarDataTest {
 
     @Test
     public void addsAFamiliarWithNoCounterYet() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", "11:3"));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", "11:3"))) {
         assertThat(KoLCharacter.getFamiliar().advanceTestudinalTeachings(), is(0));
 
         assertThat(Preferences.getString("testudinalTeachings"), equalTo("11:3|1:1"));
@@ -508,11 +479,9 @@ public class FamiliarDataTest {
 
     @Test
     public void addsAFamiliarToAnEmptyPreference() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", ""));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", ""))) {
         assertThat(KoLCharacter.getFamiliar().advanceTestudinalTeachings(), is(0));
 
         assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:1"));
@@ -521,11 +490,10 @@ public class FamiliarDataTest {
 
     @Test
     public void grantsExperienceAndResetsOnTheSixthCombat() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", "1:5|11:3"));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withProperty("testudinalTeachings", "1:5|11:3"))) {
         assertThat(KoLCharacter.getFamiliar().advanceTestudinalTeachings(), is(1));
 
         assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:0|11:3"));
@@ -534,12 +502,10 @@ public class FamiliarDataTest {
 
     @Test
     public void doesNotTrackCombatsFoughtWithoutAFamiliar() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withSkill(SkillPool.TESTUDINAL_TEACHINGS),
-              withProperty("testudinalTeachings", "1:3"));
-
-      try (cleanups) {
+              withProperty("testudinalTeachings", "1:3"))) {
         FamiliarData.NO_FAMILIAR.addCombatExperience("");
 
         assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:3"));
@@ -548,12 +514,10 @@ public class FamiliarDataTest {
 
     @Test
     public void preservesOtherFamiliarsAndTheirOrder() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withFamiliar(FamiliarPool.MOSQUITO),
-              withProperty("testudinalTeachings", "11:2|1:3|3:0"));
-
-      try (cleanups) {
+              withProperty("testudinalTeachings", "11:2|1:3|3:0"))) {
         KoLCharacter.getFamiliar().advanceTestudinalTeachings();
 
         assertThat(Preferences.getString("testudinalTeachings"), equalTo("11:2|1:4|3:0"));
@@ -565,78 +529,65 @@ public class FamiliarDataTest {
   class Comma {
     @Test
     public void correctEffectiveIdWhenCommaImitating() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("commaFamiliar", "Mosquito"), withFamiliar(FamiliarPool.CHAMELEON));
-
-      try (cleanups) {
+              withProperty("commaFamiliar", "Mosquito"), withFamiliar(FamiliarPool.CHAMELEON))) {
         assertThat(KoLCharacter.currentFamiliar.getEffectiveId(), is(FamiliarPool.MOSQUITO));
       }
     }
 
     @Test
     public void correctEffectiveRaceWhenCommaImitating() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("commaFamiliar", "Mosquito"), withFamiliar(FamiliarPool.CHAMELEON));
-
-      try (cleanups) {
+              withProperty("commaFamiliar", "Mosquito"), withFamiliar(FamiliarPool.CHAMELEON))) {
         assertThat(KoLCharacter.currentFamiliar.getEffectiveRace(), is("Mosquito"));
       }
     }
 
     @Test
     public void correctEffectiveIdWhenCommaEmpty() {
-      var cleanups =
-          new Cleanups(withProperty("commaFamiliar", ""), withFamiliar(FamiliarPool.CHAMELEON));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("commaFamiliar", ""), withFamiliar(FamiliarPool.CHAMELEON))) {
         assertThat(KoLCharacter.currentFamiliar.getEffectiveId(), is(FamiliarPool.CHAMELEON));
       }
     }
 
     @Test
     public void correctEffectiveRaceWhenCommaEmpty() {
-      var cleanups =
-          new Cleanups(withProperty("commaFamiliar", ""), withFamiliar(FamiliarPool.CHAMELEON));
-
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty("commaFamiliar", ""), withFamiliar(FamiliarPool.CHAMELEON))) {
         assertThat(KoLCharacter.currentFamiliar.getEffectiveRace(), is("Comma Chameleon"));
       }
     }
 
     @Test
     public void commaHasCorrectWeightWhenHomemadeRobot() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("commaFamiliar", "Homemade Robot"),
               withProperty("homemadeRobotUpgrades", 3),
-              withFamiliar(FamiliarPool.CHAMELEON));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.CHAMELEON))) {
         assertThat(KoLCharacter.currentFamiliar.getWeight(), is(34));
       }
     }
 
     @Test
     public void commaDoesNotInheritAttributes() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("commaFamiliar", "Hovering Sombrero"),
-              withFamiliar(FamiliarPool.CHAMELEON));
-
-      try (cleanups) {
+              withFamiliar(FamiliarPool.CHAMELEON))) {
         assertThat(KoLCharacter.currentFamiliar.isUndead(), is(false));
       }
     }
 
     @Test
     public void commaDoesInheritWaterBreathing() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withProperty("commaFamiliar", "Urchin Urchin"), withFamiliar(FamiliarPool.CHAMELEON));
-
-      try (cleanups) {
+              withProperty("commaFamiliar", "Urchin Urchin"),
+              withFamiliar(FamiliarPool.CHAMELEON))) {
         assertThat(KoLCharacter.currentFamiliar.waterBreathing(), is(true));
       }
     }
@@ -657,12 +608,11 @@ public class FamiliarDataTest {
   class ConditionalSkills {
     @Test
     public void absentFamiliarsDoNotProvideSkills() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withoutSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS),
               withoutFamiliarInTerrarium(FamiliarPool.MEAT_SHIELD_MAIDEN),
-              withSkillGrantingFamiliarsChecked());
-      try (cleanups) {
+              withSkillGrantingFamiliarsChecked())) {
         var fam = KoLCharacter.usableFamiliar(FamiliarPool.MEAT_SHIELD_MAIDEN);
         assertThat(fam, nullValue());
         assertFalse(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
@@ -671,12 +621,11 @@ public class FamiliarDataTest {
 
     @Test
     public void familiarsInTerrariumProvideSkills() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withoutSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS),
               withFamiliarInTerrarium(FamiliarPool.MEAT_SHIELD_MAIDEN),
-              withSkillGrantingFamiliarsChecked());
-      try (cleanups) {
+              withSkillGrantingFamiliarsChecked())) {
         var fam = KoLCharacter.usableFamiliar(FamiliarPool.MEAT_SHIELD_MAIDEN);
         assertThat(fam, notNullValue());
         assertTrue(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
@@ -685,12 +634,11 @@ public class FamiliarDataTest {
 
     @Test
     public void cannotUseFamiliarConditionalSkillsInAvatarPaths() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withPath(Path.AVATAR_OF_BORIS),
               withFamiliarInTerrarium(FamiliarPool.MEAT_SHIELD_MAIDEN),
-              withSkillGrantingFamiliarsChecked());
-      try (cleanups) {
+              withSkillGrantingFamiliarsChecked())) {
         assertFalse(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
       }
     }

@@ -105,7 +105,7 @@ public class FileUtilities {
               + fileVersion
               + " require "
               + version);
-    } catch (Exception e) {
+    } catch (Exception _) {
       // Incompatible data file, use KoLmafia's internal
       // files instead.
     }
@@ -283,7 +283,7 @@ public class FileUtilities {
     URI uri;
     try {
       uri = new URI(remote);
-    } catch (URISyntaxException e) {
+    } catch (URISyntaxException _) {
       System.out.println(remote);
       return new StringBuffer();
     }
@@ -336,7 +336,7 @@ public class FileUtilities {
     URI uri;
     try {
       uri = new URI(remote);
-    } catch (URISyntaxException e) {
+    } catch (URISyntaxException _) {
       return;
     }
 
@@ -419,7 +419,7 @@ public class FileUtilities {
       }
 
       return localfile;
-    } catch (Exception e) {
+    } catch (Exception _) {
       // This can happen whenever there is bad internet
       // or whenever the familiar is brand-new.
 

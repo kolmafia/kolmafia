@@ -355,8 +355,7 @@ public class ShopRowTest {
     @Test
     public void canParseMadelineAtDiscountedPrice() {
       // I visited Madeline with the Five Fingered Discount skill.
-      var cleanups = new Cleanups(withSkill("Five Finger Discount"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withSkill("Five Finger Discount"))) {
         String html = html("request/test_shop_madeline.html");
         var inventory = ShopRow.parseShop(html, true);
         String prices =

@@ -79,9 +79,7 @@ class ShopCommandTest extends AbstractCommandTestBase {
     String expected = "Skipping '4-dimensional guitar', none found in inventory." + LS;
     assertEquals(expected, output, "Item not in inventory.");
 
-    var cleanups = withItem(itemID);
-
-    try (cleanups) {
+    try (var _ = withItem(itemID)) {
       output = execute("put " + itemName);
       expected = "Transferring items to store..." + LS + "Requests complete." + LS + LS;
       assertEquals(expected, output, "Unexpected results.");
@@ -95,9 +93,7 @@ class ShopCommandTest extends AbstractCommandTestBase {
     String output = execute("put using storage " + itemName);
     String expected = "Skipping '4-dimensional guitar', none found in storage." + LS;
     assertEquals(expected, output, "Item not in storage.");
-    var cleanups = withItemInStorage(itemID);
-
-    try (cleanups) {
+    try (var _ = withItemInStorage(itemID)) {
       output = execute("put using storage " + itemName);
       expected = "Adding 4-dimensional guitar to store..." + LS + "Requests complete." + LS + LS;
       assertEquals(expected, output, "Item not transferred.");
@@ -109,9 +105,7 @@ class ShopCommandTest extends AbstractCommandTestBase {
     int itemID = ItemPool.GUITAR_4D;
     String itemName = ItemDatabase.getItemDataName(itemID);
 
-    var cleanups = withItem(itemID, 3);
-
-    try (cleanups) {
+    try (var _ = withItem(itemID, 3)) {
       String output = execute("put " + itemName + "@ 1337");
       String expected = "Transferring items to store..." + LS + "Requests complete." + LS + LS;
       assertEquals(expected, output, "Item not put.");
@@ -125,9 +119,7 @@ class ShopCommandTest extends AbstractCommandTestBase {
   public void itShouldCatchACommonUserTypo() {
     int itemID = ItemPool.GUITAR_4D;
     String itemName = ItemDatabase.getItemDataName(itemID);
-    var cleanups = withItem(itemID, 3);
-
-    try (cleanups) {
+    try (var _ = withItem(itemID, 3)) {
       String output = execute("put " + itemName + "@ 1,337");
       String expected =
           "'337' is not an item.  Did you use a comma in the middle of a number?  Quitting..." + LS;
@@ -179,9 +171,7 @@ class ShopCommandTest extends AbstractCommandTestBase {
   public void itShouldReprice() {
     int itemID = ItemPool.GUITAR_4D;
     String itemName = ItemDatabase.getItemDataName(itemID);
-    var cleanups = withItem(itemID, 1);
-
-    try (cleanups) {
+    try (var _ = withItem(itemID, 1)) {
       StoreManager.addItem(itemID, 1, 999999999, 1);
       String output = execute("reprice " + itemName + " @ 1337 limit 2");
       String expected =

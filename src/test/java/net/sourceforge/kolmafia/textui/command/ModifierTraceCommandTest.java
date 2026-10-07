@@ -40,9 +40,7 @@ public class ModifierTraceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void matchDisplaysExtantModifiers() {
-    var cleanups = withEffect("Fat Leon's Phat Loot Lyric");
-
-    try (cleanups) {
+    try (var _ = withEffect("Fat Leon's Phat Loot Lyric")) {
       String output = execute("item drop");
 
       assertContinueState();

@@ -53,9 +53,9 @@ public class ProxyRecordMethodWrapper extends BaseFunction {
       }
 
       return returnValue;
-    } catch (IllegalAccessException e) {
+    } catch (IllegalAccessException _) {
       return null;
-    } catch (InvocationTargetException e) {
+    } catch (InvocationTargetException _) {
       return null;
     }
   }

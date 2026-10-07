@@ -49,8 +49,7 @@ class PlaceRequestTest {
     // Make sure storage and freepulls empty
     KoLConstants.storage.clear();
     KoLConstants.freepulls.clear();
-    var cleanups = new Cleanups(withProperty("timeTowerAvailable", false));
-    try (cleanups) {
+    try (var _ = new Cleanups(withProperty("timeTowerAvailable", false))) {
       ModifierDatabase.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
       AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
       AdventureResult.addResultToList(KoLConstants.storage, toolbelt);
@@ -99,8 +98,7 @@ class PlaceRequestTest {
     public void itShouldGetParcelLocationFromFirstVisit() {
       String prefName = "_sotParcelLocation";
       String responseText = html("request/test_first_visit_sot_to_get_location.html");
-      var cleanups = new Cleanups(withProperty(prefName, ""));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(prefName, ""))) {
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertThat(prefName, isSetTo("The Haunted Storage Room"));
       }
@@ -109,8 +107,7 @@ class PlaceRequestTest {
     @Test
     public void itShouldGetParcelLocationFromSubsequentVisit() {
       String prefName = "_sotParcelLocation";
-      var cleanups = new Cleanups(withProperty(prefName, ""));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(prefName, ""))) {
         String responseText = html("request/test_next_visit_sot_to_get_location.html");
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertThat(prefName, isSetTo("The Haunted Storage Room"));
@@ -121,9 +118,8 @@ class PlaceRequestTest {
     public void itShouldRemoveParcelWhenTurnedIn() {
       String prefName = "_sotParcelReturned";
       String responseText = html("request/test_visit_sot_to_return.html");
-      var cleanups =
-          new Cleanups(withProperty(prefName, false), withItem(ItemPool.THE_SOTS_PARCEL, 1));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(withProperty(prefName, false), withItem(ItemPool.THE_SOTS_PARCEL, 1))) {
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
         assertThat(prefName, isSetTo(true));
@@ -134,8 +130,7 @@ class PlaceRequestTest {
     public void itShouldDetectParcelAlreadyTurnedIn() {
       String prefName = "_sotParcelReturned";
       String responseText = html("request/test_visit_sot_parcel_done.html");
-      var cleanups = new Cleanups(withProperty(prefName, false));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty(prefName, false))) {
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertThat(prefName, isSetTo(true));
       }
@@ -158,8 +153,7 @@ class PlaceRequestTest {
 
     @Test
     public void itShouldMatchBeforeWarHippy() {
-      var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()))) {
         KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
       }
@@ -167,8 +161,7 @@ class PlaceRequestTest {
 
     @Test
     public void itShouldMatchBeforeWarFrat() {
-      var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
-      try (cleanups) {
+      try (var _ = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()))) {
         KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Orcish Frat House");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.FRAT_HOUSE), retVal);
       }
@@ -176,12 +169,11 @@ class PlaceRequestTest {
 
     @Test
     public void itShouldMatchAfterWarHippyWin() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
               withProperty("sideDefeated", "fratboys"),
-              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED))) {
         KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
       }
@@ -189,12 +181,11 @@ class PlaceRequestTest {
 
     @Test
     public void itShouldMatchAfterWarFratWin() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
               withProperty("sideDefeated", "hippies"),
-              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
-      try (cleanups) {
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED))) {
         KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Orcish Frat House");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.FRAT_HOUSE), retVal);
       }
@@ -206,10 +197,9 @@ class PlaceRequestTest {
     @Test
     public void getawayRemainsUnchangedAfterVisitingLockedDistantWoods() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
-              withHttpClientBuilder(builder), withProperty("getawayCampsiteUnlocked", true));
-      try (cleanups) {
+              withHttpClientBuilder(builder), withProperty("getawayCampsiteUnlocked", true))) {
         builder.client.addResponse(200, html("request/test_place_woods_uhoh.html"));
 
         var request = new PlaceRequest("woods");
@@ -225,7 +215,7 @@ class PlaceRequestTest {
     @Test
     void parsesWarState() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("crimbo23ArmoryAtWar", false),
@@ -237,8 +227,7 @@ class PlaceRequestTest {
               withProperty("crimbo23CottageAtWar", false),
               withProperty("crimbo23CottageControl", "none"),
               withProperty("crimbo23FoundryAtWar", false),
-              withProperty("crimbo23FoundryControl", "none"));
-      try (cleanups) {
+              withProperty("crimbo23FoundryControl", "none"))) {
         builder.client.addResponse(200, html("request/test_place_crimbo23_1.html"));
 
         var request = new PlaceRequest("crimbo23");
@@ -260,7 +249,7 @@ class PlaceRequestTest {
     @Test
     void parsesTotalWarState() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("crimbo23ArmoryAtWar", false),
@@ -272,8 +261,7 @@ class PlaceRequestTest {
               withProperty("crimbo23CottageAtWar", false),
               withProperty("crimbo23CottageControl", "none"),
               withProperty("crimbo23FoundryAtWar", false),
-              withProperty("crimbo23FoundryControl", "none"));
-      try (cleanups) {
+              withProperty("crimbo23FoundryControl", "none"))) {
         builder.client.addResponse(200, html("request/test_place_crimbo23_2.html"));
 
         var request = new PlaceRequest("crimbo23");
@@ -295,10 +283,10 @@ class PlaceRequestTest {
 
   @Test
   public void recordsBloodBankVisit() {
-    var cleanups =
+    try (var _ =
         new Cleanups(
-            withProperty("_bloodBankVisited", false), withProperty("_bloodBankIntimidated", false));
-    try (cleanups) {
+            withProperty("_bloodBankVisited", false),
+            withProperty("_bloodBankIntimidated", false))) {
       String responseText = html("request/test_visit_blood_bank.html");
       PlaceRequest.parseResponse(
           "place.php?whichplace=town_right&action=town_bloodbank", responseText);

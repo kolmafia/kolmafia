@@ -41,15 +41,14 @@ class ChibiBuddyManagerTest {
     @Test
     void canPowerOnChibiBudyy() {
       var builder = new FakeHttpClientBuilder();
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("_chibiChanged"),
               withProperty("chibiName"),
               withItem(ItemPool.CHIBIBUDDY_OFF),
               withoutItem(ItemPool.CHIBIBUDDY_ON),
-              withHandlingChoice(633));
-      try (cleanups) {
+              withHandlingChoice(633))) {
         builder.client.addResponse(200, html("request/test_chibibuddy_power_on.html"));
 
         String urlString = "choice.php?pwd&whichchoice=633&option=1&chibiname=maurice";
@@ -64,11 +63,10 @@ class ChibiBuddyManagerTest {
 
     @Test
     void canTrackChibiChange() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_chibiChanged"),
-              withChoice(627, 5, html("request/test_chibibuddy_acquire_changed.html")));
-      try (cleanups) {
+              withChoice(627, 5, html("request/test_chibibuddy_acquire_changed.html")))) {
         assertThat("_chibiChanged", isSetTo(true));
       }
     }
@@ -76,38 +74,35 @@ class ChibiBuddyManagerTest {
     @ParameterizedTest
     @CsvSource({"already_changed, true", "main_screen, false"})
     void canAdaptToChibiChangedDesync(final String fixture, final boolean alreadyChanged) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_chibiChanged", !alreadyChanged),
-              withChoice(627, html("request/test_chibibuddy_" + fixture + ".html")));
-      try (cleanups) {
+              withChoice(627, html("request/test_chibibuddy_" + fixture + ".html")))) {
         assertThat("_chibiChanged", isSetTo(alreadyChanged));
       }
     }
 
     @Test
     void canTrackChibiAdventures() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("_chibiAdventures", 1),
               withProperty("_chibiChanged"),
               withChoice(
-                  629, 1, html("request/test_chibibuddy_spend_adventure_entertaining.html")));
-      try (cleanups) {
+                  629, 1, html("request/test_chibibuddy_spend_adventure_entertaining.html")))) {
         assertThat("_chibiAdventures", isSetTo(2));
       }
     }
 
     @Test
     void canTrackStats() {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("chibiAlignment"),
               withProperty("chibiFitness"),
               withProperty("chibiIntelligence"),
               withProperty("chibiSocialization"),
-              withChoice(628, html("request/test_chibibuddy_wine.html")));
-      try (cleanups) {
+              withChoice(628, html("request/test_chibibuddy_wine.html")))) {
         assertThat("chibiAlignment", isSetTo(4));
         assertThat("chibiIntelligence", isSetTo(5));
         assertThat("chibiFitness", isSetTo(6));
@@ -119,13 +114,12 @@ class ChibiBuddyManagerTest {
     @ValueSource(ints = {2, 3})
     void canUpdateBirthday(final int age) {
       var day = 10;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("chibiBirthday", -1),
               withProperty("chibiLastVisit", -1),
               withDaycount(day),
-              withChoice(628, html("request/test_chibibuddy_" + age + "_days_old.html")));
-      try (cleanups) {
+              withChoice(628, html("request/test_chibibuddy_" + age + "_days_old.html")))) {
         assertThat("chibiBirthday", isSetTo(day - age));
         assertThat("chibiLastVisit", isSetTo(day));
       }
@@ -135,7 +129,7 @@ class ChibiBuddyManagerTest {
     @ValueSource(strings = {"start_of_day_death", "left_too_long"})
     void canDie(final String fileName) {
       var day = 10;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withItem(ItemPool.CHIBIBUDDY_ON),
               withoutItem(ItemPool.CHIBIBUDDY_OFF),
@@ -147,8 +141,7 @@ class ChibiBuddyManagerTest {
               withProperty("chibiIntelligence", 6),
               withProperty("chibiSocialization", 4),
               withDaycount(day),
-              withChoice(628, html("request/test_chibibuddy_" + fileName + ".html")));
-      try (cleanups) {
+              withChoice(628, html("request/test_chibibuddy_" + fileName + ".html")))) {
         assertThat("chibiBirthday", isSetTo(-1));
         assertThat("chibiLastVisit", isSetTo(-1));
         assertThat("chibiName", isSetTo(""));
@@ -185,7 +178,7 @@ class ChibiBuddyManagerTest {
         ContactManager.addMailContact("gausie", "1197090");
       }
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("_chibiChanged"),
@@ -198,9 +191,7 @@ class ChibiBuddyManagerTest {
               withProperty("chibiSocialization", 5),
               withDaycount(50),
               withItem(ItemPool.CHIBIBUDDY_ON),
-              withoutItem(ItemPool.CHIBIBUDDY_OFF));
-
-      try (cleanups) {
+              withoutItem(ItemPool.CHIBIBUDDY_OFF))) {
         ChibiBuddyManager.ensureLiveChibi();
 
         var requests = builder.client.getRequests();
@@ -231,7 +222,7 @@ class ChibiBuddyManagerTest {
       builder.client.addResponse(200, ""); // API
       builder.client.addResponse(200, "request/test_chibibuddy_put_away.html");
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("choiceAdventure633", "1&chibiname=customname"),
@@ -245,9 +236,7 @@ class ChibiBuddyManagerTest {
               withProperty("chibiIntelligence"),
               withProperty("chibiSocialization"),
               withItem(ItemPool.CHIBIBUDDY_OFF),
-              withoutItem(ItemPool.CHIBIBUDDY_ON));
-
-      try (cleanups) {
+              withoutItem(ItemPool.CHIBIBUDDY_ON))) {
         ChibiBuddyManager.ensureLiveChibi();
 
         var requests = builder.client.getRequests();
@@ -272,7 +261,7 @@ class ChibiBuddyManagerTest {
       builder.client.addResponse(200, ""); // API
       builder.client.addResponse(200, "request/test_chibibuddy_put_away.html");
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withDaycount(69),
@@ -285,9 +274,7 @@ class ChibiBuddyManagerTest {
               withProperty("chibiIntelligence"),
               withProperty("chibiSocialization"),
               withItem(ItemPool.CHIBIBUDDY_ON),
-              withoutItem(ItemPool.CHIBIBUDDY_OFF));
-
-      try (cleanups) {
+              withoutItem(ItemPool.CHIBIBUDDY_OFF))) {
         ChibiBuddyManager.ensureLiveChibi();
 
         var requests = builder.client.getRequests();
@@ -311,7 +298,7 @@ class ChibiBuddyManagerTest {
       builder.client.addResponse(200, ""); // API
       builder.client.addResponse(200, "request/test_chibibuddy_put_away.html");
 
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withDaycount(10),
@@ -324,9 +311,7 @@ class ChibiBuddyManagerTest {
               withProperty("chibiIntelligence"),
               withProperty("chibiSocialization"),
               withItem(ItemPool.CHIBIBUDDY_ON),
-              withoutItem(ItemPool.CHIBIBUDDY_OFF));
-
-      try (cleanups) {
+              withoutItem(ItemPool.CHIBIBUDDY_OFF))) {
         ChibiBuddyManager.chat();
 
         assertThat(ItemPool.CHIBIBUDDY_ON, isInInventory());

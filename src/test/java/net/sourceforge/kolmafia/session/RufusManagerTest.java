@@ -63,7 +63,7 @@ public class RufusManagerTest {
 
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("rufusDesiredArtifact"),
@@ -71,8 +71,7 @@ public class RufusManagerTest {
             withProperty("rufusDesiredItems"),
             withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
             withProperty("rufusQuestTarget"),
-            withProperty("rufusQuestType"));
-    try (cleanups) {
+            withProperty("rufusQuestType"))) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/" + file + ".html"));
       client.addResponse(200, ""); // api.php
@@ -114,7 +113,7 @@ public class RufusManagerTest {
   public void acceptingEntityQuestSetsState() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("rufusDesiredArtifact"),
@@ -124,8 +123,7 @@ public class RufusManagerTest {
             withProperty("rufusQuestTarget"),
             withProperty("rufusQuestType"),
             withProperty("_shadowAffinityToday", false),
-            withNoEffects());
-    try (cleanups) {
+            withNoEffects())) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_call_rufus.html"));
       client.addResponse(200, ""); // api.php
@@ -173,15 +171,14 @@ public class RufusManagerTest {
   public void returningAfterEntitySetsState() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withQuestProgress(Quest.RUFUS, "step1"),
             withProperty("rufusQuestTarget", "shadow matrix"),
             withProperty("rufusQuestType", "entity"),
             withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 0),
-            withNoEffects());
-    try (cleanups) {
+            withNoEffects())) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_call_rufus_back_entity.html"));
       client.addResponse(200, html("request/test_return_entity_to_rufus.html"));
@@ -219,7 +216,7 @@ public class RufusManagerTest {
   public void acceptingArtifactQuestSetsState() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("rufusDesiredArtifact"),
@@ -229,8 +226,7 @@ public class RufusManagerTest {
             withProperty("rufusQuestTarget"),
             withProperty("rufusQuestType"),
             withProperty("_shadowAffinityToday", false),
-            withNoEffects());
-    try (cleanups) {
+            withNoEffects())) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_call_rufus.html"));
       client.addResponse(200, ""); // api.php
@@ -278,7 +274,7 @@ public class RufusManagerTest {
   public void returningArtifactSetsState() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withQuestProgress(Quest.RUFUS, "step1"),
@@ -286,8 +282,7 @@ public class RufusManagerTest {
             withProperty("rufusQuestType", "artifact"),
             withItem(ItemPool.SHADOW_HEART),
             withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 0),
-            withNoEffects());
-    try (cleanups) {
+            withNoEffects())) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_call_rufus_back_artifact.html"));
       client.addResponse(200, html("request/test_return_artifact_to_rufus.html"));
@@ -328,7 +323,7 @@ public class RufusManagerTest {
   public void returningItemsSetsState() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withQuestProgress(Quest.RUFUS, "step1"),
@@ -336,8 +331,7 @@ public class RufusManagerTest {
             withProperty("rufusQuestType", "items"),
             withItem(ItemPool.SHADOW_SKIN, 3),
             withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 0),
-            withNoEffects());
-    try (cleanups) {
+            withNoEffects())) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_call_rufus_back_items.html"));
       client.addResponse(200, html("request/test_return_items_to_rufus.html"));
@@ -381,8 +375,7 @@ public class RufusManagerTest {
     @Test
     void callingBackRufusWithoutGoalHangsUp() {
       String responseText = html("request/test_call_rufus_back_no_artifact.html");
-      var cleanups = new Cleanups(withQuestProgress(Quest.RUFUS, "started"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.RUFUS, "started"))) {
         // ChoiceManager.getDecision ultimately calls RufusManager.specialChoiceDecision
         // Choice 1498 is CallingRufus Back
         int result = ChoiceManager.getDecision(1498, responseText);
@@ -393,8 +386,7 @@ public class RufusManagerTest {
     @Test
     void callingBackRufusWithGoalFinishes() {
       String responseText = html("request/test_call_rufus_back_artifact.html");
-      var cleanups = new Cleanups(withQuestProgress(Quest.RUFUS, "step1"));
-      try (cleanups) {
+      try (var _ = new Cleanups(withQuestProgress(Quest.RUFUS, "step1"))) {
         // ChoiceManager.getDecision ultimately calls RufusManager.specialChoiceDecision
         // Choice 1498 is CallingRufus Back
         int result = ChoiceManager.getDecision(1498, responseText);
@@ -407,15 +399,14 @@ public class RufusManagerTest {
   public void lootingShadowForestSetsProperty() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups =
+    try (var _ =
         new Cleanups(
             withHttpClientBuilder(builder),
             withProperty("_shadowForestLooted", false),
             withItem(ItemPool.SHADOW_FLAME, 0),
             withItem(ItemPool.SHADOW_NECTAR, 0),
             withItem(ItemPool.SHADOW_STICK, 0),
-            withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 1));
-    try (cleanups) {
+            withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 1))) {
       client.addResponse(302, Map.of("location", List.of("adventure.php?snarfblat=567")), "");
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_follow_rufus_lodestone.html"));
@@ -456,7 +447,7 @@ public class RufusManagerTest {
     void acceptItemsQuestWithoutItemsIsStarted() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("rufusDesiredItems", "shadow sinew"),
@@ -465,8 +456,7 @@ public class RufusManagerTest {
               withProperty("rufusQuestTarget", ""),
               withProperty("rufusQuestType", ""),
               withProperty("_shadowAffinityToday", false),
-              withNoEffects());
-      try (cleanups) {
+              withNoEffects())) {
         client.addResponse(200, html("request/test_accept_rufus_quest_items.html"));
         var request = new GenericRequest("choice.php?pwd&whichchoice=1497&option=3");
         request.run();
@@ -485,7 +475,7 @@ public class RufusManagerTest {
     void acceptItemsQuestWithEnoughItemsIsStep1() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("rufusDesiredItems", "shadow sinew"),
@@ -494,8 +484,7 @@ public class RufusManagerTest {
               withProperty("rufusQuestTarget", ""),
               withProperty("rufusQuestType", ""),
               withProperty("_shadowAffinityToday", false),
-              withNoEffects());
-      try (cleanups) {
+              withNoEffects())) {
         client.addResponse(200, html("request/test_accept_rufus_quest_items.html"));
         var request = new GenericRequest("choice.php?pwd&whichchoice=1497&option=3");
         request.run();
@@ -514,15 +503,14 @@ public class RufusManagerTest {
     void gainingItemMightLeaveQuestStarted() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("rufusDesiredItems", "shadow sinew"),
               withItem(ItemPool.SHADOW_SINEW, 1),
               withQuestProgress(Quest.RUFUS, QuestDatabase.STARTED),
               withProperty("rufusQuestType", "items"),
-              withProperty("rufusQuestTarget", "shadow sinew"));
-      try (cleanups) {
+              withProperty("rufusQuestTarget", "shadow sinew"))) {
         client.addResponse(200, html("request/test_closet_pull_shadow_item.html"));
         var request =
             new GenericRequest("inventory.php?action=closetpull&ajax=1&whichitem=11143&qty=1&pwd");
@@ -537,15 +525,14 @@ public class RufusManagerTest {
     void gainingItemMightAdvanceQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("rufusDesiredItems", "shadow sinew"),
               withItem(ItemPool.SHADOW_SINEW, 2),
               withQuestProgress(Quest.RUFUS, QuestDatabase.STARTED),
               withProperty("rufusQuestType", "items"),
-              withProperty("rufusQuestTarget", "shadow sinew"));
-      try (cleanups) {
+              withProperty("rufusQuestTarget", "shadow sinew"))) {
         client.addResponse(200, html("request/test_closet_pull_shadow_item.html"));
         var request =
             new GenericRequest("inventory.php?action=closetpull&ajax=1&whichitem=11143&qty=1&pwd");
@@ -560,15 +547,14 @@ public class RufusManagerTest {
     void losingItemMightLeaveQuestAdvanced() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("rufusDesiredItems", "shadow sinew"),
               withItem(ItemPool.SHADOW_SINEW, 4),
               withQuestProgress(Quest.RUFUS, "step1"),
               withProperty("rufusQuestType", "items"),
-              withProperty("rufusQuestTarget", "shadow sinew"));
-      try (cleanups) {
+              withProperty("rufusQuestTarget", "shadow sinew"))) {
         client.addResponse(200, html("request/test_closet_push_shadow_item.html"));
         var request =
             new GenericRequest("inventory.php?action=closetpush&ajax=1&whichitem=11143&qty=1&pwd");
@@ -583,15 +569,14 @@ public class RufusManagerTest {
     void losingItemMightUnadvanceQuest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("rufusDesiredItems", "shadow sinew"),
               withItem(ItemPool.SHADOW_SINEW, 3),
               withQuestProgress(Quest.RUFUS, "step1"),
               withProperty("rufusQuestType", "items"),
-              withProperty("rufusQuestTarget", "shadow sinew"));
-      try (cleanups) {
+              withProperty("rufusQuestTarget", "shadow sinew"))) {
         client.addResponse(200, html("request/test_closet_push_shadow_item.html"));
         var request =
             new GenericRequest("inventory.php?action=closetpush&ajax=1&whichitem=11143&qty=1&pwd");
@@ -609,13 +594,12 @@ public class RufusManagerTest {
     void canParseEntityStartedInQuestLog() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
               withProperty("rufusQuestTarget", ""),
-              withProperty("rufusQuestType", ""));
-      try (cleanups) {
+              withProperty("rufusQuestType", ""))) {
         client.addResponse(200, html("request/test_rufus_questlog_entity.html"));
         var request = new GenericRequest("questlog.php");
         request.run();
@@ -630,13 +614,12 @@ public class RufusManagerTest {
     void canParseEntityDoneInQuestLog() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
               withProperty("rufusQuestTarget", ""),
-              withProperty("rufusQuestType", ""));
-      try (cleanups) {
+              withProperty("rufusQuestType", ""))) {
         client.addResponse(200, html("request/test_rufus_questlog_entity_done.html"));
         var request = new GenericRequest("questlog.php");
         request.run();
@@ -651,13 +634,12 @@ public class RufusManagerTest {
     void canParseArtifactStartedInQuestLog() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
               withProperty("rufusQuestTarget", ""),
-              withProperty("rufusQuestType", ""));
-      try (cleanups) {
+              withProperty("rufusQuestType", ""))) {
         client.addResponse(200, html("request/test_rufus_questlog_artifact.html"));
         var request = new GenericRequest("questlog.php");
         request.run();
@@ -672,13 +654,12 @@ public class RufusManagerTest {
     void canParseArtifactDoneInQuestLog() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
               withProperty("rufusQuestTarget", ""),
-              withProperty("rufusQuestType", ""));
-      try (cleanups) {
+              withProperty("rufusQuestType", ""))) {
         client.addResponse(200, html("request/test_rufus_questlog_artifact_done.html"));
         var request = new GenericRequest("questlog.php");
         request.run();
@@ -693,13 +674,12 @@ public class RufusManagerTest {
     void canParseItemsStartedInQuestLog() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
               withProperty("rufusQuestTarget", ""),
-              withProperty("rufusQuestType", ""));
-      try (cleanups) {
+              withProperty("rufusQuestType", ""))) {
         client.addResponse(200, html("request/test_rufus_questlog_items.html"));
         var request = new GenericRequest("questlog.php");
         request.run();
@@ -714,13 +694,12 @@ public class RufusManagerTest {
     void canParseItemsDoneInQuestLog() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
               withProperty("rufusQuestTarget", ""),
-              withProperty("rufusQuestType", ""));
-      try (cleanups) {
+              withProperty("rufusQuestType", ""))) {
         client.addResponse(200, html("request/test_rufus_questlog_items_done.html"));
         var request = new GenericRequest("questlog.php");
         request.run();
@@ -808,12 +787,11 @@ public class RufusManagerTest {
       "Try to reach the nearly invisible hole, shadow wave"
     })
     public void checkShadowArtifacts(String text, String artifact) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("questRufus", "started"),
               withProperty("rufusQuestType", "artifact"),
-              withProperty("rufusQuestTarget", artifact));
-      try (cleanups) {
+              withProperty("rufusQuestTarget", artifact))) {
         ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
         assertEquals(artifact, spoiler.toString());
       }
@@ -823,8 +801,7 @@ public class RufusManagerTest {
     void canParseLabyrinthOfShadows() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups = new Cleanups(withHttpClientBuilder(builder));
-      try (cleanups) {
+      try (var _ = new Cleanups(withHttpClientBuilder(builder))) {
         String html = html("request/test_visit_labyrinth_of_shadows.html");
         client.addResponse(200, html);
         var request = new GenericRequest("choice.php?forceoption=0");
@@ -848,13 +825,12 @@ public class RufusManagerTest {
         String questType,
         String questTarget,
         int expected) {
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withProperty("shadowLabyrinthGoal", configured),
               withQuestProgress(Quest.RUFUS, questStep),
               withProperty("rufusQuestType", questType),
-              withProperty("rufusQuestTarget", questTarget));
-      try (cleanups) {
+              withProperty("rufusQuestTarget", questTarget))) {
         // ChoiceManager.getDecision ultimately calls RufusManager.specialChoiceDecision
         // Choice 1499 is Labyrinth of Shadows
         int result = ChoiceManager.getDecision(1499, responseText);
@@ -958,13 +934,12 @@ public class RufusManagerTest {
     void fightingShadowMonsterCountsAsTurn() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               // Parsing the fight page will add available combat items to inventory
               withNoItems(),
-              withProperty("encountersUntilSRChoice", 11));
-      try (cleanups) {
+              withProperty("encountersUntilSRChoice", 11))) {
         client.addResponse(
             302, Map.of("location", List.of("fight.php?ireallymeanit=1678807165")), "");
         client.addResponse(200, html("request/test_fight_shadow_monster.html"));
@@ -990,13 +965,12 @@ public class RufusManagerTest {
     void fightingShadowBossCountsAsTurn() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               // Parsing the fight page will add available combat items to inventory
               withNoItems(),
-              withProperty("encountersUntilSRChoice", 0));
-      try (cleanups) {
+              withProperty("encountersUntilSRChoice", 0))) {
         client.addResponse(
             302, Map.of("location", List.of("fight.php?ireallymeanit=1679168291")), "");
         client.addResponse(200, html("request/test_fight_shadow_boss.html"));
@@ -1022,9 +996,9 @@ public class RufusManagerTest {
     void visitingShadowLabyrinthDoesNotCountAsTurn() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withProperty("encountersUntilSRChoice", 0));
-      try (cleanups) {
+      try (var _ =
+          new Cleanups(
+              withHttpClientBuilder(builder), withProperty("encountersUntilSRChoice", 0))) {
         String html = html("request/test_visit_labyrinth_of_shadows.html");
         client.addResponse(200, html);
         var request = new GenericRequest("choice.php?forceoption=0");
@@ -1038,14 +1012,13 @@ public class RufusManagerTest {
     void followingLodestoneDoesNotCountsAsTurn() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("shadowRiftTotalTurns", 11),
               withProperty("shadowRiftLastNC", 11),
               withProperty("encountersUntilSRChoice", 11),
-              withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 1));
-      try (cleanups) {
+              withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 1))) {
         client.addResponse(302, Map.of("location", List.of("adventure.php?snarfblat=567")), "");
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_follow_rufus_lodestone.html"));
@@ -1068,7 +1041,7 @@ public class RufusManagerTest {
     void noExceptionIfSaladSalad() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      var cleanups =
+      try (var _ =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("rufusDesiredArtifact"),
@@ -1076,8 +1049,7 @@ public class RufusManagerTest {
               withProperty("rufusDesiredItems"),
               withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
               withProperty("rufusQuestTarget"),
-              withProperty("rufusQuestType"));
-      try (cleanups) {
+              withProperty("rufusQuestType"))) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_call_rufus_salad.html"));
         client.addResponse(200, ""); // api.php

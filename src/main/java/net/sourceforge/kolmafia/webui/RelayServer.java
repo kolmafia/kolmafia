@@ -79,7 +79,7 @@ public class RelayServer implements Runnable {
       if (address.isLoopbackAddress()) {
         return location.substring(pathIndex + 1);
       }
-    } catch (UnknownHostException e) {
+    } catch (UnknownHostException _) {
     }
 
     return location;
@@ -134,7 +134,7 @@ public class RelayServer implements Runnable {
     while (RelayServer.listening) {
       try {
         this.dispatchAgent(this.serverSocket.accept());
-      } catch (Exception e) {
+      } catch (Exception _) {
         // If an exception occurs here, that means
         // someone closed the thread; just reset
         // the listening state and fall through.
@@ -149,7 +149,7 @@ public class RelayServer implements Runnable {
       if (this.serverSocket != null) {
         this.serverSocket.close();
       }
-    } catch (Exception e) {
+    } catch (Exception _) {
       // The end result of a socket closing
       // should not throw an exception, but
       // if it does, the socket closes.
@@ -169,7 +169,7 @@ public class RelayServer implements Runnable {
       }
 
       return true;
-    } catch (Exception e) {
+    } catch (Exception _) {
       return false;
     }
   }

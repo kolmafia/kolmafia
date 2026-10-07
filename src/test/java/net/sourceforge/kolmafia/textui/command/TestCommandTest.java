@@ -55,7 +55,7 @@ public class TestCommandTest extends AbstractCommandTestBase {
         Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
         try {
           Files.delete(dest);
-        } catch (IOException e) {
+        } catch (IOException _) {
           // leave it
         }
       }
@@ -64,9 +64,7 @@ public class TestCommandTest extends AbstractCommandTestBase {
     @Test
     public void loadsFight() {
       // avoid "you can now equip a X"
-      var cleanups = withStats(300, 300, 300);
-
-      try (cleanups) {
+      try (var _ = withStats(300, 300, 300)) {
         String outputLoad = execute("load evilometer_fight.html");
         assertThat(outputLoad, startsWith("Read 9,727 bytes into a 9,727 character string"));
 
