@@ -6,28 +6,34 @@ import java.util.function.Consumer;
 public class BooleanModifierCollection {
   private final EnumSet<BooleanModifier> booleans = EnumSet.noneOf(BooleanModifier.class);
 
-  public void reset() {
+  public synchronized void reset() {
     this.booleans.clear();
   }
 
   public void set(BooleanModifierCollection source) {
-    this.booleans.clear();
-    this.booleans.addAll(source.booleans);
+    // Copy under the source's monitor and assign under ours, never both at once:
+    // a.set(b) and b.set(a) on two threads would deadlock.
+    EnumSet<BooleanModifier> copy = source.raw();
+    synchronized (this) {
+      this.booleans.clear();
+      this.booleans.addAll(copy);
+    }
   }
 
-  public boolean get(final BooleanModifier mod) {
+  public synchronized boolean get(final BooleanModifier mod) {
     return this.booleans.contains(mod);
   }
 
-  public boolean set(BooleanModifier modifier, boolean value) {
+  public synchronized boolean set(BooleanModifier modifier, boolean value) {
     return value ? this.booleans.add(modifier) : this.booleans.remove(modifier);
   }
 
-  public EnumSet<BooleanModifier> raw() {
+  public synchronized EnumSet<BooleanModifier> raw() {
     return this.booleans.clone();
   }
 
+  // Run the action outside the lock, over a copy: it writes to a different collection.
   public void forEach(Consumer<? super BooleanModifier> action) {
-    this.booleans.forEach(action);
+    this.raw().forEach(action);
   }
 }

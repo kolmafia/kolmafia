@@ -13,20 +13,30 @@ public class DoubleModifierCollection {
 
   // If only a few values are set in doubles, we instead store all modifiers in a sparse TreeMap.
   // When that map gets bigger than SPARSE_DOUBLES_MAX_SIZE, we copy it over to the dense EnumMap.
+  // Cached Modifiers are shared between threads, so every access to doubles is synchronized.
   private Map<DoubleModifier, DoubleOrList> doubles = new TreeMap<>();
 
-  public void reset() {
+  public synchronized void reset() {
     this.doubles.clear();
   }
 
   public void set(DoubleModifierCollection source) {
-    Map<DoubleModifier, DoubleOrList> copy =
-        source.doubles instanceof EnumMap ? new EnumMap<>(DoubleModifier.class) : new TreeMap<>();
-    copy.putAll(source.doubles);
-    this.doubles = copy;
+    // Copy under the source's monitor and assign under ours, never both at once:
+    // a.set(b) and b.set(a) on two threads would deadlock.
+    Map<DoubleModifier, DoubleOrList> copy = source.copyOfDoubles();
+    synchronized (this) {
+      this.doubles = copy;
+    }
   }
 
-  public void densify() {
+  private synchronized Map<DoubleModifier, DoubleOrList> copyOfDoubles() {
+    Map<DoubleModifier, DoubleOrList> copy =
+        this.doubles instanceof EnumMap ? new EnumMap<>(DoubleModifier.class) : new TreeMap<>();
+    copy.putAll(this.doubles);
+    return copy;
+  }
+
+  public synchronized void densify() {
     if (this.doubles instanceof EnumMap) return;
     Map<DoubleModifier, DoubleOrList> newDoubles = new EnumMap<>(DoubleModifier.class);
     newDoubles.putAll(this.doubles);
@@ -37,27 +47,27 @@ public class DoubleModifierCollection {
     return this.doubles.getOrDefault(mod, DEFAULT);
   }
 
-  public double getDouble(final DoubleModifier mod) {
+  public synchronized double getDouble(final DoubleModifier mod) {
     var entry = this.doubles.get(mod);
     if (entry == null) return 0.0;
     return entry.getDoubleValue();
   }
 
-  public List<Double> getList(final DoubleModifier mod) {
+  public synchronized List<Double> getList(final DoubleModifier mod) {
     var entry = this.doubles.get(mod);
     if (entry == null) return new ArrayList<>(List.of());
     return entry.getListValue();
   }
 
-  public boolean set(final DoubleModifier mod, final double value) {
+  public synchronized boolean set(final DoubleModifier mod, final double value) {
     return set(mod, new DoubleOrList(value));
   }
 
-  public boolean set(final DoubleModifier mod, final List<Double> value) {
+  public synchronized boolean set(final DoubleModifier mod, final List<Double> value) {
     return set(mod, new DoubleOrList(value));
   }
 
-  private boolean set(final DoubleModifier mod, final DoubleOrList value) {
+  private synchronized boolean set(final DoubleModifier mod, final DoubleOrList value) {
     var isMultiple = mod.isMultiple();
     var oldValue = get(mod);
     if (isMultiple) {
@@ -91,14 +101,15 @@ public class DoubleModifierCollection {
     return !oldValue.equals(value);
   }
 
-  public double increment(final DoubleModifier mod, final double value) {
+  public synchronized double increment(final DoubleModifier mod, final double value) {
     // Anything being accumulated onto should be dense.
     this.densify();
     var asDouble = new DoubleOrList(value);
     return this.doubles.merge(mod, asDouble, DoubleOrList::sum).getDoubleValue();
   }
 
+  // Run the action outside the lock, over a copy: it writes to a different collection.
   public void forEach(BiConsumer<? super DoubleModifier, ? super DoubleOrList> action) {
-    this.doubles.forEach(action);
+    this.copyOfDoubles().forEach(action);
   }
 }
