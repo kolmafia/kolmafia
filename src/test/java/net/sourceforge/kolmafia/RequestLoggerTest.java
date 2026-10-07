@@ -143,4 +143,24 @@ class RequestLoggerTest {
       }
     }
   }
+
+  @Nested
+  class CustomOutput {
+    @Test
+    public void closingNestedCaptureRestoresOuterCapture() {
+      var outer = new ByteArrayOutputStream();
+      var inner = new ByteArrayOutputStream();
+
+      RequestLogger.openCustom(new PrintStream(outer, true));
+      RequestLogger.printLine("to outer 1");
+      RequestLogger.openCustom(new PrintStream(inner, true));
+      RequestLogger.printLine("to inner");
+      RequestLogger.closeCustom();
+      RequestLogger.printLine("to outer 2");
+      RequestLogger.closeCustom();
+
+      assertThat(inner.toString().trim(), equalTo("to inner"));
+      assertThat(outer.toString().trim(), equalTo("to outer 1 to outer 2"));
+    }
+  }
 }
