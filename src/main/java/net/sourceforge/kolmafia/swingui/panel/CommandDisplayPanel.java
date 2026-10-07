@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalP
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.FindBar;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
@@ -45,6 +46,11 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     this.entryField = new AutoHighlightTextField();
     this.entryField.addKeyListener(new CommandEntryListener());
 
+    var findBar = new FindBar(outputDisplay, this.entryField::requestFocusInWindow);
+    var outputPanel = new JPanel(new BorderLayout());
+    outputPanel.add(findBar, BorderLayout.NORTH);
+    outputPanel.add(scrollPane, BorderLayout.CENTER);
+
     this.entryButton = new JButton("exec");
     this.entryButton.addActionListener(new CommandEntryListener());
 
@@ -52,8 +58,10 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     entryPanel.add(this.entryButton, BorderLayout.EAST);
 
     this.setLayout(new BorderLayout(1, 1));
-    this.add(scrollPane, BorderLayout.CENTER);
+    this.add(outputPanel, BorderLayout.CENTER);
     this.add(entryPanel, BorderLayout.SOUTH);
+
+    findBar.installShortcut(this);
 
     this.setFocusCycleRoot(true);
     this.setFocusTraversalPolicy(new DefaultComponentFocusTraversalPolicy(this.entryField));
