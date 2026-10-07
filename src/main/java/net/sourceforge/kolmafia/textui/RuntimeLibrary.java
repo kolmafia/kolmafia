@@ -4558,8 +4558,11 @@ public abstract class RuntimeLibrary {
     PrintStream out = new PrintStream(ostream);
 
     RequestLogger.openCustom(out);
-    KoLmafiaCLI.DEFAULT_SHELL.executeLine(string.toString(), controller);
-    RequestLogger.closeCustom();
+    try {
+      KoLmafiaCLI.DEFAULT_SHELL.executeLine(string.toString(), controller);
+    } finally {
+      RequestLogger.closeCustom();
+    }
 
     return new Value(ostream.toString());
   }
