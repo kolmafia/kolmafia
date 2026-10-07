@@ -93,6 +93,7 @@ public class CampgroundRequest extends GenericRequest {
 
           // Bedding
           ItemPool.BEANBAG_CHAIR,
+          ItemPool.BED_OF_STONE_ROSES,
           ItemPool.COLD_BEDDING,
           ItemPool.FOREST_CANOPY_BED,
           ItemPool.GAUZE_HAMMOCK,
@@ -1962,6 +1963,7 @@ public class CampgroundRequest extends GenericRequest {
   public static boolean isBedding(final int itemId) {
     return switch (itemId) {
       case ItemPool.BEANBAG_CHAIR,
+          ItemPool.BED_OF_STONE_ROSES,
           ItemPool.COLD_BEDDING,
           ItemPool.FOREST_CANOPY_BED,
           ItemPool.GAUZE_HAMMOCK,
