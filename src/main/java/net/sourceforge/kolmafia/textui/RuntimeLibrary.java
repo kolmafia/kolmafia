@@ -6442,6 +6442,8 @@ public abstract class RuntimeLibrary {
 
     FaxBotDatabase.configure();
 
+    boolean hadPhotocopy = InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER);
+
     for (FaxBot bot : FaxBotDatabase.getSortedFaxbots()) {
 
       if (bot == null) {
@@ -6454,7 +6456,8 @@ public abstract class RuntimeLibrary {
         return DataTypes.TRUE_VALUE;
       }
 
-      if (!KoLmafia.permitsContinue()) {
+      // A photocopy the machine would not take back blocks every other bot
+      if (!hadPhotocopy && InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
         return DataTypes.FALSE_VALUE;
       }
     }

@@ -166,7 +166,7 @@ class FaxRequestFrameTest {
             FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("Knob Goblin Embezzler"), false);
 
         assertThat(result, is(false));
-        assertThat(StaticEntity.getContinuationState(), is(MafiaState.ERROR));
+        assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
         assertThat(
             KoLmafia.getLastMessage(),
             is("Could not put the photocopied handsome mariachi back in the fax machine."));

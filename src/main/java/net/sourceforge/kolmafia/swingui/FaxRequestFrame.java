@@ -13,7 +13,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
@@ -229,9 +228,7 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
             return true;
           }
 
-          if (KoLmafia.permitsContinue()) {
-            KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
-          }
+          KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
           return false;
         }
 
@@ -293,7 +290,6 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
     if (InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
       FaxRequestFrame.statusMessage =
           "Could not put the photocopied " + current + " back in the fax machine.";
-      KoLmafia.updateDisplay(MafiaState.ERROR, FaxRequestFrame.statusMessage);
     }
     return false;
   }

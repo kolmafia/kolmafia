@@ -155,7 +155,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
       execute("Knob Goblin Embezzler");
 
-      assertErrorState();
+      assertContinueState();
       assertThat(whoisRequests(), hasSize(1));
     }
   }
@@ -177,7 +177,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
       CliCaller.callCli("ashq", "faxbot($monster[Knob Goblin Embezzler])");
 
-      assertErrorState();
+      assertContinueState();
       assertThat(whoisRequests(), hasSize(1));
     }
   }
