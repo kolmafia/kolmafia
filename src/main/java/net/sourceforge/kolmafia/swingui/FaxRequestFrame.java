@@ -273,14 +273,8 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
       return false;
     }
 
-    String current = Preferences.getString("photocopyMonster");
-    MonsterData wanted = monster.getMonster();
-    MonsterData received = MonsterDatabase.findMonster(current);
-    boolean matches =
-        wanted != null && received != null
-            ? wanted.getId() == received.getId()
-            : current.equalsIgnoreCase(monster.getActualName());
-    if (matches) {
+    MonsterData received = MonsterDatabase.findMonster(Preferences.getString("photocopyMonster"));
+    if (received != null && received.getId() == monster.getMonster().getId()) {
       return true;
     }
 
@@ -288,8 +282,7 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
     RequestThread.postRequest(
         new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.SEND_FAX));
     if (InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
-      FaxRequestFrame.statusMessage =
-          "Could not put the photocopied " + current + " back in the fax machine.";
+      FaxRequestFrame.statusMessage = "Could not put the photocopy back in the fax machine.";
     }
     return false;
   }

@@ -61,6 +61,15 @@ class FaxRequestFrameTest {
 
   private static FakeHttpResponse<String> faxMachine(
       final HttpRequest request, final String onReceive, final String onSend) {
+    return faxMachine(
+        request, onReceive, onSend, html("request/test_desc_item_photocopied_mariachi.html"));
+  }
+
+  private static FakeHttpResponse<String> faxMachine(
+      final HttpRequest request,
+      final String onReceive,
+      final String onSend,
+      final String description) {
     String path = request.uri().getPath();
     if (path.equals("/clan_viplounge.php")) {
       String body = getPostRequestBody(request);
@@ -73,7 +82,7 @@ class FaxRequestFrameTest {
       return new FakeHttpResponse<>("You approach the fax machine.");
     }
     if (path.equals("/desc_item.php")) {
-      return new FakeHttpResponse<>(html("request/test_desc_item_photocopied_mariachi.html"));
+      return new FakeHttpResponse<>(description);
     }
     return new FakeHttpResponse<>("");
   }
@@ -147,6 +156,36 @@ class FaxRequestFrameTest {
     }
 
     @Test
+    void returnsFaxItCannotIdentifyToFaxMachine() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(
+          r ->
+              faxMachine(
+                  r,
+                  html("request/test_clan_fax_receive.html"),
+                  "Your photocopy slowly slides into the machine",
+                  ""));
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("faxbotTimeout", 0),
+              withItem(ItemPool.VIP_LOUNGE_KEY),
+              withItem(ItemPool.PHOTOCOPIED_MONSTER, 0),
+              withProperty("photocopyMonster", ""));
+
+      try (cleanups) {
+        boolean result =
+            FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
+
+        assertThat(result, is(false));
+        assertThat(faxMachineRequests(builder, "sendfax"), hasSize(1));
+        assertThat(InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER), is(false));
+        assertThat("photocopyMonster", isSetTo(""));
+      }
+    }
+
+    @Test
     void reportsWrongFaxTheMachineWillNotTakeBack() {
       var builder = new FakeHttpClientBuilder();
       builder.client.setResponseFunc(
@@ -168,8 +207,7 @@ class FaxRequestFrameTest {
         assertThat(result, is(false));
         assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
         assertThat(
-            KoLmafia.getLastMessage(),
-            is("Could not put the photocopied handsome mariachi back in the fax machine."));
+            KoLmafia.getLastMessage(), is("Could not put the photocopy back in the fax machine."));
         assertThat(InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER), is(true));
       }
     }
