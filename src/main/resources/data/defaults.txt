@@ -54,7 +54,6 @@ global	defaultDropdownSplit	0
 global	defaultLimit	5
 global	displayName
 global	externalEditor
-global	faxbotTimeout	60
 global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
@@ -708,6 +707,7 @@ user	falloutShelterCoolingTankUsed	false	roa
 user	falloutShelterLevel	0
 user	familiarScript
 user	familiarSweat	0	roa
+user	faxbotTimeout	60
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false	roa
 user	fireExtinguisherChasmUsed	false	roa
