@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.swingui;
 
-import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withDataFile;
@@ -15,6 +15,9 @@ import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
+import java.net.http.HttpRequest;
+import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -56,16 +59,40 @@ class FaxRequestFrameTest {
     return FaxBotDatabase.getFaxbot("Easyfax").getMonsterByActualName(name);
   }
 
+  private static FakeHttpResponse<String> faxMachine(
+      final HttpRequest request, final String onReceive, final String onSend) {
+    String path = request.uri().getPath();
+    if (path.equals("/clan_viplounge.php")) {
+      String body = getPostRequestBody(request);
+      if (body.contains("preaction=receivefax")) {
+        return new FakeHttpResponse<>(onReceive);
+      }
+      if (body.contains("preaction=sendfax")) {
+        return new FakeHttpResponse<>(onSend);
+      }
+      return new FakeHttpResponse<>("You approach the fax machine.");
+    }
+    if (path.equals("/desc_item.php")) {
+      return new FakeHttpResponse<>(html("request/test_desc_item_photocopied_mariachi.html"));
+    }
+    return new FakeHttpResponse<>("");
+  }
+
+  private static List<HttpRequest> faxMachineRequests(
+      final FakeHttpClientBuilder builder, final String preaction) {
+    return builder.client.getRequests().stream()
+        .filter(r -> r.uri().getPath().equals("/clan_viplounge.php"))
+        .filter(r -> getPostRequestBody(r).contains("preaction=" + preaction))
+        .toList();
+  }
+
   @Nested
   class NoResponse {
     @Test
     void keepsRequestedMonsterFromFaxMachine() {
       var builder = new FakeHttpClientBuilder();
-      builder.client.addResponse(200, "You approach the fax machine.");
-      builder.client.addResponse(200, ""); // submitnewchat.php
-      builder.client.addResponse(200, html("request/test_clan_fax_receive.html"));
-      builder.client.addResponse(200, html("request/test_desc_item_photocopied_mariachi.html"));
-      builder.client.addResponse(200, ""); // api.php
+      builder.client.setResponseFunc(
+          r -> faxMachine(r, html("request/test_clan_fax_receive.html"), ""));
 
       var cleanups =
           new Cleanups(
@@ -80,11 +107,9 @@ class FaxRequestFrameTest {
         boolean result =
             FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
 
-        var requests = builder.client.getRequests();
         assertThat(result, is(true));
-        assertThat(requests, hasSize(5));
-        assertPostRequest(
-            requests.get(2), "/clan_viplounge.php", "preaction=receivefax&whichfloor=2");
+        assertThat(faxMachineRequests(builder, "receivefax"), hasSize(1));
+        assertThat(faxMachineRequests(builder, "sendfax"), empty());
         assertThat("photocopyMonster", isSetTo("handsome mariachi"));
         assertThat("lastSuccessfulFaxbot", isSetTo("Easyfax"));
       }
@@ -93,12 +118,12 @@ class FaxRequestFrameTest {
     @Test
     void returnsOtherMonsterToFaxMachine() {
       var builder = new FakeHttpClientBuilder();
-      builder.client.addResponse(200, "You approach the fax machine.");
-      builder.client.addResponse(200, ""); // submitnewchat.php
-      builder.client.addResponse(200, html("request/test_clan_fax_receive.html"));
-      builder.client.addResponse(200, html("request/test_desc_item_photocopied_mariachi.html"));
-      builder.client.addResponse(200, ""); // api.php
-      builder.client.addResponse(200, "Your photocopy slowly slides into the machine");
+      builder.client.setResponseFunc(
+          r ->
+              faxMachine(
+                  r,
+                  html("request/test_clan_fax_receive.html"),
+                  "Your photocopy slowly slides into the machine"));
 
       var cleanups =
           new Cleanups(
@@ -113,10 +138,8 @@ class FaxRequestFrameTest {
         boolean result =
             FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("Knob Goblin Embezzler"), false);
 
-        var requests = builder.client.getRequests();
         assertThat(result, is(false));
-        assertThat(requests, hasSize(6));
-        assertPostRequest(requests.get(5), "/clan_viplounge.php", "preaction=sendfax&whichfloor=2");
+        assertThat(faxMachineRequests(builder, "sendfax"), hasSize(1));
         assertThat(InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER), is(false));
         assertThat("photocopyMonster", isSetTo(""));
         assertThat("lastSuccessfulFaxbot", isSetTo(""));
@@ -126,12 +149,8 @@ class FaxRequestFrameTest {
     @Test
     void reportsWrongFaxTheMachineWillNotTakeBack() {
       var builder = new FakeHttpClientBuilder();
-      builder.client.addResponse(200, "You approach the fax machine.");
-      builder.client.addResponse(200, ""); // submitnewchat.php
-      builder.client.addResponse(200, html("request/test_clan_fax_receive.html"));
-      builder.client.addResponse(200, html("request/test_desc_item_photocopied_mariachi.html"));
-      builder.client.addResponse(200, ""); // api.php
-      builder.client.addResponse(200, ""); // sendfax
+      builder.client.setResponseFunc(
+          r -> faxMachine(r, html("request/test_clan_fax_receive.html"), ""));
 
       var cleanups =
           new Cleanups(
@@ -158,9 +177,7 @@ class FaxRequestFrameTest {
     @Test
     void failsWhenFaxMachineIsEmpty() {
       var builder = new FakeHttpClientBuilder();
-      builder.client.addResponse(200, "You approach the fax machine.");
-      builder.client.addResponse(200, ""); // submitnewchat.php
-      builder.client.addResponse(200, "just be a blank sheet of paper");
+      builder.client.setResponseFunc(r -> faxMachine(r, "just be a blank sheet of paper", ""));
 
       var cleanups =
           new Cleanups(
@@ -174,11 +191,9 @@ class FaxRequestFrameTest {
         boolean result =
             FaxRequestFrame.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
 
-        var requests = builder.client.getRequests();
         assertThat(result, is(false));
-        assertThat(requests, hasSize(3));
-        assertPostRequest(
-            requests.get(2), "/clan_viplounge.php", "preaction=receivefax&whichfloor=2");
+        assertThat(faxMachineRequests(builder, "receivefax"), hasSize(1));
+        assertThat(faxMachineRequests(builder, "sendfax"), empty());
         assertThat("lastSuccessfulFaxbot", isSetTo(""));
       }
     }

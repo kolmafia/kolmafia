@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withDataFile;
@@ -13,6 +14,9 @@ import static org.hamcrest.Matchers.hasSize;
 import internal.helpers.Cleanups;
 import internal.helpers.CliCaller;
 import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpResponse;
+import java.net.http.HttpRequest;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -104,15 +108,34 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
     }
   }
 
-  private static void wrongFaxThatWillNotGoBack() {
-    var client = HttpClientWrapper.fakeClientBuilder.client;
-    client.addResponse(200, "This player is currently online."); // /whois Easyfax
-    client.addResponse(200, "You approach the fax machine.");
-    client.addResponse(200, ""); // submitnewchat.php
-    client.addResponse(200, html("request/test_clan_fax_receive.html"));
-    client.addResponse(200, html("request/test_desc_item_photocopied_mariachi.html"));
-    client.addResponse(200, ""); // api.php
-    client.addResponse(200, ""); // sendfax
+  private static boolean isWhois(final HttpRequest request) {
+    return request.uri().getPath().equals("/submitnewchat.php")
+        && String.valueOf(request.uri().getQuery()).contains("/whois");
+  }
+
+  private static FakeHttpResponse<String> wrongFaxThatWillNotGoBack(final HttpRequest request) {
+    if (isWhois(request)) {
+      return new FakeHttpResponse<>("This player is currently online.");
+    }
+    String path = request.uri().getPath();
+    if (path.equals("/clan_viplounge.php")) {
+      String body = getPostRequestBody(request);
+      if (body.contains("preaction=receivefax")) {
+        return new FakeHttpResponse<>(html("request/test_clan_fax_receive.html"));
+      }
+      if (body.contains("preaction=sendfax")) {
+        return new FakeHttpResponse<>("");
+      }
+      return new FakeHttpResponse<>("You approach the fax machine.");
+    }
+    if (path.equals("/desc_item.php")) {
+      return new FakeHttpResponse<>(html("request/test_desc_item_photocopied_mariachi.html"));
+    }
+    return new FakeHttpResponse<>("");
+  }
+
+  private static List<HttpRequest> whoisRequests() {
+    return getRequests().stream().filter(FaxbotCommandTest::isWhois).toList();
   }
 
   @Test
@@ -127,12 +150,13 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
             withItem(ItemPool.PHOTOCOPIED_MONSTER, 0));
 
     try (cleanups) {
-      wrongFaxThatWillNotGoBack();
+      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
+          FaxbotCommandTest::wrongFaxThatWillNotGoBack);
 
       execute("Knob Goblin Embezzler");
 
       assertErrorState();
-      assertThat(getRequests(), hasSize(7));
+      assertThat(whoisRequests(), hasSize(1));
     }
   }
 
@@ -148,12 +172,13 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
             withItem(ItemPool.PHOTOCOPIED_MONSTER, 0));
 
     try (cleanups) {
-      wrongFaxThatWillNotGoBack();
+      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
+          FaxbotCommandTest::wrongFaxThatWillNotGoBack);
 
       CliCaller.callCli("ashq", "faxbot($monster[Knob Goblin Embezzler])");
 
       assertErrorState();
-      assertThat(getRequests(), hasSize(7));
+      assertThat(whoisRequests(), hasSize(1));
     }
   }
 }
