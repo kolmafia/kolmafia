@@ -24,7 +24,9 @@ import static internal.helpers.Player.withItemInStash;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
+import static internal.helpers.Player.withMallPrice;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withMeatInStorage;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
 import static internal.helpers.Player.withNotAllowedInStandard;
@@ -47,6 +49,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
@@ -4591,6 +4594,92 @@ public class MaximizerTest {
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
       assertThat(EquipmentManager.getEquipment(Slot.HAT), is(equipped));
     }
+  }
+
+  @Test
+  void mallRecommendationAcquiresCopiesForEveryAccessorySlot() {
+    int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
+            withStats(10, 10, 10),
+            withItem(bowTie),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("item drop, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItems(
+              hasProperty("cmd", is("equip acc1 \u00B6" + bowTie)),
+              hasToString(startsWith("acquire & equip acc2 polka-dot bow tie")),
+              hasProperty("cmd", is("equip acc2 \u00B6" + bowTie)),
+              hasToString(startsWith("acquire & equip acc3 polka-dot bow tie")),
+              hasProperty("cmd", is("equip acc3 \u00B6" + bowTie))));
+    }
+  }
+
+  @Test
+  void mallRecommendationAcquiresOneCopyOfSingleEquipAccessory() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                ItemPool.get("polka-dot bow tie").getItemId(),
+                "Item Drop: +1000, Single Equip"),
+            withStats(10, 10, 10),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("item drop, -tie");
+
+      assertThat(
+          getBoosts(), hasItem(hasToString(startsWith("acquire & equip acc1 polka-dot bow tie"))));
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2, "polka-dot bow tie"))));
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY3, "polka-dot bow tie"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"1000, 1000, 3", "1000, 250, 2", "1000, 99, 0", "99, 1000, 0"})
+  void mallRecommendationsRespectPriceAndAvailableMeat(
+      int maxPrice, long meat, long expectedCopies) {
+    int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
+            withStats(10, 10, 10),
+            withMallPrice(bowTie, 100),
+            withMeat(meat),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("item drop, -tie", maxPrice, PriceLevel.ALL);
+
+      assertThat(recommendedAccessorySlots(), is(expectedCopies));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"1000, 3", "250, 2", "99, 0"})
+  void storageMallRecommendationsRespectAvailableMeat(long storageMeat, long expectedCopies) {
+    int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
+            withStats(10, 10, 10),
+            withMallPrice(bowTie, 100),
+            withMeatInStorage(storageMeat),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(false))) {
+      maximizeAny("item drop, -tie", 1000, PriceLevel.ALL);
+
+      assertThat(recommendedAccessorySlots(), is(expectedCopies));
+    }
+  }
+
+  private static long recommendedAccessorySlots() {
+    return getBoosts().stream()
+        .filter(boost -> boost.getCmd() != null && boost.getCmd().startsWith("equip acc"))
+        .count();
   }
 
   @Test

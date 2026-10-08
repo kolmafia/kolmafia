@@ -674,7 +674,13 @@ public class Evaluator {
 
       if (!EquipmentManager.canEquip(id) && !KoLCharacter.hasEquipped(id)) continue;
       if (item == null) {
-        item = new CheckedItem(id, equipScope, maxPrice, priceLevel);
+        int acquisitionTarget =
+            slot == Slot.ACCESSORY1
+                    && !ModifierDatabase.getBooleanModifier(
+                        ModifierType.ITEM, id, BooleanModifier.SINGLE)
+                ? SlotSet.ACCESSORY_SLOTS.size()
+                : 1;
+        item = new CheckedItem(id, equipScope, maxPrice, priceLevel, acquisitionTarget);
       }
 
       if (item.getCount() == 0) {
