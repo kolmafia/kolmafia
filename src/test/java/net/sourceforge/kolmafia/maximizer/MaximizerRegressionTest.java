@@ -271,4 +271,24 @@ public class MaximizerRegressionTest {
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "Counterclockwise Watch")));
     }
   }
+
+  // Copy of suggestsReplacingExistingWatch() meant to use "advs" as a synonymn for adv
+  @Test
+  void understandsSynonym() {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem("Counterclockwise Watch"), // 10, watch
+            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"), // 0, not a watch
+            withEquipped(Slot.ACCESSORY2, "numberwang"), // 5, not a watch
+            withEquipped(Slot.ACCESSORY3, "baywatch") // 7, a watch
+            );
+
+    try (cleanups) {
+      assertTrue(maximize("advs,fites,-tie"));
+      assertEquals(55, modFor(DoubleModifier.ADVENTURES), 0.01);
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY1))));
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "Counterclockwise Watch")));
+    }
+  }
 }
