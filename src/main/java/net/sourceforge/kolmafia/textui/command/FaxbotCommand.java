@@ -4,9 +4,11 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 
 public class FaxbotCommand extends AbstractCommand {
@@ -19,6 +21,7 @@ public class FaxbotCommand extends AbstractCommand {
     FaxBotDatabase.configure();
 
     boolean tried = false;
+    boolean hadPhotocopy = InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER);
 
     for (FaxBot bot : FaxBotDatabase.getSortedFaxbots()) {
       if (bot == null) {
@@ -49,6 +52,11 @@ public class FaxbotCommand extends AbstractCommand {
       Monster monster = bot.getMonsterByCommand(commands.get(0));
       tried = true;
       if (FaxRequestFrame.requestFax(botName, monster, false)) {
+        return;
+      }
+
+      // A photocopy the machine would not take back blocks every other bot
+      if (!hadPhotocopy && InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
         return;
       }
     }

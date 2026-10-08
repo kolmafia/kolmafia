@@ -707,6 +707,7 @@ user	falloutShelterCoolingTankUsed	false	roa
 user	falloutShelterLevel	0
 user	familiarScript
 user	familiarSweat	0	roa
+user	faxbotTimeout	60
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false	roa
 user	fireExtinguisherChasmUsed	false	roa
