@@ -6,6 +6,7 @@ import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withDataFile;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -16,6 +17,7 @@ import static org.hamcrest.Matchers.is;
 import internal.helpers.Cleanups;
 import internal.helpers.CliCaller;
 import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.net.http.HttpRequest;
 import java.util.List;
@@ -149,8 +151,8 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
     return faxMachine(request, "Your photocopy slowly slides into the machine");
   }
 
-  private static List<HttpRequest> whoisRequests() {
-    return getRequests().stream().filter(FaxbotCommandTest::isWhois).toList();
+  private static List<HttpRequest> whoisRequests(final FakeHttpClientBuilder builder) {
+    return builder.client.getRequests().stream().filter(FaxbotCommandTest::isWhois).toList();
   }
 
   private static int botsWithCommand(final String command) {
@@ -167,8 +169,9 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
             .count();
   }
 
-  private static Cleanups readyToFax() {
+  private static Cleanups readyToFax(final FakeHttpClientBuilder builder) {
     return new Cleanups(
+        withHttpClientBuilder(builder),
         withContinuationState(),
         withProperty("lastSuccessfulFaxbot", "Easyfax"),
         withProperty("faxbotTimeout", 0),
@@ -179,63 +182,59 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
   @Test
   void stopsAskingBotsWhenWrongFaxWillNotGoBack() {
-    var cleanups = readyToFax();
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(FaxbotCommandTest::wrongFaxThatWillNotGoBack);
+    var cleanups = readyToFax(builder);
 
     try (cleanups) {
-      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
-          FaxbotCommandTest::wrongFaxThatWillNotGoBack);
-
       execute("Knob Goblin Embezzler");
 
       assertContinueState();
-      assertThat(whoisRequests(), hasSize(1));
+      assertThat(whoisRequests(builder), hasSize(1));
     }
   }
 
   @Test
   void ashFaxbotStopsAskingBotsWhenWrongFaxWillNotGoBack() {
-    var cleanups = readyToFax();
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(FaxbotCommandTest::wrongFaxThatWillNotGoBack);
+    var cleanups = readyToFax(builder);
 
     try (cleanups) {
-      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
-          FaxbotCommandTest::wrongFaxThatWillNotGoBack);
-
       CliCaller.callCli("ashq", "faxbot($monster[Knob Goblin Embezzler])");
 
       assertContinueState();
-      assertThat(whoisRequests(), hasSize(1));
+      assertThat(whoisRequests(builder), hasSize(1));
     }
   }
 
   @Test
   void asksTheNextBotWhenWrongFaxGoesBack() {
-    var cleanups = readyToFax();
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(FaxbotCommandTest::wrongFaxThatGoesBack);
+    var cleanups = readyToFax(builder);
 
     try (cleanups) {
-      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
-          FaxbotCommandTest::wrongFaxThatGoesBack);
-
       execute("Knob Goblin Embezzler");
 
       assertContinueState();
-      assertThat(whoisRequests(), hasSize(botsWithCommand("Knob Goblin Embezzler")));
+      assertThat(whoisRequests(builder), hasSize(botsWithCommand("Knob Goblin Embezzler")));
       assertThat(InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER), is(false));
     }
   }
 
   @Test
   void ashFaxbotAsksTheNextBotWhenWrongFaxGoesBack() {
-    var cleanups = readyToFax();
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(FaxbotCommandTest::wrongFaxThatGoesBack);
+    var cleanups = readyToFax(builder);
 
     try (cleanups) {
-      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
-          FaxbotCommandTest::wrongFaxThatGoesBack);
-
       CliCaller.callCli("ashq", "faxbot($monster[Knob Goblin Embezzler])");
 
       assertContinueState();
       assertThat(
-          whoisRequests(),
+          whoisRequests(builder),
           hasSize(botsWithMonster(MonsterDatabase.findMonster("Knob Goblin Embezzler"))));
       assertThat(InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER), is(false));
     }
@@ -243,24 +242,24 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
   @Test
   void keepsTheFaxWhenItIsTheRequestedMonster() {
-    var cleanups = readyToFax();
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(FaxbotCommandTest::wrongFaxThatGoesBack);
+    var cleanups = readyToFax(builder);
 
     try (cleanups) {
-      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
-          FaxbotCommandTest::wrongFaxThatGoesBack);
-
       execute("handsome mariachi");
 
       assertContinueState();
-      assertThat(whoisRequests(), hasSize(1));
+      assertThat(whoisRequests(builder), hasSize(1));
       assertThat("photocopyMonster", isSetTo("handsome mariachi"));
       assertThat(InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER), is(true));
     }
   }
 
   // Without a VIP key the request fails before offering to dump the photocopy
-  private static Cleanups holdingPhotocopyWithoutVipKey() {
+  private static Cleanups holdingPhotocopyWithoutVipKey(final FakeHttpClientBuilder builder) {
     return new Cleanups(
+        withHttpClientBuilder(builder),
         withContinuationState(),
         withProperty("lastSuccessfulFaxbot", "Easyfax"),
         withProperty("faxbotTimeout", 0),
@@ -270,32 +269,30 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
   @Test
   void keepsAskingBotsWhenPhotocopyWasAlreadyHeld() {
-    var cleanups = holdingPhotocopyWithoutVipKey();
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(FaxbotCommandTest::wrongFaxThatGoesBack);
+    var cleanups = holdingPhotocopyWithoutVipKey(builder);
 
     try (cleanups) {
-      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
-          FaxbotCommandTest::wrongFaxThatGoesBack);
-
       execute("Knob Goblin Embezzler");
 
       assertContinueState();
-      assertThat(whoisRequests(), hasSize(botsWithCommand("Knob Goblin Embezzler")));
+      assertThat(whoisRequests(builder), hasSize(botsWithCommand("Knob Goblin Embezzler")));
     }
   }
 
   @Test
   void ashFaxbotKeepsAskingBotsWhenPhotocopyWasAlreadyHeld() {
-    var cleanups = holdingPhotocopyWithoutVipKey();
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(FaxbotCommandTest::wrongFaxThatGoesBack);
+    var cleanups = holdingPhotocopyWithoutVipKey(builder);
 
     try (cleanups) {
-      HttpClientWrapper.fakeClientBuilder.client.setResponseFunc(
-          FaxbotCommandTest::wrongFaxThatGoesBack);
-
       CliCaller.callCli("ashq", "faxbot($monster[Knob Goblin Embezzler])");
 
       assertContinueState();
       assertThat(
-          whoisRequests(),
+          whoisRequests(builder),
           hasSize(botsWithMonster(MonsterDatabase.findMonster("Knob Goblin Embezzler"))));
     }
   }
