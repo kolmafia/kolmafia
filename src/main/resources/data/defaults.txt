@@ -1206,6 +1206,7 @@ user	maximizerAlwaysCurrent	false
 user	maximizerBudgetUsesOr	false
 user	maximizerCertificateMode	false
 user	maximizerCombinationLimit	0
+user	maximizerConsiderMinModifiersInShortlist	false
 user	maximizerCreateOnHand	false
 user	maximizerCurrentMallPrices	false
 user	maximizerEquipmentLevel	1
