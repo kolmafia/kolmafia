@@ -1973,6 +1973,23 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(30.0));
       }
     }
+
+    @Test
+    public void waveZoneCountsAsUnderwaterEnvironment() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_seadentWaveZone", "Noob Cave"),
+              withLocation("Noob Cave"),
+              withEffect("Crocodile Tear"),
+              withEffect("Greased-Up Familiar"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT), equalTo(15.0));
+      }
+    }
   }
 
   @Test
