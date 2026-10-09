@@ -206,8 +206,8 @@ class MaximizerExpression {
           canonicalization("any resistance", "elemental resistance"),
           canonicalization("main", "mainstat"),
           canonicalization("com(bat)?", DoubleModifier.COMBAT_RATE.getName()),
-          canonicalization("adv", DoubleModifier.ADVENTURES.getName()),
-          canonicalization("fites", DoubleModifier.PVP_FIGHTS.getName()),
+          canonicalization("advs?", DoubleModifier.ADVENTURES.getName()),
+          canonicalization("fites?", DoubleModifier.PVP_FIGHTS.getName()),
           canonicalization("ocrs", DoubleModifier.RANDOM_MONSTER_MODIFIERS.getName()),
           canonicalization("clownosity", BitmapModifier.CLOWNINESS.getName()),
           canonicalization("init", DoubleModifier.INITIATIVE.getName()),
@@ -600,7 +600,7 @@ class MaximizerExpression {
               this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
             }
             switch (originalKeyword) {
-              case "adv", "fites" -> this.beeosity = 999;
+              case "adv", "advs", "fite", "fites" -> this.beeosity = 999;
               case "ocrs" -> {
                 this.noTiebreaker = true;
                 this.beeosity = 999;
