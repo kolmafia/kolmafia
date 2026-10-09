@@ -600,7 +600,7 @@ class MaximizerExpression {
               this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
             }
             switch (originalKeyword) {
-              case "adv", "fites" -> this.beeosity = 999;
+              case "adv", "advs", "fite", "fites" -> this.beeosity = 999;
               case "ocrs" -> {
                 this.noTiebreaker = true;
                 this.beeosity = 999;
