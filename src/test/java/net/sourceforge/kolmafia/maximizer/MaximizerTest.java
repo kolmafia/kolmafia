@@ -472,6 +472,101 @@ public class MaximizerTest {
     }
   }
 
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "hp, -tie | Maximum HP Percent: 100 | Maximum HP: 50 | helmet turtle",
+        "-muscle, -tie | Muscle: -20 | Muscle Percent: 100 | helmet turtle",
+        "muscle 150 min, -tie | Muscle: -20 | Muscle Percent: 100 | bounty-hunting helmet"
+      })
+  void transformedScoresPreserveBestRecommendation(
+      String expression, String firstModifiers, String secondModifiers, String expected) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withStats(100, 100, 100),
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, firstModifiers.trim()),
+            withOverrideModifiers(ModifierType.ITEM, alternative, secondModifiers.trim()),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize(expression.trim()));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, expected.trim())));
+    }
+  }
+
+  @Test
+  void equalizedStatCanDetermineRecommendation() {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 20, 30),
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Equalize: \"Moxie\""),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "Muscle: 15"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("muscle, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+    }
+  }
+
+  @Test
+  void alternateMpControllingStatCanDetermineRecommendation() {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 20, 30),
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Moxie Controls MP"),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "Maximum MP: 5"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("mp, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+    }
+  }
+
+  @Test
+  void rawResistanceAboveImmunityWins() {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Hot Immunity"),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "Hot Resistance: 150"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("hot resistance, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
+    }
+  }
+
+  @Test
+  void fixedAccessoryLeavesRemainingSlotsAvailable() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.WORTHLESS_TRINKET, "Food Drop: 30"),
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.SEAL_TOOTH, "Food Drop: 20"),
+            withEquipped(Slot.ACCESSORY1, ItemPool.WORTHLESS_TRINKET),
+            withEquippableItem(ItemPool.SEAL_TOOTH, 2))) {
+      assertTrue(maximize("food drop, 200 max, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY2, "seal tooth")));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "seal tooth")));
+    }
+  }
+
+  @Test
+  void negativeStinkyCheeseWeightRejectsStinkyEquipment() {
+    try (var cleanups = new Cleanups(withEquippableItem(ItemPool.STINKY_CHEESE_SWORD))) {
+      assertTrue(maximize("-1 stinky cheese, -tie"));
+
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON, "stinky cheese sword"))));
+    }
+  }
+
   @Nested
   class OsityScoring {
     @Test

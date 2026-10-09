@@ -225,7 +225,7 @@ final class MaximizerBranchBound {
   private static Modifiers projectionDelta(Modifiers baseline, Modifiers projection) {
     var delta = new Modifiers();
     for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
-      double value = projection.getDouble(modifier) - baseline.getDouble(modifier);
+      double value = projection.getRawDouble(modifier) - baseline.getRawDouble(modifier);
       if (value != 0.0) delta.setDouble(modifier, value);
     }
     for (var modifier : BitmapModifier.values()) {

@@ -401,6 +401,10 @@ public class Modifiers {
     return this.doubles.getList(modifier);
   }
 
+  public double getRawDouble(final DoubleModifier modifier) {
+    return modifier == null ? 0.0 : this.doubles.getDouble(modifier);
+  }
+
   public int getRawBitmap(final BitmapModifier modifier) {
     if (modifier == null) {
       return 0;

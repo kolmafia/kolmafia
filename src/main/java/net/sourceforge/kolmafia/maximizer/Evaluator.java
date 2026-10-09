@@ -62,6 +62,38 @@ public class Evaluator {
 
   record NumericScoreTerm(Modifier modifier, double weight, double min, double max) {}
 
+  static final Set<DoubleModifier> CONTEXTUAL_MODIFIERS =
+      Set.of(
+          DoubleModifier.FAMILIAR_WEIGHT,
+          DoubleModifier.HIDDEN_FAMILIAR_WEIGHT,
+          DoubleModifier.FAMILIAR_WEIGHT_PCT,
+          DoubleModifier.FAIRY_WEIGHT,
+          DoubleModifier.FAIRY_EFFECTIVENESS,
+          DoubleModifier.LEPRECHAUN_WEIGHT,
+          DoubleModifier.LEPRECHAUN_EFFECTIVENESS,
+          DoubleModifier.VOLLEYBALL_WEIGHT,
+          DoubleModifier.VOLLEYBALL_EFFECTIVENESS,
+          DoubleModifier.SOMBRERO_WEIGHT,
+          DoubleModifier.SOMBRERO_EFFECTIVENESS,
+          DoubleModifier.SOMBRERO_BONUS,
+          DoubleModifier.EXPERIENCE,
+          DoubleModifier.MONSTER_LEVEL,
+          DoubleModifier.MONSTER_LEVEL_PERCENT,
+          DoubleModifier.MUS_EXPERIENCE,
+          DoubleModifier.MYS_EXPERIENCE,
+          DoubleModifier.MOX_EXPERIENCE,
+          DoubleModifier.MUS_EXPERIENCE_PCT,
+          DoubleModifier.MYS_EXPERIENCE_PCT,
+          DoubleModifier.MOX_EXPERIENCE_PCT);
+
+  static final Set<DoubleModifier> DERIVED_MODIFIERS =
+      Set.of(
+          DoubleModifier.MUS,
+          DoubleModifier.MYS,
+          DoubleModifier.MOX,
+          DoubleModifier.HP,
+          DoubleModifier.MP);
+
   // Equipment slots, that aren't the primary slot of any item type,
   // that are repurposed here (rather than making the array bigger).
   // Watches have to be handled specially because only one can be
@@ -295,7 +327,7 @@ public class Evaluator {
       if (val < min) this.failed = true;
       score += weight * Math.min(val, max);
     }
-    if (this.expression.stinkycheese > 0) {
+    if (this.expression.stinkycheese != 0) {
       int val = mods.getBitmap(BitmapModifier.STINKYCHEESE);
       score += this.expression.stinkycheese * val;
     }
@@ -366,7 +398,6 @@ public class Evaluator {
     // Normalize the active expression into the terms consumed by the numeric bound.
     var terms = new ArrayList<NumericScoreTerm>();
     for (var scoreModifier : this.activeScoreModifiers) {
-      if (scoreModifier.weight() == 0.0) continue;
       terms.add(
           new NumericScoreTerm(
               scoreModifier.modifier(),
@@ -389,7 +420,6 @@ public class Evaluator {
     if (this.supportsLegacyAdditiveBranchBound(possibles)) return true;
     // Fail closed for expression semantics that cannot be represented by independent intervals.
     if (!this.expression.booleanMask.isEmpty()
-        || this.expression.stinkycheese != 0
         || this.expression.totalMin != Double.NEGATIVE_INFINITY
         || this.expression.totalMax != Double.POSITIVE_INFINITY
         || this.numericScoreTerms().isEmpty()
@@ -399,10 +429,14 @@ public class Evaluator {
       return false;
     }
     for (var scoreModifier : this.activeScoreModifiers) {
-      if (scoreModifier.weight() == 0.0) continue;
-      if (scoreModifier.modifier() instanceof BitmapModifier) return false;
+      if (scoreModifier.modifier() instanceof BitmapModifier) continue;
       if (!(scoreModifier.modifier() instanceof DoubleModifier modifier)) return false;
-      // Only modifiers expressible as direct sums are safe in this first numeric bound.
+      // Derived terms have dedicated interval support; contextual terms still require exact search.
+      if (DERIVED_MODIFIERS.contains(modifier)) {
+        continue;
+      }
+      if (CONTEXTUAL_MODIFIERS.contains(modifier)) return false;
+      // All other supported modifiers must be expressible as direct sums.
       if (!switch (modifier) {
         case DAMAGE_ABSORPTION,
             DAMAGE_REDUCTION,
@@ -427,10 +461,36 @@ public class Evaluator {
             PICKPOCKET_CHANCE,
             SPORADIC_ITEMDROP,
             SPORADIC_MEATDROP,
+            FAIRY_WEIGHT,
+            FAIRY_EFFECTIVENESS,
+            FAMILIAR_WEIGHT,
+            HIDDEN_FAMILIAR_WEIGHT,
+            FAMILIAR_WEIGHT_PCT,
+            LEPRECHAUN_WEIGHT,
+            LEPRECHAUN_EFFECTIVENESS,
+            VOLLEYBALL_WEIGHT,
+            VOLLEYBALL_EFFECTIVENESS,
+            SOMBRERO_WEIGHT,
+            SOMBRERO_EFFECTIVENESS,
+            SOMBRERO_BONUS,
+            EXPERIENCE,
+            MONSTER_LEVEL,
+            MONSTER_LEVEL_PERCENT,
+            MUS_EXPERIENCE,
+            MYS_EXPERIENCE,
+            MOX_EXPERIENCE,
+            MUS_EXPERIENCE_PCT,
+            MYS_EXPERIENCE_PCT,
+            MOX_EXPERIENCE_PCT,
             MANA_COST,
             STACKABLE_MANA_COST,
             INITIATIVE,
-            INITIATIVE_PENALTY ->
+            INITIATIVE_PENALTY,
+            COLD_RESISTANCE,
+            HOT_RESISTANCE,
+            SLEAZE_RESISTANCE,
+            SPOOKY_RESISTANCE,
+            STENCH_RESISTANCE ->
             true;
         default -> false;
       }) {
@@ -443,13 +503,9 @@ public class Evaluator {
         if (itemId <= 0) continue;
         // Dynamic items and cross-item categories require exact traversal.
         if (item.conditionalFlag || item.automaticFlag) return false;
-        if (itemId == ItemPool.BROKEN_CHAMPAGNE || itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT) {
-          return false;
-        }
         Modifiers modifiers = ModifierDatabase.getItemModifiers(itemId);
         if (modifiers == null) continue;
         if (modifiers.hasUnarmedBonus()
-            || modifiers.hasString(StringModifier.ROLLOVER_EFFECT)
             || modifiers.getDouble(DoubleModifier.HOBO_POWER) != 0.0
             || modifiers.getDouble(DoubleModifier.SMITHSNESS) != 0.0
             || modifiers.getDouble(DoubleModifier.SLIME_HATES_IT) != 0.0
@@ -458,28 +514,9 @@ public class Evaluator {
             || modifiers.getBitmap(BitmapModifier.MCHUGELARGE) != 0) {
           return false;
         }
-        // Familiar and experience formulas are not independent item contributions.
-        if (modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) != 0.0
-            || modifiers.getDouble(DoubleModifier.FAIRY_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.FAIRY_EFFECTIVENESS) != 0.0
-            || modifiers.getDouble(DoubleModifier.LEPRECHAUN_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.LEPRECHAUN_EFFECTIVENESS) != 0.0
-            || modifiers.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.VOLLEYBALL_EFFECTIVENESS) != 0.0
-            || modifiers.getDouble(DoubleModifier.SOMBRERO_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.SOMBRERO_EFFECTIVENESS) != 0.0
-            || modifiers.getDouble(DoubleModifier.SOMBRERO_BONUS) != 0.0
-            || modifiers.getDouble(DoubleModifier.EXPERIENCE) != 0.0
-            || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL) != 0.0
-            || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) != 0.0
-            || modifiers.getDouble(DoubleModifier.MUS_EXPERIENCE) != 0.0
-            || modifiers.getDouble(DoubleModifier.MYS_EXPERIENCE) != 0.0
-            || modifiers.getDouble(DoubleModifier.MOX_EXPERIENCE) != 0.0
-            || modifiers.getDouble(DoubleModifier.MUS_EXPERIENCE_PCT) != 0.0
-            || modifiers.getDouble(DoubleModifier.MYS_EXPERIENCE_PCT) != 0.0
-            || modifiers.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT) != 0.0) {
+        // Candidate modifiers with familiar or experience context still require exact traversal.
+        if (CONTEXTUAL_MODIFIERS.stream()
+            .anyMatch(modifier -> modifiers.getDouble(modifier) != 0.0)) {
           return false;
         }
       }
