@@ -291,6 +291,10 @@ final class MaximizerBranchBound {
     return result.minimumFailed() || margin < 0.0;
   }
 
+  MaximizerNumericBound.BoundResult numericEvaluation(MaximizerSpeculation speculation) {
+    return this.numericBound.evaluate(speculation);
+  }
+
   private double outfitReduction(MaximizerSpeculation speculation, Stage stage) {
     boolean terminal = stage == Stage.HOLSTER || stage == Stage.WEAPON || stage == Stage.OFFHAND;
     boolean torsoComplete = torsoComplete(speculation);

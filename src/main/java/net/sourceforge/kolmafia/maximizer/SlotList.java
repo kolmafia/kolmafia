@@ -32,6 +32,11 @@ public class SlotList<T> {
     }
   }
 
+  public SlotList(SlotList<T> source) {
+    slotList = new EnumMap<>(source.slotList);
+    familiarList = new ArrayList<>(source.familiarList);
+  }
+
   public List<T> get(Slot key) {
     return slotList.computeIfAbsent(key, k -> new ArrayList<>());
   }

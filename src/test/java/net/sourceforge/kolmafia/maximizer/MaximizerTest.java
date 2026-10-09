@@ -104,7 +104,7 @@ public class MaximizerTest {
             withEquippableItem("bounty-hunting helmet"),
             withProperty("maximizerCombinationLimit", 1))) {
       maximize("item drop");
-      assertThat(Maximizer.bestChecked, is(1));
+      assertThat(Maximizer.bestChecked, is(1L));
       assertThat(Maximizer.combinationLimit, is(1L));
     }
 
@@ -3944,12 +3944,12 @@ public class MaximizerTest {
             withEquippableItem(alternative))) {
       assertTrue(maximize("item drop, -tie, current"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
-      int combinationsWithCurrent = Maximizer.bestChecked;
+      long combinationsWithCurrent = Maximizer.bestChecked;
 
       assertTrue(maximize("item drop, -tie, -current"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
-      assertThat(combinationsWithCurrent, greaterThan(1));
-      assertThat(Maximizer.bestChecked, is(1));
+      assertThat(combinationsWithCurrent, greaterThan(1L));
+      assertThat(Maximizer.bestChecked, is(1L));
       assertThat(combinationsWithCurrent, greaterThan(Maximizer.bestChecked));
     }
   }
@@ -4430,7 +4430,7 @@ public class MaximizerTest {
 
       assertThat(Maximizer.best.equipment.get(Slot.OFFHAND), equalTo(ItemPool.get("card sleeve")));
       assertThat(Maximizer.best.equipment.get(Slot.CARDSLEEVE), equalTo(ItemPool.get(card)));
-      assertThat(Maximizer.bestChecked, greaterThan(1));
+      assertThat(Maximizer.bestChecked, greaterThan(1L));
     }
   }
 
@@ -4455,7 +4455,7 @@ public class MaximizerTest {
       assertThat(
           SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
           hasItem(ItemPool.get("bejeweled pledge pin")));
-      assertThat(Maximizer.bestChecked, greaterThan(1));
+      assertThat(Maximizer.bestChecked, greaterThan(1L));
     }
   }
 
@@ -4476,7 +4476,7 @@ public class MaximizerTest {
       assertThat(
           SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
           hasItems(ItemPool.get("bitter bowtie"), ItemPool.get("brazen bracelet")));
-      assertThat(Maximizer.bestChecked, greaterThan(1));
+      assertThat(Maximizer.bestChecked, greaterThan(1L));
     }
   }
 
@@ -4511,7 +4511,7 @@ public class MaximizerTest {
           SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
           hasItems(ItemPool.get("bitter bowtie"), ItemPool.get("brazen bracelet")));
       assertThat(Maximizer.best.equipment.get(Slot.SHIRT), equalTo(ItemPool.get("astral shirt")));
-      assertThat(Maximizer.bestChecked, greaterThan(1));
+      assertThat(Maximizer.bestChecked, greaterThan(1L));
     }
   }
 

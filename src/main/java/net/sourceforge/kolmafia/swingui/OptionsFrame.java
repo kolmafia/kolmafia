@@ -744,9 +744,14 @@ public class OptionsFrame extends GenericFrame {
               "maximizerNoAdventures", "Do not show effects that cost adventures"));
       this.queue(
           new PreferenceIntegerTextField(
-              "maximizerCombinationLimit",
-              8,
-              "Maximum number of combinations to consider (0 for no max)"));
+              "maximizerCombinationLimit", 8, "Anytime combination budget (0 disables)"));
+      this.queue(
+          new PreferenceIntegerTextField(
+              "maximizerTimeLimitSeconds", 8, "Anytime wall-clock budget in seconds (0 disables)"));
+      this.queue(
+          new PreferenceCheckBox(
+              "maximizerBudgetUsesOr",
+              "Stop anytime search when either enabled budget is reached (otherwise all)"));
       this.queue(
           new PreferenceButtonGroup(
               "maximizerPriceLevel",

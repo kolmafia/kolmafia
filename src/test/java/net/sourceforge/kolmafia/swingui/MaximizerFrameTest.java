@@ -12,9 +12,14 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
+import java.awt.Component;
+import java.awt.Container;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
+import javax.swing.AbstractButton;
+import javax.swing.JTextField;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -32,6 +37,57 @@ import org.junit.jupiter.api.condition.DisabledIf;
     value = "java.awt.GraphicsEnvironment#isHeadless",
     disabledReason = "headless environment")
 public class MaximizerFrameTest {
+  @Test
+  void displaysPersistentAnytimeSettings() {
+    KoLCharacter.reset("MaximizerFrameSearchSettings");
+    Preferences.reset("MaximizerFrameSearchSettings");
+    try (var cleanups =
+        new Cleanups(
+            withProperty("maximizerTimeLimitSeconds", 27),
+            withProperty("maximizerCombinationLimit", 1234),
+            withProperty("maximizerBudgetUsesOr", true))) {
+      MaximizerFrame frame = new MaximizerFrame();
+
+      try {
+        var components = descendants(frame).toList();
+        assertThat(
+            components.stream()
+                .filter(AbstractButton.class::isInstance)
+                .map(AbstractButton.class::cast)
+                .anyMatch(button -> button.isSelected() && button.getText().equals("or")),
+            equalTo(true));
+        var textValues =
+            components.stream()
+                .filter(JTextField.class::isInstance)
+                .map(JTextField.class::cast)
+                .map(JTextField::getText)
+                .toList();
+        assertThat(textValues, hasItem("27"));
+        assertThat(textValues, hasItem("1234"));
+      } finally {
+        frame.dispose();
+      }
+    } finally {
+      KoLCharacter.reset("");
+    }
+  }
+
+  @Test
+  void maximizerSearchPreferencesHaveProductDefaults() {
+    assertThat(Preferences.getDefault("maximizerTimeLimitSeconds"), equalTo("10"));
+    assertThat(Preferences.getDefault("maximizerCombinationLimit"), equalTo("0"));
+    assertThat(Preferences.getDefault("maximizerBudgetUsesOr"), equalTo("false"));
+  }
+
+  private static Stream<Component> descendants(Container container) {
+    return Arrays.stream(container.getComponents())
+        .flatMap(
+            component ->
+                component instanceof Container child
+                    ? Stream.concat(Stream.of(component), descendants(child))
+                    : Stream.of(component));
+  }
+
   @Nested
   class FilterBoostsTest {
     @Test
