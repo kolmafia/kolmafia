@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -460,7 +460,7 @@ public class ChoiceUtilities {
       Set.of("option", "pwd", "whichchoice");
 
   private static Map<String, String> extractExtraHiddenFields(String form) {
-    Map<String, String> choice = new HashMap<>();
+    Map<String, String> choice = new LinkedHashMap<>();
 
     var parsed = Jsoup.parseBodyFragment(form);
     var hiddenInputs = parsed.select("input[type=hidden]");

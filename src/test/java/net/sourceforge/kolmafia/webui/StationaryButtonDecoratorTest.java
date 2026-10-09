@@ -6,6 +6,7 @@ import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -173,6 +174,29 @@ class StationaryButtonDecoratorTest {
             buttons.get(2).attr("value"), is("\"You will go find two friends and meet me here.\""));
         assertThat(
             buttons.get(3).attr("value"), is("\"You will drop your things and walk away.\""));
+      }
+    }
+
+    @Test
+    void optionsDiscriminatedByExtraFieldsEachGetAButton() {
+      var html = html("request/test_campground_black_rose_garden.html");
+      var cleanups = new Cleanups(withChoice(1637, html));
+
+      try (cleanups) {
+        var buffer = new StringBuffer(html);
+        RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1637", buffer, false);
+        var doc = Jsoup.parse(buffer.toString());
+        var buttons = doc.select("#mafiabuttons input[type=button]");
+
+        // "auto", the six enabled POI forms and "Leave the garden".
+        assertThat(buttons.size(), is(8));
+        assertThat(buttons.get(0).attr("value"), is("auto"));
+        assertThat(buttons.get(7).attr("value"), is("Leave the garden"));
+        assertThat(
+            buttons.get(1).attr("value"), is("Fight giant flamingo statue at position 18,10"));
+        assertThat(
+            buttons.get(1).attr("onClick"),
+            containsString("&option=1&pwd=&rgpoi=0&rgx=18&rgy=10&rgf=0"));
       }
     }
   }
