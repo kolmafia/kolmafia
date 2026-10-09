@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class MaximizerRegressionTest {
   @BeforeEach
@@ -272,9 +273,10 @@ public class MaximizerRegressionTest {
     }
   }
 
-  // Copy of suggestsReplacingExistingWatch() meant to use "advs" as a synonymn for adv
-  @Test
-  void understandsSynonym() {
+  @CartesianTest
+  void understandsCanonicalSynonyms(
+      @CartesianTest.Values(strings = {"adv", "advs"}) String adv,
+      @CartesianTest.Values(strings = {"fite", "fites"}) String fight) {
     var cleanups =
         new Cleanups(
             withEquippableItem("Counterclockwise Watch"), // 10, watch
@@ -284,7 +286,8 @@ public class MaximizerRegressionTest {
             );
 
     try (cleanups) {
-      assertTrue(maximize("advs,fites,-tie"));
+      String maxStr = adv + "," + fight + ",-tie";
+      assertTrue(maximize(maxStr));
       assertEquals(55, modFor(DoubleModifier.ADVENTURES), 0.01);
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY1))));
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
