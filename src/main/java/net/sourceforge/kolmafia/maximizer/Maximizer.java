@@ -2227,6 +2227,9 @@ public class Maximizer {
 
   private static EquipScope emitSlot(
       Slot slot, EquipScope equipScope, int maxPrice, PriceLevel priceLevel, double current) {
+    if (!Maximizer.eval.codpiece().isSearchable() && SlotSet.CODPIECE_SLOTS.contains(slot)) {
+      return equipScope;
+    }
     if (KoLCharacter.inHatTrick() && slot == Slot.HAT) {
       return equipScope;
     }
@@ -2327,13 +2330,30 @@ public class Maximizer {
       }
       text = text + " (";
 
-      CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
+      boolean codpieceSlot =
+          Maximizer.eval.codpiece().isSearchable() && SlotSet.CODPIECE_SLOTS.contains(slot);
+      CheckedItem checkedItem =
+          codpieceSlot
+              ? new CheckedItem(
+                  itemId,
+                  equipScope,
+                  maxPrice,
+                  priceLevel,
+                  CodpieceMaximizer.maxUsefulGemCopies(itemId),
+                  true)
+              : new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
+      boolean preserveCodpieceGem =
+          EquipmentRequest.isCodpieceGem(itemId)
+              && Maximizer.eval.codpiece().reservedCopiesInGemSlots(Maximizer.best.equipment, item)
+                  > 0;
 
       long price = 0L;
 
       // How many have been needed so far to make this maximization set?
       // We need 1 + that number to equip this item, not just 1
       int count = 0;
+      int consumed = 0;
+      int released = 0;
 
       // If we're running from command line then execute them straight away,
       // so we have to count how much we've used in 'earlier' items
@@ -2347,10 +2367,16 @@ public class Maximizer {
           }
         }
       } else {
-        // Otherwise we iterate through the maximization set so far
+        for (var piece : SlotSet.ALL_SLOTS) {
+          if (piece.ordinal() >= slot.ordinal()) break;
+          if (item.equals(Maximizer.best.equipment.get(piece))) count++;
+        }
+
         for (Boost boost : Maximizer.boosts) {
-          if (item.equals(boost.getItem())) {
-            count++;
+          if (codpieceSlot && releasesItem(boost, item)) {
+            released++;
+          } else if (item.equals(boost.getItem())) {
+            if (!boost.getCmd().isEmpty()) consumed++;
           }
         }
       }
@@ -2380,22 +2406,36 @@ public class Maximizer {
       } else if (checkedItem.initial > count) {
         // This may look odd, but we need an item, not a checked item
         // The count of a checked item includes creatable, buyable, pullable etc.
+        boolean keepFamiliarCopy =
+            codpieceSlot && item.equals(Maximizer.best.equipment.get(Slot.FAMILIAR));
         String method =
-            InventoryManager.simRetrieveItem(
-                ItemPool.get(item.getItemId(), count + 1),
-                equipScope == EquipScope.EQUIP_NOW,
-                false);
+            codpieceSlot && checkedItem.inventory + released > consumed
+                ? "have"
+                : codpieceSlot && equipScope != EquipScope.EQUIP_NOW
+                    ? InventoryManager.simRetrieveItemFromAccessibleSources(
+                        ItemPool.get(item.getItemId(), consumed + 1 - released), !keepFamiliarCopy)
+                    : InventoryManager.simRetrieveItem(
+                        ItemPool.get(item.getItemId(), count + 1),
+                        equipScope == EquipScope.EQUIP_NOW,
+                        false);
         if (!method.equals("have")) {
           text = method + " & " + text;
         }
-        cmd =
-            switch (method) {
-              case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
-              case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
-              // Should be only hitting this after Ronin I think
-              case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
-              default -> cmd;
-            };
+        Slot movableCodpieceSlot = preserveCodpieceGem ? movableCodpieceSlot(item) : Slot.NONE;
+        if (movableCodpieceSlot != Slot.NONE) {
+          text = "unequip & " + text;
+          cmd = "unequip " + movableCodpieceSlot.name + ";" + cmd;
+        } else {
+          cmd =
+              switch (method) {
+                case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
+                case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
+                case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+                case "free pull" ->
+                    preserveCodpieceGem ? "pull 1 \u00B6" + item.getItemId() + ";" + cmd : cmd;
+                default -> cmd;
+              };
+        }
       } else if (checkedItem.creatable + checkedItem.initial > count) {
         text = "make & " + text;
         cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
@@ -2444,6 +2484,9 @@ public class Maximizer {
         }
       } else { // Mall buyable
         text = "acquire & " + text;
+        if (preserveCodpieceGem) {
+          cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
+        }
         if (priceLevel != PriceLevel.DONT_CHECK) {
           price = MallPriceManager.getMallPrice(itemId);
         }
@@ -2466,6 +2509,27 @@ public class Maximizer {
       Maximizer.boosts.add(boost);
     }
     return equipScope;
+  }
+
+  private static boolean releasesItem(Boost boost, AdventureResult item) {
+    Slot slot = boost.getSlot();
+    return slot != null
+        && slot != Slot.NONE
+        && EquipmentManager.getEquipment(slot).equals(item)
+        && !Objects.equals(Maximizer.best.equipment.get(slot), item);
+  }
+
+  private static Slot movableCodpieceSlot(AdventureResult item) {
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      if (EquipmentManager.getEquipment(slot).equals(item)
+          && !Objects.equals(Maximizer.best.equipment.get(slot), item)
+          && Maximizer.boosts.stream()
+              .map(Boost::getCmd)
+              .noneMatch(command -> command.contains("unequip " + slot.name))) {
+        return slot;
+      }
+    }
+    return Slot.NONE;
   }
 
   private static boolean excludedTCRSItem(int itemId) {

@@ -88,6 +88,7 @@ final class MaximizerNumericBound {
       List<Slot> slots,
       Map<Integer, CandidateVector> candidates,
       CandidateVector[] indexedCandidates,
+      int capacity,
       double[][] lowerByCapacity,
       double[][] upperByCapacity,
       int[] possibleBitmaps,
@@ -314,6 +315,7 @@ final class MaximizerNumericBound {
               group.slots(),
               Map.copyOf(candidates),
               indexedCandidates(candidates),
+              group.capacity(),
               bounds.lower(),
               bounds.upper(),
               possibleBitmaps,
@@ -376,9 +378,7 @@ final class MaximizerNumericBound {
     for (int groupIndex = 0; groupIndex < this.groups.size(); groupIndex++) {
       var group = this.groups.get(groupIndex);
       int remaining =
-          group.capacityMode() == MaximizerBranchBound.CapacityMode.FIXED
-              ? group.slots().size()
-              : 0;
+          group.capacityMode() == MaximizerBranchBound.CapacityMode.FIXED ? group.capacity() : 0;
       for (var slot : group.slots()) {
         AdventureResult item = speculation.equipment.get(slot);
         if (item == null) {

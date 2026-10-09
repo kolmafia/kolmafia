@@ -87,6 +87,7 @@ public class MaximizerFrameTest {
     assertThat(Preferences.getDefault("maximizerCertificateMode"), equalTo("false"));
     assertThat(Preferences.getDefault("maximizerTimeLimitSeconds"), equalTo("10"));
     assertThat(Preferences.getDefault("maximizerCombinationLimit"), equalTo("0"));
+    assertThat(Preferences.getDefault("maximizerConsiderCodpieceGems"), equalTo("fixed"));
     assertThat(Preferences.getDefault("maximizerBudgetUsesOr"), equalTo("false"));
     assertThat(Preferences.getDefault("maximizerMaximumScoreDifferencePercent"), equalTo("0.0"));
     assertThat(Preferences.getDefault("maximizerMaximumScoreDifferencePoints"), equalTo("0.0"));

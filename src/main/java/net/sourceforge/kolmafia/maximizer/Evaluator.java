@@ -59,6 +59,13 @@ public class Evaluator {
   private int carriedFamiliarsNeeded = 0;
   private boolean cardNeeded = false;
   private final Map<Modeable, Boolean> modeablesNeeded = Modeable.getBooleanMap();
+  private final CodpieceMaximizer codpiece = new CodpieceMaximizer(this);
+
+  private static final EnumSet<Slot> SEARCHABLE_SLOTS = EnumSet.copyOf(SlotSet.SLOTS);
+
+  static {
+    SEARCHABLE_SLOTS.addAll(SlotSet.CODPIECE_SLOTS);
+  }
 
   private record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
 
@@ -490,6 +497,47 @@ public class Evaluator {
         .anyMatch(scoreModifier -> scoreModifier.max() != Double.POSITIVE_INFINITY);
   }
 
+  CodpieceMaximizer codpiece() {
+    return this.codpiece;
+  }
+
+  boolean isRequired(AdventureResult item) {
+    return this.expression.posEquip.contains(item);
+  }
+
+  boolean isForbidden(AdventureResult item) {
+    return this.expression.negEquip.contains(item);
+  }
+
+  boolean scoresAny(Iterable<? extends Modifier> modifiers) {
+    for (var modifier : modifiers) {
+      if (this.expression.weight.getOrDefault(modifier, 0.0) != 0.0) return true;
+    }
+    return false;
+  }
+
+  boolean contributesToThreshold(Modifiers modifiers) {
+    return this.contributesToActiveScore(modifiers, true);
+  }
+
+  boolean contributesToCombinedScore(Modifiers modifiers) {
+    return this.contributesToActiveScore(modifiers, false);
+  }
+
+  private boolean contributesToActiveScore(Modifiers modifiers, boolean thresholdsOnly) {
+    for (var scoreModifier : this.activeScoreModifiers) {
+      if (thresholdsOnly
+          && scoreModifier.min() == Double.NEGATIVE_INFINITY
+          && scoreModifier.max() == Double.POSITIVE_INFINITY) continue;
+      Modifier modifier = scoreModifier.modifier();
+      if (modifier instanceof DoubleModifier doubleModifier
+          && modifiers.getDouble(doubleModifier) != 0.0) return true;
+      if (modifier instanceof BitmapModifier bitmapModifier
+          && modifiers.getRawBitmap(bitmapModifier) != 0) return true;
+    }
+    return false;
+  }
+
   boolean supportsNumericBranchBound(SlotList<CheckedItem> possibles) {
     if (this.supportsLegacyAdditiveBranchBound(possibles)) return true;
     // Fail closed for expression semantics that cannot be represented by independent intervals.
@@ -761,7 +809,8 @@ public class Evaluator {
     if (!this.failed && !this.expression.posEquip.isEmpty()) {
       equipSatisfied = true;
       for (AdventureResult item : this.expression.posEquip) {
-        if (!KoLCharacter.hasEquipped(equipment, item)) {
+        if (!KoLCharacter.hasEquipped(equipment, item)
+            && !this.codpiece.hasEquippedGem(equipment, item)) {
           equipSatisfied = false;
           break;
         }
@@ -970,6 +1019,13 @@ public class Evaluator {
     SlotList<CheckedItem> ranked = new SlotList<>(this.expression.familiars.size());
 
     double nullScore = this.getScore(new Modifiers());
+    boolean positiveSlot =
+        SEARCHABLE_SLOTS.stream().anyMatch(slot -> this.expression.slots.getOrDefault(slot, 0) > 0);
+    int slotThreshold = positiveSlot ? 1 : 0;
+    boolean accessoryAvailable =
+        SlotSet.ACCESSORY_SLOTS.stream()
+            .anyMatch(slot -> this.expression.slots.getOrDefault(slot, 0) >= slotThreshold);
+    this.codpiece.initialize(accessoryAvailable, equipScope, maxPrice, priceLevel, nullScore);
 
     Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
@@ -1285,6 +1341,11 @@ public class Evaluator {
             break;
 
           case ACCESSORY1:
+            if (id == ItemPool.THE_ETERNITY_CODPIECE && this.codpiece.isSearchable()) {
+              item.automaticFlag = true;
+              item.singleFlag = true;
+              break gotItem;
+            }
             if (id == ItemPool.SPECIAL_SAUCE_GLOVE
                 && KoLCharacter.isSauceror()
                 && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)) {
@@ -2274,7 +2335,8 @@ public class Evaluator {
     for (int thresh = 1; ; --thresh) {
       if (thresh < 0) return; // no slots enabled
       boolean anySlots = false;
-      for (var slot : SlotSet.SLOTS) {
+      for (var slot : SEARCHABLE_SLOTS) {
+        if (!this.codpiece.isSearchable() && SlotSet.CODPIECE_SLOTS.contains(slot)) continue;
         if (this.expression.slots.getOrDefault(slot, 0) >= thresh) {
           spec.equipment.put(slot, null);
           anySlots = true;

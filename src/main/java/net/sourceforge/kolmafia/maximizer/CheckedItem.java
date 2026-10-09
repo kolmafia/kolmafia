@@ -29,11 +29,26 @@ public class CheckedItem extends AdventureResult {
       long maxPrice,
       PriceLevel priceLevel,
       int acquisitionTarget) {
+    this(itemId, equipScope, maxPrice, priceLevel, acquisitionTarget, false);
+  }
+
+  CheckedItem(
+      int itemId,
+      EquipScope equipScope,
+      long maxPrice,
+      PriceLevel priceLevel,
+      int acquisitionTarget,
+      boolean useOwnedRestrictedCopies) {
     super(itemId, 1, false);
 
     this.inventory = InventoryManager.getCount(itemId);
 
-    this.initial = InventoryManager.getAccessibleCount(itemId);
+    AdventureResult item = ItemPool.get(itemId, 1);
+    boolean restrictedOwnedItem = useOwnedRestrictedCopies && !ItemDatabase.isAllowed(item);
+    this.initial =
+        restrictedOwnedItem
+            ? this.inventory + InventoryManager.getEquippedCount(item)
+            : InventoryManager.getAccessibleCount(itemId);
 
     // special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
     if (itemId == -1) {
@@ -45,7 +60,7 @@ public class CheckedItem extends AdventureResult {
     String itemName = this.getName();
     this.foldable = 0;
 
-    if (itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
+    if (!restrictedOwnedItem && itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
       FoldGroup group = ItemDatabase.getFoldGroup(itemName);
       if (group != null) {
         for (int i = 0; i < group.names.size(); ++i) {
@@ -113,7 +128,9 @@ public class CheckedItem extends AdventureResult {
       return;
     }
 
-    if (!ItemDatabase.isAllowed(this)) {
+    if (restrictedOwnedItem) {
+      return;
+    } else if (!ItemDatabase.isAllowed(this)) {
       // Unallowed items can't be bought or pulled, though the original code
       // just reset everything to zero
 

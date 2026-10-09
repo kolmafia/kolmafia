@@ -758,6 +758,9 @@ public class OptionsFrame extends GenericFrame {
               "Ignore budgets and prove the MaximizerFrame proof target"));
       this.queue(
           new PreferenceButtonGroup(
+              "maximizerConsiderCodpieceGems", "Eternity Codpiece gems:", "fixed", "exact"));
+      this.queue(
+          new PreferenceButtonGroup(
               "maximizerPriceLevel",
               "Price check by default:",
               "don't check",

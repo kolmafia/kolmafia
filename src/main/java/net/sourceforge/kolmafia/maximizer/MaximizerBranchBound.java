@@ -43,7 +43,8 @@ final class MaximizerBranchBound {
     PANTS,
     HOLSTER,
     WEAPON,
-    OFFHAND
+    OFFHAND,
+    CODPIECE
   }
 
   enum CapacityMode {
@@ -66,16 +67,13 @@ final class MaximizerBranchBound {
       List<CheckedItem> candidates,
       Map<Integer, Integer> copiesByItem,
       Map<Integer, Modifiers> projectionDeltas,
+      int capacity,
       CapacityMode capacityMode) {
     InterchangeableSlotGroup {
       slots = List.copyOf(slots);
       candidates = List.copyOf(candidates);
       copiesByItem = Map.copyOf(copiesByItem);
       projectionDeltas = Map.copyOf(projectionDeltas);
-    }
-
-    int capacity() {
-      return this.slots.size();
     }
 
     int remainingCapacity(MaximizerSpeculation speculation) {
@@ -177,9 +175,28 @@ final class MaximizerBranchBound {
       MaximizerSpeculation baseline,
       SlotList<CheckedItem> possibles,
       double interactionUpper,
+      java.util.EnumSet<Category> categories,
+      List<InterchangeableSlotGroup> additionalGroups) {
+    return create(
+        evaluator,
+        baseline,
+        possibles,
+        interactionUpper,
+        new OutfitEnvelope(0.0, Map.of()),
+        new SynergyEnvelope(0.0, List.of()),
+        categories,
+        additionalGroups);
+  }
+
+  static MaximizerBranchBound create(
+      Evaluator evaluator,
+      MaximizerSpeculation baseline,
+      SlotList<CheckedItem> possibles,
+      double interactionUpper,
       OutfitEnvelope outfitEnvelope,
       SynergyEnvelope synergyEnvelope,
-      java.util.EnumSet<Category> categories) {
+      java.util.EnumSet<Category> categories,
+      List<InterchangeableSlotGroup> additionalGroups) {
     var projectionBaseline = baseline.clone();
     if (projectionBaseline == null) throw new IllegalStateException("Unable to clone speculation");
     var projections = new EnumMap<Slot, Map<Integer, Modifiers>>(Slot.class);
@@ -225,9 +242,12 @@ final class MaximizerBranchBound {
     var accessoryGroup =
         accessoryGroup(
             baseline, possibles.get(Slot.ACCESSORY1), accessoryCopies, accessoryProjections);
-    double contextualUpper = contextualUpper(evaluator, baseline, projections, accessoryGroup);
+    var groups = new ArrayList<InterchangeableSlotGroup>();
+    groups.add(accessoryGroup);
+    groups.addAll(additionalGroups);
+    double contextualUpper = contextualUpper(evaluator, baseline, projections, groups);
     var categoryBounds =
-        categoryUpper(evaluator, baseline, possibles, projections, categories, accessoryGroup);
+        categoryUpper(evaluator, baseline, possibles, projections, categories, groups);
     // The interaction allowance includes the root synergy envelope. Remove the part that fixed
     // equipment has made unreachable instead of carrying it through every descendant branch.
     double synergyReduction =
@@ -242,7 +262,7 @@ final class MaximizerBranchBound {
             projectionBaseline.equipment,
             projectionBaseline.getModeables(),
             projections,
-            List.of(accessoryGroup),
+            groups,
             saturatingAdd(
                 saturatingAdd(categoryBounds.upper(), tightenedInteractionUpper), contextualUpper),
             categoryBounds.byCategory()[Category.BRIMSTONE.ordinal()]
@@ -264,6 +284,11 @@ final class MaximizerBranchBound {
         candidates,
         copiesByItem,
         projectionDeltas,
+        baseline.equipment.keySet().stream()
+            .filter(SlotSet.ACCESSORY_SLOTS::contains)
+            .filter(slot -> baseline.equipment.get(slot) == null)
+            .toList()
+            .size(),
         CapacityMode.UNRESOLVED_SLOTS);
   }
 
@@ -296,7 +321,11 @@ final class MaximizerBranchBound {
   }
 
   private double outfitReduction(MaximizerSpeculation speculation, Stage stage) {
-    boolean terminal = stage == Stage.HOLSTER || stage == Stage.WEAPON || stage == Stage.OFFHAND;
+    boolean terminal =
+        stage == Stage.HOLSTER
+            || stage == Stage.WEAPON
+            || stage == Stage.OFFHAND
+            || stage == Stage.CODPIECE;
     boolean torsoComplete = torsoComplete(speculation);
     if ((stage == Stage.SHIRT || stage == Stage.PANTS) && torsoComplete) {
       this.currentOutfitReduction =
@@ -338,7 +367,7 @@ final class MaximizerBranchBound {
       Evaluator evaluator,
       MaximizerSpeculation baseline,
       Map<Slot, Map<Integer, Modifiers>> projections,
-      InterchangeableSlotGroup group) {
+      List<InterchangeableSlotGroup> groups) {
     if (!evaluator.hasPositiveContextualModifier()) return 0.0;
     var completed = baseline.clone();
     if (completed == null) return 0.0;
@@ -358,13 +387,15 @@ final class MaximizerBranchBound {
                 .max()
                 .orElse(0.0);
       }
-      var values = new HashMap<Integer, Double>();
-      for (var entry : group.projectionDeltas().entrySet()) {
-        values.put(entry.getKey(), Math.max(0.0, entry.getValue().getDouble(modifier)));
+      for (var group : groups) {
+        var values = new HashMap<Integer, Double>();
+        for (var entry : group.projectionDeltas().entrySet()) {
+          values.put(entry.getKey(), Math.max(0.0, entry.getValue().getDouble(modifier)));
+        }
+        value =
+            saturatingAdd(
+                value, maximum(boundedCopyUpper(values, group.capacity(), group.copiesByItem())));
       }
-      value =
-          saturatingAdd(
-              value, maximum(boundedCopyUpper(values, group.capacity(), group.copiesByItem())));
       upper.setDouble(modifier, value);
     }
     // Familiar formulas combine weight and effectiveness, so evaluate them after building the
@@ -481,7 +512,7 @@ final class MaximizerBranchBound {
       SlotList<CheckedItem> possibles,
       Map<Slot, Map<Integer, Modifiers>> projections,
       java.util.EnumSet<Category> categories,
-      InterchangeableSlotGroup group) {
+      List<InterchangeableSlotGroup> groups) {
     double baselineScore = score(evaluator, baseline);
     double upper = 0.0;
     double[] byCategory = new double[Category.values().length];
@@ -495,7 +526,7 @@ final class MaximizerBranchBound {
       double ordinary = 0.0;
       for (var slot : baseline.equipment.keySet()) {
         if (projection.equipment.get(slot) != null) continue;
-        if (group.slots().contains(slot)) continue;
+        if (groups.stream().anyMatch(group -> group.slots().contains(slot))) continue;
         CheckedItem best = null;
         for (var item : candidates(possibles, slot)) {
           if (best == null || categoryValue(item, category) > categoryValue(best, category)) {
@@ -508,16 +539,18 @@ final class MaximizerBranchBound {
         }
       }
       double groupOrdinary = 0.0;
-      var selected =
-          groupCategorySelection(
-              category,
-              group,
-              categoryBitmapValue(calculateProjection(projection.clone()), category));
-      for (int index = 0; index < selected.size(); index++) {
-        var slot = group.slots().get(index);
-        var item = selected.get(index);
-        projection.equipment.put(slot, item);
-        groupOrdinary += contribution(evaluator, baseline, baselineScore, slot, item);
+      for (var group : groups) {
+        var selected =
+            groupCategorySelection(
+                category,
+                group,
+                categoryBitmapValue(calculateProjection(projection.clone()), category));
+        for (int index = 0; index < selected.size(); index++) {
+          var slot = group.slots().get(index);
+          var item = selected.get(index);
+          projection.equipment.put(slot, item);
+          groupOrdinary += contribution(evaluator, baseline, baselineScore, slot, item);
+        }
       }
       Modifiers categoryProjection = calculateProjection(projection.clone());
       double categoryContribution =
@@ -564,7 +597,7 @@ final class MaximizerBranchBound {
                   baseline,
                   possibles,
                   projections,
-                  group,
+                  groups,
                   categoryBitCounts[Category.BRIMSTONE.ordinal()],
                   categoryBitCounts[Category.CLOATHING.ordinal()]));
       if (joint < independent) {
@@ -599,7 +632,7 @@ final class MaximizerBranchBound {
       MaximizerSpeculation baseline,
       SlotList<CheckedItem> possibles,
       Map<Slot, Map<Integer, Modifiers>> projections,
-      InterchangeableSlotGroup group,
+      List<InterchangeableSlotGroup> groups,
       int maximumBrimstone,
       int maximumCloathing) {
     Modifiers baselineModifiers = calculateProjection(baseline.clone());
@@ -613,7 +646,7 @@ final class MaximizerBranchBound {
 
     for (var slot : baseline.equipment.keySet()) {
       if (baseline.equipment.get(slot) != null) continue;
-      if (group.slots().contains(slot)) continue;
+      if (groups.stream().anyMatch(group -> group.slots().contains(slot))) continue;
       var next = new java.util.HashSet<>(states);
       for (var item : candidates(possibles, slot)) {
         Modifiers modifiers = projections.getOrDefault(slot, Map.of()).get(item.getItemId());
@@ -630,30 +663,32 @@ final class MaximizerBranchBound {
       states = next;
     }
 
-    var byCapacity = new ArrayList<java.util.Set<Long>>(group.capacity() + 1);
-    for (int used = 0; used <= group.capacity(); used++) {
-      byCapacity.add(new java.util.HashSet<>());
-    }
-    byCapacity.get(0).addAll(states);
-    for (var item : group.candidates()) {
-      if (group.copiesByItem().getOrDefault(item.getItemId(), 0) <= 0) continue;
-      Modifiers modifiers = group.projectionDeltas().get(item.getItemId());
-      if (modifiers == null) continue;
-      int brimstone = modifiers.getRawBitmap(BitmapModifier.BRIMSTONE);
-      int cloathing = modifiers.getRawBitmap(BitmapModifier.CLOATHING);
-      if (brimstone == 0 && cloathing == 0) continue;
-      for (int used = group.capacity() - 1; used >= 0; used--) {
-        for (long state : List.copyOf(byCapacity.get(used))) {
-          byCapacity
-              .get(used + 1)
-              .add(
-                  packCategoryState(
-                      unpackBrimstone(state) | brimstone, unpackCloathing(state) | cloathing));
+    for (var group : groups) {
+      var byCapacity = new ArrayList<java.util.Set<Long>>(group.capacity() + 1);
+      for (int used = 0; used <= group.capacity(); used++) {
+        byCapacity.add(new java.util.HashSet<>());
+      }
+      byCapacity.get(0).addAll(states);
+      for (var item : group.candidates()) {
+        if (group.copiesByItem().getOrDefault(item.getItemId(), 0) <= 0) continue;
+        Modifiers modifiers = group.projectionDeltas().get(item.getItemId());
+        if (modifiers == null) continue;
+        int brimstone = modifiers.getRawBitmap(BitmapModifier.BRIMSTONE);
+        int cloathing = modifiers.getRawBitmap(BitmapModifier.CLOATHING);
+        if (brimstone == 0 && cloathing == 0) continue;
+        for (int used = group.capacity() - 1; used >= 0; used--) {
+          for (long state : List.copyOf(byCapacity.get(used))) {
+            byCapacity
+                .get(used + 1)
+                .add(
+                    packCategoryState(
+                        unpackBrimstone(state) | brimstone, unpackCloathing(state) | cloathing));
+          }
         }
       }
+      states = new java.util.HashSet<>();
+      for (var capacityStates : byCapacity) states.addAll(capacityStates);
     }
-    states = new java.util.HashSet<>();
-    for (var capacityStates : byCapacity) states.addAll(capacityStates);
 
     int baselineBrimstoneCount = Integer.bitCount(baselineBrimstone);
     int baselineCloathingCount = Integer.bitCount(baselineCloathing);
@@ -774,7 +809,7 @@ final class MaximizerBranchBound {
     return categoryValue(ModifierDatabase.getItemModifiers(item.getItemId()), category);
   }
 
-  private static Modifiers projectionDelta(Modifiers baseline, Modifiers projection) {
+  static Modifiers projectionDelta(Modifiers baseline, Modifiers projection) {
     var delta = new Modifiers();
     for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
       double value = projection.getRawDouble(modifier) - baseline.getRawDouble(modifier);
@@ -791,6 +826,29 @@ final class MaximizerBranchBound {
       }
     }
     return delta;
+  }
+
+  static Modifiers projectionUpperDelta(
+      Modifiers baseline, Iterable<Modifiers> candidateProjections) {
+    var upper = new Modifiers();
+    boolean first = true;
+    for (var projection : candidateProjections) {
+      var delta = projectionDelta(baseline, projection);
+      for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
+        double value = delta.getDouble(modifier);
+        if (first || value > upper.getDouble(modifier)) upper.setDouble(modifier, value);
+      }
+      for (var modifier : java.util.EnumSet.allOf(BitmapModifier.class)) {
+        int value = upper.getRawBitmap(modifier) | delta.getRawBitmap(modifier);
+        if (value != 0) upper.setBitmap(modifier, value);
+      }
+      for (var modifier :
+          java.util.EnumSet.allOf(net.sourceforge.kolmafia.modifiers.BooleanModifier.class)) {
+        if (delta.getBoolean(modifier)) upper.setBoolean(modifier, true);
+      }
+      first = false;
+    }
+    return upper;
   }
 
   static Modifiers calculateProjection(MaximizerSpeculation projection) {

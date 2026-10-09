@@ -256,7 +256,8 @@ public class MaximizerSpeculation extends Speculation
                 interactionUpper,
                 outfitEnvelope,
                 synergyEnvelope,
-                categories)
+                categories,
+                this.codpieceGroups())
             : null;
     this.tryOutfits(
         enthronedFamiliars,
@@ -278,7 +279,8 @@ public class MaximizerSpeculation extends Speculation
                   interactionUpper,
                   outfitEnvelope,
                   synergyEnvelope,
-                  categories)
+                  categories,
+                  this.codpieceGroups())
               : null;
       this.tryOutfits(
           enthronedFamiliars,
@@ -290,6 +292,16 @@ public class MaximizerSpeculation extends Speculation
           useBjornFamiliar);
     }
     Maximizer.finishAccessoryFrontier();
+  }
+
+  private List<MaximizerBranchBound.InterchangeableSlotGroup> codpieceGroups() {
+    if (!Maximizer.eval.codpiece().isSearchable()) return List.of();
+    int capacity =
+        (int)
+            SlotSet.CODPIECE_SLOTS.stream()
+                .filter(slot -> this.equipment.get(slot) == null)
+                .count();
+    return List.of(CodpieceBranchBound.create(Maximizer.eval, this, capacity));
   }
 
   public void tryOutfits(
@@ -315,7 +327,7 @@ public class MaximizerSpeculation extends Speculation
         }
         AdventureResult item = outfitPieces.get(pieces[idx]);
         if (item == null) break; // not available
-        int count = item.getCount();
+        int count = this.availableCount(item);
         Slot slot = EquipmentManager.itemIdToEquipmentType(item.getItemId());
 
         switch (slot) {
@@ -361,7 +373,7 @@ public class MaximizerSpeculation extends Speculation
 
         if (count <= 0) break; // none available
         if (this.equipment.get(slot) != null) break; // slot taken
-        this.equipment.put(slot, item);
+        this.placeItem(slot, item);
       }
       this.restore(mark);
     }
@@ -383,7 +395,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.FAMILIAR);
       boolean any = false;
       for (AdventureResult item : possible) {
-        int count = item.getCount();
+        int count = this.availableCount(item);
         if (item.equals(this.equipment.get(Slot.OFFHAND))) {
           --count;
         }
@@ -410,7 +422,7 @@ public class MaximizerSpeculation extends Speculation
           }
         }
         if (count <= 0) continue;
-        this.equipment.put(Slot.FAMILIAR, item);
+        this.placeItem(Slot.FAMILIAR, item);
         this.tryContainers(
             enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar);
         any = true;
@@ -438,7 +450,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.CONTAINER);
       boolean any = false;
       for (CheckedItem item : possible) {
-        int count = item.getCount();
+        int count = this.availableCount(item);
         FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
           String groupName = group.names.get(0);
@@ -453,7 +465,7 @@ public class MaximizerSpeculation extends Speculation
           }
         }
         if (count <= 0) continue;
-        this.equipment.put(Slot.CONTAINER, item);
+        this.placeItem(Slot.CONTAINER, item);
         if (item.getItemId() == ItemPool.BUDDY_BJORN) {
           if (useBjornFamiliar != null) {
             this.setBjorned(useBjornFamiliar);
@@ -511,7 +523,7 @@ public class MaximizerSpeculation extends Speculation
         boolean any = false;
         for (; pos < possible.size(); ++pos) {
           AdventureResult item = possible.get(pos);
-          int count = item.getCount();
+          int count = this.availableCount(item);
           if (item.equals(this.equipment.get(Slot.ACCESSORY1))) {
             --count;
           }
@@ -537,11 +549,11 @@ public class MaximizerSpeculation extends Speculation
           if (count <= 0) continue;
           for (count = Math.min(free, count); count > 0; --count) {
             if (this.equipment.get(Slot.ACCESSORY1) == null) {
-              this.equipment.put(Slot.ACCESSORY1, item);
+              this.placeItem(Slot.ACCESSORY1, item);
             } else if (this.equipment.get(Slot.ACCESSORY2) == null) {
-              this.equipment.put(Slot.ACCESSORY2, item);
+              this.placeItem(Slot.ACCESSORY2, item);
             } else if (this.equipment.get(Slot.ACCESSORY3) == null) {
-              this.equipment.put(Slot.ACCESSORY3, item);
+              this.placeItem(Slot.ACCESSORY3, item);
             } else {
               System.out.println("no room left???");
               break; // no room left - shouldn't happen
@@ -598,7 +610,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.HAT);
       boolean any = false;
       for (CheckedItem item : possible) {
-        int count = item.getCount();
+        int count = this.availableCount(item);
         if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
           --count;
         }
@@ -616,7 +628,7 @@ public class MaximizerSpeculation extends Speculation
           }
         }
         if (count <= 0) continue;
-        this.equipment.put(Slot.HAT, item);
+        this.placeItem(Slot.HAT, item);
         if (item.getItemId() == ItemPool.HATSEAT) {
           if (useCrownFamiliar != null) {
             this.setEnthroned(useCrownFamiliar);
@@ -659,7 +671,7 @@ public class MaximizerSpeculation extends Speculation
       if (KoLCharacter.isTorsoAware()) {
         List<CheckedItem> possible = possibles.get(Slot.SHIRT);
         for (AdventureResult item : possible) {
-          int count = item.getCount();
+          int count = this.availableCount(item);
           if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
             --count;
           }
@@ -677,7 +689,7 @@ public class MaximizerSpeculation extends Speculation
             }
           }
           if (count <= 0) continue;
-          this.equipment.put(Slot.SHIRT, item);
+          this.placeItem(Slot.SHIRT, item);
           this.trySixguns(possibles, bestCard);
           any = true;
           this.restore(mark);
@@ -701,7 +713,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.PANTS);
       boolean any = false;
       for (AdventureResult item : possible) {
-        int count = item.getCount();
+        int count = this.availableCount(item);
         if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
           --count;
         }
@@ -719,7 +731,7 @@ public class MaximizerSpeculation extends Speculation
           }
         }
         if (count <= 0) continue;
-        this.equipment.put(Slot.PANTS, item);
+        this.placeItem(Slot.PANTS, item);
         this.tryShirts(possibles, bestCard);
         any = true;
         this.restore(mark);
@@ -742,9 +754,9 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.HOLSTER);
       boolean any = false;
       for (AdventureResult item : possible) {
-        int count = item.getCount();
+        int count = this.availableCount(item);
         if (count <= 0) continue;
-        this.equipment.put(Slot.HOLSTER, item);
+        this.placeItem(Slot.HOLSTER, item);
         this.tryWeapons(possibles, bestCard);
         any = true;
         this.restore(mark);
@@ -778,7 +790,7 @@ public class MaximizerSpeculation extends Speculation
         if (!chefstaffable && EquipmentDatabase.getItemType(item.getItemId()).equals("chefstaff")) {
           continue;
         }
-        int count = item.getCount();
+        int count = this.availableCount(item);
         if (item.equals(this.equipment.get(Slot.OFFHAND))) {
           --count;
         }
@@ -799,7 +811,7 @@ public class MaximizerSpeculation extends Speculation
           }
         }
         if (count <= 0) continue;
-        this.equipment.put(Slot.WEAPON, item);
+        this.placeItem(Slot.WEAPON, item);
         this.tryOffhands(possibles, bestCard);
         // any = true;
         this.restore(mark);
@@ -848,7 +860,7 @@ public class MaximizerSpeculation extends Speculation
       boolean any = false;
 
       for (AdventureResult item : possible) {
-        int count = item.getCount();
+        int count = this.availableCount(item);
         if (item.equals(this.equipment.get(Slot.WEAPON))) {
           --count;
         }
@@ -872,7 +884,7 @@ public class MaximizerSpeculation extends Speculation
         if (item.getItemId() == ItemPool.CARD_SLEEVE) {
           this.equipment.put(Slot.CARDSLEEVE, bestCard);
         }
-        this.equipment.put(Slot.OFFHAND, item);
+        this.placeItem(Slot.OFFHAND, item);
         this.tryOffhands(possibles, bestCard);
         any = true;
         this.restore(mark);
@@ -882,7 +894,15 @@ public class MaximizerSpeculation extends Speculation
       this.equipment.put(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
     }
 
-    // doit
+    if (Maximizer.eval.codpiece().isSearchable()) {
+      Maximizer.eval.codpiece().search(this);
+    } else {
+      this.checkBest();
+    }
+    this.restore(mark);
+  }
+
+  void checkBest() throws MaximizerInterruptedException {
     this.calculated = false;
     this.scored = false;
     this.tiebreakered = false;
@@ -900,7 +920,6 @@ public class MaximizerSpeculation extends Speculation
         MaximizerSpeculation.showProgress();
       }
     }
-    this.restore(mark);
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();
     }
@@ -910,6 +929,20 @@ public class MaximizerSpeculation extends Speculation
     if (Maximizer.reachedSearchBudget(checked)) {
       throw new MaximizerLimitException();
     }
+  }
+
+  private int availableCount(AdventureResult item) {
+    if (item instanceof CheckedItem checkedItem) {
+      return Maximizer.eval.codpiece().availableForOrdinaryEquipment(this.equipment, checkedItem);
+    }
+    return item.getCount();
+  }
+
+  private void placeItem(Slot slot, AdventureResult item) {
+    if (item instanceof CheckedItem checkedItem) {
+      Maximizer.eval.codpiece().releaseInstalledCopyForOrdinaryUse(this.equipment, checkedItem);
+    }
+    this.equipment.put(slot, item);
   }
 
   private boolean cannotBeatBest(MaximizerBranchBound.Stage stage) {
@@ -939,7 +972,7 @@ public class MaximizerSpeculation extends Speculation
             this.branchBoundOutfitEnvelope,
             this.branchBoundSynergyEnvelope,
             this.branchBoundCategories,
-            List.of());
+            this.codpieceGroups());
     this.tryHats(enthronedFamiliars, possibles, bestCard, useCrownFamiliar);
   }
 
