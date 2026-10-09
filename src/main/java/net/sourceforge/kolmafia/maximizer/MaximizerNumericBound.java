@@ -114,6 +114,10 @@ final class MaximizerNumericBound {
   private final PreparedRole[] preparedRoles;
   private final BitSet twoHandedWeapons;
   private final double interactionUpper;
+  // Separate category maxima can describe incompatible outfits. These retain the combined
+  // Brimstone/Cloathing residual at the root and for each pair of possible piece-count limits.
+  private final double jointBrimstoneCloathingRootUpper;
+  private final double[][] jointBrimstoneCloathingUpper;
   private final double[] lowerScratch;
   private final double[] upperScratch;
   private final int[] lowerBitmapScratch = new int[BitmapModifier.values().length];
@@ -140,7 +144,9 @@ final class MaximizerNumericBound {
       Map<Slot, RoleVectors> roles,
       List<GroupVectors> groups,
       BitSet twoHandedWeapons,
-      double interactionUpper) {
+      double interactionUpper,
+      double jointBrimstoneCloathingRootUpper,
+      double[][] jointBrimstoneCloathingUpper) {
     this.modifiers = modifiers;
     this.indices = new int[DoubleModifier.values().length];
     Arrays.fill(this.indices, -1);
@@ -177,6 +183,8 @@ final class MaximizerNumericBound {
             .toArray(PreparedRole[]::new);
     this.twoHandedWeapons = twoHandedWeapons;
     this.interactionUpper = interactionUpper;
+    this.jointBrimstoneCloathingRootUpper = jointBrimstoneCloathingRootUpper;
+    this.jointBrimstoneCloathingUpper = jointBrimstoneCloathingUpper;
     this.lowerScratch = new double[baseline.values().length];
     this.upperScratch = new double[baseline.values().length];
   }
@@ -188,7 +196,9 @@ final class MaximizerNumericBound {
       Map<Modeable, String> modeables,
       Map<Slot, Map<Integer, Modifiers>> projections,
       List<MaximizerBranchBound.InterchangeableSlotGroup> groups,
-      double interactionUpper) {
+      double interactionUpper,
+      double jointBrimstoneCloathingRootUpper,
+      double[][] jointBrimstoneCloathingUpper) {
     var terms = evaluator.numericScoreTerms();
 
     var modifiers = dependencies(terms);
@@ -322,7 +332,9 @@ final class MaximizerNumericBound {
         roleVectors,
         List.copyOf(groupVectors),
         twoHandedWeapons,
-        interactionUpper);
+        interactionUpper,
+        jointBrimstoneCloathingRootUpper,
+        jointBrimstoneCloathingUpper);
   }
 
   BoundResult evaluate(MaximizerSpeculation speculation) {
@@ -471,7 +483,8 @@ final class MaximizerNumericBound {
     double itemScore = upper[this.modifiers.length];
     double rolloverScore = this.rolloverEffect ? 0.01 : 0.0;
     DerivedBounds derivedBounds = null;
-    double score = this.interactionUpper + rolloverScore + itemScore;
+    double score =
+        this.interactionUpper - this.jointCategoryReduction() + rolloverScore + itemScore;
     for (var preparedTerm : this.preparedTerms) {
       var term = preparedTerm.term();
       double value;
@@ -586,6 +599,19 @@ final class MaximizerNumericBound {
       score += contribution;
     }
     return new BoundResult(score, this.minimumFailed);
+  }
+
+  private double jointCategoryReduction() {
+    if (this.jointBrimstoneCloathingUpper.length == 0) return 0.0;
+    // As choices eliminate possible set pieces, these upper masks shrink to the optimistic counts
+    // still available. Subtract the residual lost since the root; nextDown keeps that conservative.
+    int brimstone = Integer.bitCount(this.upperBitmapScratch[BitmapModifier.BRIMSTONE.ordinal()]);
+    int cloathing = Integer.bitCount(this.upperBitmapScratch[BitmapModifier.CLOATHING.ordinal()]);
+    double upper =
+        this.jointBrimstoneCloathingUpper[
+            Math.min(brimstone, this.jointBrimstoneCloathingUpper.length - 1)][
+            Math.min(cloathing, this.jointBrimstoneCloathingUpper[0].length - 1)];
+    return Math.max(0.0, Math.nextDown(this.jointBrimstoneCloathingRootUpper - upper));
   }
 
   private static CandidateVector vector(

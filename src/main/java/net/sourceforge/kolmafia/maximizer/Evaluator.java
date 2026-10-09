@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -327,7 +327,7 @@ public class Evaluator {
       if (val < min) this.failed = true;
       score += weight * Math.min(val, max);
     }
-    if (this.expression.stinkycheese != 0) {
+    if (this.expression.stinkycheese > 0) {
       int val = mods.getBitmap(BitmapModifier.STINKYCHEESE);
       score += this.expression.stinkycheese * val;
     }
@@ -348,6 +348,71 @@ public class Evaluator {
 
   public double getScore(Modifiers mods) {
     return this.getScore(mods, Map.of(), Map.of());
+  }
+
+  // The joint correction assumes the affected Item, Meat, and ML objectives are monotone and
+  // uncapped. Derived stats, negative weights, and caps break that assumption.
+  boolean supportsJointBrimstoneCloathingBound() {
+    for (var scoreModifier : this.activeScoreModifiers) {
+      if (!(scoreModifier.modifier() instanceof DoubleModifier modifier)) continue;
+      if (modifier == DoubleModifier.MUS
+          || modifier == DoubleModifier.MYS
+          || modifier == DoubleModifier.MOX
+          || modifier == DoubleModifier.HP
+          || modifier == DoubleModifier.MP
+          || modifier == DoubleModifier.EXPERIENCE
+          || modifier == DoubleModifier.MUS_PCT
+          || modifier == DoubleModifier.MYS_PCT
+          || modifier == DoubleModifier.MOX_PCT) {
+        return false;
+      }
+      if ((modifier == DoubleModifier.MONSTER_LEVEL
+              || modifier == DoubleModifier.MEATDROP
+              || modifier == DoubleModifier.ITEMDROP)
+          && (scoreModifier.weight() < 0.0 || scoreModifier.max() != Double.POSITIVE_INFINITY)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  double jointBrimstoneCloathingUpper(
+      int baselineBrimstone, int baselineCloathing, int brimstone, int cloathing) {
+    int baselineBrimstoneLevel = baselineBrimstone == 0 ? 0 : 1 << baselineBrimstone;
+    int brimstoneLevel = brimstone == 0 ? 0 : 1 << brimstone;
+    int baselineCloathingLevel = baselineCloathing == 0 ? 0 : 1 << baselineCloathing;
+    int cloathingLevel = cloathing == 0 ? 0 : 1 << cloathing;
+    var total = new Modifiers();
+    total.setDouble(DoubleModifier.MONSTER_LEVEL, brimstoneLevel - baselineBrimstoneLevel);
+    total.setDouble(
+        DoubleModifier.MEATDROP,
+        brimstoneLevel - baselineBrimstoneLevel + cloathingLevel - baselineCloathingLevel);
+    total.setDouble(
+        DoubleModifier.ITEMDROP,
+        brimstoneLevel - baselineBrimstoneLevel + (cloathingLevel - baselineCloathingLevel) / 2.0);
+
+    int nextBrimstoneLevel = 1 << (baselineBrimstone + 1);
+    var brimstoneSingle = new Modifiers();
+    brimstoneSingle.setDouble(
+        DoubleModifier.MONSTER_LEVEL, nextBrimstoneLevel - baselineBrimstoneLevel);
+    brimstoneSingle.setDouble(DoubleModifier.MEATDROP, nextBrimstoneLevel - baselineBrimstoneLevel);
+    brimstoneSingle.setDouble(DoubleModifier.ITEMDROP, nextBrimstoneLevel - baselineBrimstoneLevel);
+
+    int nextCloathingLevel = 1 << (baselineCloathing + 1);
+    var cloathingSingle = new Modifiers();
+    cloathingSingle.setDouble(DoubleModifier.MEATDROP, nextCloathingLevel - baselineCloathingLevel);
+    cloathingSingle.setDouble(
+        DoubleModifier.ITEMDROP, (nextCloathingLevel - baselineCloathingLevel) / 2.0);
+
+    // Candidate vectors already include one marginal set-bonus step per piece. Return only the
+    // extra nonlinear gain from reaching both final piece counts, so it is added exactly once.
+    double nullScore = this.getScore(new Modifiers());
+    double upper =
+        this.getScore(total)
+            - nullScore
+            - (brimstone - baselineBrimstone) * (this.getScore(brimstoneSingle) - nullScore)
+            - (cloathing - baselineCloathing) * (this.getScore(cloathingSingle) - nullScore);
+    return Math.max(0.0, Math.nextUp(upper));
   }
 
   double numericEquipmentScore(
@@ -414,6 +479,11 @@ public class Evaluator {
               Double.POSITIVE_INFINITY));
     }
     return List.copyOf(terms);
+  }
+
+  boolean hasFiniteScoreMaximum() {
+    return this.activeScoreModifiers.stream()
+        .anyMatch(scoreModifier -> scoreModifier.max() != Double.POSITIVE_INFINITY);
   }
 
   boolean supportsNumericBranchBound(SlotList<CheckedItem> possibles) {
@@ -520,6 +590,10 @@ public class Evaluator {
             || modifiers.getBitmap(BitmapModifier.MCHUGELARGE) != 0) {
           return false;
         }
+        if (CONTEXTUAL_MODIFIERS.stream()
+            .anyMatch(modifier -> modifiers.getDouble(modifier) != 0.0)) {
+          return false;
+        }
       }
     }
     return true;
@@ -538,6 +612,15 @@ public class Evaluator {
       return false;
     }
     for (var scoreModifier : this.activeScoreModifiers) {
+      if (scoreModifier.min() != Double.NEGATIVE_INFINITY
+          || scoreModifier.max() != Double.POSITIVE_INFINITY) {
+        return false;
+      }
+      if (scoreModifier.modifier() instanceof DoubleModifier modifier
+          && DERIVED_MODIFIERS.contains(modifier)) {
+        if (scoreModifier.weight() <= 0.0) return false;
+        continue;
+      }
       if (!(scoreModifier.modifier() instanceof DoubleModifier modifier)
           || !switch (modifier) {
             case DAMAGE_ABSORPTION,
@@ -587,8 +670,6 @@ public class Evaluator {
                 true;
             default -> false;
           }
-          || scoreModifier.min() != Double.NEGATIVE_INFINITY
-          || scoreModifier.max() != Double.POSITIVE_INFINITY
           || CONTEXTUAL_MODIFIERS.contains(modifier) && scoreModifier.weight() <= 0.0) {
         return false;
       }
@@ -638,6 +719,36 @@ public class Evaluator {
                 scoreModifier.modifier() instanceof DoubleModifier modifier
                     && CONTEXTUAL_MODIFIERS.contains(modifier)
                     && scoreModifier.weight() > 0.001);
+  }
+
+  boolean hasPositiveDerivedModifier() {
+    return this.activeScoreModifiers.stream()
+        .anyMatch(
+            scoreModifier ->
+                scoreModifier.modifier() instanceof DoubleModifier modifier
+                    && DERIVED_MODIFIERS.contains(modifier)
+                    && scoreModifier.weight() > 0.0);
+  }
+
+  double derivedScoreUpper(
+      Map<DerivedModifier, Integer> baseline, Map<DerivedModifier, Integer> upper) {
+    double score = 0.0;
+    for (var scoreModifier : this.activeScoreModifiers) {
+      if (scoreModifier.modifier() instanceof DoubleModifier modifier
+          && DERIVED_MODIFIERS.contains(modifier)) {
+        DerivedModifier derived =
+            switch (modifier) {
+              case MUS -> DerivedModifier.BUFFED_MUS;
+              case MYS -> DerivedModifier.BUFFED_MYS;
+              case MOX -> DerivedModifier.BUFFED_MOX;
+              case HP -> DerivedModifier.BUFFED_HP;
+              case MP -> DerivedModifier.BUFFED_MP;
+              default -> throw new IllegalStateException("unexpected derived modifier");
+            };
+        score += scoreModifier.weight() * (upper.get(derived) - baseline.get(derived));
+      }
+    }
+    return Math.max(0.0, score);
   }
 
   void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
@@ -801,6 +912,7 @@ public class Evaluator {
 
     Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
+    Map<Integer, Double> branchBoundOutfitUppers = new HashMap<>();
     double branchBoundOutfitUpper = 0.0;
     boolean branchBoundInteractionsSupported = true;
     for (var outfitEntry : EquipmentDatabase.normalOutfits.entrySet()) {
@@ -809,12 +921,17 @@ public class Evaluator {
       if (outfit == null) continue;
       if (this.expression.negOutfits.contains(outfit.getName())) continue;
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
+      double outfitContribution =
+          mods == null ? 0.0 : Math.max(0.0, Math.nextUp(this.getScore(mods) - nullScore));
+      if (outfitContribution > 0.0) {
+        branchBoundOutfitUppers.put(i, outfitContribution);
+      }
       if (this.expression.posOutfits.contains(outfit.getName())) {
         usefulOutfits.put(i, true);
         if (mods != null) {
           branchBoundOutfitUpper =
               Math.max(branchBoundOutfitUpper, Math.max(0.0, this.getScore(mods) - nullScore));
-          branchBoundInteractionsSupported &= this.interactionModifiersAreIndependent(mods);
+          branchBoundInteractionsSupported &= interactionModifiersAreIndependent(mods);
         }
         continue;
       }
@@ -833,11 +950,13 @@ public class Evaluator {
       }
       usefulOutfits.put(i, true);
       branchBoundOutfitUpper = Math.max(branchBoundOutfitUpper, Math.max(0.0, Math.nextUp(delta)));
-      branchBoundInteractionsSupported &= this.interactionModifiersAreIndependent(mods);
+      branchBoundInteractionsSupported &= interactionModifiersAreIndependent(mods);
     }
+    var branchBoundOutfitEnvelope = MaximizerBranchBound.outfitEnvelope(branchBoundOutfitUppers);
 
     int usefulSynergies = 0;
     double branchBoundSynergyUpper = 0.0;
+    Map<String, Double> branchBoundSynergyUppers = new java.util.LinkedHashMap<>();
     for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SYNERGY, entry.getKey());
       int value = entry.getValue();
@@ -845,17 +964,30 @@ public class Evaluator {
       double delta = this.getScore(mods) - nullScore;
       if (delta > 0.0) {
         usefulSynergies |= value;
+        branchBoundSynergyUppers.put(entry.getKey(), delta);
         branchBoundSynergyUpper = Math.nextUp(branchBoundSynergyUpper + delta);
-        branchBoundInteractionsSupported &= this.interactionModifiersAreIndependent(mods);
+        branchBoundInteractionsSupported &= interactionModifiersAreIndependent(mods);
       }
     }
+    var branchBoundSynergyEnvelope = MaximizerBranchBound.synergyEnvelope(branchBoundSynergyUppers);
 
     boolean hoboPowerUseful = isCatUseful(nullScore, "_hoboPower");
+    if (hoboPowerUseful) {
+      branchBoundOutfitEnvelope =
+          MaximizerBranchBound.outfitEnvelope(branchBoundOutfitUppers, true);
+    }
     boolean smithsnessUseful = isCatUseful(nullScore, "_smithsness");
     boolean brimstoneUseful = isCatUseful(nullScore, "_brimstone");
     boolean cloathingUseful = isCatUseful(nullScore, "_cloathing");
     boolean slimeHateUseful = isCatUseful(nullScore, "_slimeHate");
     boolean mcHugeLargeUseful = isCatUseful(nullScore, "_mcHugeLarge");
+    var branchBoundCategories = java.util.EnumSet.noneOf(MaximizerBranchBound.Category.class);
+    if (hoboPowerUseful) branchBoundCategories.add(MaximizerBranchBound.Category.HOBO_POWER);
+    if (smithsnessUseful) branchBoundCategories.add(MaximizerBranchBound.Category.SMITHSNESS);
+    if (brimstoneUseful) branchBoundCategories.add(MaximizerBranchBound.Category.BRIMSTONE);
+    if (cloathingUseful) branchBoundCategories.add(MaximizerBranchBound.Category.CLOATHING);
+    if (slimeHateUseful) branchBoundCategories.add(MaximizerBranchBound.Category.SLIME_HATES_IT);
+    if (mcHugeLargeUseful) branchBoundCategories.add(MaximizerBranchBound.Category.MCHUGELARGE);
 
     // This relies on the special sauce glove having a lower ID
     // than any chefstaff.
@@ -1076,6 +1208,7 @@ public class Evaluator {
               item.automaticFlag = true;
               break gotItem;
             }
+
             break;
 
           case OFFHAND:
@@ -1587,7 +1720,11 @@ public class Evaluator {
         specs.add(spec);
       }
 
-      Collections.sort(specs);
+      // Distinct items can otherwise compare equal. Later code walks this list from the end for
+      // shortlist and search order, so item ID provides a reproducible final tie-break only.
+      specs.sort(
+          Comparator.<MaximizerSpeculation>naturalOrder()
+              .thenComparingInt(spec -> spec.attachment.getItemId()));
     }
 
     // Compare sets which improve with the number of items equipped with the best items in the same
@@ -2105,15 +2242,11 @@ public class Evaluator {
                 + branchBoundSynergyUpper
                 + branchBoundCardUpper
                 + branchBoundCarriedUpper);
-    // Outfits, synergies, cards, and carried familiars can make item contributions contextual.
+    // Explicit current-item and capped objectives still require exact traversal at this stage.
     boolean branchBoundAllowed =
         branchBoundInteractionsSupported
-            && !hoboPowerUseful
-            && !smithsnessUseful
-            && !brimstoneUseful
-            && !cloathingUseful
-            && !slimeHateUseful
-            && !mcHugeLargeUseful;
+            && !this.expression.currentSpecified
+            && !this.hasFiniteScoreMaximum();
     spec.tryAll(
         this.expression.familiars,
         this.carriedFamiliars,
@@ -2124,10 +2257,13 @@ public class Evaluator {
         useCrownFamiliar,
         useBjornFamiliar,
         branchBoundInteractionUpper,
+        branchBoundOutfitEnvelope,
+        branchBoundSynergyEnvelope,
+        branchBoundCategories,
         branchBoundAllowed);
   }
 
-  private boolean interactionModifiersAreIndependent(Modifiers modifiers) {
+  boolean interactionModifiersAreIndependent(Modifiers modifiers) {
     if (modifiers.hasUnarmedBonus()
         || this.activeScoreModifiers.stream()
             .anyMatch(

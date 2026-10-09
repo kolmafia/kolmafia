@@ -3948,6 +3948,8 @@ public class MaximizerTest {
 
       assertTrue(maximize("item drop, -tie, -current"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
+      assertThat(combinationsWithCurrent, greaterThan(1));
+      assertThat(Maximizer.bestChecked, is(1));
       assertThat(combinationsWithCurrent, greaterThan(Maximizer.bestChecked));
     }
   }
@@ -4428,6 +4430,87 @@ public class MaximizerTest {
 
       assertThat(Maximizer.best.equipment.get(Slot.OFFHAND), equalTo(ItemPool.get("card sleeve")));
       assertThat(Maximizer.best.equipment.get(Slot.CARDSLEEVE), equalTo(ItemPool.get(card)));
+      assertThat(Maximizer.bestChecked, greaterThan(1));
+    }
+  }
+
+  @Test
+  void outfitContextualInteractionSelectsExactResultWithoutPruning() {
+    try (var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY),
+            withEquippableItem("beer helmet"),
+            withEquippableItem("distressed denim pants"),
+            withEquippableItem("bejeweled pledge pin"),
+            withOverrideModifiers(
+                ModifierType.OUTFIT,
+                "Frat Warrior Fatigues",
+                "Item Drop: +1, Fairy Effectiveness: +2"))) {
+      assertTrue(maximize("item drop, -tie"));
+
+      assertThat(Maximizer.best.equipment.get(Slot.HAT), equalTo(ItemPool.get("beer helmet")));
+      assertThat(
+          Maximizer.best.equipment.get(Slot.PANTS),
+          equalTo(ItemPool.get("distressed denim pants")));
+      assertThat(
+          SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
+          hasItem(ItemPool.get("bejeweled pledge pin")));
+      assertThat(Maximizer.bestChecked, greaterThan(1));
+    }
+  }
+
+  @Test
+  void synergyContextualInteractionSelectsExactResultWithoutPruning() {
+    try (var cleanups =
+        new Cleanups(
+            withRestricted(false),
+            withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY),
+            withEquippableItem("bitter bowtie"),
+            withEquippableItem("brazen bracelet"),
+            withOverrideModifiers(
+                ModifierType.SYNERGY,
+                "bitter bowtie/brazen bracelet",
+                "Meat Drop: +100, Fairy Effectiveness: +2"))) {
+      assertTrue(maximize("meat drop, -tie"));
+
+      assertThat(
+          SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
+          hasItems(ItemPool.get("bitter bowtie"), ItemPool.get("brazen bracelet")));
+      assertThat(Maximizer.bestChecked, greaterThan(1));
+    }
+  }
+
+  @Test
+  void derivedObjectiveInteractionSelectsExactResultWithoutPruning() {
+    try (var cleanups =
+        new Cleanups(
+            withRestricted(false),
+            withClass(AscensionClass.SAUCEROR),
+            withStats(10, 10, 10),
+            withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY),
+            withEquippableItem("bitter bowtie"),
+            withEquippableItem("brazen bracelet"),
+            withEquippableItem("astral shirt"),
+            withEquippableItem("makeshift garbage shirt"),
+            withSkill("Torso Awareness"),
+            withOverrideModifiers(
+                ModifierType.SYNERGY,
+                "bitter bowtie/brazen bracelet",
+                "Muscle: +100, Maximum HP: +100, Meat Drop: +100"),
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                ItemPool.get("astral shirt").getItemId(),
+                "Maximum HP Percent: +1000"),
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                ItemPool.get("makeshift garbage shirt").getItemId(),
+                "Maximum HP: +400"))) {
+      assertTrue(maximize("hp, meat drop, -tie"));
+
+      assertThat(
+          SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
+          hasItems(ItemPool.get("bitter bowtie"), ItemPool.get("brazen bracelet")));
+      assertThat(Maximizer.best.equipment.get(Slot.SHIRT), equalTo(ItemPool.get("astral shirt")));
       assertThat(Maximizer.bestChecked, greaterThan(1));
     }
   }

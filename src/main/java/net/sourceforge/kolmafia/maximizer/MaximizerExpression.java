@@ -73,6 +73,7 @@ class MaximizerExpression {
   boolean requireAccordion = false;
   boolean noTiebreaker = false;
   boolean current = !KoLCharacter.canInteract() || Preferences.getBoolean("maximizerAlwaysCurrent");
+  boolean currentSpecified = false;
   final Set<String> posOutfits = new HashSet<>();
   final Set<String> negOutfits = new HashSet<>();
   final Set<AdventureResult> posEquip = new HashSet<>();
@@ -399,6 +400,7 @@ class MaximizerExpression {
         case "tie" -> this.noTiebreaker = weight < 0.0;
         case "current" -> {
           this.current = weight > 0.0;
+          this.currentSpecified = true;
           forceCurrent = true;
         }
         case "type" -> this.weaponType = operand;
