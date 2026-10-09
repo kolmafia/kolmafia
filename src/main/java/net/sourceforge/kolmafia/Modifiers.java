@@ -367,9 +367,7 @@ public class Modifiers {
             // "Makes you a better diver" applies to each penalty only if underwater
             value +=
                 this.doubles.getDouble(parent)
-                    * (Modifiers.getCurrentEnvironment().equalsIgnoreCase("underwater")
-                        ? 1.0
-                        : 0.0);
+                    * (Modifiers.getCurrentEnvironment().isUnderwater() ? 1.0 : 0.0);
           } else {
             value += this.doubles.getDouble(parent);
           }
@@ -1738,11 +1736,11 @@ public class Modifiers {
     Modifiers.currentML = Math.max(4.0, data == null ? 0.0 : data.getAverageML());
   }
 
-  public static String getCurrentEnvironment() {
+  public static Environment getCurrentEnvironment() {
     if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
-      return Environment.UNDERWATER.toString();
+      return Environment.UNDERWATER;
     }
-    return AdventureDatabase.getEnvironment(Modifiers.currentLocation).toString();
+    return AdventureDatabase.getEnvironment(Modifiers.currentLocation);
   }
 
   public static double getCurrentML() {
