@@ -1204,6 +1204,7 @@ user	maximizerMRUList	mainstat;mus;mys;mox;familiar weight;HP;MP;ML;DA;DR;+comba
 user	maximizerMRUSize	5
 user	maximizerAlwaysCurrent	false
 user	maximizerBudgetUsesOr	false
+user	maximizerCertificateMode	false
 user	maximizerCombinationLimit	0
 user	maximizerCreateOnHand	false
 user	maximizerCurrentMallPrices	false
@@ -1213,7 +1214,10 @@ user	maximizerFoldables	true
 user	maximizerIncludeAll	false
 user	maximizerLastFilters	equip,cast,wish,other,usable,booze,food,spleen
 user	maximizerMaxPrice	0
+user	maximizerMaximumScoreDifferencePercent	0.0
+user	maximizerMaximumScoreDifferencePoints	0.0
 user	maximizerNoAdventures	false
+user	maximizerScoreDifferenceOr	false
 user	maximizerPriceLevel	0
 user	maximizerTimeLimitSeconds	10
 user	maximizerUseScope	false

@@ -119,6 +119,15 @@ public class Maximizer {
       double upper,
       long ordinal) {}
 
+  record SearchCertificate(
+      boolean frontierComplete,
+      boolean feasible,
+      boolean achieved,
+      double lower,
+      double upper,
+      double absoluteGap,
+      Double percentageGap) {}
+
   record SearchStatus(
       boolean frontierComplete, boolean feasible, double lower, double upper, boolean exact) {}
 
@@ -152,11 +161,16 @@ public class Maximizer {
     private final long timeLimitNanos;
     private final boolean budgetUsesOr;
     private final FrontierCapacity frontierCapacity;
+    private final boolean certificateMode;
+    private final double certificatePoints;
+    private final double certificatePercent;
+    private final boolean certificateUsesOr;
     private final List<FrontierContext> frontierContexts = new ArrayList<>();
     private final List<FrontierEntry> frontier = new ArrayList<>();
     private boolean collectingFrontier;
     private boolean frontierComplete;
     private double liveUpper = Double.POSITIVE_INFINITY;
+    private boolean certificateAchieved;
     private long nextProgressUpdate;
 
     private SearchContext(
@@ -165,7 +179,11 @@ public class Maximizer {
         long combinationLimit,
         long timeLimitSeconds,
         boolean budgetUsesOr,
-        FrontierCapacity frontierCapacity) {
+        FrontierCapacity frontierCapacity,
+        boolean certificateMode,
+        double certificatePoints,
+        double certificatePercent,
+        boolean certificateUsesOr) {
       this.best = new Incumbent(best, Long.MIN_VALUE);
       this.combinationLimit = combinationLimit;
       this.startedNanos = startedNanos;
@@ -176,6 +194,10 @@ public class Maximizer {
                   Math.min(timeLimitSeconds, Long.MAX_VALUE / 1_000_000_000L));
       this.budgetUsesOr = budgetUsesOr;
       this.frontierCapacity = frontierCapacity;
+      this.certificateMode = certificateMode;
+      this.certificatePoints = certificatePoints;
+      this.certificatePercent = certificatePercent;
+      this.certificateUsesOr = certificateUsesOr;
       this.nextProgressUpdate = System.currentTimeMillis() + 5000;
     }
   }
@@ -235,7 +257,7 @@ public class Maximizer {
 
   static boolean reachedSearchBudget(long checked) {
     var context = searchContext;
-    if (context == null) return false;
+    if (context == null || context.certificateMode) return false;
     boolean combinationEnabled = context.combinationLimit > 0;
     boolean timeEnabled = context.timeLimitNanos > 0;
     if (!combinationEnabled && !timeEnabled) return false;
@@ -339,10 +361,15 @@ public class Maximizer {
             .thenComparingLong(FrontierEntry::ordinal));
     for (int index = 0; index < context.frontier.size(); index++) {
       FrontierEntry entry = context.frontier.get(index);
-      context.liveUpper =
+      double queuedUpper =
           index + 1 < context.frontier.size()
               ? Math.max(entry.upper(), context.frontier.get(index + 1).upper())
               : entry.upper();
+      context.liveUpper = queuedUpper;
+      if (context.certificateMode && certificateSatisfied(context, context.liveUpper)) {
+        context.certificateAchieved = true;
+        return;
+      }
       checkSearchStop();
       replayFrontierEntry(context, entry);
       context.liveUpper =
@@ -350,6 +377,7 @@ public class Maximizer {
               ? context.frontier.get(index + 1).upper()
               : Double.NEGATIVE_INFINITY;
     }
+    context.certificateAchieved = certificateSatisfied(context, context.liveUpper);
   }
 
   private static void replayFrontierEntry(SearchContext context, FrontierEntry entry)
@@ -374,24 +402,70 @@ public class Maximizer {
     }
   }
 
-  static SearchStatus searchStatus() {
+  private static boolean certificateSatisfied(SearchContext context, double upper) {
+    MaximizerSpeculation incumbent = context.best.speculation();
+    if (incumbent == null || incumbent.failed) return false;
+    double lower = incumbent.getScore();
+    if (incumbent.failed) return false;
+    return certificateSatisfied(
+        lower,
+        upper,
+        context.certificatePoints,
+        context.certificatePercent,
+        context.certificateUsesOr);
+  }
+
+  static boolean certificateSatisfied(
+      double lower, double upper, double points, double percent, boolean useOr) {
+    if (upper < lower) return true;
+    double gap = Math.max(0.0, upper - lower);
+    boolean pointEnabled = points > 0.0;
+    boolean percentEnabled = percent > 0.0 && lower > 0.0;
+    if (gap == 0.0) return false;
+    boolean pointSatisfied = pointEnabled && gap <= points;
+    boolean percentSatisfied = percentEnabled && gap <= lower * percent / 100.0;
+    if (!pointEnabled && !percentEnabled) return false;
+    if (useOr) return pointSatisfied || percentSatisfied;
+    if (points == 0.0 || percent == 0.0) return false;
+    if (lower <= 0.0) return pointSatisfied;
+    return pointSatisfied && percentSatisfied;
+  }
+
+  static SearchCertificate searchCertificate() {
     var context = searchContext;
     if (context == null) {
-      return new SearchStatus(false, false, Double.NaN, Double.NaN, false);
+      return new SearchCertificate(false, false, false, Double.NaN, Double.NaN, Double.NaN, null);
     }
     MaximizerSpeculation incumbent = context.best.speculation();
+    double lower = incumbent == null || incumbent.failed ? Double.NaN : incumbent.getScore();
     boolean feasible = incumbent != null && !incumbent.failed;
-    double lower = feasible ? incumbent.getScore() : Double.NaN;
+    if (!feasible) lower = Double.NaN;
     double upper =
         feasible && context.frontierComplete
             ? Math.max(lower, context.liveUpper)
             : context.liveUpper;
-    return new SearchStatus(
+    double gap = feasible && context.frontierComplete ? Math.max(0.0, upper - lower) : Double.NaN;
+    Double percentage = feasible && lower > 0.0 ? gap * 100.0 / lower : null;
+    return new SearchCertificate(
         context.frontierComplete,
         feasible,
+        context.certificateAchieved,
         lower,
         upper,
-        feasible && context.frontierComplete && upper <= lower);
+        gap,
+        percentage);
+  }
+
+  static SearchStatus searchStatus() {
+    SearchCertificate certificate = searchCertificate();
+    return new SearchStatus(
+        certificate.frontierComplete(),
+        certificate.feasible(),
+        certificate.lower(),
+        certificate.upper(),
+        certificate.feasible()
+            && certificate.frontierComplete()
+            && certificate.upper() <= certificate.lower());
   }
 
   static String searchInterval(SearchStatus status) {
@@ -407,9 +481,30 @@ public class Maximizer {
         + "]";
   }
 
-  private static void addSearchStatus(String message) {
-    boosts.add(
-        new Boost("", "<font color=red>(" + message + ")</font>", (AdventureResult) null, 0.0));
+  static String certificateInterval(SearchCertificate certificate) {
+    if (!certificate.frontierComplete()) {
+      return "; frontier construction incomplete, so no valid proof interval is available";
+    }
+    StringBuilder message = new StringBuilder("; interval [");
+    message.append(KoLConstants.FLOAT_FORMAT.format(certificate.lower()));
+    message.append(", ");
+    message.append(KoLConstants.FLOAT_FORMAT.format(certificate.upper()));
+    message.append("], gap ");
+    message.append(KoLConstants.FLOAT_FORMAT.format(certificate.absoluteGap()));
+    if (certificate.percentageGap() == null) {
+      message.append(" points; relative percentage is undefined for a nonpositive result");
+    } else {
+      message.append(" points (");
+      message.append(KoLConstants.FLOAT_FORMAT.format(certificate.percentageGap()));
+      message.append("%)");
+    }
+    return message.toString();
+  }
+
+  private static void addSearchStatus(String message, boolean error) {
+    String text = "(" + message + ")";
+    if (error) text = "<font color=red>" + text + "</font>";
+    boosts.add(new Boost("", text, (AdventureResult) null, 0.0));
   }
 
   public static boolean lastMaximizeSucceeded() {
@@ -540,9 +635,23 @@ public class Maximizer {
       Maximizer.bestUpdate = System.currentTimeMillis() + 5000;
       Maximizer.combinationLimit = Preferences.getLong("maximizerCombinationLimit");
       long timeLimitSeconds = Preferences.getLong("maximizerTimeLimitSeconds");
+      boolean certificateMode = Preferences.getBoolean("maximizerCertificateMode");
       if (Maximizer.combinationLimit < 0 || timeLimitSeconds < 0) {
-        addSearchStatus("search budgets must be nonnegative values");
+        addSearchStatus("search budgets must be nonnegative values", true);
         return;
+      }
+      double certificatePoints = 0.0;
+      double certificatePercent = 0.0;
+      if (certificateMode) {
+        certificatePoints = Preferences.getDouble("maximizerMaximumScoreDifferencePoints");
+        certificatePercent = Preferences.getDouble("maximizerMaximumScoreDifferencePercent");
+        if (!Double.isFinite(certificatePoints)
+            || certificatePoints < 0.0
+            || !Double.isFinite(certificatePercent)
+            || certificatePercent < 0.0) {
+          addSearchStatus("proof gaps must be finite, nonnegative values", true);
+          return;
+        }
       }
       Maximizer.searchContext =
           new SearchContext(
@@ -551,7 +660,11 @@ public class Maximizer {
               Maximizer.combinationLimit,
               timeLimitSeconds,
               Preferences.getBoolean("maximizerBudgetUsesOr"),
-              frontierCapacity);
+              frontierCapacity,
+              certificateMode,
+              certificatePoints,
+              certificatePercent,
+              Preferences.getBoolean("maximizerScoreDifferenceOr"));
       String stopMessage = null;
       try {
         Maximizer.eval.enumerateEquipment(equipScope, maxPrice, priceLevel);
@@ -563,7 +676,10 @@ public class Maximizer {
         stopMessage = "search budget reached; optimality not proven";
       } catch (MaximizerInterruptedException e) {
         KoLmafia.forceContinue();
-        stopMessage = "interrupted; optimality not proven";
+        stopMessage =
+            certificateMode
+                ? "interrupted; requested certification was not achieved"
+                : "interrupted; optimality not proven";
       } catch (MaximizerFrontierException e) {
         stopMessage =
             "frontier memory guard refused an incomplete search at "
@@ -579,11 +695,23 @@ public class Maximizer {
           && (Maximizer.best.failed || Maximizer.best.getScore() < currentEquipment.getScore())) {
         Maximizer.replaceBest(currentEquipment);
       }
-      SearchStatus status = Maximizer.searchStatus();
-      if (!status.feasible()) {
-        addSearchStatus("no feasible equipment result was found");
+      SearchCertificate certificate = Maximizer.searchCertificate();
+      if (!certificate.feasible()) {
+        addSearchStatus("no feasible equipment result was found", true);
       } else if (stopMessage != null) {
-        addSearchStatus(stopMessage + searchInterval(status));
+        addSearchStatus(
+            stopMessage
+                + (certificateMode
+                    ? certificateInterval(certificate)
+                    : searchInterval(Maximizer.searchStatus())),
+            true);
+      } else if (certificateMode && certificate.achieved()) {
+        addSearchStatus(
+            (certificate.absoluteGap() == 0.0
+                    ? "proved exact optimum"
+                    : "proved requested optimum gap")
+                + certificateInterval(certificate),
+            false);
       }
       MaximizerSpeculation.showProgress();
 

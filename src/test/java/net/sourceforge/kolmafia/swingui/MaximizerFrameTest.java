@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.sameInstance;
 
 import internal.helpers.Cleanups;
 import java.awt.Component;
@@ -19,26 +20,31 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 import javax.swing.AbstractButton;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame.FilterBoosts;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledIf;
+import org.mockito.Mockito;
 
 @DisabledIf(
     value = "java.awt.GraphicsEnvironment#isHeadless",
     disabledReason = "headless environment")
 public class MaximizerFrameTest {
   @Test
-  void displaysPersistentAnytimeSettings() {
+  void displaysPersistentAnytimeAndCertificateSettings() {
     KoLCharacter.reset("MaximizerFrameSearchSettings");
     Preferences.reset("MaximizerFrameSearchSettings");
     try (var cleanups =
@@ -50,12 +56,16 @@ public class MaximizerFrameTest {
 
       try {
         var components = descendants(frame).toList();
-        assertThat(
-            components.stream()
-                .filter(AbstractButton.class::isInstance)
-                .map(AbstractButton.class::cast)
-                .anyMatch(button -> button.isSelected() && button.getText().equals("or")),
-            equalTo(true));
+        var certificateMode = button(components, "Prove the requested gap or exact optimum");
+        var limitPanel = label(components, "Limit:").getParent();
+        var targetPanel = label(components, "Proof target:").getParent();
+        assertThat(certificateMode.isSelected(), equalTo(false));
+        assertThat(buttonInRow(components, "Limit:", "or").isSelected(), equalTo(true));
+        assertThat(limitPanel.isVisible(), equalTo(true));
+        assertThat(targetPanel.isVisible(), equalTo(false));
+        certificateMode.doClick();
+        assertThat(limitPanel.isVisible(), equalTo(false));
+        assertThat(targetPanel.isVisible(), equalTo(true));
         var textValues =
             components.stream()
                 .filter(JTextField.class::isInstance)
@@ -74,9 +84,181 @@ public class MaximizerFrameTest {
 
   @Test
   void maximizerSearchPreferencesHaveProductDefaults() {
+    assertThat(Preferences.getDefault("maximizerCertificateMode"), equalTo("false"));
     assertThat(Preferences.getDefault("maximizerTimeLimitSeconds"), equalTo("10"));
     assertThat(Preferences.getDefault("maximizerCombinationLimit"), equalTo("0"));
     assertThat(Preferences.getDefault("maximizerBudgetUsesOr"), equalTo("false"));
+    assertThat(Preferences.getDefault("maximizerMaximumScoreDifferencePercent"), equalTo("0.0"));
+    assertThat(Preferences.getDefault("maximizerMaximumScoreDifferencePoints"), equalTo("0.0"));
+    assertThat(Preferences.getDefault("maximizerScoreDifferenceOr"), equalTo("false"));
+  }
+
+  @Test
+  void maximizeIgnoresInvalidProofFieldsWhenCertificateModeIsInactive() {
+    KoLCharacter.reset("MaximizerFrameInactiveProof");
+    Preferences.reset("MaximizerFrameInactiveProof");
+    try (var cleanups =
+        new Cleanups(
+            withProperty("maximizerCertificateMode", "false"),
+            withProperty("maximizerTimeLimitSeconds", "27"),
+            withProperty("maximizerCombinationLimit", "1234"),
+            withProperty("maximizerMaximumScoreDifferencePercent", "not-a-number"),
+            withProperty("maximizerMaximumScoreDifferencePoints", "-5"))) {
+      MaximizerFrame frame = new MaximizerFrame();
+
+      try {
+        var components = descendants(frame).toList();
+        textField(components, "27").setText("31");
+        textField(components, "1234").setText("5678");
+        clearFiltersAndMaximize(frame, components);
+
+        assertThat(Preferences.getLong("maximizerTimeLimitSeconds"), equalTo(31L));
+        assertThat(Preferences.getLong("maximizerCombinationLimit"), equalTo(5678L));
+        assertThat(
+            Preferences.getString("maximizerMaximumScoreDifferencePercent"),
+            equalTo("not-a-number"));
+        assertThat(Preferences.getString("maximizerMaximumScoreDifferencePoints"), equalTo("-5"));
+      } finally {
+        frame.dispose();
+      }
+    } finally {
+      KoLCharacter.reset("");
+      Preferences.reset("");
+    }
+  }
+
+  @Test
+  void maximizePersistsEditedValidProofTargets() {
+    KoLCharacter.reset("MaximizerFrameEditedProof");
+    Preferences.reset("MaximizerFrameEditedProof");
+    try (var cleanups =
+        new Cleanups(
+            withProperty("maximizerCertificateMode", "false"),
+            withProperty("maximizerTimeLimitSeconds", "27"),
+            withProperty("maximizerCombinationLimit", "1234"),
+            withProperty("maximizerBudgetUsesOr", "false"),
+            withProperty("maximizerMaximumScoreDifferencePercent", "12.5"),
+            withProperty("maximizerMaximumScoreDifferencePoints", "34.5"),
+            withProperty("maximizerScoreDifferenceOr", "false"))) {
+      MaximizerFrame frame = new MaximizerFrame();
+
+      try {
+        var components = descendants(frame).toList();
+        button(components, "Prove the requested gap or exact optimum").doClick();
+        textField(components, "27").setText("31");
+        textField(components, "1234").setText("5678");
+        buttonInRow(components, "Limit:", "or").doClick();
+        textField(components, "12.5").setText("7.5");
+        textField(components, "34.5").setText("9.25");
+        buttonInRow(components, "Proof target:", "or").doClick();
+        clearFiltersAndMaximize(frame, components);
+
+        assertThat(Preferences.getBoolean("maximizerCertificateMode"), equalTo(true));
+        assertThat(Preferences.getLong("maximizerTimeLimitSeconds"), equalTo(31L));
+        assertThat(Preferences.getLong("maximizerCombinationLimit"), equalTo(5678L));
+        assertThat(Preferences.getBoolean("maximizerBudgetUsesOr"), equalTo(true));
+        assertThat(Preferences.getDouble("maximizerMaximumScoreDifferencePercent"), equalTo(7.5));
+        assertThat(Preferences.getDouble("maximizerMaximumScoreDifferencePoints"), equalTo(9.25));
+        assertThat(Preferences.getBoolean("maximizerScoreDifferenceOr"), equalTo(true));
+      } finally {
+        frame.dispose();
+      }
+    } finally {
+      KoLCharacter.reset("");
+      Preferences.reset("");
+    }
+  }
+
+  @Test
+  void invalidActiveProofFieldsDoNotChangeAnySearchSettingOrStartSearch() {
+    KoLCharacter.reset("MaximizerFrameAtomicProof");
+    Preferences.reset("MaximizerFrameAtomicProof");
+    try (var cleanups =
+            new Cleanups(
+                withProperty("maximizerCertificateMode", "false"),
+                withProperty("maximizerTimeLimitSeconds", "27"),
+                withProperty("maximizerCombinationLimit", "1234"),
+                withProperty("maximizerBudgetUsesOr", "false"),
+                withProperty("maximizerMaximumScoreDifferencePercent", "12.5"),
+                withProperty("maximizerMaximumScoreDifferencePoints", "34.5"),
+                withProperty("maximizerScoreDifferenceOr", "false"));
+        var inputFields = Mockito.mockStatic(InputFieldUtilities.class)) {
+      MaximizerFrame frame = new MaximizerFrame();
+
+      try {
+        var components = descendants(frame).toList();
+        var previousEvaluator = Maximizer.eval;
+        button(components, "Prove the requested gap or exact optimum").doClick();
+        textField(components, "27").setText("31");
+        textField(components, "1234").setText("5678");
+        buttonInRow(components, "Limit:", "or").doClick();
+        textField(components, "12.5").setText("not-a-number");
+        textField(components, "34.5").setText("9.25");
+        buttonInRow(components, "Proof target:", "or").doClick();
+
+        frame.maximize();
+
+        inputFields.verify(
+            () -> InputFieldUtilities.alert("Proof gaps must be finite, nonnegative numbers."));
+        assertThat(Maximizer.eval, sameInstance(previousEvaluator));
+        assertThat(Preferences.getBoolean("maximizerCertificateMode"), equalTo(false));
+        assertThat(Preferences.getLong("maximizerTimeLimitSeconds"), equalTo(27L));
+        assertThat(Preferences.getLong("maximizerCombinationLimit"), equalTo(1234L));
+        assertThat(Preferences.getBoolean("maximizerBudgetUsesOr"), equalTo(false));
+        assertThat(Preferences.getDouble("maximizerMaximumScoreDifferencePercent"), equalTo(12.5));
+        assertThat(Preferences.getDouble("maximizerMaximumScoreDifferencePoints"), equalTo(34.5));
+        assertThat(Preferences.getBoolean("maximizerScoreDifferenceOr"), equalTo(false));
+      } finally {
+        frame.dispose();
+      }
+    } finally {
+      KoLCharacter.reset("");
+      Preferences.reset("");
+    }
+  }
+
+  private static JTextField textField(List<Component> components, String text) {
+    return components.stream()
+        .filter(JTextField.class::isInstance)
+        .map(JTextField.class::cast)
+        .filter(field -> field.getText().equals(text))
+        .findFirst()
+        .orElseThrow();
+  }
+
+  private static AbstractButton button(List<Component> components, String text) {
+    return components.stream()
+        .filter(AbstractButton.class::isInstance)
+        .map(AbstractButton.class::cast)
+        .filter(button -> button.getText().startsWith(text))
+        .findFirst()
+        .orElseThrow();
+  }
+
+  private static JLabel label(List<Component> components, String text) {
+    return components.stream()
+        .filter(JLabel.class::isInstance)
+        .map(JLabel.class::cast)
+        .filter(label -> label.getText().startsWith(text))
+        .findFirst()
+        .orElseThrow();
+  }
+
+  private static AbstractButton buttonInRow(
+      List<Component> components, String rowLabel, String text) {
+    return button(descendants(label(components, rowLabel).getParent()).toList(), text);
+  }
+
+  private static void clearFiltersAndMaximize(MaximizerFrame frame, List<Component> components) {
+    components.stream()
+        .filter(JButton.class::isInstance)
+        .map(JButton.class::cast)
+        .filter(button -> button.getText().equals("Clear Filters"))
+        .findFirst()
+        .orElseThrow()
+        .doClick();
+    MaximizerFrame.expressionSelect.setSelectedItem("item drop, -tie");
+    frame.maximize();
   }
 
   private static Stream<Component> descendants(Container container) {

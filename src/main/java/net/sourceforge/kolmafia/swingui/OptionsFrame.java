@@ -753,6 +753,10 @@ public class OptionsFrame extends GenericFrame {
               "maximizerBudgetUsesOr",
               "Stop anytime search when either enabled budget is reached (otherwise all)"));
       this.queue(
+          new PreferenceCheckBox(
+              "maximizerCertificateMode",
+              "Ignore budgets and prove the MaximizerFrame proof target"));
+      this.queue(
           new PreferenceButtonGroup(
               "maximizerPriceLevel",
               "Price check by default:",
