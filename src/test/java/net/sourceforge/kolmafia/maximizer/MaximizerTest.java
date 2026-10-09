@@ -4399,6 +4399,39 @@ public class MaximizerTest {
     }
   }
 
+  @Test
+  void carriedFamiliarContextualInteractionSelectsExactResultWithoutPruning() {
+    try (var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY),
+            withEquippableItem("Crown of Thrones"),
+            withFamiliarInTerrarium(FamiliarPool.GALLOPING_GRILL),
+            withOverrideModifiers(
+                ModifierType.THRONE, "Galloping Grill", "Familiar Weight: +10"))) {
+      assertTrue(maximize("item drop, -tie"));
+
+      assertThat(Maximizer.best.equipment.get(Slot.HAT), equalTo(ItemPool.get("Crown of Thrones")));
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("enthrone Galloping Grill"))));
+    }
+  }
+
+  @Test
+  void cardContextualInteractionSelectsExactResultWithoutPruning() {
+    int card = ItemPool.get("Alice's Army Foil Lanceman").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY),
+            withEquippableItem("card sleeve"),
+            withEquippableItem(card),
+            withOverrideModifiers(ModifierType.ITEM, card, "Familiar Weight: +10"))) {
+      assertTrue(maximize("item drop, -tie"));
+
+      assertThat(Maximizer.best.equipment.get(Slot.OFFHAND), equalTo(ItemPool.get("card sleeve")));
+      assertThat(Maximizer.best.equipment.get(Slot.CARDSLEEVE), equalTo(ItemPool.get(card)));
+      assertThat(Maximizer.bestChecked, greaterThan(1));
+    }
+  }
+
   @Nested
   class HardcorePathEquipment {
     @ParameterizedTest

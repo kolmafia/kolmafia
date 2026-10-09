@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
@@ -56,27 +57,43 @@ final class MaximizerBranchBound {
   private final Evaluator evaluator;
   private final Map<Slot, Double> roleMaxima;
   private final List<GroupBound> groupBounds;
+  private final double contextualUpper;
+  private final double interactionUpper;
   private final MaximizerNumericBound numericBound;
 
   private MaximizerBranchBound(
       Evaluator evaluator,
       Map<Slot, Double> roleMaxima,
       List<GroupBound> groupBounds,
+      double contextualUpper,
+      double interactionUpper,
       MaximizerNumericBound numericBound) {
     this.evaluator = evaluator;
     this.roleMaxima = roleMaxima;
     this.groupBounds = groupBounds;
+    this.contextualUpper = contextualUpper;
+    this.interactionUpper = interactionUpper;
     this.numericBound = numericBound;
   }
 
   static Optional<MaximizerBranchBound> create(
       Evaluator evaluator, MaximizerSpeculation baseline, SlotList<CheckedItem> possibles) {
+    return create(evaluator, baseline, possibles, 0.0);
+  }
+
+  static Optional<MaximizerBranchBound> create(
+      Evaluator evaluator,
+      MaximizerSpeculation baseline,
+      SlotList<CheckedItem> possibles,
+      double interactionUpper) {
     if (!evaluator.supportsNumericBranchBound(possibles)) return Optional.empty();
     boolean legacyBoundApplicable = evaluator.supportsLegacyAdditiveBranchBound(possibles);
 
     var projectionBaseline = baseline.clone();
     if (projectionBaseline == null) return Optional.empty();
     boolean needsNumericBound = !legacyBoundApplicable;
+    boolean hasContextualModifier = evaluator.hasPositiveContextualModifier();
+    boolean needsProjections = needsNumericBound || hasContextualModifier;
     var roleMaxima = new HashMap<Slot, Double>();
     var projections = new HashMap<Slot, Map<Integer, Modifiers>>();
     for (var slot : baseline.equipment.keySet()) {
@@ -85,7 +102,7 @@ final class MaximizerBranchBound {
       var projected = new HashMap<Integer, Modifiers>();
       for (var item : candidates(possibles, slot)) {
         maximum = Math.max(maximum, contribution(evaluator, projectionBaseline, slot, item));
-        if (needsNumericBound) {
+        if (needsProjections) {
           var projection = projectionBaseline.clone();
           if (projection != null) {
             projection.equipment.put(slot, item);
@@ -94,7 +111,7 @@ final class MaximizerBranchBound {
         }
       }
       roleMaxima.put(slot, maximum);
-      if (needsNumericBound) projections.put(slot, Map.copyOf(projected));
+      if (needsProjections) projections.put(slot, Map.copyOf(projected));
     }
 
     var accessoryProjections = new HashMap<Integer, Modifiers>();
@@ -109,7 +126,7 @@ final class MaximizerBranchBound {
             .orElse(null);
     for (var item : possibles.get(Slot.ACCESSORY1)) {
       if (item.getItemId() <= 0) continue;
-      if (needsNumericBound && accessoryProjectionSlot != null) {
+      if (needsProjections && accessoryProjectionSlot != null) {
         var projection = projectionBaseline.clone();
         if (projection != null) {
           projection.equipment.put(accessoryProjectionSlot, item);
@@ -124,7 +141,7 @@ final class MaximizerBranchBound {
       }
       accessoryCopies.merge(item.getItemId(), Math.max(0, item.getCount()), Math::max);
     }
-    if (needsNumericBound) {
+    if (needsProjections) {
       projections.put(Slot.ACCESSORY1, Map.copyOf(accessoryProjections));
     }
     var accessorySlots =
@@ -133,7 +150,7 @@ final class MaximizerBranchBound {
             .filter(slot -> baseline.equipment.get(slot) == null)
             .toList();
     var accessoryDeltas = new HashMap<Integer, Modifiers>();
-    if (needsNumericBound) {
+    if (needsProjections) {
       var empty = projectionBaseline.clone();
       if (empty == null) return Optional.empty();
       Modifiers emptyProjection = calculateProjection(empty);
@@ -149,6 +166,8 @@ final class MaximizerBranchBound {
             new GroupBound(
                 accessoryGroup,
                 capacityUpper(accessoryCopies, accessoryContributions, accessoryGroup.capacity())));
+    double contextualUpper =
+        contextualUpper(evaluator, baseline, projections, List.of(accessoryGroup));
     MaximizerNumericBound numericBound = null;
     if (needsNumericBound) {
       var empty = projectionBaseline.clone();
@@ -164,10 +183,16 @@ final class MaximizerBranchBound {
               projectionBaseline.getModeables(),
               numericProjections,
               List.of(accessoryGroup),
-              0.0);
+              contextualUpper + interactionUpper);
     }
     return Optional.of(
-        new MaximizerBranchBound(evaluator, Map.copyOf(roleMaxima), groupBounds, numericBound));
+        new MaximizerBranchBound(
+            evaluator,
+            Map.copyOf(roleMaxima),
+            groupBounds,
+            contextualUpper,
+            interactionUpper,
+            numericBound));
   }
 
   boolean cannotBeat(MaximizerSpeculation speculation, MaximizerSpeculation incumbent) {
@@ -188,7 +213,7 @@ final class MaximizerBranchBound {
     for (var groupBound : this.groupBounds) {
       upper += groupBound.upperByCapacity()[groupBound.group().remainingCapacity(speculation)];
     }
-    return upper;
+    return upper + this.contextualUpper + this.interactionUpper;
   }
 
   private static double[] capacityUpper(
@@ -238,6 +263,46 @@ final class MaximizerBranchBound {
       }
     }
     return delta;
+  }
+
+  private static double contextualUpper(
+      Evaluator evaluator,
+      MaximizerSpeculation baseline,
+      Map<Slot, Map<Integer, Modifiers>> projections,
+      List<InterchangeableSlotGroup> groups) {
+    if (!evaluator.hasPositiveContextualModifier()) return 0.0;
+    var completed = baseline.clone();
+    if (completed == null) return 0.0;
+    completed.setFamiliar(FamiliarData.NO_FAMILIAR);
+    Modifiers base = calculateProjection(completed);
+    Modifiers upper = new Modifiers(base);
+    // Per-role maxima may come from different items; combining them is intentionally optimistic.
+    for (var modifier : Evaluator.CONTEXTUAL_MODIFIERS) {
+      double value = base.getDouble(modifier);
+      for (var entry : projections.entrySet()) {
+        if (SlotSet.ACCESSORY_SLOTS.contains(entry.getKey())) continue;
+        value +=
+            entry.getValue().values().stream()
+                .mapToDouble(
+                    projected ->
+                        Math.max(0.0, projected.getDouble(modifier) - base.getDouble(modifier)))
+                .max()
+                .orElse(0.0);
+      }
+      for (var group : groups) {
+        var values = new HashMap<Integer, Double>();
+        for (var entry : group.projectionDeltas().entrySet()) {
+          values.put(entry.getKey(), Math.max(0.0, entry.getValue().getDouble(modifier)));
+        }
+        value += capacityUpper(group.copiesByItem(), values, group.capacity())[group.capacity()];
+      }
+      upper.setDouble(modifier, value);
+    }
+    // Familiar formulas combine weight and effectiveness, so evaluate them after building the
+    // optimistic modifier envelope.
+    base.applyFamiliarModifiers(baseline.getFamiliar(), EquipmentRequest.UNEQUIP);
+    upper.applyFamiliarModifiers(baseline.getFamiliar(), EquipmentRequest.UNEQUIP);
+    return Math.max(0.0, evaluator.getScore(upper) - evaluator.getScore(base));
   }
 
   private static double contribution(

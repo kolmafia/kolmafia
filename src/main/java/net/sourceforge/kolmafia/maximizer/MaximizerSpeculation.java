@@ -227,12 +227,14 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar,
+      double interactionUpper,
       boolean branchBoundAllowed)
       throws MaximizerInterruptedException {
     this.foldables = Preferences.getBoolean("maximizerFoldables");
     this.branchBound =
         branchBoundAllowed
-            ? MaximizerBranchBound.create(Maximizer.eval, this, possibles).orElse(null)
+            ? MaximizerBranchBound.create(Maximizer.eval, this, possibles, interactionUpper)
+                .orElse(null)
             : null;
     this.tryOutfits(
         enthronedFamiliars,
@@ -247,7 +249,8 @@ public class MaximizerSpeculation extends Speculation
       possibles.set(Slot.FAMILIAR, possibles.getFamiliar(i));
       this.branchBound =
           branchBoundAllowed
-              ? MaximizerBranchBound.create(Maximizer.eval, this, possibles).orElse(null)
+              ? MaximizerBranchBound.create(Maximizer.eval, this, possibles, interactionUpper)
+                  .orElse(null)
               : null;
       this.tryOutfits(
           enthronedFamiliars,

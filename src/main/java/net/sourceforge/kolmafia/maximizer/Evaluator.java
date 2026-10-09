@@ -431,11 +431,11 @@ public class Evaluator {
     for (var scoreModifier : this.activeScoreModifiers) {
       if (scoreModifier.modifier() instanceof BitmapModifier) continue;
       if (!(scoreModifier.modifier() instanceof DoubleModifier modifier)) return false;
-      // Derived terms have dedicated interval support; contextual terms still require exact search.
+      // Derived terms have dedicated intervals; unsafe contextual terms require exact search.
       if (DERIVED_MODIFIERS.contains(modifier)) {
         continue;
       }
-      if (CONTEXTUAL_MODIFIERS.contains(modifier)) return false;
+      if (CONTEXTUAL_MODIFIERS.contains(modifier) && scoreModifier.weight() <= 0.0) return false;
       // All other supported modifiers must be expressible as direct sums.
       if (!switch (modifier) {
         case DAMAGE_ABSORPTION,
@@ -501,10 +501,16 @@ public class Evaluator {
       for (var item : possibles.get(slot)) {
         int itemId = item.getItemId();
         if (itemId <= 0) continue;
-        // Dynamic items and cross-item categories require exact traversal.
-        if (item.conditionalFlag || item.automaticFlag) return false;
         Modifiers modifiers = ModifierDatabase.getItemModifiers(itemId);
         if (modifiers == null) continue;
+        // Conditional bitmap state and cross-item categories are not independent contributions.
+        if (item.conditionalFlag || item.automaticFlag) {
+          for (var bitmap : BitmapModifier.values()) {
+            if (bitmap != BitmapModifier.SYNERGETIC && modifiers.getRawBitmap(bitmap) != 0) {
+              return false;
+            }
+          }
+        }
         if (modifiers.hasUnarmedBonus()
             || modifiers.getDouble(DoubleModifier.HOBO_POWER) != 0.0
             || modifiers.getDouble(DoubleModifier.SMITHSNESS) != 0.0
@@ -512,11 +518,6 @@ public class Evaluator {
             || modifiers.getBitmap(BitmapModifier.BRIMSTONE) != 0
             || modifiers.getBitmap(BitmapModifier.CLOATHING) != 0
             || modifiers.getBitmap(BitmapModifier.MCHUGELARGE) != 0) {
-          return false;
-        }
-        // Candidate modifiers with familiar or experience context still require exact traversal.
-        if (CONTEXTUAL_MODIFIERS.stream()
-            .anyMatch(modifier -> modifiers.getDouble(modifier) != 0.0)) {
           return false;
         }
       }
@@ -563,15 +564,36 @@ public class Evaluator {
                 SPORADIC_ITEMDROP,
                 SPORADIC_MEATDROP,
                 FAIRY_WEIGHT,
-                FAIRY_EFFECTIVENESS ->
+                FAIRY_EFFECTIVENESS,
+                FAMILIAR_WEIGHT,
+                HIDDEN_FAMILIAR_WEIGHT,
+                FAMILIAR_WEIGHT_PCT,
+                LEPRECHAUN_WEIGHT,
+                LEPRECHAUN_EFFECTIVENESS,
+                VOLLEYBALL_WEIGHT,
+                VOLLEYBALL_EFFECTIVENESS,
+                SOMBRERO_WEIGHT,
+                SOMBRERO_EFFECTIVENESS,
+                SOMBRERO_BONUS,
+                EXPERIENCE,
+                MONSTER_LEVEL,
+                MONSTER_LEVEL_PERCENT,
+                MUS_EXPERIENCE,
+                MYS_EXPERIENCE,
+                MOX_EXPERIENCE,
+                MUS_EXPERIENCE_PCT,
+                MYS_EXPERIENCE_PCT,
+                MOX_EXPERIENCE_PCT ->
                 true;
             default -> false;
           }
           || scoreModifier.min() != Double.NEGATIVE_INFINITY
-          || scoreModifier.max() != Double.POSITIVE_INFINITY) {
+          || scoreModifier.max() != Double.POSITIVE_INFINITY
+          || CONTEXTUAL_MODIFIERS.contains(modifier) && scoreModifier.weight() <= 0.0) {
         return false;
       }
     }
+    boolean hasContextualCandidate = false;
     for (var slot : SlotSet.SLOTS) {
       for (var item : possibles.get(slot)) {
         int itemId = item.getItemId();
@@ -582,18 +604,12 @@ public class Evaluator {
         }
         Modifiers modifiers = ModifierDatabase.getItemModifiers(itemId);
         if (modifiers == null) continue;
+        if (CONTEXTUAL_MODIFIERS.stream()
+            .anyMatch(modifier -> modifiers.getDouble(modifier) != 0.0)) {
+          hasContextualCandidate = true;
+        }
         if (modifiers.hasUnarmedBonus()
             || modifiers.hasString(StringModifier.ROLLOVER_EFFECT)
-            || modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.FAIRY_WEIGHT) != 0.0
-            || modifiers.getDouble(DoubleModifier.FAIRY_EFFECTIVENESS) != 0.0
-            || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL) != 0.0
-            || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) != 0.0
-            || modifiers.getDouble(DoubleModifier.EXPERIENCE) != 0.0
-            || modifiers.getDouble(DoubleModifier.MUS_EXPERIENCE) != 0.0
-            || modifiers.getDouble(DoubleModifier.MYS_EXPERIENCE) != 0.0
-            || modifiers.getDouble(DoubleModifier.MOX_EXPERIENCE) != 0.0
             || modifiers.getDouble(DoubleModifier.HOBO_POWER) != 0.0
             || modifiers.getDouble(DoubleModifier.SMITHSNESS) != 0.0
             || modifiers.getDouble(DoubleModifier.SLIME_HATES_IT) != 0.0) {
@@ -612,7 +628,16 @@ public class Evaluator {
         }
       }
     }
-    return true;
+    return !this.hasPositiveContextualModifier() || hasContextualCandidate;
+  }
+
+  boolean hasPositiveContextualModifier() {
+    return this.activeScoreModifiers.stream()
+        .anyMatch(
+            scoreModifier ->
+                scoreModifier.modifier() instanceof DoubleModifier modifier
+                    && CONTEXTUAL_MODIFIERS.contains(modifier)
+                    && scoreModifier.weight() > 0.001);
   }
 
   void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
@@ -776,39 +801,53 @@ public class Evaluator {
 
     Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
+    double branchBoundOutfitUpper = 0.0;
+    boolean branchBoundInteractionsSupported = true;
     for (var outfitEntry : EquipmentDatabase.normalOutfits.entrySet()) {
       var i = outfitEntry.getKey();
       var outfit = outfitEntry.getValue();
       if (outfit == null) continue;
       if (this.expression.negOutfits.contains(outfit.getName())) continue;
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
       if (this.expression.posOutfits.contains(outfit.getName())) {
         usefulOutfits.put(i, true);
+        if (mods != null) {
+          branchBoundOutfitUpper =
+              Math.max(branchBoundOutfitUpper, Math.max(0.0, this.getScore(mods) - nullScore));
+          branchBoundInteractionsSupported &= this.interactionModifiersAreIndependent(mods);
+        }
         continue;
       }
 
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
       if (mods == null) continue;
 
+      double delta = this.getScore(mods) - nullScore;
       switch (this.checkConstraints(mods)) {
         case VIOLATES:
           continue;
         case IRRELEVANT:
           // intentionally not including outfit.getPieces() because this is
           // only rating whether the outfit itself is useful, not its pieces
-          double delta = this.getScore(mods) - nullScore;
           if (delta <= 0.0) continue;
           break;
       }
       usefulOutfits.put(i, true);
+      branchBoundOutfitUpper = Math.max(branchBoundOutfitUpper, Math.max(0.0, Math.nextUp(delta)));
+      branchBoundInteractionsSupported &= this.interactionModifiersAreIndependent(mods);
     }
 
     int usefulSynergies = 0;
+    double branchBoundSynergyUpper = 0.0;
     for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SYNERGY, entry.getKey());
       int value = entry.getValue();
       if (mods == null) continue;
       double delta = this.getScore(mods) - nullScore;
-      if (delta > 0.0) usefulSynergies |= value;
+      if (delta > 0.0) {
+        usefulSynergies |= value;
+        branchBoundSynergyUpper = Math.nextUp(branchBoundSynergyUpper + delta);
+        branchBoundInteractionsSupported &= this.interactionModifiersAreIndependent(mods);
+      }
     }
 
     boolean hoboPowerUseful = isCatUseful(nullScore, "_hoboPower");
@@ -2056,18 +2095,25 @@ public class Evaluator {
           }
         });
 
+    double branchBoundCardUpper = branchBoundItemUpper(useCard, nullScore);
+    double branchBoundCarriedUpper = branchBoundCarriedUpper(nullScore);
+    branchBoundInteractionsSupported &=
+        this.independentCarriedAndCardModifiers(useCard, useCrownFamiliar, useBjornFamiliar);
+    double branchBoundInteractionUpper =
+        Math.nextUp(
+            branchBoundOutfitUpper
+                + branchBoundSynergyUpper
+                + branchBoundCardUpper
+                + branchBoundCarriedUpper);
     // Outfits, synergies, cards, and carried familiars can make item contributions contextual.
     boolean branchBoundAllowed =
-        usefulSynergies == 0
-            && usefulOutfits.values().stream().noneMatch(Boolean.TRUE::equals)
+        branchBoundInteractionsSupported
             && !hoboPowerUseful
             && !smithsnessUseful
             && !brimstoneUseful
             && !cloathingUseful
             && !slimeHateUseful
-            && !mcHugeLargeUseful
-            && useCard == null
-            && this.carriedFamiliarsNeeded == 0;
+            && !mcHugeLargeUseful;
     spec.tryAll(
         this.expression.familiars,
         this.carriedFamiliars,
@@ -2077,7 +2123,121 @@ public class Evaluator {
         useCard,
         useCrownFamiliar,
         useBjornFamiliar,
+        branchBoundInteractionUpper,
         branchBoundAllowed);
+  }
+
+  private boolean interactionModifiersAreIndependent(Modifiers modifiers) {
+    if (modifiers.hasUnarmedBonus()
+        || this.activeScoreModifiers.stream()
+            .anyMatch(
+                scoreModifier ->
+                    scoreModifier.modifier() instanceof DoubleModifier modifier
+                        && (DERIVED_MODIFIERS.contains(modifier)
+                            || CONTEXTUAL_MODIFIERS.contains(modifier)
+                                && !this.isImplicitContextualFudge(
+                                    modifier, scoreModifier.weight())))) {
+      return false;
+    }
+    var contextual = new Modifiers();
+    boolean hasContextualModifier = false;
+    for (var modifier : CONTEXTUAL_MODIFIERS) {
+      double value = modifiers.getRawDouble(modifier);
+      if (value == 0.0) continue;
+      contextual.setDouble(modifier, value);
+      hasContextualModifier = true;
+    }
+    if (!hasContextualModifier) return true;
+    // Contextual fields on an interaction are harmless only when no familiar can activate them.
+    return KoLCharacter.getFamiliar() == FamiliarData.NO_FAMILIAR
+        && this.getScore(contextual) == this.getScore(new Modifiers());
+  }
+
+  // Generated tie weights are 0.01% of their source objective; they are not explicit contextual
+  // objectives and should not disable an otherwise independent interaction bound.
+  private boolean isImplicitContextualFudge(DoubleModifier modifier, double weight) {
+    DoubleModifier source =
+        switch (modifier) {
+          case MONSTER_LEVEL,
+              MONSTER_LEVEL_PERCENT,
+              MUS_EXPERIENCE,
+              MYS_EXPERIENCE,
+              MOX_EXPERIENCE,
+              MUS_EXPERIENCE_PCT,
+              MYS_EXPERIENCE_PCT,
+              MOX_EXPERIENCE_PCT,
+              VOLLEYBALL_WEIGHT,
+              VOLLEYBALL_EFFECTIVENESS,
+              SOMBRERO_WEIGHT,
+              SOMBRERO_EFFECTIVENESS,
+              SOMBRERO_BONUS ->
+              DoubleModifier.EXPERIENCE;
+          case FAIRY_WEIGHT, FAIRY_EFFECTIVENESS -> DoubleModifier.ITEMDROP;
+          case LEPRECHAUN_WEIGHT, LEPRECHAUN_EFFECTIVENESS -> DoubleModifier.MEATDROP;
+          default -> null;
+        };
+    if (source == null) return false;
+    double sourceWeight = this.expression.weight.getOrDefault(source, 0.0);
+    return sourceWeight > 0.0 && weight == sourceWeight * 0.0001f;
+  }
+
+  private double branchBoundItemUpper(AdventureResult item, double nullScore) {
+    if (item == null) return 0.0;
+    Modifiers modifiers = ModifierDatabase.getItemModifiers(item.getItemId());
+    if (modifiers == null) return 0.0;
+    Slot slot = EquipmentManager.itemIdToEquipmentType(item.getItemId());
+    return Math.max(
+        0.0, this.getScore(modifiers, Map.of(slot, item), Modeable.getStateMap()) - nullScore);
+  }
+
+  private double branchBoundCarriedUpper(double nullScore) {
+    if (this.carriedFamiliarsNeeded == 0) return 0.0;
+    double throneUpper = 0.0;
+    double bjornUpper = 0.0;
+    for (var familiar : this.carriedFamiliars) {
+      Modifiers throne = ModifierDatabase.getModifiers(ModifierType.THRONE, familiar.getRace());
+      if (throne != null) {
+        throneUpper = Math.max(throneUpper, Math.max(0.0, this.getScore(throne) - nullScore));
+      }
+      Modifiers bjorn = ModifierDatabase.getModifiers(ModifierType.BJORN, familiar.getRace());
+      if (bjorn != null) {
+        bjornUpper = Math.max(bjornUpper, Math.max(0.0, this.getScore(bjorn) - nullScore));
+      }
+    }
+    return this.carriedFamiliarsNeeded > 1
+        ? Math.nextUp(throneUpper + bjornUpper)
+        : Math.max(throneUpper, bjornUpper);
+  }
+
+  private boolean independentCarriedAndCardModifiers(
+      AdventureResult card, FamiliarData crownFamiliar, FamiliarData bjornFamiliar) {
+    if (card == null
+        && this.carriedFamiliarsNeeded == 0
+        && crownFamiliar == null
+        && bjornFamiliar == null) {
+      return true;
+    }
+    if (card != null) {
+      Modifiers modifiers = ModifierDatabase.getItemModifiers(card.getItemId());
+      if (modifiers != null && !interactionModifiersAreIndependent(modifiers)) return false;
+    }
+    for (var familiar : this.carriedFamiliars) {
+      for (var type : List.of(ModifierType.THRONE, ModifierType.BJORN)) {
+        Modifiers modifiers = ModifierDatabase.getModifiers(type, familiar.getRace());
+        if (modifiers != null && !interactionModifiersAreIndependent(modifiers)) return false;
+      }
+    }
+    if (crownFamiliar != null) {
+      Modifiers modifiers =
+          ModifierDatabase.getModifiers(ModifierType.THRONE, crownFamiliar.getRace());
+      if (modifiers != null && !interactionModifiersAreIndependent(modifiers)) return false;
+    }
+    if (bjornFamiliar != null) {
+      Modifiers modifiers =
+          ModifierDatabase.getModifiers(ModifierType.BJORN, bjornFamiliar.getRace());
+      if (modifiers != null && !interactionModifiersAreIndependent(modifiers)) return false;
+    }
+    return true;
   }
 
   private boolean isCatUseful(double nullScore, String catName) {
