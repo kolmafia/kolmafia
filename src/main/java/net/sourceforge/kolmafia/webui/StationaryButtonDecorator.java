@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -648,19 +650,52 @@ public class StationaryButtonDecorator {
 
     StationaryButtonDecorator.addButton(buffer, name, action, true, false);
 
-    StringBuilder actionBuffer = new StringBuilder();
-    Map<Integer, String> choices = ChoiceUtilities.parseChoices(ChoiceManager.lastResponseText);
-    for (Map.Entry<Integer, String> entry : choices.entrySet()) {
-      actionBuffer.setLength(0);
-      actionBuffer.append("choice.php?whichchoice=");
-      actionBuffer.append(choice);
-      actionBuffer.append("&option=");
-      actionBuffer.append(entry.getKey().intValue());
-      actionBuffer.append("&pwd=");
-      actionBuffer.append(GenericRequest.passwordHash);
-      StationaryButtonDecorator.addButton(
-          buffer, entry.getValue(), actionBuffer.toString(), true, false);
+    String responseText = ChoiceManager.lastResponseText;
+
+    Set<Integer> formDecisions = new TreeSet<>();
+    // parse buttons, possibly with hidden fields
+    for (ChoiceUtilities.FormChoice formChoice : ChoiceUtilities.parseFormChoices(responseText)) {
+      formDecisions.add(formChoice.decision());
+      StationaryButtonDecorator.addChoiceButton(
+          buffer, choice, formChoice.decision(), formChoice.hidden(), formChoice.label());
     }
+
+    // parse any remaining links
+    Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
+    for (Map.Entry<Integer, String> entry : choices.entrySet()) {
+      int decision = entry.getKey();
+      // skip if matches already known
+      if (formDecisions.contains(decision)) {
+        continue;
+      }
+      StationaryButtonDecorator.addChoiceButton(
+          buffer, choice, decision, Map.of(), entry.getValue());
+    }
+  }
+
+  private static void addChoiceButton(
+      final StringBuffer buffer,
+      final int choice,
+      final int decision,
+      final Map<String, String> extras,
+      final String label) {
+    StringBuilder actionBuffer = new StringBuilder();
+    actionBuffer.append("choice.php?whichchoice=");
+    actionBuffer.append(choice);
+    actionBuffer.append("&option=");
+    actionBuffer.append(decision);
+    actionBuffer.append("&pwd=");
+    actionBuffer.append(GenericRequest.passwordHash);
+
+    for (Map.Entry<String, String> extra : extras.entrySet()) {
+      actionBuffer.append("&");
+      actionBuffer.append(extra.getKey());
+      actionBuffer.append("=");
+      actionBuffer.append(GenericRequest.encodeURL(extra.getValue()));
+    }
+
+    String name = label.isEmpty() ? "(secret choice)" : label;
+    StationaryButtonDecorator.addButton(buffer, name, actionBuffer.toString(), true, false);
   }
 
   public static void addNonCombatButtons(final StringBuffer response, final StringBuffer buffer) {
