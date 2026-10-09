@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -266,6 +267,22 @@ public class MaximizerTest {
                     containsString("(maximum achieved, no further combinations checked)"))));
       }
     }
+
+    @Test
+    public void directModifierMaximumPreservesBestRecommendation() {
+      int helmetTurtle = ItemDatabase.getItemId("helmet turtle");
+      int bountyHelmet = ItemDatabase.getItemId("bounty-hunting helmet");
+      try (var cleanups =
+          new Cleanups(
+              withEquippableItem("helmet turtle"),
+              withEquippableItem("bounty-hunting helmet"),
+              withOverrideModifiers(ModifierType.ITEM, helmetTurtle, "Food Drop: 20"),
+              withOverrideModifiers(ModifierType.ITEM, bountyHelmet, "Food Drop: 10"))) {
+        assertTrue(maximize("food drop, 15 max, -tie"));
+
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+      }
+    }
   }
 
   @Nested
@@ -318,6 +335,27 @@ public class MaximizerTest {
       modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
       evaluator.getScore(modifiers);
       assertFalse(evaluator.failed);
+    }
+
+    @Test
+    public void directModifierMinimumUsesAvailableCopies() {
+      try (var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.WORTHLESS_TRINKET, 2),
+              withOverrideModifiers(
+                  ModifierType.ITEM, ItemPool.WORTHLESS_TRINKET, "Food Drop: 30"))) {
+        assertTrue(maximize("food drop 50 min, -tie"));
+
+        long recommendedCopies =
+            getBoosts().stream()
+                .filter(
+                    boost ->
+                        boost.getItem() != null
+                            && boost.getItem().getItemId() == ItemPool.WORTHLESS_TRINKET
+                            && SlotSet.ACCESSORY_SLOTS.contains(boost.getSlot()))
+                .count();
+        assertThat(recommendedCopies, is(2L));
+      }
     }
   }
 
@@ -415,6 +453,22 @@ public class MaximizerTest {
         assertTrue(maximize(maxStr));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
       }
+    }
+  }
+
+  @Test
+  void signedDirectModifierPreservesBestRecommendation() {
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem(ItemPool.WORTHLESS_TRINKET, 2),
+            withEquippableItem(ItemPool.SEAL_TOOTH),
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.WORTHLESS_TRINKET, "Food Drop: 30"),
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.SEAL_TOOTH, "Food Drop: -20"))) {
+      assertTrue(maximize("-food drop, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "seal tooth")));
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2, "worthless trinket"))));
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY3, "worthless trinket"))));
     }
   }
 

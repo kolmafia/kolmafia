@@ -60,6 +60,8 @@ public class Evaluator {
 
   private record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
 
+  record NumericScoreTerm(Modifier modifier, double weight, double min, double max) {}
+
   // Equipment slots, that aren't the primary slot of any item type,
   // that are repurposed here (rather than making the array bigger).
   // Watches have to be handled specially because only one can be
@@ -297,49 +299,7 @@ public class Evaluator {
       int val = mods.getBitmap(BitmapModifier.STINKYCHEESE);
       score += this.expression.stinkycheese * val;
     }
-    if (!this.expression.bonuses.isEmpty()) {
-      for (AdventureResult item : equipment.values()) {
-        MaximizerExpression.ItemBonus itemBonus = this.expression.bonuses.get(item);
-        // Add the base bonus
-        if (itemBonus == null) continue;
-        score += itemBonus.base();
-        // If it's a modeable and has a bonus for it
-        var modeable = Modeable.find(item);
-        if (modeable == null) continue;
-        var mode = modeables.get(modeable);
-        if (mode == null) continue;
-        Double bonus = itemBonus.modes().get(mode);
-        if (bonus != null) score += bonus;
-      }
-    }
-    if (!this.expression.modBonuses.isEmpty()) {
-      for (AdventureResult item : equipment.values()) {
-        Modifiers itemMods = ModifierDatabase.getItemModifiers(item.getItemId());
-        if (itemMods == null) {
-          continue;
-        }
-        Modifiers modeMods = null;
-        Modeable modeable = Modeable.find(item);
-        if (modeable != null) {
-          modeMods =
-              ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable));
-        }
-
-        for (Entry<BooleanModifier, Double> modBonus : this.expression.modBonuses.entrySet()) {
-          if (itemMods.getBoolean(modBonus.getKey())
-              || modeMods != null && modeMods.getBoolean(modBonus.getKey())) {
-            score += modBonus.getValue();
-          }
-        }
-      }
-    }
-    if (!this.expression.bonusFunc.isEmpty()) {
-      for (MaximizerExpression.BonusFunction func : this.expression.bonusFunc) {
-        for (AdventureResult item : equipment.values()) {
-          score += func.bonusFunction().apply(item) * func.weight();
-        }
-      }
-    }
+    score += this.numericEquipmentScore(equipment, modeables);
     // Add fudge factor for Rollover Effect
     if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) {
       score += 0.01f;
@@ -356,6 +316,266 @@ public class Evaluator {
 
   public double getScore(Modifiers mods) {
     return this.getScore(mods, Map.of(), Map.of());
+  }
+
+  double numericEquipmentScore(
+      Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
+    double score = 0.0;
+    for (var item : equipment.values()) score += this.numericItemScore(item, modeables);
+    return score;
+  }
+
+  double numericItemScore(AdventureResult item, Map<Modeable, String> modeables) {
+    if (item == null || item.getItemId() <= 0) return 0.0;
+    double score = 0.0;
+    // These bonuses depend on item identity or mode, not the aggregate modifier totals.
+    MaximizerExpression.ItemBonus itemBonus = this.expression.bonuses.get(item);
+    var modeable = Modeable.find(item);
+    if (itemBonus != null) {
+      score += itemBonus.base();
+      if (modeable != null) {
+        Double bonus = itemBonus.modes().get(modeables.get(modeable));
+        if (bonus != null) score += bonus;
+      }
+    }
+
+    if (!this.expression.modBonuses.isEmpty()) {
+      Modifiers itemModifiers = ModifierDatabase.getItemModifiers(item.getItemId());
+      // A mode can satisfy a modifier bonus even when the base item does not.
+      Modifiers modeModifiers =
+          modeable == null
+              ? null
+              : ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable));
+      if (itemModifiers != null) {
+        for (Entry<BooleanModifier, Double> modifierBonus : this.expression.modBonuses.entrySet()) {
+          if (itemModifiers.getBoolean(modifierBonus.getKey())
+              || modeModifiers != null && modeModifiers.getBoolean(modifierBonus.getKey())) {
+            score += modifierBonus.getValue();
+          }
+        }
+      }
+    }
+
+    for (MaximizerExpression.BonusFunction function : this.expression.bonusFunc) {
+      score += function.bonusFunction().apply(item) * function.weight();
+    }
+    return score;
+  }
+
+  List<NumericScoreTerm> numericScoreTerms() {
+    // Normalize the active expression into the terms consumed by the numeric bound.
+    var terms = new ArrayList<NumericScoreTerm>();
+    for (var scoreModifier : this.activeScoreModifiers) {
+      if (scoreModifier.weight() == 0.0) continue;
+      terms.add(
+          new NumericScoreTerm(
+              scoreModifier.modifier(),
+              scoreModifier.weight(),
+              scoreModifier.min(),
+              scoreModifier.max()));
+    }
+    if (this.expression.stinkycheese > 0) {
+      terms.add(
+          new NumericScoreTerm(
+              BitmapModifier.STINKYCHEESE,
+              this.expression.stinkycheese,
+              Double.NEGATIVE_INFINITY,
+              Double.POSITIVE_INFINITY));
+    }
+    return List.copyOf(terms);
+  }
+
+  boolean supportsNumericBranchBound(SlotList<CheckedItem> possibles) {
+    if (this.supportsLegacyAdditiveBranchBound(possibles)) return true;
+    // Fail closed for expression semantics that cannot be represented by independent intervals.
+    if (!this.expression.booleanMask.isEmpty()
+        || this.expression.stinkycheese != 0
+        || this.expression.totalMin != Double.NEGATIVE_INFINITY
+        || this.expression.totalMax != Double.POSITIVE_INFINITY
+        || this.numericScoreTerms().isEmpty()
+            && this.expression.bonuses.isEmpty()
+            && this.expression.modBonuses.isEmpty()
+            && this.expression.bonusFunc.isEmpty()) {
+      return false;
+    }
+    for (var scoreModifier : this.activeScoreModifiers) {
+      if (scoreModifier.weight() == 0.0) continue;
+      if (scoreModifier.modifier() instanceof BitmapModifier) return false;
+      if (!(scoreModifier.modifier() instanceof DoubleModifier modifier)) return false;
+      // Only modifiers expressible as direct sums are safe in this first numeric bound.
+      if (!switch (modifier) {
+        case DAMAGE_ABSORPTION,
+            DAMAGE_REDUCTION,
+            WEAPON_DAMAGE,
+            RANGED_DAMAGE,
+            SPELL_DAMAGE,
+            DAMAGE_AURA,
+            THORNS,
+            ITEMDROP,
+            MEATDROP,
+            FOODDROP,
+            BOOZEDROP,
+            HATDROP,
+            WEAPONDROP,
+            OFFHANDDROP,
+            SHIRTDROP,
+            PANTSDROP,
+            ACCESSORYDROP,
+            CANDYDROP,
+            GEARDROP,
+            MEAT_BONUS,
+            PICKPOCKET_CHANCE,
+            SPORADIC_ITEMDROP,
+            SPORADIC_MEATDROP,
+            MANA_COST,
+            STACKABLE_MANA_COST,
+            INITIATIVE,
+            INITIATIVE_PENALTY ->
+            true;
+        default -> false;
+      }) {
+        return false;
+      }
+    }
+    for (var slot : SlotSet.SLOTS) {
+      for (var item : possibles.get(slot)) {
+        int itemId = item.getItemId();
+        if (itemId <= 0) continue;
+        // Dynamic items and cross-item categories require exact traversal.
+        if (item.conditionalFlag || item.automaticFlag) return false;
+        if (itemId == ItemPool.BROKEN_CHAMPAGNE || itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT) {
+          return false;
+        }
+        Modifiers modifiers = ModifierDatabase.getItemModifiers(itemId);
+        if (modifiers == null) continue;
+        if (modifiers.hasUnarmedBonus()
+            || modifiers.hasString(StringModifier.ROLLOVER_EFFECT)
+            || modifiers.getDouble(DoubleModifier.HOBO_POWER) != 0.0
+            || modifiers.getDouble(DoubleModifier.SMITHSNESS) != 0.0
+            || modifiers.getDouble(DoubleModifier.SLIME_HATES_IT) != 0.0
+            || modifiers.getBitmap(BitmapModifier.BRIMSTONE) != 0
+            || modifiers.getBitmap(BitmapModifier.CLOATHING) != 0
+            || modifiers.getBitmap(BitmapModifier.MCHUGELARGE) != 0) {
+          return false;
+        }
+        // Familiar and experience formulas are not independent item contributions.
+        if (modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) != 0.0
+            || modifiers.getDouble(DoubleModifier.FAIRY_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.FAIRY_EFFECTIVENESS) != 0.0
+            || modifiers.getDouble(DoubleModifier.LEPRECHAUN_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.LEPRECHAUN_EFFECTIVENESS) != 0.0
+            || modifiers.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.VOLLEYBALL_EFFECTIVENESS) != 0.0
+            || modifiers.getDouble(DoubleModifier.SOMBRERO_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.SOMBRERO_EFFECTIVENESS) != 0.0
+            || modifiers.getDouble(DoubleModifier.SOMBRERO_BONUS) != 0.0
+            || modifiers.getDouble(DoubleModifier.EXPERIENCE) != 0.0
+            || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL) != 0.0
+            || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) != 0.0
+            || modifiers.getDouble(DoubleModifier.MUS_EXPERIENCE) != 0.0
+            || modifiers.getDouble(DoubleModifier.MYS_EXPERIENCE) != 0.0
+            || modifiers.getDouble(DoubleModifier.MOX_EXPERIENCE) != 0.0
+            || modifiers.getDouble(DoubleModifier.MUS_EXPERIENCE_PCT) != 0.0
+            || modifiers.getDouble(DoubleModifier.MYS_EXPERIENCE_PCT) != 0.0
+            || modifiers.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT) != 0.0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  boolean supportsLegacyAdditiveBranchBound(SlotList<CheckedItem> possibles) {
+    // Keep the cheaper scalar bound for uncapped positive terms it can model exactly.
+    if (!this.expression.bonuses.isEmpty()
+        || !this.expression.modBonuses.isEmpty()
+        || !this.expression.bonusFunc.isEmpty()
+        || !this.expression.booleanMask.isEmpty()
+        || this.expression.stinkycheese != 0
+        || this.expression.totalMin != Double.NEGATIVE_INFINITY
+        || this.expression.totalMax != Double.POSITIVE_INFINITY
+        || this.activeScoreModifiers.isEmpty()) {
+      return false;
+    }
+    for (var scoreModifier : this.activeScoreModifiers) {
+      if (!(scoreModifier.modifier() instanceof DoubleModifier modifier)
+          || !switch (modifier) {
+            case DAMAGE_ABSORPTION,
+                DAMAGE_REDUCTION,
+                WEAPON_DAMAGE,
+                RANGED_DAMAGE,
+                SPELL_DAMAGE,
+                DAMAGE_AURA,
+                THORNS,
+                ITEMDROP,
+                MEATDROP,
+                FOODDROP,
+                BOOZEDROP,
+                HATDROP,
+                WEAPONDROP,
+                OFFHANDDROP,
+                SHIRTDROP,
+                PANTSDROP,
+                ACCESSORYDROP,
+                CANDYDROP,
+                GEARDROP,
+                MEAT_BONUS,
+                PICKPOCKET_CHANCE,
+                SPORADIC_ITEMDROP,
+                SPORADIC_MEATDROP,
+                FAIRY_WEIGHT,
+                FAIRY_EFFECTIVENESS ->
+                true;
+            default -> false;
+          }
+          || scoreModifier.min() != Double.NEGATIVE_INFINITY
+          || scoreModifier.max() != Double.POSITIVE_INFINITY) {
+        return false;
+      }
+    }
+    for (var slot : SlotSet.SLOTS) {
+      for (var item : possibles.get(slot)) {
+        int itemId = item.getItemId();
+        if (itemId <= 0) continue;
+        if (item.conditionalFlag || item.automaticFlag) return false;
+        if (itemId == ItemPool.BROKEN_CHAMPAGNE || itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT) {
+          return false;
+        }
+        Modifiers modifiers = ModifierDatabase.getItemModifiers(itemId);
+        if (modifiers == null) continue;
+        if (modifiers.hasUnarmedBonus()
+            || modifiers.hasString(StringModifier.ROLLOVER_EFFECT)
+            || modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.FAIRY_WEIGHT) != 0.0
+            || modifiers.getDouble(DoubleModifier.FAIRY_EFFECTIVENESS) != 0.0
+            || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL) != 0.0
+            || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) != 0.0
+            || modifiers.getDouble(DoubleModifier.EXPERIENCE) != 0.0
+            || modifiers.getDouble(DoubleModifier.MUS_EXPERIENCE) != 0.0
+            || modifiers.getDouble(DoubleModifier.MYS_EXPERIENCE) != 0.0
+            || modifiers.getDouble(DoubleModifier.MOX_EXPERIENCE) != 0.0
+            || modifiers.getDouble(DoubleModifier.HOBO_POWER) != 0.0
+            || modifiers.getDouble(DoubleModifier.SMITHSNESS) != 0.0
+            || modifiers.getDouble(DoubleModifier.SLIME_HATES_IT) != 0.0) {
+          return false;
+        }
+        if (modifiers.getBitmap(BitmapModifier.BRIMSTONE) != 0
+            || modifiers.getBitmap(BitmapModifier.CLOATHING) != 0
+            || modifiers.getBitmap(BitmapModifier.MCHUGELARGE) != 0) {
+          return false;
+        }
+        if (modifiers.getDouble(DoubleModifier.ITEMDROP_PENALTY) != 0.0
+            || modifiers.getDouble(DoubleModifier.MEATDROP_PENALTY) != 0.0
+            || modifiers.getDouble(DoubleModifier.SPORADIC_ITEMDROP) != 0.0
+            || modifiers.getDouble(DoubleModifier.SPORADIC_MEATDROP) != 0.0) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
@@ -1799,6 +2019,18 @@ public class Evaluator {
           }
         });
 
+    // Outfits, synergies, cards, and carried familiars can make item contributions contextual.
+    boolean branchBoundAllowed =
+        usefulSynergies == 0
+            && usefulOutfits.values().stream().noneMatch(Boolean.TRUE::equals)
+            && !hoboPowerUseful
+            && !smithsnessUseful
+            && !brimstoneUseful
+            && !cloathingUseful
+            && !slimeHateUseful
+            && !mcHugeLargeUseful
+            && useCard == null
+            && this.carriedFamiliarsNeeded == 0;
     spec.tryAll(
         this.expression.familiars,
         this.carriedFamiliars,
@@ -1807,7 +2039,8 @@ public class Evaluator {
         automatic,
         useCard,
         useCrownFamiliar,
-        useBjornFamiliar);
+        useBjornFamiliar,
+        branchBoundAllowed);
   }
 
   private boolean isCatUseful(double nullScore, String catName) {

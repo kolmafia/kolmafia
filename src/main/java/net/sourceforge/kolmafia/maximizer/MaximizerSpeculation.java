@@ -39,6 +39,7 @@ public class MaximizerSpeculation extends Speculation
   public boolean failed = false;
   public CheckedItem attachment;
   private boolean foldables = false;
+  private MaximizerBranchBound branchBound;
 
   @Override
   public MaximizerSpeculation clone() {
@@ -225,9 +226,14 @@ public class MaximizerSpeculation extends Speculation
       SlotList<CheckedItem> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
-      FamiliarData useBjornFamiliar)
+      FamiliarData useBjornFamiliar,
+      boolean branchBoundAllowed)
       throws MaximizerInterruptedException {
     this.foldables = Preferences.getBoolean("maximizerFoldables");
+    this.branchBound =
+        branchBoundAllowed
+            ? MaximizerBranchBound.create(Maximizer.eval, this, possibles).orElse(null)
+            : null;
     this.tryOutfits(
         enthronedFamiliars,
         usefulOutfits,
@@ -239,6 +245,10 @@ public class MaximizerSpeculation extends Speculation
     for (int i = 0; i < familiars.size(); ++i) {
       this.setFamiliar(familiars.get(i));
       possibles.set(Slot.FAMILIAR, possibles.getFamiliar(i));
+      this.branchBound =
+          branchBoundAllowed
+              ? MaximizerBranchBound.create(Maximizer.eval, this, possibles).orElse(null)
+              : null;
       this.tryOutfits(
           enthronedFamiliars,
           usefulOutfits,
@@ -259,6 +269,7 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     for (Integer outfit : usefulOutfits.keySet()) {
       if (!usefulOutfits.get(outfit)) continue;
@@ -334,6 +345,7 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.FAMILIAR) == null) {
       List<CheckedItem> possible = possibles.get(Slot.FAMILIAR);
@@ -388,6 +400,7 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.CONTAINER) == null) {
       List<CheckedItem> possible = possibles.get(Slot.CONTAINER);
@@ -445,6 +458,7 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     int free = 0;
     if (this.equipment.get(Slot.ACCESSORY1) == null) ++free;
@@ -524,6 +538,7 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.HAT) == null) {
       List<CheckedItem> possible = possibles.get(Slot.HAT);
@@ -582,6 +597,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryShirts(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.SHIRT) == null) {
       boolean any = false;
@@ -623,6 +639,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryPants(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.PANTS) == null) {
       List<CheckedItem> possible = possibles.get(Slot.PANTS);
@@ -662,6 +679,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void trySixguns(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.HOLSTER) == null) {
       List<CheckedItem> possible = possibles.get(Slot.HOLSTER);
@@ -685,6 +703,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryWeapons(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     boolean chefstaffable =
         KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI) || KoLCharacter.isJarlsberg();
@@ -745,6 +764,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryOffhands(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotBeatBest()) return;
     var mark = this.mark();
     int weapon = this.equipment.get(Slot.WEAPON).getItemId();
     if (EquipmentDatabase.getHands(weapon) > 1) {
@@ -831,6 +851,10 @@ public class MaximizerSpeculation extends Speculation
     if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
       throw new MaximizerLimitException();
     }
+  }
+
+  private boolean cannotBeatBest() {
+    return this.branchBound != null && this.branchBound.cannotBeat(this, Maximizer.best);
   }
 
   private static int getMutex(AdventureResult item) {
