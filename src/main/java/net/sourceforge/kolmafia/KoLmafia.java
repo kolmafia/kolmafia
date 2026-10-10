@@ -374,9 +374,6 @@ public abstract class KoLmafia {
 
     RequestThread.runInParallel(new UpdateCheckRunnable(), false);
 
-    // Warn for impending bump of minimum supported Java version
-    minimumJavaVersionWarning().forEach(line -> KoLmafia.updateDisplay(MafiaState.ERROR, line));
-
     // Always read input from the command line when you're not
     // in GUI mode.
 
