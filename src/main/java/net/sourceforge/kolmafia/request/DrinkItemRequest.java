@@ -635,7 +635,7 @@ public class DrinkItemRequest extends UseItemRequest {
       return true;
     }
 
-    // If autoTuxedo is true, put on Mafia Pinky Ring
+    // If autoPinkyRing is true, put on Mafia Pinky Ring
     if (Preferences.getBoolean("autoPinkyRing")) {
       if (!InventoryManager.hasItem(ItemPool.MAFIA_PINKY_RING, false)) {
         // get Mafia Pinky Ring
