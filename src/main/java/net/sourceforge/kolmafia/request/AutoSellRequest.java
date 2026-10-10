@@ -10,10 +10,15 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -87,6 +92,63 @@ public class AutoSellRequest extends TransferItemRequest {
   @Override
   public int getCapacity() {
     return Integer.MAX_VALUE;
+  }
+
+  @Override
+  public void run() {
+    // Equip the selling shorts once, before the items are sold
+    if (!this.isSubInstance) {
+      if (GenericRequest.abortIfInFightOrChoice()) {
+        return;
+      }
+
+      AutoSellRequest.equipSellingShorts(this.attachments);
+    }
+
+    super.run();
+  }
+
+  private static boolean sellsOnlyMeatStacks(final AdventureResult[] attachments) {
+    for (AdventureResult item : attachments) {
+      if (item == null) {
+        continue;
+      }
+
+      int itemId = item.getItemId();
+      if (itemId != ItemPool.MEAT_PASTE
+          && itemId != ItemPool.MEAT_STACK
+          && itemId != ItemPool.DENSE_STACK) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private static void equipSellingShorts(final AdventureResult[] attachments) {
+    // The selling shorts don't help with Meat paste / Meat stack /
+    // dense meat stack, so don't bother equipping them
+    if (AutoSellRequest.sellsOnlyMeatStacks(attachments)) {
+      return;
+    }
+
+    if (!Preferences.getBoolean("autoSellingShorts")) {
+      return;
+    }
+
+    // If we already have them on, don't have them in inventory, or
+    // can't equip them, there's nothing to do
+    if (KoLCharacter.hasEquipped(ItemPool.SELLING_SHORTS)
+        || InventoryManager.getCount(ItemPool.get(ItemPool.SELLING_SHORTS, 1)) == 0
+        || !EquipmentManager.canEquip(ItemPool.SELLING_SHORTS)) {
+      return;
+    }
+
+    RequestThread.postRequest(new EquipmentRequest(ItemPool.get(ItemPool.SELLING_SHORTS, 1)));
+
+    if (!KoLCharacter.hasEquipped(ItemPool.SELLING_SHORTS)) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip selling shorts.");
+    }
   }
 
   @Override

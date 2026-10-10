@@ -2,16 +2,24 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +27,11 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   public AutoSellCommandTest() {
     this.command = "autosell";
+  }
+
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("AutoSellCommand");
   }
 
   @BeforeEach
@@ -109,5 +122,70 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
         requests.get(0),
         "/sellstuff.php",
         "action=sell&ajax=1&type=allbutone&howmany=1&whichitem[]=2");
+  }
+
+  @Test
+  public void equipsSellingShortsWhenAutoselling() {
+    var cleanups =
+        new Cleanups(
+            withItem("seal tooth", 5),
+            withEquippableItem(ItemPool.SELLING_SHORTS),
+            withProperty("autoSellingShorts", true));
+
+    try (cleanups) {
+      execute("1 seal tooth");
+    }
+
+    var requests = getRequests();
+
+    assertThat(requests, not(empty()));
+    var equipRequest =
+        requests.stream().filter(req -> req.uri().getPath().equals("/inv_equip.php")).findFirst();
+    assertThat("expected an equip request for selling shorts", equipRequest.isPresent(), is(true));
+    assertPostRequest(
+        equipRequest.get(),
+        "/inv_equip.php",
+        allOf(containsString("action=equip"), containsString("whichitem=12300")));
+  }
+
+  @Test
+  public void doesNotEquipSellingShortsWhenPreferenceDisabled() {
+    var cleanups =
+        new Cleanups(
+            withItem("seal tooth", 5),
+            withEquippableItem(ItemPool.SELLING_SHORTS),
+            withProperty("autoSellingShorts", false));
+
+    try (cleanups) {
+      execute("1 seal tooth");
+    }
+
+    var requests = getRequests();
+
+    assertThat(
+        requests.stream().noneMatch(req -> req.uri().getPath().equals("/inv_equip.php")), is(true));
+  }
+
+  @Test
+  public void doesNotEquipSellingShortsWhenSellingOnlyMeatStacks() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.MEAT_PASTE, 5),
+            withEquippableItem(ItemPool.SELLING_SHORTS),
+            withProperty("autoSellingShorts", true));
+
+    try (cleanups) {
+      execute("1 meat paste");
+    }
+
+    var requests = getRequests();
+
+    assertThat(requests, not(empty()));
+    assertPostRequest(
+        requests.get(0),
+        "/sellstuff.php",
+        allOf(containsString("action=sell"), containsString("whichitem[]=25")));
+    assertThat(
+        requests.stream().noneMatch(req -> req.uri().getPath().equals("/inv_equip.php")), is(true));
   }
 }
