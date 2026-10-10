@@ -33,7 +33,7 @@ public abstract class BastilleBattalionManager {
   // Psychological Attack/Defense. These are supervised by your generals,
   // engineers, and artisans, respectively.
   //
-  // You can play up to 5 games per day.
+  // You can play up to 5 games per day, plus one per loaner voucher used.
   //
   // This module tracks the state over the course of a game:
   // stats, changes as you train them, cheese accumulated, and so on.
@@ -569,8 +569,10 @@ public abstract class BastilleBattalionManager {
     // Cached configuration
     currentStyles.clear();
 
-    // You can play up to five games a day
+    // You can play up to five games a day, plus one per loaner voucher used
     Preferences.setInteger("_bastilleGames", 0);
+    Preferences.setInteger("_bastilleVoucherGames", 0);
+    Preferences.setInteger("_bastilleVouchersUsed", 0);
 
     // When you initially visit the control rig, you can select the "style" of
     // the four available upgrades: barbican, drawbridge, murder holes, moat.
@@ -818,15 +820,42 @@ public abstract class BastilleBattalionManager {
   private static final Pattern GAMES_LEFT_PATTERN =
       Pattern.compile("You can play <b>(\\d+)</b> more time");
 
+  private static final int DAILY_GAMES = 5;
+
   private static void parseGamesLeft(String text) {
     Matcher matcher = GAMES_LEFT_PATTERN.matcher(text);
     if (matcher.find()) {
-      Preferences.setInteger("_bastilleGames", 5 - StringUtilities.parseInt(matcher.group(1)));
+      var gamesLeft = StringUtilities.parseInt(matcher.group(1));
+      if (gamesPlayed() >= DAILY_GAMES) {
+        Preferences.setInteger(
+            "_bastilleVouchersUsed",
+            Math.max(
+                Preferences.getInteger("_bastilleVouchersUsed"),
+                gamesPlayed() + gamesLeft - DAILY_GAMES));
+      }
+      setGamesPlayed(DAILY_GAMES + Preferences.getInteger("_bastilleVouchersUsed") - gamesLeft);
     }
   }
 
+  private static void countUnseenVoucher() {
+    if (gamesPlayed() < DAILY_GAMES + Preferences.getInteger("_bastilleVouchersUsed")) {
+      return;
+    }
+    Preferences.increment("_bastilleVouchersUsed");
+  }
+
+  private static int gamesPlayed() {
+    return Preferences.getInteger("_bastilleGames")
+        + Preferences.getInteger("_bastilleVoucherGames");
+  }
+
+  private static void setGamesPlayed(int gamesPlayed) {
+    Preferences.setInteger("_bastilleGames", Math.min(gamesPlayed, DAILY_GAMES));
+    Preferences.setInteger("_bastilleVoucherGames", Math.max(gamesPlayed - DAILY_GAMES, 0));
+  }
+
   private static void endGame() {
-    Preferences.increment("_bastilleGames", 1, 5);
+    setGamesPlayed(gamesPlayed() + 1);
     Preferences.setInteger("_bastilleGameTurn", 0);
   }
 
@@ -964,7 +993,8 @@ public abstract class BastilleBattalionManager {
           if (ChoiceUtilities.extractChoice(text) != 1314) {
             return;
           }
-          logLine("Starting game #" + (Preferences.getInteger("_bastilleGames") + 1));
+          countUnseenVoucher();
+          logLine("Starting game #" + (gamesPlayed() + 1));
           // Your stats reset to those provided by your styles at the start of
           // each game.
           startGame();

@@ -469,6 +469,30 @@ class UseItemRequestTest {
   }
 
   @Test
+  void bastilleLoanerVoucherAddsGame() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.BASTILLE_LOANER_VOUCHER, 1),
+            withProperty("_bastilleGames", 5),
+            withProperty("_bastilleVouchersUsed", 0),
+            withNextResponse(
+                new FakeHttpResponse<>(
+                    200, html("request/test_use_item_bastille_loaner_voucher_ajax.html")),
+                new FakeHttpResponse<>(
+                    200,
+                    html("request/test_use_item_bastille_loaner_voucher_no_plays_choice.html"))),
+            withHandlingChoice(false));
+
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.BASTILLE_LOANER_VOUCHER);
+      req.run();
+
+      assertThat("_bastilleGames", isSetTo(5));
+      assertThat("_bastilleVouchersUsed", isSetTo(1));
+    }
+  }
+
+  @Test
   void detectsMolehillMountainUse() {
     var cleanups =
         new Cleanups(

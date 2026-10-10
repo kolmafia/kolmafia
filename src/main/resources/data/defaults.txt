@@ -1990,6 +1990,8 @@ user	_bastilleLockedInScore	0
 user	_bastilleOptionsTaken
 user	_bastilleRewardsCollected	false
 user	_bastilleStats
+user	_bastilleVoucherGames	0
+user	_bastilleVouchersUsed	0
 user	_batWingsCauldronUsed	0
 user	_batWingsFreeFights	0
 user	_batWingsRestUsed	0
