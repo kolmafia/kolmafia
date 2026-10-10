@@ -257,6 +257,8 @@ public class LoginManager {
     if (MailManager.hasNewMessages()) {
       KoLmafia.updateDisplay("You have new mail.");
     }
+
+    KoLmafia.minimumJavaVersionWarning().forEach(KoLmafia::updateDisplay);
   }
 
   public static String getCurrentHoliday() {
