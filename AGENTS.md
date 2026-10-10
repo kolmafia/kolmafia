@@ -23,6 +23,7 @@ Tests run with `src/test/root` as working dir. JUnit 5 + Hamcrest.
 - Choice pages: use `Player.withChoice(choiceId, html)` to set `ChoiceManager.lastChoice`, `lastResponseText`, and `handlingChoice`
 - Assert with Hamcrest `assertThat` matchers, not JUnit `assertEquals`
 - Add new tests to the bottom of existing test files, or in a relevant `@Nested` `class`. Group related tests in a `@Nested class` when adding.
+- Writing user preferences (e.g. `withProperty("autoXxx", true)`) silently no-ops unless a user context exists. Add a `@BeforeAll` with `KoLCharacter.reset("<TestClassName>")` to the test class, otherwise `Preferences.getBoolean` keeps returning the default (`false`).
 
 ## Structure
 
