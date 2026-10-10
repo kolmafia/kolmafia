@@ -826,8 +826,22 @@ public abstract class BastilleBattalionManager {
     Matcher matcher = GAMES_LEFT_PATTERN.matcher(text);
     if (matcher.find()) {
       var gamesLeft = StringUtilities.parseInt(matcher.group(1));
+      if (gamesPlayed() >= DAILY_GAMES) {
+        Preferences.setInteger(
+            "_bastilleVouchersUsed",
+            Math.max(
+                Preferences.getInteger("_bastilleVouchersUsed"),
+                gamesPlayed() + gamesLeft - DAILY_GAMES));
+      }
       setGamesPlayed(DAILY_GAMES + Preferences.getInteger("_bastilleVouchersUsed") - gamesLeft);
     }
+  }
+
+  private static void countUnseenVoucher() {
+    if (gamesPlayed() < DAILY_GAMES + Preferences.getInteger("_bastilleVouchersUsed")) {
+      return;
+    }
+    Preferences.increment("_bastilleVouchersUsed");
   }
 
   private static int gamesPlayed() {
@@ -979,6 +993,7 @@ public abstract class BastilleBattalionManager {
           if (ChoiceUtilities.extractChoice(text) != 1314) {
             return;
           }
+          countUnseenVoucher();
           logLine("Starting game #" + (gamesPlayed() + 1));
           // Your stats reset to those provided by your styles at the start of
           // each game.

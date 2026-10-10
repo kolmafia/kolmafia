@@ -1075,5 +1075,45 @@ public class BastilleBattalionManagerTest {
         assertThat("_bastilleVoucherGames", isSetTo(1));
       }
     }
+
+    @Test
+    public void startingGameWithNoGamesLeftCountsUnseenVoucher() {
+      try (var cleanups =
+          new Cleanups(
+              withProperty("_bastilleGames", 5),
+              withProperty("_bastilleVoucherGames", 1),
+              withProperty("_bastilleVouchersUsed", 1),
+              withPostChoice1(1313, 5, html("request/test_bastille_voucher_start_game.html")))) {
+        assertThat("_bastilleVouchersUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void startingGameWithGamesLeftDoesNotCountVoucher() {
+      try (var cleanups =
+          new Cleanups(
+              withProperty("_bastilleGames", 5),
+              withProperty("_bastilleVoucherGames", 0),
+              withProperty("_bastilleVouchersUsed", 1),
+              withPostChoice1(1313, 5, html("request/test_bastille_voucher_start_game.html")))) {
+        assertThat("_bastilleVouchersUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void gameOverCountsUnseenVouchers() {
+      var responseText = html("request/test_bastille_voucher_game_over_stacked.html");
+      try (var cleanups =
+          new Cleanups(
+              withProperty("_bastilleGames", 5),
+              withProperty("_bastilleVoucherGames", 0),
+              withProperty("_bastilleVouchersUsed", 0),
+              withPostChoice1(1315, 1, responseText),
+              withChoice(1316, responseText))) {
+        assertThat("_bastilleGames", isSetTo(5));
+        assertThat("_bastilleVoucherGames", isSetTo(1));
+        assertThat("_bastilleVouchersUsed", isSetTo(2));
+      }
+    }
   }
 }
