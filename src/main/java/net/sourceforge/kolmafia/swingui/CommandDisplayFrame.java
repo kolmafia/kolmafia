@@ -62,7 +62,8 @@ public class CommandDisplayFrame extends GenericFrame {
         || command.equalsIgnoreCase("clear")
         || command.equalsIgnoreCase("cls")
         || command.equalsIgnoreCase("reset")) {
-      KoLmafiaCLI.DEFAULT_SHELL.executeLine(command);
+      var parts = command.split(" ", 2);
+      KoLmafiaCLI.DEFAULT_SHELL.executeCommand(parts[0], parts.length > 1 ? parts[1].trim() : "");
       return;
     }
 

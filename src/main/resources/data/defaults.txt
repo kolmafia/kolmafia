@@ -233,6 +233,7 @@ user	autoSatisfyWithNPCs	false
 user	autoSatisfyWithStash	false
 user	autoSatisfyWithStorage	true
 user	autoSatisfyWithShop	false
+user	autoSellingShorts	true
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false
@@ -707,6 +708,7 @@ user	falloutShelterCoolingTankUsed	false	roa
 user	falloutShelterLevel	0
 user	familiarScript
 user	familiarSweat	0	roa
+user	faxbotTimeout	60
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false	roa
 user	fireExtinguisherChasmUsed	false	roa
@@ -1988,6 +1990,8 @@ user	_bastilleLockedInScore	0
 user	_bastilleOptionsTaken
 user	_bastilleRewardsCollected	false
 user	_bastilleStats
+user	_bastilleVoucherGames	0
+user	_bastilleVouchersUsed	0
 user	_batWingsCauldronUsed	0
 user	_batWingsFreeFights	0
 user	_batWingsRestUsed	0
@@ -2001,6 +2005,7 @@ user	_bczSweatEquityCasts	0
 user	_bczBloodThinnerCasts	0
 user	_bczSpinalTapasCasts	0
 user	_bczPheromoneCocktailCasts	0
+user	_blackRoseGardenToday	false
 user	_blessingShieldColdReceived	false
 user	_blessingShieldHotReceived	false
 user	_blessingShieldPhysicalReceived	false

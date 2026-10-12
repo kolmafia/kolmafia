@@ -12369,5 +12369,5 @@
 12340	black thorn whip	293537229	brgwhip.gif	weapon		0
 12341	black thorn sarong	850524241	brgsarong.gif	pants		0
 12342	tiny stone harp	676107367	harp.gif	familiar	t,d	75
-12343	black rose pastille	597788640	brgcandy.gif	potion, usable	t,d	5
+12343	black rose pastille	597788640	brgcandy.gif	potion, usable	t,d	5	black rose pastille
 12344	black rose hips extract	561727989	potion30.gif	potion, usable	t	0

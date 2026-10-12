@@ -451,6 +451,7 @@ public class OptionsFrame extends GenericFrame {
         {"autoGarish", "Use Potion of the Field Gar when appropriate (& include in adv gain)"},
         {"autoTuxedo", "Wear Tuxedo when when appropriate (& include in adv gain)"},
         {"autoPinkyRing", "Wear Mafia Pinky Ring when when appropriate (& include in adv gain)"},
+        {"autoSellingShorts", "Wear selling shorts when autoselling items (& get 5% extra Meat)"},
         {"autoFillMayoMinder", "Fill Mayo Minder&trade; automatically when appropriate"},
         {},
         {"requireBoxServants", "Do not cook/mix fancy concoctions without -in-the-box"},

@@ -2877,9 +2877,13 @@ public class GenericRequest implements Runnable {
           ItemPool.FROST_RIMED_DESK_BELL,
           ItemPool.UNCANNY_DESK_BELL,
           ItemPool.NASTY_DESK_BELL,
-          ItemPool.GREASY_DESK_BELL,
-          ItemPool.BASTILLE_LOANER_VOUCHER -> {
+          ItemPool.GREASY_DESK_BELL -> {
         itemName = item.getName();
+        consumed = true;
+      }
+      case ItemPool.BASTILLE_LOANER_VOUCHER -> {
+        itemName = item.getName();
+        Preferences.increment("_bastilleVouchersUsed");
         consumed = true;
       }
       case ItemPool.MOLEHILL_MOUNTAIN -> {

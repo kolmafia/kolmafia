@@ -931,4 +931,20 @@ public class DataFileConsistencyTest {
           not(-1));
     }
   }
+
+  @Test
+  public void zapGroupsAreItems() throws Exception {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION)) {
+      String line;
+      while ((line = FileUtilities.readLine(reader)) != null) {
+        for (var name : StringUtilities.tokenizeString(line)) {
+          assertThat(
+              String.format("%s is in zapgroups.txt but not in items.txt", name),
+              ItemDatabase.getExactItemId(name),
+              not(-1));
+        }
+      }
+    }
+  }
 }

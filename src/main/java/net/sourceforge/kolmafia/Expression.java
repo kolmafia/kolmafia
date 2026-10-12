@@ -257,8 +257,9 @@ public class Expression {
                     : 0;
         case 'j' ->
             v =
-                Modifiers.currentEnvironment.equalsIgnoreCase(
-                        (String) this.literals.get((int) s[--sp]))
+                Modifiers.getCurrentEnvironment()
+                        .name()
+                        .equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
                     ? 1
                     : 0;
         case 'k' ->

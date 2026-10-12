@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -22,6 +23,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
@@ -37,7 +39,6 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class FaxRequestFrame extends GenericFrame implements ChangeListener {
   private static final int ROWS = 15;
-  private static final int LIMIT = 60;
   private static final int DELAY = 200;
 
   private CardLayoutSelectorPanel selectorPanel = null;
@@ -162,14 +163,6 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
       return false;
     }
 
-    // Make sure we can receive chat messages, either via KoLmafia chat or in the Relay Browser.
-    if (!(ChatManager.isRunning() || true)) {
-      FaxRequestFrame.statusMessage =
-          "You must be in chat so we can receive messages from " + botName;
-      KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
-      return false;
-    }
-
     // Do you already have a photocopied monster?
     if (InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
       String current = Preferences.getString("photocopyMonster");
@@ -213,7 +206,8 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
         String response = null;
         // Response is sent blue message. Can it fail?
 
-        int polls = LIMIT * 1000 / DELAY;
+        int limit = Preferences.getInteger("faxbotTimeout");
+        int polls = limit * 1000 / DELAY;
         for (int i = 0; i < polls; ++i) {
           response = ChatManager.getLastFaxBotMessage();
           if (response != null) {
@@ -224,7 +218,16 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
 
         if (response == null) {
           FaxRequestFrame.statusMessage =
-              "No response from " + botName + " after " + LIMIT + " seconds.";
+              "No response from " + botName + " after " + limit + " seconds.";
+
+          // The reply is only seen while chat is open, so the fax may have arrived anyway
+          KoLmafia.updateDisplay(FaxRequestFrame.statusMessage + " Checking the fax machine.");
+          if (FaxRequestFrame.receiveRequestedFax(monster)) {
+            KoLmafia.enableDisplay();
+            Preferences.setString("lastSuccessfulFaxbot", botName);
+            return true;
+          }
+
           KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
           return false;
         }
@@ -260,6 +263,28 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
     // Set the last faxbot the user successfully used
     Preferences.setString("lastSuccessfulFaxbot", botName);
     return true;
+  }
+
+  private static boolean receiveRequestedFax(final Monster monster) {
+    RequestThread.postRequest(
+        new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX));
+
+    if (!InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
+      return false;
+    }
+
+    MonsterData received = MonsterDatabase.findMonster(Preferences.getString("photocopyMonster"));
+    if (received != null && received.getId() == monster.getMonster().getId()) {
+      return true;
+    }
+
+    // Put it back, since a photocopy in inventory blocks the next request
+    RequestThread.postRequest(
+        new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.SEND_FAX));
+    if (InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
+      FaxRequestFrame.statusMessage = "Could not put the photocopy back in the fax machine.";
+    }
+    return false;
   }
 
   private static boolean canReceiveFax() {

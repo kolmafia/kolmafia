@@ -1,0 +1,539 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://images.kingdomofloathing.com/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://images.kingdomofloathing.com/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://images.kingdomofloathing.com/scripts/jquery-1.5.1.js"></script>
+<script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://images.kingdomofloathing.com/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript" src="https://images.kingdomofloathing.com/scripts/ircm.20230626.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script><script language="javascript">
+	function number_format(num) {
+		num = '' + num;
+		if (num.length < 4) { return num; }
+		var pts = num.split('');
+		var out ='';
+		for (i=0; i<pts.length; i++) {
+			indx = pts.length - (i + 1);
+			out = ((i < (pts.length-1) && (i%3 == 2)) ? ',' :'') + pts[indx] + out;
+		}
+		return out;
+	}
+</script><script> </script>	<link rel="stylesheet" type="text/css" href="https://images.kingdomofloathing.com/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<script type="text/javascript">
+window.dontscroll = 1;
+document.write('<style type="text/css">.hideit { display: none }</style>');
+var pwd = "409a42fed3ce75002d90e6607394cdd4";
+var playerid = 3469406;
+function changeshk(select)
+{
+	var which = $(':input[name="shkpic"]').val();
+	var img = $('#shkpicture')[0];
+	if (which > 0)
+		img.src = "https://images.kingdomofloathing.com/otherimages/mall/keeper" + which + ".gif";
+	else
+	{
+		which = -which;
+		if (which == 1)
+			img.src = "https://images.kingdomofloathing.com/otherimages/cavs/" + playerid + ".gif";
+		else
+			img.src = "https://images.kingdomofloathing.com/otherimages/cavs/" + playerid + "_" + which + ".gif";
+	}
+}
+
+function dohelp() {
+	$('.helpbox').remove();
+	var $sp = $(this);
+	var info = $sp.attr('info');
+	var pos = $sp.parents('div.opt:first').offset();
+
+	var $div = $('<div><span></span></div>')
+		.addClass('helpbox')
+		.css({
+			'position': 'absolute',
+			'text-align': 'left',
+			'background-color': 'white',
+			'border': '1px solid black',
+			'top': pos.top + 20,
+			'left': pos.left + 30,
+			'width': '330px',
+			'padding': '.5em'
+		});
+	$div.find('span').html(info);
+	$('body').append($div);
+	if ($div.width() + $div.offset().left > $(window).width()) {
+		$div.css('left', $div.offset().left - (($div.width() + $div.offset().left) - $(window).width()));
+	}
+
+}
+
+
+jQuery(function($) {
+	var live = function (selector, func, ev) {
+		if (!ev) ev = 'click';
+		if ($(document).live) $(selector).live(ev, func);
+		else $(document).on(ev, selector, func);
+	}
+	live('.setp',function (e) {
+		e.preventDefault();
+		var p =$(this).parents('.deets:first').find('.price');
+		var val;
+		if ($(this).text().match(/min/)) {
+			val = $(this).text().replace(/.*;/, '');
+		}
+		else {
+			val = $(this).text().replace(/.* /, '').replace(/[^0-9]/g, '');;
+			try {
+				val = parseInt(val);
+				val -= 1;
+			} catch (e) {
+				return;
+			}
+			if (parseInt(p.attr('rel')) > parseInt(val)) val = p.attr('rel');
+			val += "";
+		}
+		p.val(number_format(val.replace(/[^0-9]/g, '')));
+	});
+	$('.stockcheck').click(function (e) {
+		e.preventDefault();
+		$('#stockcheck').empty();
+		$.get('/backoffice.php?pwd='+pwd+'&ajax=1&action=prices&iid='+$('#stock select').val().replace('h',''), function (res) {
+			$('#stockcheck').append($(res).find('.res'));
+		});
+	});
+	$('#itemid').change(function (e) {
+		e.preventDefault();
+		var val = $(this).val();
+		var opt = $(this).find('option[value="'+val+'"]');
+		var det = opt.attr('rel').split(',');
+		$('#stockcheck').empty();
+		$('#stock img').show().attr('src', 'https://images.kingdomofloathing.com/itemimages/'+det[0]+'.gif').unbind('click').bind('click',function (e) {
+			e.preventDefault();
+			descitem(det[1]);
+		});
+		$('#stock .min').text('min. price: '+ number_format(det[2]) + ' meat');
+
+	}).change();;
+	$('.help').hover(dohelp, function () {$('.helpbox').remove(); });
+	$('#sellit').submit(function (e) {
+		return confirm("Click OK to sell your store.");
+	});
+	live('#inv img, #inv b',function (e) {
+		var descid = $(this).parents('tr:first').attr('rel');
+		descitem(descid);
+	});
+	$('#inv img, #inv b').css('cursor', 'pointer');
+
+
+	function updateRows(json) {
+		try {
+			var tr, td, updates = $.parseJSON(json);
+			for (var descid in updates) {
+				tr = $('tr[rel="'+descid+'"]');
+				if (tr.length) {
+					td  = tr.find('.price').parents('td:first');
+					if (td.length) {
+						td.find('span').text(number_format(updates[descid]['price']));
+						td.find('input[type="text"]').val(number_format(updates[descid]['price']));
+					}
+					td  = tr.find('.lim').parents('td:first');
+					if (td.length) {
+						var pretty = number_format(updates[descid]['lim']);
+						if (pretty != '0') pretty += '/day';
+						else pretty = '&infin;';
+						td.find('span').html(pretty);
+						td.find('input[type="text"]').val(number_format(updates[descid]['lim']));
+					}
+				}
+			}
+			var next = lastch.next();
+			if (next.hasClass('pres')) next = next.next();
+			next = next.find('input[type="text"]');
+			if (next.length) next[0].focus();
+		} catch (e) { /* foo */ }
+	}
+
+	live('.pricejax',function (e) {
+		e.preventDefault();
+		var tr =$(this).parents('tr:first');
+		var lastch = tr;
+		var iid = tr.attr('rel');
+		var url = '/backoffice.php?';
+		url += escape(tr.find('.price').attr('name')) + '=' +  escape(tr.find('.price').val()) + '&';
+		url += escape(tr.find('.lim').attr('name')) + '=' +  escape(tr.find('.lim').val()) + '&';
+		url += 'ajax=1&action=updateinv&pwd=' + pwd;
+		dojax(url, function (res) {
+			if (m = res.match(/<!-- U:([^>]*) -->/)) {
+				updateRows(m[1]);
+			}
+		});
+		tr.find('.update').click();
+		return false;
+	});
+	live('.update',function (e) {
+		e.preventDefault();
+		if ($(this).text() == 'update') {
+			$(this).parents('tr:first').find('.hideit').show();
+			$(this).parents('tr:first').find('.tohide').hide();
+			$(this).parents('tr:first').find('input')[0].focus();
+			$(this).text('cancel');
+		} else {
+			$(this).parents('tr:first').find('.hideit').hide();
+			$(this).parents('tr:first').find('.tohide').show();
+			$(this).text('update');
+		}
+	});
+
+	live('tr input[type="text"]', function (e) {
+		if (e.keyCode == 13) {
+		   	var foo = $(this).parents('tr:first').find('.pricejax');
+			if (foo.length) {
+				foo[0].click();
+				e.preventDefault();
+			}
+		}
+		else if (e.keyCode == 9) {
+			if ($(this).hasClass('lim')) {
+				e.preventDefault();
+				var tr = $(this).parents('.deets:first');
+				var nxt = tr.next();
+				if (!nxt.hasClass('deets')) nxt = nxt.next();
+				if (nxt.length) nxt.find('input[type="text"]')[0].focus();
+				else $('.updateall')[0].focus();
+			}
+		}
+	},'keydown');
+
+	live('.prices',function (e) {
+		e.preventDefault();
+		if ($(this).text() == 'prices') {
+			$(this).text('dismiss');
+			var tr = $(this).parents('tr:first');
+			showPrices($(this).attr('href'), tr);
+		} else {
+			$(this).text('prices');
+			var tr = $(this).parents('tr:first');
+			var after = tr.next();
+			if (after.hasClass('pres')) {
+				after.remove();
+			}
+		}
+	});
+
+	$('.take').bind('contextmenu', function (e) {
+		e.preventDefault();
+		var l = $(this);
+		pop_query(l, 'How Many?', 'Take', function (num) {
+			l.data('qty', num);
+			l.click();
+		});
+	});
+
+	$('.take').live('click', function (e) {
+		e.preventDefault();
+		var tr = $(this).parents('tr:first');
+		var descid = tr.attr('rel');
+		var url = $(this).attr('href') + '&ajax=1';
+		if ($(this).data('qty')) {
+			url = url.replace(/qty=\d*/, 'qty=' + $(this).data('qty'));
+		}
+		dojax(url, function (res) {
+			res = res.replace(/.*<!-- TBL:/, '');
+			res = res.replace(/:TBL -->.*/, '');
+			var res = $(res);
+			var rep = res.find('tr[rel="'+descid+'"]')
+			if (rep.length) {
+				tr.replaceWith(rep);
+			}
+			else {
+				var nxt = tr.next();
+				if ($(tr.next()).hasClass('pres')) {
+					$(tr.next()).remove();
+				}
+				tr.remove();
+				if ($('#inv tr').length == 1) {
+					$('#inv').append(res.find('tr.nothing'));
+				}
+			}
+		});
+	});
+
+	$('#stock').submit(function (e) {
+		e.preventDefault();
+		var frm = $(this);
+		var data = frm.serialize();
+		var num = frm.find('input[name="quantity"]').val();
+		dojax('/backoffice.php?'+data+'&ajax=1', function (ores) {
+			if (ores.match(/Are you sure/)) {
+				return;
+			}
+			res = ores.replace(/.*<!-- TBL:/, '');
+			res = res.replace(/:TBL -->.*/, '');
+			var res = $(res);
+			var tr = res.find('tr[rel]');
+			if ($('#inv').find('tr[rel="'+tr.attr('rel')+'"]').length) {
+				$('#inv').find('tr[rel="'+tr.attr('rel')+'"]').replaceWith(tr);
+			}
+			else {
+				var spot = tr.attr('data-after');
+				$('#inv tr:eq('+spot+')').after(tr);
+			}
+			tr.addClass('justadded');
+			setTimeout(function () {
+				tr.addClass('oldadded');
+			}, 500);
+			//window.scrollTo(0,tr.offset().top);
+
+			if ($('#inv tr[rel]').length) {
+				$('#inv .nothing').remove();
+			}
+		    var opt = $('#stock select option:selected');
+			var det = opt.attr('rel').split(',');
+			var had;
+			if (!ores.match(/You don't have/)) {
+				try {
+					had = parseInt(det[3]);
+					if (num == '*') num = had;
+					else num = parseInt(num);
+				} catch (e) { }
+				if (num >= had || num == '*') {
+					opt.remove();
+				}
+				else {
+					if (num < 1) num = num * -1;
+					det[3] = had - num;
+					opt.attr('rel', det.join(','));
+					var txt = opt.text();
+					txt = txt.replace('('+had+' ', '('+det[3]+' ');
+					txt = txt.replace('('+had+')', '('+det[3]+')');
+					opt.text(txt);
+				}
+			}
+			frm[0].reset();
+			$('#priceok').val(0);
+			$('#neveragain').val(0);
+			$('select', frm).change();
+		});
+	});
+
+	$('.updateall').click(function (e) {
+		e.preventDefault();
+		if ($(this).text() == 'update all') {
+			$('.hideit').show();
+			$('.tohide').hide();
+			$('.update').text('cancel');
+			$('#inv input[type="text"]')[0].focus();
+			$(this).html('<b>save changes</b>');
+		} else {
+			var i;
+			var params = {
+				ajax: 1,
+				action: 'updateinv',
+				pwd: pwd
+			};
+			$('.deets').each(function (e){
+				i = $(this).find('.price');
+				params[i.attr('name')] = i.val();
+				i = $(this).find('.lim');
+				params[i.attr('name')] = i.val();
+			});
+
+			var lnk = $(this);
+			dojax('/backoffice.php', function (res){
+				lnk.html('update all');
+				if (m = res.match(/<!-- U:([^>]*) -->/)) {
+					updateRows(m[1]);
+				}
+				$('.hideit').hide();
+				$('.tohide').show();
+				$('.update').text('update');
+			}, null, null, 'POST', params);
+		}
+	});
+
+	$('.allprices').click(function (e) {
+		if ($(this).text().match(/dismiss/)) {
+			$(this).text('check all prices');
+			$('.prices').each(function () {
+				if ($(this).text() == 'dismiss') $(this).click();
+			});
+		} else {
+			$(this).text('dismiss all prices');
+			$('.prices').each(function () {
+				if ($(this).text() == 'prices') $(this).click();
+			});
+		}
+	});
+});
+
+function showPrices(url, tr) {
+	url += '&ajax=1';
+	$.get(url, function (res) {
+		var res = $(res).find('.res').html();;
+		var cols = tr.find('td').length;
+		var after = tr.next();
+		var td;
+		if (after.hasClass('pres')) {
+			td = after.find('td').html('');
+		}
+		else {
+			var after = $('<tr class="pres"><td colspan="'+cols+'"></td></tr>');
+			tr.after(after);
+			td = after.find('td');
+		}
+		td.html(res);
+	});
+}
+</script>
+<style type="text/css">
+	.setp {
+		cursor: pointer;
+		text-decoration: underline;
+	}
+	.deets td {
+		font-size: .8em;
+	}
+	.deets input {
+		font-size: 11px;
+	}
+	#stock label {
+		font-size: .8em;
+	}
+	#stock .small td {
+		font-size: 0.8em;
+		padding: 0;
+		margin: 0;
+	}
+	.justadded {
+		background-color: #ccf;
+		transition: background-color 1000ms linear;
+	}
+	.oldadded {
+		background-color: #fff;
+		transition: background-color 2500ms linear;
+	}
+	/* .stockcheck { font-size: 0.8em } */
+	.pres td { font-size: 0.8em; }
+	.pres > td { padding-left: 2em; background-color: #eee; border: 1px solid black; border-width: 0px 1px 1px 1px }
+	div.indent { padding-left: 1em; }
+	.help {
+		cursor: help;
+		padding-left: .5em;
+		font-size: .6em;
+		vertical-align: top;
+	}
+
+	.subhead {
+		font-size: 1.2em;
+		font-weight: bold;
+		display: block;
+		padding-top: .5em;
+	}
+
+</style>
+<center><table width="95%" cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Inventory Management</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table width="100%"><tr><td><center>[inventory management]&nbsp;&nbsp;[<a href="backoffice.php?which=2">store management</a>]&nbsp;&nbsp;[<a href="backoffice.php?which=3">sales activity</a>]</center><p><form method="post" action="backoffice.php" id="stock"><b>Add Stock:</b><br /><table border="0" width="100%"><tr><td>Item:</td><td colspan="5" valign="middle"><select name="itemid" id="itemid" tabindex="1"><option value="h10862" rel="caramelorange,469896854,100,135">&quot;caramel&quot; orange (135 in hagnk's)</option><option value="h1343" rel="pineal,189185945,100,2">zombie pineal gland (2 in hagnk's)</option><option value="h5594" rel="rocks,624051601,100,43">Zoodriver (43 in hagnk's)</option></select><img align="absmiddle" style="display: none; cursor: pointer" src="https://images.kingdomofloathing.com/itemimages/blank.gif" /></td></tr><tr><td><label for="iprice">Price:</label></td><td align="left" ><input type="text" size="20" name="price" tabindex="2" id="iprice" /><td nowrap><label for="iquantity">How Many:</label></td><td  align="left"><input type="text" size="20" name="quantity" value="1" tabindex="3" id="iquantity" /></td><td nowrap><label for="ilim">Limit/Day:</label></td><td  align="left"><input type="text" size="20" name="limit" value="" tabindex="4" id="ilim" /></td></tr><tr class="small"><td colspan="2" align="center"><span class="min"></span>&nbsp;<span class="stockcheck">[<a href="#" tabindex="6">check prices</a>]</span></td><td colspan="2" align="center">(* for all)</td><td colspan="2" align="center">(0 is unlimited)</td></tr><tr><td colspan="6" align="center"><input type="hidden" name="pwd" value="409a42fed3ce75002d90e6607394cdd4" /><input type="hidden" id="neveragain" name="neveragain" value="0" /><input type="hidden" name="priceok" value="0" id="priceok" /><input type="hidden" name="action" value="additem" /><input type="submit" value="Stock!" class="button" tabindex="5" /></table><div id="stockcheck"></div></form><p><div style="width: 100%; border: 1px solid black" class="inventory_table"><form method="post" action="backoffice.php"><table border="0" id="inv" width="100%"><tr><th colspan="2" align="center">Item</th><th align="center">Quantity</th><th align="center">Price</th><th align="center">Limit</th><th align="center">Actions</th></tr><tr class="deets" rel="469896854" data-after="0"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/caramelorange.gif"></td><td valign="center"><b>&quot;caramel&quot; orange</b></td><td valign="center" align="center">1</td valign="center"><td align="center"><span class="tohide">999,999,999,999</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[10862]" value="999,999,999,999" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[10862]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=10862&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10862">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10862">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 9,000</span></span></td></tr><tr class="deets" rel="881502992" data-after="1"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/10101.gif"></td><td valign="center"><b>99.44% pure math</b></td><td valign="center" align="center">35</td valign="center"><td align="center"><span class="tohide">15,000</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[7818]" value="15,000" /></td><td valign="center" align="center"><span class="tohide">1/day</span><input type="text" class="hideit lim" style="width:24px" name="limit[7818]" value="1" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=7818&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=7818">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=35&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=7818">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 15,000</span></span></td></tr><tr class="deets" rel="293685778" data-after="2"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/anticheese.gif"></td><td valign="center"><b>anticheese</b></td><td valign="center" align="center">801</td valign="center"><td align="center"><span class="tohide">1,000</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[142]" value="1,000" /></td><td valign="center" align="center"><span class="tohide">1/day</span><input type="text" class="hideit lim" style="width:24px" name="limit[142]" value="1" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=142&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=142">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=801&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=142">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 999</span></span></td></tr><tr class="deets" rel="765851813" data-after="3"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/powderdonut.gif"></td><td valign="center"><b>autumn-spice donut</b></td><td valign="center" align="center">7,294</td valign="center"><td align="center"><span class="tohide">100</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[10959]" value="100" /></td><td valign="center" align="center"><span class="tohide">15/day</span><input type="text" class="hideit lim" style="width:24px" name="limit[10959]" value="15" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=10959&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10959">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=7294&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10959">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 100</span></span></td></tr><tr class="deets" rel="610063693" data-after="4"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/batfellowbook.gif"></td><td valign="center"><b>Batfellow comic</b></td><td valign="center" align="center">1</td valign="center"><td align="center"><span class="tohide">600,000,000</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[8795]" value="600,000,000" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[8795]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=8795&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=8795">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=8795">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 430,000,000</span></span></td></tr><tr class="deets" rel="451264007" data-after="5"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/brgkey.gif"></td><td valign="center"><b>black thorn key</b></td><td valign="center" align="center">8</td valign="center"><td align="center"><span class="tohide">300,000</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[12331]" value="300,000" /></td><td valign="center" align="center"><span class="tohide">2/day</span><input type="text" class="hideit lim" style="width:24px" name="limit[12331]" value="2" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=12331&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=12331">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=8&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=12331">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 290,000</span></span></td></tr><tr class="deets" rel="149252891" data-after="6"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/piratetricorn.gif"></td><td valign="center"><b>cursed tricorn hat</b></td><td valign="center" align="center">2</td valign="center"><td align="center"><span class="tohide">6,444,444</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[10283]" value="6,444,444" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[10283]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=10283&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10283">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=2&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10283">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 6,188,000</span></span></td></tr><tr class="deets" rel="963261787" data-after="7"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/d4.gif"></td><td valign="center"><b>d4</b></td><td valign="center" align="center">2,511</td valign="center"><td align="center"><span class="tohide">3,860</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[5285]" value="3,860" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[5285]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=5285&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=5285">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=2511&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=5285">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 1,000</span></span></td></tr><tr class="deets" rel="473945800" data-after="8"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/mg_pepper.gif"></td><td valign="center"><b>ghost pepper</b></td><td valign="center" align="center">46</td valign="center"><td align="center"><span class="tohide">35,555</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[6468]" value="35,555" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[6468]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=6468&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=6468">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=46&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=6468">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 31,420</span></span></td></tr><tr class="deets" rel="762878711" data-after="9"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/gygaxlibram.gif"></td><td valign="center"><b>Gygaxian Libram</b></td><td valign="center" align="center">1</td valign="center"><td align="center"><span class="tohide">1,443,999,998</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[5284]" value="1,443,999,998" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[5284]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=5284&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=5284">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=5284">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 1,330,000,000</span></span></td></tr><tr class="deets" rel="448002422" data-after="10"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/potion1.gif"></td><td valign="center"><b>handsomeness potion</b></td><td valign="center" align="center">4,563</td valign="center"><td align="center"><span class="tohide">300</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[1162]" value="300" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[1162]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=1162&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=1162">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=4563&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=1162">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 100</span></span></td></tr><tr class="deets" rel="735594651" data-after="11"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/potion16.gif"></td><td valign="center"><b>human musk</b></td><td valign="center" align="center">270</td valign="center"><td align="center"><span class="tohide">16,870</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[10350]" value="16,870" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[10350]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=10350&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10350">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=270&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10350">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 14,500</span></span></td></tr><tr class="deets" rel="364036743" data-after="12"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/c23enc3.gif"></td><td valign="center"><b>pirate encryption key charlie</b></td><td valign="center" align="center">1</td valign="center"><td align="center"><span class="tohide">299,500</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[11388]" value="299,500" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[11388]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=11388&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=11388">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=11388">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 208,000</span></span></td></tr><tr class="deets" rel="734226282" data-after="13"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/spray.gif"></td><td valign="center"><b>Sneaky Pete's breath spray</b></td><td valign="center" align="center">1,000</td valign="center"><td align="center"><span class="tohide">3,000</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[290]" value="3,000" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[290]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=290&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=290">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=1000&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=290">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 775</span></span></td></tr><tr class="deets" rel="668528845" data-after="14"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/blackrum.gif"></td><td valign="center"><b>The Mad Liquor</b></td><td valign="center" align="center">500</td valign="center"><td align="center"><span class="tohide">350,000</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[8821]" value="350,000" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[8821]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=8821&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=8821">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=500&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=8821">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 225,000</span></span></td></tr><tr class="deets" rel="250620886" data-after="15"><td valign="center"><img src="https://images.kingdomofloathing.com/itemimages/book5.gif"></td><td valign="center"><b>The Nose Knows, A Guide to Smells (read)</b></td><td valign="center" align="center">1</td valign="center"><td align="center"><span class="tohide">999,999,909,998</span><input type="text" class="hideit price" rel="100" style="width:80px" name="price[10799]" value="999,999,909,998" /></td><td valign="center" align="center"><span class="tohide">1/day</span><input type="text" class="hideit lim" style="width:24px" name="limit[10799]" value="1" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=409a42fed3ce75002d90e6607394cdd4&iid=10799&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10799">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=1&pwd=409a42fed3ce75002d90e6607394cdd4&action=removeitem&itemid=10799">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;100</span><br /><span class="setp">cheapest: 10,000,000</span></span></td></tr></table><center>[<a href="#" class="allprices">check all prices</a>] [<a href="#" class="updateall">update all</a>]</center><input type="hidden" name="pwd" value="409a42fed3ce75002d90e6607394cdd4" /><input type="hidden" name="action" value="updateinv" /></form></div><center><p><a href="mall.php">Back to the Mall</a></p></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center></body></html>

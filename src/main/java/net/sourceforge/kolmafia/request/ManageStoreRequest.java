@@ -210,6 +210,12 @@ public class ManageStoreRequest extends GenericRequest {
 
     String action = GenericRequest.getAction(urlString);
     if (action == null) {
+      // We're served the last used tab when "which" is not specified.
+      // The active tab is not hyperlinked.
+      if (!responseText.contains("[inventory management]")) {
+        return;
+      }
+
       StoreManager.update(responseText, TableType.DEETS);
       StoreManager.calculatePotentialEarnings();
       return;

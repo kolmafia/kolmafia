@@ -2594,7 +2594,7 @@ bitter bowtie	160	Mox: 65
 black belt	150	Mys: 60
 black glass	0	none
 black rose key	10	none
-black thorn necklace	0	Mys: 20
+black thorn necklace	110	Mys: 20
 blackberry combat boots	180	Mus: 75
 blackberry galoshes	180	Mox: 60
 blackberry moccasins	180	Mys: 75

@@ -57,7 +57,7 @@ public abstract class RabbitHoleManager {
   }
 
   public static final Hat[] HAT_DATA = {
-    new Hat(4, "Assaulted with Pepper", "Monster Level +20"),
+    new Hat(5, "Assaulted with Pepper", "Monster Level +20"),
     new Hat(6, "Three Days Slow", "Familiar Experience +3"),
     new Hat(7, "Cat-Alyzed", "Moxie +10"),
     new Hat(8, "Anytwo Five Elevenis?", "Muscle +10"),
@@ -81,10 +81,13 @@ public abstract class RabbitHoleManager {
     new Hat(26, "Cat Class, Cat Style", "Moxie +20%"),
     new Hat(27, "Surreally Buff", "Muscle +20%"),
     new Hat(28, "Quadrilled", "+20% Items from Monsters"),
-    new Hat(29, "Coming Up Roses", "Regenerate 10-20 MP per Adventure"),
+    new Hat(29, "Coming Up Roses", "Regenerate 10-20 HP per Adventure"),
     new Hat(30, "Oleaginous Soles", "+40% Combat Initiative"),
-    new Hat(31, "Oleaginous Soles", "+40% Combat Initiative"),
   };
+
+  private static int clampHatLength(int length) {
+    return Math.clamp(length, 5, 30);
+  }
 
   private static final String[] IMAGES =
       new String[] {
@@ -1206,7 +1209,8 @@ public abstract class RabbitHoleManager {
     buffer.insert(index, link);
   }
 
-  public static final Hat getHatData(int length) {
+  public static final Hat getHatData(int rawLength) {
+    int length = clampHatLength(rawLength);
     for (Hat hat : HAT_DATA) {
       if (hat.getLength() == length) {
         return hat;
@@ -1395,7 +1399,7 @@ public abstract class RabbitHoleManager {
     if (hatLengthAvailable(desiredHatLength)) {
       TreeMap<Integer, StringBuffer> lengths = getHatMap();
 
-      String hat = lengths.get(desiredHatLength).toString().split("\\|")[0];
+      String hat = lengths.get(clampHatLength(desiredHatLength)).toString().split("\\|")[0];
       getHatBuff(ItemFinder.getFirstMatchingItem(hat));
     } else {
       KoLmafia.updateDisplay(MafiaState.ERROR, "No matching hat length found.");
@@ -1404,20 +1408,12 @@ public abstract class RabbitHoleManager {
 
   public static boolean hatLengthAvailable(int desiredHatLength) {
     TreeMap<Integer, StringBuffer> lengths = getHatMap();
-
-    if (lengths.size() == 0) {
-      return false;
-    }
-
-    if (lengths.containsKey(desiredHatLength)) {
-      return true;
-    }
-
-    return false;
+    return lengths.containsKey(clampHatLength(desiredHatLength));
   }
 
   public static int hatLength(final String name) {
-    return HAT_CLEANER_PATTERN.matcher(name).replaceAll("").length();
+    int rawLength = HAT_CLEANER_PATTERN.matcher(name).replaceAll("").length();
+    return clampHatLength(rawLength);
   }
 
   public static final boolean registerChessboardRequest(final String urlString) {

@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-  id("org.gradle.toolchains.foojay-resolver") version "0.9.0"
+  id("org.gradle.toolchains.foojay-resolver") version "1.0.0"
 }
 
 toolchainManagement {

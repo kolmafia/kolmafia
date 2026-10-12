@@ -20,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
@@ -389,6 +390,54 @@ public class CampgroundRequestTest {
 
       assertThat(KoLConstants.campground, not(hasItem(ItemPool.get(ItemPool.ROCK_SEEDS))));
       assertThat(KoLConstants.campground, not(hasItem(ItemPool.get(ItemPool.FRUITY_PEBBLE))));
+    }
+  }
+
+  @Nested
+  class BlackRoseGarden {
+    @Test
+    void canDetectOneDayOldGarden() {
+      String html = html("request/test_campground_black_rose_1_day.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+
+      assertThat(CampgroundRequest.getCropType(), is(CropType.BLACK_ROSE));
+      var crops = CampgroundRequest.getCrops();
+      assertThat(crops, hasSize(1));
+      assertThat(crops.get(0), is(CampgroundRequest.BLACK_ROSE_GARDEN));
+      assertThat(crops.get(0).getCount(), is(1));
+      assertThat(crops.get(0).toString(), is("Black Rose Garden (1 day's growth)"));
+      assertThat("_blackRoseGardenToday", isSetTo(false));
+    }
+
+    @Test
+    void canDetectThreeDayOldGarden() {
+      String html = html("request/test_campground_black_rose_3_days.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+
+      assertThat(CampgroundRequest.getCropType(), is(CropType.BLACK_ROSE));
+      var crops = CampgroundRequest.getCrops();
+      assertThat(crops, hasSize(1));
+      assertThat(crops.get(0), is(CampgroundRequest.BLACK_ROSE_GARDEN));
+      assertThat(crops.get(0).getCount(), is(3));
+      assertThat(crops.get(0).toString(), is("Black Rose Garden (3 days' growth)"));
+      assertThat("_blackRoseGardenToday", isSetTo(false));
+    }
+
+    @Test
+    void canDetectDayPass() {
+      var cleanups = new Cleanups(withProperty("_blackRoseGardenToday", false));
+
+      try (cleanups) {
+        // The fixture has both a peppermint patch and a temporary black rose garden
+        String html = html("request/test_campground_black_rose_daypass.html");
+        CampgroundRequest.parseResponse("campground.php", html);
+
+        assertThat("_blackRoseGardenToday", isSetTo(true));
+        assertThat(
+            KoLConstants.campground, hasItem(ItemPool.get(ItemPool.PRESSED_BLACK_GARDEN_ROSE)));
+        assertThat(CampgroundRequest.getCropType(), is(CropType.PEPPERMINT));
+        assertThat(CampgroundRequest.getCrop().getCount(), is(0));
+      }
     }
   }
 

@@ -3,13 +3,16 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -26,6 +29,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junitpioneer.jupiter.RetryingTest;
 
 public class RabbitHoleManagerTest {
@@ -227,6 +232,49 @@ public class RabbitHoleManagerTest {
         assertPostRequest(requests.get(i++), "/inv_use.php", "which=3&whichitem=4509&pwd=chess");
         assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
         i = validateChessPuzzleRequests(builder, i);
+      }
+    }
+  }
+
+  @Nested
+  class Hats {
+    @ParameterizedTest
+    @CsvSource({
+      // All lengths 5 or less give the same buff
+      "1, Assaulted with Pepper",
+      "3, Assaulted with Pepper",
+      "4, Assaulted with Pepper",
+      "5, Assaulted with Pepper",
+      // Lengths between 6 and 29 give individual buffs; spot-check some
+      "6, Three Days Slow",
+      "12, Thick-Skinned",
+      "29, Coming Up Roses",
+      // All lengths 30 or more give the same buff
+      "30, Oleaginous Soles",
+      "31, Oleaginous Soles",
+      "32, Oleaginous Soles",
+      "99, Oleaginous Soles",
+    })
+    void everyLengthHasABuff(int length, String effect) {
+      var hat = RabbitHoleManager.getHatData(length);
+      assertThat(hat, notNullValue());
+      assertThat(hat.getEffect(), equalTo(effect));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "fire,5",
+      "Mu cap,5",
+      "coconut shell,12",
+      "brainwave-controlled unicorn horn,30",
+      "depleted Crimbonium football helmet,30",
+    })
+    void hatsMapToCorrectLength(String item, int clampedLength) {
+      var cleanups = new Cleanups(withEquippableItem(item));
+      try (cleanups) {
+        assertThat(RabbitHoleManager.hatLengthAvailable(5), equalTo(clampedLength == 5));
+        assertThat(RabbitHoleManager.hatLengthAvailable(12), equalTo(clampedLength == 12));
+        assertThat(RabbitHoleManager.hatLengthAvailable(30), equalTo(clampedLength == 30));
       }
     }
   }

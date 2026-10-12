@@ -31,6 +31,8 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -54,7 +56,6 @@ public class Modifiers {
 
   public static String currentLocation = "";
   public static String currentZone = "";
-  public static String currentEnvironment = "";
   public static double currentML = 4.0;
   public static String currentFamiliar = "";
   public static String mainhandClass = "";
@@ -366,7 +367,7 @@ public class Modifiers {
             // "Makes you a better diver" applies to each penalty only if underwater
             value +=
                 this.doubles.getDouble(parent)
-                    * (Modifiers.currentEnvironment.equalsIgnoreCase("underwater") ? 1.0 : 0.0);
+                    * (Modifiers.getCurrentEnvironment().isUnderwater() ? 1.0 : 0.0);
           } else {
             value += this.doubles.getDouble(parent);
           }
@@ -1731,9 +1732,15 @@ public class Modifiers {
 
     Modifiers.currentLocation = location.getAdventureName();
     Modifiers.currentZone = location.getZone();
-    Modifiers.currentEnvironment = location.getEnvironment().toString();
     AreaCombatData data = location.getAreaSummary();
     Modifiers.currentML = Math.max(4.0, data == null ? 0.0 : data.getAverageML());
+  }
+
+  public static Environment getCurrentEnvironment() {
+    if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
+      return Environment.UNDERWATER;
+    }
+    return AdventureDatabase.getEnvironment(Modifiers.currentLocation);
   }
 
   public static double getCurrentML() {

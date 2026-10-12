@@ -122,6 +122,45 @@ public class GardenCommandTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class BlackRose {
+    @Test
+    public void inspectsNewBlackRoseGarden() {
+      var cleanups = withCampgroundItem(new CampgroundRequest.BlackRose(1));
+
+      try (cleanups) {
+        String output = execute("");
+        assertThat(output, containsString("Your Black Rose Garden has 1 day's growth."));
+      }
+    }
+
+    @Test
+    public void inspectsGrownBlackRoseGarden() {
+      var cleanups = withCampgroundItem(new CampgroundRequest.BlackRose(3));
+
+      try (cleanups) {
+        String output = execute("");
+        assertThat(output, containsString("Your Black Rose Garden has 3 days' growth."));
+      }
+    }
+
+    @Test
+    public void doesNotPickBlackRoseGarden() {
+      var cleanups = withCampgroundItem(new CampgroundRequest.BlackRose(3));
+
+      try (cleanups) {
+        String output = execute("pick");
+        assertThat(
+            output,
+            containsString(
+                "There is nothing to pick in the Black Rose Garden, only a fun maze to explore!"));
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+  }
+
+  @Nested
   class Rock {
     @Test
     public void inspectsEmptyRockGarden() {
