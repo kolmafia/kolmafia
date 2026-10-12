@@ -250,6 +250,8 @@ public class ValhallaManager {
     ValhallaManager.pullFreeItems();
 
     if (Preferences.getBoolean("autoQuest")) {
+      // we might not know we have the telegram yet
+      InventoryManager.refresh();
       RequestThread.postRequest(
           UseItemRequest.getInstance(ItemPool.get(ItemPool.SPOOKYRAVEN_TELEGRAM, 1)));
     }
