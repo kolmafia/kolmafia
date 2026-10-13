@@ -27,7 +27,7 @@ plugins {
 }
 
 checkstyle {
-  toolVersion = "12.1.0"
+  toolVersion = "14.3.0"
 }
 
 repositories {
@@ -75,6 +75,7 @@ dependencies {
 application {
   // Define the main class for the application.
   mainClass.set("net.sourceforge.kolmafia.KoLmafia")
+  applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED")
 }
 
 spotless {
@@ -189,10 +190,24 @@ val unsupportedNativeLibraries =
     "org/fusesource/jansi/internal/native/Mac/x86/**",
   )
 
+val launcher: SourceSet by sourceSets.creating
+
+sourceSets.test {
+  compileClasspath += launcher.output
+  runtimeClasspath += launcher.output
+}
+
+tasks.named<JavaCompile>(launcher.compileJavaTaskName) {
+  options.release = 8
+  options.compilerArgs.add("-Xlint:-options")
+}
+
 tasks.jar {
+  from(launcher.output)
   manifest {
     attributes(
-      "Main-Class" to "net.sourceforge.kolmafia.KoLmafia",
+      "Main-Class" to "net.sourceforge.kolmafia.launcher.Launcher",
+      "Enable-Native-Access" to "ALL-UNNAMED",
       "Build-Revision" to
         object {
           override fun toString(): String = project.version.toString()
@@ -222,6 +237,7 @@ tasks.jar {
 }
 
 tasks.shadowJar {
+  from(launcher.output)
   exclude(unsupportedNativeLibraries)
   mustRunAfter("cleanDist")
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -323,6 +339,7 @@ java {
 
 tasks.withType<Checkstyle>().configureEach {
   maxHeapSize = "2g"
+  exclude("ca/**", "com/**", "darrylbu/**", "net/java/**")
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -381,17 +398,19 @@ tasks.jpackage {
   linux {
     type = ImageType.DEB
     icon = file("src/main/resources/icons/KoLmafia.ico")
+    javaOptions = listOf("--enable-native-access=ALL-UNNAMED")
   }
   mac {
     type = ImageType.DMG
     icon = file("src/main/resources/icons/limeglass.icns")
+    javaOptions = listOf("--enable-native-access=ALL-UNNAMED")
   }
   windows {
     type = ImageType.EXE
     icon = file("src/main/resources/icons/KoLmafia.ico")
     winShortcut = true
     winPerUserInstall = true
-    javaOptions = listOf("-DuseCWDasROOT=true")
+    javaOptions = listOf("--enable-native-access=ALL-UNNAMED", "-DuseCWDasROOT=true")
   }
   mainJar = "KoLmafia-" + lastRevision() + (if (isDirty()) "-M" else "") + ".jar"
   appVersion = SimpleDateFormat("yy.MM").format(Date()) + "." + lastRevision()
