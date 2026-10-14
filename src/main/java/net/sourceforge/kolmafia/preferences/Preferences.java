@@ -55,7 +55,7 @@ public class Preferences {
   private static final Set<String> defaultsSet = new HashSet<>();
   private static final Set<String> perUserGlobalSet = new HashSet<>();
   private static final Set<String> onlyResetOnRollover =
-      new TreeSet<>(List.of("ascensionsToday", "potatoAlarmClockUsed"));
+      new TreeSet<>(List.of("ascensionsToday", "mallSearchesToday", "potatoAlarmClockUsed"));
   private static final Set<String> legacyNonDailies =
       new TreeSet<>(List.of("_shortOrderCookCharge"));
   private static final Set<String> legacyDailies = new TreeSet<>();
