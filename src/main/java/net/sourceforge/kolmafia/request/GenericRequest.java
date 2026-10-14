@@ -1482,7 +1482,7 @@ public class GenericRequest implements Runnable {
       }
 
       long now = System.currentTimeMillis();
-      if (GenericRequest.lastRelayMallSearchWarning + RELAY_MALL_SEARCH_WARNING_COOLDOWN < now) {
+      if (GenericRequest.lastRelayMallSearchWarning + RELAY_MALL_SEARCH_WARNING_COOLDOWN <= now) {
         // Avoid spamming the error with every relay request
         GenericRequest.lastRelayMallSearchWarning = now;
         KoLmafia.updateDisplay(MafiaState.ERROR, message);
