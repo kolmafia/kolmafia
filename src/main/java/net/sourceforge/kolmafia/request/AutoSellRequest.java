@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -96,16 +97,20 @@ public class AutoSellRequest extends TransferItemRequest {
 
   @Override
   public void run() {
-    // Equip the selling shorts once, before the items are sold
-    if (!this.isSubInstance) {
-      if (GenericRequest.abortIfInFightOrChoice()) {
-        return;
-      }
-
-      AutoSellRequest.equipSellingShorts(this.attachments);
+    if (this.isSubInstance) {
+      super.run();
+      return;
     }
 
-    super.run();
+    if (GenericRequest.abortIfInFightOrChoice()) {
+      return;
+    }
+
+    // Checkpoint restores previous outfit if selling shorts equipped
+    try (Checkpoint checkpoint = new Checkpoint()) {
+      AutoSellRequest.equipSellingShorts(this.attachments);
+      super.run();
+    }
   }
 
   private static boolean sellsOnlyMeatStacks(final AdventureResult[] attachments) {

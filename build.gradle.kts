@@ -189,10 +189,23 @@ val unsupportedNativeLibraries =
     "org/fusesource/jansi/internal/native/Mac/x86/**",
   )
 
+val launcher: SourceSet by sourceSets.creating
+
+sourceSets.test {
+  compileClasspath += launcher.output
+  runtimeClasspath += launcher.output
+}
+
+tasks.named<JavaCompile>(launcher.compileJavaTaskName) {
+  options.release = 8
+  options.compilerArgs.add("-Xlint:-options")
+}
+
 tasks.jar {
+  from(launcher.output)
   manifest {
     attributes(
-      "Main-Class" to "net.sourceforge.kolmafia.KoLmafia",
+      "Main-Class" to "net.sourceforge.kolmafia.launcher.Launcher",
       "Build-Revision" to
         object {
           override fun toString(): String = project.version.toString()
@@ -222,6 +235,7 @@ tasks.jar {
 }
 
 tasks.shadowJar {
+  from(launcher.output)
   exclude(unsupportedNativeLibraries)
   mustRunAfter("cleanDist")
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
