@@ -206,7 +206,6 @@ tasks.jar {
   manifest {
     attributes(
       "Main-Class" to "net.sourceforge.kolmafia.launcher.Launcher",
-      "Enable-Native-Access" to "ALL-UNNAMED",
       "Build-Revision" to
         object {
           override fun toString(): String = project.version.toString()
