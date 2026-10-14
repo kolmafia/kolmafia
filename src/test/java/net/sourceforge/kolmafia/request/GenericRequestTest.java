@@ -673,7 +673,7 @@ public class GenericRequestTest {
         request.constructURLString("mall.php?pudnuggler=seal+tooth");
         request.run();
 
-        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
         assertThat("mallSearchesToday", isSetTo(1301));
         assertThat(builder.client.getRequests(), hasSize(1));
       }

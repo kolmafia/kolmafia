@@ -1485,7 +1485,7 @@ public class GenericRequest implements Runnable {
       if (GenericRequest.lastRelayMallSearchWarning + RELAY_MALL_SEARCH_WARNING_COOLDOWN < now) {
         // Avoid spamming the error with every relay request
         GenericRequest.lastRelayMallSearchWarning = now;
-        KoLmafia.updateDisplay(message);
+        KoLmafia.updateDisplay(MafiaState.ERROR, message);
       }
     }
 
