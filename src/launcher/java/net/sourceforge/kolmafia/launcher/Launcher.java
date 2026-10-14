@@ -8,7 +8,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 public class Launcher {
-  static final int MINIMUM_JAVA_VERSION = 25;
+  static final int MINIMUM_JAVA_VERSION = 21;
   static final Integer MAXIMUM_JAVA_VERSION = null;
 
   public static void main(String[] args) throws Throwable {
