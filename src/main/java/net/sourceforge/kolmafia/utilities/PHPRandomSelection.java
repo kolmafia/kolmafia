@@ -6,8 +6,8 @@ package net.sourceforge.kolmafia.utilities;
  * TCRS equipment enchantments and the voting booth's daily modifiers.
  */
 public class PHPRandomSelection {
-  private final PHPRandom rng;
-  private final PHPMTRandom mtRng;
+  public final PHPRandom rng;
+  public final PHPMTRandom mtRng;
 
   public PHPRandomSelection(final int seed) {
     this(new PHPRandom(seed), new PHPMTRandom(seed));
