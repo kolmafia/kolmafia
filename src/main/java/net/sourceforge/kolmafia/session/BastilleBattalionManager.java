@@ -809,7 +809,6 @@ public abstract class BastilleBattalionManager {
         int total = StringUtilities.parseInt(matcher.group(2));
         // Sanity check
         if (calculated != total) {
-          System.out.println(String.format("Calculated = %d total = %d", calculated, total));
           Preferences.setInteger("_bastilleCheese", total);
         }
       }
