@@ -3267,8 +3267,16 @@ public class ItemPool {
   public static final int ALIEN_ANIMAL_MILK = 9429;
   public static final int SPANT_EGG_CASING = 9430;
   public static final int MURDERBOT_DATA_CORE = 9431;
-  public static final int SPANT_CHITIN = 9441;
+  public static final int PRIMITIVE_ALIEN_MEDICINE = 9432;
+  public static final int PRIMITIVE_ALIEN_SALAD = 9433;
+  public static final int PRIMITIVE_ALIEN_BOOZE = 9434;
+  public static final int PRIMITIVE_ALIEN_MASK = 9435;
+  public static final int PRIMITIVE_ALIEN_SPEAR = 9436;
+  public static final int PRIMITIVE_ALIEN_BLOWGUN = 9437;
+  public static final int PRIMITIVE_ALIEN_LOINCLOTH = 9438;
   public static final int PRIMITIVE_ALIEN_TOTEM = 9439;
+  public static final int PRIMITIVE_ALIEN_NECKLACE = 9440;
+  public static final int SPANT_CHITIN = 9441;
   public static final int SPANT_TENDON = 9442;
   public static final int MURDERBOT_MEMORY_CHIP = 9457;
   public static final int SPACE_PIRATE_TREASURE_MAP = 9458;
