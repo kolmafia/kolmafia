@@ -14,6 +14,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -878,6 +879,37 @@ public class RelayRequestTest {
         req.run();
 
         assertThat(req.statusLine, is("HTTP/1.1 302 Found"));
+        assertThat(req.headers, hasItem(startsWith("Set-Cookie: mob=1;")));
+      }
+    }
+  }
+
+  @Nested
+  class ChatCookies {
+    @Test
+    public void sendsBrowserCookiesAndForwardsSetCookie() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withChatChannel("talkie"),
+              withProperty("chatLiterate", true));
+
+      var headers =
+          Map.of(
+              "Set-Cookie",
+              List.of("mob=1; expires=Sun, 15 Oct 2028 18:39:19 GMT; Max-Age=63072000"));
+      builder.client.addResponse(200, headers, "{\"output\":\"\",\"msgs\":[]}");
+
+      try (cleanups) {
+        var req = new RelayRequest(false);
+        req.constructURLString("submitnewchat.php", true);
+        req.addFormField("graf", "/mobile");
+        req.cookies = "mob=1";
+        req.run();
+
+        var cookie = builder.client.getLastRequest().headers().firstValue("Cookie").orElse("");
+        assertThat(cookie, containsString("mob=1"));
         assertThat(req.headers, hasItem(startsWith("Set-Cookie: mob=1;")));
       }
     }

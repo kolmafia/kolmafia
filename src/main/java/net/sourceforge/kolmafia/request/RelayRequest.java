@@ -3784,40 +3784,43 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   private void handleChat() {
-    String path = this.getPath();
-    // A POST moves the query string into the form fields, so "j" can live in either.
-    boolean tabbedChat = "1".equals(this.getFormField("j"));
-    String chatText = "";
+    try (var scope = ChatRequest.relayScope(this.cookies)) {
+      String path = this.getPath();
+      // A POST moves the query string into the form fields, so "j" can live in either.
+      boolean tabbedChat = "1".equals(this.getFormField("j"));
+      String chatText = "";
 
-    if (path.startsWith("newchatmessages.php")) {
-      chatText = tabbedChat ? getTabbedChatMessages() : getNontabbedChatMessages();
-    } else if (path.startsWith("submitnewchat.php")) {
-      if (ChatManager.getCurrentChannel() == null) {
-        ChatSender.sendMessage(null, "/listen", true);
+      if (path.startsWith("newchatmessages.php")) {
+        chatText = tabbedChat ? getTabbedChatMessages() : getNontabbedChatMessages();
+      } else if (path.startsWith("submitnewchat.php")) {
+        if (ChatManager.getCurrentChannel() == null) {
+          ChatSender.sendMessage(null, "/listen", true);
+        }
+
+        List<String> grafs = this.getFormFields("graf[]");
+        String graf = grafs.isEmpty() ? this.getFormField("graf") : null;
+
+        chatText =
+            grafs.isEmpty()
+                ? ChatSender.sendMessage(new LinkedList<>(), graf, true, false, tabbedChat)
+                : ChatSender.sendMessages(grafs);
+
+        if (tabbedChat && chatText.startsWith("{")) {
+          ChatPoller.handleNewChat(chatText, graf, ChatPoller.localLastSeen);
+        }
+
+        if (Preferences.getBoolean("relayDecorateJsCommands")) {
+          chatText = decorateJsCommands(chatText);
+        }
       }
 
-      List<String> grafs = this.getFormFields("graf[]");
-      String graf = grafs.isEmpty() ? this.getFormField("graf") : null;
-
-      chatText =
-          grafs.isEmpty()
-              ? ChatSender.sendMessage(new LinkedList<>(), graf, true, false, tabbedChat)
-              : ChatSender.sendMessages(grafs);
-
-      if (tabbedChat && chatText.startsWith("{")) {
-        ChatPoller.handleNewChat(chatText, graf, ChatPoller.localLastSeen);
+      if (Preferences.getBoolean("relayFormatsChatText")) {
+        chatText = ChatFormatter.formatExternalMessage(chatText);
       }
 
-      if (Preferences.getBoolean("relayDecorateJsCommands")) {
-        chatText = decorateJsCommands(chatText);
-      }
+      this.relaySetCookies(ChatRequest.relayResponseCookies());
+      this.pseudoResponse("HTTP/1.1 200 OK", chatText);
     }
-
-    if (Preferences.getBoolean("relayFormatsChatText")) {
-      chatText = ChatFormatter.formatExternalMessage(chatText);
-    }
-
-    this.pseudoResponse("HTTP/1.1 200 OK", chatText);
   }
 
   private static final Pattern LASTTIME_PATTERN = Pattern.compile("lasttime=(\\d+)");
