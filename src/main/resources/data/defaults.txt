@@ -1172,7 +1172,7 @@ user	makeHandheldRadiosHardcore	false
 user	makeHandheldRadiosSoftcore	false
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
-user	mallSearchesBeforeAbort	1300
+user	mallSearchesBeforeAbort	1100
 user	mallSearchesToday	0
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
