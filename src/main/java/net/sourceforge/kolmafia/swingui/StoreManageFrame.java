@@ -122,7 +122,7 @@ public class StoreManageFrame extends GenericPanelFrame {
             + " meat)");
   }
 
-  public static void showGlassBox(int rowIndex, int x, int y) {
+  public static void showGlassBox(JTable table, int rowIndex, int x, int y) {
     /*
      * This is a fun way to display a little dialog with a checkbox and a textfield.
      */
@@ -198,7 +198,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     layout.putConstraint(SpringLayout.WEST, panel, x, SpringLayout.WEST, box);
     layout.putConstraint(SpringLayout.NORTH, panel, y, SpringLayout.NORTH, box);
 
-    StoreManageFrame.INSTANCE.setGlassPane(box);
+    SwingUtilities.getRootPane(table).setGlassPane(box);
 
     box.setVisible(true);
   }
@@ -522,9 +522,9 @@ public class StoreManageFrame extends GenericPanelFrame {
           // I hate you Swing
           SwingUtilities.convertPointToScreen(p, table);
           // I mean seriously, WTF
-          SwingUtilities.convertPointFromScreen(p, StoreManageFrame.INSTANCE.getContentPane());
+          SwingUtilities.convertPointFromScreen(p, SwingUtilities.getRootPane(table));
           StoreManageFrame.showGlassBox(
-              convertRowIndexToModel(row), p.x + rect.width / 2 - 15, p.y + 13);
+              table, convertRowIndexToModel(row), p.x + rect.width / 2 - 15, p.y + 13);
         } else if (value instanceof JButton) {
           ((JButton) value).doClick(10);
         }
