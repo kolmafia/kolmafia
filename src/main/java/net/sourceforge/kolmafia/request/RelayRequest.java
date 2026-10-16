@@ -561,6 +561,12 @@ public class RelayRequest extends PasswordHashRequest {
     return "";
   }
 
+  private void relaySetCookies(final List<String> cookies) {
+    for (String cookie : cookies) {
+      this.headers.add("Set-Cookie: " + GenericRequest.mungeCookieDomain(cookie));
+    }
+  }
+
   public void pseudoResponse(final String status, final String responseText) {
     this.statusLine = status;
 
@@ -4101,6 +4107,9 @@ public class RelayRequest extends PasswordHashRequest {
     super.run();
 
     if (this.responseCode == 302) {
+      if (this.response != null) {
+        this.relaySetCookies(this.response.headers().allValues("Set-Cookie"));
+      }
       this.pseudoResponse("HTTP/1.1 302 Found", this.redirectLocation);
     } else if (this.responseCode == 304) {
       this.pseudoResponse("HTTP/1.1 304 Not Modified", null);

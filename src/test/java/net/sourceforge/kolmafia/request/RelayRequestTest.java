@@ -16,9 +16,11 @@ import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -34,6 +36,8 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -849,6 +853,32 @@ public class RelayRequestTest {
         req.run();
 
         assertThat(req.responseText, equalTo(expected));
+      }
+    }
+  }
+
+  @Nested
+  class MobileMode {
+    @Test
+    public void passesOnCookiesSetByRedirect() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups = new Cleanups(withHttpClientBuilder(builder));
+
+      var headers =
+          Map.of(
+              "Location",
+              List.of("game.php"),
+              "Set-Cookie",
+              List.of("mob=1; expires=Sun, 15 Oct 2028 18:14:44 GMT; Max-Age=63072000"));
+      builder.client.addResponse(302, headers, "");
+
+      try (cleanups) {
+        var req = new RelayRequest(false);
+        req.constructURLString("gomobile.php", true);
+        req.run();
+
+        assertThat(req.statusLine, is("HTTP/1.1 302 Found"));
+        assertThat(req.headers, hasItem(startsWith("Set-Cookie: mob=1;")));
       }
     }
   }
