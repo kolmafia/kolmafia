@@ -1424,11 +1424,73 @@ public class GenericRequest implements Runnable {
       Preferences.setInteger("lastBreakfast", 0);
     }
 
+    if (this.isMallPriceSearch() && !this.allowMallPriceSearch()) {
+      return;
+    }
+
     this.externalExecute();
 
     if (!LoginRequest.isInstanceRunning() && !this.isChatRequest) {
       ConcoctionDatabase.refreshConcoctions(false);
     }
+  }
+
+  /**
+   * Check if this request would hit a backend that performs a mall price search. This is not
+   * exhaustive, and it's possible that we are not tracking it the same way that KoL does. This is
+   * not meant to be an end-all solution, but a failsafe for (mostly) runaway scripts.
+   *
+   * @return If this request performs a mall price search
+   */
+  private boolean isMallPriceSearch() {
+    return switch (this.getPage()) {
+      // Performing a mall search
+      case "mall.php" -> this.getFormField("pudnuggler") != null;
+      // Viewing a player store
+      case "mallstore.php" ->
+          this.getFormField("whichstore") != null && this.getFormField("buying") == null;
+      // Clicking "prices" in store manager
+      case "backoffice.php" -> "prices".equals(this.getFormField("action"));
+      // Requesting bulk prices via api
+      case "api.php" -> {
+        String what = this.getFormField("what");
+        yield what != null && List.of(what.split(",")).contains("mallprices");
+      }
+      default -> false;
+    };
+  }
+
+  // Only show the warning every 10 minutes for relay requests
+  private static final long RELAY_MALL_SEARCH_WARNING_COOLDOWN = 10 * 60 * 1000;
+  static long lastRelayMallSearchWarning = 0;
+
+  private boolean allowMallPriceSearch() {
+    int searches = Preferences.getInteger("mallSearchesToday");
+    int limit = Preferences.getInteger("mallSearchesBeforeAbort");
+
+    if (limit >= 0 && searches >= limit) {
+      String message =
+          "You have made "
+              + searches
+              + " mall searches today. KoL officially warns players who make more than 1440 a day. You can raise mallSearchesBeforeAbort, or set it to -1 to disable this check. Use \"set mallSearchesToday = 0\" to suppress this warning for today.";
+
+      // Scripts need to abort
+      // Players should be allowed to search mall manually
+      if (!(this instanceof RelayRequest)) {
+        KoLmafia.updateDisplay(MafiaState.ABORT, message);
+        return false;
+      }
+
+      long now = System.currentTimeMillis();
+      if (GenericRequest.lastRelayMallSearchWarning + RELAY_MALL_SEARCH_WARNING_COOLDOWN <= now) {
+        // Avoid spamming the error with every relay request
+        GenericRequest.lastRelayMallSearchWarning = now;
+        KoLmafia.updateDisplay(MafiaState.ERROR, message);
+      }
+    }
+
+    Preferences.setInteger("mallSearchesToday", searches + 1);
+    return true;
   }
 
   public void externalExecute() {

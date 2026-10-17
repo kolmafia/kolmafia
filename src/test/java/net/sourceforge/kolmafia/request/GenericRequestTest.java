@@ -5,15 +5,18 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.util.ArrayList;
@@ -542,5 +545,175 @@ public class GenericRequestTest {
     request.addFormFields("steps%5B%5D=1%2C2&qty=1", true);
 
     assertEquals(List.of("1,2"), request.getFormFields("steps[]"));
+  }
+
+  @Nested
+  class MallSearchLimit {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "mall.php?pudnuggler=seal+tooth",
+          "mallstore.php?whichstore=1",
+          "backoffice.php?action=prices&iid=2",
+          "api.php?what=mallprices",
+          "api.php?what=status,mallprices"
+        })
+    public void countsMallPriceSearches(String url) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("mallSearchesToday", 0),
+              withContinuationState());
+
+      try (cleanup) {
+        builder.client.addResponse(200, "");
+        new GenericRequest(url).run();
+
+        assertThat("mallSearchesToday", isSetTo(1));
+        assertThat(builder.client.getRequests(), hasSize(1));
+      }
+    }
+
+    @Test
+    public void countsEncodedApiMallPrices() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("mallSearchesToday", 0),
+              withContinuationState());
+
+      try (cleanup) {
+        builder.client.addResponse(200, "");
+        var request = new GenericRequest("");
+        request.constructURLString("api.php?what=status%2Cmallprices", true, true);
+        request.run();
+
+        assertThat("mallSearchesToday", isSetTo(1));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "mall.php",
+          "mallstore.php?whichstore=1&buying=1&whichitem=2&quantity=1",
+          "backoffice.php?which=3",
+          "api.php?what=status,inventory"
+        })
+    public void doesNotCountOtherRequests(String url) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("mallSearchesToday", 0),
+              withContinuationState());
+
+      try (cleanup) {
+        builder.client.addResponse(200, "");
+        new GenericRequest(url).run();
+
+        assertThat("mallSearchesToday", isSetTo(0));
+      }
+    }
+
+    @Test
+    public void abortsWhenLimitReached() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("mallSearchesToday", 1300),
+              withProperty("mallSearchesBeforeAbort", 1300),
+              withContinuationState());
+
+      try (cleanup) {
+        new GenericRequest("mall.php?pudnuggler=seal+tooth").run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
+        assertThat("mallSearchesToday", isSetTo(1300));
+        assertThat(builder.client.getRequests(), empty());
+      }
+    }
+
+    @Test
+    public void doesNotAbortWhenLimitDisabled() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("mallSearchesToday", 1300),
+              withProperty("mallSearchesBeforeAbort", -1),
+              withContinuationState());
+
+      try (cleanup) {
+        builder.client.addResponse(200, "");
+        new GenericRequest("mall.php?pudnuggler=seal+tooth").run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        assertThat("mallSearchesToday", isSetTo(1301));
+        assertThat(builder.client.getRequests(), hasSize(1));
+      }
+    }
+
+    @Test
+    public void relayRequestStillSentWhenLimitReached() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("mallSearchesToday", 1300),
+              withProperty("mallSearchesBeforeAbort", 1300),
+              withContinuationState());
+
+      try (cleanup) {
+        builder.client.addResponse(200, "");
+        var request = new RelayRequest(false);
+        request.constructURLString("mall.php?pudnuggler=seal+tooth");
+        request.run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertThat("mallSearchesToday", isSetTo(1301));
+        assertThat(builder.client.getRequests(), hasSize(1));
+      }
+    }
+
+    @Test
+    public void relayWarningHasCooldown() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("mallSearchesToday", 1300),
+              withProperty("mallSearchesBeforeAbort", 1300),
+              withContinuationState());
+
+      try (cleanup) {
+        GenericRequest.lastRelayMallSearchWarning = 0;
+        RequestLoggerOutput.startStream();
+        for (int i = 0; i < 2; i++) {
+          builder.client.addResponse(200, "");
+          var request = new RelayRequest(false);
+          request.constructURLString("mall.php?pudnuggler=seal+tooth");
+          request.run();
+        }
+        var text = RequestLoggerOutput.stopStream();
+
+        assertThat(text, containsString("You have made 1300 mall searches today."));
+        assertThat(text, not(containsString("You have made 1301 mall searches today.")));
+
+        // Claim 10 minutes has elapsed, and it's time for a new warning
+        GenericRequest.lastRelayMallSearchWarning -= 10 * 60 * 1000;
+        RequestLoggerOutput.startStream();
+        builder.client.addResponse(200, "");
+        var request = new RelayRequest(false);
+        request.constructURLString("mall.php?pudnuggler=seal+tooth");
+        request.run();
+        text = RequestLoggerOutput.stopStream();
+
+        assertThat(text, containsString("You have made 1302 mall searches today."));
+      }
+    }
   }
 }
