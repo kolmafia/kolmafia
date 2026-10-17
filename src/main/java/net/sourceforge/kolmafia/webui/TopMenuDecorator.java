@@ -24,6 +24,8 @@ public abstract class TopMenuDecorator {
       return;
     }
 
+    TopMenuDecorator.addMobileGcliButton(buffer);
+
     if (Preferences.getBoolean("debugTopMenuStyle")) {
       var style =
           buffer.indexOf("awesomemenu.php") != -1
@@ -59,6 +61,49 @@ public abstract class TopMenuDecorator {
     // Send any logout link through KoLmafia's logout command so we clean up the GUI
     StringUtilities.singleStringReplace(
         buffer, "logout.php", "/KoLmafia/logout?pwd=" + GenericRequest.passwordHash);
+  }
+
+  private static final String MOBILE_CHAT_ITEM = "class=\"menuitem chat\"";
+
+  private static final String MOBILE_GCLI_ITEM =
+      "<td width=30 height=30 valign=center class=\"menuitem gcli\">"
+          + "<a href='#'><img src=\"https://images.kingdomofloathing.com/itemimages/sourceterminal.gif\""
+          + " width=30 height=30 alt=\"gCLI\" title=\"gCLI\" border=0></a>"
+          + "<script type=\"text/javascript\">"
+          + "jQuery(function ($) {"
+          + "$('.chat').click(function () { top.$('#gclipaneholder').hide(); });"
+          + "$('.gcli').click(function () {"
+          + "var holder = top.$('#gclipaneholder');"
+          + "if (!holder.length) {"
+          + "holder = top.$(\"<div id='gclipaneholder' style='width: 100%; position: absolute;"
+          + " z-index: 2; bottom: 0px; background-color: #ccc; right: 0px; display: none'>"
+          + "<iframe src='cli.html' style='width: 100%; border: 0px; padding: 0px; margin: 0px'>"
+          + "</iframe></div>\");"
+          + "top.$('body').append(holder);"
+          + "}"
+          + "if (holder.is(':visible')) { holder.hide(); return false; }"
+          + "if (copen) $('.chat').click();"
+          + "if (ropen) $('.char').click();"
+          + "holder.show();"
+          + "holder.find('iframe').css('height', top.innerHeight - 82);"
+          + "return false;"
+          + "});"
+          + "});"
+          + "</script>"
+          + "</td>";
+
+  private static void addMobileGcliButton(final StringBuffer buffer) {
+    if (!Preferences.getBoolean("relayAddsGraphicalCLI")) {
+      return;
+    }
+
+    int chatIndex = buffer.indexOf(TopMenuDecorator.MOBILE_CHAT_ITEM);
+    if (chatIndex == -1) {
+      return;
+    }
+
+    int insertIndex = buffer.indexOf("</td>", chatIndex) + "</td>".length();
+    buffer.insert(insertIndex, TopMenuDecorator.MOBILE_GCLI_ITEM);
   }
 
   private static void addFancyScriptMenus(final StringBuffer buffer, final String location) {

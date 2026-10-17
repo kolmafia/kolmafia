@@ -4,6 +4,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTopMenuStyle;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -225,6 +228,37 @@ class TopMenuDecoratorTest {
 
         // We do not test for a relay script menu because that looks in
         // the "relay" directory for scripts starting with "relay_".
+      }
+    }
+  }
+
+  @Nested
+  class MobileMenu {
+    @Test
+    void gcliButtonFollowsChatWhenRelayAddsGraphicalCLI() {
+      var cleanups = new Cleanups(withProperty("relayAddsGraphicalCLI", true));
+      try (cleanups) {
+        String input = html("request/test_mobile_topmenu.html");
+        String output = RequestEditorKit.getFeatureRichHTML("topmenu.php", input);
+
+        assertThat(output, containsString("class=\"menuitem gcli\""));
+        assertThat(output, containsString("cli.html"));
+
+        int chatIndex = output.indexOf("class=\"menuitem chat\"");
+        int gcliIndex = output.indexOf("class=\"menuitem gcli\"");
+        assertThat(gcliIndex, greaterThan(chatIndex));
+        assertThat(output.substring(chatIndex, gcliIndex), not(containsString("</table>")));
+      }
+    }
+
+    @Test
+    void noGcliButtonWithoutRelayAddsGraphicalCLI() {
+      var cleanups = new Cleanups(withProperty("relayAddsGraphicalCLI", false));
+      try (cleanups) {
+        String input = html("request/test_mobile_topmenu.html");
+        String output = RequestEditorKit.getFeatureRichHTML("topmenu.php", input);
+
+        assertThat(output, not(containsString("menuitem gcli")));
       }
     }
   }
