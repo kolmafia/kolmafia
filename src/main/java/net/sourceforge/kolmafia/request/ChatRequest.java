@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -8,6 +9,27 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 
 public class ChatRequest extends GenericRequest {
   protected final String graf;
+
+  private record RelayState(String cookies, List<String> setCookies) {}
+
+  private static final ThreadLocal<RelayState> relayState = new ThreadLocal<>();
+
+  public static RelayScope relayScope(final String cookies) {
+    relayState.set(new RelayState(cookies, new ArrayList<>()));
+    return new RelayScope();
+  }
+
+  public static List<String> relayResponseCookies() {
+    var state = relayState.get();
+    return state == null ? List.of() : state.setCookies();
+  }
+
+  public static final class RelayScope implements AutoCloseable {
+    @Override
+    public void close() {
+      relayState.remove();
+    }
+  }
 
   /**
    * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP
@@ -103,5 +125,31 @@ public class ChatRequest extends GenericRequest {
   @Override
   protected boolean retryOnTimeout() {
     return true;
+  }
+
+  @Override
+  public StringBuilder getCookies(final StringBuilder cookies) {
+    var state = relayState.get();
+    if (state != null && state.cookies() != null) {
+      cookies.append(state.cookies());
+      cookies.append("; ");
+    }
+    return super.getCookies(cookies);
+  }
+
+  @Override
+  public void setCookies() {
+    super.setCookies();
+
+    var state = relayState.get();
+    if (state == null) {
+      return;
+    }
+
+    for (String cookie : this.response.headers().allValues("Set-Cookie")) {
+      if (!GenericRequest.specialCookie(new ServerCookie(cookie).getName())) {
+        state.setCookies().add(cookie);
+      }
+    }
   }
 }
