@@ -3394,4 +3394,22 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(output, containsString("I choose peace: 2 with {}"));
     }
   }
+
+  @Test
+  void canGetSpacegatePlanetInfo() {
+    String sgScript =
+        """
+        void main(){
+          var planet=spacegate_planet_info("TIMEWAR");
+          print(`Planet: {planet.name}`);
+          print(`Plants: {planet.plants}, Animals: {planet.animals}`);
+          print(`Aliens: {planet.aliens} -- {planet.alien_item.to_string()} @ {planet.alien_item_price}`);
+          print(`Quest: {planet.quest_type} stage {planet.quest_stage}`);
+        }""";
+    String output = execute(sgScript);
+    assertThat(output, containsString("Planet: Xi North VII"));
+    assertThat(output, containsString("Plants: none, Animals: hostile complex"));
+    assertThat(output, containsString("Aliens: friendly -- primitive alien booze @ 21500"));
+    assertThat(output, containsString("Quest: space pirates stage 3"));
+  }
 }

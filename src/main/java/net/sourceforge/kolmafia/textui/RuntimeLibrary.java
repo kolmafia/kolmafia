@@ -219,6 +219,7 @@ import net.sourceforge.kolmafia.session.PortableLaughingStockManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.SpacegateManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TavernManager;
@@ -394,6 +395,44 @@ public abstract class RuntimeLibrary {
             DataTypes.STRING_TO_STRING_TYPE,
             DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE
+          });
+
+  private static final RecordType spacegatePlanetRec =
+      new RecordType(
+          "{string coords; string name; string[3] description; string[int] env_hazards; string[int] elem_hazards; string plants; string animals; string aliens; item alien_item; int alien_item_price; string spants; string murderbots; string quest_type; int quest_stage; int rocks_level;}",
+          new String[] {
+            "coords",
+            "name",
+            "description",
+            "env_hazards",
+            "elem_hazards",
+            "plants",
+            "animals",
+            "aliens",
+            "alien_item",
+            "alien_item_price",
+            "spants",
+            "murderbots",
+            "quest_type",
+            "quest_stage",
+            "rocks_level"
+          },
+          new Type[] {
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.INT_TO_STRING_TYPE,
+            DataTypes.INT_TO_STRING_TYPE,
+            DataTypes.INT_TO_STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.ITEM_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE
           });
 
   private static final AggregateType NumberologyType =
@@ -4200,6 +4239,9 @@ public abstract class RuntimeLibrary {
             namedParam("prevEaten", DataTypes.INT_TYPE));
     functions.add(
         new LibraryFunction("black_and_white_apron_kit_contents", blackWhiteApronKitRec, params));
+
+    params = List.of(namedParam("coords", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("spacegate_planet_info", spacegatePlanetRec, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12738,6 +12780,40 @@ public abstract class RuntimeLibrary {
     // meals
     rv.aset(2, mealsArray, interpreter);
 
+    return rv;
+  }
+
+  public static Value spacegate_planet_info(ScriptRuntime controller, Value coordsValue) {
+    String coords = coordsValue.toString().toUpperCase().replaceAll("[^A-Z]", "");
+    if (coords.length() != 7) {
+      throw controller.runtimeException("Invalid coordinate");
+    }
+
+    SpacegateManager.SpacegatePlanet planet = SpacegateManager.predictPlanet(coords);
+
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+    RecordValue rv = new RecordValue(spacegatePlanetRec);
+    rv.aset(0, DataTypes.makeStringValue(planet.coords()), interpreter);
+    rv.aset(1, DataTypes.makeStringValue(planet.name()), interpreter);
+    List<Value> descriptionValues =
+        planet.description().stream().map(DataTypes::makeStringValue).toList();
+    rv.aset(2, new ArrayValue(DataTypes.INT_TO_STRING_TYPE, descriptionValues), interpreter);
+    List<Value> envHazardValues =
+        planet.envHazards().stream().map(DataTypes::makeStringValue).toList();
+    rv.aset(3, new ArrayValue(DataTypes.INT_TO_STRING_TYPE, envHazardValues), interpreter);
+    List<Value> elemHazardValues =
+        planet.elemHazards().stream().map(DataTypes::makeStringValue).toList();
+    rv.aset(4, new ArrayValue(DataTypes.INT_TO_STRING_TYPE, elemHazardValues), interpreter);
+    rv.aset(5, DataTypes.makeStringValue(planet.plants()), interpreter);
+    rv.aset(6, DataTypes.makeStringValue(planet.animals()), interpreter);
+    rv.aset(7, DataTypes.makeStringValue(planet.aliens()), interpreter);
+    rv.aset(8, DataTypes.makeItemValue(planet.alienItem()), interpreter);
+    rv.aset(9, DataTypes.makeIntValue(planet.alienItemPrice()), interpreter);
+    rv.aset(10, DataTypes.makeStringValue(planet.spants()), interpreter);
+    rv.aset(11, DataTypes.makeStringValue(planet.murderbots()), interpreter);
+    rv.aset(12, DataTypes.makeStringValue(planet.quest()), interpreter);
+    rv.aset(13, DataTypes.makeIntValue(planet.questStage()), interpreter);
+    rv.aset(14, DataTypes.makeIntValue(planet.rocksLevel()), interpreter);
     return rv;
   }
 }
