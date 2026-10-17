@@ -2973,7 +2973,7 @@ public abstract class ChoiceControl {
 
       case 1235 -> {
         // Spacegate Terminal
-        QuestManager.parseSpacegateTerminal(text, true);
+        SpacegateManager.parseSpacegateTerminal(text, true);
       }
 
       case 1246 -> {
