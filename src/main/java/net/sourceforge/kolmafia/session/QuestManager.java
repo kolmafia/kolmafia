@@ -1,14 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -240,7 +237,7 @@ public class QuestManager {
           handleGingerbreadCityChange(location, responseText);
           break;
         case AdventurePool.SPACEGATE:
-          handleSpacegateChange(location, responseText);
+          SpacegateManager.handleSpacegateChange(location, responseText);
           break;
         case AdventurePool.THE_POND:
         case AdventurePool.THE_BACK_40:
@@ -269,7 +266,7 @@ public class QuestManager {
     } else if (location.startsWith("choice.php") && location.contains("forceoption=0")) {
       // This can have no active choice options and therefore
       // won't be interpreted by ChoiceManager
-      parseSpacegateTerminal(responseText, false);
+      SpacegateManager.parseSpacegateTerminal(responseText, false);
     } else if (location.startsWith("cobbsknob.php")) {
       if (location.contains("action=cell37")) {
         handleCell37(responseText);
@@ -400,7 +397,7 @@ public class QuestManager {
           case "realm_fantasy" -> handleFantasyRealmChange(location, responseText);
           case "realm_pirate" -> handlePirateRealmChange(location, responseText);
           case "sea_oldman" -> handleSeaChange(location, responseText);
-          case "spacegate" -> handleSpacegateChange(location, responseText);
+          case "spacegate" -> SpacegateManager.handleSpacegateChange(location, responseText);
           case "speakeasy" -> handleSpeakeasyChange(responseText);
           // don't catch town_wrong, town_right, or town_market
           case "town" -> handleTownChange(location, responseText);
@@ -705,18 +702,6 @@ public class QuestManager {
     }
     if (responseText.contains("whichshop=hiddentavern")) {
       Preferences.setInteger("hiddenTavernUnlock", KoLCharacter.getAscensions());
-    }
-  }
-
-  private static void handleSpacegateChange(final String location, final String responseText) {
-    if (!Preferences.getBoolean("spacegateAlways")) {
-      Preferences.setBoolean("_spacegateToday", true);
-    }
-    if (location.contains("action=sg_Terminal")) {
-      parseSpacegateTerminal(responseText, false);
-    }
-    if (location.startsWith("adventure.php")) {
-      parseSpacegateAdventure(responseText);
     }
   }
 
@@ -2788,153 +2773,6 @@ public class QuestManager {
       case ItemPool.LUBE_SHOES -> QuestDatabase.setQuestIfBetter(Quest.SUPER_LUBER, "step1");
       case ItemPool.MASCOT_MASK -> QuestDatabase.setQuestIfBetter(Quest.ZIPPITY_DOO_DAH, "step1");
       case ItemPool.WALFORDS_BUCKET -> QuestDatabase.setQuestIfBetter(Quest.BUCKET, "step1");
-    }
-  }
-
-  public static final Pattern SPACEGATE_PLANET_PATTERN =
-      Pattern.compile("<td>Current planet: Planet Name: ([^<]+)<br>");
-  public static final Pattern SPACEGATE_COORDINATES_PATTERN =
-      Pattern.compile("<br>Coordinates: ([^<]+)<br>");
-  public static final Pattern SPACEGATE_HAZARDS_PATTERN =
-      Pattern.compile("<br><p>Environmental Hazards:<[Bb]r>(.*)<br>Plant Life:", Pattern.DOTALL);
-  public static final Pattern SPACEGATE_PLANT_LIFE_PATTERN =
-      Pattern.compile(
-          "<br>Plant Life: (?:<font color=\\w+>)?([^<]+)(?:</font>)? ?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>");
-  public static final Pattern SPACEGATE_ANIMAL_LIFE_PATTERN =
-      Pattern.compile(
-          "<br>Animal Life: (?:<font color=\\w+>)?([^<]+)(?:</font>)? ?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>");
-  public static final Pattern SPACEGATE_INTELLIGENT_LIFE_PATTERN =
-      Pattern.compile(
-          "<br>Intelligent Life: (?:<font color=\\w+>)?([^<]+) ?(?:</font>)?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>");
-  public static final Pattern SPACEGATE_SPANT_PATTERN = Pattern.compile("<b>Spant</b>");
-  public static final Pattern SPACEGATE_MURDERBOT_PATTERN = Pattern.compile("<b>Murderbot</b>");
-  public static final Pattern SPACEGATE_RUINS_PATTERN =
-      Pattern.compile("<br>ALERT: ANCIENT RUINS DETECTED<br>");
-  public static final Pattern SPACEGATE_TURNS_PATTERN =
-      Pattern.compile("<p>Spacegate Energy remaining: <b><font size=\\+2>(\\d+) </font>");
-
-  public record Hazard(String terminal, String adventure, String gear) {}
-
-  public static final Hazard[] HAZARDS = {
-    new Hazard("toxic atmosphere", "Toxic environment", "filter helmet"),
-    new Hazard("high gravity", "Extremely high gravity", "exo-servo leg braces"),
-    new Hazard("irradiated", "High radiation levels", "rad cloak"),
-    new Hazard("magnetic storms", "High levels of magnetic interference", "gate transceiver"),
-    new Hazard("high winds", "Intense winds", "high-friction boots"),
-  };
-
-  public static void parseSpacegateAdventure(final String text) {
-    // If we've already parsed the hazards, nothing to do here.
-    if (!Preferences.getString("_spacegateHazards").equals("")) {
-      return;
-    }
-    // Otherwise, this is from a portable spacegate.
-    // Parse hazards and needed equipment
-    Set<String> hazards = new HashSet<>();
-    Set<String> gear = new HashSet<>();
-
-    for (Hazard hazard : HAZARDS) {
-      if (text.contains(hazard.adventure)) {
-        hazards.add(hazard.terminal);
-        gear.add(hazard.gear);
-      }
-    }
-    Preferences.setString("_spacegateHazards", String.join("|", hazards));
-    Preferences.setString("_spacegateGear", String.join("|", gear));
-  }
-
-  public static void parseSpacegateTerminal(final String text, final boolean print) {
-    if (!text.contains("Spacegate Terminal")) {
-      return;
-    }
-
-    Matcher m = QuestManager.SPACEGATE_PLANET_PATTERN.matcher(text);
-    String name = m.find() ? m.group(1).trim() : "";
-    Preferences.setString("_spacegatePlanetName", name);
-    if (print) {
-      RequestLogger.updateSessionLog("Planet: " + name);
-    }
-
-    m = QuestManager.SPACEGATE_COORDINATES_PATTERN.matcher(text);
-    String coordinates = m.find() ? m.group(1).trim() : "";
-    Preferences.setString("_spacegateCoordinates", coordinates);
-    int index = coordinates.length() > 0 ? (coordinates.charAt(0) - 'A') : 0;
-    Preferences.setInteger("_spacegatePlanetIndex", Math.max(0, Math.min(25, index)));
-    if (print) {
-      RequestLogger.updateSessionLog("Coordinates: " + coordinates);
-    }
-
-    m = QuestManager.SPACEGATE_HAZARDS_PATTERN.matcher(text);
-    String hazards = m.find() ? m.group(1).trim() : "";
-    hazards = StringUtilities.globalStringDelete(hazards, "&nbsp;");
-    hazards = StringUtilities.globalStringReplace(hazards, "<br>", "|").trim();
-    Preferences.setString("_spacegateHazards", hazards);
-    if (print) {
-      RequestLogger.updateSessionLog("Hazards: " + hazards);
-    }
-
-    var terminalHazards = hazards;
-    String gear =
-        Arrays.stream(HAZARDS)
-            .filter(h -> terminalHazards.contains(h.terminal))
-            .map(h -> h.gear)
-            .collect(Collectors.joining("|"));
-
-    Preferences.setString("_spacegateGear", gear);
-    if (print) {
-      RequestLogger.updateSessionLog("Gear: " + gear);
-    }
-
-    m = QuestManager.SPACEGATE_PLANT_LIFE_PATTERN.matcher(text);
-    String plants =
-        m.find() ? m.group(1).trim() + (m.group(2) == null ? "" : (" " + m.group(2))) : "none";
-    Preferences.setString("_spacegatePlantLife", plants);
-    if (print) {
-      RequestLogger.updateSessionLog("Plant Life: " + plants);
-    }
-
-    m = QuestManager.SPACEGATE_ANIMAL_LIFE_PATTERN.matcher(text);
-    String animals =
-        m.find() ? m.group(1).trim() + (m.group(2) == null ? "" : (" " + m.group(2))) : "none";
-    Preferences.setString("_spacegateAnimalLife", animals);
-    if (print) {
-      RequestLogger.updateSessionLog("Animal Life: " + animals);
-    }
-
-    m = QuestManager.SPACEGATE_INTELLIGENT_LIFE_PATTERN.matcher(text);
-    String intelligent =
-        m.find() ? m.group(1).trim() + (m.group(2) == null ? "" : (" " + m.group(2))) : "none";
-    Preferences.setString("_spacegateIntelligentLife", intelligent);
-    if (print) {
-      RequestLogger.updateSessionLog("Intelligent Life: " + intelligent);
-    }
-
-    m = QuestManager.SPACEGATE_SPANT_PATTERN.matcher(text);
-    boolean spants = m.find();
-    Preferences.setBoolean("_spacegateSpant", spants);
-    if (print) {
-      RequestLogger.updateSessionLog("Spant chemical signature detected: " + spants);
-    }
-
-    m = QuestManager.SPACEGATE_MURDERBOT_PATTERN.matcher(text);
-    boolean murderbots = m.find();
-    Preferences.setBoolean("_spacegateMurderbot", murderbots);
-    if (print) {
-      RequestLogger.updateSessionLog("Murderbots frequencies detected: " + murderbots);
-    }
-
-    m = QuestManager.SPACEGATE_RUINS_PATTERN.matcher(text);
-    boolean ruins = m.find();
-    Preferences.setBoolean("_spacegateRuins", ruins);
-    if (print) {
-      RequestLogger.updateSessionLog("Ancient ruins detected: " + ruins);
-    }
-
-    m = QuestManager.SPACEGATE_TURNS_PATTERN.matcher(text);
-    String turns = m.find() ? m.group(1) : "0";
-    Preferences.setString("_spacegateTurnsLeft", turns);
-    if (print) {
-      RequestLogger.updateSessionLog("Spacegate turns left: " + turns);
     }
   }
 

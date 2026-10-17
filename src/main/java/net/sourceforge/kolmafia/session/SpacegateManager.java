@@ -1,16 +1,185 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandomSelection;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpacegateManager {
+  public static final Pattern SPACEGATE_PLANET_PATTERN =
+      Pattern.compile("<td>Current planet: Planet Name: ([^<]+)<br>");
+  public static final Pattern SPACEGATE_COORDINATES_PATTERN =
+      Pattern.compile("<br>Coordinates: ([^<]+)<br>");
+  public static final Pattern SPACEGATE_HAZARDS_PATTERN =
+      Pattern.compile("<br><p>Environmental Hazards:<[Bb]r>(.*)<br>Plant Life:", Pattern.DOTALL);
+  public static final Pattern SPACEGATE_PLANT_LIFE_PATTERN =
+      Pattern.compile(
+          "<br>Plant Life: (?:<font color=\\w+>)?([^<]+)(?:</font>)? ?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>");
+  public static final Pattern SPACEGATE_ANIMAL_LIFE_PATTERN =
+      Pattern.compile(
+          "<br>Animal Life: (?:<font color=\\w+>)?([^<]+)(?:</font>)? ?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>");
+  public static final Pattern SPACEGATE_INTELLIGENT_LIFE_PATTERN =
+      Pattern.compile(
+          "<br>Intelligent Life: (?:<font color=\\w+>)?([^<]+) ?(?:</font>)?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>");
+  public static final Pattern SPACEGATE_SPANT_PATTERN = Pattern.compile("<b>Spant</b>");
+  public static final Pattern SPACEGATE_MURDERBOT_PATTERN = Pattern.compile("<b>Murderbot</b>");
+  public static final Pattern SPACEGATE_RUINS_PATTERN =
+      Pattern.compile("<br>ALERT: ANCIENT RUINS DETECTED<br>");
+  public static final Pattern SPACEGATE_TURNS_PATTERN =
+      Pattern.compile("<p>Spacegate Energy remaining: <b><font size=\\+2>(\\d+) </font>");
+
+  public record Hazard(String terminal, String adventure, String gear) {}
+
+  public static final Hazard[] HAZARDS = {
+    new Hazard("toxic atmosphere", "Toxic environment", "filter helmet"),
+    new Hazard("high gravity", "Extremely high gravity", "exo-servo leg braces"),
+    new Hazard("irradiated", "High radiation levels", "rad cloak"),
+    new Hazard("magnetic storms", "High levels of magnetic interference", "gate transceiver"),
+    new Hazard("high winds", "Intense winds", "high-friction boots"),
+  };
+
+  static void handleSpacegateChange(final String location, final String responseText) {
+    if (!Preferences.getBoolean("spacegateAlways")) {
+      Preferences.setBoolean("_spacegateToday", true);
+    }
+    if (location.contains("action=sg_Terminal")) {
+      parseSpacegateTerminal(responseText, false);
+    }
+    if (location.startsWith("adventure.php")) {
+      parseSpacegateAdventure(responseText);
+    }
+  }
+
+  public static void parseSpacegateAdventure(final String text) {
+    // If we've already parsed the hazards, nothing to do here.
+    if (!Preferences.getString("_spacegateHazards").equals("")) {
+      return;
+    }
+    // Otherwise, this is from a portable spacegate.
+    // Parse hazards and needed equipment
+    Set<String> hazards = new HashSet<>();
+    Set<String> gear = new HashSet<>();
+
+    for (Hazard hazard : HAZARDS) {
+      if (text.contains(hazard.adventure)) {
+        hazards.add(hazard.terminal);
+        gear.add(hazard.gear);
+      }
+    }
+    Preferences.setString("_spacegateHazards", String.join("|", hazards));
+    Preferences.setString("_spacegateGear", String.join("|", gear));
+  }
+
+  public static void parseSpacegateTerminal(final String text, final boolean print) {
+    if (!text.contains("Spacegate Terminal")) {
+      return;
+    }
+
+    Matcher m = SPACEGATE_PLANET_PATTERN.matcher(text);
+    String name = m.find() ? m.group(1).trim() : "";
+    Preferences.setString("_spacegatePlanetName", name);
+    if (print) {
+      RequestLogger.updateSessionLog("Planet: " + name);
+    }
+
+    m = SPACEGATE_COORDINATES_PATTERN.matcher(text);
+    String coordinates = m.find() ? m.group(1).trim() : "";
+    Preferences.setString("_spacegateCoordinates", coordinates);
+    int index = coordinates.length() > 0 ? (coordinates.charAt(0) - 'A') : 0;
+    Preferences.setInteger("_spacegatePlanetIndex", Math.max(0, Math.min(25, index)));
+    if (print) {
+      RequestLogger.updateSessionLog("Coordinates: " + coordinates);
+    }
+
+    m = SPACEGATE_HAZARDS_PATTERN.matcher(text);
+    String hazards = m.find() ? m.group(1).trim() : "";
+    hazards = StringUtilities.globalStringDelete(hazards, "&nbsp;");
+    hazards = StringUtilities.globalStringReplace(hazards, "<br>", "|").trim();
+    Preferences.setString("_spacegateHazards", hazards);
+    if (print) {
+      RequestLogger.updateSessionLog("Hazards: " + hazards);
+    }
+
+    var terminalHazards = hazards;
+    String gear =
+        Arrays.stream(HAZARDS)
+            .filter(h -> terminalHazards.contains(h.terminal))
+            .map(h -> h.gear)
+            .collect(Collectors.joining("|"));
+
+    Preferences.setString("_spacegateGear", gear);
+    if (print) {
+      RequestLogger.updateSessionLog("Gear: " + gear);
+    }
+
+    m = SPACEGATE_PLANT_LIFE_PATTERN.matcher(text);
+    String plants =
+        m.find() ? m.group(1).trim() + (m.group(2) == null ? "" : (" " + m.group(2))) : "none";
+    Preferences.setString("_spacegatePlantLife", plants);
+    if (print) {
+      RequestLogger.updateSessionLog("Plant Life: " + plants);
+    }
+
+    m = SPACEGATE_ANIMAL_LIFE_PATTERN.matcher(text);
+    String animals =
+        m.find() ? m.group(1).trim() + (m.group(2) == null ? "" : (" " + m.group(2))) : "none";
+    Preferences.setString("_spacegateAnimalLife", animals);
+    if (print) {
+      RequestLogger.updateSessionLog("Animal Life: " + animals);
+    }
+
+    m = SPACEGATE_INTELLIGENT_LIFE_PATTERN.matcher(text);
+    String intelligent =
+        m.find() ? m.group(1).trim() + (m.group(2) == null ? "" : (" " + m.group(2))) : "none";
+    Preferences.setString("_spacegateIntelligentLife", intelligent);
+    if (print) {
+      RequestLogger.updateSessionLog("Intelligent Life: " + intelligent);
+    }
+
+    m = SPACEGATE_SPANT_PATTERN.matcher(text);
+    boolean spants = m.find();
+    Preferences.setBoolean("_spacegateSpant", spants);
+    if (print) {
+      RequestLogger.updateSessionLog("Spant chemical signature detected: " + spants);
+    }
+
+    m = SPACEGATE_MURDERBOT_PATTERN.matcher(text);
+    boolean murderbots = m.find();
+    Preferences.setBoolean("_spacegateMurderbot", murderbots);
+    if (print) {
+      RequestLogger.updateSessionLog("Murderbots frequencies detected: " + murderbots);
+    }
+
+    m = SPACEGATE_RUINS_PATTERN.matcher(text);
+    boolean ruins = m.find();
+    Preferences.setBoolean("_spacegateRuins", ruins);
+    if (print) {
+      RequestLogger.updateSessionLog("Ancient ruins detected: " + ruins);
+    }
+
+    m = SPACEGATE_TURNS_PATTERN.matcher(text);
+    String turns = m.find() ? m.group(1) : "0";
+    Preferences.setString("_spacegateTurnsLeft", turns);
+    if (print) {
+      RequestLogger.updateSessionLog("Spacegate turns left: " + turns);
+    }
+  }
+
+  // region Predict Planet Traits
+
   private static final List<String> GREEK_LETTERS =
       List.of(
           "Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta", "Iota", "Kappa",
@@ -369,7 +538,7 @@ public class SpacegateManager {
           "");
 
   private static final List<String> ENV_HAZARDS =
-      List.of("toxic atmosphere", "high gravity", "irradiated", "magnetic storms", "high winds");
+      Arrays.stream(HAZARDS).map(Hazard::terminal).toList();
 
   private static final List<String> ELEM_HAZARDS =
       List.of(
@@ -746,4 +915,6 @@ public class SpacegateManager {
       return 3;
     }
   }
+
+  // endregion
 }
