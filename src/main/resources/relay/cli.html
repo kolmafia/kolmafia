@@ -1,212 +1,323 @@
-<html><head>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KoLmafia gCLI</title>
-<script language="JavaScript" src="basics.js"></script>
-<link rel="stylesheet" type="text/css" href="http://images.kingdomofloathing.com/styles.css">
-
-<style type=text/css>
-
-	input.text, textarea
-	{
-		border: 1px black solid;
-		font-family: Arial, Helvetica,  sans-serif;
-		font-size: 10pt;
+<style>
+	:root {
+		--bg: #ffffff;
+		--fg: #111111;
+		--muted: #666666;
+		--border: #cccccc;
+		--input-bg: #ffffff;
+		--accent: #2a6ebb;
+		color-scheme: light;
 	}
 
-	input.button
-	{
-		border: 1px black solid;
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--bg: #1b1b1f;
+			--fg: #e4e4e7;
+			--muted: #9a9aa3;
+			--border: #3a3a42;
+			--input-bg: #26262c;
+			--accent: #7aa7e0;
+			color-scheme: dark;
+		}
+	}
+
+	body {
+		margin: 0;
+		background: var(--bg);
+		color: var(--fg);
+		font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", monospace;
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		height: 100dvh;
+		touch-action: manipulation;
+	}
+
+	header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 6px 10px;
+		border-bottom: 1px solid var(--border);
 		font-family: Arial, Helvetica, sans-serif;
-		font-size: 9pt;
-		font-weight: bold;
-		background-color: #FFFFFF;
+		font-size: 0.8rem;
 	}
 
-	body
-	{
-		padding: 0px;
-		overflow: hidden;
+	header b {
+		font-weight: 600;
 	}
 
-	a
-	{
-		text-decoration: none;
+	header a {
+		color: var(--fg);
 	}
 
-	.toggledisplay
-	{
-		position: absolute;
-		top: 2px;
-		left: 3px;
-		padding: 2px;
-		font-size: 12px;
-		border: none;
-		text-align: center;
+	#log {
+		flex: 1;
+		min-height: 0;
+		overflow-y: auto;
+		padding: 6px 10px;
+		overflow-wrap: anywhere;
 	}
 
-	.cmddisplay
-	{
-		position: absolute;
-		top: 2px;
-		left: 3px;
-		padding: 2px 2px;
-		font-family: arial;
-		font-size: 12px;
-		border: 1px solid black;
-		overflow: auto;
+	form {
+		display: flex;
+		gap: 6px;
+		padding: 6px 10px;
+		border-top: 1px solid var(--border);
+		background: var(--bg);
 	}
 
-	.inputform
-	{
-		position: absolute;
-		top: 2px;
-		left: 3px;
-		padding: 2px 2px;
-		border: none;
-		text-align: center;
+	input[type="text"] {
+		flex: 1;
+		min-width: 0;
+		padding: 10px 8px;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		color: var(--fg);
+		background: var(--input-bg);
+		border: 1px solid var(--border);
+		border-radius: 4px;
 	}
 
+	input[type="text"]:focus {
+		outline: 2px solid var(--accent);
+		outline-offset: -1px;
+	}
+
+	button {
+		padding: 10px 14px;
+		font: bold 10pt Arial, Helvetica, sans-serif;
+		color: var(--fg);
+		background: var(--input-bg);
+		border: 1px solid var(--border);
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	button:hover {
+		border-color: var(--accent);
+	}
+
+	#abort {
+		display: none;
+	}
+
+	@media (pointer: coarse) {
+		#abort {
+			display: inline-block;
+		}
+	}
 </style>
+</head>
+<body>
 
-<script language=Javascript>
+<header>
+	<b>KoLmafia gCLI</b>
+	<a href="/chatlaunch.php">Announcements</a>
+</header>
 
-	var initwidth = 0;
-	var initheight = 0;
-	var timeout = 0;
+<div id="log" role="log" aria-live="polite"></div>
 
-	function initSizes()
+<form id="cmdform" autocomplete="off">
+	<input type="text" id="cmd" name="cmd" maxlength="200" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send" aria-label="KoLmafia command">
+	<button type="button" id="abort">abort</button>
+	<button type="submit">exec</button>
+</form>
+
+<script>
+	var MAX_LOG_NODES = 2000;
+	var HISTORY_KEY = "gcli.history";
+	var HISTORY_LIMIT = 200;
+	var LONG_POLL_TIMEOUT_MS = 25000;
+
+	var log = document.getElementById( "log" );
+	var form = document.getElementById( "cmdform" );
+	var input = document.getElementById( "cmd" );
+
+	var since = null;
+	var refresh = 0;
+	var failures = 0;
+
+	var commandHistory = loadHistory();
+	var historyIndex = commandHistory.length;
+	var draft = "";
+
+	function loadHistory()
 	{
-		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
+		try
 		{
-			initwidth = document.body.offsetWidth - 7;
+			var saved = JSON.parse( sessionStorage.getItem( HISTORY_KEY ) );
+			return Array.isArray( saved ) ? saved : [];
 		}
-		else
+		catch ( e )
 		{
-			initwidth = self.innerWidth - 10;
+			return [];
 		}
-
-		document.getElementById( "CmdWindow" ).style.width = initwidth;
-		document.getElementById( "InputForm" ).style.width = initwidth;
-		document.getElementById( "ToggleDisplay" ).style.width = initwidth;
-
-		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
-		{
-			initheight = document.body.clientHeight + 10 -
-				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
-		}
-		else
-		{
-			initheight = document.body.clientHeight -
-				document.getElementById( "ToggleDisplay" ).offsetHeight - document.getElementById( "InputForm" ).offsetHeight;
-		}
-
-		document.getElementById( "CmdWindow" ).style.height = initheight;
-		document.getElementById( "CmdWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
-		document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight +
-			document.getElementById( "CmdWindow" ).offsetHeight + 6;
 	}
 
-	var requests = new Array();
-	var commands = new Array();
-	var commandCount = 0;
-	var isRefreshing = false;
-
-	function checkForKeyEvent( e )
+	function saveHistory()
 	{
-		var key = window.event ? e.keyCode : e.which;
-
-		if ( key == 13 )
-			submitCommand();
-
-		if ( key == 38 && commandCount > 0 )
-			document.cmdform.cmd.value = commands[ --commandCount ];
-
-		if ( key == 40 && commandCount + 1 < commands.length )
-			document.cmdform.cmd.value = commands[ ++commandCount ];
-
-		// Safari processes the key event twice; in order
-		// to make sure this doesn't cause problems, you
-		// will need to stop the propogation for each event.
-
-		if ( e.stopPropagation )
-			e.stopPropagation();
-	};
-
-	function getCLIUpdate()
-	{
-		var display = document.getElementById( "CmdWindow" );
-		var httpObject = getHttpObject();
-
-		if ( !httpObject )
-			return true;
-
-		httpObject.onreadystatechange = function()
+		try
 		{
-			if ( httpObject.readyState != 4 )
-				return;
+			sessionStorage.setItem( HISTORY_KEY, JSON.stringify( commandHistory ) );
+		}
+		catch ( e )
+		{
+		}
+	}
 
-			updateDisplay( display, httpObject.responseText );
-		};
-
-		httpObject.open( "GET", "/KoLmafia/messageUpdate?MAFIAHIT", true );
-		httpObject.send( "" );
-
-		setTimeout( getCLIUpdate, 4000 );
-		return true;
-	};
-
-
-	function submitCommand()
+	function isNearBottom()
 	{
-		var display = document.getElementById( "CmdWindow" );
-		var command = document.cmdform.cmd.value;
-		document.cmdform.cmd.value = "";
+		return log.scrollHeight - log.scrollTop - log.clientHeight < 40;
+	}
 
-		if ( command == "" )
-			return true;
+	function appendLines( html )
+	{
+		var atBottom = isNearBottom();
+		log.insertAdjacentHTML( "beforeend", html );
 
-		commandCount = commands.push( command );
+		while ( log.childNodes.length > MAX_LOG_NODES )
+			log.removeChild( log.firstChild );
 
+		if ( atBottom )
+			log.scrollTop = log.scrollHeight;
+	}
+
+	function clearLog()
+	{
+		log.innerHTML = "";
+	}
+
+	function sleep( ms )
+	{
+		return new Promise( function( resolve ) { setTimeout( resolve, ms ); } );
+	}
+
+	async function pollLoop()
+	{
+		while ( true )
+		{
+			var url = since === null
+				? "/KoLmafia/messageUpdate?MAFIAHIT"
+				: "/KoLmafia/messageUpdate?since=" + since + "&refresh=" + refresh + "&MAFIAHIT";
+
+			try
+			{
+				var controller = new AbortController();
+				var timer = setTimeout( function() { controller.abort(); }, LONG_POLL_TIMEOUT_MS + 5000 );
+				var response = await fetch( url, { cache: "no-store", signal: controller.signal } );
+				clearTimeout( timer );
+
+				if ( !response.ok )
+					throw new Error( "HTTP " + response.status );
+
+				var data = await response.json();
+				var reloadSidebar = since !== null && data.refresh !== refresh;
+				since = data.head;
+				refresh = data.refresh;
+				appendLines( data.events.join( "" ) );
+				if ( reloadSidebar && window.top && window.top.charpane )
+					window.top.charpane.location.reload();
+				failures = 0;
+			}
+			catch ( e )
+			{
+				failures++;
+				await sleep( Math.min( 1000 * Math.pow( 2, failures ), 15000 ) );
+			}
+		}
+	}
+
+	async function submitCommand( command )
+	{
 		if ( command == "clear" || command == "cls" || command == "reset" )
 		{
-			display.innerHTML = "";
-			return true;
+			clearLog();
+			return;
 		}
 
-		display.style.width = initwidth;
-		display.scrollTop = display.scrollHeight;
+		try
+		{
+			var response = await fetch( "/KoLmafia/submitCommand?cmd=" + encodeURIComponent( command ) + "&MAFIAHIT",
+				{ cache: "no-store" } );
+			if ( !response.ok )
+				throw new Error( "HTTP " + response.status );
+		}
+		catch ( e )
+		{
+			var escaped = document.createElement( "span" );
+			escaped.textContent = "Could not send \"" + command + "\": " + e.message;
+			appendLines( "<div style=\"color:red\">" + escaped.innerHTML + "</div>" );
+		}
+	}
 
-		var httpObject = getHttpObject();
-		if ( !httpObject )
-			return true;
+	form.addEventListener( "submit", function( event )
+	{
+		event.preventDefault();
 
-		executed = false;
+		var command = input.value.trim();
+		input.value = "";
+		draft = "";
 
-		httpObject.open( "GET", "/KoLmafia/submitCommand?cmd=" + URLEncode( command ) + "&MAFIAHIT", true );
-		httpObject.send( "" );
+		if ( command == "" )
+			return;
 
-		document.cmdform.cmd.focus();
-		return true;
-	};
+		if ( commandHistory[ commandHistory.length - 1 ] != command )
+		{
+			commandHistory.push( command );
+			if ( commandHistory.length > HISTORY_LIMIT )
+				commandHistory.shift();
+			saveHistory();
+		}
+		historyIndex = commandHistory.length;
 
+		submitCommand( command );
+		input.focus();
+	} );
+
+	input.addEventListener( "keydown", function( event )
+	{
+		if ( event.key == "ArrowUp" && historyIndex > 0 )
+		{
+			event.preventDefault();
+			if ( historyIndex == commandHistory.length )
+				draft = input.value;
+			historyIndex--;
+			input.value = commandHistory[ historyIndex ];
+		}
+		else if ( event.key == "ArrowDown" && historyIndex < commandHistory.length )
+		{
+			event.preventDefault();
+			historyIndex++;
+			input.value = historyIndex == commandHistory.length ? draft : commandHistory[ historyIndex ];
+		}
+		else if ( event.key == "l" && ( event.ctrlKey || event.metaKey ) )
+		{
+			event.preventDefault();
+			clearLog();
+		}
+		else if ( event.key == "Escape" )
+		{
+			event.preventDefault();
+			submitCommand( "abort" );
+		}
+	} );
+
+	document.getElementById( "abort" ).addEventListener( "click", function()
+	{
+		submitCommand( "abort" );
+	} );
+
+	input.focus();
+	pollLoop();
 </script>
 
-</head>
-
-
- <body link=black alink=black vlink=black onLoad="initSizes(); getCLIUpdate();" onResize="initSizes();">
-
-	<div id="ToggleDisplay" class=toggledisplay>
-		<b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]
-	</div>
-	<div id="CmdWindow" class=cmddisplay></div>
-
-	 <div id="InputForm" class=inputform>
-	 	<center>
-	 		<form name=cmdform onSubmit='return false;'>
-				 <input style="width: 70%" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
-				 <input class=button type=button onClick="submitCommand();" value="exec">
-	 		</form>
-	 	</center>
-	 </div>
- </body>
+</body>
 </html>

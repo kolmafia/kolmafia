@@ -4,7 +4,6 @@ function basementUpdate( command )
 	if ( !httpObject )
 		return;
 
-	isRefreshing = true;
 	httpObject.onreadystatechange = function()
 	{
 		if ( httpObject.readyState != 4 )
@@ -19,7 +18,6 @@ function basementUpdate( command )
 				httpObject.responseText.substring( bodyBegin, bodyEnd );
 		}
 
-		isRefreshing = false;
 		document.location.href = "basement.php";
 	}
 
