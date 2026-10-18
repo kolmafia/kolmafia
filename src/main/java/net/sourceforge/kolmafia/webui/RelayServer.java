@@ -4,30 +4,46 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RelayServer implements Runnable {
   public static final Set<RelayAgent> agentThreads = new HashSet<>();
 
-  private static long lastStatusMessage = 0;
   private static Thread relayThread = null;
 
   private ServerSocket serverSocket = null;
   private static int port = 60080;
   private static boolean listening = false;
-  private static boolean updateStatus = false;
+
+  private static final int CAPACITY = 2000;
+  private static final int INITIAL_LINES = 100;
+  private static final long MAX_WAIT_MS = 25_000;
+  private static final long LISTENER_TIMEOUT_MS = 30_000;
+
+  private static final Object MESSAGE_LOCK = new Object();
+  private static final RollingLinkedList<Event> MESSAGES = new RollingLinkedList<>(CAPACITY);
+  private static long lastMessageSeq = 0;
+  private static long lastPollTime = 0;
+  private static long refreshCount = 0;
+
+  public record Event(long seq, String html) {}
+
+  public record Batch(long head, long refresh, List<Event> events) {}
 
   private static final RelayServer INSTANCE = new RelayServer();
-  private static final StringBuffer statusMessages = new StringBuffer();
 
-  private RelayServer() {
+  static {
     for (int i = 0; i < KoLConstants.RELAY_FILES.length; ++i) {
       FileUtilities.loadLibrary(
           KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, KoLConstants.RELAY_FILES[i]);
@@ -35,9 +51,7 @@ public class RelayServer implements Runnable {
     Preferences.setString("lastRelayUpdate", StaticEntity.getVersion());
   }
 
-  public static final void updateStatus() {
-    RelayServer.updateStatus = true;
-  }
+  private RelayServer() {}
 
   public static final synchronized void startThread() {
     if (RelayServer.relayThread == null) {
@@ -201,21 +215,59 @@ public class RelayServer implements Runnable {
   }
 
   public static final void addStatusMessage(final String message) {
-    if (System.currentTimeMillis() - RelayServer.lastStatusMessage < 4000) {
-      RelayServer.statusMessages.append(message);
+    synchronized (MESSAGE_LOCK) {
+      if (System.currentTimeMillis() - lastPollTime > LISTENER_TIMEOUT_MS) {
+        return;
+      }
+      MESSAGES.add(new Event(++lastMessageSeq, message));
+      MESSAGE_LOCK.notifyAll();
     }
   }
 
-  public static final String getNewStatusMessages() {
-    if (RelayServer.updateStatus) {
-      RelayServer.updateStatus = false;
-      RelayServer.statusMessages.append("<!-- REFRESH -->");
+  public static final void updateStatus() {
+    synchronized (MESSAGE_LOCK) {
+      ++refreshCount;
+      MESSAGE_LOCK.notifyAll();
     }
+  }
 
-    String newMessages = RelayServer.statusMessages.toString();
-    RelayServer.statusMessages.setLength(0);
+  public static Batch pollMessages(final Long since, final long refresh)
+      throws InterruptedException {
+    synchronized (MESSAGE_LOCK) {
+      lastPollTime = System.currentTimeMillis();
 
-    RelayServer.lastStatusMessage = System.currentTimeMillis();
-    return newMessages;
+      if (since == null) {
+        return new Batch(lastMessageSeq, refreshCount, messagesSince(0, INITIAL_LINES));
+      }
+
+      if (since > lastMessageSeq) {
+        return new Batch(lastMessageSeq, refreshCount, messagesSince(0, CAPACITY));
+      }
+
+      var deadline = System.currentTimeMillis() + MAX_WAIT_MS;
+      while (lastMessageSeq <= since && refreshCount == refresh) {
+        var remaining = deadline - System.currentTimeMillis();
+        if (remaining <= 0) {
+          break;
+        }
+        MESSAGE_LOCK.wait(remaining);
+      }
+
+      return new Batch(lastMessageSeq, refreshCount, messagesSince(since, CAPACITY));
+    }
+  }
+
+  private static List<Event> messagesSince(final long since, final int limit) {
+    var result = new ArrayList<Event>();
+    var it = MESSAGES.descendingIterator();
+    while (it.hasNext() && result.size() < limit) {
+      var event = it.next();
+      if (event.seq() <= since) {
+        break;
+      }
+      result.add(event);
+    }
+    Collections.reverse(result);
+    return result;
   }
 }

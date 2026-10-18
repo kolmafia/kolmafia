@@ -3539,7 +3539,7 @@ public class RelayRequest extends PasswordHashRequest {
       submitCommand("logout");
       this.pseudoResponse("HTTP/1.1 302 Found", "/loggedout.php");
     } else if (path.endsWith("messageUpdate")) {
-      this.pseudoResponse("HTTP/1.1 200 OK", RelayServer.getNewStatusMessages());
+      this.handleCliEvents();
     } else if (path.endsWith("lookupLocation")) {
       RelayRequest.lastSafety =
           AdventureDatabase.getAdventureByURL(
@@ -3550,6 +3550,33 @@ public class RelayRequest extends PasswordHashRequest {
       this.handleSafety();
     } else {
       this.pseudoResponse("HTTP/1.1 200 OK", "");
+    }
+  }
+
+  private void handleCliEvents() {
+    var sinceField = this.getFormField("since", false);
+    try {
+      var since = sinceField == null ? null : Long.parseLong(sinceField);
+      var refresh = since == null ? 0 : Long.parseLong(this.getFormField("refresh", false));
+      var batch = RelayServer.pollMessages(since, refresh);
+
+      var events = new JSONArray();
+      for (var event : batch.events()) {
+        events.add(event.html());
+      }
+
+      var response = new JSONObject();
+      response.put("head", batch.head());
+      response.put("refresh", batch.refresh());
+      response.put("events", events);
+
+      this.contentType = "application/json";
+      this.pseudoResponse("HTTP/1.1 200 OK", JSON.toJSONString(response));
+    } catch (NumberFormatException e) {
+      this.pseudoResponse("HTTP/1.1 400 Bad Request", "");
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      this.pseudoResponse("HTTP/1.1 503 Service Unavailable", "");
     }
   }
 
