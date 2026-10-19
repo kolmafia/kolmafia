@@ -39,7 +39,7 @@ public class RelayServer implements Runnable {
 
   public record Event(long seq, String html) {}
 
-  public record Batch(long head, long refresh, List<Event> events) {}
+  public record Batch(long head, long refresh, long skipped, List<Event> events) {}
 
   private static final RelayServer INSTANCE = new RelayServer();
 
@@ -237,11 +237,11 @@ public class RelayServer implements Runnable {
       lastPollTime = System.currentTimeMillis();
 
       if (since == null) {
-        return new Batch(lastMessageSeq, refreshCount, messagesSince(0, INITIAL_LINES));
+        return new Batch(lastMessageSeq, refreshCount, 0, messagesSince(0, INITIAL_LINES));
       }
 
       if (since > lastMessageSeq) {
-        return new Batch(lastMessageSeq, refreshCount, messagesSince(0, CAPACITY));
+        return new Batch(lastMessageSeq, refreshCount, 0, messagesSince(0, CAPACITY));
       }
 
       var deadline = System.currentTimeMillis() + MAX_WAIT_MS;
@@ -253,7 +253,8 @@ public class RelayServer implements Runnable {
         MESSAGE_LOCK.wait(remaining);
       }
 
-      return new Batch(lastMessageSeq, refreshCount, messagesSince(since, CAPACITY));
+      var skipped = MESSAGES.isEmpty() ? 0 : Math.max(0, MESSAGES.getFirst().seq() - since - 1);
+      return new Batch(lastMessageSeq, refreshCount, skipped, messagesSince(since, CAPACITY));
     }
   }
 

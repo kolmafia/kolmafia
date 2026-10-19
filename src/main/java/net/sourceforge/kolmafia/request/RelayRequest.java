@@ -3568,6 +3568,7 @@ public class RelayRequest extends PasswordHashRequest {
       var response = new JSONObject();
       response.put("head", batch.head());
       response.put("refresh", batch.refresh());
+      response.put("skipped", batch.skipped());
       response.put("events", events);
 
       this.contentType = "application/json";

@@ -116,4 +116,17 @@ public class RelayServerMessagesTest {
 
     assertThat(htmlOf(batch), hasItem("recent"));
   }
+
+  @Test
+  public void reportsLinesEvictedBeforeThePollAsSkipped() throws InterruptedException {
+    long start = head();
+    for (int i = 0; i < 2100; i++) {
+      RelayServer.addStatusMessage("burst " + i);
+    }
+
+    RelayServer.Batch batch = RelayServer.pollMessages(start, refresh());
+
+    assertThat(batch.skipped(), equalTo(100L));
+    assertThat(batch.events(), hasSize(2000));
+  }
 }

@@ -222,6 +222,8 @@
 				var reloadSidebar = since !== null && data.refresh !== refresh;
 				since = data.head;
 				refresh = data.refresh;
+				if ( data.skipped > 0 )
+					appendLines( "<div style=\"color:red\">" + data.skipped + " lines skipped (too much output between updates)</div>" );
 				appendLines( data.events.join( "" ) );
 				if ( reloadSidebar && window.top && window.top.charpane )
 					window.top.charpane.location.reload();
