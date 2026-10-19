@@ -190,6 +190,13 @@
 			log.scrollTop = log.scrollHeight;
 	}
 
+	function appendError( text )
+	{
+		var escaped = document.createElement( "span" );
+		escaped.textContent = text;
+		appendLines( "<div style=\"color:red\">" + escaped.innerHTML + "</div>" );
+	}
+
 	function clearLog()
 	{
 		log.innerHTML = "";
@@ -223,7 +230,7 @@
 				since = data.head;
 				refresh = data.refresh;
 				if ( data.skipped > 0 )
-					appendLines( "<div style=\"color:red\">" + data.skipped + " lines skipped (too much output between updates)</div>" );
+					appendError( data.skipped + " lines skipped (too much output between updates)" );
 				appendLines( data.events.join( "" ) );
 				if ( reloadSidebar && window.top && window.top.charpane )
 					window.top.charpane.location.reload();
@@ -254,9 +261,7 @@
 		}
 		catch ( e )
 		{
-			var escaped = document.createElement( "span" );
-			escaped.textContent = "Could not send \"" + command + "\": " + e.message;
-			appendLines( "<div style=\"color:red\">" + escaped.innerHTML + "</div>" );
+			appendError( "Could not send \"" + command + "\": " + e.message );
 		}
 	}
 

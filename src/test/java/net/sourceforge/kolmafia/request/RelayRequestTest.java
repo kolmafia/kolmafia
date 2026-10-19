@@ -922,9 +922,9 @@ public class RelayRequestTest {
     public void messageUpdateReturnsLinesAsStringsWithHeadAndRefresh() throws Exception {
       var cleanups = withPasswordHash("xxxx");
       try (cleanups) {
-        RelayServer.pollMessages(null, 0);
-        var since = RelayServer.pollMessages(null, 0).head();
-        var refresh = RelayServer.pollMessages(null, 0).refresh();
+        var initial = RelayServer.pollMessages(null, 0);
+        var since = initial.head();
+        var refresh = initial.refresh();
         RelayServer.addStatusMessage("hello");
 
         var rr = new RelayRequest(false);

@@ -3574,7 +3574,7 @@ public class RelayRequest extends PasswordHashRequest {
       this.contentType = "application/json";
       this.pseudoResponse("HTTP/1.1 200 OK", JSON.toJSONString(response));
     } catch (NumberFormatException e) {
-      this.pseudoResponse("HTTP/1.1 400 Bad Request", "");
+      jsonError("Invalid since or refresh");
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       this.pseudoResponse("HTTP/1.1 503 Service Unavailable", "");

@@ -43,15 +43,13 @@ public class RelayServer implements Runnable {
 
   private static final RelayServer INSTANCE = new RelayServer();
 
-  static {
+  private RelayServer() {
     for (int i = 0; i < KoLConstants.RELAY_FILES.length; ++i) {
       FileUtilities.loadLibrary(
           KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, KoLConstants.RELAY_FILES[i]);
     }
     Preferences.setString("lastRelayUpdate", StaticEntity.getVersion());
   }
-
-  private RelayServer() {}
 
   public static final synchronized void startThread() {
     if (RelayServer.relayThread == null) {
@@ -236,12 +234,9 @@ public class RelayServer implements Runnable {
     synchronized (MESSAGE_LOCK) {
       lastPollTime = System.currentTimeMillis();
 
-      if (since == null) {
-        return new Batch(lastMessageSeq, refreshCount, 0, messagesSince(0, INITIAL_LINES));
-      }
-
-      if (since > lastMessageSeq) {
-        return new Batch(lastMessageSeq, refreshCount, 0, messagesSince(0, CAPACITY));
+      if (since == null || since > lastMessageSeq) {
+        var limit = since == null ? INITIAL_LINES : CAPACITY;
+        return new Batch(lastMessageSeq, refreshCount, 0, messagesSince(0, limit));
       }
 
       var deadline = System.currentTimeMillis() + MAX_WAIT_MS;
