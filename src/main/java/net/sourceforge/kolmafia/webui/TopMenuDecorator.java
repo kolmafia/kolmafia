@@ -71,7 +71,7 @@ public abstract class TopMenuDecorator {
           + " width=30 height=30 alt=\"gCLI\" title=\"gCLI\" border=0></a>"
           + "<script type=\"text/javascript\">"
           + "jQuery(function ($) {"
-          + "$('.chat').click(function () { top.$('#gclipaneholder').hide(); });"
+          + "$('.menuitem').not('.gcli').click(function () { top.$('#gclipaneholder').hide(); });"
           + "$('.gcli').click(function () {"
           + "var holder = top.$('#gclipaneholder');"
           + "if (!holder.length) {"

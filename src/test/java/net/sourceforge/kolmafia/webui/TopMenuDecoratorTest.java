@@ -252,6 +252,18 @@ class TopMenuDecoratorTest {
     }
 
     @Test
+    void gcliPanelHidesOnAnyMenuItemTap() {
+      var cleanups = new Cleanups(withProperty("relayAddsGraphicalCLI", true));
+      try (cleanups) {
+        String input = html("request/test_mobile_topmenu.html");
+        String output = RequestEditorKit.getFeatureRichHTML("topmenu.php", input);
+
+        assertThat(output, containsString("$('.menuitem').not('.gcli').click("));
+        assertThat(output, not(containsString("$('.chat').click(function")));
+      }
+    }
+
+    @Test
     void noGcliButtonWithoutRelayAddsGraphicalCLI() {
       var cleanups = new Cleanups(withProperty("relayAddsGraphicalCLI", false));
       try (cleanups) {
