@@ -75,6 +75,25 @@ class ArcadeRequestTest {
   }
 
   @Nested
+  class DemonStarUnusualMoves {
+    private static String moveLog(String direction) {
+      var request = new GenericRequest("choice.php?whichchoice=471&option=1&" + direction);
+      request.responseText = "";
+      return withCapturedLogs(() -> ArcadeRequest.postChoiceDemonStar(request, 1));
+    }
+
+    @Test
+    public void movesOutsideTheGridAreNotNamed() {
+      try (var visit = Player.withChoice(471, html("request/test_arcade_demonstar_entry.html"))) {
+        assertThat(moveLog("mv=10,0"), equalTo(""));
+        assertThat(moveLog("mv=0,10"), equalTo(""));
+        assertThat(moveLog("mv=-1,10"), equalTo(""));
+        assertThat(moveLog("mv=1,10"), equalTo(""));
+      }
+    }
+  }
+
+  @Nested
   class MeteoidSpaceMallClose {
     @Test
     public void closingTheShopLogsNothing() {
@@ -256,6 +275,60 @@ class ArcadeRequestTest {
       assertThat(
           logs,
           equalTo("Action: Self Destruct\nTotal Score: 1,186\nYou acquire Game Grid ticket (5)"));
+    }
+  }
+
+  @Nested
+  class DemonStar {
+    @Test
+    public void movingLogsTheDirection() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(471, html("request/test_arcade_demonstar_entry.html"));
+                    var move =
+                        Player.withChoice(
+                            471,
+                            1,
+                            "mv=-1,-1",
+                            html("request/test_arcade_demonstar_northwest.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Move northwest"));
+    }
+
+    @Test
+    public void warriorShipIsLogged() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(471, html("request/test_arcade_demonstar_entry.html"));
+                    var move =
+                        Player.withChoice(
+                            471,
+                            1,
+                            "mv=-1,1",
+                            html("request/test_arcade_demonstar_warrior.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Move southwest\nEncounter: a warrior"));
+    }
+
+    @Test
+    public void walkingAwayReportsTheFailedScore() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(471, html("request/test_arcade_demonstar_entry.html"));
+                    var end =
+                        Player.withChoice(
+                            471, 6, null, html("request/test_arcade_demonstar_walk_away.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Walk Away\nYOU HAVE FAILED. FINAL SCORE 0"));
     }
   }
 }
