@@ -17,15 +17,11 @@ public class RelayServerMessagesTest {
 
   @BeforeEach
   public void openListener() throws InterruptedException {
-    RelayServer.pollMessages(null, 0);
+    now();
   }
 
-  private static long head() throws InterruptedException {
-    return RelayServer.pollMessages(null, 0).head();
-  }
-
-  private static long refresh() throws InterruptedException {
-    return RelayServer.pollMessages(null, 0).refresh();
+  private static RelayServer.Batch now() throws InterruptedException {
+    return RelayServer.pollMessages(null, 0);
   }
 
   private static List<String> htmlOf(final RelayServer.Batch batch) {
@@ -34,11 +30,11 @@ public class RelayServerMessagesTest {
 
   @Test
   public void pollReturnsOnlyMessagesNewerThanSince() throws InterruptedException {
-    var start = head();
+    var start = now().head();
     RelayServer.addStatusMessage("first");
     RelayServer.addStatusMessage("second");
 
-    var batch = RelayServer.pollMessages(start, refresh());
+    var batch = RelayServer.pollMessages(start, now().refresh());
 
     assertThat(htmlOf(batch), contains("first", "second"));
     assertThat(batch.head(), equalTo(start + 2));
@@ -46,23 +42,23 @@ public class RelayServerMessagesTest {
 
   @Test
   public void linesAddedBeforeAPollAreNotDropped() throws InterruptedException {
-    var start = head();
+    var start = now().head();
     for (int i = 0; i < 50; i++) {
       RelayServer.addStatusMessage("line " + i);
     }
 
-    var batch = RelayServer.pollMessages(start, refresh());
+    var batch = RelayServer.pollMessages(start, now().refresh());
 
     assertThat(batch.events(), hasSize(50));
   }
 
   @Test
   public void pollWaitsForNewMessages() throws Exception {
-    var start = head();
-    var startRefresh = refresh();
+    var snapshot = now();
     var pool = Executors.newSingleThreadExecutor();
     try {
-      var waiting = pool.submit(() -> RelayServer.pollMessages(start, startRefresh));
+      var waiting =
+          pool.submit(() -> RelayServer.pollMessages(snapshot.head(), snapshot.refresh()));
 
       Thread.sleep(100);
       RelayServer.addStatusMessage("late");
@@ -76,31 +72,30 @@ public class RelayServerMessagesTest {
 
   @Test
   public void updateStatusBumpsRefreshCounter() throws InterruptedException {
-    var before = refresh();
+    var before = now().refresh();
     RelayServer.updateStatus();
     RelayServer.updateStatus();
 
-    assertThat(refresh(), equalTo(before + 2));
+    assertThat(now().refresh(), equalTo(before + 2));
   }
 
   @Test
   public void refreshDoesNotAppearAmongLines() throws InterruptedException {
-    var start = head();
-    var before = refresh();
+    var snapshot = now();
     RelayServer.updateStatus();
 
-    var batch = RelayServer.pollMessages(start, before);
+    var batch = RelayServer.pollMessages(snapshot.head(), snapshot.refresh());
 
     assertThat(batch.events(), hasSize(0));
-    assertThat(batch.refresh(), equalTo(before + 1));
+    assertThat(batch.refresh(), equalTo(snapshot.refresh() + 1));
   }
 
   @Test
   public void sinceAheadOfHeadReturnsWholeBufferAfterRestart() throws InterruptedException {
     RelayServer.addStatusMessage("after restart");
-    var current = head();
+    var current = now().head();
 
-    var batch = RelayServer.pollMessages(current + 1000, refresh());
+    var batch = RelayServer.pollMessages(current + 1000, now().refresh());
 
     assertThat(htmlOf(batch), hasItem("after restart"));
   }
@@ -109,19 +104,19 @@ public class RelayServerMessagesTest {
   public void freshLoadReturnsRecentLinesWithoutWaiting() throws InterruptedException {
     RelayServer.addStatusMessage("recent");
 
-    var batch = RelayServer.pollMessages(null, 0);
+    var batch = now();
 
     assertThat(htmlOf(batch), hasItem("recent"));
   }
 
   @Test
   public void reportsLinesEvictedBeforeThePollAsSkipped() throws InterruptedException {
-    var start = head();
+    var start = now().head();
     for (int i = 0; i < 2100; i++) {
       RelayServer.addStatusMessage("burst " + i);
     }
 
-    var batch = RelayServer.pollMessages(start, refresh());
+    var batch = RelayServer.pollMessages(start, now().refresh());
 
     assertThat(batch.skipped(), equalTo(100L));
     assertThat(batch.events(), hasSize(2000));

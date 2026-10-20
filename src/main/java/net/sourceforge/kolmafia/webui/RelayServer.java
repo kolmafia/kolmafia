@@ -248,8 +248,9 @@ public class RelayServer implements Runnable {
         MESSAGE_LOCK.wait(remaining);
       }
 
-      var skipped = MESSAGES.isEmpty() ? 0 : Math.max(0, MESSAGES.getFirst().seq() - since - 1);
-      return new Batch(lastMessageSeq, refreshCount, skipped, messagesSince(since, CAPACITY));
+      var events = messagesSince(since, CAPACITY);
+      var skipped = lastMessageSeq - since - events.size();
+      return new Batch(lastMessageSeq, refreshCount, skipped, events);
     }
   }
 

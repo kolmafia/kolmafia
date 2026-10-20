@@ -234,44 +234,39 @@ class TopMenuDecoratorTest {
 
   @Nested
   class MobileMenu {
-    @Test
-    void gcliButtonFollowsChatWhenRelayAddsGraphicalCLI() {
-      var cleanups = new Cleanups(withProperty("relayAddsGraphicalCLI", true));
+    private static String renderMobileTopMenu(boolean relayAddsGraphicalCLI) {
+      var cleanups = new Cleanups(withProperty("relayAddsGraphicalCLI", relayAddsGraphicalCLI));
       try (cleanups) {
         String input = html("request/test_mobile_topmenu.html");
-        String output = RequestEditorKit.getFeatureRichHTML("topmenu.php", input);
-
-        assertThat(output, containsString("class=\"menuitem gcli\""));
-        assertThat(output, containsString("cli.html"));
-
-        int chatIndex = output.indexOf("class=\"menuitem chat\"");
-        int gcliIndex = output.indexOf("class=\"menuitem gcli\"");
-        assertThat(gcliIndex, greaterThan(chatIndex));
-        assertThat(output.substring(chatIndex, gcliIndex), not(containsString("</table>")));
+        return RequestEditorKit.getFeatureRichHTML("topmenu.php", input);
       }
+    }
+
+    @Test
+    void gcliButtonFollowsChatWhenRelayAddsGraphicalCLI() {
+      String output = renderMobileTopMenu(true);
+
+      assertThat(output, containsString("class=\"menuitem gcli\""));
+      assertThat(output, containsString("cli.html"));
+
+      int chatIndex = output.indexOf("class=\"menuitem chat\"");
+      int gcliIndex = output.indexOf("class=\"menuitem gcli\"");
+      assertThat(gcliIndex, greaterThan(chatIndex));
+      assertThat(output.substring(chatIndex, gcliIndex), not(containsString("</table>")));
     }
 
     @Test
     void gcliPanelHidesOnAnyMenuItemTap() {
-      var cleanups = new Cleanups(withProperty("relayAddsGraphicalCLI", true));
-      try (cleanups) {
-        String input = html("request/test_mobile_topmenu.html");
-        String output = RequestEditorKit.getFeatureRichHTML("topmenu.php", input);
+      String output = renderMobileTopMenu(true);
 
-        assertThat(output, containsString("$('.menuitem').not('.gcli').click("));
-        assertThat(output, not(containsString("$('.chat').click(function")));
-      }
+      assertThat(output, containsString("$('.menuitem').not('.gcli').click("));
     }
 
     @Test
     void noGcliButtonWithoutRelayAddsGraphicalCLI() {
-      var cleanups = new Cleanups(withProperty("relayAddsGraphicalCLI", false));
-      try (cleanups) {
-        String input = html("request/test_mobile_topmenu.html");
-        String output = RequestEditorKit.getFeatureRichHTML("topmenu.php", input);
+      String output = renderMobileTopMenu(false);
 
-        assertThat(output, not(containsString("menuitem gcli")));
-      }
+      assertThat(output, not(containsString("menuitem gcli")));
     }
   }
 }

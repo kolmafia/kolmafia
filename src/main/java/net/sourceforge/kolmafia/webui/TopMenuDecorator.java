@@ -77,7 +77,9 @@ public abstract class TopMenuDecorator {
           + "if (!holder.length) {"
           + "holder = top.$(\"<div id='gclipaneholder' style='width: 100%; position: absolute;"
           + " z-index: 2; bottom: 0px; background-color: #ccc; right: 0px; display: none'>"
-          + "<iframe src='cli.html' style='width: 100%; border: 0px; padding: 0px; margin: 0px'>"
+          + "<iframe src='"
+          + KoLConstants.CLI_HTML
+          + "' style='width: 100%; border: 0px; padding: 0px; margin: 0px'>"
           + "</iframe></div>\");"
           + "top.$('body').append(holder);"
           + "}"
