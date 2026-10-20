@@ -190,6 +190,7 @@ import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
+import net.sourceforge.kolmafia.session.AscensionSeedManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BeretManager;
@@ -4242,6 +4243,17 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("coords", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("spacegate_planet_info", spacegatePlanetRec, params));
+
+    params = List.of();
+    functions.add(
+        new LibraryFunction(
+            "possible_ascension_seeds",
+            new AggregateType(DataTypes.INT_TYPE, DataTypes.INT_TYPE),
+            params));
+
+    params = List.of(namedParam("seed", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction("ascension_seed_properties", DataTypes.STRING_TO_STRING_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12815,5 +12827,18 @@ public abstract class RuntimeLibrary {
     rv.aset(13, DataTypes.makeIntValue(planet.questStage()), interpreter);
     rv.aset(14, DataTypes.makeIntValue(planet.rocksLevel()), interpreter);
     return rv;
+  }
+
+  public static Value possible_ascension_seeds(ScriptRuntime controller) {
+    List<Integer> seeds = AscensionSeedManager.possibleAscensionSeeds();
+    return new ArrayValue(
+        new AggregateType(DataTypes.INT_TYPE, DataTypes.INT_TYPE),
+        seeds.stream().map(DataTypes::makeIntValue).toList());
+  }
+
+  public static Value ascension_seed_properties(ScriptRuntime controller, Value seedValue) {
+    int seed = (int) seedValue.intValue();
+    Map<String, String> properties = AscensionSeedManager.getPropertiesForSeed(seed);
+    return DataTypes.makeStringToStringValue(properties);
   }
 }
