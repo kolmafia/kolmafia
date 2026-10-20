@@ -1,0 +1,165 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://images.kingdomofloathing.com/scripts/jquery-1.5.1.js"></script>
+<script language=Javascript src="https://images.kingdomofloathing.com/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://images.kingdomofloathing.com/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/) || (link.getAttribute && link.getAttribute('id')=='againlink'))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://images.kingdomofloathing.com/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript" src="https://images.kingdomofloathing.com/scripts/ircm.20230626.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script><script>
+
+var currentkey = 49;
+$(document).ready(function () {
+	$('form').each(function () {
+		var form = this;
+		defaultBind(currentkey++, NONE, function () { form.submit(); });
+		return currentkey < 58;
+	});
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="https://images.kingdomofloathing.com/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<Center><div id="results"><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><span class='guts'><p>You crank up the throttle and move your ship to the southwest.<p><p>Looking out the viewscreen, you see that this region of space is basically empty, except for an octagonal flying saucer with a large turret on the top that quickly swivels to face you. A bolt of red energy sizzles toward you, but fortunately your maneuverable little fighter manages to dodge the burst. </span></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></div><style type="text/css">table.radar a {border: 0; text-decoration:  none;}
+table.radar {cursor: pointer; }
+table.radar a img {border: 0; }</style><script type="text/javascript">
+$(document).ready(function () { 
+$('table.radar').click(function () {
+document.location = $(this).attr('rel'); return false;
+});
+});
+</script><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">DemonStar</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><table><tr><td colspan=3><table style='border: 1px solid black;' width=100%><tr><td><table width=100%><tr><td align=left>Bombs: 0</td><td align=right>Score: 0</td></tr></table></td></tr></table></td></tr><tr><td width=50><table class='radar' rel='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,-1' cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,-1'><img alt="blank space (northwest)" title="blank space (northwest)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,-1'><img alt="blank space (northwest)" title="blank space (northwest)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></tr><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,-1'><img alt="blank space (northwest)" title="blank space (northwest)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,-1'><img alt="blank space (northwest)" title="blank space (northwest)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></table></td></tr></table></td><td width=250 align=center><table class='radar' rel='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,-1' cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,-1'><img alt="blank space (north)" title="blank space (north)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,-1'><img alt="blank space (north)" title="blank space (north)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></tr><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,-1'><img alt="blank space (north)" title="blank space (north)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,-1'><img alt="blank space (north)" title="blank space (north)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></table></td></tr></table></td><td width=50><table class='radar' rel='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,-1' cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,-1'><img alt="blank space (northeast)" title="blank space (northeast)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,-1'><img alt="blank space (northeast)" title="blank space (northeast)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></tr><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,-1'><img alt="blank space (northeast)" title="blank space (northeast)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,-1'><img alt="blank space (northeast)" title="blank space (northeast)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></table></td></tr></table></td></tr><tr><td valign=center width=50 height=250><table class='radar' rel='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,0' cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,0'><img alt="blank space (west)" title="blank space (west)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,0'><img alt="white dot (west)" title="white dot (west)" src=https://images.kingdomofloathing.com/otherimages/demonstar/whitedot.gif width=20 height=20></a></td></tr><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,0'><img alt="blank space (west)" title="blank space (west)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,0'><img alt="blank space (west)" title="blank space (west)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></table></td></tr></table></td><td width=250 height=250><table cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table cellpadding=0 cellspacing=0><tr><td width=100 height=100></td><td width=50></td><td width=100 height=100></td></tr><tr><td></td><td width=50 height=50 align=center valign=center><img alt="your ship" title="your ship" src=https://images.kingdomofloathing.com/otherimages/demonstar/playership.gif width=40 height=40></td><td></td></tr><tr><td width=100 height=100></td><td width=50></td><td width=100 height=100><img  alt="a battle platform" title="a battle platform" src=https://images.kingdomofloathing.com/otherimages/demonstar/warrior.gif width=100 height=100></td></tr></table></td></tr></table></td><td valign=center width=50 height=250><table class='radar' rel='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,0' cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,0'><img alt="blank space (east)" title="blank space (east)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,0'><img alt="blank space (east)" title="blank space (east)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></tr><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,0'><img alt="blank space (east)" title="blank space (east)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,0'><img alt="blank space (east)" title="blank space (east)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></table></td></tr></table></td></tr><tr><td width=50><table class='radar' rel='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,1' cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,1'><img alt="blank space (southwest)" title="blank space (southwest)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,1'><img alt="blank space (southwest)" title="blank space (southwest)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></tr><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,1'><img alt="blank space (southwest)" title="blank space (southwest)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=-1,1'><img alt="blank space (southwest)" title="blank space (southwest)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></table></td></tr></table></td><td width=250 align=center><table class='radar' rel='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,1' cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,1'><img alt="blank space (south)" title="blank space (south)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,1'><img alt="blank space (south)" title="blank space (south)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></tr><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,1'><img alt="blank space (south)" title="blank space (south)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=0,1'><img alt="blank space (south)" title="blank space (south)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></table></td></tr></table></td><td width=50><table class='radar' rel='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,1' cellpadding=0 cellspacing=0 style='border: 1px solid black;'><tr><td><table><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,1'><img alt="blank space (southeast)" title="blank space (southeast)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,1'><img alt="blank space (southeast)" title="blank space (southeast)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></tr><tr><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,1'><img alt="blank space (southeast)" title="blank space (southeast)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td><td><a href='choice.php?whichchoice=471&pwd=00000000000000000000000000000000&option=1&mv=1,1'><img alt="blank space (southeast)" title="blank space (southeast)" src=https://images.kingdomofloathing.com/otherimages/demonstar/../blank.gif width=20 height=20></a></td></table></td></tr></table></td></tr><tr><td colspan='3' height='100' valign='botton'><center><table><tr><td><form method='post'><input type='hidden' value='471' name='whichchoice'/><input type='hidden' value='00000000000000000000000000000000' name='pwd' /><input type='hidden' name='what' value='war'/><input type='hidden' name='option' value='4'/><input type='submit' class='button' value='Attack Warrior' /></form></td></tr></table></center><center><table><tr><td><form method='post' action='choice.php'><input type='hidden' value='471' name='whichchoice'/><input type='hidden' value='00000000000000000000000000000000' name='pwd' /><input type='hidden' name='option' value='6'/><input type='submit' class='button' value='Walk Away' /></form></td></tr></table></center></td></tr></table></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></body></html>

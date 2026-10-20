@@ -22,8 +22,6 @@ public class ArcadeRequest extends GenericRequest {
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.GG_TOKEN, 1);
   public static final AdventureResult TICKET = ItemPool.get(ItemPool.GG_TICKET, 1);
 
-  private final String action = null;
-
   public ArcadeRequest() {
     super("place.php&whichplace=arcade", false);
   }
@@ -56,11 +54,12 @@ public class ArcadeRequest extends GenericRequest {
   public void processResults() {
     ArcadeRequest.parseResponse(this.getURLString(), this.responseText);
 
-    if (this.action == null) {
+    String action = GenericRequest.getAction(this.getURLString());
+    if (action == null) {
       return;
     }
 
-    if (this.action.equals("arcade_skeeball")) {
+    if (action.equals("arcade_skeeball")) {
       // You don't have any Game Grid tokens, so you can't
       // play Skee-Ball. But don't feel bad. The Skee-Ball
       // machine is broken, so you wouldn't have been able to
@@ -228,7 +227,7 @@ public class ArcadeRequest extends GenericRequest {
 
   private static final Pattern CHOICE_PATTERN =
       Pattern.compile(
-          "<form.*?name='?option'? value='?(\\d+)'?.*?>.*?class='?button'?.*?value=['\"](.*?)['\"].*?></form>",
+          "<form.*?name='?option'? value='?(\\d+)'?.*?>.*?class='?button'?.*?value=(?:\"(.*?)\"|'(.*?)').*?></form>",
           Pattern.DOTALL);
 
   // The strings tagging each available choice with associated index
@@ -241,7 +240,9 @@ public class ArcadeRequest extends GenericRequest {
     Matcher matcher = CHOICE_PATTERN.matcher(responseText);
     while (matcher.find()) {
       options.add(Integer.valueOf(matcher.group(1)));
-      names.add(StringUtilities.globalStringReplace(matcher.group(2), "&nbsp;", ""));
+      // Labels may use either quote style, and an apostrophe can sit inside double quotes.
+      String label = matcher.group(2) != null ? matcher.group(2) : matcher.group(3);
+      names.add(StringUtilities.globalStringReplace(label, "&nbsp;", ""));
     }
     ArcadeRequest.indices = new Integer[options.size()];
     options.toArray(ArcadeRequest.indices);
@@ -365,7 +366,7 @@ public class ArcadeRequest extends GenericRequest {
       Pattern.compile("([0123456789,]+) (?:sentient )?beings", Pattern.DOTALL);
 
   private static final Pattern TOTAL_SCORE_PATTERN =
-      Pattern.compile("Total Score:.*?<b>([0123456789,]*)</b>", Pattern.DOTALL);
+      Pattern.compile("Total Score:.*?<b>(-?[0123456789,]*)</b>", Pattern.DOTALL);
 
   public static final void postChoiceSpaceTrip(
       final GenericRequest request, final int lastChoice, final int lastDecision) {
@@ -1185,7 +1186,7 @@ public class ArcadeRequest extends GenericRequest {
       };
 
   private static final Pattern MATCH_PATTERN =
-      Pattern.compile("&quot;(.*?) Vs. (.*?) FIGHT!&quot;", Pattern.DOTALL);
+      Pattern.compile("&quot;(.*?) Vs. (.*?)\\.? FIGHT!&quot;", Pattern.DOTALL);
 
   private static int round = 0;
 
