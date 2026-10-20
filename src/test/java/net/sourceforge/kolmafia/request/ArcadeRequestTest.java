@@ -75,6 +75,52 @@ class ArcadeRequestTest {
   }
 
   @Nested
+  class FightersAutoPlay {
+    @Test
+    public void startsTheMatchWhenTheEntryPageShowsOne() {
+      var request = new GenericRequest("choice.php?whichchoice=485&option=1");
+      request.responseText = html("request/test_arcade_fighters_entry.html");
+
+      assertThat(ArcadeRequest.autoChoiceFightersOfFighting(request), equalTo("6"));
+    }
+
+    @Test
+    public void picksAMoveThatCountersTheThreat() {
+      var request = new GenericRequest("choice.php?whichchoice=485&option=1");
+      request.responseText = html("request/test_arcade_fighters_round_two.html");
+
+      assertThat(ArcadeRequest.autoChoiceFightersOfFighting(request), equalTo("1"));
+      // Serenity's Leg Sweep threat is countered by a Head Kick.
+      assertThat(request.getFormField("attack"), equalTo("hk"));
+    }
+  }
+
+  @Nested
+  class FightersLogging {
+    @Test
+    public void gameOverLogsTheFinalRound() {
+      try (var visit = Player.withChoice(485, html("request/test_arcade_fighters_entry.html"))) {
+        var request = new GenericRequest("choice.php?whichchoice=485&option=1&attack=lk");
+        request.responseText = html("request/test_arcade_fighters_game_over.html");
+
+        var logs = withCapturedLogs(() -> ArcadeRequest.postChoiceFightersOfFighting(request, 1));
+
+        assertThat(logs, equalTo("Round 0: Leg Sweep Result: You Lose! Final Score: 0"));
+      }
+    }
+
+    @Test
+    public void anUnknownAttackLogsNothing() {
+      var request = new GenericRequest("choice.php?whichchoice=485&option=1&attack=zz");
+      request.responseText = html("request/test_arcade_fighters_round_two.html");
+
+      var logs = withCapturedLogs(() -> ArcadeRequest.postChoiceFightersOfFighting(request, 1));
+
+      assertThat(logs, equalTo(""));
+    }
+  }
+
+  @Nested
   class DemonStarUnusualMoves {
     private static String moveLog(String direction) {
       var request = new GenericRequest("choice.php?whichchoice=471&option=1&" + direction);
@@ -91,6 +137,33 @@ class ArcadeRequestTest {
         assertThat(moveLog("mv=1,10"), equalTo(""));
       }
     }
+  }
+
+  @Nested
+  class FightersDecoration {
+    @Test
+    public void nothingChangesWithHintsOff() {
+      Preferences.setBoolean("arcadeGameHints", false);
+      var original = html("request/test_arcade_fighters_round_two.html");
+      var buffer = new StringBuffer(original);
+
+      ArcadeRequest.decorateFightersOfFighting(buffer);
+
+      assertThat(buffer.toString(), equalTo(original));
+    }
+
+    @Test
+    public void choicesAreAnnotatedWithTheirEffectiveness() {
+      Preferences.setBoolean("arcadeGameHints", true);
+      var buffer = new StringBuffer(html("request/test_arcade_fighters_round_two.html"));
+
+      ArcadeRequest.decorateFightersOfFighting(buffer);
+
+      assertThat(buffer.toString(), containsString("<br><font size=-1>("));
+      assertThat(buffer.toString(), containsString("Good)</font></form>"));
+    }
+
+    private static final String CHOICE_FORM = "<form method=\"post\" action=\"choice.php\">";
   }
 
   @Nested
@@ -126,6 +199,33 @@ class ArcadeRequestTest {
                 });
 
         assertThat(logs, equalTo("Action: Increase Bomb Capacity from 1 to 2 (50 Credcrystals)"));
+      }
+    }
+  }
+
+  @Nested
+  class ChooserFallThrough {
+    @Test
+    public void aMatchupWithNoGoodMoveReturnsNothing() throws ReflectiveOperationException {
+      var tableField = ArcadeRequest.class.getDeclaredField("EFFECTIVENESS");
+      tableField.setAccessible(true);
+      int[][][] table = (int[][][]) tableField.get(null);
+      var failField = ArcadeRequest.class.getDeclaredField("FAIL");
+      failField.setAccessible(true);
+      int fail = failField.getInt(null);
+
+      // Serenity against Leg Sweep is the round_two matchup; blank its row so no move is GOOD.
+      int[] row = table[3][2];
+      int[] saved = row.clone();
+      try {
+        java.util.Arrays.fill(row, fail);
+        var request = new GenericRequest("choice.php?whichchoice=485&option=1");
+        request.responseText = html("request/test_arcade_fighters_round_two.html");
+
+        assertThat(ArcadeRequest.autoChoiceFightersOfFighting(request), is(nullValue()));
+        assertThat(request.getFormField("attack"), is(nullValue()));
+      } finally {
+        System.arraycopy(saved, 0, row, 0, row.length);
       }
     }
   }
@@ -329,6 +429,58 @@ class ArcadeRequestTest {
               });
 
       assertThat(logs, equalTo("Action: Walk Away\nYOU HAVE FAILED. FINAL SCORE 0"));
+    }
+  }
+
+  @Nested
+  class FightersOfFighting {
+    @Test
+    public void visitLogsTheMatchup() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                    Player.withChoice(485, html("request/test_arcade_fighters_entry.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Match: gausie vs. Serenity"));
+    }
+
+    @Test
+    public void roundLogsTheMovesAndHealth() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(485, html("request/test_arcade_fighters_entry.html"));
+                    var round =
+                        Player.withChoice(
+                            485,
+                            1,
+                            "attack=hk",
+                            html("request/test_arcade_fighters_round_two.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Match: gausie vs. Serenity\n"
+                  + "Round 0: Head Kick gausie (229 HP) Serenity (250 HP) Score: 0 Threat: Leg Sweep"));
+    }
+
+    @Test
+    public void walkingAwayEndsTheGameWithoutARoundLog() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(485, html("request/test_arcade_fighters_entry.html"));
+                    var over =
+                        Player.withChoice(
+                            485, 3, null, html("request/test_arcade_fighters_game_over.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Match: gausie vs. Serenity\nYou acquire Game Grid ticket (5)"));
     }
   }
 }

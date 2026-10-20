@@ -1185,7 +1185,7 @@ public class ArcadeRequest extends GenericRequest {
       };
 
   private static final Pattern MATCH_PATTERN =
-      Pattern.compile("&quot;(.*?) Vs. (.*?) FIGHT!&quot;", Pattern.DOTALL);
+      Pattern.compile("&quot;(.*?) Vs. (.*?)\\.? FIGHT!&quot;, Pattern.DOTALL);
 
   private static int round = 0;
 
