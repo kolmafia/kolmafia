@@ -96,6 +96,22 @@ class ArcadeRequestTest {
   }
 
   @Nested
+  class DungeonFistAutoPlay {
+    @Test
+    public void followsTheScriptForEachStep() {
+      assertThat(ArcadeRequest.autoDungeonFist(0, ""), equalTo("3"));
+      assertThat(ArcadeRequest.autoDungeonFist(1, ""), equalTo("1"));
+      assertThat(ArcadeRequest.autoDungeonFist(2, ""), equalTo("1"));
+    }
+
+    @Test
+    public void stopsOutsideTheScript() {
+      assertThat(ArcadeRequest.autoDungeonFist(-1, ""), equalTo("0"));
+      assertThat(ArcadeRequest.autoDungeonFist(10000, ""), equalTo("0"));
+    }
+  }
+
+  @Nested
   class FightersLogging {
     @Test
     public void gameOverLogsTheFinalRound() {
@@ -200,6 +216,73 @@ class ArcadeRequestTest {
 
         assertThat(logs, equalTo("Action: Increase Bomb Capacity from 1 to 2 (50 Credcrystals)"));
       }
+    }
+  }
+
+  @Nested
+  class DungeonFistRealPages {
+    // Each captured room, with the log it produces when entered.
+    private static String room(String page) {
+      ArcadeRequest.visitDungeonFistChoice(html("request/test_arcade_fist_entry.html"));
+      var request = new GenericRequest("choice.php?whichchoice=486&option=1");
+      request.responseText = html(page);
+      return withCapturedLogs(() -> ArcadeRequest.postChoiceDungeonFist(request, 99));
+    }
+
+    @Test
+    public void grunts() {
+      assertThat(room("request/test_arcade_fist_north.html"), equalTo("Encounter: Grunts"));
+    }
+
+    @Test
+    public void stoneBox() {
+      assertThat(
+          room("request/test_arcade_fist_stone_box.html"), equalTo("Encounter: Large Stone Boxes"));
+    }
+
+    @Test
+    public void demons() {
+      assertThat(room("request/test_arcade_fist_demons.html"), equalTo("Encounter: Demons"));
+    }
+
+    @Test
+    public void ghosts() {
+      assertThat(
+          room("request/test_arcade_fist_ghosts_and_bones.html"), equalTo("Encounter: Ghosts"));
+    }
+
+    @Test
+    public void spirits() {
+      assertThat(room("request/test_arcade_fist_spirits.html"), equalTo("Encounter: Ghosts"));
+    }
+
+    @Test
+    public void bones() {
+      assertThat(room("request/test_arcade_fist_bones.html"), equalTo("Encounter: Bone Piles"));
+    }
+
+    @Test
+    public void death() {
+      assertThat(room("request/test_arcade_fist_death.html"), equalTo("Encounter: Death"));
+    }
+
+    @Test
+    public void musclePotion() {
+      assertThat(
+          room("request/test_arcade_fist_muscle_potion.html"), equalTo("You find a Muscle Potion"));
+    }
+
+    @Test
+    public void treasureBehindTheLockedDoor() {
+      assertThat(
+          room("request/test_arcade_fist_treasure.html"),
+          equalTo("You find a locked door\nYou unlock the door\nYou find treasure"));
+    }
+
+    @Test
+    public void magicPotion() {
+      assertThat(
+          room("request/test_arcade_fist_magic_potion.html"), equalTo("You find a Magic Potion"));
     }
   }
 
@@ -481,6 +564,144 @@ class ArcadeRequestTest {
               });
 
       assertThat(logs, equalTo("Match: gausie vs. Serenity\nYou acquire Game Grid ticket (5)"));
+    }
+  }
+
+  @Nested
+  class DungeonFist {
+    @Test
+    public void northLogsTheGruntRoom() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(486, html("request/test_arcade_fist_entry.html"));
+                    var north =
+                        Player.withChoice(
+                            486, 1, null, html("request/test_arcade_fist_north.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Go North\nEncounter: Grunts"));
+    }
+
+    @Test
+    public void westLogsTheDemonRoom() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(486, html("request/test_arcade_fist_entry.html"));
+                    var north =
+                        Player.withChoice(
+                            486, 1, null, html("request/test_arcade_fist_north.html"));
+                    var south =
+                        Player.withChoice(
+                            486, 2, null, html("request/test_arcade_fist_back_south.html"));
+                    var west =
+                        Player.withChoice(
+                            486, 3, null, html("request/test_arcade_fist_west.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Go North\n"
+                  + "Encounter: Grunts\n"
+                  + "Action: Run Back South\n"
+                  + "Action: Go West\n"
+                  + "Encounter: Demons"));
+    }
+
+    @Test
+    public void quittingReportsTheFinalScore() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(486, html("request/test_arcade_fist_fight.html"));
+                    var quit =
+                        Player.withChoice(
+                            486, 2, null, html("request/test_arcade_fist_quit.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Quit\n"
+                  + "YOU HAVE DIED. FINAL SCORE: 5375\n"
+                  + "You acquire Game Grid ticket (6)"));
+    }
+  }
+
+  @Nested
+  class DungeonFistFights {
+    @Test
+    public void attackingLogsTheCombatPotion() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(486, html("request/test_arcade_fist_fight_two.html"));
+                    var potion =
+                        Player.withChoice(
+                            486, 1, null, html("request/test_arcade_fist_combat_potion.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Attack!\nYou find a Combat Potion"));
+    }
+
+    @Test
+    public void walkingIntoTheLockedDoorIsLogged() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(486, html("request/test_arcade_fist_before_door.html"));
+                    var door =
+                        Player.withChoice(
+                            486, 3, null, html("request/test_arcade_fist_locked_door.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Go West\nYou find a locked door"));
+    }
+
+    @Test
+    public void takingTheKeyIsLogged() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(486, html("request/test_arcade_fist_before_key.html"));
+                    var key =
+                        Player.withChoice(
+                            486, 1, null, html("request/test_arcade_fist_key.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Attack!\nYou find a key"));
+    }
+
+    @Test
+    public void escapingTheDungeonReportsTheFinalScore() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(
+                            486, html("request/test_arcade_fist_before_escape.html"));
+                    var escape =
+                        Player.withChoice(
+                            486, 3, null, html("request/test_arcade_fist_escape.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Go West\n"
+                  + "You find a locked door\n"
+                  + "You unlock the door\n"
+                  + "You find the exit\n"
+                  + "YOU HAVE ESCAPED THE DUNGEON! FINAL SCORE: 9150\n"
+                  + "You acquire Game Grid ticket (11)"));
     }
   }
 }
