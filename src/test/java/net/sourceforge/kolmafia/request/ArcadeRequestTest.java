@@ -73,4 +73,189 @@ class ArcadeRequestTest {
       assertThat(Preferences.getBoolean("_defectiveTokenChecked"), is(true));
     }
   }
+
+  @Nested
+  class MeteoidSpaceMallClose {
+    @Test
+    public void closingTheShopLogsNothing() {
+      try (var visit = Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+          var shop =
+              Player.withChoice(488, 2, null, html("request/test_arcade_meteoid_spacemall.html"))) {
+        var logs =
+            withCapturedLogs(
+                () -> {
+                  try (var close =
+                      Player.withChoice(
+                          489, 6, null, html("request/test_arcade_meteoid_spacemall.html"))) {}
+                });
+
+        assertThat(logs, equalTo(""));
+      }
+    }
+
+    @Test
+    public void buyingAnUpgradeLogsIt() {
+      try (var visit = Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+          var shop =
+              Player.withChoice(488, 2, null, html("request/test_arcade_meteoid_spacemall.html"))) {
+        var logs =
+            withCapturedLogs(
+                () -> {
+                  try (var buy =
+                      Player.withChoice(
+                          489, 1, null, html("request/test_arcade_meteoid_spacemall.html"))) {}
+                });
+
+        assertThat(logs, equalTo("Action: Increase Bomb Capacity from 1 to 2 (50 Credcrystals)"));
+      }
+    }
+  }
+
+  @Nested
+  class Meteoid {
+    @Test
+    public void teleportingLogsTheChosenAction() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+                    var teleport =
+                        Player.withChoice(
+                            488, 1, null, html("request/test_arcade_meteoid_teleport.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Teleport to Underground Complex (5 charges remaining)"));
+    }
+
+    @Test
+    public void blockedMoveLogsTheDirectionAndNothingElse() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+                    var teleport =
+                        Player.withChoice(
+                            488, 1, null, html("request/test_arcade_meteoid_teleport.html"));
+                    var wall =
+                        Player.withChoice(
+                            490, 1, null, html("request/test_arcade_meteoid_wall.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo("Action: Teleport to Underground Complex (5 charges remaining)\nAction: Up"));
+    }
+
+    @Test
+    public void guardedRoomLogsTheMonster() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+                    var teleport =
+                        Player.withChoice(
+                            488, 1, null, html("request/test_arcade_meteoid_teleport.html"));
+                    var guarded =
+                        Player.withChoice(
+                            490, 4, null, html("request/test_arcade_meteoid_guarded.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Teleport to Underground Complex (5 charges remaining)\n"
+                  + "Action: Right\n"
+                  + "Encounter: Snugglecrawler"));
+    }
+
+    @Test
+    public void shotLogsTheEnergyLoss() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+                    var teleport =
+                        Player.withChoice(
+                            488, 1, null, html("request/test_arcade_meteoid_teleport.html"));
+                    var guarded =
+                        Player.withChoice(
+                            490, 4, null, html("request/test_arcade_meteoid_guarded.html"));
+                    var fight =
+                        Player.withChoice(
+                            490, 5, null, html("request/test_arcade_meteoid_fight.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Teleport to Underground Complex (5 charges remaining)\n"
+                  + "Action: Right\n"
+                  + "Encounter: Snugglecrawler\n"
+                  + "Action: Shoot\n"
+                  + "Energy: 95. Bombs: 1. Missiles: 1 Credcrystals: 0."));
+    }
+
+    @Test
+    public void chargeStationIsLogged() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+                    var teleport =
+                        Player.withChoice(
+                            488, 1, null, html("request/test_arcade_meteoid_teleport.html"));
+                    var station =
+                        Player.withChoice(
+                            490,
+                            3,
+                            null,
+                            html("request/test_arcade_meteoid_charge_station.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Teleport to Underground Complex (5 charges remaining)\nAction: Left\nEncounter: Charge Station\nEnergy: 50. Bombs: 0. Missiles: 0 Credcrystals: 55."));
+    }
+
+    @Test
+    public void navigatingTheBridgeToSpaceMallIsNotLogged() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+                    var spacemall =
+                        Player.withChoice(
+                            488, 2, null, html("request/test_arcade_meteoid_spacemall.html"))) {}
+              });
+
+      assertThat(logs, equalTo(""));
+    }
+
+    @Test
+    public void gameEndReportsTheTotalScore() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(488, html("request/test_arcade_meteoid_entry.html"));
+                    var end =
+                        Player.withChoice(
+                            488, 6, null, html("request/test_arcade_meteoid_end.html"));
+                    var score =
+                        Player.withChoice(
+                            491, 1, null, html("request/test_arcade_meteoid_score.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo("Action: Self Destruct\nTotal Score: 1,186\nYou acquire Game Grid ticket (5)"));
+    }
+  }
 }
