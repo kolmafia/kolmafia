@@ -112,6 +112,25 @@ class ArcadeRequestTest {
   }
 
   @Nested
+  class SkeeballMessages {
+    // An earlier abort would otherwise silence updateDisplay.
+    @BeforeEach
+    public void continueAfterAnyAbort() {
+      StaticEntity.setContinuationState(MafiaState.CONTINUE);
+    }
+
+    @Test
+    public void reportsTheTicketsForAPlay() {
+      var request = new ArcadeRequest("arcade_skeeball");
+      request.responseText = html("request/test_arcade_skeeball.html");
+
+      var logs = withCapturedLogs(request::processResults);
+
+      assertThat(logs, containsString("Token transformed into tickets."));
+    }
+  }
+
+  @Nested
   class FightersLogging {
     @Test
     public void gameOverLogsTheFinalRound() {
@@ -634,6 +653,119 @@ class ArcadeRequestTest {
   }
 
   @Nested
+  class SpaceTripRest {
+    @Test
+    public void starbaseVisitLogsTheAction() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(460, html("request/test_arcade_spacetrip_entry.html"));
+                    var nav =
+                        Player.withChoice(
+                            460, 1, null, html("request/test_arcade_spacetrip_navigation.html"));
+                    var starbase =
+                        Player.withChoice(
+                            461, 5, null, html("request/test_arcade_spacetrip_starbase.html"))) {}
+              });
+
+      assertThat(logs, equalTo("Action: Visit Reynaldo's Roost Starbase (10 gas)"));
+    }
+
+    @Test
+    public void zoologicalSquadLogsTheCrewAndResources() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(460, html("request/test_arcade_spacetrip_entry.html"));
+                    var nav =
+                        Player.withChoice(
+                            460, 1, null, html("request/test_arcade_spacetrip_navigation.html"));
+                    var quadrant =
+                        Player.withChoice(
+                            461,
+                            1,
+                            null,
+                            html("request/test_arcade_spacetrip_alpha_quadrant.html"));
+                    var explore =
+                        Player.withChoice(
+                            463, 1, null, html("request/test_arcade_spacetrip_explore.html"));
+                    var zoological =
+                        Player.withChoice(
+                            465, 2, null, html("request/test_arcade_spacetrip_zoological.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Alpha Quadrant\n"
+                  + "Week 1: Explore an uncharted Alpha Quadrant system (10 gas)\n"
+                  + "Crew: 30. Gas: 90 gallons. Money: 0 Crabs. Time left: 52 weeks.\n"
+                  + "Action: Send a Zoological Squad\n"
+                  + "You gain 360 Crabs\n"
+                  + "Crew: 30. Gas: 90 gallons. Money: 360 Crabs. Time left: 51 weeks."));
+    }
+
+    @Test
+    public void scienceExpeditionLogsResources() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(460, html("request/test_arcade_spacetrip_entry.html"));
+                    var nav =
+                        Player.withChoice(
+                            460, 1, null, html("request/test_arcade_spacetrip_navigation.html"));
+                    var quadrant =
+                        Player.withChoice(
+                            461,
+                            1,
+                            null,
+                            html("request/test_arcade_spacetrip_alpha_quadrant.html"));
+                    var explore =
+                        Player.withChoice(
+                            463, 1, null, html("request/test_arcade_spacetrip_explore.html"));
+                    var science =
+                        Player.withChoice(
+                            465, 3, null, html("request/test_arcade_spacetrip_science.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Alpha Quadrant\n"
+                  + "Week 1: Explore an uncharted Alpha Quadrant system (10 gas)\n"
+                  + "Crew: 30. Gas: 90 gallons. Money: 0 Crabs. Time left: 52 weeks.\n"
+                  + "Action: Send a Science Expedition\n"
+                  + "Crew: 30. Gas: 90 gallons. Money: 360 Crabs. Time left: 51 weeks."));
+    }
+
+    @Test
+    public void retiringShowsTheScore() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(460, html("request/test_arcade_spacetrip_entry.html"));
+                    var retire =
+                        Player.withChoice(
+                            460,
+                            6,
+                            "confirmretire=on",
+                            html("request/test_arcade_spacetrip_retired.html"));
+                    var score =
+                        Player.withChoice(
+                            484, 1, null, html("request/test_arcade_spacetrip_score.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo("Action: See your score\nTotal Score: -323\nYou acquire Game Grid ticket (5)"));
+    }
+  }
+
+  @Nested
   class DungeonFistFights {
     @Test
     public void attackingLogsTheCombatPotion() {
@@ -702,6 +834,53 @@ class ArcadeRequestTest {
                   + "You find the exit\n"
                   + "YOU HAVE ESCAPED THE DUNGEON! FINAL SCORE: 9150\n"
                   + "You acquire Game Grid ticket (11)"));
+    }
+  }
+
+  @Nested
+  class SpaceTrip {
+    @Test
+    public void navigatingToTheConsoleIsNotLogged() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(460, html("request/test_arcade_spacetrip_entry.html"));
+                    var nav =
+                        Player.withChoice(
+                            460, 1, null, html("request/test_arcade_spacetrip_navigation.html"))) {}
+              });
+
+      assertThat(logs, equalTo(""));
+    }
+
+    @Test
+    public void exploringLogsTheWeek() {
+      var logs =
+          withCapturedLogs(
+              () -> {
+                try (var visit =
+                        Player.withChoice(460, html("request/test_arcade_spacetrip_entry.html"));
+                    var nav =
+                        Player.withChoice(
+                            460, 1, null, html("request/test_arcade_spacetrip_navigation.html"));
+                    var quadrant =
+                        Player.withChoice(
+                            461,
+                            1,
+                            null,
+                            html("request/test_arcade_spacetrip_alpha_quadrant.html"));
+                    var explore =
+                        Player.withChoice(
+                            463, 1, null, html("request/test_arcade_spacetrip_explore.html"))) {}
+              });
+
+      assertThat(
+          logs,
+          equalTo(
+              "Action: Alpha Quadrant\n"
+                  + "Week 1: Explore an uncharted Alpha Quadrant system (10 gas)\n"
+                  + "Crew: 30. Gas: 90 gallons. Money: 0 Crabs. Time left: 52 weeks."));
     }
   }
 }
