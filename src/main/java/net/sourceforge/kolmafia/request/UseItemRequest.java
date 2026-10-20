@@ -1278,7 +1278,9 @@ public class UseItemRequest extends GenericRequest {
     if (this.getAdventuresUsed() > 0) {
       // If we are about to use an item which can use adventures, set location to "None"
       // for the benefit of betweenBattleScripts
-      Preferences.setString("nextAdventure", "None");
+      if (this.getItemUsed().getItemId() != ItemPool.ARCHAEOLOGISTS_SPADE) {
+        Preferences.setString("nextAdventure", "None");
+      }
       RecoveryManager.runBetweenBattleChecks(true);
     }
 
@@ -7074,6 +7076,7 @@ public class UseItemRequest extends GenericRequest {
     switch (item.getItemId()) {
       case ItemPool.ABYSSAL_BATTLE_PLANS,
           ItemPool.AMORPHOUS_BLOB,
+          ItemPool.ARCHAEOLOGISTS_SPADE,
           ItemPool.BARREL_MAP,
           ItemPool.BLACK_PUDDING,
           ItemPool.CARONCH_MAP,
