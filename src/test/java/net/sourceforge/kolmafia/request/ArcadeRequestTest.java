@@ -309,6 +309,16 @@ class ArcadeRequestTest {
   @Nested
   class ProcessResultsWithoutAGame {
     @Test
+    public void aRequestWithNoActionLogsNothing() {
+      var request = new ArcadeRequest();
+      request.responseText = html("request/test_arcade_skeeball.html");
+
+      var logs = withCapturedLogs(request::processResults);
+
+      assertThat(logs, equalTo(""));
+    }
+
+    @Test
     public void aGameActionOtherThanSkeeballLogsNothing() {
       var request = new ArcadeRequest("arcade_plumber");
       request.responseText = "";
