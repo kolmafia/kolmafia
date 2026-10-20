@@ -112,6 +112,126 @@ class ArcadeRequestTest {
   }
 
   @Nested
+  class RegisterRequest {
+    // Pin the ascension so registerRequest never posts the town_wrong visit.
+    private static final int ASCENSION = 7;
+
+    private static void addToken() {
+      AdventureResult.addResultToList(KoLConstants.inventory, ArcadeRequest.TOKEN);
+    }
+
+    @Test
+    public void ignoresOtherPlaces() {
+      try (var ascension = Player.withAscensions(ASCENSION)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+        assertThat(ArcadeRequest.registerRequest("place.php?whichplace=town"), is(false));
+      }
+    }
+
+    @Test
+    public void ignoresTheArcadeWithoutAnAction() {
+      try (var ascension = Player.withAscensions(ASCENSION)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+        assertThat(ArcadeRequest.registerRequest("place.php?whichplace=arcade"), is(false));
+      }
+    }
+
+    @Test
+    public void ignoresActionsThatAreNotGames() {
+      try (var ascension = Player.withAscensions(ASCENSION);
+          var turns = Player.withAdventuresLeft(50)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+        addToken();
+        assertThat(
+            ArcadeRequest.registerRequest("place.php?whichplace=arcade&action=arcade_highscores"),
+            is(false));
+      }
+    }
+
+    @Test
+    public void plumberNeedsNoToken() {
+      try (var ascension = Player.withAscensions(ASCENSION)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+        assertThat(
+            ArcadeRequest.registerRequest("place.php?whichplace=arcade&action=arcade_plumber"),
+            is(true));
+      }
+    }
+
+    @Test
+    public void gamesWithoutATokenAreRecognisedButNotCounted() {
+      try (var ascension = Player.withAscensions(ASCENSION)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+        assertThat(
+            ArcadeRequest.registerRequest("place.php?whichplace=arcade&action=arcade_spacetrip"),
+            is(true));
+      }
+    }
+
+    @Test
+    public void gamesUseOneTokenWhenTheyHaveTurns() {
+      var games = new String[] {"spacetrip", "demonstar", "meteoid", "fighters", "fist"};
+      try (var ascension = Player.withAscensions(ASCENSION);
+          var turns = Player.withAdventuresLeft(50)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+        for (String game : games) {
+          KoLConstants.inventory.clear();
+          addToken();
+          var url = "place.php?whichplace=arcade&action=arcade_" + game;
+          assertThat(game, ArcadeRequest.registerRequest(url), is(true));
+          assertThat(game, ArcadeRequest.TOKEN.getCount(KoLConstants.inventory), is(0));
+        }
+      }
+    }
+
+    @Test
+    public void gamesKeepTheTokenWhenTurnsAreShort() {
+      try (var ascension = Player.withAscensions(ASCENSION);
+          var turns = Player.withAdventuresLeft(4)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+        addToken();
+        assertThat(
+            ArcadeRequest.registerRequest("place.php?whichplace=arcade&action=arcade_spacetrip"),
+            is(true));
+        assertThat(ArcadeRequest.TOKEN.getCount(KoLConstants.inventory), is(1));
+      }
+    }
+
+    @Test
+    public void skeeballUsesNoTurnsAndKeepsTheToken() {
+      try (var ascension = Player.withAscensions(ASCENSION)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+        addToken();
+        assertThat(
+            ArcadeRequest.registerRequest("place.php?whichplace=arcade&action=arcade_skeeball"),
+            is(true));
+        assertThat(ArcadeRequest.TOKEN.getCount(KoLConstants.inventory), is(1));
+      }
+    }
+  }
+
+  @Nested
+  class ParseResponseGuards {
+    @Test
+    public void ignoresOtherPlaces() {
+      Preferences.setBoolean("_defectiveTokenChecked", false);
+
+      ArcadeRequest.parseResponse("place.php?whichplace=town", "");
+
+      assertThat(Preferences.getBoolean("_defectiveTokenChecked"), is(false));
+    }
+
+    @Test
+    public void ignoresTheArcadeWithoutAnAction() {
+      Preferences.setBoolean("_defectiveTokenChecked", false);
+
+      ArcadeRequest.parseResponse("place.php?whichplace=arcade", "");
+
+      assertThat(Preferences.getBoolean("_defectiveTokenChecked"), is(false));
+    }
+  }
+
+  @Nested
   class SkeeballMessages {
     // An earlier abort would otherwise silence updateDisplay.
     @BeforeEach
@@ -150,6 +270,50 @@ class ArcadeRequestTest {
       request.responseText = html("request/test_arcade_fighters_round_two.html");
 
       var logs = withCapturedLogs(() -> ArcadeRequest.postChoiceFightersOfFighting(request, 1));
+
+      assertThat(logs, equalTo(""));
+    }
+  }
+
+  @Nested
+  class DemonStarMoves {
+    private static String moveLog(String direction) {
+      var request = new GenericRequest("choice.php?whichchoice=471&option=1&" + direction);
+      request.responseText = "";
+      return withCapturedLogs(() -> ArcadeRequest.postChoiceDemonStar(request, 1));
+    }
+
+    @Test
+    public void everyDirectionIsNamed() {
+      try (var visit = Player.withChoice(471, html("request/test_arcade_demonstar_entry.html"))) {
+        assertThat(moveLog("mv=-1,-1"), equalTo("Action: Move northwest"));
+        assertThat(moveLog("mv=0,-1"), equalTo("Action: Move north"));
+        assertThat(moveLog("mv=1,-1"), equalTo("Action: Move northeast"));
+        assertThat(moveLog("mv=-1,0"), equalTo("Action: Move west"));
+        assertThat(moveLog("mv=0,0"), equalTo("Action: Stay put"));
+        assertThat(moveLog("mv=1,0"), equalTo("Action: Move east"));
+        assertThat(moveLog("mv=-1,1"), equalTo("Action: Move southwest"));
+        assertThat(moveLog("mv=0,1"), equalTo("Action: Move south"));
+        assertThat(moveLog("mv=1,1"), equalTo("Action: Move southeast"));
+      }
+    }
+
+    @Test
+    public void anUnreadableMoveIsNotLogged() {
+      try (var visit = Player.withChoice(471, html("request/test_arcade_demonstar_entry.html"))) {
+        assertThat(moveLog("mv=2,2"), equalTo(""));
+      }
+    }
+  }
+
+  @Nested
+  class ProcessResultsWithoutAGame {
+    @Test
+    public void aGameActionOtherThanSkeeballLogsNothing() {
+      var request = new ArcadeRequest("arcade_plumber");
+      request.responseText = "";
+
+      var logs = withCapturedLogs(request::processResults);
 
       assertThat(logs, equalTo(""));
     }
@@ -234,6 +398,64 @@ class ArcadeRequestTest {
                 });
 
         assertThat(logs, equalTo("Action: Increase Bomb Capacity from 1 to 2 (50 Credcrystals)"));
+      }
+    }
+  }
+
+  @Nested
+  class PlumberRequests {
+    private static final int ASCENSION = 9;
+
+    @Test
+    public void registeringAGameAfterAnAscensionChangeVisitsTheWrongSide() {
+      try (var ascension = Player.withAscensions(ASCENSION);
+          var threads = Mockito.mockStatic(RequestThread.class)) {
+        Preferences.setInteger("lastArcadeAscension", -1);
+
+        ArcadeRequest.registerRequest("place.php?whichplace=arcade&action=arcade_spacetrip");
+
+        assertThat(Preferences.getInteger("lastArcadeAscension"), is(ASCENSION));
+        threads.verify(() -> RequestThread.postRequest(any(GenericRequest.class)), times(1));
+      }
+    }
+
+    @Test
+    public void registeringAGameInTheSameAscensionDoesNotVisitTheWrongSide() {
+      try (var ascension = Player.withAscensions(ASCENSION);
+          var threads = Mockito.mockStatic(RequestThread.class)) {
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+
+        ArcadeRequest.registerRequest("place.php?whichplace=arcade&action=arcade_plumber");
+
+        threads.verify(() -> RequestThread.postRequest(any(GenericRequest.class)), never());
+      }
+    }
+
+    @Test
+    public void aFirstDailyCheckWithATokenVisitsTheWrongSideAndThePlumber() {
+      try (var ascension = Player.withAscensions(ASCENSION);
+          var threads = Mockito.mockStatic(RequestThread.class)) {
+        Preferences.setBoolean("_defectiveTokenChecked", false);
+        Preferences.setInteger("lastArcadeAscension", -1);
+        AdventureResult.addResultToList(KoLConstants.inventory, ArcadeRequest.TOKEN);
+
+        ArcadeRequest.checkJackassPlumber();
+
+        assertThat(Preferences.getInteger("lastArcadeAscension"), is(ASCENSION));
+        threads.verify(() -> RequestThread.postRequest(any(GenericRequest.class)), times(2));
+      }
+    }
+
+    @Test
+    public void anUnlockedCabinetOnlyVisitsThePlumber() {
+      try (var ascension = Player.withAscensions(ASCENSION);
+          var threads = Mockito.mockStatic(RequestThread.class)) {
+        Preferences.setBoolean("_defectiveTokenChecked", false);
+        Preferences.setInteger("lastArcadeAscension", ASCENSION);
+
+        ArcadeRequest.checkJackassPlumber();
+
+        threads.verify(() -> RequestThread.postRequest(any(GenericRequest.class)), times(1));
       }
     }
   }
@@ -329,6 +551,67 @@ class ArcadeRequestTest {
       } finally {
         System.arraycopy(saved, 0, row, 0, row.length);
       }
+    }
+  }
+
+  @Nested
+  class Helpers {
+    @Test
+    public void everyGameCountsAsFiveTurns() {
+      for (String game : new String[] {"fist", "meteoid", "fighters", "demonstar", "spacetrip"}) {
+        assertThat(
+            game,
+            ArcadeRequest.getTurnsUsed(
+                new GenericRequest("place.php?whichplace=arcade&action=arcade_" + game)),
+            is(5));
+      }
+    }
+
+    @Test
+    public void arcadeGamesCountAsFiveTurns() {
+      assertThat(
+          ArcadeRequest.getTurnsUsed(
+              new GenericRequest("place.php?whichplace=arcade&action=arcade_fist")),
+          is(5));
+      assertThat(
+          ArcadeRequest.getTurnsUsed(
+              new GenericRequest("place.php?whichplace=arcade&action=arcade_skeeball")),
+          is(0));
+      assertThat(
+          ArcadeRequest.getTurnsUsed(new GenericRequest("place.php?whichplace=arcade")), is(0));
+    }
+
+    @Test
+    public void gameChoicesAreRecognised() {
+      for (int choice : new int[] {460, 471, 485, 486, 488, 491}) {
+        assertThat("choice " + choice, ArcadeRequest.arcadeChoice(choice), is(true));
+      }
+      for (int choice : new int[] {459, 492}) {
+        assertThat("choice " + choice, ArcadeRequest.arcadeChoice(choice), is(false));
+      }
+    }
+  }
+
+  @Nested
+  class JackassPlumber {
+    @Test
+    public void alreadyCheckedTodayDoesNothing() {
+      Preferences.setBoolean("_defectiveTokenChecked", true);
+      Preferences.setInteger("lastArcadeAscension", -1);
+
+      ArcadeRequest.checkJackassPlumber();
+
+      assertThat(Preferences.getInteger("lastArcadeAscension"), is(-1));
+    }
+
+    @Test
+    public void withoutATokenOrTicketTheCabinetStaysLocked() {
+      Preferences.setBoolean("_defectiveTokenChecked", false);
+      Preferences.setInteger("lastArcadeAscension", -1);
+
+      ArcadeRequest.checkJackassPlumber();
+
+      assertThat(Preferences.getInteger("lastArcadeAscension"), is(-1));
     }
   }
 
