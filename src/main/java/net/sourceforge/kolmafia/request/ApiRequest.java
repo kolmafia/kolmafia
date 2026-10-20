@@ -451,7 +451,7 @@ public class ApiRequest extends GenericRequest {
           Map.entry("airport5", Map.entry("coldAirportAlways", "_coldAirportToday")),
           Map.entry(
               "gingerbreadcity", Map.entry("gingerbreadCityAvailable", "_gingerbreadCityToday")),
-          Map.entry("spacegate", Map.entry("spacegateAlways", "_spacegateToday")),
+          Map.entry("spacegate", Map.entry("spacegateAlways", "")),
           Map.entry("fantasyrealm", Map.entry("frAlways", "_frToday")),
           Map.entry("piraterealm", Map.entry("prAlways", "_prToday")),
           Map.entry("cyberrealm", Map.entry("crAlways", "_crToday")),
