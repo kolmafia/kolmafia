@@ -1275,9 +1275,10 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
+    // If we are about to use an item which can use adventures, set location to "None"
+    // for the benefit of betweenBattleScripts
     if (this.getAdventuresUsed() > 0) {
-      // If we are about to use an item which can use adventures, set location to "None"
-      // for the benefit of betweenBattleScripts
+      // Archaeologist's spade can start an adventure but it occurs in the player's current zone
       if (this.getItemUsed().getItemId() != ItemPool.ARCHAEOLOGISTS_SPADE) {
         Preferences.setString("nextAdventure", "None");
       }
