@@ -785,7 +785,7 @@ public class MallPriceManagerTest {
             "/api.php",
             "what=mallprices&for=KoLmafia&category=allitems&" + MALL_PRICE_FIELDS + "&count=5");
         assertEquals(1, builder.client.getRequests().size());
-        assertEquals(8422, count);
+        assertEquals(8484, count);
         assertEquals(678, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
         assertEquals(7790, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
       }
@@ -806,7 +806,7 @@ public class MallPriceManagerTest {
             "/api.php",
             "what=mallprices&for=KoLmafia&category=allitems&" + MALL_PRICE_FIELDS + "&count=5");
         assertEquals(1, builder.client.getRequests().size());
-        assertEquals(8422, count);
+        assertEquals(8484, count);
 
         List<PurchaseRequest> prs =
             MallPriceManager.getSavedSearch(ItemPool.ONE_HUNDRED_WATT_BULB, 1);
@@ -956,6 +956,30 @@ public class MallPriceManagerTest {
 
         // The General Store sells glittery mascara for less than any mall store does
         assertEquals(24, MallPriceManager.getMallPrice(3485));
+      }
+    }
+
+    @Test
+    public void pricesEmptyStoresAsNotPurchasable() {
+      var builder = new FakeHttpClientBuilder();
+
+      var then = LocalDateTime.of(2025, Month.FEBRUARY, 2, 5, 0);
+      var zdt = ZonedDateTime.of(then, DateTimeManager.ROLLOVER);
+
+      try (var cleanups =
+          new Cleanups(
+              mockClock(),
+              withHttpClientBuilder(builder),
+              withDay(2025, Month.FEBRUARY, 2, 18, 0))) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+        MallPriceManager.cachePriceIfFromCurrentRolloverDay(
+            ItemPool.VESPER, 100, zdt.toEpochSecond());
+        builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
+
+        MallPriceManager.getMallPrices("allitems", "");
+
+        // Vesper is in the response with an empty "stores" array
+        assertEquals(-1, MallPriceManager.getMallPrice(ItemPool.VESPER));
       }
     }
   }

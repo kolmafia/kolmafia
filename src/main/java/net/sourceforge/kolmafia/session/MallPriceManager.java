@@ -717,7 +717,7 @@ public abstract class MallPriceManager {
     }
 
     var items = json.getJSONArray("items");
-    List<PurchaseRequest> results = new ArrayList<>();
+    Map<Integer, List<PurchaseRequest>> itemResults = new HashMap<>();
 
     for (int i = 0; i < items.size(); ++i) {
       var item = items.getJSONObject(i);
@@ -740,6 +740,8 @@ public abstract class MallPriceManager {
       if (itemId <= 0 || ItemDatabase.getItemName(itemId) == null) {
         continue;
       }
+
+      List<PurchaseRequest> results = itemResults.computeIfAbsent(itemId, k -> new ArrayList<>());
 
       results.addAll(NPCStoreDatabase.getAvailablePurchaseRequests(itemId));
       results.addAll(CoinmastersDatabase.getAllPurchaseRequests(itemId));
@@ -765,7 +767,7 @@ public abstract class MallPriceManager {
       }
     }
 
-    MallPriceManager.pricesUpdated = MallPriceManager.updateMallPrices(results);
+    MallPriceManager.pricesUpdated = MallPriceManager.updateMallPrices(itemResults);
   }
 
   /** Whether a response holds every field needed to update internal prices */
@@ -807,8 +809,8 @@ public abstract class MallPriceManager {
     return true;
   }
 
-  private static int updateMallPrices(final List<PurchaseRequest> results) {
-    if (results.isEmpty()) {
+  private static int updateMallPrices(final Map<Integer, List<PurchaseRequest>> itemResults) {
+    if (itemResults.isEmpty()) {
       return 0;
     }
 
@@ -816,9 +818,6 @@ public abstract class MallPriceManager {
     int count = 0;
 
     try {
-      Map<Integer, List<PurchaseRequest>> itemResults =
-          results.stream().collect(Collectors.groupingBy(PurchaseRequest::getItemId));
-
       for (var entry : itemResults.entrySet()) {
         var itemId = entry.getKey();
         var prs =
