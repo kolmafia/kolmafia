@@ -9532,7 +9532,7 @@ MutexE	Purple Tongue/Green Tongue/Orange Tongue/Red Tongue/Blue Tongue/Black Ton
 MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful Heart	none
 
 # While the groups below are mutex, replacing one effect with another is easy enough that other effects should be suggested anyway
-MutexER	Snarl of the Timberwolf/Scowl of the Auk/Stiff Upper Lip/Patient Smile/Quiet Determination/Arched Eyebrow of the Archmage/Wizard Squint/Quiet Judgement/Icy Glare/Wry Smile/Disco Leer/Disco Smirk/Suspicious Gaze/Knowing Smile/Quiet Desperation/Inscrutable Gaze	none
+MutexER	Snarl of the Timberwolf/Snarl of Three Timberwolves/Scowl of the Auk/Stiff Upper Lip/Patient Smile/Quiet Determination/Arched Eyebrow of the Archmage/Wizard Squint/Quiet Judgement/Icy Glare/Wry Smile/Disco Leer/Disco Smirk/Suspicious Gaze/Knowing Smile/Quiet Desperation/Inscrutable Gaze	none
 MutexER	Cautious Prowl/Prideful Strut/Leisurely Amblin'	none
 MutexER	Pompadour/Cowlick/Fauxhawk/[1553]Slicked-Back Do	none
 MutexER	Coffeesphere/Oilsphere/Chocolatesphere/Gristlesphere	none
