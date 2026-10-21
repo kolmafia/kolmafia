@@ -2502,7 +2502,7 @@ zoological sample kit	10	none
 [spelunking test kit]	0	none
 &quot;I survived Y2K&quot; T-Shirt	100	none
 &quot;I Voted!&quot; sticker	10	none
-401k gold ring	0	none
+401k gold ring	50	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
