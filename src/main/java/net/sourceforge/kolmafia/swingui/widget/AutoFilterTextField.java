@@ -308,9 +308,10 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
   }
 
   protected void fireContentsChanged() {
-    if (AutoFilterTextField.this.model.size() > 0) {
+    int size = AutoFilterTextField.this.model.getSize();
+    if (size > 0) {
       AutoFilterTextField.this.model.fireContentsChanged(
-          AutoFilterTextField.this.model, 0, AutoFilterTextField.this.model.size() - 1);
+          AutoFilterTextField.this.model, 0, size - 1);
     }
   }
 
