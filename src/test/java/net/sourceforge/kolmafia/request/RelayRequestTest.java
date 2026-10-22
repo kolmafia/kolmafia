@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.webui.RelayServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -911,6 +912,32 @@ public class RelayRequestTest {
         var cookie = builder.client.getLastRequest().headers().firstValue("Cookie").orElse("");
         assertThat(cookie, containsString("mob=1"));
         assertThat(req.headers, hasItem(startsWith("Set-Cookie: mob=1;")));
+      }
+    }
+  }
+
+  @Nested
+  class CliEvents {
+    @Test
+    public void messageUpdateReturnsLinesAsStringsWithHeadAndRefresh() throws Exception {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var initial = RelayServer.pollMessages(null, 0);
+        var since = initial.head();
+        var refresh = initial.refresh();
+        RelayServer.addStatusMessage("hello");
+
+        var rr = new RelayRequest(false);
+        rr.constructURLString(
+            "KoLmafia/messageUpdate?since=" + since + "&refresh=" + refresh + "&pwd=xxxx", false);
+        rr.run();
+
+        assertThat(rr.responseCode, is(200));
+        JSONObject body = JSON.parseObject(rr.responseText);
+        assertThat(body.getLongValue("head"), equalTo(since + 1));
+        assertThat(body.getLongValue("refresh"), equalTo(refresh));
+        assertThat(body.getJSONArray("events").size(), equalTo(1));
+        assertThat(body.getJSONArray("events").getString(0), equalTo("hello"));
       }
     }
   }

@@ -36,33 +36,6 @@ function getHttpObject()
 	return httpObject;
 }
 
-function updateDisplay( display, responseText )
-{
-	if ( responseText.length < 2 )
-		return;
-
-	display.innerHTML += responseText;
-
-	if ( display.innerHTML.length > 30000 )
-	{
-		var lineIndex = display.innerHTML.indexOf( "<br", 20000 );
-		if ( lineIndex != -1 )
-			lineIndex = display.innerHTML.indexOf( ">", lineIndex );
-
-		if ( lineIndex != -1 )
-		{
-			var length = display.innerHTML.length;
-			display.innerHTML = display.innerHTML.substring( lineIndex + 1, length );
-		}
-		else
-			display.innerHTML = "";
-	}
-
-	display.scrollTop = display.scrollHeight;
-	if ( !isRefreshing && responseText.indexOf("<!-- REFRESH -->") != -1 )
-		top.charpane.location.reload();
-}
-
 function inlineLoad( location, fields, id )
 {
 	var httpObject = getHttpObject();

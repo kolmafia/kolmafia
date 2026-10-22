@@ -12319,17 +12319,17 @@
 12290	Quiskey Sour	689712147	cocktail3.gif	drink	t,d	23
 12291	Quincea&ntilde;era Cooler	735241911	cocktail4.gif	drink	t,d	37
 12292	Roth IPA	755682794	rothbeer.gif	drink	t,d	5
-12293	underdraft protection	752798293	undershorts.gif	pants	q	0
+12293	underdraft protection	752798293	undershorts.gif	pants	q	0	pairs of underdraft protection
 12294	solvent	880652251	solvent.gif	usable	t,d	11	bottles of solvent
 12295	soybean futures	261654233	soybeans.gif	food	t,d	8	soybean futures
 12296	housing bubble	161477292	housebubble.gif	potion	t,d	11
 12297	Pixie-Swordz	693184026	pixiesword.gif	potion	t,d	5
 12298	financial instrument	179343388	fintrumpet.gif	weapon	q	0
-12299	hedge fund clippers	458108362	hedgeclips2.gif	weapon	q	0
-12300	selling shorts	751853360	sellingshorts.gif	pants	q	0
+12299	hedge fund clippers	458108362	hedgeclips2.gif	weapon	q	0	pairs of hedge fund clippers
+12300	selling shorts	751853360	sellingshorts.gif	pants	q	0	pairs of selling shorts
 12301	bear tattoo	618796918	beartat.gif	usable	t	0
 12302	bull tattoo	329745254	bulltat.gif	usable	t	0
-12303	401k gold ring	469785065	24kring.gif	accessory	q	0
+12303	401k gold ring	469785065	24kring.gif	accessory	q	401
 12304	balance sheet	946018561	balsheet.gif	usable	t,d	11
 12305	invisible hand	579883645	blank.gif	potion	t,d	5
 12306	circle of overdraft protection scroll	816707629	protscroll.gif	potion	t,d	5
