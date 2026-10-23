@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,7 +13,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 
@@ -27,7 +30,16 @@ public class AscensionSeedManager {
   private static final int BATCH_SIZE = 100_000;
 
   private static final List<Supplier<Criterion>> CRITERIA =
-      List.of(BangPotions::new, DailyDungeon::new, Dreadscroll::new, SeahorseName::new);
+      List.of(
+          BangPotions::new,
+          DailyDungeon::new,
+          Dreadscroll::new,
+          LeprecondoNeeds::new,
+          RaveCombos::new,
+          SeahorseName::new,
+          SlimePotions::new,
+          VioletFog::new,
+          YegDemon::new);
 
   // Determine which ascension seeds are possible given the state of the character's current prefs.
   // For performance reasons, limit this to finding MAX_CALCULATED_SEEDS (to cover the case where
@@ -90,8 +102,8 @@ public class AscensionSeedManager {
   public static Map<String, String> getPropertiesForSeed(int seed) {
     Map<String, String> rv = new HashMap<>();
     // nb: Technically the constructors for the criteria waste a little effort parsing out the
-    // current state, which is not needed for calculating the expected values for a particular seed,
-    // this is a small enough amount of work that we expect to be called few enough times that it
+    // current state, which is not needed for calculating the expected values for a particular seed.
+    // This is a small enough amount of work that we expect to be called few enough times that it
     // isn't worth trying to work around.
     CRITERIA.stream().map(Supplier::get).map(c -> c.toProperties(seed)).forEach(rv::putAll);
     return rv;
@@ -118,6 +130,19 @@ public class AscensionSeedManager {
     //
     // In any reasonable case, the return value should be in the interval (0,1].
     double reductionFactor();
+  }
+
+  // Utility method used for many reductionFactor() methods. Returns M!/N!
+  private static double factMN(int m, int n) {
+    if (n > m) {
+      return 1 / factMN(n, m);
+    }
+
+    double rv = 1;
+    for (int i = n + 1; i <= m; i++) {
+      rv *= i;
+    }
+    return rv;
   }
 
   // Bang Potions
@@ -177,16 +202,14 @@ public class AscensionSeedManager {
 
     @Override
     public double reductionFactor() {
-      // Reduction factor is N!/9!, where N is the number of identified bang potions.
-      double rv = 1;
-      int nextReduction = 9;
+      // Reduction factor is N!/9!, where N is the number of unidentified bang potions.
+      int unidentified = 0;
       for (String v : state) {
-        if (v != null && !v.isEmpty()) {
-          rv /= nextReduction;
-          nextReduction--;
+        if (v.isEmpty()) {
+          unidentified++;
         }
       }
-      return rv;
+      return factMN(unidentified, 9);
     }
   }
 
@@ -249,18 +272,10 @@ public class AscensionSeedManager {
       // so-far unassigned rooms given the current state and N=12!/(4!4!4!) is the number of
       // possible arrangements across all states.
       double rv = 1;
-      for (int j = cntM + 1; j <= 4; j++) {
-        rv *= j;
-      }
-      for (int j = cntD + 1; j <= 4; j++) {
-        rv *= j;
-      }
-      for (int j = cntT + 1; j <= 4; j++) {
-        rv *= j;
-      }
-      for (int j = cntM + cntD + cntT + 1; j <= 12; j++) {
-        rv /= j;
-      }
+      rv *= factMN(cntM + cntD + cntT, 12);
+      rv *= factMN(4, cntM);
+      rv *= factMN(4, cntD);
+      rv *= factMN(4, cntT);
       return rv;
     }
   }
@@ -318,6 +333,118 @@ public class AscensionSeedManager {
         }
       }
       return rv;
+    }
+  }
+
+  // Leprecondo needs order
+  //
+  // Starting with the initial order (exercise, mental stimulation, dumb entertainment, food, booze,
+  // sleep), perform a standard shuffle.
+  //
+  // NOTE: It is possible under some conditions for mafia the record the need order incorrectly and
+  // no way to definitively correct the order. As such, it is never used to calculate the ascension
+  // seed and is only a predictor output.
+  private static class LeprecondoNeeds implements Criterion {
+    private List<String> generateForSeed(int seed) {
+      PHPRandom rng = new PHPRandom(seed);
+      List<String> arr =
+          new ArrayList<>(
+              List.of(
+                  "exercise",
+                  "mental stimulation",
+                  "dumb entertainment",
+                  "food",
+                  "booze",
+                  "sleep"));
+      rng.shuffle(arr);
+      return arr;
+    }
+
+    @Override
+    public boolean matchesSeed(int seed) {
+      return true;
+    }
+
+    @Override
+    public Map<String, String> toProperties(int seed) {
+      List<String> needs = generateForSeed(seed);
+      return Map.of("leprecondoNeedOrder", String.join(",", needs));
+    }
+
+    @Override
+    public double reductionFactor() {
+      return 1;
+    }
+  }
+
+  // Rave Combos
+  //
+  // Starting with the initial order (BPR, BRP, PBR, PRB, RBP, RPB)--where R, B, and P are the rave
+  // combo skills--perform a standard shuffle. Then assign the skill sequences to the rave combos in
+  // the following order: Rave Steal, Rave Bleeding, Rave Knockout, Rave Concentration, Rave
+  // Nirvana, Rave Stats.
+  private static class RaveCombos implements Criterion {
+    private final String[] state = new String[6];
+
+    public RaveCombos() {
+      for (int i = 0; i < 6; i++) {
+        String combo = Preferences.getString("raveCombo" + (i + 1));
+        if (!combo.isEmpty()) {
+          combo =
+              Arrays.stream(combo.split(","))
+                  .map(String::trim)
+                  .map(s -> s.substring(0, 1))
+                  .collect(Collectors.joining());
+        }
+        state[i] = combo;
+      }
+    }
+
+    private List<String> generateForSeed(int seed) {
+      PHPRandom rng = new PHPRandom(seed);
+      List<String> arr = new ArrayList<>(List.of("BPR", "BRP", "PBR", "PRB", "RBP", "RPB"));
+      rng.shuffle(arr);
+      return arr;
+    }
+
+    @Override
+    public boolean matchesSeed(int seed) {
+      List<String> predicted = generateForSeed(seed);
+      for (int i = 0; i < 6; i++) {
+        if (!state[i].isBlank() && !state[i].equals(predicted.get(i))) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    @Override
+    public Map<String, String> toProperties(int seed) {
+      Map<String, String> rv = new HashMap<>();
+      List<String> combos = generateForSeed(seed);
+      for (int i = 0; i < 6; i++) {
+        String combo = combos.get(i);
+        combo = combo.charAt(0) + "," + combo.charAt(1) + "," + combo.charAt(2);
+        combo =
+            combo
+                .replaceFirst("B", "Break It On Down")
+                .replaceFirst("P", "Pop and Lock It")
+                .replaceFirst("R", "Run Like the Wind");
+        rv.put("raveCombo" + (i + 1), combo);
+      }
+      return rv;
+    }
+
+    @Override
+    public double reductionFactor() {
+      // N!/6!, where N is the number of unidentified combos
+      int unidentified = 0;
+      for (int i = 0; i < 6; i++) {
+        if (state[i].isBlank()) {
+          unidentified++;
+        }
+      }
+      return factMN(unidentified, 6);
     }
   }
 
@@ -482,6 +609,298 @@ public class AscensionSeedManager {
       } else {
         rv /= TWOPART_NAMES_1.size();
         rv /= TWOPART_NAMES_2.size();
+      }
+      return rv;
+    }
+  }
+
+  // Slime Potion effects
+  //
+  // Starting with the initial order (strong, sagacious, speedy), perform a standard shuffle and
+  // then assign the effects to the red, blue, and yellow potions in that order.
+  // Re-seed the RNG. Starting with the initial order (brawn, brains, briskness), perform a standard
+  // shuffle and then assign the effects to the orange, green, and violet potions in that order.
+  // Re-seed the RNG. Starting with the initial order (muscle, mentalism, moxiousness, intensity,
+  // eyesight, slimeform), perform a standard shuffle and then assign the effects to the vermilion,
+  // amber, chartreuse, teal, purple, and indigo potions in that order.
+  private static class SlimePotions implements Criterion {
+    private final String[] state = new String[12];
+
+    public SlimePotions() {
+      for (int i = 0; i < 12; i++) {
+        state[i] = Preferences.getString("lastSlimeVial" + (3885 + i));
+      }
+    }
+
+    private static final String[] PRIMARY_POTIONS = {"strong", "sagacious", "speedy"};
+    private static final String[] SECONDARY_POTIONS = {"brawn", "brains", "briskness"};
+    private static final String[] TERTIARY_POTIONS = {
+      "muscle", "mentalism", "moxiousness", "intensity", "eyesight", "slimeform"
+    };
+
+    private String[] generateForSeed(int seed) {
+      String[] rv = new String[12];
+      PHPRandom rng = new PHPRandom(seed);
+      List<Integer> arr = new ArrayList<>(List.of(0, 1, 2));
+      rng.shuffle(arr);
+      rv[0] = PRIMARY_POTIONS[arr.get(0)];
+      // These two are swapped from what you'd expect
+      rv[1] = PRIMARY_POTIONS[arr.get(2)];
+      rv[2] = PRIMARY_POTIONS[arr.get(1)];
+
+      rv[3] = SECONDARY_POTIONS[arr.get(0)];
+      rv[4] = SECONDARY_POTIONS[arr.get(1)];
+      rv[5] = SECONDARY_POTIONS[arr.get(2)];
+
+      rng.setSeed(seed);
+      arr = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5));
+      rng.shuffle(arr);
+      rv[0] = TERTIARY_POTIONS[arr.get(0)];
+      rv[1] = TERTIARY_POTIONS[arr.get(1)];
+      rv[2] = TERTIARY_POTIONS[arr.get(2)];
+      rv[3] = TERTIARY_POTIONS[arr.get(3)];
+      // These two are swapped from what you'd expect
+      rv[4] = TERTIARY_POTIONS[arr.get(5)];
+      rv[5] = TERTIARY_POTIONS[arr.get(4)];
+
+      return rv;
+    }
+
+    @Override
+    public boolean matchesSeed(int seed) {
+      String[] effects = generateForSeed(seed);
+      for (int i = 0; i < 12; i++) {
+        if (!state[i].isBlank() && !state[i].equals(effects[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    @Override
+    public Map<String, String> toProperties(int seed) {
+      Map<String, String> rv = new HashMap<>();
+      String[] effects = generateForSeed(seed);
+      for (int i = 0; i < 12; i++) {
+        rv.put("lastSlimeVial" + (3885 + i), effects[i]);
+      }
+      return rv;
+    }
+
+    @Override
+    public double reductionFactor() {
+      // Primary and secondary potions are fully-correlated and provide a N!/3! reduction, where N
+      // is the number of unidentified positions.
+      int unidentified = 0;
+      for (int i = 0; i < 3; i++) {
+        if (state[i].isBlank() && state[i + 3].isBlank()) {
+          unidentified++;
+        }
+      }
+      double rv = factMN(unidentified, 3);
+
+      // Tertiary potions are technically partially-correlated with the primary/secondary, but
+      // assuming that they are independent is close enough. A further N!/6! reduction.
+      unidentified = 0;
+      for (int i = 6; i < 12; i++) {
+        if (state[i].isBlank()) {
+          unidentified++;
+        }
+      }
+      rv *= factMN(unidentified, 6);
+
+      return rv;
+    }
+  }
+
+  // Violet Fog layout
+  //
+  // Each noncombat leads to three other predetermined noncombats in the Violet Fog, which will be
+  // represented here as
+  //    A = noncombat with the lowest choiceAdventure ID of the three
+  //    B = noncombat with intermediate choiceAdventure ID
+  //    C = noncombat highest choiceAdventure ID of the three
+  //
+  // Start with an initial order depending on your current noncombat:
+  //    For the first 14 noncombats (choice IDs 48 - 61), start with [A, B, C]
+  //    For some reward noncombats (choice IDs 62, 63, 66, 68, 69) start with [A, C, B]
+  //    For the other reward noncombats (choice IDs 64, 65, 67, 70) start with [B, C, A]
+  //
+  // For each noncombat, seed the RNG with ascensionSeed + choiceAdventureID. Then perform a
+  // standard shuffle and assign the final sequence to the options "This way", "That way", "The
+  // other way" in that order.
+  private static class VioletFog implements Criterion {
+
+    private final int[] state = new int[69];
+
+    public VioletFog() {
+      String layoutString = Preferences.getString("violetFogLayout");
+      int[] layout = Arrays.stream(layoutString.split(",")).mapToInt(Integer::parseInt).toArray();
+      if (layout.length != 92) {
+        return;
+      }
+
+      for (int choice = 48; choice <= 70; choice++) {
+        int baseIdx = 4 * (choice - 48);
+        if (choice >= 62) {
+          baseIdx++;
+        }
+        for (int c = 0; c < 3; c++) {
+          state[3 * (choice - 48) + c] = layout[baseIdx + c];
+        }
+      }
+    }
+
+    // Every three numbers represent the exits for one of the violet fog NCs, in the order they
+    // should be in before being shuffled.
+    List<Integer> EXITS_INIT =
+        List.of(
+            49, 50, 51, 52, 53, 56, 53, 54, 57, 52, 54, 55, 61, 65, 68, 61, 66, 69, 61, 67, 70, 58,
+            65, 70, 59, 66, 68, 60, 67, 69, 51, 52, 63, 49, 53, 62, 50, 54, 64, 49, 50, 51, 50, 61,
+            52, 51, 61, 53, 54, 61, 49, 51, 54, 50, 49, 52, 51, 50, 53, 49, 49, 53, 50, 50, 54, 51,
+            51, 52, 49);
+
+    private List<Integer> generateForSeed(int seed) {
+      List<Integer> exits = new ArrayList<>(EXITS_INIT);
+      for (int choice = 48; choice <= 70; choice++) {
+        PHPRandom rng = new PHPRandom(seed + choice);
+        List<Integer> choiceExits = exits.subList(3 * (choice - 48), 3 * (choice - 47));
+        rng.shuffle(choiceExits);
+      }
+      return exits;
+    }
+
+    @Override
+    public boolean matchesSeed(int seed) {
+      List<Integer> expected = generateForSeed(seed);
+      for (int i = 0; i < 69; i++) {
+        if (state[i] > 0 && state[i] != expected.get(i)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    @Override
+    public Map<String, String> toProperties(int seed) {
+      List<Integer> exits = generateForSeed(seed);
+      StringBuilder sb = new StringBuilder();
+      for (int choice = 48; choice <= 70; choice++) {
+        if (choice >= 62) {
+          sb.append(
+              String.format(
+                  "-1,%d,%d,%d,",
+                  exits.get(3 * (choice - 48)),
+                  exits.get(3 * (choice - 48) + 1),
+                  exits.get(3 * (choice - 48) + 2)));
+        } else {
+          sb.append(
+              String.format(
+                  "%d,%d,%d,-1,",
+                  exits.get(3 * (choice - 48)),
+                  exits.get(3 * (choice - 48) + 1),
+                  exits.get(3 * (choice - 48) + 2)));
+        }
+      }
+      sb.setLength(sb.length() - 1);
+      return Map.of("violetFogLayout", sb.toString());
+    }
+
+    @Override
+    public double reductionFactor() {
+      // Each choice reduces by N!/3!, where N is the number of unknown exits for that choice.
+      double rv = 1;
+      for (int choice = 48; choice <= 70; choice++) {
+        int unknown = 0;
+        for (int c = 0; c < 3; c++) {
+          if (state[3 * (choice - 48) + c] <= 0) {
+            unknown++;
+          }
+        }
+        rv *= factMN(unknown, 3);
+      }
+      return rv;
+    }
+  }
+
+  // Yeg demon name
+  //
+  // Seed the RNG with 44*ascension seed. Using the syllable array {Ya, Ga, Ye, Ge, Yi, Gi, Yo, Go,
+  // Yu, Gu}, index into it using seven consecutive calls of mt_rand(0,9).
+  private static class YegDemon implements Criterion {
+    private static final List<String> SYLLABLES =
+        List.of("ya", "ga", "ye", "ge", "yi", "gi", "yo", "go", "yu", "gu");
+    private static final List<String> SYLLABLES_UPPER =
+        SYLLABLES.stream().map(s -> s.substring(0, 1).toUpperCase() + s.substring(1)).toList();
+
+    private final int[] state = {-1, -1, -1, -1, -1, -1, -1};
+
+    public YegDemon() {
+      String demonName =
+          Preferences.getString("demonName13").toLowerCase().replaceAll("[^ygaeiou]", "");
+
+      if (demonName.length() == 14) {
+        for (int i = 0; i < 7; i++) {
+          String syl = demonName.substring(2 * i, 2 * (i + 1));
+          state[i] = SYLLABLES.indexOf(syl);
+        }
+      } else {
+        Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
+        for (int i = 0; i < 7; i++) {
+          int pocket = PocketDatabase.scrapSyllables.get(i).getPocket();
+          if (knownScraps.containsKey(pocket)) {
+            state[i] =
+                SYLLABLES.indexOf(
+                    knownScraps.get(pocket).toLowerCase().replaceAll("[^ygaeiou]", ""));
+          }
+        }
+      }
+    }
+
+    private int[] generateForSeed(int seed) {
+      PHPMTRandom rng = new PHPMTRandom(44 * seed);
+      int[] rv = new int[7];
+      for (int i = 0; i < 7; i++) {
+        rv[i] = rng.nextInt(0, 9);
+      }
+      return rv;
+    }
+
+    @Override
+    public boolean matchesSeed(int seed) {
+      int[] expected = generateForSeed(seed);
+      for (int i = 0; i < 7; i++) {
+        if (state[i] > -1 && state[i] != expected[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    @Override
+    public Map<String, String> toProperties(int seed) {
+      int[] choices = generateForSeed(seed);
+      String demonName =
+          String.format(
+              "%s%s %s%s %s%s%s",
+              SYLLABLES_UPPER.get(choices[0]),
+              SYLLABLES.get(choices[1]),
+              SYLLABLES_UPPER.get(choices[2]),
+              SYLLABLES.get(choices[3]),
+              SYLLABLES_UPPER.get(choices[4]),
+              SYLLABLES.get(choices[5]),
+              SYLLABLES.get(choices[6]));
+      return Map.of("demonName13", demonName);
+    }
+
+    @Override
+    public double reductionFactor() {
+      // 1/10^N, where N is the number of known syllables
+      double rv = 1;
+      for (int i = 0; i < 7; i++) {
+        if (state[i] > -1) {
+          rv /= 10;
+        }
       }
       return rv;
     }
