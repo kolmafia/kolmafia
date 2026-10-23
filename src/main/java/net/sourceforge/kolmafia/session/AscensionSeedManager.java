@@ -24,7 +24,7 @@ public class AscensionSeedManager {
   private static final int ASCENSION_SEED_MAX = 9_999_999;
 
   // Give up after finding this many matching seeds
-  private static final int MAX_CALCULATED_SEEDS = 1000;
+  public static final int MAX_CALCULATED_SEEDS = 1000;
 
   // Dispatch batches of this many seed candidates to each processing thread
   private static final int BATCH_SIZE = 100_000;
@@ -49,7 +49,7 @@ public class AscensionSeedManager {
     // most likely to reject a seed candidate are checked first.
     //
     // While it is the case that some criteria give partially- or wholly-redundant data (for example
-    // if they are based entirely on the same sequence of RNG draws), attmpting to account for this
+    // if they are based entirely on the same sequence of RNG draws), attempting to account for this
     // has proven to be too much effort for the small amount of extra processing it saves.
     List<Criterion> criteria =
         CRITERIA.stream()
@@ -115,7 +115,7 @@ public class AscensionSeedManager {
   // implementation has the knowledge of how to determine whether a particular seed is consistent
   // with the current account state as well as determine the expected state of relevant prefs for
   // any given ascension seed.
-  private interface Criterion {
+  public interface Criterion {
     // Check whether the current account state is consistent with the state expected for the
     // specified ascension seed. Implementations of this method should be side-effect-free.
     boolean matchesSeed(int seed);
@@ -150,7 +150,7 @@ public class AscensionSeedManager {
   // Starting with the initial order (sleepiness, confusion, inebriety, teleportitis, detection,
   // ettin strength, mental acuity, blessing, healing), perform a standard shuffle and then assign
   // the effects to potions in increasing order of item ID.
-  private static class BangPotions implements Criterion {
+  static class BangPotions implements Criterion {
     private final List<String> state;
 
     public BangPotions() {
@@ -218,7 +218,7 @@ public class AscensionSeedManager {
   // Starting with the initial order MMMMDDDDTTTT (where M is a monster room, D is a door room, and
   // T is a trap room), perform a standard shuffle and insert the prize rooms after every fourth
   // room.
-  private static class DailyDungeon implements Criterion {
+  static class DailyDungeon implements Criterion {
     private final String state;
 
     public DailyDungeon() {
@@ -283,7 +283,7 @@ public class AscensionSeedManager {
   // Mer-kin dreadscroll answers
   //
   // Use mt_rand(1,4) eight times to select numbers from 1 to 4.
-  private static class Dreadscroll implements Criterion {
+  static class Dreadscroll implements Criterion {
     private final int[] state;
 
     public Dreadscroll() {
@@ -344,7 +344,7 @@ public class AscensionSeedManager {
   // NOTE: It is possible under some conditions for mafia the record the need order incorrectly and
   // no way to definitively correct the order. As such, it is never used to calculate the ascension
   // seed and is only a predictor output.
-  private static class LeprecondoNeeds implements Criterion {
+  static class LeprecondoNeeds implements Criterion {
     private List<String> generateForSeed(int seed) {
       PHPRandom rng = new PHPRandom(seed);
       List<String> arr =
@@ -383,7 +383,7 @@ public class AscensionSeedManager {
   // combo skills--perform a standard shuffle. Then assign the skill sequences to the rave combos in
   // the following order: Rave Steal, Rave Bleeding, Rave Knockout, Rave Concentration, Rave
   // Nirvana, Rave Stats.
-  private static class RaveCombos implements Criterion {
+  static class RaveCombos implements Criterion {
     private final String[] state = new String[6];
 
     public RaveCombos() {
@@ -457,7 +457,7 @@ public class AscensionSeedManager {
   // from SWIM_NAMES. If the result is a 2, the name is two words; the first word is selected from
   // TWOPART_NAMES_1 and the second word is selected from TWOPART_NAMES_2. If the result is a 3, the
   // name is selected from JACK_NAMES.
-  private static class SeahorseName implements Criterion {
+  static class SeahorseName implements Criterion {
     private static final List<String> SWIM_NAMES =
         List.of(
             "Flickerswim",
@@ -626,7 +626,7 @@ public class AscensionSeedManager {
   // Re-seed the RNG. Starting with the initial order (muscle, mentalism, moxiousness, intensity,
   // eyesight, slimeform), perform a standard shuffle and then assign the effects to the vermilion,
   // amber, chartreuse, teal, purple, and indigo potions in that order.
-  private static class SlimePotions implements Criterion {
+  static class SlimePotions implements Criterion {
     private final String[] state = new String[12];
 
     public SlimePotions() {
@@ -732,7 +732,7 @@ public class AscensionSeedManager {
   // For each noncombat, seed the RNG with ascensionSeed + choiceAdventureID. Then perform a
   // standard shuffle and assign the final sequence to the options "This way", "That way", "The
   // other way" in that order.
-  private static class VioletFog implements Criterion {
+  static class VioletFog implements Criterion {
 
     private final int[] state = new int[69];
 
@@ -769,8 +769,9 @@ public class AscensionSeedManager {
 
     private List<Integer> generateForSeed(int seed) {
       List<Integer> exits = new ArrayList<>(EXITS_INIT);
+      PHPRandom rng = new PHPRandom(0);
       for (int choice = 48; choice <= 70; choice++) {
-        PHPRandom rng = new PHPRandom(seed + choice);
+        rng.setSeed(seed + choice);
         List<Integer> choiceExits = exits.subList(3 * (choice - 48), 3 * (choice - 47));
         rng.shuffle(choiceExits);
       }
@@ -834,7 +835,7 @@ public class AscensionSeedManager {
   //
   // Seed the RNG with 44*ascension seed. Using the syllable array {Ya, Ga, Ye, Ge, Yi, Gi, Yo, Go,
   // Yu, Gu}, index into it using seven consecutive calls of mt_rand(0,9).
-  private static class YegDemon implements Criterion {
+  static class YegDemon implements Criterion {
     private static final List<String> SYLLABLES =
         List.of("ya", "ga", "ye", "ge", "yi", "gi", "yo", "go", "yu", "gu");
     private static final List<String> SYLLABLES_UPPER =
