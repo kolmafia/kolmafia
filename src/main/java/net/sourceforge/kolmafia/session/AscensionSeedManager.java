@@ -400,11 +400,14 @@ public class AscensionSeedManager {
       }
     }
 
+    // The order that shuffled combos get assigned to the mafia-numbered effects
+    private static final int[] RAVE_COMBO_ORDER = {3, 4, 2, 1, 0, 5};
+
     private List<String> generateForSeed(int seed) {
       PHPRandom rng = new PHPRandom(seed);
       List<String> arr = new ArrayList<>(List.of("BPR", "BRP", "PBR", "PRB", "RBP", "RPB"));
       rng.shuffle(arr);
-      return arr;
+      return IntStream.range(0, 6).mapToObj(i -> arr.get(RAVE_COMBO_ORDER[i])).toList();
     }
 
     @Override
@@ -655,13 +658,13 @@ public class AscensionSeedManager {
       rng.setSeed(seed);
       arr = new ArrayList<>(List.of(0, 1, 2, 3, 4, 5));
       rng.shuffle(arr);
-      rv[0] = TERTIARY_POTIONS[arr.get(0)];
-      rv[1] = TERTIARY_POTIONS[arr.get(1)];
-      rv[2] = TERTIARY_POTIONS[arr.get(2)];
-      rv[3] = TERTIARY_POTIONS[arr.get(3)];
+      rv[6] = TERTIARY_POTIONS[arr.get(0)];
+      rv[7] = TERTIARY_POTIONS[arr.get(1)];
+      rv[8] = TERTIARY_POTIONS[arr.get(2)];
+      rv[9] = TERTIARY_POTIONS[arr.get(3)];
       // These two are swapped from what you'd expect
-      rv[4] = TERTIARY_POTIONS[arr.get(5)];
-      rv[5] = TERTIARY_POTIONS[arr.get(4)];
+      rv[10] = TERTIARY_POTIONS[arr.get(5)];
+      rv[11] = TERTIARY_POTIONS[arr.get(4)];
 
       return rv;
     }
@@ -735,6 +738,10 @@ public class AscensionSeedManager {
 
     public VioletFog() {
       String layoutString = Preferences.getString("violetFogLayout");
+      if (layoutString.isBlank()) {
+        return;
+      }
+
       int[] layout = Arrays.stream(layoutString.split(",")).mapToInt(Integer::parseInt).toArray();
       if (layout.length != 92) {
         return;
