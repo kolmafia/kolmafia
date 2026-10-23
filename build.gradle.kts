@@ -61,7 +61,7 @@ dependencies {
   implementation("org.fusesource.jansi:jansi:2.4.2")
   implementation("com.alibaba.fastjson2:fastjson2:2.0.59")
   implementation("org.mozilla:rhino:1.9.1")
-  implementation("org.swinglabs:swingx:1.0")
+  implementation("com.github.wumpz.swingx:swingx-all:2.2")
   implementation("org.tmatesoft.svnkit:svnkit:1.10.11") {
     exclude(group = "org.apache.sshd")
   }

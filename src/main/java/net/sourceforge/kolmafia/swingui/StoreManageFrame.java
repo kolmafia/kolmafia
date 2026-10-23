@@ -6,12 +6,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
 import java.io.Serializable;
 import java.util.EventObject;
@@ -22,7 +18,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -31,15 +26,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.text.BadLocationException;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -67,8 +57,6 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.jdesktop.swingx.JXGlassBox;
-import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
@@ -120,87 +108,6 @@ public class StoreManageFrame extends GenericPanelFrame {
         "Store Manager (potential earnings: "
             + KoLConstants.COMMA_FORMAT.format(potentialEarnings)
             + " meat)");
-  }
-
-  public static void showGlassBox(JTable table, int rowIndex, int x, int y) {
-    /*
-     * This is a fun way to display a little dialog with a checkbox and a textfield.
-     */
-    final LimitGlassBox box = new LimitGlassBox(rowIndex);
-    final JTextField text = new JTextField();
-    final JCheckBox check = new JCheckBox();
-    SpringLayout layout = new SpringLayout();
-    int limit = (Integer) StoreManageFrame.INSTANCE.manageTable.getModel().getValueAt(rowIndex, 4);
-    JXPanel panel = new JXPanel(new FlowLayout());
-
-    box.setLayout(layout);
-
-    text.setPreferredSize(new Dimension(100, text.getPreferredSize().height));
-    check.setOpaque(false);
-
-    check.setSelected(limit > 0);
-    text.setText(String.valueOf(limit));
-    text.setEnabled(limit > 0);
-
-    ActionListener bob =
-        new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            text.setEnabled(check.isSelected());
-            if (text.isEnabled() && text.getText().equals("0")) {
-              text.setText("1");
-            }
-            if (!check.isSelected()) {
-              box.setLimit(0);
-              if (text.getText().equals("1")) {
-                text.setText("0");
-              }
-            } else {
-              box.setLimit(StringUtilities.parseInt(text.getText()));
-            }
-          }
-        };
-    check.addActionListener(bob);
-
-    DocumentListener steve =
-        new DocumentListener() {
-
-          @Override
-          public void insertUpdate(DocumentEvent e) {
-            this.changedUpdate(e);
-          }
-
-          @Override
-          public void removeUpdate(DocumentEvent e) {
-            this.changedUpdate(e);
-          }
-
-          @Override
-          public void changedUpdate(DocumentEvent e) {
-            try {
-              long lim =
-                  StringUtilities.parseLong(
-                      e.getDocument().getText(0, e.getDocument().getLength()));
-              box.setLimit(lim);
-            } catch (BadLocationException e1) {
-              e1.printStackTrace();
-            }
-          }
-        };
-    text.getDocument().addDocumentListener(steve);
-
-    panel.add(check);
-    panel.add(text);
-    panel.setBorder(BorderFactory.createRaisedBevelBorder());
-
-    box.add(panel);
-
-    layout.putConstraint(SpringLayout.WEST, panel, x, SpringLayout.WEST, box);
-    layout.putConstraint(SpringLayout.NORTH, panel, y, SpringLayout.NORTH, box);
-
-    SwingUtilities.getRootPane(table).setGlassPane(box);
-
-    box.setVisible(true);
   }
 
   private class StoreManagePanel extends GenericPanel {
@@ -284,7 +191,7 @@ public class StoreManageFrame extends GenericPanelFrame {
             Long.class,
             Integer.class,
             Integer.class,
-            Boolean.class,
+            Integer.class,
             JButton.class,
             JButton.class,
           });
@@ -302,7 +209,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       this.getColumnModel().getColumn(6).setResizable(false);
       this.getColumnModel().getColumn(5).setPreferredWidth(44);
       this.getColumnModel().getColumn(5).setResizable(false);
-      this.getColumnModel().getColumn(4).setPreferredWidth(44);
+      this.getColumnModel().getColumn(4).setPreferredWidth(60);
       this.getColumnModel().getColumn(4).setResizable(false);
       this.getColumnModel().getColumn(3).setResizable(false);
       this.getColumnModel().getColumn(0).setPreferredWidth(220);
@@ -315,16 +222,16 @@ public class StoreManageFrame extends GenericPanelFrame {
 
     private void setEditors() {
       this.setDefaultEditor(JButton.class, new JButtonHackEditor());
-      this.setDefaultEditor(Boolean.class, new JButtonHackEditor());
       this.setDefaultEditor(Long.class, new PriceEditor());
+      this.getColumnModel().getColumn(4).setCellEditor(new LimitEditor());
     }
 
     private void setRenderers() {
-      this.setDefaultRenderer(Boolean.class, new BoolRenderer());
       IntegerRenderer rend = new IntegerRenderer(); // TODO: do we need LongRenderer?
       rend.setHorizontalAlignment(JLabel.RIGHT);
       this.setDefaultRenderer(Integer.class, rend);
       this.setDefaultRenderer(String.class, new DefaultTableRenderer());
+      this.getColumnModel().getColumn(4).setCellRenderer(new LimitRenderer());
     }
 
     private void setHighlighters() {
@@ -515,17 +422,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       @Override
       public Component getTableCellEditorComponent(
           JTable table, Object value, boolean isSelected, int row, int column) {
-        if (value instanceof Boolean || value instanceof Integer) {
-          Rectangle rect = table.getCellRect(row, column, false);
-          // Look at this nonsense
-          Point p = new Point(rect.x, rect.y);
-          // I hate you Swing
-          SwingUtilities.convertPointToScreen(p, table);
-          // I mean seriously, WTF
-          SwingUtilities.convertPointFromScreen(p, SwingUtilities.getRootPane(table));
-          StoreManageFrame.showGlassBox(
-              table, convertRowIndexToModel(row), p.x + rect.width / 2 - 15, p.y + 13);
-        } else if (value instanceof JButton) {
+        if (value instanceof JButton) {
           ((JButton) value).doClick(10);
         }
 
@@ -543,7 +440,7 @@ public class StoreManageFrame extends GenericPanelFrame {
             Long.class,
             Long.class,
             Integer.class,
-            Boolean.class,
+            Integer.class,
             JButton.class,
             JButton.class
           },
@@ -777,27 +674,6 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  public static class BoolRenderer extends JCheckBox implements TableCellRenderer {
-    public BoolRenderer() {
-      setHorizontalAlignment(JLabel.CENTER);
-    }
-
-    @Override
-    public Component getTableCellRendererComponent(
-        JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-      if (isSelected) {
-        setForeground(table.getSelectionForeground());
-        // super.setBackground(table.getSelectionBackground());
-        setBackground(table.getSelectionBackground());
-      } else {
-        setForeground(table.getForeground());
-        setBackground(table.getBackground());
-      }
-      setSelected((value != null && ((Integer) value) > 0));
-      return this;
-    }
-  }
-
   private static class PriceEditor extends DefaultCellEditor {
     private static final AutoHighlightTextField rightField =
         new AutoHighlightTextField() {
@@ -830,25 +706,53 @@ public class StoreManageFrame extends GenericPanelFrame {
       return this.editorComponent;
     }
   }
-}
 
-class LimitGlassBox extends JXGlassBox {
-  private long limit;
-  private final int rowIndex;
+  static class LimitEditor extends DefaultCellEditor {
+    private static final AutoHighlightTextField rightField =
+        new AutoHighlightTextField() {
+          @Override
+          public int getHorizontalAlignment() {
+            return JLabel.RIGHT;
+          }
+        };
 
-  public LimitGlassBox(int rowIndex) {
-    super(1.0f);
-    this.rowIndex = rowIndex;
-    this.limit = (Integer) StoreManageFrame.INSTANCE.manageTable.getModel().getValueAt(rowIndex, 4);
+    public LimitEditor() {
+      this(rightField);
+    }
+
+    public LimitEditor(JTextField textField) {
+      super(textField);
+    }
+
+    @Override
+    public Object getCellEditorValue() {
+      String text = String.valueOf(super.getCellEditorValue()).trim();
+      return text.isEmpty() ? 0 : StringUtilities.parseInt(text);
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(
+        JTable table, Object value, boolean isSelected, int row, int column) {
+      if (value == null) {
+        return super.getTableCellEditorComponent(table, value, isSelected, row, column);
+      }
+      int limit = value instanceof Integer integer ? integer : 0;
+      // A limit of zero means that the item has no limit, so show nothing.
+      ((JTextField) this.editorComponent).setText(limit > 0 ? String.valueOf(limit) : "");
+      return this.editorComponent;
+    }
   }
 
-  public void setLimit(long lim) {
-    this.limit = lim;
-  }
+  static class LimitRenderer extends DefaultTableCellRenderer {
+    public LimitRenderer() {
+      super();
+      this.setHorizontalAlignment(JLabel.RIGHT);
+    }
 
-  @Override
-  public void dismiss() {
-    StoreManageFrame.INSTANCE.manageTable.getModel().setValueAt((int) limit, rowIndex, 4);
-    super.dismiss();
+    @Override
+    protected void setValue(Object value) {
+      // A limit of zero means that the item has no limit, so show nothing.
+      this.setText(value instanceof Integer limit && limit > 0 ? String.valueOf(limit) : "");
+    }
   }
 }
