@@ -74,7 +74,6 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
@@ -1966,24 +1965,23 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private void initialize() {
-      this.afterAdventureScript = new ScriptSelectPanel(new CollapsibleTextArea("Post-Adventure:"));
-      this.beforePVPScript = new ScriptSelectPanel(new CollapsibleTextArea("Before PvP:"));
-      this.betweenBattleScript = new ScriptSelectPanel(new CollapsibleTextArea("Pre-Adventure:"));
-      this.buyScript = new ScriptSelectPanel(new CollapsibleTextArea("Buy Script:"));
-      this.chatbotScript = new ScriptSelectPanel(new CollapsibleTextArea("Chatbot Script:"));
-      this.choiceAdventureScript =
-          new ScriptSelectPanel(new CollapsibleTextArea("Choice-Adventure:"));
-      this.counterScript = new ScriptSelectPanel(new CollapsibleTextArea("Counter Script:"));
-      this.familiarScript = new ScriptSelectPanel(new CollapsibleTextArea("Familiar Script: "));
-      this.kingLiberatedScript = new ScriptSelectPanel(new CollapsibleTextArea("King Freed:"));
-      this.loginScript = new ScriptSelectPanel(new CollapsibleTextArea("On Login:"));
-      this.logoutScript = new ScriptSelectPanel(new CollapsibleTextArea("On Logout:"));
-      this.plantingScript = new ScriptSelectPanel(new CollapsibleTextArea("Planting:"));
-      this.postAscensionScript = new ScriptSelectPanel(new CollapsibleTextArea("Post-Ascension:"));
-      this.preAscensionScript = new ScriptSelectPanel(new CollapsibleTextArea("Pre-Ascension:"));
-      this.recoveryScript = new ScriptSelectPanel(new CollapsibleTextArea("Recovery:"));
-      this.spadingScript = new ScriptSelectPanel(new CollapsibleTextArea("Spading:"));
-      this.chatPlayerScript = new ScriptSelectPanel(new CollapsibleTextArea("Chat Player Click:"));
+      this.afterAdventureScript = new ScriptSelectPanel("Post-Adventure:");
+      this.beforePVPScript = new ScriptSelectPanel("Before PvP:");
+      this.betweenBattleScript = new ScriptSelectPanel("Pre-Adventure:");
+      this.buyScript = new ScriptSelectPanel("Buy Script:");
+      this.chatbotScript = new ScriptSelectPanel("Chatbot Script:");
+      this.choiceAdventureScript = new ScriptSelectPanel("Choice-Adventure:");
+      this.counterScript = new ScriptSelectPanel("Counter Script:");
+      this.familiarScript = new ScriptSelectPanel("Familiar Script: ");
+      this.kingLiberatedScript = new ScriptSelectPanel("King Freed:");
+      this.loginScript = new ScriptSelectPanel("On Login:");
+      this.logoutScript = new ScriptSelectPanel("On Logout:");
+      this.plantingScript = new ScriptSelectPanel("Planting:");
+      this.postAscensionScript = new ScriptSelectPanel("Post-Ascension:");
+      this.preAscensionScript = new ScriptSelectPanel("Pre-Ascension:");
+      this.recoveryScript = new ScriptSelectPanel("Recovery:");
+      this.spadingScript = new ScriptSelectPanel("Spading:");
+      this.chatPlayerScript = new ScriptSelectPanel("Chat Player Click:");
     }
 
     @Override
