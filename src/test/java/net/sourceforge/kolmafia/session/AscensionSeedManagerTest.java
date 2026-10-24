@@ -36,6 +36,9 @@ public class AscensionSeedManagerTest {
             withProperty("lastBangPotion820", "inebriety"));
 
     try (cleanups) {
+      int estimatedCount = AscensionSeedManager.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(2));
+
       List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
       assertThat(matches.size(), is(4));
       assertThat(matches, contains(1062694, 2209935, 5572718, 7252442));
@@ -47,6 +50,9 @@ public class AscensionSeedManagerTest {
     var cleanups = new Cleanups(withProperty("dailyDungeonRooms", "T???_????_????"));
 
     try (cleanups) {
+      int estimatedCount = AscensionSeedManager.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(3_000_000));
+
       List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
       assertThat(matches.size(), is(AscensionSeedManager.MAX_CALCULATED_SEEDS));
     }

@@ -4254,6 +4254,10 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("seed", DataTypes.INT_TYPE));
     functions.add(
         new LibraryFunction("ascension_seed_properties", DataTypes.STRING_TO_STRING_TYPE, params));
+
+    params = List.of();
+    functions.add(
+        new LibraryFunction("estimated_ascension_seed_possibilities", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12840,5 +12844,9 @@ public abstract class RuntimeLibrary {
     int seed = (int) seedValue.intValue();
     Map<String, String> properties = AscensionSeedManager.getPropertiesForSeed(seed);
     return DataTypes.makeStringToStringValue(properties);
+  }
+
+  public static Value estimated_ascension_seed_possibilities(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(AscensionSeedManager.estimatedAscensionSeedPossibilities());
   }
 }

@@ -109,6 +109,24 @@ public class AscensionSeedManager {
     return rv;
   }
 
+  // Estimate the number of matching ascension seed candidates that will be found based on the
+  // character's current state. This can be useful in informing whether it makes sense to even try
+  // searching for the ascension seed yet.
+  //
+  // Note that the return value will have a tendency to be overly-optimistic: if there are multiple
+  // criteria that perform draws of similar granularity, they won't actually narrow down the
+  // candidates as much as two truly independent processes would. We accept this inaccuracy for the
+  // sake of simplicity.
+  public static int estimatedAscensionSeedPossibilities() {
+    double totalReductionFactor =
+        CRITERIA.stream()
+            .map(Supplier::get)
+            .mapToDouble(Criterion::reductionFactor)
+            .reduce(1, (a, b) -> a * b);
+    int totalSeeds = ASCENSION_SEED_MAX - ASCENSION_SEED_MIN + 1;
+    return (int) Math.ceil(totalReductionFactor * totalSeeds);
+  }
+
   // region: Ascension Seed criteria
 
   // Interface representing an aspect of the game that is determined by the ascension seed. Each
