@@ -34,7 +34,8 @@ public class TCRSCommand extends AbstractCommand {
       RequestLogger.printLine("Some commands require being in a TCRS run and data will");
       RequestLogger.printLine("be for current CLASS and SIGN.");
       RequestLogger.printLine(
-          "test CLASS SIGN - load and apply data for class and sign, regardless of current path, class, and sign.");
+          "test CLASS, SIGN - load and apply data for class and sign, regardless of current path, class, and sign.");
+      RequestLogger.printLine("test reset - restore original modifiers.");
       RequestLogger.printLine("ring - display modifiers for ring.");
       RequestLogger.printLine("spoon - display modifiers for spoon.");
       RequestLogger.printLine("load - load current data.");
@@ -95,9 +96,11 @@ public class TCRSCommand extends AbstractCommand {
       AscensionClass ascensionClass = AscensionClass.find(cclass);
       String sign = split[1];
       ZodiacSign zsign = ZodiacSign.find(sign);
-      TCRSDatabase.load(ascensionClass, zsign, true);
-      TCRSDatabase.loadCafe(ascensionClass, zsign, true);
-      TCRSDatabase.applyModifiers();
+      if (!TCRSDatabase.loadTCRSData(ascensionClass, zsign, true, true)) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR,
+            cclass + " is not a valid class or " + sign + " is not a valid sign.");
+      }
       return;
     }
 
