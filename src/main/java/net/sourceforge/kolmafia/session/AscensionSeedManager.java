@@ -59,13 +59,17 @@ public class AscensionSeedManager {
         CRITERIA.stream()
             .map(Supplier::get)
             .filter(c -> c.reductionFactor() < 1)
-            .sorted(Comparator.comparingDouble(Criterion::reductionFactor))
+            .sorted(Comparator.comparingDouble(Criterion::sortKey))
             .collect(Collectors.toCollection(ArrayList::new));
 
     if (RequestLogger.isDebugging()) {
       RequestLogger.updateDebugLog("Ascension seed query:");
       criteria.stream()
-          .map(c -> c.getClass().getSimpleName() + ": " + 1 / c.reductionFactor())
+          .map(
+              c ->
+                  String.format(
+                      "%-20s: %10.2f ( %10.2f )",
+                      c.getClass().getSimpleName(), 1 / c.reductionFactor(), 1 / c.sortKey()))
           .forEach(RequestLogger::updateDebugLog);
       RequestLogger.updateDebugLog("Starting search at " + LocalDateTime.now());
     }
@@ -141,25 +145,44 @@ public class AscensionSeedManager {
 
   // region: Ascension Seed criteria
 
-  // Interface representing an aspect of the game that is determined by the ascension seed. Each
-  // implementation has the knowledge of how to determine whether a particular seed is consistent
-  // with the current account state as well as determine the expected state of relevant prefs for
-  // any given ascension seed.
-  public interface Criterion {
+  // Abstract class representing an aspect of the game that is determined by the ascension seed.
+  // Each implementation has the knowledge of how to determine whether a particular seed is
+  // consistent with the current account state as well as determine the expected state of relevant
+  // prefs for any given ascension seed.
+  public abstract static class Criterion {
     // Check whether the current account state is consistent with the state expected for the
     // specified ascension seed. Implementations of this method should be side-effect-free.
-    boolean matchesSeed(int seed);
+    abstract boolean matchesSeed(int seed);
 
     // Return the expected values of all properties that are associated with this aspect, based on
     // the specified ascension seed.
-    Map<String, String> toProperties(int seed);
+    abstract Map<String, String> toProperties(int seed);
 
     // A heuristic indicating what proportion of ascension seed candidates are consistent with the
     // current value of the prefs associated with this aspect. A lower value indicates that more
     // candidate seeds are likely to be weeded out by checking this criterion.
     //
     // In any reasonable case, the return value should be in the interval (0,1].
-    double reductionFactor();
+    abstract double reductionFactor();
+
+    double bestAllowedSortKey() {
+      return 0;
+    }
+
+    final double sortKey() {
+      double sortFloor = bestAllowedSortKey();
+      return sortFloor + (1 - sortFloor) * reductionFactor();
+    }
+  }
+
+  // PHPMTRandom takes longer to set up, which makes criteria that use it much slower than any
+  // Criterion that uses only PHPRandom. Ensure that PHPMTRandom-using criteria get sorted behind
+  // any fast Criterion that rejects a meaningful number of possibilities.
+  private abstract static class MTRandomCriterion extends Criterion {
+    @Override
+    public double bestAllowedSortKey() {
+      return 0.75;
+    }
   }
 
   // Utility method used for many reductionFactor() methods. Returns M!/N!
@@ -180,7 +203,7 @@ public class AscensionSeedManager {
   // Starting with the initial order (sleepiness, confusion, inebriety, teleportitis, detection,
   // ettin strength, mental acuity, blessing, healing), perform a standard shuffle and then assign
   // the effects to potions in increasing order of item ID.
-  static class BangPotions implements Criterion {
+  static class BangPotions extends Criterion {
     private final List<String> state;
 
     public BangPotions() {
@@ -248,7 +271,7 @@ public class AscensionSeedManager {
   // For each book, use mt_rand(1,26), mt_rand(1,26), mt_rand(111,999), and mt_rand(11,99) to
   // produce the card catalog code for the book. Then, skip several draws (used to generate the book
   // title) before repeating the process for the next book.
-  static class CardCatalog implements Criterion {
+  static class CardCatalog extends MTRandomCriterion {
     private final Set<String> state;
 
     public CardCatalog() {
@@ -341,7 +364,7 @@ public class AscensionSeedManager {
   // Starting with the initial order MMMMDDDDTTTT (where M is a monster room, D is a door room, and
   // T is a trap room), perform a standard shuffle and insert the prize rooms after every fourth
   // room.
-  static class DailyDungeon implements Criterion {
+  static class DailyDungeon extends Criterion {
     private final String state;
 
     public DailyDungeon() {
@@ -411,7 +434,7 @@ public class AscensionSeedManager {
   // Mer-kin dreadscroll answers
   //
   // Use mt_rand(1,4) eight times to select numbers from 1 to 4.
-  static class Dreadscroll implements Criterion {
+  static class Dreadscroll extends MTRandomCriterion {
     private final int[] state;
 
     public Dreadscroll() {
@@ -472,7 +495,7 @@ public class AscensionSeedManager {
   // NOTE: It is possible under some conditions for mafia the record the need order incorrectly and
   // no way to definitively correct the order. As such, it is never used to calculate the ascension
   // seed and is only a predictor output.
-  static class LeprecondoNeeds implements Criterion {
+  static class LeprecondoNeeds extends Criterion {
     private List<String> generateForSeed(int seed) {
       PHPRandom rng = new PHPRandom(seed);
       List<String> arr =
@@ -513,7 +536,7 @@ public class AscensionSeedManager {
   // combo skills--perform a standard shuffle. Then assign the skill sequences to the rave combos in
   // the following order: Rave Steal, Rave Bleeding, Rave Knockout, Rave Concentration, Rave
   // Nirvana, Rave Stats.
-  static class RaveCombos implements Criterion {
+  static class RaveCombos extends Criterion {
     private final String[] state = new String[6];
 
     public RaveCombos() {
@@ -587,7 +610,7 @@ public class AscensionSeedManager {
   // from SWIM_NAMES. If the result is a 2, the name is two words; the first word is selected from
   // TWOPART_NAMES_1 and the second word is selected from TWOPART_NAMES_2. If the result is a 3, the
   // name is selected from JACK_NAMES.
-  static class SeahorseName implements Criterion {
+  static class SeahorseName extends MTRandomCriterion {
     private static final List<String> SWIM_NAMES =
         List.of(
             "Flickerswim",
@@ -756,7 +779,7 @@ public class AscensionSeedManager {
   // Re-seed the RNG. Starting with the initial order (muscle, mentalism, moxiousness, intensity,
   // eyesight, slimeform), perform a standard shuffle and then assign the effects to the vermilion,
   // amber, chartreuse, teal, purple, and indigo potions in that order.
-  static class SlimePotions implements Criterion {
+  static class SlimePotions extends Criterion {
     private final String[] state = new String[12];
 
     public SlimePotions() {
@@ -850,7 +873,7 @@ public class AscensionSeedManager {
   //
   // Seed the RNG with 44*ascension seed. Using the syllable array {Ya, Ga, Ye, Ge, Yi, Gi, Yo, Go,
   // Yu, Gu}, index into it using seven consecutive calls of mt_rand(0,9).
-  static class YegDemon implements Criterion {
+  static class YegDemon extends MTRandomCriterion {
     private static final List<String> SYLLABLES =
         List.of("ya", "ga", "ye", "ge", "yi", "gi", "yo", "go", "yu", "gu");
     private static final List<String> SYLLABLES_UPPER =
