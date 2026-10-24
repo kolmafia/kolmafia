@@ -326,38 +326,6 @@ public class AscensionSeedManagerTest {
   }
 
   @Nested
-  class VioletFog {
-    @Test
-    void calculates() {
-      int seed = 7777777;
-      Criterion c = new AscensionSeedManager.VioletFog();
-      Map<String, String> result = c.toProperties(seed);
-      assertThat(
-          result.get("violetFogLayout"),
-          is(
-              "49,51,50,-1,53,56,52,-1,54,53,57,-1,52,54,55,-1,68,61,65,-1,66,61,69,-1,67,70,61,-1,65,58,70,-1,68,59,66,-1,69,60,67,-1,52,63,51,-1,62,49,53,-1,50,64,54,-1,49,50,51,-1,-1,61,50,52,-1,53,61,51,-1,54,61,49,-1,54,51,50,-1,51,52,49,-1,50,53,49,-1,50,53,49,-1,54,51,50,-1,49,52,51"));
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-      "1234567,false",
-      "8675309,false",
-      "7777777,true",
-      "4309003,true",
-    })
-    void predicts(int seed, boolean expected) {
-      var cleanups =
-          withProperty(
-              "violetFogLayout",
-              "49,0,0,-1,53,0,0,-1,54,0,0,-1,52,0,0,-1,0,61,0,-1,0,61,0,-1,0,70,0,-1,0,58,0,-1,0,59,0,-1,0,0,67,-1,0,0,51,-1,0,0,53,-1,0,0,0,-1,0,0,0,-1,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0");
-      try (cleanups) {
-        Criterion c = new AscensionSeedManager.VioletFog();
-        assertThat(c.matchesSeed(seed), is(expected));
-      }
-    }
-  }
-
-  @Nested
   class YegDemon {
     @ParameterizedTest
     @CsvSource({

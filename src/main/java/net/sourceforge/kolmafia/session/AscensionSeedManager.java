@@ -39,7 +39,6 @@ public class AscensionSeedManager {
           RaveCombos::new,
           SeahorseName::new,
           SlimePotions::new,
-          VioletFog::new,
           YegDemon::new);
 
   // Determine which ascension seeds are possible given the state of the character's current prefs.
@@ -713,121 +712,6 @@ public class AscensionSeedManager {
       }
       rv *= factMN(unidentified, 6);
 
-      return rv;
-    }
-  }
-
-  // Violet Fog layout
-  //
-  // Each noncombat leads to three other predetermined noncombats in the Violet Fog, which will be
-  // represented here as
-  //    A = noncombat with the lowest choiceAdventure ID of the three
-  //    B = noncombat with intermediate choiceAdventure ID
-  //    C = noncombat highest choiceAdventure ID of the three
-  //
-  // Start with an initial order depending on your current noncombat:
-  //    For the first 14 noncombats (choice IDs 48 - 61), start with [A, B, C]
-  //    For some reward noncombats (choice IDs 62, 63, 66, 68, 69) start with [A, C, B]
-  //    For the other reward noncombats (choice IDs 64, 65, 67, 70) start with [B, C, A]
-  //
-  // For each noncombat, seed the RNG with ascensionSeed + choiceAdventureID. Then perform a
-  // standard shuffle and assign the final sequence to the options "This way", "That way", "The
-  // other way" in that order.
-  static class VioletFog implements Criterion {
-
-    private final int[] state = new int[69];
-
-    public VioletFog() {
-      String layoutString = Preferences.getString("violetFogLayout");
-      if (layoutString.isBlank()) {
-        return;
-      }
-
-      int[] layout = Arrays.stream(layoutString.split(",")).mapToInt(Integer::parseInt).toArray();
-      if (layout.length != 92) {
-        return;
-      }
-
-      for (int choice = 48; choice <= 70; choice++) {
-        int baseIdx = 4 * (choice - 48);
-        if (choice >= 62) {
-          baseIdx++;
-        }
-        for (int c = 0; c < 3; c++) {
-          state[3 * (choice - 48) + c] = layout[baseIdx + c];
-        }
-      }
-    }
-
-    // Every three numbers represent the exits for one of the violet fog NCs, in the order they
-    // should be in before being shuffled.
-    List<Integer> EXITS_INIT =
-        List.of(
-            49, 50, 51, 52, 53, 56, 53, 54, 57, 52, 54, 55, 61, 65, 68, 61, 66, 69, 61, 67, 70, 58,
-            65, 70, 59, 66, 68, 60, 67, 69, 51, 52, 63, 49, 53, 62, 50, 54, 64, 49, 50, 51, 50, 61,
-            52, 51, 61, 53, 54, 61, 49, 51, 54, 50, 49, 52, 51, 50, 53, 49, 49, 53, 50, 50, 54, 51,
-            51, 52, 49);
-
-    private List<Integer> generateForSeed(int seed) {
-      List<Integer> exits = new ArrayList<>(EXITS_INIT);
-      PHPRandom rng = new PHPRandom(0);
-      for (int choice = 48; choice <= 70; choice++) {
-        rng.setSeed(seed + choice);
-        List<Integer> choiceExits = exits.subList(3 * (choice - 48), 3 * (choice - 47));
-        rng.shuffle(choiceExits);
-      }
-      return exits;
-    }
-
-    @Override
-    public boolean matchesSeed(int seed) {
-      List<Integer> expected = generateForSeed(seed);
-      for (int i = 0; i < 69; i++) {
-        if (state[i] > 0 && state[i] != expected.get(i)) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    @Override
-    public Map<String, String> toProperties(int seed) {
-      List<Integer> exits = generateForSeed(seed);
-      StringBuilder sb = new StringBuilder();
-      for (int choice = 48; choice <= 70; choice++) {
-        if (choice >= 62) {
-          sb.append(
-              String.format(
-                  "-1,%d,%d,%d,",
-                  exits.get(3 * (choice - 48)),
-                  exits.get(3 * (choice - 48) + 1),
-                  exits.get(3 * (choice - 48) + 2)));
-        } else {
-          sb.append(
-              String.format(
-                  "%d,%d,%d,-1,",
-                  exits.get(3 * (choice - 48)),
-                  exits.get(3 * (choice - 48) + 1),
-                  exits.get(3 * (choice - 48) + 2)));
-        }
-      }
-      sb.setLength(sb.length() - 1);
-      return Map.of("violetFogLayout", sb.toString());
-    }
-
-    @Override
-    public double reductionFactor() {
-      // Each choice reduces by N!/3!, where N is the number of unknown exits for that choice.
-      double rv = 1;
-      for (int choice = 48; choice <= 70; choice++) {
-        int unknown = 0;
-        for (int c = 0; c < 3; c++) {
-          if (state[3 * (choice - 48) + c] <= 0) {
-            unknown++;
-          }
-        }
-        rv *= factMN(unknown, 3);
-      }
       return rv;
     }
   }
