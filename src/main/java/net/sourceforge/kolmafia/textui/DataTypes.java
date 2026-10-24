@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import java.util.List;
+import java.util.Map;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -38,6 +39,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
+import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeList;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -1051,6 +1053,14 @@ public class DataTypes {
       value.aset(new Value(i), new Value(list.get(i)));
     }
 
+    return value;
+  }
+
+  public static MapValue makeStringToStringValue(final Map<String, String> map) {
+    MapValue value = new MapValue(DataTypes.STRING_TO_STRING_TYPE);
+    for (Map.Entry<String, String> e : map.entrySet()) {
+      value.aset(DataTypes.makeStringValue(e.getKey()), DataTypes.makeStringValue(e.getValue()));
+    }
     return value;
   }
 
