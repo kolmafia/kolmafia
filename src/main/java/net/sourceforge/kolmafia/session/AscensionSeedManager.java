@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -77,8 +78,8 @@ public class AscensionSeedManager {
               seedloop:
               for (int seedCandidate = min; seedCandidate <= max; seedCandidate++) {
                 // Give up early if we've already found the maximum number of matching seeds
-                // allowed.
-                if (matchingSeeds.size() >= MAX_CALCULATED_SEEDS) {
+                // allowed. Also give up immediately if the user has aborted.
+                if (matchingSeeds.size() >= MAX_CALCULATED_SEEDS || KoLmafia.refusesContinue()) {
                   break;
                 }
 
