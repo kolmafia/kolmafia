@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.utilities;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -11,13 +10,15 @@ import java.util.Random;
  */
 public class PHPRandom extends Random {
   public static final long serialVersionUID = 0L;
-  public ArrayList<Integer> state;
+  private static final int RING_LENGTH = 34;
+  private int[] state;
+  private int pos;
 
   @Override
   public int next(int bits) {
-    int i = state.size();
-    int value = state.get(i - 31) + state.get(i - 3);
-    state.add(value);
+    int value = state[(pos + 3) % RING_LENGTH] + state[(pos + 31) % RING_LENGTH];
+    state[pos] = value;
+    pos = (pos + 1) % RING_LENGTH;
     return value >>> 1;
   }
 
@@ -40,24 +41,24 @@ public class PHPRandom extends Random {
   @Override
   public synchronized void setSeed(long seed) {
     if (state == null) {
-      state = new ArrayList<>();
+      state = new int[RING_LENGTH];
     }
 
-    state.clear();
-    state.add((int) seed);
+    state[0] = (int) seed;
 
     for (int i = 1; i < 31; i++) {
-      int value = (int) ((16_807L * state.get(i - 1)) % Integer.MAX_VALUE);
+      int value = (int) ((16_807L * state[i - 1]) % Integer.MAX_VALUE);
       if (value < 0) {
         value += Integer.MAX_VALUE;
       }
-      state.add(value);
+      state[i] = value;
     }
 
     for (int i = 31; i < 34; i++) {
-      state.add(state.get(i - 31));
+      state[i] = state[i - 31];
     }
 
+    pos = 0;
     for (int i = 34; i < 344; i++) {
       next(32);
     }
