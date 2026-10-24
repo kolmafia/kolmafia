@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
@@ -98,6 +99,40 @@ public class AscensionSeedManagerTest {
 
         try (cleanups) {
           Criterion c = new AscensionSeedManager.BangPotions();
+          assertThat(c.matchesSeed(seed), is(expected));
+        }
+      }
+    }
+
+    @Nested
+    class CardCatalog {
+      @ParameterizedTest
+      @CsvSource({
+        "1234567,TN117.43|YF156.29|OZ980.28|OS533.13|FU892.87|TL186.71|AC701.85|JI145.98|MY679.95|MQ420.27|UU920.57|DV791.78|MD418.18",
+        "2345678,KN118.99|LU120.13|HZ497.45|EZ848.51|SX963.79|CF674.23|QM227.14|GS958.56|UI521.52|BL607.31|RN604.43|BA717.68|SG434.71",
+        "7777777,RL672.15|CN799.60|HU568.36|IS600.91|MT918.59|RL678.12|PZ451.51|DC701.12|LV820.88|HV338.90|QZ280.64|ES965.12|XH650.28",
+      })
+      void calculates(int seed, String books) {
+        Criterion c = new AscensionSeedManager.CardCatalog();
+        Map<String, String> result = c.toProperties(seed);
+        for (String book : books.split("\\|")) {
+          assertThat(result.get("merkinCatalogChoices"), containsString(book));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({
+        "1234567,false",
+        "8675309,false",
+        "7777777,true",
+      })
+      void predicts(int seed, boolean expected) {
+        var cleanups =
+            withProperty(
+                "merkinCatalogChoices", "CN799.60:1:unknown,HU568.36:2:unknown,RL672.15:3:unknown");
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.CardCatalog();
           assertThat(c.matchesSeed(seed), is(expected));
         }
       }

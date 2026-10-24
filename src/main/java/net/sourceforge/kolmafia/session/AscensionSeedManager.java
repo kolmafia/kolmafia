@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -34,6 +36,7 @@ public class AscensionSeedManager {
   private static final List<Supplier<Criterion>> CRITERIA =
       List.of(
           BangPotions::new,
+          CardCatalog::new,
           DailyDungeon::new,
           Dreadscroll::new,
           LeprecondoNeeds::new,
@@ -237,6 +240,99 @@ public class AscensionSeedManager {
         }
       }
       return factMN(unidentified, 9);
+    }
+  }
+
+  // Playing the Card Catalog noncombat
+  //
+  // For each book, use mt_rand(1,26), mt_rand(1,26), mt_rand(111,999), and mt_rand(11,99) to
+  // produce the card catalog code for the book. Then, skip several draws (used to generate the book
+  // title) before repeating the process for the next book.
+  static class CardCatalog implements Criterion {
+    private final Set<String> state;
+
+    public CardCatalog() {
+      String pref = Preferences.getString("merkinCatalogChoices");
+      if (pref.isBlank()) {
+        state = Collections.emptySet();
+        return;
+      }
+
+      String[] parts = pref.split(",");
+      state = Arrays.stream(parts).map(s -> s.substring(0, 8)).collect(Collectors.toSet());
+    }
+
+    private List<String> generateForSeed(int seed, int limit) {
+      List<String> rv = new ArrayList<>();
+      PHPMTRandom rng = new PHPMTRandom(seed);
+      for (int i = 0; i < limit; i++) {
+        if (i > 0) {
+          // Skip a variable number of draws for book title generation
+          int v = rng.nextInt(1, 6);
+          int skip = (v % 3 == 0) ? 4 : 3;
+          for (int s = 0; s < skip; s++) {
+            rng.nextInt();
+          }
+        }
+
+        String book =
+            String.format(
+                "%s%s%3d.%2d",
+                (char) rng.nextInt('A', 'Z'),
+                (char) rng.nextInt('A', 'Z'),
+                rng.nextInt(111, 999),
+                rng.nextInt(11, 99));
+        rv.add(book);
+      }
+      return rv;
+    }
+
+    @Override
+    public boolean matchesSeed(int seed) {
+      // Quick rejection: The first three books generated contain the dreadscroll clues and always
+      // appear in the NC, regardless of Mer-kin vocabulary knowledge. Generate only the first book
+      // and check if it was seen. This will reject almost all misses.
+      String quickBook = generateForSeed(seed, 1).getFirst();
+      if (!state.contains(quickBook)) {
+        return false;
+      }
+
+      // Full check: All books in the NC must be one of the 13 generated books.
+      List<String> validBooks = generateForSeed(seed, 13);
+      for (String book : state) {
+        if (!validBooks.contains(book)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    @Override
+    public Map<String, String> toProperties(int seed) {
+      List<String> books = generateForSeed(seed, 13);
+      List<String> clueBooks = List.of(books.get(0), books.get(1), books.get(2));
+
+      PHPRandom rng = new PHPRandom(seed);
+      rng.shuffle(books);
+
+      for (int i = 0; i < books.size(); i++) {
+        String book = books.get(i);
+        String formatted =
+            String.format("%s:%d:%s", book, i + 1, clueBooks.contains(book) ? "clue" : "stats");
+        books.set(i, formatted);
+      }
+      String generatedPref = books.stream().sorted().collect(Collectors.joining(","));
+
+      return Map.of("merkinCatalogChoices", generatedPref);
+    }
+
+    @Override
+    public double reductionFactor() {
+      // Each book reduces by a factor of (26*26*889*89), but 13!/(13-N)! arrangements of the known
+      // books are possible.
+      double rv = Math.pow(26 * 26 * 889 * 89, -state.size());
+      rv *= factMN(13, 13 - state.size());
+      return rv;
     }
   }
 
