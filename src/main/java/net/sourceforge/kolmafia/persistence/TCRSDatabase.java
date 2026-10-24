@@ -1795,7 +1795,7 @@ public class TCRSDatabase {
         KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), true, overrideModifiers);
   }
 
-  private static boolean loadTCRSData(
+  public static boolean loadTCRSData(
       final AscensionClass ascensionClass,
       final ZodiacSign sign,
       final boolean verbose,
