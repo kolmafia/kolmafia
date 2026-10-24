@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,16 +21,17 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
-import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public abstract class GenericPanel extends ActionVerifyPanel {
@@ -329,9 +332,24 @@ public abstract class GenericPanel extends ActionVerifyPanel {
    * This internal class is used to process the request for selecting a file using the file dialog.
    */
   public class ScriptSelectPanel extends FileSelectPanel {
-    public ScriptSelectPanel(final JComponent textField) {
-      super(textField, true);
+    private final JLabel label;
+
+    public ScriptSelectPanel(final String label) {
+      super(makeScriptField(), true);
+      this.label = new JLabel(label);
       this.setPath(KoLConstants.SCRIPT_LOCATION);
+    }
+
+    private static JTextArea makeScriptField() {
+      JTextArea area = new JTextArea(1, 10);
+      area.setLineWrap(true);
+      area.setFont(KoLGUIConstants.DEFAULT_FONT);
+      area.setBorder(BorderFactory.createLineBorder(Color.black));
+      return area;
+    }
+
+    public JLabel getLabel() {
+      return this.label;
     }
   }
 
@@ -339,16 +357,12 @@ public abstract class GenericPanel extends ActionVerifyPanel {
     private final JTextComponent textField;
     private final JButton fileButton;
     private File path = null;
-    private JLabel label;
 
     public FileSelectPanel(final JComponent textField, final boolean button) {
       this.setLayout(new BorderLayout(0, 0));
 
       if (textField instanceof JTextComponent) {
         this.textField = (JTextComponent) textField;
-      } else if (textField instanceof CollapsibleTextArea) {
-        this.textField = ((CollapsibleTextArea) textField).getArea();
-        this.label = ((CollapsibleTextArea) textField).getLabel();
       } else {
         this.textField = new JTextField();
       }
@@ -479,10 +493,6 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       }
 
       GenericPanel.this.actionConfirmed();
-    }
-
-    public JLabel getLabel() {
-      return this.label;
     }
   }
 
