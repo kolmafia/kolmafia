@@ -165,10 +165,19 @@ public class AscensionSeedManager {
     // In any reasonable case, the return value should be in the interval (0,1].
     abstract double reductionFactor();
 
+    // The best sort key that is permitted for this criterion. This function should always return a
+    // value in the range [0,1]. The reduction factor will be used to select a value in the interval
+    // [bestAllowedSortKey(),1] to use as the sort key.
+    //
+    // This can be useful for cases where a criterion should prefer to be run later in the filter
+    // chain than its reduction factor would normally indicate.
     double bestAllowedSortKey() {
       return 0;
     }
 
+    // The value to use for sorting criteria. A lower value will result in a filter being checked
+    // earlier. This value is calculated based on reduction factor, scaled into the interval
+    // [bestAllowedSortKey(),1].
     final double sortKey() {
       double sortFloor = bestAllowedSortKey();
       return sortFloor + (1 - sortFloor) * reductionFactor();
