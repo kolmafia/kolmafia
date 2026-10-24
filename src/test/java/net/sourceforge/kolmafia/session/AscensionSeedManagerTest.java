@@ -94,9 +94,7 @@ public class AscensionSeedManagerTest {
                 withProperty("lastBangPotion822", "blessing"),
                 withProperty("lastBangPotion823", "healing"),
                 withProperty("lastBangPotion824", "confusion"),
-                withProperty("lastBangPotion825", "teleportitis"),
-                withProperty("lastBangPotion826"),
-                withProperty("lastBangPotion827"));
+                withProperty("lastBangPotion825", "teleportitis"));
 
         try (cleanups) {
           Criterion c = new AscensionSeedManager.BangPotions();

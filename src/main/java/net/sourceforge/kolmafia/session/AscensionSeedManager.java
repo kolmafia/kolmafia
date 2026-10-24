@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -57,11 +58,14 @@ public class AscensionSeedManager {
             .filter(c -> c.reductionFactor() < 1)
             .sorted(Comparator.comparingDouble(Criterion::reductionFactor))
             .collect(Collectors.toCollection(ArrayList::new));
-    // TODO remove this before final
-    RequestLogger.printLine(
-        criteria.stream()
-            .map(c -> c.getClass().getSimpleName() + ": " + c.reductionFactor())
-            .collect(Collectors.joining("\n")));
+
+    if (RequestLogger.isDebugging()) {
+      RequestLogger.updateDebugLog("Ascension seed query:");
+      criteria.stream()
+          .map(c -> c.getClass().getSimpleName() + ": " + 1 / c.reductionFactor())
+          .forEach(RequestLogger::updateDebugLog);
+      RequestLogger.updateDebugLog("Starting search at " + LocalDateTime.now());
+    }
 
     final Collection<Integer> matchingSeeds = new ConcurrentLinkedQueue<>();
 
@@ -92,6 +96,11 @@ public class AscensionSeedManager {
                 matchingSeeds.add(seedCandidate);
               }
             });
+
+    if (RequestLogger.isDebugging()) {
+      RequestLogger.updateDebugLog("Finished search at " + LocalDateTime.now());
+      RequestLogger.updateDebugLog("Result size: " + matchingSeeds.size());
+    }
 
     // It's possible we overshot the limit slightly, so trim it if necessary.
     return matchingSeeds.stream().limit(MAX_CALCULATED_SEEDS).sorted().toList();
@@ -240,7 +249,12 @@ public class AscensionSeedManager {
     private final String state;
 
     public DailyDungeon() {
-      state = Preferences.getString("dailyDungeonRooms").replaceAll("[^MDT?]", "");
+      String pref = Preferences.getString("dailyDungeonRooms").replaceAll("[^MDT?]", "");
+      if (pref.length() == 12) {
+        state = pref;
+      } else {
+        state = "????????????";
+      }
     }
 
     private String generateForSeed(int seed) {
@@ -380,6 +394,7 @@ public class AscensionSeedManager {
 
     @Override
     public boolean matchesSeed(int seed) {
+      // This criterion is only a predictor output.
       return true;
     }
 
@@ -391,6 +406,7 @@ public class AscensionSeedManager {
 
     @Override
     public double reductionFactor() {
+      // This criterion is only a predictor output.
       return 1;
     }
   }
