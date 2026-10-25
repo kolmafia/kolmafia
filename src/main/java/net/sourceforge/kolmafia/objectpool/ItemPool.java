@@ -112,6 +112,7 @@ public class ItemPool {
   public static final int BAT_GUANO = 188;
   public static final int BATSKIN_BELT = 191;
   public static final int MR_ACCESSORY = 194;
+  public static final int MR_ACCESSORY_JR = 896;
   public static final int DISASSEMBLED_CLOVER = 196;
   public static final int RAT_WHISKER = 197;
   public static final int SHINY_RING = 199;
@@ -4173,6 +4174,7 @@ public class ItemPool {
   public static final int INTANGIBLE_ASSET = 12311;
   public static final int LIQUID_ASSET = 12312;
   public static final int GROSS_PROPHET_CHRYSALIS = 12313;
+  public static final int BLACK_ROSEBUD = 12325;
   public static final int BLACK_GARDEN_ROSE = 12326;
   public static final int PRESSED_BLACK_GARDEN_ROSE = 12327;
   public static final int PARTIAL_TOMBSTONE = 12334;
