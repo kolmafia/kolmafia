@@ -119,6 +119,7 @@ public abstract class ChoiceControl {
 
   private static final Pattern TELEGRAM_PATTERN = Pattern.compile("value=\"RE: (.*?)\"");
   private static final Pattern PERIDOT_PATTERN = Pattern.compile("bandersnatch=(\\d+)");
+  private static final Pattern CLUB_EM_PATTERN = Pattern.compile("victim=(\\d+)");
 
   public static final void preChoice(final GenericRequest request) {
     switch (ChoiceManager.lastChoice) {
@@ -9841,6 +9842,17 @@ public abstract class ChoiceControl {
 
         case 1557 -> { // Peering Through Your Peridot
           Matcher matcher = PERIDOT_PATTERN.matcher(urlString);
+          if (matcher.find()) {
+            var monsterId = StringUtilities.parseInt(matcher.group(1));
+            var monsterName = MonsterDatabase.getMonsterName(monsterId);
+            RequestLogger.updateSessionLog(
+                "Took choice " + choice + "/" + decision + ": " + monsterName);
+            return true;
+          }
+        }
+
+        case 1589 -> { // Clubbed 'Em Into...
+          Matcher matcher = CLUB_EM_PATTERN.matcher(urlString);
           if (matcher.find()) {
             var monsterId = StringUtilities.parseInt(matcher.group(1));
             var monsterName = MonsterDatabase.getMonsterName(monsterId);

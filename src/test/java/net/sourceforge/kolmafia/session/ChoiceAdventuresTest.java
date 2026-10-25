@@ -224,6 +224,30 @@ class ChoiceAdventuresTest {
   }
 
   @Test
+  public void decoratesClubbedEmChoice() {
+    var original = html("request/test_choice_clubbed_em.html");
+    var buffer = new StringBuffer(original);
+
+    ChoiceAdventures.decorateChoice(1589, buffer, true);
+
+    var output = buffer.toString();
+    output = KoLConstants.LINE_BREAK_PATTERN.matcher(output).replaceAll("");
+
+    assertThat(
+        output,
+        containsString(
+            "<input type=\"hidden\" name=\"victim\" value=\"100\" /><input type=\"submit\" class=\"button\" value=\"Ninja Snowman (Mask)\" />"));
+    assertThat(
+        output,
+        containsString(
+            "<input type=\"hidden\" name=\"victim\" value=\"137\" /><input type=\"submit\" class=\"button\" value=\"Ninja Snowman (Hilt)\" />"));
+    assertThat(
+        output,
+        containsString(
+            "<input type=\"hidden\" name=\"victim\" value=\"338\" /><input type=\"submit\" class=\"button\" value=\"Ninja Snowman (Chopsticks)\" />"));
+  }
+
+  @Test
   public void decoratesMimicDnaChoice() {
     var original = html("request/test_choice_mimic_dna_bank.html");
     var buffer = new StringBuffer(original);

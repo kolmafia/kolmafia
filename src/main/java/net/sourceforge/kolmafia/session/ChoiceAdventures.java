@@ -6607,6 +6607,9 @@ public abstract class ChoiceAdventures {
           ChoiceAdventures.decorateMobiusStrip(buffer);
         }
       }
+      case 1589 ->
+          // Clubbed 'Em Into...
+          ChoiceAdventures.decorateMonsterMap(buffer);
     }
   }
 
@@ -6714,7 +6717,7 @@ public abstract class ChoiceAdventures {
 
   public static final Pattern MAPPED_MONSTER_PATTERN =
       Pattern.compile(
-          "(<input type=\"hidden\" name=\"(?:bandersnatch|heyscriptswhatsupwinkwink)\" value=\"(\\d+)\" />\\s+<input type=\"submit\" class=\"button\" value=\").*?(\" />\\s+</form>)");
+          "(<input type=\"hidden\" name=\"(?:bandersnatch|heyscriptswhatsupwinkwink|victim)\" value=\"(\\d+)\" />\\s*<input type=\"submit\" class=\"button\" value=\").*?(\" />\\s*</form>)");
 
   public static void decorateMonsterMap(final StringBuffer buffer) {
     Matcher matcher = MAPPED_MONSTER_PATTERN.matcher(buffer.toString());
