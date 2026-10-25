@@ -362,53 +362,53 @@ public class AscensionSeedManagerTest {
         }
       }
     }
-  }
 
-  @Nested
-  class YegDemon {
-    @ParameterizedTest
-    @CsvSource({
-      "1234567,Yego Yegu Gigoyo",
-      "2345678,Geyu Yegi Gegoga",
-      "7777777,Gigi Gayo Gugaye",
-    })
-    void calculates(int seed, String name) {
-      Criterion c = new AscensionSeedManager.YegDemon();
-      Map<String, String> result = c.toProperties(seed);
-      assertThat(result.get("demonName13"), is(name));
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-      "1234567,false",
-      "8675309,false",
-      "7777777,true", // Gigi Gayo Gugaye
-    })
-    void predicts(int seed, boolean expected) {
-      var cleanups = withProperty("demonName13", "Gigi Gayo Gugaye");
-
-      try (cleanups) {
+    @Nested
+    class YegDemon {
+      @ParameterizedTest
+      @CsvSource({
+        "1234567,Yego Yegu Gigoyo",
+        "2345678,Geyu Yegi Gegoga",
+        "7777777,Gigi Gayo Gugaye",
+      })
+      void calculates(int seed, String name) {
         Criterion c = new AscensionSeedManager.YegDemon();
-        assertThat(c.matchesSeed(seed), is(expected));
+        Map<String, String> result = c.toProperties(seed);
+        assertThat(result.get("demonName13"), is(name));
       }
-    }
 
-    @ParameterizedTest
-    @CsvSource({
-      "1234567,false",
-      "8675309,false",
-      "7777777,true", // Gigi Gayo Gugaye
-      "9959476,true", // Yogi Gayo Guyiye
-    })
-    void predictsFromScraps(int seed, boolean expected) {
-      var cleanups =
-          new Cleanups(
-              withProperty("demonName13"),
-              withProperty("cargoPocketScraps", "222:gi_|7:Ga|602:yo_|172:Gu|282:ye"));
+      @ParameterizedTest
+      @CsvSource({
+        "1234567,false",
+        "8675309,false",
+        "7777777,true", // Gigi Gayo Gugaye
+      })
+      void predicts(int seed, boolean expected) {
+        var cleanups = withProperty("demonName13", "Gigi Gayo Gugaye");
 
-      try (cleanups) {
-        Criterion c = new AscensionSeedManager.YegDemon();
-        assertThat(c.matchesSeed(seed), is(expected));
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.YegDemon();
+          assertThat(c.matchesSeed(seed), is(expected));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({
+        "1234567,false",
+        "8675309,false",
+        "7777777,true", // Gigi Gayo Gugaye
+        "9959476,true", // Yogi Gayo Guyiye
+      })
+      void predictsFromScraps(int seed, boolean expected) {
+        var cleanups =
+            new Cleanups(
+                withProperty("demonName13"),
+                withProperty("cargoPocketScraps", "222:gi_|7:Ga|602:yo_|172:Gu|282:ye"));
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.YegDemon();
+          assertThat(c.matchesSeed(seed), is(expected));
+        }
       }
     }
   }

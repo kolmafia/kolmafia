@@ -190,7 +190,7 @@ public class AscensionSeedManager {
   private abstract static class MTRandomCriterion extends Criterion {
     @Override
     public double bestAllowedSortKey() {
-      return 0.75;
+      return 0.6;
     }
   }
 
@@ -385,10 +385,12 @@ public class AscensionSeedManager {
       }
     }
 
+    private static final List<String> INIT_ROOM_ORDER =
+        Stream.of("MMMMDDDDTTTT".split("")).toList();
+
     private String generateForSeed(int seed) {
       PHPRandom rng = new PHPRandom(seed);
-      List<String> arr =
-          Stream.of("MMMMDDDDTTTT".split("")).collect(Collectors.toCollection(ArrayList::new));
+      List<String> arr = new ArrayList<>(INIT_ROOM_ORDER);
       rng.shuffle(arr);
       return String.join("", arr);
     }
