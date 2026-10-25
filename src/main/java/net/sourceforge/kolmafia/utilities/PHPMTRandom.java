@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.utilities;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -48,16 +47,16 @@ public class PHPMTRandom extends Random {
     return (value ^ (value >> 18));
   }
 
-  ArrayList<Long> state;
+  long[] state;
   int index;
 
   @Override
   public int next(int bits) {
-    if (index >= state.size()) {
+    if (index >= STATE_LENGTH) {
       reload();
     }
 
-    long value = state.get(index++);
+    long value = state[index++];
     return (int) (temper(value) >> 1);
   }
 
@@ -86,31 +85,25 @@ public class PHPMTRandom extends Random {
   }
 
   void initialize(final long seed) {
-    state.clear();
-    state.add(seed & Long.MAX_VALUE);
+    state[0] = seed & Long.MAX_VALUE;
 
     for (int i = 1; i < STATE_LENGTH; i++) {
-      long prev = state.get(i - 1);
-      long value = ((1_812_433_253L * (prev ^ (prev >> 30))) + i) & 4_294_967_295L;
-      state.add(value);
+      long prev = state[i - 1];
+      state[i] = ((1_812_433_253L * (prev ^ (prev >> 30))) + i) & 4_294_967_295L;
     }
-
-    index = state.size();
   }
 
   void reload() {
-    int state_shift = index - STATE_LENGTH;
-
-    for (int i = state_shift; i < state_shift + STATE_LENGTH; i++) {
-      long value = twist(state.get(i + PERIOD), state.get(i), state.get(i + 1));
-      state.add(value);
+    for (int i = 0; i < STATE_LENGTH; i++) {
+      state[i] = twist(state[(i + PERIOD) % STATE_LENGTH], state[i], state[(i + 1) % STATE_LENGTH]);
     }
+    index = 0;
   }
 
   @Override
   public synchronized void setSeed(long seed) {
     if (state == null) {
-      state = new ArrayList<>();
+      state = new long[STATE_LENGTH];
     }
 
     // In PHP source code the signed int is converted to an unsigned int
