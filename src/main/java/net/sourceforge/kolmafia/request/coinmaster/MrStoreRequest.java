@@ -79,7 +79,7 @@ public class MrStoreRequest extends CoinMasterRequest {
 
   private static final Pattern ITEM_PATTERN =
       Pattern.compile(
-          "onClick='javascript:descitem\\((\\d+)\\)' class=nounder>(.*?)</a></b>.*?title=\"(.*?)\".*?<font size=\\+1>(\\d)</font></b></td><form name=buy(\\d+)");
+          "onClick='javascript:descitem\\((\\d+)\\)' class=nounder>(.*?)</a></b>.*?title=\"(.*?)\".*?<font size=\\+1>(\\d+)</font>.*?rel='mrstore.php\\?action=buy&whichitem=(\\d+)&quantity=");
 
   public static void parseResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("mrstore.php")) {
