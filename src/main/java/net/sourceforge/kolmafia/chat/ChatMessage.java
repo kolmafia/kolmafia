@@ -75,9 +75,9 @@ public class ChatMessage {
     // {"type":"public","mid":"1386587663","who":{"name":"Tebryn","id":"1764512","color":"black"},"channel":"talkie","channelcolor":"green","msg":"test 1 2 3","time":"1411335349","format":"0"}
 
     boolean pmsg =
-        (this.sender != null && !this.sender.equals(""))
+        (this.sender != null && !this.sender.isEmpty())
             && (this.recipient != null
-                && !this.recipient.equals("")
+                && !this.recipient.isEmpty()
                 && !this.recipient.startsWith("/"));
 
     if (pmsg) {

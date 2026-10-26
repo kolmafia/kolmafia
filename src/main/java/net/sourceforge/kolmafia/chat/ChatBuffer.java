@@ -217,7 +217,7 @@ public class ChatBuffer {
 
     String entry = newContents.trim();
 
-    if (entry.length() == 0) {
+    if (entry.isEmpty()) {
       return;
     }
 
@@ -259,19 +259,15 @@ public class ChatBuffer {
   }
 
   private String getHTMLContent(final int latestEntries) {
-    StringBuffer htmlContent = new StringBuffer();
 
-    htmlContent.append("<html><head><style>");
-    htmlContent.append(this.getStyle());
-    htmlContent.append("</style></head><body>");
+    String htmlContent = "<html><head><style>" +
+      this.getStyle() +
+      "</style></head><body>" +
+      ChatBuffer.wrapEntries(
+        this.entries.stream().skip(Math.max(0, this.entries.size() - latestEntries)).toList()) +
+      "</body></html>";
 
-    htmlContent.append(
-        ChatBuffer.wrapEntries(
-            this.entries.stream().skip(Math.max(0, this.entries.size() - latestEntries)).toList()));
-
-    htmlContent.append("</body></html>");
-
-    return htmlContent.toString();
+    return htmlContent;
   }
 
   private static String wrapEntries(final Iterable<String> entries) {
@@ -443,7 +439,7 @@ public class ChatBuffer {
 
     Stack<String> openTags = new Stack<>();
     Set<String> skippedTags = new HashSet<>();
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
 
     String noCommentsContent = COMMENT_PATTERN.matcher(newContent).replaceAll("");
 
@@ -451,7 +447,7 @@ public class ChatBuffer {
 
     while (tagMatcher.find()) {
       String tagName = tagMatcher.group(1);
-      StringBuffer replacement = new StringBuffer();
+      StringBuilder replacement = new StringBuilder();
 
       if (tagName.startsWith("/")) {
         String closeTag = tagName.substring(1);
