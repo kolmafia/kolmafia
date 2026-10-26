@@ -128,9 +128,7 @@ public class IntriguingPuzzleBoxManager {
     if (decision == 0) {
       // Showing the step we're already on is a reload, so do nothing.
       if (step >= 0 && codes.equals(options.get(step))) return;
-      // Any other page means the box was started again, so clear everything.
-      options.clear();
-      outcomes.clear();
+      // Any other page means the box was started again, so count from step 0 again.
       step = 0;
     } else {
       // A press needs a known step and an options entry to attach it to.

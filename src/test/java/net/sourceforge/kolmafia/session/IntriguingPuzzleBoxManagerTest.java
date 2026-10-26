@@ -139,12 +139,12 @@ public class IntriguingPuzzleBoxManagerTest {
     }
 
     @Test
-    void restartingBoxStartsNewStore() {
+    void restartingBoxResetsStepAndKeepsRecords() {
       visitChain();
       visit(FIRST, 0);
-      assertThat(
-          Preferences.getString("intriguingPuzzleBoxOptions"), is("0:FCW,PB,RCCW,LCW,KCW,PR"));
-      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(CHAIN_OPTIONS));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(CHAIN_OUTCOMES));
+      assertThat(Preferences.getInteger("intriguingPuzzleBoxStep"), is(0));
     }
   }
 
