@@ -501,7 +501,7 @@ public abstract class ChatManager {
   }
 
   public static void processCommand(
-    final String sender, final String content, final String channel) {
+      final String sender, final String content, final String channel) {
     if (sender == null || content == null) {
       return;
     }
@@ -577,7 +577,7 @@ public abstract class ChatManager {
   }
 
   public static void invokeChatScript(
-    final String sender, final String content, final String channel) {
+      final String sender, final String content, final String channel) {
     String scriptName = Preferences.getString("chatbotScript");
     if (scriptName.isEmpty()) {
       return;

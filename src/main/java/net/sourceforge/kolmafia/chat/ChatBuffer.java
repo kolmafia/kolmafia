@@ -260,12 +260,15 @@ public class ChatBuffer {
 
   private String getHTMLContent(final int latestEntries) {
 
-    String htmlContent = "<html><head><style>" +
-      this.getStyle() +
-      "</style></head><body>" +
-      ChatBuffer.wrapEntries(
-        this.entries.stream().skip(Math.max(0, this.entries.size() - latestEntries)).toList()) +
-      "</body></html>";
+    String htmlContent =
+        "<html><head><style>"
+            + this.getStyle()
+            + "</style></head><body>"
+            + ChatBuffer.wrapEntries(
+                this.entries.stream()
+                    .skip(Math.max(0, this.entries.size() - latestEntries))
+                    .toList())
+            + "</body></html>";
 
     return htmlContent;
   }

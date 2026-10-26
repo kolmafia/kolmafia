@@ -82,11 +82,11 @@ public class ChatSender {
   }
 
   public static String sendMessage(
-    List<ChatMessage> accumulatedMessages,
-    String graf,
-    boolean isRelayRequest,
-    boolean channelRestricted,
-    boolean tabbedChat) {
+      List<ChatMessage> accumulatedMessages,
+      String graf,
+      boolean isRelayRequest,
+      boolean channelRestricted,
+      boolean tabbedChat) {
     if (graf == null) {
       return "";
     }
@@ -200,7 +200,7 @@ public class ChatSender {
   }
 
   public static void processResponse(
-    List<ChatMessage> newMessages, String responseText, String graf) {
+      List<ChatMessage> newMessages, String responseText, String graf) {
     // Protect against server lagging out
     if (responseText == null || responseText.isEmpty()) {
       return;

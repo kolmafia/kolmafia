@@ -173,8 +173,7 @@ public class ChatFormatter {
     return ChatFormatter.formatChatMessage(message, true);
   }
 
-  public static String formatChatMessage(
-    final ChatMessage message, boolean includeTimestamp) {
+  public static String formatChatMessage(final ChatMessage message, boolean includeTimestamp) {
     StringBuilder displayHTML = new StringBuilder();
 
     if (includeTimestamp) {
