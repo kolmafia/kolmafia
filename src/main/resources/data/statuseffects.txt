@@ -3148,3 +3148,4 @@
 3145	Temporarily Damned	brgcandy.gif	9af55885081acf39ab22b46348c43762	neutral	none
 3146	One Coin In a Fountain	brgpentacle.gif	148f4259175b361c04d1b251df5e528a	neutral	none
 3147	These Hips Don't Lie	brgflower.gif	0326c0d33d7ee14c07557a53691278b9	neutral	none	use 1 black rose hips extract
+3148	The Rose That Is Not	whiterose.gif	92a14fb0f3a020d8acd30c1230af0dc3	neutral	none
