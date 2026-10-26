@@ -40,6 +40,7 @@ public class AscensionSeedManager {
           DailyDungeon::new,
           Dreadscroll::new,
           LeprecondoNeeds::new,
+          IntriguingPuzzleBox::new,
           RaveCombos::new,
           SeahorseName::new,
           SlimePotions::new,
@@ -539,6 +540,61 @@ public class AscensionSeedManager {
     public double reductionFactor() {
       // This criterion is only a predictor output.
       return 1;
+    }
+  }
+
+  // Intriguing puzzle box
+  //
+  // Draw six distinct options from the eighteen below using mt_rand(0,17), skipping repeats. The
+  // options are shown in draw order, so the sequence pins down the seed almost uniquely.
+  static class IntriguingPuzzleBox extends MTRandomCriterion {
+    private final List<String> state;
+
+    public IntriguingPuzzleBox() {
+      var pages = IntriguingPuzzleBoxManager.parseHistory();
+      if (pages.isEmpty()) {
+        state = List.of();
+        return;
+      }
+
+      state = List.of(IntriguingPuzzleBoxManager.getPageOptions(pages.getFirst()).split(","));
+    }
+
+    @Override
+    public boolean matchesSeed(int seed) {
+      return state.isEmpty() || generateForSeed(seed).equals(state);
+    }
+
+    // Only the first page is known to be seed-determined, so that is all this writes.
+    @Override
+    public Map<String, String> toProperties(int seed) {
+      return Map.of("intriguingPuzzleBoxHistory", String.join(",", generateForSeed(seed)));
+    }
+
+    @Override
+    public double reductionFactor() {
+      // 1/(18*17*16*15*14*13) once the six options are known, since order matters.
+      if (state.isEmpty()) {
+        return 1;
+      }
+      return 1
+          / factMN(
+              IntriguingPuzzleBoxManager.ACTIONS.size(),
+              IntriguingPuzzleBoxManager.ACTIONS.size() - 6);
+    }
+
+    private List<String> generateForSeed(int seed) {
+      PHPMTRandom rng = new PHPMTRandom(seed);
+      List<String> rv = new ArrayList<>();
+      while (rv.size() < 6) {
+        String code =
+            IntriguingPuzzleBoxManager.ACTIONS.get(
+                rng.nextInt(0, IntriguingPuzzleBoxManager.ACTIONS.size() - 1));
+        if (!rv.contains(code)) {
+          rv.add(code);
+        }
+      }
+      return rv;
     }
   }
 

@@ -4,6 +4,7 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
@@ -442,6 +443,48 @@ public class AscensionSeedManagerTest {
           assertThat(c.matchesSeed(seed), is(expected));
         }
       }
+    }
+  }
+
+  @Nested
+  class IntriguingPuzzleBox {
+    private static List<String> optionsFor(int seed) {
+      return List.of(
+          AscensionSeedManager.getPropertiesForSeed(seed)
+              .get("intriguingPuzzleBoxHistory")
+              .split(","));
+    }
+
+    private static Cleanups withHistory(final String pages) {
+      return new Cleanups(withProperty("intriguingPuzzleBoxHistory", pages));
+    }
+
+    @Test
+    void recordedPagesNarrowToSeed() {
+      var seed = 1062694;
+      try (var cleanups = withHistory(String.join(",", optionsFor(seed)))) {
+        List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
+        assertThat(matches, hasItem(seed));
+      }
+    }
+
+    @Test
+    void matchesOnlyTheSeedWithTheRecordedOptions() {
+      try (var cleanups = withHistory("FCW,PB,RCCW,LCW,KCW,PR")) {
+        var criterion = new AscensionSeedManager.IntriguingPuzzleBox();
+        List<Integer> seeds = AscensionSeedManager.possibleAscensionSeeds();
+        assertThat(seeds.size(), is(1));
+        assertThat(criterion.matchesSeed(seeds.getFirst()), is(true));
+        assertThat(criterion.matchesSeed(1234567), is(false));
+      }
+    }
+
+    @Test
+    void calculatesRecordedOptionsForSeed() {
+      var criterion = new AscensionSeedManager.IntriguingPuzzleBox();
+      assertThat(
+          criterion.toProperties(1234567).get("intriguingPuzzleBoxHistory"),
+          is("PR,FCCW,LCW,BCW,PK,LCCW"));
     }
   }
 }
