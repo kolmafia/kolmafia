@@ -3001,7 +3001,7 @@
 2998	It's Like a Tickertape Parade	confetti.gif	15517c9531a69396e8c7e07e6dc9181d	neutral	nohookah
 2999	Wildsun Boon	sun.gif	6f0fbda9b7530056f9deba25393c6eb7	neutral	nohookah	alliedradio effect boon
 3000	Materiel Intel	dinseybrain.gif	61d884a9f0584996cabd095045b0d39e	neutral	nohookah	alliedradio effect intel
-3001	Demon in Combat	skeldoll.gif	62733d7f016123c31e2393696cd2c0f0	neutral	nohookah
+3001	Demon in Combat	skeldoll.gif	62733d7f016123c31e2393696cd2c0f0	neutral	nohookah	summon 14
 3002	Ellipsoidtined	circle.gif	74c598b6434144e0ef61711a547ce203	neutral	nohookah	alliedradio effect ellipsoidtine
 3003	Gaining Interest	moneybag.gif	764a5ad0ef18373411c89bf38ea3f281	good	none
 3004	Life Goals	runaway.gif	6383756c040fdc3293c6fb9f44fb0827	good	none	use 1 Life Goals Pamphlet
@@ -3148,3 +3148,4 @@
 3145	Temporarily Damned	brgcandy.gif	9af55885081acf39ab22b46348c43762	neutral	none
 3146	One Coin In a Fountain	brgpentacle.gif	148f4259175b361c04d1b251df5e528a	neutral	none
 3147	These Hips Don't Lie	brgflower.gif	0326c0d33d7ee14c07557a53691278b9	neutral	none	use 1 black rose hips extract
+3148	The Rose That Is Not	whiterose.gif	92a14fb0f3a020d8acd30c1230af0dc3	neutral	none	summon 15
