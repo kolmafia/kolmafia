@@ -136,12 +136,14 @@ public class AscensionSeedManager {
   // candidates as much as two truly independent processes would. We accept this inaccuracy for the
   // sake of simplicity.
   public static int estimatedAscensionSeedPossibilities() {
+    int totalSeeds = ASCENSION_SEED_MAX - ASCENSION_SEED_MIN + 1;
+    double minReductionFactor = 1.0 / totalSeeds;
     double totalReductionFactor =
         CRITERIA.stream()
             .map(Supplier::get)
             .mapToDouble(Criterion::reductionFactor)
+            .map(c -> Math.max(c, minReductionFactor))
             .reduce(1, (a, b) -> a * b);
-    int totalSeeds = ASCENSION_SEED_MAX - ASCENSION_SEED_MIN + 1;
     return (int) Math.ceil(totalReductionFactor * totalSeeds);
   }
 
