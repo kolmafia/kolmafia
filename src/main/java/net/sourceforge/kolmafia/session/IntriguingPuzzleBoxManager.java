@@ -131,7 +131,7 @@ public class IntriguingPuzzleBoxManager {
       // Any other page means the box was started again, so count from step 0 again.
       step = 0;
     } else {
-      // A press needs a known step and an options entry to attach it to.
+      // A button press needs a known step and an options entry to attach it to.
       if (step < 0 || options.isEmpty()) return;
 
       var outcome = parseOutcome(responseText);

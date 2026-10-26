@@ -78,11 +78,11 @@ public class IntriguingPuzzleBoxManagerTest {
   @Nested
   class Outcomes {
     private static final String FIRST = "request/test_choice_525_intriguing_puzzle_box.html";
-    private static final String PRESS1 =
+    private static final String BUTTON_PRESS1 =
         "request/test_choice_525_intriguing_puzzle_box_press1.html";
-    private static final String PRESS2 =
+    private static final String BUTTON_PRESS2 =
         "request/test_choice_525_intriguing_puzzle_box_press2.html";
-    private static final String PRESS3 =
+    private static final String BUTTON_PRESS3 =
         "request/test_choice_525_intriguing_puzzle_box_press3.html";
 
     private static final String CHAIN_OPTIONS =
@@ -96,27 +96,25 @@ public class IntriguingPuzzleBoxManagerTest {
               525,
               decision,
               null,
-              Networking.html(page))) {
-        // The manager writes the stores while the page is visited.
-      }
+              Networking.html(page))) {}
     }
 
     private static void visitChain() {
       visit(FIRST, 0);
-      visit(PRESS1, 3);
-      visit(PRESS2, 1);
-      visit(PRESS3, 1);
+      visit(BUTTON_PRESS1, 3);
+      visit(BUTTON_PRESS2, 1);
+      visit(BUTTON_PRESS3, 1);
     }
 
     @Test
-    void pressesAttachToTheirSteps() {
+    void buttonPressesAttachToTheirSteps() {
       visitChain();
       assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(CHAIN_OPTIONS));
       assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(CHAIN_OUTCOMES));
     }
 
     @Test
-    void firstPageWithoutPressStartsStore() {
+    void firstPageWithoutButtonPressStartsStore() {
       visit(FIRST, 0);
       assertThat(
           Preferences.getString("intriguingPuzzleBoxOptions"), is("0:FCW,PB,RCCW,LCW,KCW,PR"));
@@ -124,8 +122,8 @@ public class IntriguingPuzzleBoxManagerTest {
     }
 
     @Test
-    void pressWithoutStoreRecordsNothing() {
-      visit(PRESS1, 3);
+    void buttonPressWithoutStoreRecordsNothing() {
+      visit(BUTTON_PRESS1, 3);
       assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(""));
       assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
     }
@@ -133,7 +131,7 @@ public class IntriguingPuzzleBoxManagerTest {
     @Test
     void refreshOfLatestStepChangesNothing() {
       visitChain();
-      visit(PRESS3, 0);
+      visit(BUTTON_PRESS3, 0);
       assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(CHAIN_OPTIONS));
       assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(CHAIN_OUTCOMES));
     }
@@ -156,7 +154,7 @@ public class IntriguingPuzzleBoxManagerTest {
     "request/test_choice_525_intriguing_puzzle_box_say13.html, say13",
     "request/test_choice_525_intriguing_puzzle_box_beep.html, beep",
   })
-  void parsesLiveResults(String path, String outcome) {
+  void parsesButtonPressResults(String path, String outcome) {
     assertThat(IntriguingPuzzleBoxManager.parseOutcome(Networking.html(path)), is(outcome));
   }
 }

@@ -489,9 +489,8 @@ public class AscensionSeedManagerTest {
           is("0:PR,FCCW,LCW,BCW,PK,LCCW"));
     }
 
-    // Every live press on the first page's box, in order: the decision made and the outcome shown.
     @Test
-    void stepSensitivePredictionsMatchLivePresses() {
+    void stepSensitivePredictionsMatchButtonPresses() {
       int[] decisions = {3, 1, 1, 1, 1, 1, 2, 5, 2, 4, 4, 2, 6, 3};
       List<String> observed =
           List.of(
@@ -507,7 +506,7 @@ public class AscensionSeedManagerTest {
     }
 
     @Test
-    void liveOutcomesNarrowToSeedFromFirstPage() {
+    void outcomesNarrowToSeedFromFirstPage() {
       try (var cleanups =
           withStores(
               "0:FCW,PB,RCCW,LCW,KCW,PR|1:FCW,TCW,TCCW,PT,FCCW,PR|2:BCW,PB,PF,RCW,BCCW,KCW",
