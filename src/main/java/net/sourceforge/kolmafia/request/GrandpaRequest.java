@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class GrandpaRequest extends GenericRequest {
   private static final Pattern WHO_PATTERN = Pattern.compile("who=(\\d*)");
   private static final Pattern QUERY_PATTERN = Pattern.compile("topic=([^&]*)");
+  private static final Pattern DEMON_NAME_PATTERN = Pattern.compile("calling her ([^<]+?)\\.");
 
   public GrandpaRequest(final String story) {
     super("monkeycastle.php");
@@ -75,6 +76,12 @@ public class GrandpaRequest extends GenericRequest {
     switch (topic) {
       case "grandma", "wife" ->
           QuestDatabase.setQuestIfBetter(QuestDatabase.Quest.SEA_MONKEES, "step6");
+      case "gulrosa the black" -> {
+        Matcher nameMatcher = DEMON_NAME_PATTERN.matcher(responseText);
+        if (nameMatcher.find()) {
+          Preferences.setString("demonName15", nameMatcher.group(1).trim());
+        }
+      }
       default -> {
         var pref = STORY_FLAG_PREFS.getOrDefault(topic, null);
         if (pref != null) {

@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -38,6 +40,22 @@ public class GrandpaRequestTest {
       var request = new GenericRequest(url);
       request.run();
       assertTrue(Preferences.getBoolean("hasTwinkleVision"));
+    }
+  }
+
+  @Test
+  void askingAboutGulrosaTheBlackGrantsDemonName() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty("demonName15"));
+
+    try (cleanups) {
+      client.addResponse(200, html("request/test_grandpa_gulrosa_the_black.html"));
+
+      String url = "monkeycastle.php?action=grandpastory&topic=gulrosa the black";
+      var request = new GenericRequest(url);
+      request.run();
+      assertThat("demonName15", isSetTo("Lezelra the Umbral Daughter"));
     }
   }
 }
