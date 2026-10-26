@@ -74,4 +74,72 @@ public class IntriguingPuzzleBoxManagerTest {
   void parsesOptionLines(String option, String code) {
     assertThat(IntriguingPuzzleBoxManager.parseOption(option), is(code));
   }
+
+  @Nested
+  class Presses {
+    private static final String FIRST = "request/test_choice_525_intriguing_puzzle_box.html";
+    private static final String PRESS1 =
+        "request/test_choice_525_intriguing_puzzle_box_press1.html";
+    private static final String PRESS2 =
+        "request/test_choice_525_intriguing_puzzle_box_press2.html";
+    private static final String PRESS3 =
+        "request/test_choice_525_intriguing_puzzle_box_press3.html";
+
+    private static void visit(final String page, final int decision) {
+      try (var cleanups =
+          Player.withChoice(
+              (url, req) -> ChoiceControl.visitChoice(req),
+              525,
+              decision,
+              null,
+              Networking.html(page))) {
+        // The manager writes the history while the page is visited.
+      }
+    }
+
+    private static void visitChain() {
+      visit(FIRST, 0);
+      visit(PRESS1, 3);
+      visit(PRESS2, 1);
+      visit(PRESS3, 1);
+    }
+
+    @Test
+    void pressesAttachToPreviousPages() {
+      visitChain();
+      assertThat(
+          Preferences.getString("intriguingPuzzleBoxHistory"),
+          is(
+              "FCW,PB,RCCW,LCW,KCW,PR#3|FCW,PB,RCCW,LCW,KCW,PR#1|FCW,TCW,TCCW,PT,FCCW,PR#1|BCW,PB,PF,RCW,BCCW,KCW"));
+    }
+
+    @Test
+    void firstPageWithoutPressStartsHistory() {
+      visit(FIRST, 0);
+      assertThat(Preferences.getString("intriguingPuzzleBoxHistory"), is("FCW,PB,RCCW,LCW,KCW,PR"));
+    }
+
+    @Test
+    void pressWithoutHistoryRecordsNothing() {
+      visit(PRESS1, 3);
+      assertThat(Preferences.getString("intriguingPuzzleBoxHistory"), is(""));
+    }
+
+    @Test
+    void refreshOfLatestPageChangesNothing() {
+      visitChain();
+      visit(PRESS3, 0);
+      assertThat(
+          Preferences.getString("intriguingPuzzleBoxHistory"),
+          is(
+              "FCW,PB,RCCW,LCW,KCW,PR#3|FCW,PB,RCCW,LCW,KCW,PR#1|FCW,TCW,TCCW,PT,FCCW,PR#1|BCW,PB,PF,RCW,BCCW,KCW"));
+    }
+
+    @Test
+    void restartingBoxStartsNewHistory() {
+      visitChain();
+      visit(FIRST, 0);
+      assertThat(Preferences.getString("intriguingPuzzleBoxHistory"), is("FCW,PB,RCCW,LCW,KCW,PR"));
+    }
+  }
 }
