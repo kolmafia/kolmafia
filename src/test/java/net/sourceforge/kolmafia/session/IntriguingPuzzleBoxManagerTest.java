@@ -34,10 +34,10 @@ public class IntriguingPuzzleBoxManagerTest {
   @Nested
   class RealPage {
     @Test
-    void recordsOptionCodesInOrder() {
+    void recordsOptionsForFirstStep() {
       try (var cleanups = visitFirstPage()) {
         assertThat(
-            Preferences.getString("intriguingPuzzleBoxHistory"), is("FCW,PB,RCCW,LCW,KCW,PR"));
+            Preferences.getString("intriguingPuzzleBoxOptions"), is("0:FCW,PB,RCCW,LCW,KCW,PR"));
       }
     }
 
@@ -76,7 +76,7 @@ public class IntriguingPuzzleBoxManagerTest {
   }
 
   @Nested
-  class Presses {
+  class Outcomes {
     private static final String FIRST = "request/test_choice_525_intriguing_puzzle_box.html";
     private static final String PRESS1 =
         "request/test_choice_525_intriguing_puzzle_box_press1.html";
@@ -84,6 +84,10 @@ public class IntriguingPuzzleBoxManagerTest {
         "request/test_choice_525_intriguing_puzzle_box_press2.html";
     private static final String PRESS3 =
         "request/test_choice_525_intriguing_puzzle_box_press3.html";
+
+    private static final String CHAIN_OPTIONS =
+        "0:FCW,PB,RCCW,LCW,KCW,PR|1:FCW,TCW,TCCW,PT,FCCW,PR|2:BCW,PB,PF,RCW,BCCW,KCW";
+    private static final String CHAIN_OUTCOMES = "0,1:click|0,3:buzz|1,1:click";
 
     private static void visit(final String page, final int decision) {
       try (var cleanups =
@@ -93,7 +97,7 @@ public class IntriguingPuzzleBoxManagerTest {
               decision,
               null,
               Networking.html(page))) {
-        // The manager writes the history while the page is visited.
+        // The manager writes the stores while the page is visited.
       }
     }
 
@@ -105,41 +109,54 @@ public class IntriguingPuzzleBoxManagerTest {
     }
 
     @Test
-    void pressesAttachToPreviousPages() {
+    void pressesAttachToTheirSteps() {
       visitChain();
-      assertThat(
-          Preferences.getString("intriguingPuzzleBoxHistory"),
-          is(
-              "FCW,PB,RCCW,LCW,KCW,PR#3|FCW,PB,RCCW,LCW,KCW,PR#1|FCW,TCW,TCCW,PT,FCCW,PR#1|BCW,PB,PF,RCW,BCCW,KCW"));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(CHAIN_OPTIONS));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(CHAIN_OUTCOMES));
     }
 
     @Test
-    void firstPageWithoutPressStartsHistory() {
+    void firstPageWithoutPressStartsStore() {
       visit(FIRST, 0);
-      assertThat(Preferences.getString("intriguingPuzzleBoxHistory"), is("FCW,PB,RCCW,LCW,KCW,PR"));
+      assertThat(
+          Preferences.getString("intriguingPuzzleBoxOptions"), is("0:FCW,PB,RCCW,LCW,KCW,PR"));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
     }
 
     @Test
-    void pressWithoutHistoryRecordsNothing() {
+    void pressWithoutStoreRecordsNothing() {
       visit(PRESS1, 3);
-      assertThat(Preferences.getString("intriguingPuzzleBoxHistory"), is(""));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(""));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
     }
 
     @Test
-    void refreshOfLatestPageChangesNothing() {
+    void refreshOfLatestStepChangesNothing() {
       visitChain();
       visit(PRESS3, 0);
-      assertThat(
-          Preferences.getString("intriguingPuzzleBoxHistory"),
-          is(
-              "FCW,PB,RCCW,LCW,KCW,PR#3|FCW,PB,RCCW,LCW,KCW,PR#1|FCW,TCW,TCCW,PT,FCCW,PR#1|BCW,PB,PF,RCW,BCCW,KCW"));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(CHAIN_OPTIONS));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(CHAIN_OUTCOMES));
     }
 
     @Test
-    void restartingBoxStartsNewHistory() {
+    void restartingBoxStartsNewStore() {
       visitChain();
       visit(FIRST, 0);
-      assertThat(Preferences.getString("intriguingPuzzleBoxHistory"), is("FCW,PB,RCCW,LCW,KCW,PR"));
+      assertThat(
+          Preferences.getString("intriguingPuzzleBoxOptions"), is("0:FCW,PB,RCCW,LCW,KCW,PR"));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
     }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "request/test_choice_525_intriguing_puzzle_box_press1.html, buzz",
+    "request/test_choice_525_intriguing_puzzle_box_press2.html, click",
+    "request/test_choice_525_intriguing_puzzle_box_say3.html, say3",
+    "request/test_choice_525_intriguing_puzzle_box_say13.html, say13",
+    "request/test_choice_525_intriguing_puzzle_box_beep.html, beep",
+  })
+  void parsesLiveResults(String path, String outcome) {
+    assertThat(IntriguingPuzzleBoxManager.parseOutcome(Networking.html(path)), is(outcome));
   }
 }

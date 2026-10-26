@@ -921,7 +921,9 @@ user	implementGlitchItem	false
 user	includeCodpieceGemsInOutfits	false
 user	intangibleAssetCharges	0	roa
 user	intenseCurrents	false	roa
-user	intriguingPuzzleBoxHistory		roa
+user	intriguingPuzzleBoxOptions		roa
+user	intriguingPuzzleBoxOutcomes		roa
+user	intriguingPuzzleBoxStep	0	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	ironicSwagger	0
 user	isMerkinGladiatorChampion	false	roa

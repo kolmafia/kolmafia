@@ -545,54 +545,66 @@ public class AscensionSeedManager {
 
   // Intriguing puzzle box
   //
-  // Draw six distinct options from the eighteen below using mt_rand(0,17), skipping repeats. The
-  // options are shown in draw order, so the sequence pins down the seed almost uniquely.
+  // Each step shows six distinct actions drawn from a set of eighteen options with mt_rand(0,17),
+  // skipping repeats. The draw is seeded with the ascension seed plus 99 for each step since the
+  // last reset. A button press gives an outcome from a roll seeded with that offset plus the
+  // decision.
   static class IntriguingPuzzleBox extends MTRandomCriterion {
-    private final List<String> state;
+    private final Map<Integer, List<String>> options;
+    private final Map<Integer, ? extends Map<Integer, String>> outcomes;
 
     public IntriguingPuzzleBox() {
-      var pages = IntriguingPuzzleBoxManager.parseHistory();
-      if (pages.isEmpty()) {
-        state = List.of();
-        return;
-      }
-
-      state = List.of(IntriguingPuzzleBoxManager.getPageOptions(pages.getFirst()).split(","));
+      options = IntriguingPuzzleBoxManager.parseOptions();
+      outcomes = IntriguingPuzzleBoxManager.parseOutcomes();
     }
 
     @Override
     public boolean matchesSeed(int seed) {
-      return state.isEmpty() || generateForSeed(seed).equals(state);
+      return options.entrySet().stream()
+              .allMatch(
+                  e ->
+                      IntriguingPuzzleBoxManager.getOptions(
+                              IntriguingPuzzleBoxManager.getOptionsSeed(seed, e.getKey()))
+                          .equals(e.getValue()))
+          && outcomes.entrySet().stream()
+              .allMatch(
+                  s ->
+                      s.getValue().entrySet().stream()
+                          .allMatch(
+                              d ->
+                                  IntriguingPuzzleBoxManager.getOutcome(
+                                          seed, d.getKey(), s.getKey())
+                                      .equals(d.getValue())));
     }
 
-    // Only the first page is known to be seed-determined, so that is all this writes.
+    // Writes the first step's options only, since the rest is based on user input
     @Override
     public Map<String, String> toProperties(int seed) {
-      return Map.of("intriguingPuzzleBoxHistory", String.join(",", generateForSeed(seed)));
+      return Map.of(
+          IntriguingPuzzleBoxManager.OPTIONS_PREF,
+          "0:" + String.join(",", IntriguingPuzzleBoxManager.getOptions(seed)));
     }
 
     @Override
     public double reductionFactor() {
-      // 1/(18*17*16*15*14*13) once the six options are known, since order matters.
-      if (state.isEmpty()) {
-        return 1;
+      // Each step's options are an ordered draw of six distinct actions, so each step divides by
+      // the number of ways to draw them.
+      double rv = 1;
+      for (int i = 0; i < options.size(); i++) {
+        rv /=
+            factMN(
+                IntriguingPuzzleBoxManager.ACTIONS.size(),
+                IntriguingPuzzleBoxManager.ACTIONS.size() - 6);
       }
-      return 1
-          / factMN(
-              IntriguingPuzzleBoxManager.ACTIONS.size(),
-              IntriguingPuzzleBoxManager.ACTIONS.size() - 6);
-    }
-
-    private List<String> generateForSeed(int seed) {
-      PHPMTRandom rng = new PHPMTRandom(seed);
-      List<String> rv = new ArrayList<>();
-      while (rv.size() < 6) {
-        String code =
-            IntriguingPuzzleBoxManager.ACTIONS.get(
-                rng.nextInt(0, IntriguingPuzzleBoxManager.ACTIONS.size() - 1));
-        if (!rv.contains(code)) {
-          rv.add(code);
-        }
+      // Each recorded outcome is one roll of six, so it divides by the chance of that roll. A say
+      // also picks one of eighteen values.
+      for (var outcome : outcomes.values().stream().flatMap(s -> s.values().stream()).toList()) {
+        rv *=
+            switch (outcome) {
+              case "click" -> 1.0 / 2;
+              case "buzz", "beep" -> 1.0 / 6;
+              default -> 1.0 / (6 * 18);
+            };
       }
       return rv;
     }
