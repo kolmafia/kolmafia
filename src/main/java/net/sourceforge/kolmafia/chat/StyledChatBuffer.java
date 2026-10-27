@@ -22,14 +22,14 @@ public class StyledChatBuffer extends ChatBuffer {
     this.linkColor = linkColor;
   }
 
-  public static final boolean initializeHighlights() {
+  public static boolean initializeHighlights() {
     StyledChatBuffer.highlightCount = 0;
     StyledChatBuffer.searchStrings.clear();
     StyledChatBuffer.colorStrings.clear();
 
     String highlights = Preferences.getString("highlightList").trim();
 
-    if (highlights.length() == 0) {
+    if (highlights.isEmpty()) {
       return false;
     }
 
@@ -42,7 +42,7 @@ public class StyledChatBuffer extends ChatBuffer {
     return true;
   }
 
-  public static final String removeHighlight(final int index) {
+  public static String removeHighlight(final int index) {
     --StyledChatBuffer.highlightCount;
 
     String searchString = StyledChatBuffer.searchStrings.remove(index);
@@ -51,7 +51,7 @@ public class StyledChatBuffer extends ChatBuffer {
     return searchString + "\n" + colorString;
   }
 
-  public static final String addHighlight(final String searchString, final Color color) {
+  public static String addHighlight(final String searchString, final Color color) {
     ++StyledChatBuffer.highlightCount;
 
     String colorString = DataUtilities.toHexString(color);
@@ -146,7 +146,7 @@ public class StyledChatBuffer extends ChatBuffer {
       remaining = remaining.substring(stopIndex);
     }
 
-    if (highlightMessage.length() == 0) {
+    if (highlightMessage.isEmpty()) {
       return message;
     }
 

@@ -61,11 +61,7 @@ public class ChatParser {
     while (channelMatcher.find()) {
       String channel = channelMatcher.group(1);
 
-      boolean isCurrentChannel = false;
-
-      if (channel.contains("<b")) {
-        isCurrentChannel = true;
-      }
+      boolean isCurrentChannel = channel.contains("<b");
 
       channel = "/" + KoLConstants.ANYTAG_PATTERN.matcher(channel).replaceAll("").trim();
 
@@ -174,7 +170,7 @@ public class ChatParser {
 
     // There are no updates if there was a timeout.
 
-    if (content == null || content.length() == 0) {
+    if (content == null || content.isEmpty()) {
       return;
     }
 
@@ -187,7 +183,7 @@ public class ChatParser {
     while (nextLine < lines.length) {
       String line = lines[nextLine];
 
-      if (line.length() == 0) {
+      if (line.isEmpty()) {
         ++nextLine;
         continue;
       }
@@ -205,7 +201,7 @@ public class ChatParser {
       while (++nextLine < lines.length) {
         line = lines[nextLine];
 
-        if (line.length() == 0) {
+        if (line.isEmpty()) {
           continue;
         }
 
@@ -240,7 +236,7 @@ public class ChatParser {
 
     line = StringUtilities.globalStringDelete(line, "Invalid password submitted.").trim();
 
-    if (line.length() == 0) {
+    if (line.isEmpty()) {
       return;
     }
 
@@ -350,7 +346,7 @@ public class ChatParser {
     chatMessages.add(message);
   }
 
-  public static final void parsePlayerIds(final String content) {
+  public static void parsePlayerIds(final String content) {
     if (content == null) {
       return;
     }
@@ -362,7 +358,7 @@ public class ChatParser {
     while (playerMatcher.find()) {
       playerName = KoLConstants.ANYTAG_PATTERN.matcher(playerMatcher.group(2)).replaceAll("");
       playerName = ChatParser.PARENTHESIS_PATTERN.matcher(playerName).replaceAll("");
-      playerName = playerName.replaceAll(":", "");
+      playerName = playerName.replace(":", "");
 
       playerId = playerMatcher.group(1);
 

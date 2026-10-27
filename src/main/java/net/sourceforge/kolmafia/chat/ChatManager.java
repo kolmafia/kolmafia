@@ -56,7 +56,7 @@ public abstract class ChatManager {
   private static String currentChannel = null;
 
   private static final List<String> activeWindows = new ArrayList<>();
-  public static List<String> activeChannels = new ArrayList<>();
+  public static final List<String> activeChannels = new ArrayList<>();
 
   private static TabbedChatFrame tabbedFrame = null;
 
@@ -69,7 +69,7 @@ public abstract class ChatManager {
   private static String faxbot = null;
   private static ChatMessage faxbotMessage = null;
 
-  public static final void reset() {
+  public static void reset() {
     ChatManager.dispose();
     ChatPoller.reset();
 
@@ -88,28 +88,28 @@ public abstract class ChatManager {
     ChatManager.faxbotMessage = null;
   }
 
-  public static final void resetChatLiteracy() {
+  public static void resetChatLiteracy() {
     ChatManager.checkedLiteracy = false;
   }
 
-  public static final void resetClanMessages() {
+  public static void resetClanMessages() {
     ChatManager.clanMessages.clear();
   }
 
-  public static final boolean checkedChatLiteracy() {
+  public static boolean checkedChatLiteracy() {
     return ChatManager.checkedLiteracy;
   }
 
-  public static final boolean getChatLiteracy() {
+  public static boolean getChatLiteracy() {
     return ChatManager.chatLiterate;
   }
 
-  public static final void setChatLiteracy(final boolean on) {
+  public static void setChatLiteracy(final boolean on) {
     ChatManager.checkedLiteracy = true;
     ChatManager.chatLiterate = on;
   }
 
-  public static final boolean chatLiterate() {
+  public static boolean chatLiterate() {
     // If login is incomplete because we are stuck in a fight or
     // choice, don't bother checking the Altar of Literacy
 
@@ -136,7 +136,7 @@ public abstract class ChatManager {
    * be initialized by calling this method; to stop the chat refresher, call the <code>dispose()
    * </code> method.
    */
-  public static final void initialize() {
+  public static void initialize() {
     if (ChatManager.isRunning || !LoginRequest.completedLogin()) {
       return;
     }
@@ -161,11 +161,11 @@ public abstract class ChatManager {
     RequestThread.postRequest(new ChannelColorsRequest());
   }
 
-  public static final void setFaxBot(final String faxbot) {
+  public static void setFaxBot(final String faxbot) {
     ChatManager.faxbot = faxbot;
   }
 
-  public static final synchronized String getLastFaxBotMessage() {
+  public static synchronized String getLastFaxBotMessage() {
     if (ChatManager.faxbotMessage != null) {
       String message = ChatManager.faxbotMessage.getContent();
       ChatManager.faxbotMessage = null;
@@ -174,14 +174,14 @@ public abstract class ChatManager {
     return null;
   }
 
-  public static final boolean isValidChatReplyRecipient(String playerName) {
+  public static boolean isValidChatReplyRecipient(String playerName) {
     synchronized (ChatManager.validChatReplyRecipients) {
       return validChatReplyRecipients.contains(playerName);
     }
   }
 
   /** Disposes the messenger's frames. */
-  public static final void dispose() {
+  public static void dispose() {
     if (ChatManager.isRunning) {
       ChatManager.isRunning = false;
       ChatSender.sendMessage(null, "/exit", false);
@@ -196,15 +196,15 @@ public abstract class ChatManager {
     ChatManager.tabbedFrame = null;
   }
 
-  public static final boolean isRunning() {
+  public static boolean isRunning() {
     return ChatManager.isRunning;
   }
 
-  public static final String getCurrentChannel() {
+  public static String getCurrentChannel() {
     return ChatManager.currentChannel;
   }
 
-  public static final StyledChatBuffer getBuffer(final String bufferKey) {
+  public static StyledChatBuffer getBuffer(final String bufferKey) {
     StyledChatBuffer buffer = ChatManager.instantMessageBuffers.get(bufferKey);
 
     if (buffer != null) {
@@ -214,7 +214,7 @@ public abstract class ChatManager {
     buffer = new StyledChatBuffer(bufferKey, "black", !bufferKey.equals("[high]"));
 
     if (Preferences.getBoolean("logChatMessages")) {
-      String fileSuffix = bufferKey.replaceAll(" ", "_");
+      String fileSuffix = bufferKey.replace(" ", "_");
 
       if (fileSuffix.startsWith("/")) {
         fileSuffix = "[" + fileSuffix.substring(1) + "]";
@@ -239,7 +239,7 @@ public abstract class ChatManager {
     return buffer;
   }
 
-  public static final void startTriviaGame() {
+  public static void startTriviaGame() {
     ChatManager.triviaGameContacts.clear();
     ChatManager.triviaGameId = "[trivia" + (++ChatManager.triviaGameIndex) + "]";
     ChatManager.triviaGameActive = true;
@@ -252,7 +252,7 @@ public abstract class ChatManager {
     ChatManager.triviaGameContactListFrame.setVisible(true);
   }
 
-  public static final void stopTriviaGame() {
+  public static void stopTriviaGame() {
     ChatManager.triviaGameActive = false;
   }
 
@@ -302,7 +302,7 @@ public abstract class ChatManager {
       return;
     }
 
-    if (ChatManager.faxbot != null && sender.equalsIgnoreCase(ChatManager.faxbot)) {
+    if (sender.equalsIgnoreCase(ChatManager.faxbot)) {
       ChatManager.faxbotMessage = message;
     }
 
@@ -343,7 +343,7 @@ public abstract class ChatManager {
         ChatManager.getBufferKey(destination), true, ChatFormatter.formatChatMessage(message));
   }
 
-  public static final String getBufferKey(String destination) {
+  public static String getBufferKey(String destination) {
     String bufferKey = destination.toLowerCase();
 
     if (Preferences.getBoolean("mergeHobopolisChat")) {
@@ -362,7 +362,7 @@ public abstract class ChatManager {
     return bufferKey;
   }
 
-  public static final void processEvent(final EventMessage message) {
+  public static void processEvent(final EventMessage message) {
     String content = message.getContent();
 
     // Parse buffs bestowed upon us, etc.
@@ -417,7 +417,7 @@ public abstract class ChatManager {
 
   private static final Pattern BARK_PATTERN = Pattern.compile("you bark at your (.*?)\\.");
 
-  public static final void parseEvent(final String content) {
+  public static void parseEvent(final String content) {
     if (content.contains("Lazy Servant")) {
       Matcher barkMatcher = BARK_PATTERN.matcher(content);
       if (barkMatcher.find()) {
@@ -448,7 +448,7 @@ public abstract class ChatManager {
     }
   }
 
-  public static final void processSystemMessage(final SystemMessage message) {
+  public static void processSystemMessage(final SystemMessage message) {
     // Format the message
     String displayHTML = ChatFormatter.formatChatMessage(message);
 
@@ -476,7 +476,7 @@ public abstract class ChatManager {
     }
   }
 
-  public static final void processChannelEnable(final EnableMessage message) {
+  public static void processChannelEnable(final EnableMessage message) {
     String sender = message.getSender();
 
     if (!ChatManager.activeChannels.contains(sender)) {
@@ -490,7 +490,7 @@ public abstract class ChatManager {
     }
   }
 
-  public static final void processChannelDisable(final DisableMessage message) {
+  public static void processChannelDisable(final DisableMessage message) {
     String sender = message.getSender();
 
     if (ChatManager.activeChannels.contains(sender)) {
@@ -500,7 +500,7 @@ public abstract class ChatManager {
     }
   }
 
-  public static final void processCommand(
+  public static void processCommand(
       final String sender, final String content, final String channel) {
     if (sender == null || content == null) {
       return;
@@ -576,10 +576,10 @@ public abstract class ChatManager {
     ChatManager.invokeChatScript(sender, content, channel);
   }
 
-  public static final void invokeChatScript(
+  public static void invokeChatScript(
       final String sender, final String content, final String channel) {
     String scriptName = Preferences.getString("chatbotScript");
-    if (scriptName.equals("")) {
+    if (scriptName.isEmpty()) {
       return;
     }
 
@@ -599,7 +599,7 @@ public abstract class ChatManager {
     String[] scriptParameters;
     if (parameterCount == 3) {
       scriptParameters = new String[] {sender, content, channel};
-    } else if (channel != null && !channel.equals("")) {
+    } else if (channel != null && !channel.isEmpty()) {
       scriptParameters = new String[] {sender, content};
     } else {
       return;
@@ -620,7 +620,7 @@ public abstract class ChatManager {
     }
   }
 
-  public static final void broadcastEvent(final EventMessage message) {
+  public static void broadcastEvent(final EventMessage message) {
     if (!ChatManager.isRunning()) {
       return;
     }
@@ -651,7 +651,7 @@ public abstract class ChatManager {
     }
   }
 
-  public static final void openWindow(final String bufferKey, boolean highlightOnOpen) {
+  public static void openWindow(final String bufferKey, boolean highlightOnOpen) {
     if (StaticEntity.isHeadless() || !ChatManager.isRunning || bufferKey == null) {
       return;
     }
@@ -687,7 +687,7 @@ public abstract class ChatManager {
     frame.setVisible(true);
   }
 
-  public static final void closeWindow(String closedWindow) {
+  public static void closeWindow(String closedWindow) {
     if (closedWindow == null) {
       ChatManager.dispose();
       return;
@@ -719,11 +719,10 @@ public abstract class ChatManager {
 
     if (selectedWindow != null) {
       ChatSender.sendMessage(selectedWindow, "/channel", false);
-      return;
     }
   }
 
-  public static final void checkFriends() {
+  public static void checkFriends() {
     ChatSender.sendMessage(null, "/friends", false);
   }
 

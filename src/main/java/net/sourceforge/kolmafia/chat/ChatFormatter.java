@@ -48,7 +48,7 @@ public class ChatFormatter {
 
   private ChatFormatter() {}
 
-  public static final String formatInternalMessage(final String originalContent) {
+  public static String formatInternalMessage(final String originalContent) {
     // This is called once for all of the lines that arrive in a single response
 
     String normalizedContent = ChatFormatter.getNormalizedMessage(originalContent.trim());
@@ -63,7 +63,7 @@ public class ChatFormatter {
     return normalizedContent;
   }
 
-  public static final String removeMessageColors(final String originalContent) {
+  public static String removeMessageColors(final String originalContent) {
     // This is called for each message from a response.
 
     String normalizedContent = originalContent;
@@ -74,7 +74,7 @@ public class ChatFormatter {
     return normalizedContent;
   }
 
-  public static final String removeLineColor(final String originalContent) {
+  public static String removeLineColor(final String originalContent) {
     // This is called for each message from a response.
 
     String normalizedContent = originalContent;
@@ -86,7 +86,7 @@ public class ChatFormatter {
     return normalizedContent;
   }
 
-  public static final String formatExternalMessage(final String originalContent) {
+  public static String formatExternalMessage(final String originalContent) {
     String normalizedContent = ChatFormatter.getNormalizedMessage(originalContent.trim());
 
     // normalPrivateContent
@@ -103,7 +103,7 @@ public class ChatFormatter {
   }
 
   private static String getNormalizedMessage(final String originalContent) {
-    if (originalContent == null || originalContent.length() == 0) {
+    if (originalContent == null || originalContent.isEmpty()) {
       return "";
     }
 
@@ -169,12 +169,11 @@ public class ChatFormatter {
     return normalizedContent;
   }
 
-  public static final String formatChatMessage(final ChatMessage message) {
+  public static String formatChatMessage(final ChatMessage message) {
     return ChatFormatter.formatChatMessage(message, true);
   }
 
-  public static final String formatChatMessage(
-      final ChatMessage message, boolean includeTimestamp) {
+  public static String formatChatMessage(final ChatMessage message, boolean includeTimestamp) {
     StringBuilder displayHTML = new StringBuilder();
 
     if (includeTimestamp) {
@@ -273,7 +272,7 @@ public class ChatFormatter {
     return displayHTML.toString();
   }
 
-  public static final String getChatColor(final String sender) {
+  public static String getChatColor(final String sender) {
     if (ChatFormatter.chatColors.containsKey(sender)) {
       return ChatFormatter.chatColors.get(sender);
     }
@@ -303,7 +302,7 @@ public class ChatFormatter {
     ChatFormatter.chatColors.put(sender, color);
   }
 
-  public static final Color getRandomColor() {
+  public static Color getRandomColor() {
     int[] colors = new int[3];
 
     do {
@@ -321,7 +320,7 @@ public class ChatFormatter {
    * highlighted, followed by a prompt for the color which they would like to use. Cancellation
    * during any point of this process results in no chat highlighting being added.
    */
-  public static final void addHighlighting() {
+  public static void addHighlighting() {
     String highlight =
         InputFieldUtilities.input(
             "What word/phrase would you like to highlight?", KoLCharacter.getUserName());
@@ -329,12 +328,12 @@ public class ChatFormatter {
     addHighlighting(highlight);
   }
 
-  public static final void addHighlighting(String highlight) {
+  public static void addHighlighting(String highlight) {
     addHighlighting(highlight, ChatFormatter.getRandomColor());
   }
 
-  public static final void addHighlighting(String highlight, Color color) {
-    if (highlight == null || highlight.length() == 0) {
+  public static void addHighlighting(String highlight, Color color) {
+    if (highlight == null || highlight.isEmpty()) {
       return;
     }
 
@@ -353,7 +352,7 @@ public class ChatFormatter {
    * with the highlights which are currently active, and the user can select which one they would
    * like to remove. Note that only one highlight at a time can be removed with this method.
    */
-  public static final void removeHighlighting() {
+  public static void removeHighlighting() {
     String[] patterns = StyledChatBuffer.searchStrings.toArray(new String[0]);
 
     if (patterns.length == 0) {
