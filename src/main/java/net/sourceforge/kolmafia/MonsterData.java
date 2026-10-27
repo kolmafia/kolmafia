@@ -2017,7 +2017,7 @@ public class MonsterData extends AdventureResult {
     if (requireEquipped && !KoLCharacter.hasEquipped(ItemPool.SHRUNKEN_HEAD)) {
       return null;
     }
-    var z = ShrunkenHeadDatabase.shrunkenHeadZombie(this.id, KoLCharacter.getPath().id);
+    var z = ShrunkenHeadDatabase.shrunkenHeadZombieWithWeights(this.id, KoLCharacter.getPath().id);
     return "<br />Shrunken Head Zombie: " + z.toString();
   }
 
