@@ -56,7 +56,7 @@ public class ChatPoller extends Thread {
 
   private static String rightClickMenu = "";
 
-  public static final void reset() {
+  public static void reset() {
     ChatPoller.chatHistoryEntries.clear();
 
     ChatPoller.serverLastSeen = 0;
@@ -248,7 +248,6 @@ public class ChatPoller extends Thread {
     }
 
     newEntries.add(entry);
-    return;
   }
 
   public static synchronized List<HistoryEntry> getOldEntries(final boolean isRelayRequest) {
@@ -299,8 +298,8 @@ public class ChatPoller extends Thread {
     return newEntries;
   }
 
-  public static final String getRightClickMenu() {
-    if (ChatPoller.rightClickMenu.equals("")) {
+  public static String getRightClickMenu() {
+    if (ChatPoller.rightClickMenu.isEmpty()) {
       GenericRequest request = new GenericRequest("lchat.php");
       RequestThread.postRequest(request);
 
@@ -461,7 +460,7 @@ public class ChatPoller extends Thread {
           }
           recipient = channel;
         } else {
-          recipient = KoLCharacter.getUserName().replaceAll(" ", "_");
+          recipient = KoLCharacter.getUserName().replace(" ", "_");
         }
       }
 

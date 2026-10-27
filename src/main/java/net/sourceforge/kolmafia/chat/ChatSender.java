@@ -34,7 +34,7 @@ public class ChatSender {
 
   private ChatSender() {}
 
-  public static final void executeMacro(String macro) {
+  public static void executeMacro(String macro) {
     if (!ChatSender.scriptedMessagesEnabled || !ChatManager.chatLiterate()) {
       return;
     }
@@ -51,7 +51,7 @@ public class ChatSender {
 
       ChatSender.scriptedMessagesEnabled =
           recipient == null
-              || recipient.equals("")
+              || recipient.isEmpty()
               || recipient.equals("/clan")
               || recipient.equals("/hobopolis")
               || recipient.equals("/slimetube")
@@ -60,7 +60,7 @@ public class ChatSender {
     }
   }
 
-  public static final void sendMessage(String contact, String message, boolean channelRestricted) {
+  public static void sendMessage(String contact, String message, boolean channelRestricted) {
     if (!ChatManager.chatLiterate()) {
       return;
     }
@@ -81,7 +81,7 @@ public class ChatSender {
     }
   }
 
-  public static final String sendMessage(
+  public static String sendMessage(
       List<ChatMessage> accumulatedMessages,
       String graf,
       boolean isRelayRequest,
@@ -130,7 +130,7 @@ public class ChatSender {
   }
 
   // KoL's chat client batches messages as graf[], which it sends in a single request.
-  public static final String sendMessages(List<String> grafs) {
+  public static String sendMessages(List<String> grafs) {
     if (!ChatManager.chatLiterate()) {
       return "";
     }
@@ -173,11 +173,11 @@ public class ChatSender {
     return true;
   }
 
-  public static final List<ChatMessage> sendRequest(ChatRequest request) {
+  public static List<ChatMessage> sendRequest(ChatRequest request) {
     return ChatSender.sendRequest(request, false);
   }
 
-  public static final List<ChatMessage> sendRequest(ChatRequest request, boolean tabbedChat) {
+  public static List<ChatMessage> sendRequest(ChatRequest request, boolean tabbedChat) {
     if (!ChatManager.chatLiterate()) {
       return Collections.emptyList();
     }
@@ -199,10 +199,10 @@ public class ChatSender {
     return newMessages;
   }
 
-  public static final void processResponse(
+  public static void processResponse(
       List<ChatMessage> newMessages, String responseText, String graf) {
     // Protect against server lagging out
-    if (responseText == null || responseText.equals("")) {
+    if (responseText == null || responseText.isEmpty()) {
       return;
     }
 
@@ -294,7 +294,7 @@ public class ChatSender {
         buffer.append(command);
       }
 
-      if (buffer.length() > 0) {
+      if (!buffer.isEmpty()) {
         String graf = ChatSender.getGraf(contact, buffer.toString());
         if (graf != null) {
           grafs.add(graf);
