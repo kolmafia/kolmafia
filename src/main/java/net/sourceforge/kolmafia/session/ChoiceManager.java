@@ -2209,6 +2209,17 @@ public abstract class ChoiceManager {
   }
 
   public static String choiceDescription(final int choice, final int decision) {
+    return choiceDescription(choice, decision, null);
+  }
+
+  public static String choiceDescription(
+      final int choice, final int decision, final String urlString) {
+    // If the form has extra fields, use the label of the specific form that was submitted
+    String formLabel = ChoiceUtilities.findChoiceLabelFromURL(urlString, decision);
+    if (formLabel != null) {
+      return formLabel;
+    }
+
     // If we have spoilers for this choice, use that
     Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, null);
     if (spoilers != null) {

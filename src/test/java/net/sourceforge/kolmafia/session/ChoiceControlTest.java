@@ -37,6 +37,7 @@ import static org.hamcrest.core.StringContains.containsString;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
@@ -2035,6 +2036,53 @@ class ChoiceControlTest {
 
       try (cleanups) {
         assertThat("_voteModifier", isSetTo("Initiative: -30, Mysticality Experience: +4"));
+      }
+    }
+  }
+
+  @Nested
+  class ChoiceLogging {
+    @Test
+    void logsWithExtras() {
+      var cleanups = withChoice(1637, html("request/test_choice_rosegarden_disabled.html"));
+
+      try (cleanups) {
+        SessionLoggerOutput.startStream();
+        ChoiceControl.registerRequest(
+            "choice.php?whichchoice=1637&option=1&rgpoi=2&rgx=16&rgy=19&rgf=0");
+        String output = SessionLoggerOutput.stopStream();
+
+        assertThat(
+            output,
+            containsString("Took choice 1637/1: Drink from the blood fountain at position 16,19"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"100, Ninja Snowman (Mask)", "339, Ninja Snowman Janitor"})
+    void logsPeridotWithExtras(String bandersnatch, String description) {
+      var cleanups = withChoice(1557, html("request/test_choice_peridot.html"));
+
+      try (cleanups) {
+        SessionLoggerOutput.startStream();
+        ChoiceControl.registerRequest(
+            "choice.php?whichchoice=1557&option=1&bandersnatch=" + bandersnatch);
+        String output = SessionLoggerOutput.stopStream();
+
+        assertThat(output, containsString("Took choice 1557/1: " + description));
+      }
+    }
+
+    @Test
+    void logsWithoutExtras() {
+      var cleanups = withChoice(1099, html("request/test_choice_barrel_full_of_barrels.html"));
+
+      try (cleanups) {
+        SessionLoggerOutput.startStream();
+        ChoiceControl.registerRequest("choice.php?whichchoice=1099&option=3");
+        String output = SessionLoggerOutput.stopStream();
+
+        assertThat(output, containsString("Took choice 1099/3: Exit"));
       }
     }
   }
