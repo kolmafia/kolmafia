@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -454,6 +455,47 @@ public class ChoiceUtilities {
       rv.add(new FormChoice(decision, extra, label));
     }
     return rv;
+  }
+
+  /**
+   * Find the label of the choice form that was submitted, taking any extra hidden fields in the URL
+   * into account. Returns null if no form matches.
+   */
+  public static String findChoiceLabelFromURL(final String urlString, final int decision) {
+    if (urlString == null) {
+      return null;
+    }
+
+    int query = urlString.indexOf('?');
+    if (query == -1) {
+      return null;
+    }
+
+    String responseText = ChoiceManager.lastResponseText;
+    if (responseText == null || responseText.isEmpty()) {
+      return null;
+    }
+
+    GenericRequest request = new GenericRequest(urlString, false);
+
+    FormChoice match = null;
+    for (FormChoice form : parseFormChoices(responseText)) {
+      if (form.decision() != decision || form.hidden().isEmpty()) {
+        continue;
+      }
+
+      boolean matches =
+          form.hidden().entrySet().stream()
+              .allMatch(e -> e.getValue().equals(request.getFormField(e.getKey())));
+      if (!matches) {
+        continue;
+      }
+
+      match = form;
+      break;
+    }
+
+    return match == null || match.label().isEmpty() ? null : match.label();
   }
 
   private static final Set<String> STANDARD_HIDDEN_INPUT_FIELDS =
