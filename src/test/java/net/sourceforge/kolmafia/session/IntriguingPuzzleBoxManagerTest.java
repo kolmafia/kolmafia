@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import internal.helpers.Cleanups;
 import internal.helpers.Networking;
 import internal.helpers.Player;
+import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -156,5 +157,24 @@ public class IntriguingPuzzleBoxManagerTest {
   })
   void parsesButtonPressResults(String path, String outcome) {
     assertThat(IntriguingPuzzleBoxManager.parseOutcome(Networking.html(path)), is(outcome));
+  }
+
+  @Nested
+  class ButtonPredictions {
+    @Test
+    void stepSensitivePredictionsMatchButtonPresses() {
+      int[] decisions = {3, 1, 1, 1, 1, 1, 2, 5, 2, 4, 4, 2, 6, 3};
+      List<String> observed =
+          List.of(
+              "buzz", "click", "click", "click", "buzz", "click", "buzz", "click", "buzz", "click",
+              "say3", "say13", "click", "beep");
+      List<String> predicted = new ArrayList<>();
+      int step = 0;
+      for (int i = 0; i < decisions.length; i++) {
+        predicted.add(IntriguingPuzzleBoxManager.getOutcome(2340482, decisions[i], step));
+        step = observed.get(i).equals("buzz") ? 0 : step + 1;
+      }
+      assertThat(predicted, is(observed));
+    }
   }
 }
