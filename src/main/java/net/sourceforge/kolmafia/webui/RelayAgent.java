@@ -26,7 +26,6 @@ import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RelayAgent extends Thread {
@@ -47,7 +46,7 @@ public class RelayAgent extends Thread {
 
   private final char[] data = new char[8192];
   private final StringBuffer buffer = new StringBuffer();
-  private final PauseObject pauser = new PauseObject();
+  private final Object socketLock = new Object();
 
   private Socket socket = null;
   private BufferedReader reader;
@@ -64,20 +63,33 @@ public class RelayAgent extends Thread {
   }
 
   public boolean isWaiting() {
-    return this.socket == null;
+    synchronized (this.socketLock) {
+      return this.socket == null;
+    }
   }
 
   public void setSocket(final Socket socket) {
-    this.socket = socket;
-    this.pauser.unpause();
+    synchronized (this.socketLock) {
+      this.socket = socket;
+      this.socketLock.notifyAll();
+    }
+  }
+
+  private void waitForSocket() {
+    synchronized (this.socketLock) {
+      while (this.socket == null) {
+        try {
+          this.socketLock.wait();
+        } catch (InterruptedException e) {
+        }
+      }
+    }
   }
 
   @Override
   public void run() {
     while (true) {
-      if (this.socket == null) {
-        this.pauser.pause();
-      }
+      this.waitForSocket();
 
       try {
         this.performRelay();
@@ -574,12 +586,13 @@ public class RelayAgent extends Thread {
     try {
       if (this.socket != null) {
         this.socket.close();
-        this.socket = null;
       }
     } catch (IOException e) {
       // The only time this happens is if the
       // socket is already closed.  Ignore.
     }
+
+    this.setSocket(null);
   }
 
   private static final Set<String> validRefererHosts = new HashSet<>();

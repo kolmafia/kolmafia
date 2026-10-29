@@ -26,6 +26,7 @@ public class RelayServer implements Runnable {
   private static int port = 60080;
   private static boolean listening = false;
 
+  private static final int BACKLOG = 1024;
   private static final int CAPACITY = 2000;
   private static final int INITIAL_LINES = 100;
   private static final long MAX_WAIT_MS = 25_000;
@@ -174,10 +175,10 @@ public class RelayServer implements Runnable {
   private synchronized boolean openServerSocket() {
     try {
       if (Preferences.getBoolean("relayAllowRemoteAccess")) {
-        this.serverSocket = new ServerSocket(RelayServer.port, 25);
+        this.serverSocket = new ServerSocket(RelayServer.port, BACKLOG);
       } else {
         this.serverSocket =
-            new ServerSocket(RelayServer.port, 25, InetAddress.getByName("127.0.0.1"));
+            new ServerSocket(RelayServer.port, BACKLOG, InetAddress.getByName("127.0.0.1"));
       }
 
       return true;
@@ -187,9 +188,6 @@ public class RelayServer implements Runnable {
   }
 
   private synchronized void closeAgents() {
-    for (RelayAgent agent : agentThreads) {
-      agent.setSocket(null);
-    }
     agentThreads.clear();
   }
 
