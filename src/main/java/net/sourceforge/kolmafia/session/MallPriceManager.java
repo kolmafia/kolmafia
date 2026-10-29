@@ -473,7 +473,8 @@ public abstract class MallPriceManager {
 
     long price = MallPriceManager.nthCheapestPrice(NTH_CHEAPEST_COUNT, results);
     MallPriceManager.mallPrices.put(itemId, price);
-    if (price > 0) {
+    // Record actual prices and -1 (meaning "not purchasable")
+    if (price != 0) {
       MallPriceDatabase.recordPrice(itemId, price, deferred);
     }
 
@@ -522,7 +523,7 @@ public abstract class MallPriceManager {
   }
 
   public static void cachePriceIfFromCurrentRolloverDay(int itemId, long price, long timestamp) {
-    if (price > 0 && isFromCurrentRolloverDay(timestamp)) {
+    if (price != 0 && isFromCurrentRolloverDay(timestamp)) {
       MallPriceManager.mallPrices.putIfAbsent(itemId, price);
     }
   }
