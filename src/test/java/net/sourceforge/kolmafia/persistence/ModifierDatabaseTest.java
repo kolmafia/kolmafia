@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import static internal.helpers.Player.withGlobalDay;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withOverrideModifiers;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -18,19 +19,27 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.IntStream;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class ModifierDatabaseTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("ModifierDatabaseTest");
+  }
+
   @Test
   public void reparsingAnItemReusesItsBitmapBits() {
     var lookup = new Lookup(ModifierType.ITEM, ItemPool.CLOWN_WIG);
@@ -245,6 +254,15 @@ public class ModifierDatabaseTest {
 
   @Nested
   class CarriedFamiliarOverrides {
+    @ParameterizedTest
+    @CsvSource({"THRONE", "BJORN"})
+    void grimstoneGolemStopsDroppingItemsAfterDailyDrop(ModifierType type) {
+      try (var cleanups = withProperty("_grimstoneMaskDropsCrown", 1)) {
+        var mods = ModifierDatabase.getModifiers(type, "Grimstone Golem");
+        assertThat(mods.getBoolean(BooleanModifier.DROPS_ITEMS), is(false));
+      }
+    }
+
     @Test
     void bjornOverrideIsSeenByBjornLookup() {
       try (var cleanups =
