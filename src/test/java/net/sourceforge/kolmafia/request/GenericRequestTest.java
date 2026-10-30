@@ -5,10 +5,12 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -542,5 +544,41 @@ public class GenericRequestTest {
     request.addFormFields("steps%5B%5D=1%2C2&qty=1", true);
 
     assertEquals(List.of("1,2"), request.getFormFields("steps[]"));
+  }
+
+  @Nested
+  class WordReplacements {
+    @Test
+    public void restoresReplacedWordsInFights() {
+      var builder = new FakeHttpClientBuilder();
+      try (var cleanups = new Cleanups(withHttpClientBuilder(builder), withFight(0))) {
+        builder.client.addResponse(200, html("request/test_fight_salad_words.html"));
+
+        var request = new GenericRequest("fight.php");
+        request.run();
+
+        assertThat(
+            request.responseText,
+            containsString(
+                "find an old ottoman that's so completely infested with the ever-present mold"));
+        assertThat(request.responseText, containsString("a fungi-infested playmate"));
+        assertThat(request.responseText, not(containsString("salad</i>")));
+      }
+    }
+
+    @Test
+    public void restoresReplacedWordsInNoncombats() {
+      var builder = new FakeHttpClientBuilder();
+      try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+        builder.client.addResponse(
+            200,
+            "<html><body><b>Some Noncombat</b><blockquote><i title=\"You\">Salad</i> <i title=\"don&#039;t\">salad</i> find anything.</blockquote></body></html>");
+
+        var request = new GenericRequest("adventure.php?snarfblat=402");
+        request.run();
+
+        assertThat(request.responseText, containsString("You don't find anything."));
+      }
+    }
   }
 }
