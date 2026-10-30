@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withGlobalDay;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withOverrideModifiers;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -240,5 +241,17 @@ public class ModifierDatabaseTest {
     var mods = ModifierDatabase.getModifiers(ModifierType.BJORN, "Grimstone Golem");
 
     assertThat(mods.getLookup().type, is(ModifierType.BJORN));
+  }
+
+  @Nested
+  class CarriedFamiliarOverrides {
+    @Test
+    void bjornOverrideIsSeenByBjornLookup() {
+      try (var cleanups =
+          withOverrideModifiers(ModifierType.BJORN, "Grimstone Golem", "Item Drop: +50")) {
+        var mods = ModifierDatabase.getModifiers(ModifierType.BJORN, "Grimstone Golem");
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), is(50.0));
+      }
+    }
   }
 }

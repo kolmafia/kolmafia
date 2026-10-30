@@ -468,14 +468,27 @@ public class ModifierDatabase {
     return shieldDamageReduction(lookup.type, key, modifiers);
   }
 
-  private static Modifiers getCachedModifiers(final Lookup lookup) {
-    var type = lookup.type == ModifierType.BJORN ? ModifierType.THRONE : lookup.type;
-    var key = lookup.getKey();
+  private static Lookup cacheLookup(final Lookup lookup) {
+    if (lookup.type != ModifierType.BJORN) return lookup;
+    return new Lookup(ModifierType.THRONE, lookup.getKey());
+  }
 
-    Modifiers modifiers = modifiersByName.get(type, key);
+  private static void putCachedModifiers(final Lookup lookup, final Modifiers modifiers) {
+    var cacheLookup = cacheLookup(lookup);
+    modifiersByName.put(cacheLookup.type, cacheLookup.getKey(), modifiers);
+  }
+
+  private static void removeCachedModifiers(final Lookup lookup) {
+    var cacheLookup = cacheLookup(lookup);
+    modifiersByName.remove(cacheLookup.type, cacheLookup.getKey());
+  }
+
+  private static Modifiers getCachedModifiers(final Lookup lookup) {
+    var cacheLookup = cacheLookup(lookup);
+    var modifiers = modifiersByName.get(cacheLookup.type, cacheLookup.getKey());
 
     if (modifiers == null) {
-      String modifierString = getModifierString(new Lookup(type, key));
+      var modifierString = getModifierString(cacheLookup);
 
       if (modifierString == null) {
         return null;
@@ -486,7 +499,7 @@ public class ModifierDatabase {
       modifiers.variable = modifiers.override(lookup);
       modifiers.applyPathModifiers();
 
-      modifiersByName.put(type, key, modifiers);
+      putCachedModifiers(lookup, modifiers);
     }
 
     return modifiers;
@@ -1107,7 +1120,7 @@ public class ModifierDatabase {
   private static void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
     if (lookup.type == ModifierType.GENERATED) {
       // if generated, override exactly as given
-      modifiersByName.put(lookup.type, lookup.getKey(), value);
+      putCachedModifiers(lookup, value);
       return;
     }
     // otherwise, persist CARRIED_OVER attributes
@@ -1156,7 +1169,7 @@ public class ModifierDatabase {
       RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt: " + lookup);
       modifierStringsByName.put(lookup.type, key, value.toString());
     }
-    modifiersByName.put(lookup.type, key, value);
+    putCachedModifiers(lookup, value);
   }
 
   public static void overrideRemoveModifier(final ModifierType type, final int key) {
@@ -1168,7 +1181,7 @@ public class ModifierDatabase {
   }
 
   private static void overrideRemoveModifierInternal(final Lookup lookup) {
-    modifiersByName.remove(lookup.type, lookup.getKey());
+    removeCachedModifiers(lookup);
   }
 
   public static final void updateItem(final int itemId, final String known) {
