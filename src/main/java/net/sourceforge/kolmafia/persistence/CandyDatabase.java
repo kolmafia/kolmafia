@@ -437,7 +437,7 @@ public class CandyDatabase {
     }
 
     public long getCost() {
-      return this.mallprice == 0 ? MALL_MAX : this.mallprice;
+      return this.mallprice <= 0 ? MALL_MAX : this.mallprice;
     }
 
     public long getMallPrice() {

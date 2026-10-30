@@ -980,6 +980,9 @@ public class MallPriceManagerTest {
 
         // Vesper is in the response with an empty "stores" array
         assertEquals(-1, MallPriceManager.getMallPrice(ItemPool.VESPER));
+
+        // ...and -1 is its price (sentinel)
+        assertEquals(-1, MallPriceDatabase.getPrice(ItemPool.VESPER));
       }
     }
   }
