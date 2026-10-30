@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withGlobalDay;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withOverrideModifiers;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,19 +19,27 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.IntStream;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class ModifierDatabaseTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("ModifierDatabaseTest");
+  }
+
   @Test
   public void reparsingAnItemReusesItsBitmapBits() {
     var lookup = new Lookup(ModifierType.ITEM, ItemPool.CLOWN_WIG);
@@ -214,6 +224,51 @@ public class ModifierDatabaseTest {
       try (var cleanups = withGlobalDay(8654)) {
         assertThat(
             effects(), contains("10 Cold as Ice", "20 Space Tripping", "30 Dwarven Hardiness"));
+      }
+    }
+  }
+
+  @Test
+  void doesNotMutatePreviouslyReturnedModifiers() {
+    List<String> first;
+    Modifiers mods;
+    try (var cleanups = withGlobalDay(8619)) {
+      mods = ModifierDatabase.getItemModifiers(ItemPool.YAM_BATTERY);
+      first = mods.getStrings(StringModifier.EFFECT);
+    }
+    try (var cleanups = withGlobalDay(8654)) {
+      ModifierDatabase.getItemModifiers(ItemPool.YAM_BATTERY);
+      assertThat(mods.getStrings(StringModifier.EFFECT), equalTo(first));
+    }
+  }
+
+  @Test
+  void bjornLookupOfVariableFamiliarCachedByThroneIsLabelledBjorn() {
+    ModifierDatabase.overrideRemoveModifier(ModifierType.THRONE, "Grimstone Golem");
+    ModifierDatabase.getModifiers(ModifierType.THRONE, "Grimstone Golem");
+
+    var mods = ModifierDatabase.getModifiers(ModifierType.BJORN, "Grimstone Golem");
+
+    assertThat(mods.getLookup().type, is(ModifierType.BJORN));
+  }
+
+  @Nested
+  class CarriedFamiliarOverrides {
+    @ParameterizedTest
+    @CsvSource({"THRONE", "BJORN"})
+    void grimstoneGolemStopsDroppingItemsAfterDailyDrop(ModifierType type) {
+      try (var cleanups = withProperty("_grimstoneMaskDropsCrown", 1)) {
+        var mods = ModifierDatabase.getModifiers(type, "Grimstone Golem");
+        assertThat(mods.getBoolean(BooleanModifier.DROPS_ITEMS), is(false));
+      }
+    }
+
+    @Test
+    void bjornOverrideIsSeenByBjornLookup() {
+      try (var cleanups =
+          withOverrideModifiers(ModifierType.BJORN, "Grimstone Golem", "Item Drop: +50")) {
+        var mods = ModifierDatabase.getModifiers(ModifierType.BJORN, "Grimstone Golem");
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), is(50.0));
       }
     }
   }

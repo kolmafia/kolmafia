@@ -1812,14 +1812,10 @@ public class FightRequest extends GenericRequest {
     return text;
   }
 
-  private static String removeWordReplacements(String text) {
-    return text.replaceAll("<i title=\"([A-Za-z]+)\">[A-Za-z]+</i>", "$1");
-  }
-
   public static final boolean processResults(
       final String urlString, final String encounter, String responseText) {
     responseText = FightRequest.removeGothy(responseText);
-    responseText = FightRequest.removeWordReplacements(responseText);
+    responseText = GenericRequest.removeWordReplacements(responseText);
     // Update the dartboard before parsing combat text
     FightRequest.parseDartboard(responseText);
     FightRequest.updateCombatData(urlString, encounter, responseText);
