@@ -86,7 +86,7 @@ public class MallPriceDatabase {
         long price = StringUtilities.parseLong(data[2]);
         if (id < 1
             || id > ItemDatabase.maxItemId()
-            || price < 1
+            || (price != -1 && price < 1)
             || price > MALL_MAX
             || timestamp <= 0) { // Something's fishy with this file...
           continue;

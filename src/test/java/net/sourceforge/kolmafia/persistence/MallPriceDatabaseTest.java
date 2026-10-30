@@ -12,21 +12,29 @@ import static org.hamcrest.Matchers.startsWith;
 import internal.helpers.Utilities;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MallPriceDatabaseTest {
 
   @BeforeAll
-  public static void beforeEach() {
+  public static void beforeAll() {
     MallPriceDatabase.savePricesToFile = false;
-    String MallPriceFileName = "data/mallprices.txt";
-    Utilities.verboseDelete(MallPriceFileName);
-    MallPriceDatabase.updatePrices(MallPriceFileName);
+  }
+
+  @BeforeEach
+  public void resetPrices() {
+    Utilities.verboseDelete(MallPriceDatabase.PRICE_FILE);
+    MallPriceDatabase.reset();
   }
 
   @AfterAll
@@ -76,5 +84,35 @@ public class MallPriceDatabaseTest {
     assertThat(lines[1], matchesPattern("^555\t\\d+\t500$"));
     assertThat(lines[2], matchesPattern("^600\t\\d+\t5$"));
     assertThat(lines[3], matchesPattern("^607\t\\d+\t50$"));
+  }
+
+  @Test
+  void writesNegativePrices() {
+    // -1 means "not purchasable" and must be persisted
+    MallPriceDatabase.recordPrice(ItemPool.VESPER, -1, true);
+
+    var baos = new ByteArrayOutputStream();
+    try (PrintStream writer = new PrintStream(baos, true, StandardCharsets.UTF_8)) {
+      MallPriceDatabase.writePrices(writer);
+    }
+    var data = baos.toString(StandardCharsets.UTF_8);
+    var lines = data.split("\\r?\\n");
+    assertThat(lines, arrayWithSize(2));
+    assertThat(lines[1], matchesPattern("^1023\t\\d+\t-1$"));
+  }
+
+  @Test
+  void loadsNegativePrices() throws IOException {
+    Files.writeString(
+        MallPriceDatabase.PRICE_FILE.toPath(),
+        KoLConstants.MALLPRICES_VERSION + "\n1023\t1000000000\t-1\n");
+
+    try {
+      MallPriceDatabase.reset();
+      assertThat(MallPriceDatabase.getPrice(ItemPool.VESPER), equalTo(-1L));
+    } finally {
+      Utilities.verboseDelete(MallPriceDatabase.PRICE_FILE);
+      MallPriceDatabase.reset();
+    }
   }
 }

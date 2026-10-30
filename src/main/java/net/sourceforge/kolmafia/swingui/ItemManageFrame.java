@@ -42,7 +42,6 @@ import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateItemPanel;
-import net.sourceforge.kolmafia.swingui.panel.CreateSpecialPanel;
 import net.sourceforge.kolmafia.swingui.panel.InventoryPanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
@@ -112,7 +111,6 @@ public class ItemManageFrame extends GenericFrame {
 
     selectorPanel.addPanel(" - Cookable", new CreateItemPanel(true, false, false, false));
     selectorPanel.addPanel(" - Mixable", new CreateItemPanel(false, true, false, false));
-    selectorPanel.addPanel(" - Fine Tuning", new CreateSpecialPanel());
 
     selectorPanel.addSeparator();
 

@@ -6031,11 +6031,12 @@ public abstract class KoLCharacter {
 
     if (item.id == ItemPool.HODGMANS_HAMSTER) {
       // hamster has the stat bonus doubled but not the conversion
-      var mods = ModifierDatabase.getItemModifiers(item.id);
-      if (mods == null) {
+      var cached = ModifierDatabase.getItemModifiers(item.id);
+      if (cached == null) {
         // argh wtf
         return;
       }
+      var mods = new Modifiers(cached);
       mods.setDouble(DoubleModifier.ITEMDROP, 0);
       mods.setDouble(DoubleModifier.MEATDROP, 0);
       mods.setDouble(DoubleModifier.HP_REGEN_MIN, 0);
