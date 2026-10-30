@@ -217,4 +217,28 @@ public class ModifierDatabaseTest {
       }
     }
   }
+
+  @Test
+  void doesNotMutatePreviouslyReturnedModifiers() {
+    List<String> first;
+    Modifiers mods;
+    try (var cleanups = withGlobalDay(8619)) {
+      mods = ModifierDatabase.getItemModifiers(ItemPool.YAM_BATTERY);
+      first = mods.getStrings(StringModifier.EFFECT);
+    }
+    try (var cleanups = withGlobalDay(8654)) {
+      ModifierDatabase.getItemModifiers(ItemPool.YAM_BATTERY);
+      assertThat(mods.getStrings(StringModifier.EFFECT), equalTo(first));
+    }
+  }
+
+  @Test
+  void bjornLookupOfVariableFamiliarCachedByThroneIsLabelledBjorn() {
+    ModifierDatabase.overrideRemoveModifier(ModifierType.THRONE, "Grimstone Golem");
+    ModifierDatabase.getModifiers(ModifierType.THRONE, "Grimstone Golem");
+
+    var mods = ModifierDatabase.getModifiers(ModifierType.BJORN, "Grimstone Golem");
+
+    assertThat(mods.getLookup().type, is(ModifierType.BJORN));
+  }
 }

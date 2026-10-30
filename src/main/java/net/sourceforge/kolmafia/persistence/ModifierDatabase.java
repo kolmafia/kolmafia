@@ -451,13 +451,26 @@ public class ModifierDatabase {
   }
 
   public static final Modifiers getModifiers(final Lookup lookup) {
-    ModifierType originalType = null;
-    ModifierType type = lookup.type;
-    IntOrString key = lookup.getKey();
-    if (type == ModifierType.BJORN) {
-      originalType = type;
-      type = ModifierType.THRONE;
+    var key = lookup.getKey();
+    var modifiers = getCachedModifiers(lookup);
+    if (modifiers == null) {
+      return shieldDamageReduction(lookup.type, key, null);
     }
+
+    if (modifiers.variable) {
+      modifiers = new Modifiers(modifiers);
+      modifiers.override(lookup);
+      if (lookup.type == ModifierType.BJORN) {
+        modifiers.setLookup(new Lookup(ModifierType.BJORN, key));
+      }
+    }
+
+    return shieldDamageReduction(lookup.type, key, modifiers);
+  }
+
+  private static Modifiers getCachedModifiers(final Lookup lookup) {
+    var type = lookup.type == ModifierType.BJORN ? ModifierType.THRONE : lookup.type;
+    var key = lookup.getKey();
 
     Modifiers modifiers = modifiersByName.get(type, key);
 
@@ -465,16 +478,10 @@ public class ModifierDatabase {
       String modifierString = getModifierString(new Lookup(type, key));
 
       if (modifierString == null) {
-        // Items with no modifiers.txt entry can still have innate shield
-        // Damage Reduction derived from their equipment power.
-        return shieldDamageReduction(type, key, null);
+        return null;
       }
 
       modifiers = parseModifiers(lookup, modifierString);
-
-      if (originalType != null) {
-        modifiers.setLookup(new Lookup(originalType, key));
-      }
 
       modifiers.variable = modifiers.override(lookup);
       modifiers.applyPathModifiers();
@@ -482,14 +489,7 @@ public class ModifierDatabase {
       modifiersByName.put(type, key, modifiers);
     }
 
-    if (modifiers.variable) {
-      modifiers.override(lookup);
-      if (originalType != null) {
-        modifiers.setLookup(new Lookup(originalType, key));
-      }
-    }
-
-    return shieldDamageReduction(type, key, modifiers);
+    return modifiers;
   }
 
   /** Adds the innate shield Damage Reduction derived from equipment power, if any. */
@@ -1691,8 +1691,8 @@ public class ModifierDatabase {
     for (String piece : pieces) {
       Modifiers mods =
           switch (type) {
-            case MUTEX_I -> getModifiers(ModifierType.ITEM, piece);
-            case MUTEX_E -> getModifiers(ModifierType.EFFECT, piece);
+            case MUTEX_I -> getCachedModifiers(new Lookup(ModifierType.ITEM, piece));
+            case MUTEX_E -> getCachedModifiers(new Lookup(ModifierType.EFFECT, piece));
             default -> null;
           };
       if (mods == null) {
