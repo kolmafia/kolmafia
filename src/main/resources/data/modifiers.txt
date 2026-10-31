@@ -1656,6 +1656,9 @@ Item	lawnmower blade	Weapon Damage: +15, Last Available: "2010-04"
 Item	lead pipe	Maximum HP: +50, Muscle Percent: +100, Lasts Until Rollover, Last Available: "2015-07"
 # lead yo-yo
 Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP / MP Regen Min: 4, HP / MP Regen Max: 6
+# legendary acorndion: +20 damage to Accordion Thief Combat Skills
+# legendary acorndion: Buffs up (or grants access to lesser versions of) Accordion Thief Combat Skills
+Item	legendary acorndion	Moxie: +20, Booze Drop: +60, Experience: +6, Additional Song: 1, Song Duration: 15, Last Available: "2026-11", Display Name: "<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary acorndion</span>"
 # legendary pasta wand: Very Accurate!
 # legendary pasta wand: Summon Legendary Noodles
 # legendary pasta wand: Cook up to 5 items per day without using an Adventure
@@ -15582,6 +15585,7 @@ Item	unoccupied sheep suit	Free Pull, Last Available: "2023-12"
 Item	unopened Bird-a-Day calendar	Free Pull, Last Available: "2020-01"
 Item	unopened diabolic pizza cube box	Free Pull, Last Available: "2019-11"
 Item	Unopened Eight Days a Week Pill Keeper	Free Pull, Last Available: "2019-10"
+Item	unopened legendary acorndion	Free Pull, Last Available: "2026-11"
 Item	unopened Pork Elf toiletries kit	Last Available: "2026-03"
 Item	unopened tiny stillsuit	Free Pull, Last Available: "2022-08"
 Item	Unpeeled Peridot of Peril	Free Pull, Last Available: "2025-05"
