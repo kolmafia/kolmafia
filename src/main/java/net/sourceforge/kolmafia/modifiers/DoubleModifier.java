@@ -685,7 +685,13 @@ public enum DoubleModifier implements Modifier {
       "Better Diver",
       Pattern.compile("Makes you a (?:much )?better diver \\(([+-]?\\d+)\\)$"),
       Pattern.compile("Better Diver: " + EXPR),
-      new DoubleModifier[] {INITIATIVE_PENALTY, MEATDROP_PENALTY, ITEMDROP_PENALTY});
+      new DoubleModifier[] {INITIATIVE_PENALTY, MEATDROP_PENALTY, ITEMDROP_PENALTY}),
+  AT_COMBAT_DAMAGE(
+      "AT Combat Damage",
+      new Pattern[] {
+        Pattern.compile("([+-]\\d+) damage to Accordion Thief Combat Skills"),
+      },
+      Pattern.compile("AT Combat Damage: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -776,6 +782,7 @@ public enum DoubleModifier implements Modifier {
           ALL_ATTRIBUTES,
           ALL_ATTRIBUTES_PCT,
           ALL_RESISTANCE,
+          AT_COMBAT_DAMAGE,
           BETTER_DIVER,
           BOOZEDROP,
           BUGBEAR_DAMAGE,

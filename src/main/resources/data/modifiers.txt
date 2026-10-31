@@ -1656,9 +1656,8 @@ Item	lawnmower blade	Weapon Damage: +15, Last Available: "2010-04"
 Item	lead pipe	Maximum HP: +50, Muscle Percent: +100, Lasts Until Rollover, Last Available: "2015-07"
 # lead yo-yo
 Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP / MP Regen Min: 4, HP / MP Regen Max: 6
-# legendary acorndion: +20 damage to Accordion Thief Combat Skills
 # legendary acorndion: Buffs up (or grants access to lesser versions of) Accordion Thief Combat Skills
-Item	legendary acorndion	Moxie: +20, Booze Drop: +60, Experience: +6, Additional Song: 1, Song Duration: 15, Last Available: "2026-11", Display Name: "<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary acorndion</span>"
+Item	legendary acorndion	Moxie: +20, Booze Drop: +60, AT Combat Damage: +20, Experience: +6, Additional Song: 1, Song Duration: 15, Last Available: "2026-11", Display Name: "<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary acorndion</span>"
 # legendary pasta wand: Very Accurate!
 # legendary pasta wand: Summon Legendary Noodles
 # legendary pasta wand: Cook up to 5 items per day without using an Adventure
@@ -3105,8 +3104,7 @@ Item	devilbone shinguards	Monster Level: +13, Experience: +3, Single Equip, Last
 Item	dice belt buckle	Random Monster Modifiers: +1, Single Equip
 Item	dice ring	Random Monster Modifiers: +1, Single Equip
 Item	dice sunglasses	Random Monster Modifiers: +1, Single Equip
-# Dinsey's glove: +30 damage to Accordion Thief Combat Skills
-Item	Dinsey's glove	Moxie Percent: +30, Single Equip, Last Available: "2015-04", Enchantment Count: 2
+Item	Dinsey's glove	AT Combat Damage: +30, Moxie Percent: +30, Single Equip, Last Available: "2015-04"
 Item	Dinsey's oculus	Initiative: +40, Muscle Percent: +30, Single Equip, Last Available: "2015-04"
 Item	dirty hobo gloves	Stench Damage: +2, Single Equip
 Item	disbelief suspenders	Sleaze Resistance: +1
