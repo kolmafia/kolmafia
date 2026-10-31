@@ -422,6 +422,19 @@ public class CampgroundRequestTest {
     }
 
     @Test
+    void doesNotTrackResetWithoutAReplacementGarden() {
+      var cleanups = new Cleanups(withProperty("_blackRoseGardenReset", false));
+
+      try (cleanups) {
+        var roses = html("request/test_campground_black_rose_3_days.html");
+        CampgroundRequest.parseResponse("campground.php", roses);
+        CampgroundRequest.parseResponse("campground.php", roses);
+
+        assertThat("_blackRoseGardenReset", isSetTo(false));
+      }
+    }
+
+    @Test
     void replacingOtherGardensDoesNotTrackReset() {
       var cleanups =
           new Cleanups(
