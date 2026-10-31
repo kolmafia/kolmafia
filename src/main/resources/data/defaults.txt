@@ -1572,6 +1572,7 @@ user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0	roa
 user	shenQuestItem
 user	shockingLickCharges	0	roa
+user	shortOrderCookFamiliars		roa
 user	showForbiddenStores	false
 user	showGainsPerUnit	false
 user	showIgnoringStorePrices	false

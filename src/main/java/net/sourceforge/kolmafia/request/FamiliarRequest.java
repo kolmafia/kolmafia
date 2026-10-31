@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -478,6 +479,7 @@ public class FamiliarRequest extends GenericRequest {
         if (!handleFamiliarChange(changeTo)) {
           return false;
         }
+        trackShortOrderCookExperience(changeTo, responseText);
         KoLCharacter.setFamiliar(changeTo);
         EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
         return true;
@@ -672,6 +674,31 @@ public class FamiliarRequest extends GenericRequest {
       default -> {
         return true;
       }
+    }
+  }
+
+  private static void trackShortOrderCookExperience(
+      final FamiliarData familiar, final String responseText) {
+    if (!responseText.contains("Order up for the new guy!")) {
+      // These familiars never receive the cook's once-per-ascension experience bonus.
+      if (familiar.getId() == FamiliarPool.STOCKING_MIMIC
+          || familiar.getId() == FamiliarPool.DODECAPEDE) {
+        return;
+      }
+
+      var cook = KoLCharacter.usableFamiliar(FamiliarPool.SHORT_ORDER_COOK);
+      if (cook == null || !cook.canEquip()) {
+        return;
+      }
+      // With an available cook, taking out an eligible familiar without the message means
+      // it already received its bonus earlier this ascension, possibly outside KoLmafia.
+    }
+
+    String familiars = Preferences.getString("shortOrderCookFamiliars");
+    String id = String.valueOf(familiar.getId());
+    if (!Arrays.asList(familiars.split(";")).contains(id)) {
+      Preferences.setString(
+          "shortOrderCookFamiliars", familiars.isEmpty() ? id : familiars + ";" + id);
     }
   }
 
