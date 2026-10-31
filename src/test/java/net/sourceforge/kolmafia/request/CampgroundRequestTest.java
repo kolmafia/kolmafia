@@ -46,6 +46,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 public class CampgroundRequestTest {
@@ -395,6 +397,63 @@ public class CampgroundRequestTest {
 
   @Nested
   class BlackRoseGarden {
+    @ParameterizedTest
+    @ValueSource(strings = {"test_campground_rock_garden_0.html", "test_grass_garden_0.html"})
+    void tracksReplacementAndRetainsResetWhenReplanted(String replacement) {
+      var cleanups =
+          new Cleanups(
+              withEmptyCampground(),
+              withProperty("_blackRoseGardenReset", false),
+              withProperty("_blackRoseGardenToday", false));
+
+      try (cleanups) {
+        var roses = html("request/test_campground_black_rose_3_days.html");
+        CampgroundRequest.parseResponse("campground.php", roses);
+        assertThat("_blackRoseGardenReset", isSetTo(false));
+
+        CampgroundRequest.parseResponse("campground.php", html("request/" + replacement));
+        assertThat("_blackRoseGardenReset", isSetTo(true));
+
+        CampgroundRequest.parseResponse("campground.php", roses);
+        assertThat("_blackRoseGardenReset", isSetTo(true));
+        assertThat(CampgroundRequest.getCropType(), is(CropType.BLACK_ROSE));
+        assertThat(CampgroundRequest.getCrop().getCount(), is(3));
+      }
+    }
+
+    @Test
+    void doesNotTrackResetWithoutAReplacementGarden() {
+      var cleanups = new Cleanups(withProperty("_blackRoseGardenReset", false));
+
+      try (cleanups) {
+        var roses = html("request/test_campground_black_rose_3_days.html");
+        CampgroundRequest.parseResponse("campground.php", roses);
+        CampgroundRequest.parseResponse("campground.php", roses);
+
+        assertThat("_blackRoseGardenReset", isSetTo(false));
+      }
+    }
+
+    @Test
+    void replacingOtherGardensDoesNotTrackReset() {
+      var cleanups =
+          new Cleanups(
+              withEmptyCampground(),
+              withProperty("_blackRoseGardenReset", false),
+              withProperty("_blackRoseGardenToday", false));
+
+      try (cleanups) {
+        CampgroundRequest.parseResponse(
+            "campground.php", html("request/test_campground_black_rose_daypass.html"));
+        CampgroundRequest.parseResponse(
+            "campground.php", html("request/test_campground_rock_garden_0.html"));
+        CampgroundRequest.parseResponse(
+            "campground.php", html("request/test_campground_black_rose_1_day.html"));
+
+        assertThat("_blackRoseGardenReset", isSetTo(false));
+      }
+    }
+
     @Test
     void canDetectOneDayOldGarden() {
       String html = html("request/test_campground_black_rose_1_day.html");
