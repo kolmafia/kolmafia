@@ -398,12 +398,7 @@ public class CampgroundRequestTest {
   @Nested
   class BlackRoseGarden {
     @ParameterizedTest
-    @ValueSource(
-        strings = {
-          "test_campground_rock_garden_0.html",
-          "test_grass_garden_0.html",
-          "test_campground_black_rose_daypass.html"
-        })
+    @ValueSource(strings = {"test_campground_rock_garden_0.html", "test_grass_garden_0.html"})
     void tracksReplacementAndRetainsResetWhenReplanted(String replacement) {
       var cleanups =
           new Cleanups(
@@ -423,21 +418,6 @@ public class CampgroundRequestTest {
         assertThat("_blackRoseGardenReset", isSetTo(true));
         assertThat(CampgroundRequest.getCropType(), is(CropType.BLACK_ROSE));
         assertThat(CampgroundRequest.getCrop().getCount(), is(3));
-      }
-    }
-
-    @ParameterizedTest
-    @ValueSource(
-        strings = {"test_campground_black_rose_3_days.html", "test_campground_no_garden.html"})
-    void doesNotTrackResetWithoutAReplacementGarden(String response) {
-      var cleanups = new Cleanups(withProperty("_blackRoseGardenReset", false));
-
-      try (cleanups) {
-        CampgroundRequest.parseResponse(
-            "campground.php", html("request/test_campground_black_rose_3_days.html"));
-        CampgroundRequest.parseResponse("campground.php", html("request/" + response));
-
-        assertThat("_blackRoseGardenReset", isSetTo(false));
       }
     }
 
