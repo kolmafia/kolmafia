@@ -12419,3 +12419,6 @@
 12390
 12391	unopened legendary acorndion	417283956	acorndionbox.gif	usable	t	0
 12392	legendary acorndion	860192473	acorndion.gif	weapon		0
+12393	cotton candy corpsedriver	372225631	borrbooze2.gif	drink	t,d	15
+12394	corpsesicle on the beach	223210964	borrbooze3.gif	drink	t,d	15
+12395	candy corn corpsetini	571270954	borrbooze1.gif	drink	t,d	15
