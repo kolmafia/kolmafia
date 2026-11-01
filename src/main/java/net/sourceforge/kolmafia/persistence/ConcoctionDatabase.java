@@ -1870,7 +1870,7 @@ public class ConcoctionDatabase {
     if (ConcoctionDatabase.stillsLimit.total > 0) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.STILL);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.STILL, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.STILL, Preferences.getLong("valueOfStill"));
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.STILL, 0L);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.STILL,
@@ -1892,8 +1892,7 @@ public class ConcoctionDatabase {
     if (hasClipArt && clipArtSummonsRemaining) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.CLIPART);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.CLIPART, 0);
-      ConcoctionDatabase.CREATION_COST.put(
-          CraftingType.CLIPART, Preferences.getLong("valueOfTome"));
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.CLIPART, 0L);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.CLIPART,
