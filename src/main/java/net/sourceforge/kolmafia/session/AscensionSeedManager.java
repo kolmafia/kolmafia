@@ -17,9 +17,12 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
+import net.sourceforge.kolmafia.session.AscensionSeedManager.Criterion.CompareResult;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 
@@ -33,23 +36,214 @@ public class AscensionSeedManager {
   // Dispatch batches of this many seed candidates to each processing thread
   private static final int BATCH_SIZE = 100_000;
 
-  private static final List<Supplier<Criterion>> CRITERIA =
-      List.of(
-          BangPotions::new,
-          CardCatalog::new,
-          DailyDungeon::new,
-          Dreadscroll::new,
-          LeprecondoNeeds::new,
-          RaveCombos::new,
-          SeahorseName::new,
-          SlimePotions::new,
-          VioletFog::new,
-          YegDemon::new);
+  public static AscensionSeedManager INSTANCE;
+
+  public static synchronized void initialize() {
+    if (INSTANCE == null) {
+      INSTANCE = new AscensionSeedManager();
+    }
+  }
+
+  private static final Map<String, Supplier<Criterion>> CRITERIA = new HashMap<>();
+
+  static {
+    CRITERIA.put("BP", BangPotions::new);
+    CRITERIA.put("CC", CardCatalog::new);
+    CRITERIA.put("DD", DailyDungeon::new);
+    CRITERIA.put("DS", Dreadscroll::new);
+    CRITERIA.put("LC", LeprecondoNeeds::new);
+    CRITERIA.put("RC", RaveCombos::new);
+    CRITERIA.put("SH", SeahorseName::new);
+    CRITERIA.put("SP", SlimePotions::new);
+    CRITERIA.put("VF", VioletFog::new);
+    CRITERIA.put("YD", YegDemon::new);
+  }
+
+  private final Map<String, Listener> LISTENERS = new HashMap<>();
+
+  // Listener for updates to ascension seed-related preferences. Each Criterion class reports the
+  // preferences that should be watched, and when ascension seed automation is enabled and one of
+  // those preferences is updated, only the associated Criterion needs to be checked for
+  // newly-narrowed (or widened) data.
+  private class AscensionSeedPreferenceListener implements Listener {
+    private final String code;
+
+    private AscensionSeedPreferenceListener(final String code) {
+      this.code = code;
+    }
+
+    public void update() {
+      if (Preferences.getBoolean("ascensionSeedAutomation")) {
+        if (code.equals("Manager")) {
+          // When ascension seed automation is first enabled, check whether it makes sense to start
+          // narrowing the candidates immediately.
+          incrementalReset();
+          return;
+        }
+
+        String prevState = getState(code);
+        Criterion c = CRITERIA.get(code).get();
+        // Set up the Criterion based on the current preferences and determine whether the relevant
+        // state has actually changed.
+        CompareResult res = c.compareState(prevState);
+        setState(code, res.newState());
+        // If the state is narrower, use the Criterion to update the list of candidates. If it's
+        // wider, start over since we don't have a way of knowing which candidates need to be
+        // re-instated.
+        switch (res.type()) {
+          case NARROWER -> incrementalUpdate(c);
+          case WIDER -> incrementalReset();
+        }
+      } else {
+        // If any of the ascension seed-related preferences is updated while ascension seed
+        // automation is disabled, there is no way to know whether it's a narrow or widen, so clear
+        // the state preferences and start from scratch if ascension seed automation is ever
+        // re-enabled.
+        Preferences.resetToDefault(
+            "ascensionSeed", "ascensionSeedAutomationState", "ascensionSeedCandidates");
+      }
+    }
+  }
+
+  private AscensionSeedManager() {
+    // Set up the listeners for each Criterion's preferences
+    CRITERIA.forEach(
+        (code, supp) ->
+            PreferenceListenerRegistry.registerPreferenceListener(
+                supp.get().getStatePrefs(),
+                LISTENERS.computeIfAbsent(code, AscensionSeedPreferenceListener::new)));
+
+    // Set up a listener to track when ascension seed automation is enabled or disabled
+    LISTENERS.put("Manager", new AscensionSeedPreferenceListener("Manager"));
+    PreferenceListenerRegistry.registerPreferenceListener(
+        "ascensionSeedAutomation", LISTENERS.get("Manager"));
+  }
+
+  private String getState(String code) {
+    String states = Preferences.getString("ascensionSeedAutomationState");
+    for (String state : states.split("\\|")) {
+      if (state.startsWith(code + ":")) {
+        return state.substring(code.length() + 1);
+      }
+    }
+    return "";
+  }
+
+  private void setState(String code, String state) {
+    // If we get a request to update state when ascension seed automation is disabled, just reset it
+    // since we're not tracking candidates anyway.
+    if (!Preferences.getBoolean("ascensionSeedAutomation")) {
+      Preferences.resetToDefault("ascensionSeedAutomationState");
+      return;
+    }
+
+    // Add or update the specified state, or remove it if the state string is blank (i.e. the
+    // default state)
+    String stateEntry = state.isBlank() ? "" : code + ":" + state;
+    String updatedPref =
+        Stream.concat(
+                Stream.of(stateEntry),
+                Arrays.stream(Preferences.getString("ascensionSeedAutomationState").split("\\|"))
+                    .filter(s -> !s.startsWith(code + ":")))
+            .filter(s -> !s.isBlank())
+            .sorted()
+            .collect(Collectors.joining("|"));
+    Preferences.setString("ascensionSeedAutomationState", updatedPref);
+  }
+
+  // Get the current candidate seeds. If the candidates have not been narrowed down yet, return
+  // null. If the candidates have been narrowed down to 0 seeds (which indicates that the
+  // preferences are not consistent with how we expect things to work), return an empty list.
+  private List<Integer> getCandidateSeeds() {
+    String candidateString = Preferences.getString("ascensionSeedCandidates");
+    if (candidateString.isBlank()) {
+      return null;
+    } else if (candidateString.equals("none")) {
+      return Collections.emptyList();
+    }
+    return Arrays.stream(candidateString.split(",")).map(Integer::parseInt).toList();
+  }
+
+  // Set the current candidate seeds. A null input indicates that the candidates have not been
+  // narrowed down yet. If the list contains exactly 1 element, also set the ascension seed
+  // preference.
+  private void setCandidateSeeds(List<Integer> candidateSeeds) {
+    int ascensionSeed = 0;
+    String ascensionSeedCandidates;
+    if (candidateSeeds == null || !Preferences.getBoolean("ascensionSeedAutomation")) {
+      ascensionSeedCandidates = Preferences.getDefault("ascensionSeedCandidates");
+    } else if (candidateSeeds.isEmpty()) {
+      ascensionSeedCandidates = "none";
+    } else {
+      ascensionSeedCandidates =
+          candidateSeeds.stream().map(Object::toString).collect(Collectors.joining(","));
+      if (candidateSeeds.size() == 1) {
+        ascensionSeed = candidateSeeds.getFirst();
+      }
+    }
+
+    Preferences.setString("ascensionSeedCandidates", ascensionSeedCandidates);
+    Preferences.setInteger("ascensionSeed", ascensionSeed);
+  }
+
+  // Reset the current ascension seed automation process. This generally occurs when either
+  // ascension seed automation is first enabled, or when a Criterion is updated with a state that is
+  // wider than the previous state.
+  private void incrementalReset() {
+    setCandidateSeeds(null);
+    if (shouldAttemptFreshAutoNarrow()) {
+      fullSearchAscensionSeeds();
+    }
+  }
+
+  // Ascension seed automation update. If we've already narrowed the ascension seed candidates down
+  // to a list, only check the updated Criterion against those rather than searching the full list.
+  // If the candidate list has not been populated, use heuristics to determine whether it makes
+  // sense to try to start the process of narrowing the list of candidates.
+  private void incrementalUpdate(Criterion criterion) {
+    List<Integer> candidates = getCandidateSeeds();
+    if (candidates == null) {
+      if (shouldAttemptFreshAutoNarrow()) {
+        fullSearchAscensionSeeds();
+      }
+    } else {
+      List<Integer> newCandidates = new ArrayList<>();
+      for (int candidate : candidates) {
+        if (criterion.matchesSeed(candidate)) {
+          newCandidates.add(candidate);
+        }
+      }
+      setCandidateSeeds(newCandidates);
+    }
+  }
+
+  // Determines whether it makes sense to try to start the process of narrowing the list of
+  // candidates. This is true if ascension seed automation is enabled and the expected number of
+  // candidates is an order of magnitude smaller than the maximum number of seeds the full search
+  // will return.
+  private boolean shouldAttemptFreshAutoNarrow() {
+    return Preferences.getBoolean("ascensionSeedAutomation")
+        && estimatedAscensionSeedPossibilities() < MAX_CALCULATED_SEEDS / 10;
+  }
+
+  // If we've already used ascension seed automation to narrow the list of candidate seeds, just
+  // return that. Otherwise, perform a full search.
+  public List<Integer> possibleAscensionSeeds() {
+    if (Preferences.getBoolean("ascensionSeedAutomation")) {
+      List<Integer> candidateSeeds = getCandidateSeeds();
+      if (candidateSeeds != null) {
+        return candidateSeeds;
+      }
+    }
+    return fullSearchAscensionSeeds();
+  }
 
   // Determine which ascension seeds are possible given the state of the character's current prefs.
   // For performance reasons, limit this to finding MAX_CALCULATED_SEEDS (to cover the case where
   // this is called with not nearly enough information available).
-  public static List<Integer> possibleAscensionSeeds() {
+  public List<Integer> fullSearchAscensionSeeds() {
+    RequestLogger.printLine("Calculating ascension seed candidates...");
+
     // Derive the criteria based on current account state. Sort it such that the criteria that are
     // most likely to reject a seed candidate are checked first.
     //
@@ -57,14 +251,20 @@ public class AscensionSeedManager {
     // if they are based entirely on the same sequence of RNG draws), attempting to account for this
     // has proven to be too much effort for the small amount of extra processing it saves.
     List<Criterion> criteria =
-        CRITERIA.stream()
-            .map(Supplier::get)
+        CRITERIA.entrySet().stream()
+            .map(
+                e -> {
+                  Criterion c = e.getValue().get();
+                  String state = c.compareState("").newState();
+                  setState(e.getKey(), state);
+                  return c;
+                })
             .filter(c -> c.reductionFactor() < 1)
             .sorted(Comparator.comparingDouble(Criterion::sortKey))
-            .collect(Collectors.toCollection(ArrayList::new));
+            .toList();
 
     if (RequestLogger.isDebugging()) {
-      RequestLogger.updateDebugLog("Ascension seed query:");
+      RequestLogger.updateDebugLog("Ascension seed full search:");
       criteria.stream()
           .map(
               c ->
@@ -111,18 +311,28 @@ public class AscensionSeedManager {
     }
 
     // It's possible we overshot the limit slightly, so trim it if necessary.
-    return matchingSeeds.stream().limit(MAX_CALCULATED_SEEDS).sorted().toList();
+    List<Integer> rv = matchingSeeds.stream().limit(MAX_CALCULATED_SEEDS).sorted().toList();
+    if (rv.size() >= MAX_CALCULATED_SEEDS) {
+      setCandidateSeeds(null);
+    } else {
+      setCandidateSeeds(rv);
+    }
+    return rv;
   }
 
   // Determine what we expect the relevant prefs to be for all of the things that are determined by
   // the ascension seed, given a specific seed.
-  public static Map<String, String> getPropertiesForSeed(int seed) {
+  public Map<String, String> getPropertiesForSeed(int seed) {
     Map<String, String> rv = new HashMap<>();
     // nb: Technically the constructors for the criteria waste a little effort parsing out the
     // current state, which is not needed for calculating the expected values for a particular seed.
     // This is a small enough amount of work that we expect to be called few enough times that it
     // isn't worth trying to work around.
-    CRITERIA.stream().map(Supplier::get).map(c -> c.toProperties(seed)).forEach(rv::putAll);
+    CRITERIA.values().stream()
+        .map(Supplier::get)
+        .map(c -> c.toProperties(seed))
+        .forEach(rv::putAll);
+    rv.put("ascensionSeed", Integer.toString(seed));
     return rv;
   }
 
@@ -134,9 +344,18 @@ public class AscensionSeedManager {
   // criteria that perform draws of similar granularity, they won't actually narrow down the
   // candidates as much as two truly independent processes would. We accept this inaccuracy for the
   // sake of simplicity.
-  public static int estimatedAscensionSeedPossibilities() {
+  public int estimatedAscensionSeedPossibilities() {
+    // If ascension seed automation is enabled and we've already narrowed down the list of
+    // candidates, there's no need to estimate--directly return the number of possibilities.
+    if (Preferences.getBoolean("ascensionSeedAutomation")) {
+      List<Integer> candidates = getCandidateSeeds();
+      if (candidates != null) {
+        return candidates.size();
+      }
+    }
+
     double totalReductionFactor =
-        CRITERIA.stream()
+        CRITERIA.values().stream()
             .map(Supplier::get)
             .mapToDouble(Criterion::reductionFactor)
             .reduce(1, (a, b) -> a * b);
@@ -151,20 +370,78 @@ public class AscensionSeedManager {
   // consistent with the current account state as well as determine the expected state of relevant
   // prefs for any given ascension seed.
   public abstract static class Criterion {
+    // The state string that is considered the "default" state for this Criterion (i.e. the state
+    // that provides no information for narrowing the ascension seed)
+    protected final String defaultState;
+
+    // The preferences which contain the game state tracked by this Criterion
+    protected final String[] prefs;
+
+    protected Criterion(String defaultState, String... prefs) {
+      this.defaultState = defaultState;
+      this.prefs = prefs;
+    }
+
+    public final String[] getStatePrefs() {
+      return prefs;
+    }
+
+    public record CompareResult(UpdateType type, String newState) {}
+
+    // An indicator for whether a new state is narrower, wider, or equal-to the previous state
+    public enum UpdateType {
+      NARROWER,
+      EQUAL,
+      WIDER;
+
+      // Widening from any other state always results in a widen, since it means that at least some
+      // candidates that were previously discarded need to be re-evaluated.
+      public UpdateType widen() {
+        return WIDER;
+      }
+
+      // Narrowing loses out to widening
+      public UpdateType narrow() {
+        if (this == WIDER) {
+          return WIDER;
+        } else {
+          return NARROWER;
+        }
+      }
+    }
+
+    // Handle translating a blank state to/from the default state, and then delegate to the
+    // Criterion-specific comparison method.
+    public final CompareResult compareState(String prevState) {
+      if (prevState.isBlank()) {
+        prevState = defaultState;
+      }
+      CompareResult res = compareStateInner(prevState);
+      if (res.newState().equals(defaultState)) {
+        return new CompareResult(res.type(), "");
+      } else {
+        return res;
+      }
+    }
+
+    // Determine whether the current state is narrower, wider, or equal to the previous state, and
+    // return the string representation of the current state.
+    protected abstract CompareResult compareStateInner(String prevState);
+
     // Check whether the current account state is consistent with the state expected for the
     // specified ascension seed. Implementations of this method should be side-effect-free.
-    abstract boolean matchesSeed(int seed);
+    public abstract boolean matchesSeed(int seed);
 
     // Return the expected values of all properties that are associated with this aspect, based on
     // the specified ascension seed.
-    abstract Map<String, String> toProperties(int seed);
+    public abstract Map<String, String> toProperties(int seed);
 
     // A heuristic indicating what proportion of ascension seed candidates are consistent with the
     // current value of the prefs associated with this aspect. A lower value indicates that more
     // candidate seeds are likely to be weeded out by checking this criterion.
     //
     // In any reasonable case, the return value should be in the interval (0,1].
-    abstract double reductionFactor();
+    public abstract double reductionFactor();
 
     // The best sort key that is permitted for this criterion. This function should always return a
     // value in the range [0,1]. The reduction factor will be used to select a value in the interval
@@ -172,16 +449,29 @@ public class AscensionSeedManager {
     //
     // This can be useful for cases where a criterion should prefer to be run later in the filter
     // chain than its reduction factor would normally indicate.
-    double bestAllowedSortKey() {
+    protected double bestAllowedSortKey() {
       return 0;
     }
 
     // The value to use for sorting criteria. A lower value will result in a filter being checked
     // earlier. This value is calculated based on reduction factor, scaled into the interval
     // [bestAllowedSortKey(),1].
-    final double sortKey() {
+    public final double sortKey() {
       double sortFloor = bestAllowedSortKey();
       return sortFloor + (1 - sortFloor) * reductionFactor();
+    }
+
+    // Utility method used for many reductionFactor() methods. Returns M!/N!
+    protected static double factMN(int m, int n) {
+      if (n > m) {
+        return 1 / factMN(n, m);
+      }
+
+      double rv = 1;
+      for (int i = n + 1; i <= m; i++) {
+        rv *= i;
+      }
+      return rv;
     }
   }
 
@@ -189,23 +479,14 @@ public class AscensionSeedManager {
   // Criterion that uses only PHPRandom. Ensure that PHPMTRandom-using criteria get sorted behind
   // any fast Criterion that rejects a meaningful number of possibilities.
   private abstract static class MTRandomCriterion extends Criterion {
+    protected MTRandomCriterion(String defaultState, String... prefs) {
+      super(defaultState, prefs);
+    }
+
     @Override
     public double bestAllowedSortKey() {
       return 0.6;
     }
-  }
-
-  // Utility method used for many reductionFactor() methods. Returns M!/N!
-  private static double factMN(int m, int n) {
-    if (n > m) {
-      return 1 / factMN(n, m);
-    }
-
-    double rv = 1;
-    for (int i = n + 1; i <= m; i++) {
-      rv *= i;
-    }
-    return rv;
   }
 
   // Bang Potions
@@ -214,14 +495,33 @@ public class AscensionSeedManager {
   // ettin strength, mental acuity, blessing, healing), perform a standard shuffle and then assign
   // the effects to potions in increasing order of item ID.
   static class BangPotions extends Criterion {
-    private final List<String> state;
+    private final String[] state = new String[9];
 
     public BangPotions() {
-      state = new ArrayList<>(9);
+      super(
+          "?????????",
+          IntStream.rangeClosed(819, 827)
+              .mapToObj(i -> "lastBangPotion" + i)
+              .toArray(String[]::new));
       for (int i = 0; i < 9; i++) {
-        String si = Preferences.getString("lastBangPotion" + (819 + i));
-        state.add(si);
+        String si = Preferences.getString(prefs[i]);
+        state[i] = si;
       }
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      String newState = "";
+      UpdateType type = UpdateType.EQUAL;
+
+      for (int i = 0; i < 9; i++) {
+        char old = prevState.charAt(i);
+        char now = state[i].isBlank() ? '?' : state[i].charAt(0);
+        newState += now;
+        if (old != now) {
+          type = old == '?' ? type.narrow() : type.widen();
+        }
+      }
+      return new CompareResult(type, newState);
     }
 
     private List<String> generateForSeed(int seed) {
@@ -246,7 +546,7 @@ public class AscensionSeedManager {
     public boolean matchesSeed(int seed) {
       List<String> arr = generateForSeed(seed);
       for (int i = 0; i < 9; i++) {
-        if (!state.get(i).isEmpty() && !state.get(i).equals(arr.get(i))) {
+        if (!state[i].isEmpty() && !state[i].equals(arr.get(i))) {
           return false;
         }
       }
@@ -276,7 +576,7 @@ public class AscensionSeedManager {
     }
   }
 
-  // Playing the Card Catalog noncombat
+  // Playing the Catalog Card noncombat
   //
   // For each book, use mt_rand(1,26), mt_rand(1,26), mt_rand(111,999), and mt_rand(11,99) to
   // produce the card catalog code for the book. Then, skip several draws (used to generate the book
@@ -285,6 +585,7 @@ public class AscensionSeedManager {
     private final Set<String> state;
 
     public CardCatalog() {
+      super("", "merkinCatalogChoices");
       String pref = Preferences.getString("merkinCatalogChoices");
       if (pref.isBlank()) {
         state = Collections.emptySet();
@@ -293,6 +594,22 @@ public class AscensionSeedManager {
 
       String[] parts = pref.split(",");
       state = Arrays.stream(parts).map(s -> s.substring(0, 8)).collect(Collectors.toSet());
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      Set<String> oldState =
+          prevState.isBlank()
+              ? Collections.emptySet()
+              : Arrays.stream(prevState.split(",")).collect(Collectors.toSet());
+
+      UpdateType type = UpdateType.EQUAL;
+      if (!state.containsAll(oldState)) {
+        type = type.widen();
+      } else if (!oldState.containsAll(state)) {
+        type = type.narrow();
+      }
+
+      return new CompareResult(type, String.join(",", state));
     }
 
     private List<String> generateForSeed(int seed, int limit) {
@@ -378,12 +695,23 @@ public class AscensionSeedManager {
     private final String state;
 
     public DailyDungeon() {
+      super("????????????", "dailyDungeonRooms");
       String pref = Preferences.getString("dailyDungeonRooms").replaceAll("[^MDT?]", "");
       if (pref.length() == 12) {
         state = pref;
       } else {
-        state = "????????????";
+        state = defaultState;
       }
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      UpdateType type = UpdateType.EQUAL;
+      for (int i = 0; i < 12; i++) {
+        if (prevState.charAt(i) != state.charAt(i)) {
+          type = prevState.charAt(i) == '?' ? type.narrow() : type.widen();
+        }
+      }
+      return new CompareResult(type, state);
     }
 
     private static final List<String> INIT_ROOM_ORDER =
@@ -450,10 +778,26 @@ public class AscensionSeedManager {
     private final int[] state;
 
     public Dreadscroll() {
+      super(
+          "00000000",
+          IntStream.rangeClosed(1, 8).mapToObj(i -> "dreadScroll" + i).toArray(String[]::new));
       state = new int[8];
       for (int i = 0; i < 8; i++) {
-        state[i] = Preferences.getInteger("dreadScroll" + (i + 1));
+        state[i] = Preferences.getInteger(prefs[i]);
       }
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      UpdateType type = UpdateType.EQUAL;
+
+      for (int i = 0; i < 8; i++) {
+        int old = Character.getNumericValue(prevState.charAt(i));
+        if (old != state[i]) {
+          type = old == 0 ? type.narrow() : type.widen();
+        }
+      }
+      return new CompareResult(
+          type, Arrays.stream(state).mapToObj(Integer::toString).collect(Collectors.joining()));
     }
 
     private int[] generateForSeed(int seed) {
@@ -508,6 +852,14 @@ public class AscensionSeedManager {
   // no way to definitively correct the order. As such, it is never used to calculate the ascension
   // seed and is only a predictor output.
   static class LeprecondoNeeds extends Criterion {
+    public LeprecondoNeeds() {
+      super("");
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      return new CompareResult(UpdateType.EQUAL, "");
+    }
+
     private List<String> generateForSeed(int seed) {
       PHPRandom rng = new PHPRandom(seed);
       List<String> arr =
@@ -552,8 +904,11 @@ public class AscensionSeedManager {
     private final String[] state = new String[6];
 
     public RaveCombos() {
+      super(
+          "??????????????????",
+          IntStream.rangeClosed(1, 6).mapToObj(i -> "raveCombo" + i).toArray(String[]::new));
       for (int i = 0; i < 6; i++) {
-        String combo = Preferences.getString("raveCombo" + (i + 1));
+        String combo = Preferences.getString(prefs[i]);
         if (!combo.isEmpty()) {
           combo =
               Arrays.stream(combo.split(","))
@@ -563,6 +918,21 @@ public class AscensionSeedManager {
         }
         state[i] = combo;
       }
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      UpdateType type = UpdateType.EQUAL;
+
+      for (int i = 0; i < 6; i++) {
+        String old = prevState.substring(3 * i, 3 * (i + 1));
+        old = old.equals("???") ? "" : old;
+        if (!old.equals(state[i])) {
+          type = old.isBlank() ? type.narrow() : type.widen();
+        }
+      }
+      return new CompareResult(
+          type,
+          Arrays.stream(state).map(s -> s.isBlank() ? "???" : s).collect(Collectors.joining()));
     }
 
     // The order that shuffled combos get assigned to the mafia-numbered effects
@@ -732,7 +1102,16 @@ public class AscensionSeedManager {
     private final String state;
 
     public SeahorseName() {
+      super("", "seahorseName");
       state = Preferences.getString("seahorseName");
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      UpdateType type = UpdateType.EQUAL;
+      if (!prevState.equals(state)) {
+        type = prevState.isBlank() ? type.narrow() : type.widen();
+      }
+      return new CompareResult(type, state);
     }
 
     private String generateForSeed(int seed) {
@@ -795,9 +1174,35 @@ public class AscensionSeedManager {
     private final String[] state = new String[12];
 
     public SlimePotions() {
+      super(
+          "????????????",
+          IntStream.rangeClosed(3885, 3896)
+              .mapToObj(i -> "lastSlimeVial" + i)
+              .toArray(String[]::new));
       for (int i = 0; i < 12; i++) {
-        state[i] = Preferences.getString("lastSlimeVial" + (3885 + i));
+        state[i] = Preferences.getString(prefs[i]);
       }
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      String newState = "";
+
+      UpdateType type = UpdateType.EQUAL;
+      for (int i = 0; i < 12; i++) {
+        char old = prevState.charAt(i);
+        char now =
+            state[i].isBlank()
+                ? '?'
+                : switch (i) {
+                  case 3, 4, 5 -> state[i].charAt(3);
+                  default -> state[i].charAt(1);
+                };
+        if (old != now) {
+          type = old == '?' ? type.narrow() : type.widen();
+        }
+        newState += now;
+      }
+      return new CompareResult(type, newState);
     }
 
     private static final String[] PRIMARY_POTIONS = {"strong", "sagacious", "speedy"};
@@ -898,11 +1303,13 @@ public class AscensionSeedManager {
   // standard shuffle and assign the final sequence to the options "This way", "That way", "The
   // other way" in that order.
   static class VioletFog extends Criterion {
-
     private final int[] state = new int[69];
     private final boolean[] explored = new boolean[23];
 
     public VioletFog() {
+      super(
+          IntStream.range(0, 69).mapToObj(i -> "0").collect(Collectors.joining(",")),
+          "violetFogLayout");
       String layoutString = Preferences.getString("violetFogLayout");
       if (layoutString.isBlank()) {
         return;
@@ -925,6 +1332,19 @@ public class AscensionSeedManager {
           }
         }
       }
+    }
+
+    public CompareResult compareStateInner(String prevState) {
+      int[] oldState = Arrays.stream(prevState.split(",")).mapToInt(Integer::parseInt).toArray();
+
+      UpdateType type = UpdateType.EQUAL;
+      for (int i = 0; i < 69; i++) {
+        if (oldState[i] != state[i]) {
+          type = oldState[i] <= 0 ? type.narrow() : type.widen();
+        }
+      }
+      return new CompareResult(
+          type, Arrays.stream(state).mapToObj(Integer::toString).collect(Collectors.joining(",")));
     }
 
     // Every three numbers represent the exits for one of the violet fog NCs, in the order they
@@ -1005,6 +1425,7 @@ public class AscensionSeedManager {
     private final int[] state = {-1, -1, -1, -1, -1, -1, -1};
 
     public YegDemon() {
+      super("-1,-1,-1,-1,-1,-1,-1", "demonName13", "cargoPocketScraps");
       String demonName =
           Preferences.getString("demonName13").toLowerCase().replaceAll("[^ygaeiou]", "");
 
@@ -1026,8 +1447,21 @@ public class AscensionSeedManager {
       }
     }
 
+    public CompareResult compareStateInner(String prevState) {
+      int[] oldState = Arrays.stream(prevState.split(",")).mapToInt(Integer::parseInt).toArray();
+
+      UpdateType type = UpdateType.EQUAL;
+      for (int i = 0; i < 7; i++) {
+        if (oldState[i] != state[i]) {
+          type = oldState[i] == -1 ? type.narrow() : type.widen();
+        }
+      }
+      return new CompareResult(
+          type, Arrays.stream(state).mapToObj(Integer::toString).collect(Collectors.joining(",")));
+    }
+
     private int[] generateForSeed(int seed) {
-      PHPMTRandom rng = new PHPMTRandom(44 * seed);
+      PHPMTRandom rng = new PHPMTRandom(44L * seed);
       int[] rv = new int[7];
       for (int i = 0; i < 7; i++) {
         rv[i] = rng.nextInt(0, 9);

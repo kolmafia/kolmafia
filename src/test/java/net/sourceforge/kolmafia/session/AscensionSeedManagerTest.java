@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
@@ -37,12 +38,75 @@ public class AscensionSeedManagerTest {
             withProperty("lastBangPotion820", "inebriety"));
 
     try (cleanups) {
-      int estimatedCount = AscensionSeedManager.estimatedAscensionSeedPossibilities();
+      AscensionSeedManager.initialize();
+      int estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
       assertThat(estimatedCount, is(2));
 
-      List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
+      List<Integer> matches = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
       assertThat(matches.size(), is(4));
       assertThat(matches, contains(1062694, 2209935, 5572718, 7252442));
+    }
+  }
+
+  @Test
+  void seedAutomationProgressSaved() {
+    AscensionSeedManager.initialize();
+    var cleanups =
+        new Cleanups(
+            withProperty("dailyDungeonRooms"),
+            withProperty("seahorseName"),
+            withProperty("lastBangPotion819"),
+            withProperty("lastBangPotion820"),
+            withProperty("ascensionSeed"),
+            withProperty("ascensionSeedCandidates"),
+            withProperty("ascensionSeedAutomationState"),
+            withProperty("ascensionSeedAutomation", true));
+
+    try (cleanups) {
+      Preferences.setString("dailyDungeonRooms", "MMTD_??MT_??DD");
+
+      int estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(3117)); // estimated on heuristics
+      String state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("DD:MMTD??MT??DD"));
+
+      Preferences.setString("seahorseName", "Glitterswim");
+
+      estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(83)); // actual value
+      assertThat(Preferences.getString("ascensionSeedCandidates").split(",").length, is(83));
+      state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("SH:Glitterswim"));
+
+      Preferences.setString("lastBangPotion819", "confusion");
+
+      estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(14)); // actual value
+      state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("BP:c????????"));
+
+      Preferences.setString("lastBangPotion820", "inebriety");
+
+      estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(4)); // actual value
+      state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("BP:ci???????"));
+      assertThat("ascensionSeedCandidates", isSetTo("1062694,2209935,5572718,7252442"));
+
+      List<Integer> matches = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
+      assertThat(matches.size(), is(4));
+      assertThat(matches, contains(1062694, 2209935, 5572718, 7252442));
+
+      Preferences.setString("lastBangPotion827", "teleportitis");
+
+      estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(1)); // actual value
+      state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("DD:MMTD??MT??DD"));
+      assertThat(state, containsString("SH:Glitterswim"));
+      assertThat(state, containsString("BP:ci??????t"));
+      assertThat("ascensionSeedCandidates", isSetTo("2209935"));
+      assertThat("ascensionSeed", isSetTo("2209935"));
     }
   }
 
@@ -51,10 +115,11 @@ public class AscensionSeedManagerTest {
     var cleanups = new Cleanups(withProperty("dailyDungeonRooms", "T???_????_????"));
 
     try (cleanups) {
-      int estimatedCount = AscensionSeedManager.estimatedAscensionSeedPossibilities();
+      AscensionSeedManager.initialize();
+      int estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
       assertThat(estimatedCount, is(3_000_000));
 
-      List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
+      List<Integer> matches = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
       assertThat(matches.size(), is(AscensionSeedManager.MAX_CALCULATED_SEEDS));
     }
   }
