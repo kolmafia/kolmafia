@@ -186,11 +186,11 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         new BuffTool(ItemPool.ACCORDIONOID_ROCCA, 13, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(ItemPool.PYGMY_CONCERTINETTE, 12, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(ItemPool.GHOST_ACCORDION, 11, false, AscensionClass.ACCORDION_THIEF),
+        new BuffTool(ItemPool.LEGENDARY_ACORNDION, 10, false, null),
         new BuffTool(ItemPool.SQUEEZEBOX_OF_THE_AGES, 10, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(
             ItemPool.SHAKESPEARES_SISTERS_ACCORDION, 10, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(ItemPool.AUTOCALLIOPE, 10, false, AscensionClass.ACCORDION_THIEF),
-        new BuffTool(ItemPool.LEGENDARY_ACORNDION, 10, false, null),
         new BuffTool(
             ItemPool.NON_EUCLIDEAN_NON_ACCORDION, 10, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(ItemPool.ACCORDION_OF_JORDION, 9, false, AscensionClass.ACCORDION_THIEF),
