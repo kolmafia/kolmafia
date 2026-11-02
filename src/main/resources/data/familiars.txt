@@ -58,7 +58,7 @@
 21	Whirling Maple Leaf	familiar21.gif	combat0,mp1	maple leaf	tiny Mountie hat	3	1	2	0	organic,vegetable,hovers,fast
 22	Coffee Pixie	familiar22.gif	item0,meat0	coffee sprite	miniature espresso maker	1	1	3	2	sentient,humanoid,person,hasbones,haseyes,hashands,haslegs,haswings,flies,fast,cute,animatedart
 23	Cheshire Bat	familiar23.gif	stat0,meat0	Cheshire Bitten	smile-sharpening stone	1	2	3	1	sentient,organic,animal,hasbones,haseyes,hasclaws,haswings,flies,fast,cute,spooky,animatedart
-24	Jill-O-Lantern	familiar24.gif	combat0,combat1,stat0	Dark Jill-O-Lantern	100-Watt bulb	3	1	2	1	vegetable,object,haseyes,bite,hovers,orb,hot,spooky
+24	Jill-O-Lantern	familiar24.gif	combat0,combat1,stat0	Dark Jill-O-Lantern	100-Watt bulb	3	1	2	1	undead,vegetable,object,haseyes,bite,hovers,orb,hot,spooky
 25	Hand Turkey	familiar25.gif	combat0,meat0	hand turkey outline	candied yam pinky ring	3	2	1	1	animal,object,haseyes,haslegs,haswings,hasbeak
 26	Crimbo Elf	familiar26.gif	combat0,item0	crimbo elfling	dental pliers	1	2	1	3	sentient,organic,humanoid,person,hasbones,haseyes,hashands,haslegs,wearsclothes,cute,cold,good,cantalk
 27	Hanukkimbo Dreidl	familiar27.gif	combat0,block,mp0,meat1	Hanukkimbo dreidl	menorette	2	1	3	1	mineral,object,hovers,fast,polygonal,good
@@ -328,7 +328,7 @@
 291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0	mineral,haseyes,hard,cute
 292
 293	Patriotic Eagle	pateagle.gif	combat0,stat1,mp0	sleeping patriotic eagle	claw-held flag	3	3	1	2	animal,hasclaws,hasbeak,flies,haswings,sentient,organic,haseyes
-294	Jill-of-All-Trades	darkjill2f.gif	stat0,stat1,item0,meat0,combat0,drop,block,delevel0,hp0,meat1,hp1,mp1,variable	Dark Jill-of-All-Trades	LED candle	1	2	3	3	organic,sentient,vegetable,object,haseyes,bite,edible,food,orb,hot,spooky,evil
+294	Jill-of-All-Trades	darkjill2f.gif	stat0,stat1,item0,meat0,combat0,drop,block,delevel0,hp0,meat1,hp1,mp1,variable	Dark Jill-of-All-Trades	LED candle	1	2	3	3	undead,organic,sentient,vegetable,object,haseyes,bite,edible,food,orb,hot,spooky,evil
 295	Flaming Leafcutter Ant	al_ant.gif	hp1,mp1,combat1	smoldering leafcutter ant egg		2	3	3	1	sentient,organic,insect,animal,haseyes,bite,haslegs,hot
 296	Rigging Snake	rigsnake.gif	combat0,delevel1	baby rigging snake	rigging knot	3	1	1	1	sentient,organic,animal,haseyes,bite,phallic,cute
 297	Pet Anchor	anchor.gif	none	pet anchor		0	0	0	0	mineral,object,hard
