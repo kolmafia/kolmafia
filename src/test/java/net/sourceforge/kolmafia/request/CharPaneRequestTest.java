@@ -301,6 +301,17 @@ class CharPaneRequestTest {
         assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(false));
       }
     }
+
+    @Test
+    void commaRaceIgnoresPoundInCustomTitle() {
+      var cleanups =
+          new Cleanups(withFamiliar(FamiliarPool.CHAMELEON, 200), withProperty("commaFamiliar"));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_comma_with_pound_title.html"));
+        assertThat("commaFamiliar", isSetTo("Homemade Robot"));
+      }
+    }
   }
 
   @Nested
