@@ -4864,4 +4864,27 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class ShortOrderCook {
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void tracksDropAndCharge(boolean bluePlate) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.SHORT_ORDER_COOK),
+              withProperty("_shortOrderCookCharge", 10),
+              withProperty("shortOrderCookLastDrop", "short white"));
+      if (bluePlate) {
+        cleanups.add(withEquipped(Slot.FAMILIAR, ItemPool.BLUE_PLATE));
+      }
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_short_order_cook_drop.html");
+        assertThat("shortOrderCookLastDrop", isSetTo("short stack of pancakes"));
+        assertThat("_shortOrderCookCharge", isSetTo(bluePlate ? 2 : 0));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(bluePlate ? 2 : 0));
+      }
+    }
+  }
 }
