@@ -1489,8 +1489,11 @@ public class CharPaneRequest extends GenericRequest {
     KoLCharacter.setMask(mask);
   }
 
+  // commaPattern was matching custom titles (e.g. "21-pound Adventurer"). This searches explicitly
+  // for the familiar class alongside the pattern to more accurately find the familiar, rather than
+  // other "pound" text in the charPane
   private static final Pattern commaPattern =
-      Pattern.compile("pound (.*?), Chameleon", Pattern.DOTALL);
+      Pattern.compile("class=\"familiarpick\".*?pound (.*?), Chameleon", Pattern.DOTALL);
 
   private static void checkComma(final String responseText) {
     Matcher commaMatcher = CharPaneRequest.commaPattern.matcher(responseText);
