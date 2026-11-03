@@ -274,6 +274,8 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern SHORT_ORDER_EXP_PATTERN =
       Pattern.compile("and tosses a plate of food to (.*?), who gains ([0-9,]+) exp!");
+  private static final Pattern SHORT_ORDER_DROP_PATTERN =
+      Pattern.compile("(shortbeer|shortstack|shortbutter|shortwater|shortcoffee)\\.gif");
 
   private static final Pattern RED_BUTTON_PATTERN =
       Pattern.compile("manage to find and recover all but (\\d+) of the buttons");
@@ -4117,11 +4119,17 @@ public class FightRequest extends GenericRequest {
         }
         case FamiliarPool.SHORT_ORDER_COOK -> {
           int charge = Preferences.getInteger("_shortOrderCookCharge");
-          if (responseText.contains("shortbeer.gif")
-              || responseText.contains("shortstack.gif")
-              || responseText.contains("shortbutter.gif")
-              || responseText.contains("shortwater.gif")
-              || responseText.contains("shortcoffee.gif")) {
+          Matcher drop = SHORT_ORDER_DROP_PATTERN.matcher(responseText);
+          if (drop.find()) {
+            String item =
+                switch (drop.group(1)) {
+                  case "shortbeer" -> "short beer";
+                  case "shortstack" -> "short stack of pancakes";
+                  case "shortbutter" -> "short stick of butter";
+                  case "shortwater" -> "short glass of water";
+                  default -> "short white";
+                };
+            Preferences.setString("shortOrderCookLastDrop", item);
             if (KoLCharacter.hasEquipped(ItemPool.BLUE_PLATE, Slot.FAMILIAR)) {
               charge = 2;
             } else {
