@@ -300,7 +300,6 @@ public class DataFileConsistencyTest {
             "reallyevil",
             "robot",
             "sentient",
-            "slayer",
             "sleaze",
             "software",
             "spooky",
