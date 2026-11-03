@@ -642,7 +642,8 @@ public class EquipmentDatabase {
     return (EquipmentDatabase.isAccordion(itemId)
         && itemId != ItemPool.TOY_ACCORDION
         && itemId != ItemPool.ANTIQUE_ACCORDION
-        && itemId != ItemPool.AEROGEL_ACCORDION);
+        && itemId != ItemPool.AEROGEL_ACCORDION
+        && itemId != ItemPool.LEGENDARY_ACORNDION);
   }
 
   public static final Stat getWeaponStat(final int itemId) {
