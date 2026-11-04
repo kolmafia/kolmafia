@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.swingui.panel.MallSearchResultsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MallSearchFrame extends GenericPanelFrame {
@@ -176,7 +177,7 @@ public class MallSearchFrame extends GenericPanelFrame {
 
     @Override
     public void actionConfirmed() {
-      int searchCount = InputFieldUtilities.getValue(this.countField, 0);
+      int searchCount = SwingInputFieldUtilities.getValue(this.countField, 0);
       if (searchCount > 0) {
         Preferences.setInteger("defaultLimit", searchCount);
       }

@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.utilities;
 
-import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 
 public class PauseObject implements Runnable {
   private long milliseconds = 0;
@@ -28,7 +28,7 @@ public class PauseObject implements Runnable {
       return;
     }
 
-    if (SwingUtilities.isEventDispatchThread()) {
+    if (UserInterfaceManager.getUserInterface().isUiThread()) {
       if (Preferences.getBoolean("debugFoxtrotRemoval")) {
         StaticEntity.printStackTrace("Pause object in event dispatch thread");
       }

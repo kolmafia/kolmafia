@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
@@ -464,7 +465,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                   @Override
                   public void run() {
                     SaveListener.this.output =
-                        InputFieldUtilities.chooseOutputFile(
+                        SwingInputFieldUtilities.chooseOutputFile(
                             KoLConstants.DATA_LOCATION, FamiliarTrainingFrame.this);
                     SaveListener.this.content = FamiliarTrainingFrame.results.getHTMLContent();
                   }

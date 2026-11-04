@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SkillBuffFrame extends GenericFrame {
@@ -212,7 +213,7 @@ public class SkillBuffFrame extends GenericFrame {
 
       int buffCount =
           !maxBuff
-              ? InputFieldUtilities.getValue(SkillBuffFrame.this.amountField, 1)
+              ? SwingInputFieldUtilities.getValue(SkillBuffFrame.this.amountField, 1)
               : Integer.MAX_VALUE;
       if (buffCount == 0) {
         return;
