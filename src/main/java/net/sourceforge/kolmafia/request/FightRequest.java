@@ -99,6 +99,8 @@ import net.sourceforge.kolmafia.session.GrimstoneManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
+import net.sourceforge.kolmafia.session.LegendaryAcorndionManager;
+import net.sourceforge.kolmafia.session.LegendaryAcorndionManager.AcornZoneEffect;
 import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
@@ -9062,6 +9064,29 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static void handleLegendaryAcorndion(int skillId, String text) {
+    if (!KoLCharacter.hasEquipped(ItemPool.LEGENDARY_ACORNDION)) {
+      return;
+    }
+
+    if (text.contains("Your acorndion's reserve of carbon is spent for the day.")) {
+      Preferences.setInteger("_legendaryAcornsUsed", 12);
+      return;
+    }
+
+    Preferences.increment("_legendaryAcornsUsed", 1, 12);
+    for (AcornZoneEffect zoneEffect : AcornZoneEffect.forSkill(skillId)) {
+      if (text.contains(zoneEffect.fightText)) {
+        LegendaryAcorndionManager.plantAcorn(KoLAdventure.lastVisitedLocation(), zoneEffect);
+        logText("Legendary acorn planted: " + zoneEffect.fightText);
+
+        // Parse current zone effects directly from the acorndion
+        DebugDatabase.itemDescriptionText(ItemPool.LEGENDARY_ACORNDION, true);
+        return;
+      }
+    }
+  }
+
   private static void logSkillAcquisition(String skillName, final TagStatus status) {
     FightRequest.logText("You acquire a skill: " + skillName, status);
   }
@@ -9941,8 +9966,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.CLUBFOOT,
           SkillPool.SHELL_UP,
           SkillPool.TERRACOTTA_ARMY,
-          SkillPool.PARAFFIN_PRISM,
-          SkillPool.ACCORDION_BASH -> {
+          SkillPool.PARAFFIN_PRISM -> {
         singleCastsThisFight.add(skillId);
         return;
       }
@@ -11359,6 +11383,24 @@ public class FightRequest extends GenericRequest {
                 || handleMeatShieldMaidenBlessing(
                     responseText, "Sleaze", EffectPool.BLESSING_TAX_SHIELD);
         skillSuccess |= blessingAcquired;
+      }
+      case SkillPool.DISSONANT_RIFF,
+          SkillPool.IRRITATING_RIFF,
+          SkillPool.CADENZA,
+          SkillPool.BADENZA,
+          SkillPool.ACCORDION_BASH,
+          SkillPool.ACCORDION_SHOVE,
+          SkillPool.CONCERTO_DE_LOS_MUERTOS,
+          SkillPool.CHIASSO_DE_LOS_MUERTOS,
+          SkillPool.BAWDY_REFRAIN,
+          SkillPool.JUVENILE_REFRAIN,
+          SkillPool.CONE_OF_ZYDECO,
+          SkillPool.LINE_OF_ZYDECO -> {
+        if (skillId == SkillPool.ACCORDION_BASH) {
+          singleCastsThisFight.add(skillId);
+        }
+
+        handleLegendaryAcorndion(skillId, responseText);
       }
     }
 

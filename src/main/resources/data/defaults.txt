@@ -1119,6 +1119,7 @@ user	leafletCompleted	false	roa
 user	ledCandleDropped	false	roa
 user	ledCandleMode		roa
 user	legacyPoints	0
+user	legendaryAcornsPlanted		roa
 user	legendaryNoodlesAmygdala	0	roa
 user	legendaryNoodlesSkin	0	roa
 user	legendaryNoodlesStomach	0	roa
@@ -2500,6 +2501,8 @@ user	_leafTattooCrafted	false
 user	_leafMonstersFought	0
 user	_leavesBurned	0
 user	_leavesJumped	false
+user	_legendaryAcornsUsed	0
+user	_legendaryAcornZonesToday
 user	_legendaryBeat	false
 user	_legendaryLasagmbieMana	0
 user	_legendaryNoodlesSpleen	false
