@@ -4887,4 +4887,32 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class LegendaryAcorndion {
+    @Test
+    void handlesAcordionCombatSkill() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Briny Deeps"),
+              withEquipped(ItemPool.LEGENDARY_ACORNDION),
+              withProperty("_legendaryAcornsUsed", 1),
+              withProperty("_legendaryAcornZonesToday", "The Briny Deeps"));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_acorndion_accordionbash.html",
+            "fight.php?action=skill&whichskill=6032");
+        String text = RequestLoggerOutput.stopStream();
+
+        assertThat("_legendaryAcornsUsed", isSetTo(2));
+        assertThat("_legendaryAcornZonesToday", isSetTo("The Briny Deeps|The Briny Deeps"));
+        assertThat(
+            text,
+            containsString(
+                "Legendary acorn planted: Monsters will be much less attracted to you in this zone"));
+      }
+    }
+  }
 }
