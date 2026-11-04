@@ -304,9 +304,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
-    // Only undead familiars can be equipped in Zombiecore
-    if (KoLCharacter.inZombiecore() && !this.isUndead()) {
-      return false;
+    // Only undead or specially-permitted familiars can be equipped in Zombiecore
+    if (KoLCharacter.inZombiecore()) {
+      if (!this.isUndead()
+          && this.id != FamiliarPool.JILL_O_LANTERN
+          && this.id != FamiliarPool.ORB) {
+        return false;
+      }
     }
 
     // Familiars are only allowed with the right hat in You, Robot

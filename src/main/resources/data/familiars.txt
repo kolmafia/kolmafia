@@ -328,7 +328,7 @@
 291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0	mineral,haseyes,hard,cute
 292
 293	Patriotic Eagle	pateagle.gif	combat0,stat1,mp0	sleeping patriotic eagle	claw-held flag	3	3	1	2	animal,hasclaws,hasbeak,flies,haswings,sentient,organic,haseyes
-294	Jill-of-All-Trades	darkjill2f.gif	stat0,stat1,item0,meat0,combat0,drop,block,delevel0,hp0,meat1,hp1,mp1,variable	Dark Jill-of-All-Trades	LED candle	1	2	3	3	organic,sentient,vegetable,object,haseyes,bite,edible,food,orb,hot,spooky,evil
+294	Jill-of-All-Trades	darkjill2f.gif	stat0,stat1,item0,meat0,combat0,drop,block,delevel0,hp0,meat1,hp1,mp1,variable	Dark Jill-of-All-Trades	LED candle	1	2	3	3	undead,organic,sentient,vegetable,object,haseyes,bite,edible,food,orb,hot,spooky,evil
 295	Flaming Leafcutter Ant	al_ant.gif	hp1,mp1,combat1	smoldering leafcutter ant egg		2	3	3	1	sentient,organic,insect,animal,haseyes,bite,haslegs,hot
 296	Rigging Snake	rigsnake.gif	combat0,delevel1	baby rigging snake	rigging knot	3	1	1	1	sentient,organic,animal,haseyes,bite,phallic,cute
 297	Pet Anchor	anchor.gif	none	pet anchor		0	0	0	0	mineral,object,hard
