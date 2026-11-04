@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.ui;
 
 import java.io.File;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
 
@@ -42,4 +43,12 @@ public interface UserInterface {
   default void beep() {
     System.out.write(0x07);
   }
+
+  default void openChatWindow(final String bufferKey, final boolean highlightOnOpen) {}
+
+  default void highlightChatTab(final String bufferKey) {}
+
+  default void chatClosed() {}
+
+  default void showContacts(final String title, final LockableListModel<?> contacts) {}
 }

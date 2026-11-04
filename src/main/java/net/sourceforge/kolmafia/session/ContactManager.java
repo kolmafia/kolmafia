@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.swingui.ContactListFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -23,8 +23,6 @@ public class ContactManager {
 
   private static final SortedListModel<String> mailContacts = new SortedListModel<>();
   private static final SortedListModel<HTMLListEntry> chatContacts = new SortedListModel<>();
-
-  private static ContactListFrame contactsFrame = null;
 
   public static void reset() {
     seenPlayerIds.clear();
@@ -76,12 +74,7 @@ public class ContactManager {
     }
 
     if (Preferences.getBoolean("useContactsFrame")) {
-      if (ContactManager.contactsFrame == null) {
-        ContactManager.contactsFrame = new ContactListFrame(ContactManager.chatContacts);
-      }
-
-      ContactManager.contactsFrame.setTitle(title);
-      ContactManager.contactsFrame.setVisible(true);
+      UserInterfaceManager.getUserInterface().showContacts(title, ContactManager.chatContacts);
     }
   }
 

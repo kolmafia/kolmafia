@@ -3,15 +3,25 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.File;
+import java.util.IdentityHashMap;
+import java.util.Map;
 import javax.swing.SwingUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.ui.UserInterface;
 
 public class SwingUserInterface implements UserInterface {
+  private static TabbedChatFrame tabbedFrame = null;
+
+  private static final Map<LockableListModel<?>, ContactListFrame> contactFrames =
+      new IdentityHashMap<>();
+
   @Override
   public <R> void showPrompt(final UserPrompt<R> prompt) {
     UserPromptDialog.show(prompt);
@@ -128,5 +138,49 @@ public class SwingUserInterface implements UserInterface {
   @Override
   public void beep() {
     Toolkit.getDefaultToolkit().beep();
+  }
+
+  @Override
+  public void highlightChatTab(final String bufferKey) {
+    if (SwingUserInterface.tabbedFrame != null) {
+      SwingUserInterface.tabbedFrame.highlightTab(bufferKey);
+    }
+  }
+
+  @Override
+  public void openChatWindow(final String bufferKey, final boolean highlightOnOpen) {
+    if (Preferences.getBoolean("useTabbedChatFrame")) {
+      if (SwingUserInterface.tabbedFrame == null) {
+        CreateFrameRunnable creator = new CreateFrameRunnable(TabbedChatFrame.class);
+        boolean appearsInTab = GenericFrame.appearsInTab("ChatManager");
+        SwingUserInterface.tabbedFrame = (TabbedChatFrame) creator.createFrame(appearsInTab);
+      }
+
+      SwingUserInterface.tabbedFrame.addTab(bufferKey);
+
+      if (highlightOnOpen) {
+        SwingUserInterface.tabbedFrame.highlightTab(bufferKey);
+      }
+
+      return;
+    }
+
+    ChatFrame frame = new ChatFrame(bufferKey);
+    CreateFrameRunnable.decorate(frame);
+    frame.setVisible(true);
+  }
+
+  @Override
+  public void chatClosed() {
+    SwingUserInterface.tabbedFrame = null;
+  }
+
+  @Override
+  public void showContacts(final String title, final LockableListModel<?> contacts) {
+    ContactListFrame frame =
+        SwingUserInterface.contactFrames.computeIfAbsent(contacts, ContactListFrame::new);
+
+    frame.setTitle(title);
+    frame.setVisible(true);
   }
 }

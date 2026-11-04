@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.chat;
 
-import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +13,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.BuffBotHome;
-import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -33,12 +31,9 @@ import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EventManager;
-import net.sourceforge.kolmafia.swingui.ChatFrame;
-import net.sourceforge.kolmafia.swingui.ContactListFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -58,13 +53,10 @@ public abstract class ChatManager {
   private static final List<String> activeWindows = new ArrayList<>();
   public static final List<String> activeChannels = new ArrayList<>();
 
-  private static TabbedChatFrame tabbedFrame = null;
-
   private static boolean triviaGameActive = false;
   private static int triviaGameIndex = 0;
   private static String triviaGameId = "[trivia0]";
   private static final LockableListModel<String> triviaGameContacts = new LockableListModel<>();
-  private static ContactListFrame triviaGameContactListFrame = null;
 
   private static String faxbot = null;
   private static ChatMessage faxbotMessage = null;
@@ -193,7 +185,7 @@ public abstract class ChatManager {
     ChatManager.activeChannels.clear();
     ChatManager.currentChannel = null;
 
-    ChatManager.tabbedFrame = null;
+    UserInterfaceManager.getUserInterface().chatClosed();
   }
 
   public static boolean isRunning() {
@@ -244,12 +236,8 @@ public abstract class ChatManager {
     ChatManager.triviaGameId = "[trivia" + (++ChatManager.triviaGameIndex) + "]";
     ChatManager.triviaGameActive = true;
 
-    if (ChatManager.triviaGameContactListFrame == null) {
-      ChatManager.triviaGameContactListFrame = new ContactListFrame(ChatManager.triviaGameContacts);
-    }
-
-    ChatManager.triviaGameContactListFrame.setTitle("Contestants for " + triviaGameId);
-    ChatManager.triviaGameContactListFrame.setVisible(true);
+    UserInterfaceManager.getUserInterface()
+        .showContacts("Contestants for " + triviaGameId, ChatManager.triviaGameContacts);
   }
 
   public static void stopTriviaGame() {
@@ -325,7 +313,7 @@ public abstract class ChatManager {
         .equalsIgnoreCase(recipient)) {
 
       if (Preferences.getBoolean("chatBeep")) {
-        Toolkit.getDefaultToolkit().beep();
+        UserInterfaceManager.getUserInterface().beep();
       }
 
       if (ChatManager.triviaGameActive) {
@@ -657,34 +645,12 @@ public abstract class ChatManager {
     }
 
     if (ChatManager.activeWindows.contains(bufferKey)) {
-      if (ChatManager.tabbedFrame != null) {
-        ChatManager.tabbedFrame.highlightTab(bufferKey);
-      }
-
+      UserInterfaceManager.getUserInterface().highlightChatTab(bufferKey);
       return;
     }
 
     ChatManager.activeWindows.add(bufferKey);
-
-    if (Preferences.getBoolean("useTabbedChatFrame")) {
-      if (ChatManager.tabbedFrame == null) {
-        CreateFrameRunnable creator = new CreateFrameRunnable(TabbedChatFrame.class);
-        boolean appearsInTab = GenericFrame.appearsInTab("ChatManager");
-        ChatManager.tabbedFrame = (TabbedChatFrame) creator.createFrame(appearsInTab);
-      }
-
-      ChatManager.tabbedFrame.addTab(bufferKey);
-
-      if (highlightOnOpen) {
-        ChatManager.tabbedFrame.highlightTab(bufferKey);
-      }
-
-      return;
-    }
-
-    ChatFrame frame = new ChatFrame(bufferKey);
-    CreateFrameRunnable.decorate(frame);
-    frame.setVisible(true);
+    UserInterfaceManager.getUserInterface().openChatWindow(bufferKey, highlightOnOpen);
   }
 
   public static void closeWindow(String closedWindow) {
