@@ -57,4 +57,23 @@ class CommandQueueManagerTest {
 
     assertThat(Preferences.getString("_commandQueueTest"), is("second"));
   }
+
+  @Test
+  void dropsQueuedCommandsWhenACommandAborts() throws Exception {
+    Preferences.setString("_commandQueueTest", "");
+
+    // The first command is still waiting when the second is queued; then it aborts
+    CommandQueueManager.executeCommand("waitq 1; abort");
+    CommandQueueManager.executeCommand("set _commandQueueTest = after");
+
+    // The abort happens on the queue's thread; wait until the queue is idle
+    Thread.sleep(1500);
+    long deadline = System.currentTimeMillis() + 10000;
+    while (CommandQueueManager.hasQueuedCommands() && System.currentTimeMillis() < deadline) {
+      Thread.sleep(10);
+    }
+    Thread.sleep(500);
+
+    assertThat(Preferences.getString("_commandQueueTest"), is(""));
+  }
 }
