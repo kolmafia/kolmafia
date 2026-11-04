@@ -25,7 +25,7 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.session.MonorailManager;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
@@ -180,7 +180,7 @@ public class Preferences {
       Preferences.loadUserPreferences(username);
     }
 
-    AdventureFrame.updateFromPreferences();
+    UserInterfaceManager.getUserInterface().preferencesChanged();
     CharPaneDecorator.updateFromPreferences();
     CombatActionManager.updateFromPreferences();
     MoodManager.updateFromPreferences();

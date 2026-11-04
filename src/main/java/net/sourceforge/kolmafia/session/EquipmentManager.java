@@ -44,8 +44,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
-import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.SortedList;
 
@@ -118,7 +118,7 @@ public class EquipmentManager {
     }
 
     EquipmentManager.accessories.clear();
-    GearChangePanel.clearEquipmentModels();
+    UserInterfaceManager.getUserInterface().equipmentListsCleared();
 
     EquipmentManager.equipment.clear();
 
@@ -243,7 +243,7 @@ public class EquipmentManager {
       Slot equipmentType = EquipmentManager.consumeFilterToEquipmentType(consumeType);
       if (equipmentType != Slot.NONE) {
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(equipmentType), item);
-        GearChangePanel.updateSlot(equipmentType);
+        UserInterfaceManager.getUserInterface().equipmentSlotChanged(equipmentType);
       }
     }
 
@@ -335,7 +335,7 @@ public class EquipmentManager {
       KoLCharacter.currentFamiliar.setItem(item);
     }
     EquipmentManager.checkFamiliar(slot);
-    GearChangePanel.updateSlot(slot);
+    UserInterfaceManager.getUserInterface().equipmentSlotChanged(slot);
 
     // Certain items provide additional skills when equipped.
     // Handle the addition / removal of those skills here.
@@ -789,7 +789,7 @@ public class EquipmentManager {
    */
   public static final void setEquipment(final Map<Slot, AdventureResult> equipment) {
     // Defer updating so that we don't regenerate every GearChangeFrame list once for each slot.
-    GearChangePanel.deferUpdate();
+    UserInterfaceManager.getUserInterface().deferEquipmentUpdates();
     for (var slot : SlotSet.ALL_SLOTS) {
       var equipped = equipment.get(slot);
       if (equipped == null) {
@@ -799,7 +799,7 @@ public class EquipmentManager {
         setEquipment(slot, equipped);
       }
     }
-    GearChangePanel.resolveDeferredUpdate();
+    UserInterfaceManager.getUserInterface().resolveDeferredEquipmentUpdates();
   }
 
   public static final void setCustomOutfits(final List<SpecialOutfit> newOutfits) {
@@ -902,10 +902,11 @@ public class EquipmentManager {
       curr = minTurns;
     }
     EquipmentManager.turnsRemaining.put(slot, curr);
-    GearChangePanel.updateStickers(
-        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
-        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
-        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER3, 0));
+    UserInterfaceManager.getUserInterface()
+        .stickersChanged(
+            EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
+            EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
+            EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER3, 0));
   }
 
   public static final boolean isStickerWeapon(AdventureResult item) {
@@ -960,10 +961,11 @@ public class EquipmentManager {
       for (var slot : SlotSet.STICKER_SLOTS) {
         EquipmentManager.turnsRemaining.compute(slot, (k, v) -> v == null ? -1 : v - 1);
       }
-      GearChangePanel.updateStickers(
-          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
-          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
-          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER3, 0));
+      UserInterfaceManager.getUserInterface()
+          .stickersChanged(
+              EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
+              EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
+              EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER3, 0));
     }
 
     EquipmentManager.incrementEquipmentCounters();

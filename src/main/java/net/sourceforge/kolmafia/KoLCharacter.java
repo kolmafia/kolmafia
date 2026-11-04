@@ -109,12 +109,9 @@ import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.shop.ShopRequest;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.MallSearchFrame;
-import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
-import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.DataFileCache;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
@@ -468,7 +465,7 @@ public abstract class KoLCharacter {
     DwarfFactoryRequest.reset();
     EquipmentManager.resetEquipment();
     EquipmentManager.resetCustomOutfits();
-    GearChangePanel.clearFamiliarList();
+    UserInterfaceManager.getUserInterface().familiarListCleared();
     InventoryManager.resetInventory();
     LocketManager.clear();
     SkillDatabase.resetCasts();
@@ -532,7 +529,7 @@ public abstract class KoLCharacter {
     int battleIndex = KoLCharacter.battleSkillNames.indexOf(Preferences.getString("battleAction"));
     KoLCharacter.battleSkillNames.setSelectedIndex(battleIndex == -1 ? 0 : battleIndex);
 
-    SkillBuffFrame.update();
+    UserInterfaceManager.getUserInterface().skillsChanged();
   }
 
   static final void resetPerAscensionData() {
@@ -1362,10 +1359,10 @@ public abstract class KoLCharacter {
     ChezSnooteeRequest.reset();
     MicroBreweryRequest.reset();
     HellKitchenRequest.reset();
-    GearChangePanel.clearFamiliarList();
+    UserInterfaceManager.getUserInterface().familiarListCleared();
     InventoryManager.refresh();
     EquipmentManager.resetCustomOutfits();
-    SkillBuffFrame.update();
+    UserInterfaceManager.getUserInterface().skillsChanged();
 
     limitmode.reset();
 
@@ -1577,14 +1574,14 @@ public abstract class KoLCharacter {
   public static final void setStorageMeat(final long storageMeat) {
     if (KoLCharacter.storageMeat != storageMeat) {
       KoLCharacter.storageMeat = storageMeat;
-      MallSearchFrame.updateMeat();
+      UserInterfaceManager.getUserInterface().meatChanged();
     }
   }
 
   public static final void addStorageMeat(final long meat) {
     if (meat != 0) {
       KoLCharacter.storageMeat += meat;
-      MallSearchFrame.updateMeat();
+      UserInterfaceManager.getUserInterface().meatChanged();
     }
   }
 
@@ -1628,7 +1625,7 @@ public abstract class KoLCharacter {
   public static final void setAvailableMeat(final long availableMeat) {
     if (KoLCharacter.availableMeat != availableMeat) {
       KoLCharacter.availableMeat = availableMeat;
-      MallSearchFrame.updateMeat();
+      UserInterfaceManager.getUserInterface().meatChanged();
     }
   }
 
@@ -2936,7 +2933,7 @@ public abstract class KoLCharacter {
     ConcoctionDatabase.setPullsRemaining(-1);
 
     // The mall now uses Meat from inventory, not storage
-    MallSearchFrame.updateMeat();
+    UserInterfaceManager.getUserInterface().meatChanged();
 
     // We may want to re-run breakfast, for various reasons
     Preferences.setBoolean("breakfastCompleted", false);
@@ -3034,7 +3031,7 @@ public abstract class KoLCharacter {
 
       // All familiars can now be used
       RequestThread.postRequest(new FamiliarRequest());
-      GearChangePanel.updateFamiliars();
+      UserInterfaceManager.getUserInterface().familiarsChanged();
     }
 
     // If we haven't previously seen our campground, visit it.
@@ -3614,7 +3611,7 @@ public abstract class KoLCharacter {
       KoLCharacter.mindControlLevel = level;
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
-      AdventureFrame.updateSafetyDetails();
+      UserInterfaceManager.getUserInterface().safetyDetailsChanged();
     }
   }
 
@@ -3627,7 +3624,7 @@ public abstract class KoLCharacter {
       KoLCharacter.radSickness = rads;
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
-      AdventureFrame.updateSafetyDetails();
+      UserInterfaceManager.getUserInterface().safetyDetailsChanged();
     }
   }
 
@@ -3885,7 +3882,7 @@ public abstract class KoLCharacter {
 
     DiscoCombatHelper.initialize();
 
-    SkillBuffFrame.update();
+    UserInterfaceManager.getUserInterface().skillsChanged();
   }
 
   public static final void setPermedSkills(final List<UseSkillRequest> newSkillSet) {
@@ -4702,7 +4699,7 @@ public abstract class KoLCharacter {
             || KoLCharacter.currentFamiliar.getRace().equals("Scary Death Orb");
 
     EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
-    GearChangePanel.updateFamiliars();
+    UserInterfaceManager.getUserInterface().familiarsChanged();
 
     KoLCharacter.effectiveFamiliar = familiar;
 
@@ -4767,7 +4764,7 @@ public abstract class KoLCharacter {
       EquipmentManager.processResult(familiar.getItem());
     }
 
-    GearChangePanel.updateFamiliars();
+    UserInterfaceManager.getUserInterface().familiarsChanged();
 
     return familiar;
   }
@@ -4793,7 +4790,7 @@ public abstract class KoLCharacter {
     }
 
     KoLCharacter.familiars.remove(familiar);
-    GearChangePanel.updateFamiliars();
+    UserInterfaceManager.getUserInterface().familiarsChanged();
   }
 
   /**

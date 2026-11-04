@@ -46,9 +46,8 @@ import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.YouRobotManager;
-import net.sourceforge.kolmafia.swingui.MallSearchFrame;
-import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.jsoup.Jsoup;
@@ -126,7 +125,7 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setRestricted(false);
       }
       CharPaneRequest.setCanInteract(interaction);
-      MallSearchFrame.updateMeat();
+      UserInterfaceManager.getUserInterface().meatChanged();
     }
     if (interaction) {
       ConcoctionDatabase.setPullsRemaining(-1);
@@ -285,7 +284,7 @@ public class CharPaneRequest extends GenericRequest {
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
     LockableListFactory.sort(KoLConstants.usableSkills);
-    RequestFrame.refreshStatus();
+    UserInterfaceManager.getUserInterface().charPaneRefreshed();
 
     return true;
   }

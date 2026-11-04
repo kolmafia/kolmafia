@@ -64,7 +64,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
-import net.sourceforge.kolmafia.swingui.ItemManageFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -2707,7 +2707,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.pullsRemaining = pullsRemaining;
 
     if (!StaticEntity.isHeadless()) {
-      ItemManageFrame.updatePullsRemaining(pullsRemaining);
+      UserInterfaceManager.getUserInterface().pullsRemainingChanged(pullsRemaining);
       NamedListenerRegistry.fireChange("(pullsremaining)");
     }
 
@@ -2728,7 +2728,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.pullsBudgeted = pullsBudgeted;
 
     if (!StaticEntity.isHeadless()) {
-      ItemManageFrame.updatePullsBudgeted(pullsBudgeted);
+      UserInterfaceManager.getUserInterface().pullsBudgetedChanged(pullsBudgeted);
     }
   }
 

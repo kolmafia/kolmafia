@@ -25,7 +25,7 @@ import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
-import net.sourceforge.kolmafia.swingui.StoreManageFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -90,7 +90,7 @@ public abstract class StoreManager {
   public static final void clearCache() {
     StoreManager.soldItemsRetrieved = false;
     StoreManager.storeLog.clear();
-    StoreManageFrame.cancelTableEditing();
+    UserInterfaceManager.getUserInterface().storeEditingCancelled();
     StoreManager.soldItemList.clear();
     StoreManager.sortedSoldItemList.clear();
     StoreManager.potentialEarnings = 0;
@@ -109,7 +109,7 @@ public abstract class StoreManager {
       }
     }
     StoreManager.potentialEarnings = earnings;
-    StoreManageFrame.updateEarnings(StoreManager.potentialEarnings);
+    UserInterfaceManager.getUserInterface().storeEarningsChanged(StoreManager.potentialEarnings);
   }
 
   /**
@@ -306,7 +306,7 @@ public abstract class StoreManager {
       }
     }
 
-    StoreManageFrame.cancelTableEditing();
+    UserInterfaceManager.getUserInterface().storeEditingCancelled();
 
     StoreManager.sortItemsByName = true;
     Collections.sort(newItems);
@@ -323,7 +323,7 @@ public abstract class StoreManager {
     // Now, update the title of the store manage
     // frame to reflect the new price.
 
-    StoreManageFrame.updateEarnings(StoreManager.potentialEarnings);
+    UserInterfaceManager.getUserInterface().storeEarningsChanged(StoreManager.potentialEarnings);
   }
 
   public static final void parseLog(final String logText) {

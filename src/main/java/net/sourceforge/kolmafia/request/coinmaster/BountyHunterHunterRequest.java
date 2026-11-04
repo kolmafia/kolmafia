@@ -14,7 +14,7 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BountyHunterHunterRequest extends CoinMasterRequest {
@@ -95,7 +95,7 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       if (bountyLocation != null) {
         KoLAdventure adventure = AdventureDatabase.getAdventure(bountyLocation);
         if (adventure != null) {
-          AdventureFrame.updateSelectedAdventure(adventure);
+          UserInterfaceManager.getUserInterface().selectedAdventureChanged(adventure);
         }
       }
       return;
@@ -112,7 +112,7 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       if (bountyLocation != null) {
         KoLAdventure adventure = AdventureDatabase.getAdventure(bountyLocation);
         if (adventure != null) {
-          AdventureFrame.updateSelectedAdventure(adventure);
+          UserInterfaceManager.getUserInterface().selectedAdventureChanged(adventure);
         }
       }
       return;
@@ -129,7 +129,7 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       if (bountyLocation != null) {
         KoLAdventure adventure = AdventureDatabase.getAdventure(bountyLocation);
         if (adventure != null) {
-          AdventureFrame.updateSelectedAdventure(adventure);
+          UserInterfaceManager.getUserInterface().selectedAdventureChanged(adventure);
         }
       }
       return;

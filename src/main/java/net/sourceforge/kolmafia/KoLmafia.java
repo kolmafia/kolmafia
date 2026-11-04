@@ -740,7 +740,7 @@ public abstract class KoLmafia {
 
       KoLmafia.refreshSessionData();
 
-      AdventureFrame.updateFromPreferences();
+      UserInterfaceManager.getUserInterface().preferencesChanged();
 
       // It would be nice to not have to do this
       IslandManager.ensureUpdatedBigIsland();
@@ -1065,7 +1065,7 @@ public abstract class KoLmafia {
 
     // Retrieve the Terrarium
     RequestThread.postRequest(new FamiliarRequest());
-    GearChangePanel.updateFamiliars();
+    UserInterfaceManager.getUserInterface().familiarsChanged();
 
     // Available stuff in Clan may have changed, so check clan
     ClanLoungeRequest.updateLounge();
