@@ -3,10 +3,9 @@ package net.sourceforge.kolmafia.combat;
 import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
-import javax.swing.tree.DefaultMutableTreeNode;
 import net.sourceforge.kolmafia.KoLmafia;
 
-public class CustomCombatStrategy extends DefaultMutableTreeNode {
+public class CustomCombatStrategy extends CustomCombatNode {
   private final String name;
 
   private int actionCount;
