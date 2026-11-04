@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE import-control PUBLIC
+    "-//Checkstyle//DTD ImportControl Configuration 1.4//EN"
+    "https://checkstyle.org/dtds/import_control_1_4.dtd">
+
+<!--
+    Keeps the engine independent of the desktop UI: see devdoc/engine-ui-separation.md.
+
+    Only the swingui package may use Swing, AWT and the Swing libraries. Classes that have
+    not been migrated yet are listed in suppressions.xml.
+ -->
+
+<import-control pkg="net.sourceforge.kolmafia" strategyOnMismatch="allowed">
+  <disallow pkg="javax.swing"/>
+  <disallow pkg="java.awt"/>
+  <disallow pkg="javax.imageio"/>
+  <disallow pkg="net.sourceforge.kolmafia.swingui"/>
+
+  <disallow class="net.java.dev.spellcast.utilities.ActionPanel"/>
+  <disallow class="net.java.dev.spellcast.utilities.ActionVerifyPanel"/>
+  <disallow class="net.java.dev.spellcast.utilities.JComponentUtilities"/>
+  <disallow class="net.java.dev.spellcast.utilities.LicenseDisplay"/>
+  <disallow class="net.java.dev.spellcast.utilities.PanelList"/>
+  <disallow class="net.java.dev.spellcast.utilities.PanelListCell"/>
+
+  <disallow pkg="ca.bcit.geekkit"/>
+  <disallow pkg="com.formdev"/>
+  <disallow pkg="com.informit"/>
+  <disallow pkg="com.jgoodies"/>
+  <disallow pkg="com.sun.java.forums"/>
+  <disallow pkg="darrylbu"/>
+  <disallow pkg="org.jdesktop"/>
+
+  <subpackage name="swingui" strategyOnMismatch="allowed">
+    <allow pkg="javax.swing"/>
+    <allow pkg="java.awt"/>
+    <allow pkg="javax.imageio"/>
+    <allow pkg="net.sourceforge.kolmafia.swingui"/>
+    <allow pkg="net.java.dev.spellcast.utilities"/>
+    <allow pkg="ca.bcit.geekkit"/>
+    <allow pkg="com.formdev"/>
+    <allow pkg="com.informit"/>
+    <allow pkg="com.jgoodies"/>
+    <allow pkg="com.sun.java.forums"/>
+    <allow pkg="darrylbu"/>
+    <allow pkg="org.jdesktop"/>
+  </subpackage>
+</import-control>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<!--
+    Engine classes that still import the desktop UI (see devdoc/engine-ui-separation.md).
+    Remove a class from this list when it is migrated. Do not add new entries.
+ -->
+
+<suppressions>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]BuffBotHome\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]CakeArenaManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]chat[\\/]ChatBuffer\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]chat[\\/]ChatCaret\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]chat[\\/]ChatFormatter\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]chat[\\/]ChatManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]chat[\\/]ChatParser\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]chat[\\/]ChatSender\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]chat[\\/]StyledChatBuffer\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]combat[\\/]CustomCombatAction\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]combat[\\/]CustomCombatLookup\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]combat[\\/]CustomCombatStrategy\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]CreateFrameRunnable\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]FamiliarData\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]ImageCachingEditorKit\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]KoLCharacter\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]KoLConstants\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]KoLDesktop\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]KoLGUIConstants\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]KoLmafiaGUI\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]KoLmafia\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]maximizer[\\/]Maximizer\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]moods[\\/]HPRestoreItemList\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]moods[\\/]MPRestoreItemList\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]persistence[\\/]ConcoctionDatabase\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]persistence[\\/]FamiliarDatabase\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]persistence[\\/]FaxBotDatabase\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]persistence[\\/]ItemDatabase\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]preferences[\\/]PreferenceListenerCheckBox\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]preferences[\\/]Preferences\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]AdventureRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]CharPaneRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]coinmaster[\\/]BountyHunterHunterRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]concoction[\\/]SausageOMaticRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]DrinkItemRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]EatItemRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]RequestEditorKit\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]GenericRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]MallPurchaseRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]RelayRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]SpleenItemRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]RequestThread\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]UntinkerRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]request[\\/]UseItemRequest\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]scripts[\\/]svn[\\/]SVNManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]session[\\/]ContactManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]session[\\/]EquipmentManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]session[\\/]EventManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]session[\\/]InventoryManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]session[\\/]LoginManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]session[\\/]LogoutManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]session[\\/]MushroomManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]session[\\/]StoreManager\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]StaticEntity\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]textui[\\/]command[\\/]FaxbotCommand\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]textui[\\/]command[\\/]ShowDataCommand\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]textui[\\/]command[\\/]TestCommand\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]textui[\\/]command[\\/]TrainFamiliarCommand\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]textui[\\/]RuntimeLibrary\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]utilities[\\/]FileUtilities\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]utilities[\\/]GraphicsUtilities\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]utilities[\\/]InputFieldUtilities\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]utilities[\\/]LogStream\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]utilities[\\/]PauseObject\.java$"/>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]webui[\\/]RelayLoader\.java$"/>
+</suppressions>

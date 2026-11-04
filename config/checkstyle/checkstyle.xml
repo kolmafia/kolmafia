@@ -27,6 +27,11 @@
 
   <module name="SuppressWarningsFilter"/>
 
+  <!-- Engine classes that still use the desktop UI: see devdoc/engine-ui-separation.md -->
+  <module name="SuppressionFilter">
+    <property name="file" value="${config_loc}/suppressions.xml"/>
+  </module>
+
   <module name="TreeWalker">
     <module name="FallThrough">
       <property name="reliefPattern" value="(?i)falls?[ -]?thr(u|ough)"/>
@@ -35,6 +40,10 @@
       <property name="allowStaticMemberImports" value="true"/>
     </module>
     <module name="UnnecessarySemicolonInTryWithResources"/>
+    <module name="ImportControl">
+      <property name="file" value="${config_loc}/import-control.xml"/>
+      <property name="path" value="^.*[\\/]src[\\/]main[\\/]java[\\/]net[\\/]sourceforge[\\/]kolmafia[\\/].*$"/>
+    </module>
     <module name="SuppressWarningsHolder" />
     <module name="SuppressionCommentFilter">
       <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)" />
