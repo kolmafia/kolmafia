@@ -12,6 +12,7 @@ existing code is moved over, one small PR at a time.
   engine code and stay engine packages; only their Swing usage (if any) is moved out.
 - **UI contract:** the small set of engine-side interfaces in `net.sourceforge.kolmafia.ui` that a
   frontend implements. The package holds interfaces and headless defaults only: no Swing, no AWT.
+  It does not exist yet; the first PR that needs it adds it.
 
 ## Rules
 
@@ -74,7 +75,7 @@ Each PR moves **one** link (one engine class's use of the UI, or one feature) an
 | `GenericFrame.createDisplay(SomeFrame.class)` | open the window by its `FRAME_NAMES` id through the UI contract |
 | `GenericFrame.instanceExists()`, `appearsInTab(…)` | query through the UI contract (headless: `false`) |
 | `InputFieldUtilities.alert/confirm/input` | prompt through the UI contract (headless: console prompt, as today) |
-| `SwingUtilities.invokeLater(…)` | run on the UI thread through the UI contract (headless: run now) |
+| `SwingUtilities.invokeLater(…)` | run on the UI thread through the UI contract (headless: run one task at a time, in the order queued, on a background thread, so the caller never waits and the order does not change) |
 | `java.awt.Color`, `ImageIcon`, `JCheckBox`, Swing tree nodes in data classes | plain types (rule 7) |
 | Swing-only classes in engine packages (editor kits, renderers, GUI bootstrap) | moved into `swingui` unchanged |
 | `LockableListModel` / `SortedListModel` | later: a plain observable list in the engine, wrapped by a Swing `ListModel` adapter in `swingui` |
