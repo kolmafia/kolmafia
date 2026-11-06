@@ -460,6 +460,15 @@ public class Preferences {
     return getString(null, name);
   }
 
+  /**
+   * Read the specified preference to a string and convert it to a map.
+   *
+   * @param name preference name
+   * @param entryDelimiter a regular expression representing the delimiter between entries in the
+   *     stringified preference value
+   * @param kvDelimiter a regular expression representing the delimiter between a key and a value in
+   *     the stringified preference value
+   */
   public static Map<String, String> getStringMap(
       final String name, final String entryDelimiter, final String kvDelimiter) {
     String[] values = getString(name).split(entryDelimiter);
@@ -474,6 +483,17 @@ public class Preferences {
     return getStringMap(name, "\\|", ":");
   }
 
+  /**
+   * Convert the specified map to a string and store it in the preference. Care should be taken to
+   * ensure that the keys of the map contain neither entryDelimiter nor kvDelimiter and that the
+   * values of the map do not contain entryDelimiter.
+   *
+   * @param name preference name
+   * @param value the map to store
+   * @param entryDelimiter the String to use to separate entries in the stringified preference value
+   * @param kvDelimiter the String to use to separate a key from a value in the stringified
+   *     preference value
+   */
   public static void setStringMap(
       final String name,
       final Map<String, String> value,
