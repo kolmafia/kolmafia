@@ -2501,6 +2501,11 @@ user	_leafTattooCrafted	false
 user	_leafMonstersFought	0
 user	_leavesBurned	0
 user	_leavesJumped	false
+user	_legendaryAcornBridgeParts	0
+user	_legendaryAcornFruit	0
+user	_legendaryAcornFungalReplicas	0
+user	_legendaryAcornSeaCows	0
+user	_legendaryAcornSeaFruit	0
 user	_legendaryAcornsUsed	0
 user	_legendaryAcornZonesToday
 user	_legendaryBeat	false

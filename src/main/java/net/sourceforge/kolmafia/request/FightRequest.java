@@ -2304,6 +2304,9 @@ public class FightRequest extends GenericRequest {
       } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("_monsterHabitatsFightsLeft", 1, 0);
+      } else if (EncounterManager.isLegendaryAcornSeaCow(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.increment("_legendaryAcornSeaCows", 1, 33);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
@@ -2334,6 +2337,10 @@ public class FightRequest extends GenericRequest {
         EncounterManager.ignoreSpecialMonsters();
       } else if (LocketManager.isLocketFight(responseText)) {
         LocketManager.parseFight(monster);
+      }
+
+      if (FightRequest.currentEncounter.contains("fungal replica of")) {
+        Preferences.increment("_legendaryAcornFungalReplicas");
       }
 
       // Increment Turtle Blessing counter
@@ -7416,6 +7423,22 @@ public class FightRequest extends GenericRequest {
     if (str.contains("your toxic emanations")) {
       FightRequest.logText(str, status);
       Preferences.decrement("toxicAssetCharges");
+    }
+
+    // Legendary Acorndion
+    if (str.contains(
+        "The greasy roots coming out of the woodwork shudder as they secrete various disgusting materials.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornBridgeParts");
+    }
+    if (str.contains(
+        "You pluck a fruit from one of those fruit tree roots that are sticking down through the ceiling.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornFruit");
+    }
+    if (str.contains("One of the nearby flowering plants offers up its bounty to you.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornSeaFruit");
     }
 
     FightRequest.handleLuckyGoldRing(str, status);
