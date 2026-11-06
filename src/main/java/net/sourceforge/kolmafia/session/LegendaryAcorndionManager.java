@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -64,12 +66,14 @@ public class LegendaryAcorndionManager {
 
   public static void plantAcorn(KoLAdventure location, AcornZoneEffect effect) {
     String locationName = location.getAdventureName();
-    String prevAcorns = Preferences.getString("_legendaryAcornZonesToday");
-    if (prevAcorns.isBlank()) {
-      Preferences.setString("_legendaryAcornZonesToday", locationName);
+    Map<String, String> prevAcorns = Preferences.getStringMap("_legendaryAcornZonesToday");
+    if (prevAcorns.containsKey(locationName)) {
+      int prevCount = Integer.parseInt(prevAcorns.get(locationName));
+      prevAcorns.put(locationName, Integer.toString(prevCount + 1));
     } else {
-      Preferences.setString("_legendaryAcornZonesToday", prevAcorns + "|" + locationName);
+      prevAcorns.put(locationName, "1");
     }
+    Preferences.setStringMap("_legendaryAcornZonesToday", prevAcorns);
   }
 
   public static void parseLegendaryAcorndionZoneEffects(final String desc) {
@@ -78,12 +82,13 @@ public class LegendaryAcorndionManager {
       return;
     }
 
-    StringBuilder sb = new StringBuilder();
+    Map<String, String> acornZones = new HashMap<>();
     var parsed = Jsoup.parse(desc);
     var locations = parsed.select("li:has(ul)");
     for (var location : locations) {
       String locationName = location.select("b").text();
-      sb.append(locationName).append(':');
+
+      StringBuilder sb = new StringBuilder();
       var locEffects = location.select("font[color=blue]");
       for (var locEffect : locEffects) {
         String effHtml = locEffect.html();
@@ -95,9 +100,8 @@ public class LegendaryAcorndionManager {
         }
       }
       sb.setLength(sb.length() - 1);
-      sb.append('|');
+      acornZones.put(locationName, sb.toString());
     }
-    sb.setLength(Math.max(0, sb.length() - 1));
-    Preferences.setString("legendaryAcornsPlanted", sb.toString());
+    Preferences.setStringMap("legendaryAcornsPlanted", acornZones);
   }
 }

@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.preferences;
 import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -456,6 +458,37 @@ public class Preferences {
 
   public static String getString(final String name) {
     return getString(null, name);
+  }
+
+  public static Map<String, String> getStringMap(
+      final String name, final String entryDelimiter, final String kvDelimiter) {
+    String[] values = getString(name).split(entryDelimiter);
+    return new HashMap<>(
+        Arrays.stream(values)
+            .filter(s -> !s.isBlank() && s.contains(kvDelimiter))
+            .map(s -> s.split(kvDelimiter, 2))
+            .collect(Collectors.toMap(s -> s[0], s -> s[1])));
+  }
+
+  public static Map<String, String> getStringMap(final String name) {
+    return getStringMap(name, "\\|", ":");
+  }
+
+  public static void setStringMap(
+      final String name,
+      final Map<String, String> value,
+      final String entryDelimiter,
+      final String kvDelimiter) {
+    String prefValue =
+        value.entrySet().stream()
+            .sorted(Entry.comparingByKey())
+            .map(e -> e.getKey() + kvDelimiter + e.getValue())
+            .collect(Collectors.joining(entryDelimiter));
+    setString(name, prefValue);
+  }
+
+  public static void setStringMap(final String name, final Map<String, String> value) {
+    setStringMap(name, value, "|", ":");
   }
 
   public static void setBoolean(final String name, final boolean value) {

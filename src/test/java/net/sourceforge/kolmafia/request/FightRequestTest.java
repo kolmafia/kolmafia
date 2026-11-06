@@ -4898,7 +4898,7 @@ public class FightRequestTest {
               withLastLocation("The Briny Deeps"),
               withEquipped(ItemPool.LEGENDARY_ACORNDION),
               withProperty("_legendaryAcornsUsed", 1),
-              withProperty("_legendaryAcornZonesToday", "The Briny Deeps"));
+              withProperty("_legendaryAcornZonesToday", "Barf Mountain:1|The Briny Deeps:1"));
 
       try (cleanups) {
         parseCombatData(
@@ -4907,7 +4907,7 @@ public class FightRequestTest {
         String text = RequestLoggerOutput.stopStream();
 
         assertThat("_legendaryAcornsUsed", isSetTo(2));
-        assertThat("_legendaryAcornZonesToday", isSetTo("The Briny Deeps|The Briny Deeps"));
+        assertThat("_legendaryAcornZonesToday", isSetTo("Barf Mountain:1|The Briny Deeps:2"));
         assertThat(
             text,
             containsString(
