@@ -2334,6 +2334,10 @@ public class FightRequest extends GenericRequest {
         LocketManager.parseFight(monster);
       }
 
+      if (FightRequest.currentEncounter.contains("fungal replica of")) {
+        Preferences.increment("_legendaryAcornFungalReplicas");
+      }
+
       // Increment Turtle Blessing counter
       TurtleBlessingLevel blessingLevel = KoLCharacter.getBlessingLevel();
       if (blessingLevel.isBlessing()) {
@@ -7414,6 +7418,22 @@ public class FightRequest extends GenericRequest {
     if (str.contains("your toxic emanations")) {
       FightRequest.logText(str, status);
       Preferences.decrement("toxicAssetCharges");
+    }
+
+    // Legendary Acorndion
+    if (str.contains(
+        "The greasy roots coming out of the woodwork shudder as they secrete various disgusting materials.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornBridgeParts");
+    }
+    if (str.contains(
+        "You pluck a fruit from one of those fruit tree roots that are sticking down through the ceiling.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornFruit");
+    }
+    if (str.contains("One of the nearby flowering plants offers up its bounty to you.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornSeaFruit");
     }
 
     FightRequest.handleLuckyGoldRing(str, status);

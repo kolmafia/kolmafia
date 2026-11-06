@@ -4887,4 +4887,48 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class LegendaryAcorndion {
+    @ParameterizedTest
+    @CsvSource({
+      "acorndion_bridgeparts,_legendaryAcornBridgeParts,The greasy roots",
+      "acorndion_fruit,_legendaryAcornFruit,You pluck a fruit",
+      "acorndion_seafruit,_legendaryAcornSeaFruit,One of the nearby flowering plants",
+    })
+    void tracksAcornRelatedDrops(String testfile, String prefName, String logText) {
+      RequestLoggerOutput.startStream();
+      var cleanups = withProperty(prefName, 2);
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_" + testfile + ".html");
+        String text = RequestLoggerOutput.stopStream();
+
+        assertThat(prefName, isSetTo(3));
+        assertThat(text, containsString(logText));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "acorndion_fungalreplica,_legendaryAcornFungalReplicas",
+    })
+    void tracksAcornRelatedCombats(String testfile, String prefName) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withFight(0), withProperty(prefName, 2));
+
+      try (cleanups) {
+        String testFilename = "request/test_fight_" + testfile + ".html";
+        client.addResponse(
+            302, Map.of("location", List.of("fight.php?ireallymeanit=1737306988")), "");
+        client.addResponse(200, html(testFilename));
+        GenericRequest request = new GenericRequest("adventure.php?snarfblat=31");
+        request.run();
+
+        assertThat(prefName, isSetTo(3));
+      }
+    }
+  }
 }
