@@ -2302,6 +2302,9 @@ public class FightRequest extends GenericRequest {
       } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("_monsterHabitatsFightsLeft", 1, 0);
+      } else if (EncounterManager.isLegendaryAcornSeaCow(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.increment("_legendaryAcornSeaCows", 1, 33);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {

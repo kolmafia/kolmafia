@@ -4912,6 +4912,7 @@ public class FightRequestTest {
     @ParameterizedTest
     @CsvSource({
       "acorndion_fungalreplica,_legendaryAcornFungalReplicas",
+      "acorndion_seacow,_legendaryAcornSeaCows",
     })
     void tracksAcornRelatedCombats(String testfile, String prefName) {
       var builder = new FakeHttpClientBuilder();
