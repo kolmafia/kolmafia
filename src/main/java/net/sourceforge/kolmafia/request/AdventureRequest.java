@@ -59,7 +59,7 @@ public class AdventureRequest extends GenericRequest {
   // <img id='monpic' src="http://images.kingdomofloathing.com/adventureimages/ssd_sundae.gif"
   // width=100 height=100>
   private static final Pattern MONSTER_IMAGE =
-      Pattern.compile("<img +id='monpic'.*?adventureimages/(.*?\\.gif)");
+      Pattern.compile("<img[^>]+id='monpic'.*?adventureimages/(.*?\\.gif)");
 
   private static final GenericRequest ZONE_UNLOCK = new GenericRequest("");
 
