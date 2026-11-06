@@ -198,6 +198,7 @@ import net.sourceforge.kolmafia.session.BlackAndWhiteApronManager;
 import net.sourceforge.kolmafia.session.BlackAndWhiteApronManager.Ingredient;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CommandQueueManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
@@ -229,7 +230,6 @@ import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
@@ -4603,7 +4603,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value has_queued_commands(ScriptRuntime controller) {
-    return new Value(CommandDisplayFrame.hasQueuedCommands());
+    return new Value(CommandQueueManager.hasQueuedCommands());
   }
 
   public static Value cli_execute(ScriptRuntime controller, final Value string) {

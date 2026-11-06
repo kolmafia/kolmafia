@@ -1,0 +1,132 @@
+package net.sourceforge.kolmafia.session;
+
+import java.util.Iterator;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+/** Runs CLI commands one at a time, in the order they were queued, on a background thread. */
+public class CommandQueueManager {
+  private static final BlockingQueue<String> commandQueue = new LinkedBlockingQueue<>();
+  private static final CommandQueueHandler handler = new CommandQueueHandler();
+
+  static {
+    CommandQueueManager.handler.start();
+  }
+
+  public static boolean hasQueuedCommands() {
+    return !CommandQueueManager.commandQueue.isEmpty() || handler.command != null;
+  }
+
+  public static void executeCommand(final String command) {
+    if (command.isEmpty()) {
+      return;
+    }
+
+    if (command.equals("abort") || command.equals("--")) {
+      RequestThread.declareWorldPeace();
+      return;
+    }
+
+    if (command.startsWith("jstack")
+        || command.startsWith("graygui")
+        || command.startsWith("greygui")
+        || command.equalsIgnoreCase("clear")
+        || command.equalsIgnoreCase("cls")
+        || command.equalsIgnoreCase("reset")) {
+      var parts = command.split(" ", 2);
+      KoLmafiaCLI.DEFAULT_SHELL.executeCommand(parts[0], parts.length > 1 ? parts[1].trim() : "");
+      return;
+    }
+
+    if (CommandQueueManager.hasQueuedCommands() || KoLmafia.isAdventuring()) {
+      RequestLogger.printLine();
+
+      if (!KoLmafia.isAdventuring()) {
+        RequestLogger.printHtml(
+            " &gt; <b>CURRENT</b>"
+                + StringUtilities.getEntityEncode(": " + handler.command, false));
+      }
+
+      Iterator<String> commandIterator = CommandQueueManager.commandQueue.iterator();
+
+      int i;
+      for (i = 1; commandIterator.hasNext(); ++i) {
+        RequestLogger.printHtml(
+            " &gt; <b>QUEUED "
+                + i
+                + "</b>"
+                + StringUtilities.getEntityEncode(": " + commandIterator.next(), false));
+      }
+
+      RequestLogger.printHtml(
+          " &gt; <b>QUEUED " + i + "</b>: " + StringUtilities.getEntityEncode(command, false));
+      RequestLogger.printLine();
+    }
+
+    CommandQueueManager.commandQueue.add(command);
+  }
+
+  private static final class CommandQueueHandler extends Thread {
+    private String command = null;
+    private final PauseObject pauser = new PauseObject();
+
+    public CommandQueueHandler() {
+      super("CommandQueueHandler");
+    }
+
+    @Override
+    public void run() {
+      while (true) {
+        try {
+          this.command = CommandQueueManager.commandQueue.take();
+        } catch (InterruptedException e) {
+          StaticEntity.printStackTrace(e);
+          continue;
+        }
+
+        Integer requestId = RequestThread.openRequestSequence();
+        try {
+          this.handleQueue();
+        } catch (Exception e) {
+          StaticEntity.printStackTrace(e);
+        } finally {
+          RequestThread.closeRequestSequence(requestId);
+        }
+      }
+    }
+
+    public void handleQueue() {
+      do {
+        // Don't try running commands whilst running adventures, it causes unexpected results
+        while (!KoLmafia.refusesContinue() && KoLmafia.isAdventuring()) {
+          this.pauser.pause(500);
+        }
+
+        RequestLogger.printLine();
+        RequestLogger.printLine(" &gt; " + StringUtilities.getEntityEncode(this.command, false));
+        RequestLogger.printLine();
+
+        try {
+          KoLmafia.forceContinue();
+          KoLmafiaCLI.DEFAULT_SHELL.executeLine(this.command);
+        } catch (Exception e) {
+          StaticEntity.printStackTrace(e);
+        }
+
+        if (KoLmafia.refusesContinue()) {
+          CommandQueueManager.commandQueue.clear();
+        }
+
+        this.command = CommandQueueManager.commandQueue.poll();
+
+      } while (this.command != null);
+    }
+  }
+}

@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.request.ResearchBenchRequest.Research;
 import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CommandQueueManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -84,7 +85,6 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
@@ -3582,7 +3582,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public boolean pollForCompletion(String type) {
-    if (!CommandDisplayFrame.hasQueuedCommands()) {
+    if (!CommandQueueManager.hasQueuedCommands()) {
       return false;
     }
 
@@ -3774,7 +3774,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     try {
       GenericRequest.suppressUpdate(suppressUpdate);
-      CommandDisplayFrame.executeCommand(GenericRequest.decodeField(command));
+      CommandQueueManager.executeCommand(GenericRequest.decodeField(command));
 
       if (waitForCompletion) {
         this.waitForCommandCompletion();
@@ -3785,7 +3785,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public void waitForCommandCompletion() {
-    while (CommandDisplayFrame.hasQueuedCommands()) {
+    while (CommandQueueManager.hasQueuedCommands()) {
       this.pauser.pause(50);
     }
   }
