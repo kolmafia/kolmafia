@@ -18,6 +18,7 @@ import internal.network.FakeHttpResponse;
 import java.net.http.HttpRequest;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -40,6 +41,8 @@ class FaxRequestManagerTest {
     Preferences.reset("FaxRequestManagerTest");
     ChatManager.setChatLiteracy(true);
 
+    // withDataFile copies into root/data, which is not in git: make sure it exists
+    KoLConstants.DATA_LOCATION.mkdirs();
     globalCleanup =
         new Cleanups(
             withDataFile("cheesefax.xml"),
