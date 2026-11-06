@@ -10,10 +10,10 @@ import org.jsoup.Jsoup;
 
 public class LegendaryAcorndionManager {
   public enum AcornZoneEffect {
-    STING("Monsters take 10-20 damage each round in this zone"),
+    PASSIVE_DMG("Monsters take 10-20 damage each round in this zone"),
     WEAKEN("Weaken monsters in this zone by 30%"),
     STAT_GAIN("+15% to all Stat Gains from Fights in this zone"),
-    STING_PERCENT("Monsters take 10-20% of their HP in damage each round in this zone"),
+    PASSIVE_DMG_PERCENT("Monsters take 10-20% of their HP in damage each round in this zone"),
     DAMAGE_REDUCTION("Damage Taken from Monsters -40% in this zone"),
     NONCOMBAT_5("Monsters will be less attracted to you in this zone"),
     STAT_BUFF("All Attributes +100% during fights in this zone"),
@@ -22,12 +22,12 @@ public class LegendaryAcorndionManager {
     MHP_DEBUFF("Monsters start each fight with 25% less HP in this zone"),
     FRUIT("Occasionally find fruit after fights in this zone"),
     NONCOMBAT_10("Monsters will be much less attracted to you in this zone"),
-    STING_SPOOKY(
+    PASSIVE_DMG_SPOOKY(
         "Monsters take 10-20 <font color=\"gray\">Spooky</font> damage each round in this zone"),
     ENTANGLE("Monsters will sometimes be too tangled up to attack you in this zone"),
     SNIFF("This monster will occur four times more often in this zone"),
     BRIDGE_PARTS("Occasionally find building materials after fights in this zone"),
-    STING_SLEAZE(
+    PASSIVE_DMG_SLEAZE(
         "Monsters take 10-20 <font color=\"blueviolet\">Sleaze</font> damage each round in this zone"),
     RESTORE("Restores 20-30% HP and 10-20% MP after fights in this zone"),
     SEA_COWS("Sea cows will appear in this zone"),
@@ -48,15 +48,15 @@ public class LegendaryAcorndionManager {
     public static EnumSet<AcornZoneEffect> forSkill(int skillId) {
       return switch (skillId) {
         case SkillPool.DISSONANT_RIFF, SkillPool.IRRITATING_RIFF ->
-            EnumSet.of(STING, WEAKEN, STAT_GAIN, STING_PERCENT);
+            EnumSet.of(PASSIVE_DMG, WEAKEN, STAT_GAIN, PASSIVE_DMG_PERCENT);
         case SkillPool.CADENZA, SkillPool.BADENZA ->
             EnumSet.of(DAMAGE_REDUCTION, NONCOMBAT_5, STAT_BUFF, SEA_FRUIT);
         case SkillPool.ACCORDION_BASH, SkillPool.ACCORDION_SHOVE ->
             EnumSet.of(BANISH, MHP_DEBUFF, FRUIT, NONCOMBAT_10);
         case SkillPool.CONCERTO_DE_LOS_MUERTOS, SkillPool.CHIASSO_DE_LOS_MUERTOS ->
-            EnumSet.of(STING_SPOOKY, ENTANGLE, SNIFF, BANISH);
+            EnumSet.of(PASSIVE_DMG_SPOOKY, ENTANGLE, SNIFF, BANISH);
         case SkillPool.BAWDY_REFRAIN, SkillPool.JUVENILE_REFRAIN ->
-            EnumSet.of(BRIDGE_PARTS, STING_SLEAZE, RESTORE, SEA_COWS);
+            EnumSet.of(BRIDGE_PARTS, PASSIVE_DMG_SLEAZE, RESTORE, SEA_COWS);
         case SkillPool.CONE_OF_ZYDECO, SkillPool.LINE_OF_ZYDECO ->
             EnumSet.of(INITIATIVE, ITEM_DROPS, STUN, BETTER_DIVER);
         default -> EnumSet.noneOf(AcornZoneEffect.class);

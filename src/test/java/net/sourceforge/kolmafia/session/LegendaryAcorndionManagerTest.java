@@ -32,7 +32,7 @@ public class LegendaryAcorndionManagerTest {
       value = {
         "desc_acorndion_1;8;Guano Junction:STAT_GAIN,SNIFF|The Bat Hole Entrance:FRUIT,RESTORE,STUN|The Briny Deeps:SEA_COWS,NONCOMBAT_10,BETTER_DIVER",
         "desc_acorndion_2;12;Guano Junction:STAT_GAIN,SNIFF,STAT_BUFF|The Bat Hole Entrance:FRUIT,RESTORE,STUN|The Briny Deeps:SEA_COWS,NONCOMBAT_10,BETTER_DIVER|The Overgrown Lot:ENTANGLE|The Skeleton Store:DAMAGE_REDUCTION,INITIATIVE",
-        "desc_acorndion_3;12;The Briny Deeps:STING_PERCENT,SEA_FRUIT|The Dungeons of Doom:SNIFF|The Fungal Nethers:SNIFF|The Neverending Party:BANISH|The Overgrown Lot:STING_SLEAZE,WEAKEN,NONCOMBAT_5|The Skeleton Store:STING_SPOOKY,STING,BRIDGE_PARTS|The Sleazy Back Alley:MHP_DEBUFF,ITEM_DROPS",
+        "desc_acorndion_3;12;The Briny Deeps:PASSIVE_DMG_PERCENT,SEA_FRUIT|The Dungeons of Doom:SNIFF|The Fungal Nethers:SNIFF|The Neverending Party:BANISH|The Overgrown Lot:PASSIVE_DMG_SLEAZE,WEAKEN,NONCOMBAT_5|The Skeleton Store:PASSIVE_DMG_SPOOKY,PASSIVE_DMG,BRIDGE_PARTS|The Sleazy Back Alley:MHP_DEBUFF,ITEM_DROPS",
       })
   void canParseAcorndionDesc(String testFile, int acornsUsed, String acornsPlanted) {
     var cleanups =

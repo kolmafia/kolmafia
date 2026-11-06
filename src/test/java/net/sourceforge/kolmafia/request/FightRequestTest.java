@@ -4931,7 +4931,7 @@ public class FightRequestTest {
         assertThat(prefName, isSetTo(3));
       }
     }
-    
+
     @Test
     void handlesAcordionCombatSkill() {
       RequestLoggerOutput.startStream();
