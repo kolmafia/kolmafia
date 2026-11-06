@@ -7155,6 +7155,8 @@ public abstract class ChoiceControl {
   public static void visitChoice(final GenericRequest request) {
     String text = request.responseText;
     switch (ChoiceManager.lastChoice) {
+      case 525 -> IntriguingPuzzleBoxManager.visitChoice(text, ChoiceManager.lastDecision);
+
       case 4 -> {
         // Finger-Lickin'... Death.
         if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Teach them a lesson")) {

@@ -40,6 +40,7 @@ public class AscensionSeedManager {
           DailyDungeon::new,
           Dreadscroll::new,
           LeprecondoNeeds::new,
+          IntriguingPuzzleBox::new,
           RaveCombos::new,
           SeahorseName::new,
           SlimePotions::new,
@@ -135,12 +136,14 @@ public class AscensionSeedManager {
   // candidates as much as two truly independent processes would. We accept this inaccuracy for the
   // sake of simplicity.
   public static int estimatedAscensionSeedPossibilities() {
+    int totalSeeds = ASCENSION_SEED_MAX - ASCENSION_SEED_MIN + 1;
+    double minReductionFactor = 1.0 / totalSeeds;
     double totalReductionFactor =
         CRITERIA.stream()
             .map(Supplier::get)
             .mapToDouble(Criterion::reductionFactor)
+            .map(c -> Math.max(c, minReductionFactor))
             .reduce(1, (a, b) -> a * b);
-    int totalSeeds = ASCENSION_SEED_MAX - ASCENSION_SEED_MIN + 1;
     return (int) Math.ceil(totalReductionFactor * totalSeeds);
   }
 
@@ -539,6 +542,73 @@ public class AscensionSeedManager {
     public double reductionFactor() {
       // This criterion is only a predictor output.
       return 1;
+    }
+  }
+
+  // Intriguing puzzle box
+  //
+  // Each step shows six distinct actions drawn from a set of eighteen options with mt_rand(0,17),
+  // skipping repeats. The draw is seeded with the ascension seed plus 99 for each step since the
+  // last reset. A button press gives an outcome from a roll seeded with that offset plus the
+  // decision.
+  static class IntriguingPuzzleBox extends MTRandomCriterion {
+    private final Map<Integer, List<String>> options;
+    private final Map<Integer, ? extends Map<Integer, String>> outcomes;
+
+    public IntriguingPuzzleBox() {
+      options = IntriguingPuzzleBoxManager.parseOptions();
+      outcomes = IntriguingPuzzleBoxManager.parseOutcomes();
+    }
+
+    @Override
+    public boolean matchesSeed(int seed) {
+      return options.entrySet().stream()
+              .allMatch(
+                  e ->
+                      IntriguingPuzzleBoxManager.getOptions(
+                              IntriguingPuzzleBoxManager.getOptionsSeed(seed, e.getKey()))
+                          .equals(e.getValue()))
+          && outcomes.entrySet().stream()
+              .allMatch(
+                  s ->
+                      s.getValue().entrySet().stream()
+                          .allMatch(
+                              d ->
+                                  IntriguingPuzzleBoxManager.getOutcome(
+                                          seed, d.getKey(), s.getKey())
+                                      .equals(d.getValue())));
+    }
+
+    // Writes the first step's options only, since the rest is based on user input
+    @Override
+    public Map<String, String> toProperties(int seed) {
+      return Map.of(
+          IntriguingPuzzleBoxManager.OPTIONS_PREF,
+          "0:" + String.join(",", IntriguingPuzzleBoxManager.getOptions(seed)));
+    }
+
+    @Override
+    public double reductionFactor() {
+      // Each step's options are an ordered draw of six distinct actions, so each step divides by
+      // the number of ways to draw them.
+      double rv = 1;
+      for (int i = 0; i < options.size(); i++) {
+        rv /=
+            factMN(
+                IntriguingPuzzleBoxManager.ACTIONS.size(),
+                IntriguingPuzzleBoxManager.ACTIONS.size() - 6);
+      }
+      // Each recorded outcome is one roll of six, so it divides by the chance of that roll. A say
+      // also picks one of eighteen values.
+      for (var outcome : outcomes.values().stream().flatMap(s -> s.values().stream()).toList()) {
+        rv *=
+            switch (outcome) {
+              case "click" -> 1.0 / 2;
+              case "buzz", "beep" -> 1.0 / 6;
+              default -> 1.0 / (6 * 18);
+            };
+      }
+      return rv;
     }
   }
 
