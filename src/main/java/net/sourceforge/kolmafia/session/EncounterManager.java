@@ -401,6 +401,11 @@ public abstract class EncounterManager {
     return responseText.contains("Fun fact that you just remembered");
   }
 
+  public static final boolean isLegendaryAcornSeaCow(final String responseText) {
+    return responseText.contains(
+        "Looks like sea cowboys have let this member of the herd stray far afield.");
+  }
+
   public static final boolean isBodyguardEncounter(final String responseText) {
     return KoLCharacter.inAvantGuard() && responseText.contains("acting as the bodyguard to");
   }
