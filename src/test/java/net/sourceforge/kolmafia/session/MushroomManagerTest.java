@@ -54,4 +54,24 @@ class MushroomManagerTest {
       assertThat(layout, not(containsString("Day 12:")));
     }
   }
+
+  @Test
+  void savedLayoutStopsAfterTheFirstEmptyDay() throws IOException {
+    // Spores planted only on day 1: day 2 has nothing planned, so the layout ends there
+    String[][] original = new String[12][16];
+    String[][] planning = new String[12][16];
+    for (String[] day : original) Arrays.fill(day, "__");
+    for (String[] day : planning) Arrays.fill(day, "__");
+    Arrays.fill(planning[0], "kb");
+
+    try (var cleanups = withPlotsFolder()) {
+      MushroomManager.saveLayout("MushroomManagerTest", original, planning);
+
+      String layout =
+          Files.readString(
+              new File(KoLConstants.PLOTS_LOCATION, "MushroomManagerTest.txt").toPath());
+      assertThat(layout, containsString("Day 2:"));
+      assertThat(layout, not(containsString("Day 3:")));
+    }
+  }
 }
