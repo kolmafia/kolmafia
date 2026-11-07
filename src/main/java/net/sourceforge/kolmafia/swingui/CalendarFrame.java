@@ -26,7 +26,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CalendarFrame extends GenericFrame implements ListSelectionListener {
   public static final SimpleDateFormat SHORT_FORMAT = new SimpleDateFormat("yyyyMMdd", Locale.US);
   public static final SimpleDateFormat LONG_FORMAT =
-      new SimpleDateFormat("MMMM d, yyyy", Locale.US);
+      new SimpleDateFormat(HolidayDatabase.LONG_DATE_PATTERN, Locale.US);
 
   static {
     // all dates are presented as if the day begins at rollover
