@@ -5,21 +5,29 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.net.http.HttpRequest;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.session.FamiliarTrainingManager.Goal;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -70,6 +78,12 @@ class FamiliarTrainingManagerTest {
         .replace("Weight Lossy gains a pound!", "");
   }
 
+  /** The results buffer adds text on the Swing thread: let it catch up before reading it. */
+  private static String results() throws Exception {
+    SwingUtilities.invokeAndWait(() -> {});
+    return FamiliarTrainingManager.getResults().getContent();
+  }
+
   private static List<HttpRequest> matches(final FakeHttpClientBuilder builder) {
     return builder.client.getRequests().stream()
         .filter(FamiliarTrainingManagerTest::isMatch)
@@ -79,7 +93,7 @@ class FamiliarTrainingManagerTest {
   @Nested
   class Training {
     @Test
-    void stopsAtOnceWhenTheGoalIsMet() {
+    void stopsAtOnceWhenTheGoalIsMet() throws Exception {
       var builder = new FakeHttpClientBuilder();
       builder.client.setResponseFunc(r -> arena(r, win()));
       var cleanups =
@@ -94,8 +108,7 @@ class FamiliarTrainingManagerTest {
 
         assertThat(KoLmafia.getLastMessage(), is("Training session completed."));
         // it read the arena's opponents, then had nothing to fight for
-        assertThat(
-            FamiliarTrainingManager.getResults().getContent(), containsString("Vine Vidi Vici"));
+        assertThat(results(), containsString("Vine Vidi Vici"));
         assertThat(matches(builder), empty());
       }
     }
@@ -224,16 +237,14 @@ class FamiliarTrainingManagerTest {
   @Nested
   class LevelFamiliar {
     @Test
-    void needsAFamiliar() {
+    void needsAFamiliar() throws Exception {
       var builder = new FakeHttpClientBuilder();
 
       try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
         assertThat(FamiliarTrainingManager.levelFamiliar(20, Goal.BASE, false), is(false));
 
         assertThat(KoLmafia.getLastMessage(), is("No familiar selected to train."));
-        assertThat(
-            FamiliarTrainingManager.getResults().getContent(),
-            containsString("No familiar selected to train."));
+        assertThat(results(), containsString("No familiar selected to train."));
         assertThat(builder.client.getRequests(), empty());
       }
     }
@@ -256,7 +267,7 @@ class FamiliarTrainingManagerTest {
   @Nested
   class BuffFamiliar {
     @Test
-    void needsAFamiliar() {
+    void needsAFamiliar() throws Exception {
       assertThat(FamiliarTrainingManager.buffFamiliar(20), is(false));
       assertThat(KoLmafia.getLastMessage(), is("You don't have a familiar equipped."));
     }
@@ -270,6 +281,123 @@ class FamiliarTrainingManagerTest {
       try (cleanups) {
         assertThat(FamiliarTrainingManager.buffFamiliar(1), is(true));
         assertThat(builder.client.getRequests(), empty());
+      }
+    }
+  }
+
+  /**
+   * Every request whose URL or form body names [field]=[value], e.g. a skill cast or an item
+   * equipped.
+   */
+  private static List<HttpRequest> requestsWith(
+      final FakeHttpClientBuilder builder, final String field, final int value) {
+    String wanted = field + "=" + value;
+    return builder.client.getRequests().stream()
+        .filter(
+            r ->
+                String.valueOf(r.uri().getQuery()).contains(wanted)
+                    || (r.method().equals("POST") && getPostRequestBody(r).contains(wanted)))
+        .toList();
+  }
+
+  @Nested
+  class LearnParameters {
+    @Test
+    void needsTwelveAdventuresATrial() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(r -> arena(r, win()));
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              withAdventuresLeft(11),
+              withMeat(10000));
+
+      try (cleanups) {
+        assertThat(FamiliarTrainingManager.learnFamiliarParameters(1), nullValue());
+
+        assertThat(
+            KoLmafia.getLastMessage(), is("You need to have at least 12 adventures available."));
+        assertThat(matches(builder), empty());
+      }
+    }
+
+    @Test
+    void needsMeatForEveryContest() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(r -> arena(r, win()));
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              withAdventuresLeft(20),
+              withMeat(1199));
+
+      try (cleanups) {
+        assertThat(FamiliarTrainingManager.learnFamiliarParameters(1), nullValue());
+
+        assertThat(
+            KoLmafia.getLastMessage(), is("You need to have at least 1,200 meat available."));
+        assertThat(matches(builder), empty());
+      }
+    }
+
+    @Test
+    void entersEachEventAtEachRank() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(r -> arena(r, win()));
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              withAdventuresLeft(20),
+              withMeat(10000));
+
+      try (cleanups) {
+        int[] skills = FamiliarTrainingManager.learnFamiliarParameters(1);
+
+        assertThat(skills, notNullValue());
+        assertThat(skills.length, is(4));
+        // four events, three ranks each
+        assertThat(matches(builder), hasSize(12));
+      }
+    }
+  }
+
+  @Nested
+  class BuffsAndGear {
+    @Test
+    void castsEmpathyToReachTheGoal() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              withSkill(SkillPool.EMPATHY_OF_THE_NEWT),
+              // Empathy needs a turtle-taming tool
+              withItem(ItemPool.TURTLE_TOTEM),
+              withMP(100, 100, 100));
+
+      try (cleanups) {
+        FamiliarTrainingManager.buffFamiliar(6);
+
+        assertThat(requestsWith(builder, "whichskill", SkillPool.EMPATHY_OF_THE_NEWT), hasSize(1));
+      }
+    }
+
+    @Test
+    void wearsWeightGearToReachTheGoal() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              withItem(ItemPool.LEAD_NECKLACE));
+
+      try (cleanups) {
+        FamiliarTrainingManager.buffFamiliar(8);
+
+        assertThat(requestsWith(builder, "whichitem", ItemPool.LEAD_NECKLACE), hasSize(1));
       }
     }
   }
