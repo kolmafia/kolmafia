@@ -75,7 +75,6 @@ public class ScriptManagerTest {
         while (firstFile < scripts.size() && scripts.get(firstFile).isDirectory()) {
           firstFile++;
         }
-        // root/scripts has a folder of scripts (Excluded), so the order is really checked
         assertThat(firstFile > 0, is(true));
         for (File script : scripts.subList(firstFile, scripts.size())) {
           assertThat(script.getName(), script.isDirectory(), is(false));
