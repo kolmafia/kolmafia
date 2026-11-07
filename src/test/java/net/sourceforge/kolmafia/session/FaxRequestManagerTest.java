@@ -5,7 +5,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withDataFile;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -17,6 +19,8 @@ import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.net.http.HttpRequest;
 import java.util.List;
+import java.util.Map;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -89,6 +93,12 @@ class FaxRequestManagerTest {
     return new FakeHttpResponse<>("");
   }
 
+  private static List<HttpRequest> loungeRequests(final FakeHttpClientBuilder builder) {
+    return builder.client.getRequests().stream()
+        .filter(r -> r.uri().getPath().equals("/clan_viplounge.php"))
+        .toList();
+  }
+
   private static List<HttpRequest> faxMachineRequests(
       final FakeHttpClientBuilder builder, final String preaction) {
     return builder.client.getRequests().stream()
@@ -121,6 +131,97 @@ class FaxRequestManagerTest {
         assertThat(result, is(false));
         assertThat(KoLmafia.getLastMessage(), is("You are not allowed to use chat."));
         assertThat(builder.client.getRequests(), empty());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        delimiter = '|',
+        quoteCharacter = '"',
+        value = {
+          "TRENDY|Fax machines are out of style.",
+          "AVATAR_OF_BORIS|Boris sneered at technology.",
+          "AVATAR_OF_JARLSBERG|Jarlsberg was more into magic than technology.",
+          "AVATAR_OF_SNEAKY_PETE|Have you ever seen a cool person use a fax machine? I didn't think so."
+        })
+    void cannotRequestFaxOnPathsWithoutFaxes(final Path path, final String message) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withItem(ItemPool.VIP_LOUNGE_KEY), withPath(path));
+
+      try (cleanups) {
+        boolean result =
+            FaxRequestManager.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
+
+        assertThat(result, is(false));
+        assertThat(KoLmafia.getLastMessage(), is(message));
+        // it stops before visiting the lounge (choosing Trendy fetches its own data, typeii.php)
+        assertThat(loungeRequests(builder), empty());
+      }
+    }
+
+    @Test
+    void cannotRequestFaxWhenRestricted() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.VIP_LOUNGE_KEY),
+              withRestricted(true));
+
+      try (cleanups) {
+        boolean result =
+            FaxRequestManager.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
+
+        assertThat(result, is(false));
+        assertThat(KoLmafia.getLastMessage(), is("Fax machines are out of style."));
+        assertThat(loungeRequests(builder), empty());
+      }
+    }
+
+    @Test
+    void cannotRequestFaxOutsideAClan() {
+      // KoL sends you to the clan signup page instead of the lounge
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(
+          r ->
+              r.uri().getPath().equals("/clan_viplounge.php")
+                  ? new FakeHttpResponse<>(302, Map.of("location", List.of("clan_signup.php")), "")
+                  : new FakeHttpResponse<>(""));
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.VIP_LOUNGE_KEY));
+
+      try (cleanups) {
+        boolean result =
+            FaxRequestManager.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
+
+        assertThat(result, is(false));
+        assertThat(KoLmafia.getLastMessage(), is("You are not in a clan."));
+        assertThat(faxMachineRequests(builder, "receivefax"), empty());
+      }
+    }
+
+    @Test
+    void asksOnlyABotThatIsOnline() {
+      // requestFax(bot, monster) checks the bot first: /whois gets no "This player is currently"
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(
+          r -> faxMachine(r, "You approach the fax machine.", "Your fax is ready."));
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.VIP_LOUNGE_KEY));
+
+      try (cleanups) {
+        boolean result =
+            FaxRequestManager.requestFax("Easyfax", easyfaxMonster("handsome mariachi"));
+
+        assertThat(result, is(false));
+        assertThat(KoLmafia.getLastMessage(), is("Easyfax is probably not online."));
+        assertThat(
+            builder.client.getRequests().stream()
+                .filter(FaxRequestManagerTest::isFaxCommand)
+                .toList(),
+            empty());
       }
     }
 
