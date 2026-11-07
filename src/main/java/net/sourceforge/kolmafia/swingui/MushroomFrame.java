@@ -1,11 +1,12 @@
 package net.sourceforge.kolmafia.swingui;
 
 import javax.swing.JPanel;
+import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.swingui.panel.MushroomPlotPanel;
 import net.sourceforge.kolmafia.swingui.panel.MushroomScriptPanel;
 
 public class MushroomFrame extends GenericFrame {
-  public static final int MAX_FORECAST = 11;
+  public static final int MAX_FORECAST = MushroomManager.MAX_FORECAST;
 
   public MushroomFrame() {
     super("Mushroom Plot");
