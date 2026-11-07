@@ -260,9 +260,14 @@ public class SkillPool {
   public static final int SING = 6025;
   public static final int DONHOS = 6026;
   public static final int INIGOS = 6028;
+  public static final int DISSONANT_RIFF = 6029;
+  public static final int CADENZA = 6030;
   public static final int CRAB_CLAW_TECHNIQUE = 6031;
   public static final int ACCORDION_BASH = 6032;
+  public static final int CONCERTO_DE_LOS_MUERTOS = 6034;
   public static final int FIVE_FINGER_DISCOUNT = 6035;
+  public static final int BAWDY_REFRAIN = 6037;
+  public static final int CONE_OF_ZYDECO = 6040;
   public static final int MARIACHI_MEMORY = 6043;
   public static final int POP_SONG = 6045;
   public static final int BRAMS_BLOODY_BAGATELLE = 6046;
@@ -699,6 +704,12 @@ public class SkillPool {
   public static final int EXERCISE_LIQUIDITY = 7596;
   public static final int PROTECT_ME = 7597;
   public static final int SING_A_SONG_OF_MY_PROWESS = 7598;
+  public static final int IRRITATING_RIFF = 7600;
+  public static final int BADENZA = 7601;
+  public static final int ACCORDION_SHOVE = 7602;
+  public static final int CHIASSO_DE_LOS_MUERTOS = 7603;
+  public static final int JUVENILE_REFRAIN = 7604;
+  public static final int LINE_OF_ZYDECO = 7605;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
