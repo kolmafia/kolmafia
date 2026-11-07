@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,12 +18,20 @@ import net.sourceforge.kolmafia.utilities.ScriptMRUList;
 
 /** Shows a most-recently-used list in a combo box. */
 public class MRUListComboBoxes {
+  // The maximizer can refill its combo box from a worker thread, so share the renderers safely
   private static final Map<PartialMRUList, ComboSeparatorsRenderer> renderers =
-      new IdentityHashMap<>();
+      Collections.synchronizedMap(new IdentityHashMap<>());
 
   private MRUListComboBoxes() {}
 
   public static void updateJComboData(final ScriptMRUList list, final JComboBox<String> jcb) {
+    // A partial list shows its defaults too, whatever type the caller holds it as (this was an
+    // overridden method before)
+    if (list instanceof PartialMRUList partial) {
+      MRUListComboBoxes.updateJComboData(partial, jcb);
+      return;
+    }
+
     List<String> items = list.getItems();
     if (items.isEmpty()) {
       return;
