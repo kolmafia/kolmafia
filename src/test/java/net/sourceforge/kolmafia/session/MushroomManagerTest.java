@@ -16,9 +16,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import org.junit.jupiter.api.Test;
 
 class MushroomManagerTest {
-  /**
-   * Removes the planting folder afterwards if this test is the one that made it (it is not in git).
-   */
+  /** Deletes the planting folder afterwards, unless it was already there. */
   private static Cleanups withPlotsFolder() {
     File plots = KoLConstants.PLOTS_LOCATION;
     boolean existed = plots.exists();
@@ -28,8 +26,7 @@ class MushroomManagerTest {
           if (existed) return;
           try (Stream<Path> files = Files.walk(plots.toPath())) {
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
-          } catch (IOException e) {
-            // nothing left to clean up
+          } catch (IOException ignored) {
           }
         });
   }
@@ -57,7 +54,6 @@ class MushroomManagerTest {
 
   @Test
   void savedLayoutStopsAfterTheFirstEmptyDay() throws IOException {
-    // Spores planted only on day 1: day 2 has nothing planned, so the layout ends there
     String[][] original = new String[12][16];
     String[][] planning = new String[12][16];
     for (String[] day : original) Arrays.fill(day, "__");
