@@ -73,9 +73,10 @@ class FamiliarTrainingManagerTest {
   }
 
   private static String loss() {
-    return win()
-        .replace("is the winner, and gains 18 experience!", "loses.")
-        .replace("Weight Lossy gains a pound!", "");
+    // A real Hide and Seek loss, recorded for this test (the familiar's name changed to Skeeter).
+    // Its second line, "Skeeter buzzes incessantly...", says our familiar is bad at this event,
+    // so it is also a "bad contest": fightMatch returns -1, which training counts as a loss.
+    return html("request/test_cake_arena_loss.html");
   }
 
   /** The results buffer adds text on the Swing thread: let it catch up before reading it. */
