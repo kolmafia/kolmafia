@@ -105,6 +105,11 @@ class FaxRequestManagerTest {
 
   @Nested
   class CannotReceive {
+    private Cleanups withoutChat() {
+      ChatManager.setChatLiteracy(false);
+      return new Cleanups(() -> ChatManager.setChatLiteracy(true));
+    }
+
     @Test
     void reportsWhenNoFaxbotIsConfigured() {
       assertThat(FaxRequestManager.isBotOnline(null), is(false));
@@ -115,12 +120,10 @@ class FaxRequestManagerTest {
     void cannotRequestFaxWithoutChat() {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.VIP_LOUNGE_KEY));
-      cleanups.add(() -> ChatManager.setChatLiteracy(true));
+          new Cleanups(
+              withHttpClientBuilder(builder), withItem(ItemPool.VIP_LOUNGE_KEY), withoutChat());
 
       try (cleanups) {
-        ChatManager.setChatLiteracy(false);
-
         boolean result =
             FaxRequestManager.requestFax("Easyfax", easyfaxMonster("handsome mariachi"), false);
 
