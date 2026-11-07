@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -45,8 +44,6 @@ class FaxRequestManagerTest {
     Preferences.reset("FaxRequestManagerTest");
     ChatManager.setChatLiteracy(true);
 
-    // withDataFile copies into root/data, which is not in git: make sure it exists
-    KoLConstants.DATA_LOCATION.mkdirs();
     globalCleanup =
         new Cleanups(
             withDataFile("cheesefax.xml"),
@@ -69,7 +66,6 @@ class FaxRequestManagerTest {
         && String.valueOf(request.uri().getQuery()).contains("/msg");
   }
 
-  // A clan fax machine that delivers a handsome mariachi, and a faxbot that answers with reply
   private static FakeHttpResponse<String> faxMachine(
       final HttpRequest request, final String lounge, final String reply) {
     if (isFaxCommand(request)) {
@@ -156,7 +152,6 @@ class FaxRequestManagerTest {
 
         assertThat(result, is(false));
         assertThat(KoLmafia.getLastMessage(), is(message));
-        // it stops before visiting the lounge (choosing Trendy fetches its own data, typeii.php)
         assertThat(loungeRequests(builder), empty());
       }
     }
@@ -204,7 +199,6 @@ class FaxRequestManagerTest {
 
     @Test
     void asksOnlyABotThatIsOnline() {
-      // requestFax(bot, monster) checks the bot first: /whois gets no "This player is currently"
       var builder = new FakeHttpClientBuilder();
       builder.client.setResponseFunc(
           r -> faxMachine(r, "You approach the fax machine.", "Your fax is ready."));
