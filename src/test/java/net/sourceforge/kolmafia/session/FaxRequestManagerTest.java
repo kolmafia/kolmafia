@@ -44,11 +44,7 @@ class FaxRequestManagerTest {
     Preferences.reset("FaxRequestManagerTest");
     ChatManager.setChatLiteracy(true);
 
-    globalCleanup =
-        new Cleanups(
-            withDataFile("cheesefax.xml"),
-            withDataFile("easyfax.xml"),
-            withDataFile("onlyfax.xml"));
+    globalCleanup = new Cleanups(withDataFile("easyfax.xml"), withDataFile("onlyfax.xml"));
     FaxBotDatabase.configure();
   }
 
