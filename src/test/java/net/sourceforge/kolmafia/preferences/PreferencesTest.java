@@ -8,6 +8,8 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasEntry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1330,6 +1333,30 @@ class PreferencesTest {
             }
           }
         }
+      }
+    }
+  }
+
+  @Nested
+  class MapGetSet {
+    @Test
+    void canGetStringMap() {
+      var cleanups = withProperty("example", "key1:value1|key2:VALUE 2");
+      try (cleanups) {
+        Map<String, String> map = Preferences.getStringMap("example");
+        assertThat(map.size(), equalTo(2));
+        assertThat(map, hasEntry("key1", "value1"));
+        assertThat(map, hasEntry("key2", "VALUE 2"));
+      }
+    }
+
+    @Test
+    void canSetStringMap() {
+      var cleanups = withProperty("example", "");
+      try (cleanups) {
+        Map<String, String> map = Map.of("key1", "value1", "key2", "VALUE 2");
+        Preferences.setStringMap("example", map);
+        assertThat("example", isSetTo("key1:value1|key2:VALUE 2"));
       }
     }
   }

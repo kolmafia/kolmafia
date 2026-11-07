@@ -4931,5 +4931,30 @@ public class FightRequestTest {
         assertThat(prefName, isSetTo(3));
       }
     }
+
+    @Test
+    void handlesAcordionCombatSkill() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Briny Deeps"),
+              withEquipped(ItemPool.LEGENDARY_ACORNDION),
+              withProperty("_legendaryAcornsUsed", 1),
+              withProperty("_legendaryAcornZonesToday", "Barf Mountain:1|The Briny Deeps:1"));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_acorndion_accordionbash.html",
+            "fight.php?action=skill&whichskill=6032");
+        String text = RequestLoggerOutput.stopStream();
+
+        assertThat("_legendaryAcornsUsed", isSetTo(2));
+        assertThat("_legendaryAcornZonesToday", isSetTo("Barf Mountain:1|The Briny Deeps:2"));
+        assertThat(
+            text,
+            containsString(
+                "Legendary acorn planted: Monsters will be much less attracted to you in this zone"));
+      }
+    }
   }
 }
