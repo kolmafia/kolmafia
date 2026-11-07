@@ -45,17 +45,16 @@ class FamiliarTrainingManagerTest {
     KoLmafia.forceContinue();
   }
 
-  // A Grey Goose (Weight Lossy) with 25 experience weighs 5 pounds
-  private static final int GOOSE_EXPERIENCE = 25;
+  private static Cleanups with5PoundGreyGoose() {
+    return withFamiliar(FamiliarPool.GREY_GOOSE, 25);
+  }
 
-  // A contest is a POST to arena.php with action=go in its body
   private static boolean isMatch(final HttpRequest request) {
     return request.uri().getPath().equals("/arena.php")
         && request.method().equals("POST")
         && getPostRequestBody(request).contains("action=go");
   }
 
-  /** The Cake-Shaped Arena: the opponent list on a visit, and [match] for every contest. */
   private static FakeHttpResponse<String> arena(final HttpRequest request, final String match) {
     if (isMatch(request)) {
       return new FakeHttpResponse<>(match);
@@ -73,9 +72,6 @@ class FamiliarTrainingManagerTest {
   }
 
   private static String loss() {
-    // A real Hide and Seek loss, recorded for this test (the familiar's name changed to Skeeter).
-    // Its second line, "Skeeter buzzes incessantly...", says our familiar is bad at this event,
-    // so it is also a "bad contest": fightMatch returns -1, which training counts as a loss.
     return html("request/test_cake_arena_loss.html");
   }
 
@@ -100,7 +96,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(10),
               withMeat(10000));
 
@@ -108,7 +104,6 @@ class FamiliarTrainingManagerTest {
         assertThat(FamiliarTrainingManager.levelFamiliar(5, Goal.BASE, false), is(true));
 
         assertThat(KoLmafia.getLastMessage(), is("Training session completed."));
-        // it read the arena's opponents, then had nothing to fight for
         assertThat(results(), containsString("Vine Vidi Vici"));
         assertThat(matches(builder), empty());
       }
@@ -121,7 +116,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(0),
               withMeat(10000));
 
@@ -140,7 +135,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(10),
               withMeat(50));
 
@@ -159,7 +154,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(10),
               withMeat(10000));
 
@@ -177,7 +172,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(10),
               withMeat(10000));
 
@@ -192,24 +187,21 @@ class FamiliarTrainingManagerTest {
 
     @Test
     void stopsWhenTooDrunkToEnter() {
-      // KoL's real reply to an overdrunk character: no contest, no adventure spent
       var builder = new FakeHttpClientBuilder();
       builder.client.setResponseFunc(r -> arena(r, html("request/test_cake_arena_too_drunk.html")));
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(10),
               withMeat(10000));
 
       try (cleanups) {
         assertThat(FamiliarTrainingManager.levelFamiliar(6, Goal.BASE, false), is(false));
 
-        // CakeArenaRequest stops on Susie's refusal, so training asks only once. Today the
-        // final message is the generic one, not "You're too drunk".
         assertThat(matches(builder), hasSize(1));
         assertThat(KoLmafia.getLastMessage(), is("Training session aborted."));
-        // No contest took place, so nothing is counted as spent
+        // too drunk to enter: KoL charges no adventure or meat
         assertThat(KoLCharacter.getAdventuresLeft(), is(10));
         assertThat(KoLCharacter.getAvailableMeat(), is(10000L));
       }
@@ -222,7 +214,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(10),
               withMeat(10000));
 
@@ -286,10 +278,6 @@ class FamiliarTrainingManagerTest {
     }
   }
 
-  /**
-   * Every request whose URL or form body names [field]=[value], e.g. a skill cast or an item
-   * equipped.
-   */
   private static List<HttpRequest> requestsWith(
       final FakeHttpClientBuilder builder, final String field, final int value) {
     String wanted = field + "=" + value;
@@ -310,7 +298,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(11),
               withMeat(10000));
 
@@ -330,7 +318,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(20),
               withMeat(1199));
 
@@ -350,7 +338,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withAdventuresLeft(20),
               withMeat(10000));
 
@@ -373,7 +361,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withSkill(SkillPool.EMPATHY_OF_THE_NEWT),
               // Empathy needs a turtle-taming tool
               withItem(ItemPool.TURTLE_TOTEM),
@@ -392,7 +380,7 @@ class FamiliarTrainingManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withFamiliar(FamiliarPool.GREY_GOOSE, GOOSE_EXPERIENCE),
+              with5PoundGreyGoose(),
               withItem(ItemPool.LEAD_NECKLACE));
 
       try (cleanups) {

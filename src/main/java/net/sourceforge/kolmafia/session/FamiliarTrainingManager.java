@@ -2242,9 +2242,4 @@ public class FamiliarTrainingManager {
       }
     }
   }
-
-  /**
-   * An internal class used to handle requests which resets a property for the duration of the
-   * current session.
-   */
 }

@@ -38,11 +38,10 @@ public class TrainFamiliarCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void trainsTheCurrentFamiliar() {
+  void needsAFamiliarOut() {
     var builder = new FakeHttpClientBuilder();
 
     try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
-      // With no familiar out, training stops before it asks KoL for anything
       String output = execute("base 20");
 
       assertErrorState();
