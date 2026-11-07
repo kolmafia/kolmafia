@@ -65,20 +65,24 @@ public class ScriptManagerTest {
 
     @Test
     void listsDirectoriesBeforeFiles() {
-      ScriptManager.compileScripts();
+      try (var cleanups = new Cleanups(KoLConstants.scripts::clear)) {
+        ScriptManager.compileScripts();
 
-      List<File> scripts = new ArrayList<>(KoLConstants.scripts);
-      assertThat(scripts, not(empty()));
+        List<File> scripts = new ArrayList<>(KoLConstants.scripts);
+        assertThat(scripts, not(empty()));
 
-      int firstFile = 0;
-      while (firstFile < scripts.size() && scripts.get(firstFile).isDirectory()) {
-        firstFile++;
-      }
-      for (File script : scripts.subList(firstFile, scripts.size())) {
-        assertThat(script.getName(), script.isDirectory(), is(false));
-      }
-      for (File script : scripts) {
-        assertThat(script.getName(), ScriptManager.shouldAddScript(script), is(true));
+        int firstFile = 0;
+        while (firstFile < scripts.size() && scripts.get(firstFile).isDirectory()) {
+          firstFile++;
+        }
+        // root/scripts has a folder of scripts (Excluded), so the order is really checked
+        assertThat(firstFile > 0, is(true));
+        for (File script : scripts.subList(firstFile, scripts.size())) {
+          assertThat(script.getName(), script.isDirectory(), is(false));
+        }
+        for (File script : scripts) {
+          assertThat(script.getName(), ScriptManager.shouldAddScript(script), is(true));
+        }
       }
     }
   }
