@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
-import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame.Goal;
+import net.sourceforge.kolmafia.session.FamiliarTrainingManager;
+import net.sourceforge.kolmafia.session.FamiliarTrainingManager.Goal;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TrainFamiliarCommand extends AbstractCommand {
@@ -36,6 +36,6 @@ public class TrainFamiliarCommand extends AbstractCommand {
       return;
     }
 
-    FamiliarTrainingFrame.levelFamiliar(StringUtilities.parseInt(split[1]), type, false);
+    FamiliarTrainingManager.levelFamiliar(StringUtilities.parseInt(split[1]), type, false);
   }
 }
