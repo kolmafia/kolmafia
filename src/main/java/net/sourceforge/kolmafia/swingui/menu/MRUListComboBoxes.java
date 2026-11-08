@@ -25,8 +25,7 @@ public class MRUListComboBoxes {
   private MRUListComboBoxes() {}
 
   public static void updateJComboData(final ScriptMRUList list, final JComboBox<String> jcb) {
-    // A partial list shows its defaults too, whatever type the caller holds it as (this was an
-    // overridden method before)
+    // A partial list also shows its defaults, whichever type the caller holds it as
     if (list instanceof PartialMRUList partial) {
       MRUListComboBoxes.updateJComboData(partial, jcb);
       return;
