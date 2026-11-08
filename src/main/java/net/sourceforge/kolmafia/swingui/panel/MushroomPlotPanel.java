@@ -23,7 +23,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
 public class MushroomPlotPanel extends JPanel {
@@ -111,7 +111,7 @@ public class MushroomPlotPanel extends JPanel {
             @Override
             public void run() {
               MushroomPlotPanel.this.output =
-                  InputFieldUtilities.chooseOutputFile(
+                  SwingInputFieldUtilities.chooseOutputFile(
                       KoLConstants.SCRIPT_LOCATION, MushroomPlotPanel.this);
             }
           });

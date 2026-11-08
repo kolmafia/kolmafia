@@ -32,7 +32,7 @@ import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 
 public abstract class GenericPanel extends ActionVerifyPanel {
   protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
@@ -481,7 +481,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
     public void actionPerformed(final ActionEvent e) {
       if (this.path != null) {
         try {
-          File input = InputFieldUtilities.chooseInputFile(this.path, null);
+          File input = SwingInputFieldUtilities.chooseInputFile(this.path, null);
           if (input == null) {
             return;
           }

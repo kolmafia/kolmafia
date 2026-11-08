@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
+import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
@@ -95,7 +96,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
   public static final void cancelTableEditing() {
     if (StoreManageFrame.INSTANCE != null) {
-      InputFieldUtilities.cancelTableEditing(StoreManageFrame.INSTANCE.manageTable);
+      SwingInputFieldUtilities.cancelTableEditing(StoreManageFrame.INSTANCE.manageTable);
     }
   }
 
@@ -134,7 +135,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
     @Override
     public void actionConfirmed() {
-      if (!InputFieldUtilities.finalizeTable(StoreManageFrame.this.manageTable)) {
+      if (!SwingInputFieldUtilities.finalizeTable(StoreManageFrame.this.manageTable)) {
         return;
       }
 

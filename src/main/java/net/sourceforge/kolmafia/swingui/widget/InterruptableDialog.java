@@ -3,11 +3,6 @@ package net.sourceforge.kolmafia.swingui.widget;
 import java.awt.Frame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -86,19 +81,7 @@ public class InterruptableDialog {
     }
   }
 
-  public static Value confirm(Value message, Value timeOut, Value defaultBoolean) {
-    if (StaticEntity.isHeadless()) {
-      // this doesn't support headless operation yet, sorry
-      RequestLogger.printLine(message.toString());
-      RequestLogger.printLine("(Y/N, leave blank to choose N)");
-
-      String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
-
-      return DataTypes.makeBooleanValue(reply.equalsIgnoreCase("y"));
-    }
-
-    String mes = message.toString();
-    long time = timeOut.intValue();
+  public static boolean confirm(final String mes, final long time, final boolean defaultBoolean) {
 
     InterruptableConfirmDialogBox r = new InterruptableConfirmDialogBox(mes);
 
@@ -112,7 +95,7 @@ public class InterruptableDialog {
     Boolean result = r.getResult(); // will be null if the user hasn't selected an option
 
     if (result != null) {
-      return DataTypes.makeBooleanValue(result);
+      return result;
     }
 
     // must have reached timeOut, so dispose of the frame and return defaultBoolean
@@ -126,19 +109,7 @@ public class InterruptableDialog {
     return defaultBoolean;
   }
 
-  public static Value input(Value message, Value timeOut, Value defaultString) {
-    if (StaticEntity.isHeadless()) {
-      // this doesn't support headless operation yet, sorry
-      RequestLogger.printLine(message.toString());
-      RequestLogger.printLine("(type your response)");
-
-      String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
-
-      return DataTypes.makeStringValue(reply.toString());
-    }
-
-    String mes = message.toString();
-    long time = timeOut.intValue();
+  public static String input(final String mes, final long time, final String defaultString) {
 
     InterruptableInputDialogBox r = new InterruptableInputDialogBox(mes);
 
@@ -152,7 +123,7 @@ public class InterruptableDialog {
     String result = r.getResult(); // will be null if the user hasn't selected an option
 
     if (result != null) {
-      return DataTypes.makeStringValue(result);
+      return result;
     }
 
     if (!r.getClosed()) {
