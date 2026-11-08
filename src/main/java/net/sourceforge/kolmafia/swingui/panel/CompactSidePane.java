@@ -1,15 +1,6 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.Box;
@@ -664,14 +655,30 @@ public class CompactSidePane extends JPanel implements Runnable {
       super(fam.getRace(), new FamiliarListener(fam));
 
       if (iconVersion) {
-        ImageIcon icon = FamiliarDatabase.getFamiliarImage(fam.getId());
+        ImageIcon icon = new CenteredIcon(FamiliarDatabase.getFamiliarImage(fam.getId()));
         this.setIcon(icon);
         this.setText("");
         this.setToolTipText(fam.getRace());
-        Dimension size = new Dimension(icon.getIconWidth(), icon.getIconHeight());
+        // Ensure there's always a margin around the icon so that the hover highlight doesn't look
+        // dumb.
+        Dimension size = new Dimension(icon.getIconWidth() + 4, icon.getIconHeight() + 4);
         this.setPreferredSize(size);
         this.setMinimumSize(size);
         icon.setImageObserver(this);
+      }
+    }
+
+    private static class CenteredIcon extends ImageIcon {
+      public CenteredIcon(ImageIcon icon) {
+        super(icon.getImage());
+      }
+
+      @Override
+      public void paintIcon(Component c, Graphics g, int x, int y) {
+        // Paint the icon in the center of the component, regardless of what position was requested.
+        int cx = Math.max(0, (c.getWidth() - this.getIconWidth()) / 2);
+        int cy = Math.max(0, (c.getHeight() - this.getIconHeight()) / 2);
+        super.paintIcon(c, g, cx, cy);
       }
     }
   }
