@@ -19,6 +19,9 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HolidayDatabase {
+  // How a calendar date is spelled out, e.g. "January 1, 2024".
+  public static final String LONG_DATE_PATTERN = "MMMM d, yyyy";
+
   // The epoch of the Kingdom of Loathing.
   private static ZonedDateTime NEWYEAR = null;
 

@@ -26,7 +26,6 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
-import net.sourceforge.kolmafia.swingui.CalendarFrame;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -103,7 +102,7 @@ public class ShowDataCommand extends AbstractCommand {
       var today = DateTimeManager.getRolloverDateTime();
 
       desiredStream.println(
-          today.format(DateTimeFormatter.ofPattern(CalendarFrame.LONG_FORMAT.toPattern()))
+          today.format(DateTimeFormatter.ofPattern(HolidayDatabase.LONG_DATE_PATTERN))
               + " - "
               + HolidayDatabase.getCalendarDayAsString(today));
       desiredStream.println();

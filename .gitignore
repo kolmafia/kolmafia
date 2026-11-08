@@ -13,6 +13,7 @@
 /src/test/root/chats/*
 /src/test/root/data/*
 /src/test/root/images/*
+/src/test/root/planting/*
 /src/test/root/relay/*
 /src/test/root/settings/*
 DEBUG_*.txt

@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -31,7 +32,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginManager {
@@ -244,7 +244,7 @@ public class LoginManager {
     }
 
     // Rebuild Scripts menu if needed
-    GenericFrame.compileScripts();
+    ScriptManager.compileScripts();
 
     if (StaticEntity.isGUIRequired()) {
       KoLmafiaGUI.intializeMainInterfaces();

@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.stream.Stream;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -25,6 +26,49 @@ import org.tmatesoft.svn.core.SVNURL;
 
 public class ScriptManager {
   private ScriptManager() {}
+
+  public static final void compileScripts() {
+    KoLConstants.scripts.clear();
+
+    // Get the list of files in the current directory or build from MRU
+
+    File[] scriptList = DataUtilities.listFiles(KoLConstants.SCRIPT_LOCATION);
+
+    // Iterate through the files.
+    //
+    // Put the directories at the top, followed by non-directories.
+
+    int directoryIndex = 0;
+
+    for (File file : scriptList) {
+      if (!ScriptManager.shouldAddScript(file)) {
+      } else if (file.isDirectory()) {
+        KoLConstants.scripts.add(directoryIndex++, file);
+      } else {
+        KoLConstants.scripts.add(file);
+      }
+    }
+  }
+
+  public static final boolean shouldAddScript(final File script) {
+    if (!script.isDirectory()) {
+      return true;
+    }
+
+    File[] scriptList = DataUtilities.listFiles(script);
+
+    if (scriptList == null || scriptList.length == 0) {
+      return false;
+    }
+
+    for (File file : scriptList) {
+      if (ScriptManager.shouldAddScript(file)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   private static final SortedListModel<Script> installedScripts = new SortedListModel<>();
   private static final SortedListModel<Script> repoScripts = new SortedListModel<>();

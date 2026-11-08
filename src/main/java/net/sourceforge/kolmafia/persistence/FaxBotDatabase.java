@@ -30,7 +30,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
+import net.sourceforge.kolmafia.session.FaxRequestManager;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -217,11 +217,11 @@ public class FaxBotDatabase {
         return false;
       }
 
-      if (!FaxRequestFrame.isBotOnline(name)) {
+      if (!FaxRequestManager.isBotOnline(name)) {
         return false;
       }
 
-      return FaxRequestFrame.requestFax(name, monsterObject, false);
+      return FaxRequestManager.requestFax(name, monsterObject, false);
     }
 
     public Monster getMonsterByMonsterId(final int monsterId) {

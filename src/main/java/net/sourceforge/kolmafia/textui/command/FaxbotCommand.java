@@ -8,8 +8,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
+import net.sourceforge.kolmafia.session.FaxRequestManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 
 public class FaxbotCommand extends AbstractCommand {
   public FaxbotCommand() {
@@ -45,13 +45,13 @@ public class FaxbotCommand extends AbstractCommand {
         continue;
       }
 
-      if (!FaxRequestFrame.isBotOnline(botName)) {
+      if (!FaxRequestManager.isBotOnline(botName)) {
         continue;
       }
 
       Monster monster = bot.getMonsterByCommand(commands.get(0));
       tried = true;
-      if (FaxRequestFrame.requestFax(botName, monster, false)) {
+      if (FaxRequestManager.requestFax(botName, monster, false)) {
         return;
       }
 

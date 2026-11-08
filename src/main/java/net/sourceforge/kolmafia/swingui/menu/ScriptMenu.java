@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
@@ -138,22 +139,6 @@ public class ScriptMenu extends JMenu implements Listener {
   }
 
   public static final boolean shouldAddScript(final File script) {
-    if (!script.isDirectory()) {
-      return true;
-    }
-
-    File[] scriptList = DataUtilities.listFiles(script);
-
-    if (scriptList == null || scriptList.length == 0) {
-      return false;
-    }
-
-    for (File file : scriptList) {
-      if (ScriptMenu.shouldAddScript(file)) {
-        return true;
-      }
-    }
-
-    return false;
+    return ScriptManager.shouldAddScript(script);
   }
 }

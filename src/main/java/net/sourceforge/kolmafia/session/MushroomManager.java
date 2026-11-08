@@ -15,12 +15,13 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MushroomRequest;
-import net.sourceforge.kolmafia.swingui.MushroomFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class MushroomManager {
+  public static final int MAX_FORECAST = 11;
+
   private static final Pattern PLOT_PATTERN =
       Pattern.compile(
           "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>");
@@ -650,7 +651,7 @@ public abstract class MushroomManager {
     String image = null;
     boolean isTodayEmpty = false;
 
-    for (int i = 0; i < MushroomFrame.MAX_FORECAST && !isTodayEmpty; ++i) {
+    for (int i = 0; i < MushroomManager.MAX_FORECAST && !isTodayEmpty; ++i) {
       textLayout.println();
       textLayout.println("Day " + (i + 1) + ":");
       textLayout.println();

@@ -2962,6 +2962,8 @@ public class Player {
     File sourceFile = new File(KoLConstants.ROOT_LOCATION + "/provided_data", sourceName);
     File destinationFile = new File(KoLConstants.DATA_LOCATION, destinationName);
     try {
+      // root/data is not in git, so a fresh checkout has no such folder until something makes it
+      Files.createDirectories(destinationFile.toPath().getParent());
       Files.copy(sourceFile.toPath(), destinationFile.toPath());
     } catch (FileAlreadyExistsException e) {
       // Do nothing.  No message needed.

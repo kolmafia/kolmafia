@@ -418,6 +418,8 @@ public class ResponseTextParser {
               case ItemPool.EVERFULL_DART_HOLSTER -> ItemDatabase.parseDartPerks(responseText);
               case ItemPool.MIMIC_EGG -> ItemDatabase.parseMimicEgg(responseText);
               case ItemPool.BASEBALL_DIAMOND -> ItemDatabase.parseBaseballDiamond(responseText);
+              case ItemPool.LEGENDARY_ACORNDION ->
+                  LegendaryAcorndionManager.parseLegendaryAcorndionZoneEffects(responseText);
               default -> changesFromTimeToTime = hasConsequence;
             }
 
