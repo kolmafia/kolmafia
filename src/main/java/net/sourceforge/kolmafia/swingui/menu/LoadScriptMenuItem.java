@@ -1,12 +1,12 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
-import java.net.URI;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.ScriptMRUList;
 
 /**
  * In order to keep the user interface from freezing (or at least appearing to freeze), this
@@ -37,26 +37,7 @@ public class LoadScriptMenuItem extends ThreadedMenuItem {
   }
 
   public static final String getRelativePath(File file) {
-    URI baseURI = KoLConstants.ROOT_LOCATION.getAbsoluteFile().toURI();
-    URI fileURI = file.getAbsoluteFile().toURI();
-
-    URI relativeURI = baseURI.relativize(fileURI);
-
-    String relativePath = relativeURI.getPath();
-
-    while (relativePath.startsWith("./")) {
-      relativePath = relativePath.substring(2);
-    }
-
-    if (relativePath.startsWith(KoLConstants.SCRIPT_DIRECTORY)) {
-      return relativePath.substring(KoLConstants.SCRIPT_DIRECTORY.length());
-    } else if (relativePath.startsWith(KoLConstants.PLOTS_DIRECTORY)) {
-      return relativePath.substring(KoLConstants.PLOTS_DIRECTORY.length());
-    } else if (relativePath.startsWith(KoLConstants.RELAY_DIRECTORY)) {
-      return relativePath.substring(KoLConstants.RELAY_DIRECTORY.length());
-    } else {
-      return file.getAbsolutePath();
-    }
+    return ScriptMRUList.getRelativePath(file);
   }
 
   private class LoadScriptListener extends ThreadedListener {

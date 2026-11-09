@@ -1,12 +1,13 @@
-package net.sourceforge.kolmafia.swingui.menu;
+package net.sourceforge.kolmafia.utilities;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import javax.swing.JComboBox;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
@@ -61,7 +62,7 @@ public class ScriptMRUList implements Listener {
   }
 
   public void addItem(File file) {
-    this.addItem(LoadScriptMenuItem.getRelativePath(file));
+    this.addItem(ScriptMRUList.getRelativePath(file));
   }
 
   public void addItemInParallel(File file) {
@@ -143,28 +144,41 @@ public class ScriptMRUList implements Listener {
     }
   }
 
-  public void updateJComboData(JComboBox<String> jcb) {
-    if (mruList.isEmpty()) {
-      return;
-    }
-
-    jcb.removeAllItems();
-    synchronized (this) {
-      Iterator<String> i8r = mruList.iterator();
-      int i = 0;
-      while (i8r.hasNext()) {
-        String val = i8r.next();
-        jcb.insertItemAt(val, i);
-        i++;
-      }
-    }
-    jcb.setSelectedIndex(0);
-  }
-
   public String getFirst() {
     String NONE = "Unknown";
     if (maxMRU <= 0) return NONE;
     if (mruList.size() < 1) return NONE;
     return mruList.getFirst();
+  }
+
+  /** The entries, most recent first. */
+  public List<String> getItems() {
+    synchronized (this) {
+      return new ArrayList<>(this.mruList);
+    }
+  }
+
+  /** A script's path relative to the directory it is run from, as the script menus show it. */
+  public static final String getRelativePath(File file) {
+    URI baseURI = KoLConstants.ROOT_LOCATION.getAbsoluteFile().toURI();
+    URI fileURI = file.getAbsoluteFile().toURI();
+
+    URI relativeURI = baseURI.relativize(fileURI);
+
+    String relativePath = relativeURI.getPath();
+
+    while (relativePath.startsWith("./")) {
+      relativePath = relativePath.substring(2);
+    }
+
+    if (relativePath.startsWith(KoLConstants.SCRIPT_DIRECTORY)) {
+      return relativePath.substring(KoLConstants.SCRIPT_DIRECTORY.length());
+    } else if (relativePath.startsWith(KoLConstants.PLOTS_DIRECTORY)) {
+      return relativePath.substring(KoLConstants.PLOTS_DIRECTORY.length());
+    } else if (relativePath.startsWith(KoLConstants.RELAY_DIRECTORY)) {
+      return relativePath.substring(KoLConstants.RELAY_DIRECTORY.length());
+    } else {
+      return file.getAbsolutePath();
+    }
   }
 }
