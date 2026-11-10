@@ -71,7 +71,8 @@
 		background: var(--bg);
 	}
 
-	input[type="text"] {
+	input[type="text"],
+	select {
 		flex: 1;
 		min-width: 0;
 		padding: 10px 8px;
@@ -106,6 +107,43 @@
 		display: none;
 	}
 
+	form[hidden] {
+		display: none;
+	}
+
+	#promptform {
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		border-top: 2px solid var(--accent);
+		background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+	}
+
+	#promptform p {
+		flex: 1 0 100%;
+		margin: 0;
+		white-space: pre-wrap;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	#promptform p::before {
+		content: "Script is waiting for an answer";
+		display: block;
+		margin-bottom: 2px;
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--accent);
+	}
+
+	#promptform button[value="OK"],
+	#promptform button[value="Yes"] {
+		color: var(--bg);
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+
 	@media (pointer: coarse) {
 		#abort {
 			display: inline-block;
@@ -128,6 +166,8 @@
 	<button type="submit">exec</button>
 </form>
 
+<form id="promptform" autocomplete="off" hidden></form>
+
 <script>
 	var MAX_LOG_NODES = 2000;
 	var HISTORY_KEY = "gcli.history";
@@ -141,6 +181,8 @@
 	var since = null;
 	var refresh = 0;
 	var failures = 0;
+	var promptId = 0;
+	var promptForm = document.getElementById( "promptform" );
 
 	var commandHistory = loadHistory();
 	var historyIndex = commandHistory.length;
@@ -210,7 +252,7 @@
 		{
 			var url = since === null
 				? "/KoLmafia/messageUpdate?MAFIAHIT"
-				: "/KoLmafia/messageUpdate?since=" + since + "&refresh=" + refresh + "&MAFIAHIT";
+				: "/KoLmafia/messageUpdate?since=" + since + "&refresh=" + refresh + "&prompt=" + promptId + "&MAFIAHIT";
 
 			try
 			{
@@ -229,6 +271,7 @@
 				if ( data.skipped > 0 )
 					appendError( data.skipped + " lines skipped (too much output between updates)" );
 				appendLines( data.events.join( "" ) );
+				showPrompt( data.prompt );
 				if ( reloadSidebar && window.top && window.top.charpane )
 					window.top.charpane.location.reload();
 				failures = 0;
@@ -239,6 +282,103 @@
 				await sleep( Math.min( 1000 * Math.pow( 2, failures ), 15000 ) );
 			}
 		}
+	}
+
+	function hidePrompt()
+	{
+		promptForm.hidden = true;
+		form.hidden = false;
+		input.focus();
+	}
+
+	function showPrompt( prompt )
+	{
+		var id = prompt ? prompt.id : 0;
+		if ( id == promptId )
+			return;
+
+		promptId = id;
+		promptForm.replaceChildren();
+		if ( !prompt )
+		{
+			hidePrompt();
+			return;
+		}
+		promptForm.hidden = false;
+		form.hidden = true;
+
+		var text = document.createElement( "p" );
+		text.textContent = prompt.message;
+		promptForm.appendChild( text );
+
+		var field = null;
+		var options = null;
+		var searchable = prompt.kind == "select" && prompt.options.length > 12;
+		if ( prompt.kind == "text" || searchable )
+		{
+			field = document.createElement( "input" );
+			field.type = "text";
+		}
+		if ( searchable )
+		{
+			options = document.createElement( "datalist" );
+			options.id = "promptoptions";
+			field.setAttribute( "list", options.id );
+			field.addEventListener( "input", function() { field.setCustomValidity( "" ); } );
+			promptForm.appendChild( options );
+		}
+		else if ( prompt.kind == "select" )
+		{
+			field = options = document.createElement( "select" );
+		}
+		if ( options )
+			prompt.options.forEach( function( option ) { options.appendChild( new Option( option ) ); } );
+		if ( field )
+			promptForm.appendChild( field );
+
+		var buttons = prompt.kind == "confirm" ? [ "Yes", "No" ] : [ "OK", "Cancel" ];
+		buttons.forEach( function( label )
+		{
+			var button = document.createElement( "button" );
+			button.value = label;
+			button.textContent = label;
+			promptForm.appendChild( button );
+		} );
+
+		function answer( label )
+		{
+			hidePrompt();
+
+			var command = "promptanswer " + prompt.id;
+			if ( prompt.kind == "confirm" )
+				command += " " + ( label == "Yes" );
+			else if ( label == "OK" )
+				command += " " + field.value;
+			submitCommand( command );
+		}
+
+		promptForm.onsubmit = function( event )
+		{
+			event.preventDefault();
+			var label = event.submitter ? event.submitter.value : buttons[ 0 ];
+			if ( label == "OK" && prompt.kind == "select" && prompt.options.indexOf( field.value ) < 0 )
+			{
+				field.setCustomValidity( "Pick one of the options" );
+				field.reportValidity();
+				return;
+			}
+			answer( label );
+		};
+		promptForm.onkeydown = function( event )
+		{
+			if ( event.key == "Escape" )
+			{
+				event.preventDefault();
+				answer( buttons[ 1 ] );
+			}
+		};
+
+		( field || promptForm.querySelector( "button" ) ).focus();
 	}
 
 	async function submitCommand( command )

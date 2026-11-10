@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -17,6 +20,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -59,12 +63,20 @@ public class InputFieldUtilities {
       return reply.equalsIgnoreCase("y");
     }
 
-    return JOptionPane.YES_OPTION
-        == JOptionPane.showConfirmDialog(
-            InputFieldUtilities.activeWindow,
+    var pane =
+        new JOptionPane(
             StringUtilities.basicTextWrap(message),
-            "",
+            JOptionPane.QUESTION_MESSAGE,
             JOptionPane.YES_NO_OPTION);
+    var answer =
+        showPrompt(
+            pane,
+            "",
+            PendingPrompt.Kind.CONFIRM,
+            message,
+            List.of(),
+            () -> String.valueOf(Integer.valueOf(JOptionPane.YES_OPTION).equals(pane.getValue())));
+    return "true".equals(answer);
   }
 
   public static final String input(final String message) {
@@ -76,8 +88,14 @@ public class InputFieldUtilities {
       return reply;
     }
 
-    return JOptionPane.showInputDialog(
-        InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
+    var pane =
+        new JOptionPane(
+            StringUtilities.basicTextWrap(message),
+            JOptionPane.QUESTION_MESSAGE,
+            JOptionPane.OK_CANCEL_OPTION);
+    pane.setWantsInput(true);
+    return showPrompt(
+        pane, "", PendingPrompt.Kind.TEXT, message, List.of(), () -> inputValue(pane));
   }
 
   public static final String input(final String message, final String initial) {
@@ -156,16 +174,16 @@ public class InputFieldUtilities {
     panel.add(new AutoFilterTextField<>(selector, initial, true), BorderLayout.NORTH);
     panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
-    int option =
-        JOptionPane.showConfirmDialog(
-            InputFieldUtilities.activeWindow,
-            panel,
-            StringUtilities.basicTextWrap(message),
-            JOptionPane.OK_CANCEL_OPTION);
-
-    return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
-        ? null
-        : selector.getSelectedValue();
+    var pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+    return select(
+        pane,
+        StringUtilities.basicTextWrap(message),
+        message,
+        inputs,
+        () ->
+            Integer.valueOf(JOptionPane.OK_OPTION).equals(pane.getValue())
+                ? String.valueOf(selector.getSelectedValue())
+                : null);
   }
 
   public static final <T> T input(final String message, final LockableListModel<T> inputs) {
@@ -188,19 +206,66 @@ public class InputFieldUtilities {
     // Keep simple input dialog (no AutoFilterTextField) if there
     // are only a few input choices: booleans, stats, classes, ...
     if (inputs.length <= 12) {
-      return (T)
-          JOptionPane.showInputDialog(
-              InputFieldUtilities.activeWindow,
+      var pane =
+          new JOptionPane(
               StringUtilities.basicTextWrap(message),
-              "",
               JOptionPane.INFORMATION_MESSAGE,
-              null,
-              inputs,
-              initial);
+              JOptionPane.OK_CANCEL_OPTION);
+      pane.setWantsInput(true);
+      pane.setSelectionValues(inputs);
+      pane.setInitialSelectionValue(initial);
+      return select(pane, "", message, Arrays.asList(inputs), () -> inputValue(pane));
     }
 
     return InputFieldUtilities.input(
         message, new LockableListModel<>(Arrays.asList(inputs)), initial);
+  }
+
+  private static String inputValue(final JOptionPane pane) {
+    var value = pane.getInputValue();
+    return Integer.valueOf(JOptionPane.OK_OPTION).equals(pane.getValue())
+            && value != JOptionPane.UNINITIALIZED_VALUE
+        ? String.valueOf(value)
+        : null;
+  }
+
+  private static <T> T select(
+      final JOptionPane pane,
+      final String title,
+      final String message,
+      final List<T> inputs,
+      final Supplier<String> swingAnswer) {
+    var options = inputs.stream().map(String::valueOf).toList();
+    var index =
+        options.indexOf(
+            showPrompt(pane, title, PendingPrompt.Kind.SELECT, message, options, swingAnswer));
+    return index < 0 ? null : inputs.get(index);
+  }
+
+  private static String showPrompt(
+      final JOptionPane pane,
+      final String title,
+      final PendingPrompt.Kind kind,
+      final String message,
+      final List<String> options,
+      final Supplier<String> swingAnswer) {
+    var prompt = PendingPrompt.open(kind, message, options);
+    var dialog = pane.createDialog(InputFieldUtilities.activeWindow, title);
+    dialog.addWindowListener(
+        new WindowAdapter() {
+          @Override
+          public void windowOpened(final WindowEvent e) {
+            if (prompt.isDone()) {
+              dialog.dispose();
+            }
+          }
+        });
+    prompt.onAnswer(() -> SwingUtilities.invokeLater(dialog::dispose));
+    if (!prompt.isDone()) {
+      dialog.setVisible(true);
+    }
+    prompt.complete(swingAnswer.get());
+    return prompt.join();
   }
 
   public static final <T> List<T> multiple(

@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.PendingPrompt;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /** Runs CLI commands one at a time, in the order they were queued, on a background thread. */
@@ -24,14 +25,20 @@ public class CommandQueueManager {
     return !CommandQueueManager.commandQueue.isEmpty() || handler.command != null;
   }
 
-  public static void executeCommand(final String command) {
+  public static boolean executeCommand(final String command) {
     if (command.isEmpty()) {
-      return;
+      return false;
     }
 
     if (command.equals("abort") || command.equals("--")) {
       RequestThread.declareWorldPeace();
-      return;
+      return false;
+    }
+
+    if (command.startsWith("promptanswer ")) {
+      var parts = command.split(" ", 3);
+      PendingPrompt.answer(StringUtilities.parseLong(parts[1]), parts.length > 2 ? parts[2] : null);
+      return false;
     }
 
     if (command.startsWith("jstack")
@@ -42,7 +49,7 @@ public class CommandQueueManager {
         || command.equalsIgnoreCase("reset")) {
       var parts = command.split(" ", 2);
       KoLmafiaCLI.DEFAULT_SHELL.executeCommand(parts[0], parts.length > 1 ? parts[1].trim() : "");
-      return;
+      return false;
     }
 
     if (CommandQueueManager.hasQueuedCommands() || KoLmafia.isAdventuring()) {
@@ -71,6 +78,7 @@ public class CommandQueueManager {
     }
 
     CommandQueueManager.commandQueue.add(command);
+    return true;
   }
 
   private static final class CommandQueueHandler extends Thread {

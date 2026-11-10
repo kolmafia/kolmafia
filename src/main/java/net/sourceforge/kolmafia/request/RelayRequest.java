@@ -3558,7 +3558,11 @@ public class RelayRequest extends PasswordHashRequest {
     try {
       var since = sinceField == null ? null : Long.parseLong(sinceField);
       var refresh = since == null ? 0 : Long.parseLong(this.getFormField("refresh", false));
-      var batch = RelayServer.pollMessages(since, refresh);
+      var promptField = this.getFormField("prompt", false);
+      var batch =
+          promptField == null
+              ? RelayServer.pollMessages(since, refresh)
+              : RelayServer.pollMessages(since, refresh, Long.parseLong(promptField));
 
       var events = new JSONArray();
       for (var event : batch.events()) {
@@ -3570,6 +3574,17 @@ public class RelayRequest extends PasswordHashRequest {
       response.put("refresh", batch.refresh());
       response.put("skipped", batch.skipped());
       response.put("events", events);
+      var prompt = batch.prompt();
+      if (prompt != null) {
+        var json = new JSONObject();
+        json.put("id", prompt.id);
+        if (!String.valueOf(prompt.id).equals(promptField)) {
+          json.put("kind", prompt.kind.name().toLowerCase());
+          json.put("message", prompt.message);
+          json.put("options", prompt.options);
+        }
+        response.put("prompt", json);
+      }
 
       this.contentType = "application/json";
       this.pseudoResponse("HTTP/1.1 200 OK", JSON.toJSONString(response));
@@ -3774,9 +3789,9 @@ public class RelayRequest extends PasswordHashRequest {
 
     try {
       GenericRequest.suppressUpdate(suppressUpdate);
-      CommandQueueManager.executeCommand(GenericRequest.decodeField(command));
+      var queued = CommandQueueManager.executeCommand(GenericRequest.decodeField(command));
 
-      if (waitForCompletion) {
+      if (queued && waitForCompletion) {
         this.waitForCommandCompletion();
       }
     } finally {

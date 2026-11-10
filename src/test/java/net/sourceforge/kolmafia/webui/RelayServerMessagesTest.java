@@ -5,11 +5,14 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.sameInstance;
 
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.utilities.PendingPrompt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -120,5 +123,31 @@ public class RelayServerMessagesTest {
 
     assertThat(batch.skipped(), equalTo(100L));
     assertThat(batch.events(), hasSize(2000));
+  }
+
+  @Test
+  public void pollWakesWhenPromptOpensAndCloses() throws Exception {
+    var snapshot = now();
+    var pool = Executors.newSingleThreadExecutor();
+    try {
+      var opening =
+          pool.submit(() -> RelayServer.pollMessages(snapshot.head(), snapshot.refresh(), 0));
+
+      Thread.sleep(100);
+      var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, "name?", List.of());
+
+      assertThat(opening.get(5, TimeUnit.SECONDS).prompt(), sameInstance(prompt));
+
+      var closing =
+          pool.submit(
+              () -> RelayServer.pollMessages(snapshot.head(), snapshot.refresh(), prompt.id));
+
+      Thread.sleep(100);
+      prompt.complete("Bob");
+
+      assertThat(closing.get(5, TimeUnit.SECONDS).prompt(), nullValue());
+    } finally {
+      pool.shutdownNow();
+    }
   }
 }

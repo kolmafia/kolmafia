@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.PendingPrompt;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -40,7 +41,8 @@ public class RelayServer implements Runnable {
 
   public record Event(long seq, String html) {}
 
-  public record Batch(long head, long refresh, long skipped, List<Event> events) {}
+  public record Batch(
+      long head, long refresh, long skipped, List<Event> events, PendingPrompt prompt) {}
 
   private static final RelayServer INSTANCE = new RelayServer();
 
@@ -227,18 +229,30 @@ public class RelayServer implements Runnable {
     }
   }
 
+  public static final void promptChanged() {
+    synchronized (MESSAGE_LOCK) {
+      MESSAGE_LOCK.notifyAll();
+    }
+  }
+
   public static Batch pollMessages(final Long since, final long refresh)
+      throws InterruptedException {
+    return pollMessages(since, refresh, promptId());
+  }
+
+  public static Batch pollMessages(final Long since, final long refresh, final long promptId)
       throws InterruptedException {
     synchronized (MESSAGE_LOCK) {
       lastPollTime = System.currentTimeMillis();
 
       if (since == null || since > lastMessageSeq) {
         var limit = since == null ? INITIAL_LINES : CAPACITY;
-        return new Batch(lastMessageSeq, refreshCount, 0, messagesSince(0, limit));
+        return new Batch(
+            lastMessageSeq, refreshCount, 0, messagesSince(0, limit), PendingPrompt.current());
       }
 
       var deadline = System.currentTimeMillis() + MAX_WAIT_MS;
-      while (lastMessageSeq <= since && refreshCount == refresh) {
+      while (lastMessageSeq <= since && refreshCount == refresh && promptId() == promptId) {
         var remaining = deadline - System.currentTimeMillis();
         if (remaining <= 0) {
           break;
@@ -248,8 +262,13 @@ public class RelayServer implements Runnable {
 
       var events = messagesSince(since, CAPACITY);
       var skipped = lastMessageSeq - since - events.size();
-      return new Batch(lastMessageSeq, refreshCount, skipped, events);
+      return new Batch(lastMessageSeq, refreshCount, skipped, events, PendingPrompt.current());
     }
+  }
+
+  private static long promptId() {
+    var prompt = PendingPrompt.current();
+    return prompt == null ? 0 : prompt.id;
   }
 
   private static List<Event> messagesSince(final long since, final int limit) {

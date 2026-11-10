@@ -3,11 +3,14 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
+import java.util.List;
 import java.util.function.BooleanSupplier;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.PendingPrompt;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -83,5 +86,25 @@ class CommandQueueManagerTest {
 
       assertThat(Preferences.getString(PROPERTY), is("started"));
     }
+  }
+
+  @Test
+  void promptAnswerCompletesPromptWithoutQueueing() {
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, "name?", List.of());
+
+    var queued = CommandQueueManager.executeCommand("promptanswer " + prompt.id + " Bob Smith");
+
+    assertThat(queued, is(false));
+    assertThat(prompt.join(), is("Bob Smith"));
+    assertThat(CommandQueueManager.hasQueuedCommands(), is(false));
+  }
+
+  @Test
+  void promptAnswerWithoutValueCancels() {
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, "name?", List.of());
+
+    CommandQueueManager.executeCommand("promptanswer " + prompt.id);
+
+    assertThat(prompt.join(), is(nullValue()));
   }
 }
