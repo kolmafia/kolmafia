@@ -120,13 +120,8 @@ public class AscensionSeedManager {
   }
 
   private String getState(String code) {
-    String states = Preferences.getString("ascensionSeedAutomationState");
-    for (String state : states.split("\\|")) {
-      if (state.startsWith(code + ":")) {
-        return state.substring(code.length() + 1);
-      }
-    }
-    return "";
+    Map<String, String> states = Preferences.getStringMap("ascensionSeedAutomationState");
+    return states.getOrDefault(code, "");
   }
 
   private void setState(String code, String state) {
@@ -137,18 +132,16 @@ public class AscensionSeedManager {
       return;
     }
 
+    Map<String, String> states = Preferences.getStringMap("ascensionSeedAutomationState");
+
     // Add or update the specified state, or remove it if the state string is blank (i.e. the
     // default state)
-    String stateEntry = state.isBlank() ? "" : code + ":" + state;
-    String updatedPref =
-        Stream.concat(
-                Stream.of(stateEntry),
-                Arrays.stream(Preferences.getString("ascensionSeedAutomationState").split("\\|"))
-                    .filter(s -> !s.startsWith(code + ":")))
-            .filter(s -> !s.isBlank())
-            .sorted()
-            .collect(Collectors.joining("|"));
-    Preferences.setString("ascensionSeedAutomationState", updatedPref);
+    if (state.isBlank()) {
+      states.remove(code);
+    } else {
+      states.put(code, state);
+    }
+    Preferences.setStringMap("ascensionSeedAutomationState", states);
   }
 
   // Get the current candidate seeds. If the candidates have not been narrowed down yet, return
