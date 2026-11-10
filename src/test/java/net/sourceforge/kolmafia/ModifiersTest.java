@@ -2337,6 +2337,44 @@ public class ModifiersTest {
   }
 
   @Nested
+  class BooleanExpressions {
+    @ParameterizedTest
+    @ValueSource(strings = {"", "Never Fumble", "Meat Drop: [10]", "Never Fumble, Meat Drop: [10]"})
+    void constantBooleansAndNumericExpressionsAreNotBooleanExpressions(String modifiers) {
+      var mods =
+          ModifierDatabase.parseModifiers(
+              ModifierType.GENERATED, "boolean expression test", modifiers);
+
+      assertThat(mods.getBooleanExpressions(), is(empty()));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1})
+    void reportsBooleanExpressionsRegardlessOfTheirCurrentValue(int value) {
+      var mods =
+          ModifierDatabase.parseModifiers(
+              ModifierType.GENERATED,
+              "boolean expression test",
+              "Softcore Only: [" + value + "], Never Fumble, Meat Drop: [10]");
+      mods.recalculateExpressions();
+
+      assertThat(mods.getBoolean(BooleanModifier.SOFTCORE), is(value != 0));
+      assertThat(mods.getBooleanExpressions(), contains(BooleanModifier.SOFTCORE));
+    }
+
+    @Test
+    void callerCannotRemoveExpressionsByChangingReturnedSet() {
+      var mods =
+          ModifierDatabase.parseModifiers(
+              ModifierType.GENERATED, "boolean expression test", "Softcore Only: [0]");
+
+      mods.getBooleanExpressions().clear();
+
+      assertThat(mods.getBooleanExpressions(), contains(BooleanModifier.SOFTCORE));
+    }
+  }
+
+  @Nested
   class TagPatternMatcher {
     @Test
     public void doubles() {

@@ -8,18 +8,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
@@ -250,6 +254,115 @@ public class ModifierDatabaseTest {
     var mods = ModifierDatabase.getModifiers(ModifierType.BJORN, "Grimstone Golem");
 
     assertThat(mods.getLookup().type, is(ModifierType.BJORN));
+  }
+
+  @Nested
+  class BooleanExpressions {
+    @Test
+    void findsExpressionsWithoutLoadingTheirSourcesFirst() {
+      ModifierDatabase.resetModifiers();
+      var beforeLoading = EnumSet.copyOf(ModifierDatabase.getBooleanModifiersWithExpressions());
+
+      // Boris's Helm has both expressions, even when their current values differ.
+      assertThat(beforeLoading, hasItems(BooleanModifier.SOFTCORE, BooleanModifier.FREE_PULL));
+      ModifierDatabase.getItemModifiers(ItemPool.BORIS_HELM);
+
+      assertThat(ModifierDatabase.getBooleanModifiersWithExpressions(), is(beforeLoading));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "ITEM, helmet turtle",
+      "EFFECT, Leash of Linguini",
+      "GENERATED, boolean expression test"
+    })
+    void includesFalseExpressionsFromRuntimeOverrides(ModifierType type, String key) {
+      try (var cleanups = withOverrideModifiers(type, key, "")) {
+        var mods = ModifierDatabase.getModifiers(type, key);
+        mods.addExpression(
+            BooleanModifier.NEVER_FUMBLE,
+            ModifierExpression.getInstance("0", "boolean expression test"));
+        mods.recalculateExpressions();
+        ModifierDatabase.overrideModifier(type, key, mods);
+
+        assertThat(mods.getBoolean(BooleanModifier.NEVER_FUMBLE), is(false));
+        assertThat(
+            ModifierDatabase.getBooleanModifiersWithExpressions(),
+            hasItem(BooleanModifier.NEVER_FUMBLE));
+
+        // Replacing the expression with a constant must not leave a stale dependency.
+        ModifierDatabase.overrideModifier(type, key, "Never Fumble");
+        assertThat(
+            ModifierDatabase.getBooleanModifiersWithExpressions(),
+            not(hasItem(BooleanModifier.NEVER_FUMBLE)));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "remove,false",
+      "remove,true",
+      "replace,false",
+      "replace,true",
+      "reset,false",
+      "reset,true"
+    })
+    void clearingOverridesRetainsOnlyExpressionsFromRemainingSources(
+        String operation, boolean overlapping) {
+      try (var cleanups =
+          new Cleanups(
+              withOverrideModifiers(ModifierType.ITEM, "helmet turtle", ""),
+              withOverrideModifiers(
+                  ModifierType.GENERATED, "overlapping boolean expression", ""))) {
+        var first = ModifierDatabase.getModifiers(ModifierType.ITEM, "helmet turtle");
+        first.addExpression(
+            BooleanModifier.NEVER_FUMBLE, ModifierExpression.getInstance("0", "first source"));
+        ModifierDatabase.overrideModifier(ModifierType.ITEM, "helmet turtle", first);
+        if (overlapping) {
+          var second =
+              ModifierDatabase.getModifiers(
+                  ModifierType.GENERATED, "overlapping boolean expression");
+          second.addExpression(
+              BooleanModifier.NEVER_FUMBLE, ModifierExpression.getInstance("0", "second source"));
+          ModifierDatabase.overrideModifier(
+              ModifierType.GENERATED, "overlapping boolean expression", second);
+        }
+        assertThat(
+            ModifierDatabase.getBooleanModifiersWithExpressions(),
+            hasItem(BooleanModifier.NEVER_FUMBLE));
+
+        switch (operation) {
+          case "remove" ->
+              ModifierDatabase.overrideRemoveModifier(ModifierType.ITEM, "helmet turtle");
+          case "replace" ->
+              ModifierDatabase.overrideModifier(ModifierType.ITEM, "helmet turtle", "Never Fumble");
+          case "reset" -> ModifierDatabase.resetModifiers();
+          default -> throw new IllegalArgumentException(operation);
+        }
+        assertThat(
+            ModifierDatabase.getBooleanModifiersWithExpressions()
+                .contains(BooleanModifier.NEVER_FUMBLE),
+            is(overlapping && !operation.equals("reset")));
+        ModifierDatabase.overrideRemoveModifier(
+            ModifierType.GENERATED, "overlapping boolean expression");
+        assertThat(
+            ModifierDatabase.getBooleanModifiersWithExpressions(),
+            not(hasItem(BooleanModifier.NEVER_FUMBLE)));
+      }
+    }
+
+    @Test
+    void constantBooleansAndNumericExpressionsDoNotChangeExpressionClassification() {
+      var before = EnumSet.copyOf(ModifierDatabase.getBooleanModifiersWithExpressions());
+      try (var cleanups =
+          new Cleanups(
+              withOverrideModifiers(
+                  ModifierType.ITEM, "helmet turtle", "Never Fumble, Meat Drop: [10]"),
+              withOverrideModifiers(
+                  ModifierType.GENERATED, "boolean expression test", "Underwater Familiar"))) {
+        assertThat(ModifierDatabase.getBooleanModifiersWithExpressions(), is(before));
+      }
+    }
   }
 
   @Nested
