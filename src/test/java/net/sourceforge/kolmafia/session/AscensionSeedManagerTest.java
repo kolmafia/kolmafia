@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
@@ -37,12 +38,76 @@ public class AscensionSeedManagerTest {
             withProperty("lastBangPotion820", "inebriety"));
 
     try (cleanups) {
-      int estimatedCount = AscensionSeedManager.estimatedAscensionSeedPossibilities();
+      AscensionSeedManager.initialize();
+      int estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
       assertThat(estimatedCount, is(2));
 
-      List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
+      List<Integer> matches = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
       assertThat(matches.size(), is(4));
       assertThat(matches, contains(1062694, 2209935, 5572718, 7252442));
+    }
+  }
+
+  @Test
+  void seedAutomationProgressSaved() {
+    AscensionSeedManager.initialize();
+    var cleanups =
+        new Cleanups(
+            withProperty("dailyDungeonRooms"),
+            withProperty("seahorseName"),
+            withProperty("lastBangPotion819"),
+            withProperty("lastBangPotion820"),
+            withProperty("ascensionSeed"),
+            withProperty("ascensionSeedCandidates"),
+            withProperty("ascensionSeedAutomationState"),
+            withProperty("ascensionSeedAutomation", true));
+
+    try (cleanups) {
+      Preferences.setString("dailyDungeonRooms", "MMTD_??MT_??DD");
+
+      int estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(3117)); // estimated on heuristics
+      assertThat("ascensionSeedCandidates", isSetTo(""));
+      String state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("DD:MMTD??MT??DD"));
+
+      Preferences.setString("seahorseName", "Glitterswim");
+
+      estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(83)); // actual value
+      assertThat(Preferences.getString("ascensionSeedCandidates").split(",").length, is(83));
+      state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("SH:Glitterswim"));
+
+      Preferences.setString("lastBangPotion819", "confusion");
+
+      estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(14)); // actual value
+      state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("BP:c????????"));
+
+      Preferences.setString("lastBangPotion820", "inebriety");
+
+      estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(4)); // actual value
+      state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("BP:ci???????"));
+      assertThat("ascensionSeedCandidates", isSetTo("1062694,2209935,5572718,7252442"));
+
+      List<Integer> matches = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
+      assertThat(matches.size(), is(4));
+      assertThat(matches, contains(1062694, 2209935, 5572718, 7252442));
+
+      Preferences.setString("lastBangPotion827", "teleportitis");
+
+      estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
+      assertThat(estimatedCount, is(1)); // actual value
+      state = Preferences.getString("ascensionSeedAutomationState");
+      assertThat(state, containsString("DD:MMTD??MT??DD"));
+      assertThat(state, containsString("SH:Glitterswim"));
+      assertThat(state, containsString("BP:ci??????t"));
+      assertThat("ascensionSeedCandidates", isSetTo("2209935"));
+      assertThat("ascensionSeed", isSetTo("2209935"));
     }
   }
 
@@ -51,10 +116,11 @@ public class AscensionSeedManagerTest {
     var cleanups = new Cleanups(withProperty("dailyDungeonRooms", "T???_????_????"));
 
     try (cleanups) {
-      int estimatedCount = AscensionSeedManager.estimatedAscensionSeedPossibilities();
+      AscensionSeedManager.initialize();
+      int estimatedCount = AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities();
       assertThat(estimatedCount, is(3_000_000));
 
-      List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
+      List<Integer> matches = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
       assertThat(matches.size(), is(AscensionSeedManager.MAX_CALCULATED_SEEDS));
     }
   }
@@ -102,6 +168,28 @@ public class AscensionSeedManagerTest {
           assertThat(c.matchesSeed(seed), is(expected));
         }
       }
+
+      @ParameterizedTest
+      @CsvSource({
+        "'',NARROWER",
+        "??s??????,NARROWER",
+        "e?s??????,EQUAL",
+        "e?s?????h,WIDER",
+        "b?s??????,WIDER",
+      })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups =
+            new Cleanups(
+                withProperty("lastBangPotion819", "ettin strength"),
+                withProperty("lastBangPotion821", "sleepiness"));
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.BangPotions();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("e?s??????"));
+          assertThat(result.type().toString(), is(expectedChange));
+        }
+      }
     }
 
     @Nested
@@ -136,6 +224,28 @@ public class AscensionSeedManagerTest {
           assertThat(c.matchesSeed(seed), is(expected));
         }
       }
+
+      @ParameterizedTest
+      @CsvSource(
+          delimiter = '|',
+          value = {
+            "''|NARROWER",
+            "CN799.60|NARROWER",
+            "CN799.60,HU568.36|EQUAL",
+            "CN799.60,HU568.36,RL672.15|WIDER",
+            "CN799.60,RL672.15|WIDER",
+          })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups =
+            withProperty("merkinCatalogChoices", "CN799.60:1:unknown,HU568.36:2:unknown");
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.CardCatalog();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("CN799.60,HU568.36"));
+          assertThat(result.type().toString(), is(expectedChange));
+        }
+      }
     }
 
     @Nested
@@ -165,6 +275,25 @@ public class AscensionSeedManagerTest {
         try (cleanups) {
           Criterion c = new AscensionSeedManager.DailyDungeon();
           assertThat(c.matchesSeed(seed), is(expected));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({
+        "'',NARROWER",
+        "DMTM????????,NARROWER",
+        "DMTM??DD??TD,EQUAL",
+        "DMTMTTDD??TD,WIDER",
+        "DMTM??DD??TT,WIDER",
+      })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups = withProperty("dailyDungeonRooms", "DMTM_??DD_??TD");
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.DailyDungeon();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("DMTM??DD??TD"));
+          assertThat(result.type().toString(), is(expectedChange));
         }
       }
     }
@@ -205,6 +334,26 @@ public class AscensionSeedManagerTest {
         try (cleanups) {
           Criterion c = new AscensionSeedManager.Dreadscroll();
           assertThat(c.matchesSeed(seed), is(expected));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({
+        "'',NARROWER",
+        "00010000,NARROWER",
+        "30010000,EQUAL",
+        "30010100,WIDER",
+        "20010000,WIDER",
+      })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups =
+            new Cleanups(withProperty("dreadScroll1", 3), withProperty("dreadScroll4", 1));
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.Dreadscroll();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("30010000"));
+          assertThat(result.type().toString(), is(expectedChange));
         }
       }
     }
@@ -286,6 +435,28 @@ public class AscensionSeedManagerTest {
           assertThat(c.matchesSeed(seed), is(expected));
         }
       }
+
+      @ParameterizedTest
+      @CsvSource({
+        "'',NARROWER",
+        "??????BPR?????????,NARROWER",
+        "RPB???BPR?????????,EQUAL",
+        "RPB???BPR??????BRP,WIDER",
+        "BRP???BPR?????????,WIDER",
+      })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups =
+            new Cleanups(
+                withProperty("raveCombo1", "Run Like the Wind,Pop and Lock It,Break It On Down"),
+                withProperty("raveCombo3", "Break It On Down,Pop and Lock It,Run Like the Wind"));
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.RaveCombos();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("RPB???BPR?????????"));
+          assertThat(result.type().toString(), is(expectedChange));
+        }
+      }
     }
 
     @Nested
@@ -315,6 +486,23 @@ public class AscensionSeedManagerTest {
         try (cleanups) {
           Criterion c = new AscensionSeedManager.SeahorseName();
           assertThat(c.matchesSeed(seed), is(expected));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({
+        "'',NARROWER",
+        "Shimmerswim,EQUAL",
+        "Sturgeon Shipwreck ,WIDER",
+      })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups = withProperty("seahorseName", "Shimmerswim");
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.SeahorseName();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("Shimmerswim"));
+          assertThat(result.type().toString(), is(expectedChange));
         }
       }
     }
@@ -361,6 +549,31 @@ public class AscensionSeedManagerTest {
           assertThat(c.matchesSeed(seed), is(expected));
         }
       }
+
+      @ParameterizedTest
+      @CsvSource({
+        "'',NARROWER",
+        "??p??i??ul??,NARROWER",
+        "??p??i??ulo?,EQUAL",
+        "a?p??i??ulo?,WIDER",
+        "??a??i??ulo?,WIDER",
+      })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups =
+            new Cleanups(
+                withProperty("lastSlimeVial3887", "speedy"),
+                withProperty("lastSlimeVial3890", "brains"),
+                withProperty("lastSlimeVial3893", "muscle"),
+                withProperty("lastSlimeVial3894", "slimeform"),
+                withProperty("lastSlimeVial3895", "moxiousness"));
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.SlimePotions();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("??p??i??ulo?"));
+          assertThat(result.type().toString(), is(expectedChange));
+        }
+      }
     }
 
     @Nested
@@ -391,6 +604,33 @@ public class AscensionSeedManagerTest {
         try (cleanups) {
           Criterion c = new AscensionSeedManager.VioletFog();
           assertThat(c.matchesSeed(seed), is(expected));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource(
+          delimiter = '|',
+          value = {
+            "''|NARROWER",
+            "49,0,0,0,0,0,54,0,0,52,0,0,0,61,0,0,61,0,0,70,0,0,58,0,0,59,0,0,0,67,0,0,51,0,0,53,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|NARROWER",
+            "49,0,0,53,0,0,54,0,0,52,0,0,0,61,0,0,61,0,0,70,0,0,58,0,0,59,0,0,0,67,0,0,51,0,0,53,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|EQUAL",
+            "49,50,0,53,0,0,54,0,0,52,0,0,0,61,0,0,61,0,0,70,0,0,58,0,0,59,0,0,0,67,0,0,51,0,0,53,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|WIDER",
+            "50,0,0,53,0,0,54,0,0,52,0,0,0,61,0,0,61,0,0,70,0,0,58,0,0,59,0,0,0,67,0,0,51,0,0,53,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|WIDER",
+          })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups =
+            withProperty(
+                "violetFogLayout",
+                "49,0,0,-1,53,0,0,-1,54,0,0,-1,52,0,0,-1,0,61,0,-1,0,61,0,-1,0,70,0,-1,0,58,0,-1,0,59,0,-1,0,0,67,-1,0,0,51,-1,0,0,53,-1,0,0,0,-1,0,0,0,-1,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0,-1,0,0,0");
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.VioletFog();
+          var result = c.compareState(oldState);
+          assertThat(
+              result.newState(),
+              is(
+                  "49,0,0,53,0,0,54,0,0,52,0,0,0,61,0,0,61,0,0,70,0,0,58,0,0,59,0,0,0,67,0,0,51,0,0,53,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"));
+          assertThat(result.type().toString(), is(expectedChange));
         }
       }
     }
@@ -440,6 +680,30 @@ public class AscensionSeedManagerTest {
         try (cleanups) {
           Criterion c = new AscensionSeedManager.YegDemon();
           assertThat(c.matchesSeed(seed), is(expected));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource(
+          delimiter = '|',
+          value = {
+            "''|NARROWER",
+            "-1,5,1,-1,9,-1,2|NARROWER",
+            "-1,5,1,6,9,-1,2|EQUAL",
+            "1,5,1,6,9,-1,2|WIDER",
+            "-1,1,1,6,9,-1,2|WIDER",
+          })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups =
+            new Cleanups(
+                withProperty("demonName13"),
+                withProperty("cargoPocketScraps", "222:gi_|7:Ga|602:yo_|172:Gu|282:ye"));
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.YegDemon();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("-1,5,1,6,9,-1,2"));
+          assertThat(result.type().toString(), is(expectedChange));
         }
       }
     }

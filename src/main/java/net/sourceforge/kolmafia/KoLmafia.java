@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.session.AscensionSeedManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -327,6 +328,7 @@ public abstract class KoLmafia {
 
     FlaggedItems.initializeLists();
     VolcanoMazeManager.downloadImages();
+    AscensionSeedManager.initialize();
 
     // Now run the main routines for each, so that
     // you have an interface.

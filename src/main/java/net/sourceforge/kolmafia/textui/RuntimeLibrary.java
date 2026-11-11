@@ -4257,6 +4257,10 @@ public abstract class RuntimeLibrary {
 
     params = List.of();
     functions.add(
+        new LibraryFunction("ascension_seed_properties", DataTypes.STRING_TO_STRING_TYPE, params));
+
+    params = List.of();
+    functions.add(
         new LibraryFunction("estimated_ascension_seed_possibilities", DataTypes.INT_TYPE, params));
   }
 
@@ -12834,7 +12838,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value possible_ascension_seeds(ScriptRuntime controller) {
-    List<Integer> seeds = AscensionSeedManager.possibleAscensionSeeds();
+    List<Integer> seeds = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
     return new ArrayValue(
         new AggregateType(DataTypes.INT_TYPE, DataTypes.INT_TYPE),
         seeds.stream().map(DataTypes::makeIntValue).toList());
@@ -12842,11 +12846,22 @@ public abstract class RuntimeLibrary {
 
   public static Value ascension_seed_properties(ScriptRuntime controller, Value seedValue) {
     int seed = (int) seedValue.intValue();
-    Map<String, String> properties = AscensionSeedManager.getPropertiesForSeed(seed);
+    Map<String, String> properties = AscensionSeedManager.INSTANCE.getPropertiesForSeed(seed);
+    return DataTypes.makeStringToStringValue(properties);
+  }
+
+  public static Value ascension_seed_properties(ScriptRuntime controller) {
+    List<Integer> seeds = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
+    if (seeds.size() != 1) {
+      throw controller.runtimeException("Could not uniquely identify ascension seed");
+    }
+    Map<String, String> properties =
+        AscensionSeedManager.INSTANCE.getPropertiesForSeed(seeds.getFirst());
     return DataTypes.makeStringToStringValue(properties);
   }
 
   public static Value estimated_ascension_seed_possibilities(ScriptRuntime controller) {
-    return DataTypes.makeIntValue(AscensionSeedManager.estimatedAscensionSeedPossibilities());
+    return DataTypes.makeIntValue(
+        AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities());
   }
 }
