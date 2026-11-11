@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
@@ -70,13 +71,23 @@ public final class UserPrompt<R> {
 
   public record Multiple<T>(String message, List<T> choices, ListElementFilter filter)
       implements Request<List<T>> {
+    public List<T> visibleChoices() {
+      return filter == null ? choices : choices.stream().filter(filter::isVisible).toList();
+    }
+
+    @Override
+    public List<String> options() {
+      return visibleChoices().stream().map(String::valueOf).toList();
+    }
+
     @Override
     public List<T> decode(final String answer) {
+      var visible = visibleChoices();
       var selected = new ArrayList<T>();
       for (var index : StringUtilities.splitByComma(answer == null ? "" : answer)) {
         var i = StringUtilities.parseInt(index);
-        if (!index.isEmpty() && i >= 0 && i < choices.size()) {
-          selected.add(choices.get(i));
+        if (!index.isEmpty() && i >= 0 && i < visible.size()) {
+          selected.add(visible.get(i));
         }
       }
       return selected;
@@ -121,7 +132,7 @@ public final class UserPrompt<R> {
           LOCK.wait();
         } catch (InterruptedException e) {
           Thread.currentThread().interrupt();
-          break;
+          throw new CancellationException("Interrupted while waiting to prompt");
         }
       }
       prompt = new UserPrompt<>(++lastId, request);

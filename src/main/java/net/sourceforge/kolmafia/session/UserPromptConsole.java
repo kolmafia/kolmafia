@@ -115,7 +115,7 @@ class UserPromptConsole {
       int selectedIndex = StringUtilities.parseInt(replyList[i]) - 1;
 
       if (selectedIndex > -1 && selectedIndex < visibleInputs.size()) {
-        selectedValues.add(visibleInputs.get(i));
+        selectedValues.add(visibleInputs.get(selectedIndex));
       }
     }
 

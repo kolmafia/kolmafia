@@ -3,11 +3,15 @@ package net.sourceforge.kolmafia.session;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
@@ -104,6 +108,24 @@ class UserPromptTest {
     }
   }
 
+  @Test
+  void interruptedWaitDoesNotReplaceOpenPrompt() throws Exception {
+    var first = UserPrompt.open(new UserPrompt.Text("one", null));
+    var pool = Executors.newSingleThreadExecutor();
+    try {
+      var second = pool.submit(() -> UserPrompt.open(new UserPrompt.Text("two", null)));
+
+      Thread.sleep(100);
+      pool.shutdownNow();
+
+      var thrown = assertThrows(ExecutionException.class, () -> second.get(5, TimeUnit.SECONDS));
+      assertThat(thrown.getCause(), instanceOf(CancellationException.class));
+      assertThat(UserPrompt.current(), sameInstance(first));
+    } finally {
+      pool.shutdownNow();
+    }
+  }
+
   @Nested
   class Decoding {
     @Test
@@ -122,6 +144,14 @@ class UserPromptTest {
       assertThat(request.decode("0,2"), contains("a", "c"));
       assertThat(request.decode(""), empty());
       assertThat(request.decode(null), empty());
+    }
+
+    @Test
+    void multipleOnlyOffersVisibleChoices() {
+      var request = new UserPrompt.Multiple<>("pick", List.of("a", "b", "c"), o -> !o.equals("b"));
+
+      assertThat(request.options(), contains("a", "c"));
+      assertThat(request.decode("1"), contains("c"));
     }
 
     @Test
