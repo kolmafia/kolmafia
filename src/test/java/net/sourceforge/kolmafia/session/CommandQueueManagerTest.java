@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 import java.util.function.BooleanSupplier;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -84,25 +83,5 @@ class CommandQueueManagerTest {
 
       assertThat(Preferences.getString(PROPERTY), is("started"));
     }
-  }
-
-  @Test
-  void promptAnswerCompletesPromptWithoutQueueing() {
-    var prompt = UserPrompt.open(new UserPrompt.Text("name?", null));
-
-    var queued = CommandQueueManager.executeCommand("promptanswer " + prompt.id + " Bob Smith");
-
-    assertThat(queued, is(false));
-    assertThat(prompt.join(), is("Bob Smith"));
-    assertThat(CommandQueueManager.hasQueuedCommands(), is(false));
-  }
-
-  @Test
-  void promptAnswerWithoutValueCancels() {
-    var prompt = UserPrompt.open(new UserPrompt.Text("name?", null));
-
-    CommandQueueManager.executeCommand("promptanswer " + prompt.id);
-
-    assertThat(prompt.join(), is(nullValue()));
   }
 }

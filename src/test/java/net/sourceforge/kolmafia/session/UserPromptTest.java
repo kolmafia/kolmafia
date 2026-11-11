@@ -34,6 +34,23 @@ class UserPromptTest {
   }
 
   @Test
+  void answerParsesIdAndValue() {
+    var prompt = UserPrompt.open(new UserPrompt.Text("name?", null));
+
+    assertThat(UserPrompt.answer(prompt.id + " Bob Smith"), is(true));
+    assertThat(prompt.join(), is("Bob Smith"));
+  }
+
+  @Test
+  void answerWithoutValueCancels() {
+    var prompt = UserPrompt.open(new UserPrompt.Text("name?", null));
+
+    UserPrompt.answer(String.valueOf(prompt.id));
+
+    assertThat(prompt.join(), nullValue());
+  }
+
+  @Test
   void answerIgnoresWrongId() {
     var prompt = UserPrompt.open(new UserPrompt.Confirm("sure?"));
 

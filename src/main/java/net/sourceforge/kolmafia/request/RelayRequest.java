@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
@@ -3774,6 +3775,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  private static final String PROMPT_ANSWER = "promptanswer ";
+
   private void submitCommand(String command) {
     submitCommand(command, false, true);
   }
@@ -3783,6 +3786,12 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   private void submitCommand(String command, boolean suppressUpdate, boolean waitForCompletion) {
+    var decoded = GenericRequest.decodeField(command);
+    if (decoded.startsWith(PROMPT_ANSWER)) {
+      UserPrompt.answer(decoded.substring(PROMPT_ANSWER.length()));
+      return;
+    }
+
     // Wait until any restoration scripts finish running before
     // submitting a command to the CLI
 
@@ -3790,9 +3799,9 @@ public class RelayRequest extends PasswordHashRequest {
 
     try {
       GenericRequest.suppressUpdate(suppressUpdate);
-      var queued = CommandQueueManager.executeCommand(GenericRequest.decodeField(command));
+      CommandQueueManager.executeCommand(decoded);
 
-      if (queued && waitForCompletion) {
+      if (waitForCompletion) {
         this.waitForCommandCompletion();
       }
     } finally {

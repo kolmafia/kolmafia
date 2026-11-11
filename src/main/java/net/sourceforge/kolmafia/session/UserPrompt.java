@@ -19,8 +19,12 @@ public final class UserPrompt<R> {
       return this.getClass().getSimpleName().toLowerCase();
     }
 
-    default List<String> options() {
+    default List<?> choices() {
       return List.of();
+    }
+
+    default List<String> options() {
+      return choices().stream().map(String::valueOf).toList();
     }
 
     default String initial() {
@@ -58,11 +62,6 @@ public final class UserPrompt<R> {
       BiFunction<Object, Boolean, String> renderer)
       implements Request<T> {
     @Override
-    public List<String> options() {
-      return choices.stream().map(String::valueOf).toList();
-    }
-
-    @Override
     public T decode(final String answer) {
       var index = answer == null ? -1 : StringUtilities.parseInt(answer);
       return index >= 0 && index < choices.size() ? choices.get(index) : null;
@@ -71,11 +70,6 @@ public final class UserPrompt<R> {
 
   public record Multiple<T>(String message, List<T> choices, ListElementFilter filter)
       implements Request<List<T>> {
-    @Override
-    public List<String> options() {
-      return choices.stream().map(String::valueOf).toList();
-    }
-
     @Override
     public List<T> decode(final String answer) {
       var selected = new ArrayList<T>();
@@ -116,7 +110,7 @@ public final class UserPrompt<R> {
       prompt.expireAfter(timeoutMillis, fallback);
     }
     UserPromptDialog.show(prompt);
-    return prompt.answer.join();
+    return prompt.join();
   }
 
   public static <R> UserPrompt<R> open(final Request<R> request) {
@@ -141,13 +135,18 @@ public final class UserPrompt<R> {
     return current;
   }
 
-  public static boolean answer(final long id, final String value) {
-    var prompt = current;
-    return prompt != null && prompt.id == id && prompt.completeFrom(value);
+  public static boolean answer(final String command) {
+    var parts = command.split(" ", 2);
+    return answer(StringUtilities.parseLong(parts[0]), parts.length > 1 ? parts[1] : null);
   }
 
-  private boolean completeFrom(final String value) {
-    return this.complete(this.request.decode(value));
+  public static boolean answer(final long id, final String value) {
+    var prompt = current;
+    return prompt != null && prompt.id == id && answer(prompt, value);
+  }
+
+  private static <R> boolean answer(final UserPrompt<R> prompt, final String value) {
+    return prompt.complete(prompt.request.decode(value));
   }
 
   public boolean complete(final R value) {

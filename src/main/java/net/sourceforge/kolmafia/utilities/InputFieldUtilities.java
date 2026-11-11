@@ -13,15 +13,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.session.UserPrompt;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.UserPromptDialog;
 
 public class InputFieldUtilities {
   private InputFieldUtilities() {}
-
-  public static void setActiveWindow(GenericFrame activeWindow) {
-    UserPromptDialog.setActiveWindow(activeWindow);
-  }
 
   public static final void alert(final String message) {
     UserPrompt.ask(new UserPrompt.Alert(message));

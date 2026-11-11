@@ -24,20 +24,14 @@ public class CommandQueueManager {
     return !CommandQueueManager.commandQueue.isEmpty() || handler.command != null;
   }
 
-  public static boolean executeCommand(final String command) {
+  public static void executeCommand(final String command) {
     if (command.isEmpty()) {
-      return false;
+      return;
     }
 
     if (command.equals("abort") || command.equals("--")) {
       RequestThread.declareWorldPeace();
-      return false;
-    }
-
-    if (command.startsWith("promptanswer ")) {
-      var parts = command.split(" ", 3);
-      UserPrompt.answer(StringUtilities.parseLong(parts[1]), parts.length > 2 ? parts[2] : null);
-      return false;
+      return;
     }
 
     if (command.startsWith("jstack")
@@ -48,7 +42,7 @@ public class CommandQueueManager {
         || command.equalsIgnoreCase("reset")) {
       var parts = command.split(" ", 2);
       KoLmafiaCLI.DEFAULT_SHELL.executeCommand(parts[0], parts.length > 1 ? parts[1].trim() : "");
-      return false;
+      return;
     }
 
     if (CommandQueueManager.hasQueuedCommands() || KoLmafia.isAdventuring()) {
@@ -77,7 +71,6 @@ public class CommandQueueManager {
     }
 
     CommandQueueManager.commandQueue.add(command);
-    return true;
   }
 
   private static final class CommandQueueHandler extends Thread {
