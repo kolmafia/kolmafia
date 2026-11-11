@@ -3582,6 +3582,7 @@ public class RelayRequest extends PasswordHashRequest {
           json.put("kind", prompt.kind.name().toLowerCase());
           json.put("message", prompt.message);
           json.put("options", prompt.options);
+          json.put("initial", prompt.initial);
         }
         response.put("prompt", json);
       }

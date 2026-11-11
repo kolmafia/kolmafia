@@ -48,6 +48,26 @@ class PendingPromptTest {
   }
 
   @Test
+  void expiredPromptCompletesWithDefault() {
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.CONFIRM, "sure?", List.of());
+
+    prompt.expireAfter(10, "false");
+
+    assertThat(prompt.join(), is("false"));
+    assertThat(PendingPrompt.current(), nullValue());
+  }
+
+  @Test
+  void answerBeforeExpiryWins() {
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.CONFIRM, "sure?", List.of());
+
+    prompt.expireAfter(60_000, "false");
+    PendingPrompt.answer(prompt.id, "true");
+
+    assertThat(prompt.join(), is("true"));
+  }
+
+  @Test
   void secondPromptWaitsForFirst() throws Exception {
     var first = PendingPrompt.open(PendingPrompt.Kind.TEXT, "one", List.of());
     var pool = Executors.newSingleThreadExecutor();

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -49,11 +50,18 @@ public class InputFieldUtilities {
       return;
     }
 
-    JOptionPane.showMessageDialog(
-        InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
+    var pane =
+        new JOptionPane(StringUtilities.basicTextWrap(message), JOptionPane.INFORMATION_MESSAGE);
+    showPrompt(
+        pane, "", PendingPrompt.open(PendingPrompt.Kind.ALERT, message, List.of()), () -> "");
   }
 
   public static final boolean confirm(final String message) {
+    return InputFieldUtilities.confirm(message, 0, false);
+  }
+
+  public static final boolean confirm(
+      final String message, final long timeoutMillis, final boolean defaultValue) {
     if (StaticEntity.isHeadless()) {
       RequestLogger.printLine(message);
       RequestLogger.printLine("(Y/N, leave blank to choose N)");
@@ -68,18 +76,25 @@ public class InputFieldUtilities {
             StringUtilities.basicTextWrap(message),
             JOptionPane.QUESTION_MESSAGE,
             JOptionPane.YES_NO_OPTION);
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.CONFIRM, message, List.of());
+    if (timeoutMillis > 0) {
+      prompt.expireAfter(timeoutMillis, String.valueOf(defaultValue));
+    }
     var answer =
         showPrompt(
             pane,
             "",
-            PendingPrompt.Kind.CONFIRM,
-            message,
-            List.of(),
+            prompt,
             () -> String.valueOf(Integer.valueOf(JOptionPane.YES_OPTION).equals(pane.getValue())));
     return "true".equals(answer);
   }
 
   public static final String input(final String message) {
+    return InputFieldUtilities.input(message, 0, null);
+  }
+
+  public static final String input(
+      final String message, final long timeoutMillis, final String defaultValue) {
     if (StaticEntity.isHeadless()) {
       RequestLogger.printLine(message);
 
@@ -94,8 +109,11 @@ public class InputFieldUtilities {
             JOptionPane.QUESTION_MESSAGE,
             JOptionPane.OK_CANCEL_OPTION);
     pane.setWantsInput(true);
-    return showPrompt(
-        pane, "", PendingPrompt.Kind.TEXT, message, List.of(), () -> inputValue(pane));
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, message, List.of());
+    if (timeoutMillis > 0) {
+      prompt.expireAfter(timeoutMillis, defaultValue);
+    }
+    return showPrompt(pane, "", prompt, () -> inputValue(pane));
   }
 
   public static final String input(final String message, final String initial) {
@@ -114,8 +132,15 @@ public class InputFieldUtilities {
       return reply;
     }
 
-    return JOptionPane.showInputDialog(
-        InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message), initial);
+    var pane =
+        new JOptionPane(
+            StringUtilities.basicTextWrap(message),
+            JOptionPane.QUESTION_MESSAGE,
+            JOptionPane.OK_CANCEL_OPTION);
+    pane.setWantsInput(true);
+    pane.setInitialSelectionValue(initial);
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, message, List.of(), initial);
+    return showPrompt(pane, "", prompt, () -> inputValue(pane));
   }
 
   public static final <T> T input(
@@ -236,20 +261,16 @@ public class InputFieldUtilities {
       final List<T> inputs,
       final Supplier<String> swingAnswer) {
     var options = inputs.stream().map(String::valueOf).toList();
-    var index =
-        options.indexOf(
-            showPrompt(pane, title, PendingPrompt.Kind.SELECT, message, options, swingAnswer));
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.SELECT, message, options);
+    var index = options.indexOf(showPrompt(pane, title, prompt, swingAnswer));
     return index < 0 ? null : inputs.get(index);
   }
 
   private static String showPrompt(
       final JOptionPane pane,
       final String title,
-      final PendingPrompt.Kind kind,
-      final String message,
-      final List<String> options,
+      final PendingPrompt prompt,
       final Supplier<String> swingAnswer) {
-    var prompt = PendingPrompt.open(kind, message, options);
     var dialog = pane.createDialog(InputFieldUtilities.activeWindow, title);
     dialog.addWindowListener(
         new WindowAdapter() {
@@ -323,16 +344,29 @@ public class InputFieldUtilities {
     inputs.updateFilter(false);
     panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
-    int option =
-        JOptionPane.showConfirmDialog(
-            InputFieldUtilities.activeWindow,
-            panel,
+    var pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+    var options = inputs.stream().map(String::valueOf).toList();
+    var prompt = PendingPrompt.open(PendingPrompt.Kind.MULTIPLE, message, options);
+    var answer =
+        showPrompt(
+            pane,
             StringUtilities.basicTextWrap(message),
-            JOptionPane.OK_CANCEL_OPTION);
+            prompt,
+            () ->
+                Integer.valueOf(JOptionPane.OK_OPTION).equals(pane.getValue())
+                    ? selector.getSelectedValuesList().stream()
+                        .map(value -> String.valueOf(options.indexOf(String.valueOf(value))))
+                        .collect(Collectors.joining(","))
+                    : null);
 
-    return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
-        ? new ArrayList<>()
-        : selector.getSelectedValuesList();
+    var selected = new ArrayList<T>();
+    for (var index : StringUtilities.splitByComma(answer == null ? "" : answer)) {
+      var i = StringUtilities.parseInt(index);
+      if (!index.isEmpty() && i >= 0 && i < inputs.size()) {
+        selected.add(inputs.get(i));
+      }
+    }
+    return selected;
   }
 
   /**

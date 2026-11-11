@@ -2,13 +2,16 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 public class PendingPrompt {
   public enum Kind {
+    ALERT,
     CONFIRM,
     TEXT,
-    SELECT
+    SELECT,
+    MULTIPLE
   }
 
   private static final Object LOCK = new Object();
@@ -19,18 +22,29 @@ public class PendingPrompt {
   public final Kind kind;
   public final String message;
   public final List<String> options;
+  public final String initial;
   private final CompletableFuture<String> answer = new CompletableFuture<>();
 
   private PendingPrompt(
-      final long id, final Kind kind, final String message, final List<String> options) {
+      final long id,
+      final Kind kind,
+      final String message,
+      final List<String> options,
+      final String initial) {
     this.id = id;
     this.kind = kind;
     this.message = message;
     this.options = options;
+    this.initial = initial;
   }
 
   public static PendingPrompt open(
       final Kind kind, final String message, final List<String> options) {
+    return open(kind, message, options, null);
+  }
+
+  public static PendingPrompt open(
+      final Kind kind, final String message, final List<String> options, final String initial) {
     PendingPrompt prompt;
     synchronized (LOCK) {
       while (current != null) {
@@ -41,7 +55,7 @@ public class PendingPrompt {
           break;
         }
       }
-      prompt = new PendingPrompt(++lastId, kind, message, options);
+      prompt = new PendingPrompt(++lastId, kind, message, options, initial);
       current = prompt;
     }
     RelayServer.promptChanged();
@@ -69,6 +83,11 @@ public class PendingPrompt {
     }
     RelayServer.promptChanged();
     return true;
+  }
+
+  public void expireAfter(final long millis, final String value) {
+    CompletableFuture.delayedExecutor(millis, TimeUnit.MILLISECONDS)
+        .execute(() -> this.complete(value));
   }
 
   public boolean isDone() {
