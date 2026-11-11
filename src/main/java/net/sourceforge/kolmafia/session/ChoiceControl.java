@@ -7155,7 +7155,14 @@ public abstract class ChoiceControl {
   public static void visitChoice(final GenericRequest request) {
     String text = request.responseText;
     switch (ChoiceManager.lastChoice) {
-      case 525 -> IntriguingPuzzleBoxManager.visitChoice(text, ChoiceManager.lastDecision);
+      case 525 -> {
+        AdventureResult item = ChoiceManager.lastItemUsed;
+        ChoiceManager.lastItemUsed = null;
+        IntriguingPuzzleBoxManager.visitChoice(
+            text,
+            ChoiceManager.lastDecision,
+            item != null && item.getItemId() == ItemPool.INTRIGUING_PUZZLE_BOX);
+      }
 
       case 4 -> {
         // Finger-Lickin'... Death.

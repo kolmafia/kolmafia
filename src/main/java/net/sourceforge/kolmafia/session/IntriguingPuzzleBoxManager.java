@@ -109,7 +109,8 @@ public class IntriguingPuzzleBoxManager {
                     TreeMap::new)));
   }
 
-  public static void visitChoice(final String responseText, final int decision) {
+  public static void visitChoice(
+      final String responseText, final int decision, final boolean opened) {
     var choices = ChoiceUtilities.parseChoices(responseText);
     var codes =
         choices.values().stream()
@@ -125,16 +126,17 @@ public class IntriguingPuzzleBoxManager {
     int step = Preferences.getInteger(STEP_PREF);
 
     if (decision == 0) {
-      // Showing the step we're already on is a reload, so do nothing.
-      if (step >= 0 && codes.equals(options.get(step))) return;
-      // Any other page means the box was started again, so count from step 0 again.
-      step = 0;
+      if (opened) {
+        step = 0;
+      } else if (!codes.equals(options.get(step))) {
+        step = -1;
+      }
     } else {
-      // A button press needs a known step and an options entry to attach it to.
-      if (step < 0 || options.isEmpty()) return;
-
       var outcome = parseOutcome(responseText);
-      if (outcome == null) {
+      if (step < 0 || options.isEmpty()) {
+        if (!"buzz".equals(outcome)) return;
+        step = 0;
+      } else if (outcome == null) {
         // Without the outcome we can't tell what step comes next, so stop recording steps.
         step = -1;
       } else {

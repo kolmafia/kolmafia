@@ -9,6 +9,7 @@ import internal.helpers.Player;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -24,6 +25,7 @@ public class IntriguingPuzzleBoxManagerTest {
   }
 
   private static Cleanups visitFirstPage() {
+    ChoiceManager.lastItemUsed = ItemPool.get(ItemPool.INTRIGUING_PUZZLE_BOX);
     return Player.withChoice(
         (url, req) -> ChoiceControl.visitChoice(req),
         525,
@@ -102,8 +104,13 @@ public class IntriguingPuzzleBoxManagerTest {
               Networking.html(page))) {}
     }
 
-    private static void visitChain() {
+    private static void open() {
+      ChoiceManager.lastItemUsed = ItemPool.get(ItemPool.INTRIGUING_PUZZLE_BOX);
       visit(FIRST, 0);
+    }
+
+    private static void visitChain() {
+      open();
       visit(BUTTON_PRESS1, 3);
       visit(BUTTON_PRESS2, 1);
       visit(BUTTON_PRESS3, 1);
@@ -118,7 +125,7 @@ public class IntriguingPuzzleBoxManagerTest {
 
     @Test
     void firstPageWithoutButtonPressStartsStore() {
-      visit(FIRST, 0);
+      open();
       assertThat(
           Preferences.getString("intriguingPuzzleBoxOptions"), is("0:FCW,PB,RCCW,LCW,KCW,PR"));
       assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
@@ -126,7 +133,7 @@ public class IntriguingPuzzleBoxManagerTest {
 
     @Test
     void buttonPressWithoutStoreRecordsNothing() {
-      visit(BUTTON_PRESS1, 3);
+      visit(BUTTON_PRESS2, 1);
       assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(""));
       assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
     }
@@ -140,12 +147,38 @@ public class IntriguingPuzzleBoxManagerTest {
     }
 
     @Test
-    void restartingBoxResetsStepAndKeepsRecords() {
+    void visitingMidPuzzlePausesAndKeepsRecords() {
       visitChain();
       visit(FIRST, 0);
       assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(CHAIN_OPTIONS));
       assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(CHAIN_OUTCOMES));
+      assertThat(Preferences.getInteger("intriguingPuzzleBoxStep"), is(-1));
+    }
+
+    @Test
+    void openingBoxAgainResetsStepAndKeepsRecords() {
+      visitChain();
+      open();
+      assertThat(Preferences.getString("intriguingPuzzleBoxOptions"), is(CHAIN_OPTIONS));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(CHAIN_OUTCOMES));
       assertThat(Preferences.getInteger("intriguingPuzzleBoxStep"), is(0));
+    }
+
+    @Test
+    void unrecognisedPagePausesUntilBuzz() {
+      open();
+      visit(BUTTON_PRESS2, 0);
+      assertThat(Preferences.getInteger("intriguingPuzzleBoxStep"), is(-1));
+
+      visit(BUTTON_PRESS3, 1);
+      assertThat(Preferences.getInteger("intriguingPuzzleBoxStep"), is(-1));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
+
+      visit(BUTTON_PRESS1, 3);
+      assertThat(Preferences.getInteger("intriguingPuzzleBoxStep"), is(0));
+      assertThat(
+          Preferences.getString("intriguingPuzzleBoxOptions"), is("0:FCW,PB,RCCW,LCW,KCW,PR"));
+      assertThat(Preferences.getString("intriguingPuzzleBoxOutcomes"), is(""));
     }
   }
 
