@@ -3579,10 +3579,10 @@ public class RelayRequest extends PasswordHashRequest {
         var json = new JSONObject();
         json.put("id", prompt.id);
         if (!String.valueOf(prompt.id).equals(promptField)) {
-          json.put("kind", prompt.kind.name().toLowerCase());
-          json.put("message", prompt.message);
-          json.put("options", prompt.options);
-          json.put("initial", prompt.initial);
+          json.put("kind", prompt.request.kind());
+          json.put("message", prompt.request.message());
+          json.put("options", prompt.request.options());
+          json.put("initial", prompt.request.initial());
         }
         response.put("prompt", json);
       }

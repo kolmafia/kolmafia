@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-import java.util.List;
 import java.util.function.BooleanSupplier;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -89,7 +88,7 @@ class CommandQueueManagerTest {
 
   @Test
   void promptAnswerCompletesPromptWithoutQueueing() {
-    var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, "name?", List.of());
+    var prompt = UserPrompt.open(new UserPrompt.Text("name?", null));
 
     var queued = CommandQueueManager.executeCommand("promptanswer " + prompt.id + " Bob Smith");
 
@@ -100,7 +99,7 @@ class CommandQueueManagerTest {
 
   @Test
   void promptAnswerWithoutValueCancels() {
-    var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, "name?", List.of());
+    var prompt = UserPrompt.open(new UserPrompt.Text("name?", null));
 
     CommandQueueManager.executeCommand("promptanswer " + prompt.id);
 

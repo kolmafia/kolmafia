@@ -42,7 +42,7 @@ public class RelayServer implements Runnable {
   public record Event(long seq, String html) {}
 
   public record Batch(
-      long head, long refresh, long skipped, List<Event> events, UserPrompt prompt) {}
+      long head, long refresh, long skipped, List<Event> events, UserPrompt<?> prompt) {}
 
   private static final RelayServer INSTANCE = new RelayServer();
 

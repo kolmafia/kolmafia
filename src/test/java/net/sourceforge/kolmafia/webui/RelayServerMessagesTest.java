@@ -134,7 +134,7 @@ public class RelayServerMessagesTest {
           pool.submit(() -> RelayServer.pollMessages(snapshot.head(), snapshot.refresh(), 0));
 
       Thread.sleep(100);
-      var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, "name?", List.of());
+      var prompt = UserPrompt.open(new UserPrompt.Text("name?", null));
 
       assertThat(opening.get(5, TimeUnit.SECONDS).prompt(), sameInstance(prompt));
 
