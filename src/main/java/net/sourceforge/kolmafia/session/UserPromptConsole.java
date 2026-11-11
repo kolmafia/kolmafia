@@ -1,9 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -54,71 +52,47 @@ class UserPromptConsole {
   }
 
   private static <T> T select(final UserPrompt.Select<T> request) {
-    var choices = request.choices();
+    var options = request.options();
     var initial = request.initialChoice();
-    int initialIndex = 0;
     RequestLogger.printLine(request.message());
-
-    for (int i = 0; i < choices.size(); ++i) {
-      T o = choices.get(i);
-      RequestLogger.printLine("  " + (i + 1) + ": " + o);
-
-      if (initial != null && initial.equals(o)) {
-        initialIndex = i;
-      }
-    }
+    printOptions(options);
 
     RequestLogger.printLine(
         "(Enter a number from 1 to "
-            + choices.size()
+            + options.size()
             + ", leave blank to use "
-            + (initialIndex + 1)
+            + (Math.max(0, request.choices().indexOf(initial)) + 1)
             + ")");
 
-    String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
+    var reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
 
-    if (reply.equals("")) {
-      return initial;
-    }
-
-    int selectedIndex = StringUtilities.parseInt(reply) - 1;
-
-    if (selectedIndex > -1 && selectedIndex < choices.size()) {
-      return choices.get(selectedIndex);
-    }
-
-    return null;
+    return reply.equals("") ? initial : request.decode(toZeroBased(reply));
   }
 
   private static <T> List<T> multiple(final UserPrompt.Multiple<T> request) {
-    var filter = request.filter();
+    var options = request.options();
     RequestLogger.printLine(request.message());
-    List<T> visibleInputs = new ArrayList<>();
-
-    for (T o : request.choices()) {
-      if (filter == null || filter.isVisible(o)) {
-        visibleInputs.add(o);
-        RequestLogger.printLine("  " + (visibleInputs.size()) + ": " + o);
-      }
-    }
+    printOptions(options);
 
     RequestLogger.printLine(
-        "(Enter a comma-delimited list of values from 1 to " + visibleInputs.size() + ")");
+        "(Enter a comma-delimited list of values from 1 to " + options.size() + ")");
 
-    String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
+    var reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
+    var indices =
+        Arrays.stream(StringUtilities.splitByComma(reply))
+            .map(UserPromptConsole::toZeroBased)
+            .toList();
 
-    String[] replyList = StringUtilities.splitByComma(reply);
+    return request.decode(String.join(",", indices));
+  }
 
-    Set<T> selectedValues = new HashSet<>();
-
-    for (int i = 0; i < replyList.length; ++i) {
-      int selectedIndex = StringUtilities.parseInt(replyList[i]) - 1;
-
-      if (selectedIndex > -1 && selectedIndex < visibleInputs.size()) {
-        selectedValues.add(visibleInputs.get(selectedIndex));
-      }
+  private static void printOptions(final List<String> options) {
+    for (int i = 0; i < options.size(); ++i) {
+      RequestLogger.printLine("  " + (i + 1) + ": " + options.get(i));
     }
+  }
 
-    return new ArrayList<>(selectedValues);
+  private static String toZeroBased(final String index) {
+    return String.valueOf(StringUtilities.parseInt(index) - 1);
   }
 }
