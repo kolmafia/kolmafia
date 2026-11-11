@@ -955,7 +955,7 @@ public class Modifiers {
 
     return switch (lookup.type) {
       case ITEM -> overrideItem(lookup.getIntKey());
-      case THRONE -> overrideThrone(lookup);
+      case THRONE, BJORN -> overrideThrone(lookup);
       case LOC, ZONE -> true;
       default -> false;
     };

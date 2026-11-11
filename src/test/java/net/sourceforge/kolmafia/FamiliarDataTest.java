@@ -695,4 +695,20 @@ public class FamiliarDataTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "24,true", // Jill-O-Lantern is allowed despite not being undead
+    "56,true", // Scary Death Orb is allowed despite not being undead
+    "14,true", // Ghuol Whelp is undead
+    "15,false", // Baby Gravy Fairy is not allowed
+  })
+  void canEquipZombieSlayer(int familiarId, boolean shouldBeAllowed) {
+    var cleanups = withPath(Path.ZOMBIE_SLAYER);
+
+    try (cleanups) {
+      FamiliarData data = new FamiliarData(familiarId);
+      assertThat(data.canEquip(), is(shouldBeAllowed));
+    }
+  }
 }

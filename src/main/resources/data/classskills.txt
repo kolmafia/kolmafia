@@ -1176,6 +1176,13 @@
 7596	Exercise Liquidity	asset3.gif	combat	0	0
 7597	%fn, protect me!	msm_block.gif	combat	0	0
 7598	%fn, sing a song of my prowess	msm_song.gif	nc,effect,self	50	25
+7599
+7600	Irritating Riff	chamflute.gif	combat	2	0
+7601	Badenza	cadenza.gif	combat	0	0
+7602	Accordion Shove	accordionbash.gif	combat	5	0
+7603	Chiasso de los Muertos	cdlm.gif	combat	8	0
+7604	Juvenile Refrain	bawdyrefrain.gif	combat	11	0
+7605	Line of Zydeco	line.gif	combat	15	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

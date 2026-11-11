@@ -4180,6 +4180,7 @@ public class ItemPool {
   public static final int PRESSED_BLACK_GARDEN_ROSE = 12327;
   public static final int PARTIAL_TOMBSTONE = 12334;
   public static final int BED_OF_STONE_ROSES = 12336;
+  public static final int LEGENDARY_ACORNDION = 12392;
 
   private ItemPool() {}
 

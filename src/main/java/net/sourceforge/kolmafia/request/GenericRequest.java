@@ -121,6 +121,8 @@ public class GenericRequest implements Runnable {
       Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
       Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*['\"](.*?)['\"];");
+  private static final Pattern WORD_REPLACEMENT_PATTERN =
+      Pattern.compile("<i title=\"([^\"<>]+)\">[A-Za-z]+</i>");
   private static final Pattern ADVENTURE_AGAIN =
       Pattern.compile("\">Adventure Again \\(([^<]+)\\)</a>");
 
@@ -2210,6 +2212,12 @@ public class GenericRequest implements Runnable {
     return true;
   }
 
+  public static String removeWordReplacements(final String text) {
+    return WORD_REPLACEMENT_PATTERN
+        .matcher(text)
+        .replaceAll(m -> Matcher.quoteReplacement(StringUtilities.getEntityDecode(m.group(1))));
+  }
+
   /** This method allows classes to process a raw, unfiltered server response. */
   public void processResponse() {
     if (this.responseText == null) {
@@ -2228,6 +2236,8 @@ public class GenericRequest implements Runnable {
     if (this.isChatRequest || this.isStaticRequest) {
       return;
     }
+
+    this.responseText = GenericRequest.removeWordReplacements(this.responseText);
 
     if (this.isDescRequest || this.isQuestLogRequest) {
       ResponseTextParser.externalUpdate(this);

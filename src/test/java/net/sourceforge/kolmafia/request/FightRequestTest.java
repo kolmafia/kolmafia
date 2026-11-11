@@ -4864,4 +4864,97 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class ShortOrderCook {
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void tracksDropAndCharge(boolean bluePlate) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.SHORT_ORDER_COOK),
+              withProperty("_shortOrderCookCharge", 10),
+              withProperty("shortOrderCookLastDrop", "short white"));
+      if (bluePlate) {
+        cleanups.add(withEquipped(Slot.FAMILIAR, ItemPool.BLUE_PLATE));
+      }
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_short_order_cook_drop.html");
+        assertThat("shortOrderCookLastDrop", isSetTo("short stack of pancakes"));
+        assertThat("_shortOrderCookCharge", isSetTo(bluePlate ? 2 : 0));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(bluePlate ? 2 : 0));
+      }
+    }
+  }
+
+  @Nested
+  class LegendaryAcorndion {
+    @ParameterizedTest
+    @CsvSource({
+      "acorndion_bridgeparts,_legendaryAcornBridgeParts,The greasy roots",
+      "acorndion_fruit,_legendaryAcornFruit,You pluck a fruit",
+      "acorndion_seafruit,_legendaryAcornSeaFruit,One of the nearby flowering plants",
+    })
+    void tracksAcornRelatedDrops(String testfile, String prefName, String logText) {
+      RequestLoggerOutput.startStream();
+      var cleanups = withProperty(prefName, 2);
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_" + testfile + ".html");
+        String text = RequestLoggerOutput.stopStream();
+
+        assertThat(prefName, isSetTo(3));
+        assertThat(text, containsString(logText));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "acorndion_fungalreplica,_legendaryAcornFungalReplicas",
+      "acorndion_seacow,_legendaryAcornSeaCows",
+    })
+    void tracksAcornRelatedCombats(String testfile, String prefName) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withFight(0), withProperty(prefName, 2));
+
+      try (cleanups) {
+        String testFilename = "request/test_fight_" + testfile + ".html";
+        client.addResponse(
+            302, Map.of("location", List.of("fight.php?ireallymeanit=1737306988")), "");
+        client.addResponse(200, html(testFilename));
+        GenericRequest request = new GenericRequest("adventure.php?snarfblat=31");
+        request.run();
+
+        assertThat(prefName, isSetTo(3));
+      }
+    }
+
+    @Test
+    void handlesAcordionCombatSkill() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Briny Deeps"),
+              withEquipped(ItemPool.LEGENDARY_ACORNDION),
+              withProperty("_legendaryAcornsUsed", 1),
+              withProperty("_legendaryAcornZonesToday", "Barf Mountain:1|The Briny Deeps:1"));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_acorndion_accordionbash.html",
+            "fight.php?action=skill&whichskill=6032");
+        String text = RequestLoggerOutput.stopStream();
+
+        assertThat("_legendaryAcornsUsed", isSetTo(2));
+        assertThat("_legendaryAcornZonesToday", isSetTo("Barf Mountain:1|The Briny Deeps:2"));
+        assertThat(
+            text,
+            containsString(
+                "Legendary acorn planted: Monsters will be much less attracted to you in this zone"));
+      }
+    }
+  }
 }

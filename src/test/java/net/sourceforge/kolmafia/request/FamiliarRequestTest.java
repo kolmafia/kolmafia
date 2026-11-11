@@ -7,10 +7,15 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withRonin;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
@@ -22,6 +27,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -31,6 +37,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class FamiliarRequestTest {
   @BeforeEach
@@ -214,6 +221,164 @@ class FamiliarRequestTest {
         assertThat(familiar.getSoupWeight(), equalTo(soupWeight));
         var attrs = soupAttributes.split(",");
         assertThat(familiar.getSoupAttributes(), hasItems(attrs));
+      }
+    }
+  }
+
+  @Nested
+  class ShortOrderCookExperience {
+    @ParameterizedTest
+    @CsvSource({"'', 1", "11, 11;1", "1;11, 1;11"})
+    void tracksBonusMessage(String previous, String expected) {
+      // An observed bonus is authoritative even if we do not know about the cook yet.
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+              withProperty("shortOrderCookFamiliars", previous));
+
+      try (cleanups) {
+        FamiliarRequest.parseResponse(
+            "familiar.php?action=newfam&newfam=1&ajax=1",
+            html("request/test_familiar_short_order_cook_experience.html"));
+
+        assertThat("shortOrderCookFamiliars", isSetTo(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "1, 1",
+      "38, ''", // Inflatable Dodecapede
+      "120, ''", // Stocking Mimic
+      "280, 280", // Each Crimbo Ghost can receive its own bonus
+      "281, 281",
+      "282, 282"
+    })
+    void infersPreviousBonusOnlyForEligibleFamiliars(int familiarId, String expected) {
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrarium(familiarId),
+              withFamiliarInTerrarium(FamiliarPool.SHORT_ORDER_COOK),
+              withProperty("shortOrderCookFamiliars", ""));
+
+      try (cleanups) {
+        for (int i = 0; i < 2; i++) {
+          FamiliarRequest.parseResponse(
+              "familiar.php?action=newfam&newfam=" + familiarId,
+              "You take your familiar with you.");
+        }
+
+        assertThat("shortOrderCookFamiliars", isSetTo(expected));
+      }
+    }
+
+    @Test
+    void doesNotInferBonusWithoutCook() {
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+              withProperty("shortOrderCookFamiliars", ""));
+
+      try (cleanups) {
+        FamiliarRequest.parseResponse(
+            "familiar.php?action=newfam&newfam=1", "You take your familiar with you.");
+
+        assertThat("shortOrderCookFamiliars", isSetTo(""));
+      }
+    }
+
+    @Test
+    void doesNotInferBonusInStandardRonin() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.STANDARD),
+              withHardcore(false),
+              withRonin(true),
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+              withFamiliarInTerrarium(FamiliarPool.SHORT_ORDER_COOK),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Shorter-Order Cook"),
+              withProperty("shortOrderCookFamiliars", ""));
+
+      try (cleanups) {
+        assertThat(
+            FamiliarRequest.parseResponse(
+                "familiar.php?action=newfam&newfam=1", "You take your familiar with you."),
+            equalTo(true));
+
+        assertThat("shortOrderCookFamiliars", isSetTo(""));
+      }
+    }
+
+    @Test
+    void doesNotInferBonusInZombieSlayerRonin() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.ZOMBIE_SLAYER),
+              withHardcore(false),
+              withRonin(true),
+              withFamiliarInTerrarium(FamiliarPool.SPOOKY_PIRATE_SKELETON),
+              withFamiliarInTerrarium(FamiliarPool.SHORT_ORDER_COOK),
+              withProperty("shortOrderCookFamiliars", ""));
+
+      try (cleanups) {
+        assertThat(
+            FamiliarRequest.parseResponse(
+                "familiar.php?action=newfam&newfam=" + FamiliarPool.SPOOKY_PIRATE_SKELETON,
+                "You take your familiar with you."),
+            equalTo(true));
+
+        assertThat("shortOrderCookFamiliars", isSetTo(""));
+      }
+    }
+
+    @Test
+    void doesNotInferBonusWithGraftedCook() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.Z_IS_FOR_ZOOTOMIST),
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+              withFamiliarInTerrarium(FamiliarPool.SHORT_ORDER_COOK),
+              withProperty("zootGraftedHeadFamiliar", FamiliarPool.SHORT_ORDER_COOK),
+              withProperty("shortOrderCookFamiliars", ""));
+
+      try (cleanups) {
+        FamiliarRequest.parseResponse(
+            "familiar.php?action=newfam&newfam=1", "You take your familiar with you.");
+
+        assertThat("shortOrderCookFamiliars", isSetTo(""));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "You don't have a familiar of that type in your Terrarium."})
+    void doesNotTrackFailedSwitch(String responseText) {
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+              withFamiliarInTerrarium(FamiliarPool.SHORT_ORDER_COOK),
+              withProperty("shortOrderCookFamiliars", ""));
+
+      try (cleanups) {
+        assertThat(
+            FamiliarRequest.parseResponse("familiar.php?action=newfam&newfam=1", responseText),
+            equalTo(false));
+
+        assertThat("shortOrderCookFamiliars", isSetTo(""));
+      }
+    }
+
+    @Test
+    void resetsOnAscensionButNotRollover() {
+      var cleanups = withProperty("shortOrderCookFamiliars", "1;11");
+
+      try (cleanups) {
+        Preferences.resetDailies();
+        Preferences.resetPerRollover();
+        assertThat("shortOrderCookFamiliars", isSetTo("1;11"));
+
+        Preferences.resetPerAscension();
+        assertThat("shortOrderCookFamiliars", isSetTo(""));
       }
     }
   }

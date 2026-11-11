@@ -1378,10 +1378,11 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
-  private static boolean parseGarden(final String responseText) {
+  private static void parseGarden(final String responseText) {
+    var previousCropType = getCropType();
     clearCrop();
 
-    return findImage(
+    if (findImage(
             responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0, ItemPool.PUMPKIN_SEEDS, 0)
         || findImage(
             responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1, ItemPool.PUMPKIN_SEEDS, 1)
@@ -1571,7 +1572,12 @@ public class CampgroundRequest extends GenericRequest {
             "mushgarden.gif",
             new Mushroom(Preferences.getInteger("mushroomGardenCropLevel")))
         || findRockGarden(responseText)
-        || findBlackGarden(responseText);
+        || findBlackGarden(responseText)) {
+      if (previousCropType == CropType.BLACK_ROSE && getCropType() != CropType.BLACK_ROSE) {
+        // Replanting the roses preserves today's maze, but it will reset at rollover.
+        Preferences.setBoolean("_blackRoseGardenReset", true);
+      }
+    }
   }
 
   private static void parseTerminal(final String responseText) {

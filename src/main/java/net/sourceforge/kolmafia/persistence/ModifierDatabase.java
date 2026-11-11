@@ -451,45 +451,58 @@ public class ModifierDatabase {
   }
 
   public static final Modifiers getModifiers(final Lookup lookup) {
-    ModifierType originalType = null;
-    ModifierType type = lookup.type;
-    IntOrString key = lookup.getKey();
-    if (type == ModifierType.BJORN) {
-      originalType = type;
-      type = ModifierType.THRONE;
+    var key = lookup.getKey();
+    var modifiers = getCachedModifiers(lookup);
+    if (modifiers == null) {
+      return shieldDamageReduction(lookup.type, key, null);
     }
 
-    Modifiers modifiers = modifiersByName.get(type, key);
+    if (modifiers.variable) {
+      modifiers = new Modifiers(modifiers);
+      modifiers.override(lookup);
+      if (lookup.type == ModifierType.BJORN) {
+        modifiers.setLookup(new Lookup(ModifierType.BJORN, key));
+      }
+    }
+
+    return shieldDamageReduction(lookup.type, key, modifiers);
+  }
+
+  private static Lookup cacheLookup(final Lookup lookup) {
+    if (lookup.type != ModifierType.BJORN) return lookup;
+    return new Lookup(ModifierType.THRONE, lookup.getKey());
+  }
+
+  private static void putCachedModifiers(final Lookup lookup, final Modifiers modifiers) {
+    var cacheLookup = cacheLookup(lookup);
+    modifiersByName.put(cacheLookup.type, cacheLookup.getKey(), modifiers);
+  }
+
+  private static void removeCachedModifiers(final Lookup lookup) {
+    var cacheLookup = cacheLookup(lookup);
+    modifiersByName.remove(cacheLookup.type, cacheLookup.getKey());
+  }
+
+  private static Modifiers getCachedModifiers(final Lookup lookup) {
+    var cacheLookup = cacheLookup(lookup);
+    var modifiers = modifiersByName.get(cacheLookup.type, cacheLookup.getKey());
 
     if (modifiers == null) {
-      String modifierString = getModifierString(new Lookup(type, key));
+      var modifierString = getModifierString(cacheLookup);
 
       if (modifierString == null) {
-        // Items with no modifiers.txt entry can still have innate shield
-        // Damage Reduction derived from their equipment power.
-        return shieldDamageReduction(type, key, null);
+        return null;
       }
 
       modifiers = parseModifiers(lookup, modifierString);
 
-      if (originalType != null) {
-        modifiers.setLookup(new Lookup(originalType, key));
-      }
-
       modifiers.variable = modifiers.override(lookup);
       modifiers.applyPathModifiers();
 
-      modifiersByName.put(type, key, modifiers);
+      putCachedModifiers(lookup, modifiers);
     }
 
-    if (modifiers.variable) {
-      modifiers.override(lookup);
-      if (originalType != null) {
-        modifiers.setLookup(new Lookup(originalType, key));
-      }
-    }
-
-    return shieldDamageReduction(type, key, modifiers);
+    return modifiers;
   }
 
   /** Adds the innate shield Damage Reduction derived from equipment power, if any. */
@@ -1107,7 +1120,7 @@ public class ModifierDatabase {
   private static void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
     if (lookup.type == ModifierType.GENERATED) {
       // if generated, override exactly as given
-      modifiersByName.put(lookup.type, lookup.getKey(), value);
+      putCachedModifiers(lookup, value);
       return;
     }
     // otherwise, persist CARRIED_OVER attributes
@@ -1156,7 +1169,7 @@ public class ModifierDatabase {
       RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt: " + lookup);
       modifierStringsByName.put(lookup.type, key, value.toString());
     }
-    modifiersByName.put(lookup.type, key, value);
+    putCachedModifiers(lookup, value);
   }
 
   public static void overrideRemoveModifier(final ModifierType type, final int key) {
@@ -1168,7 +1181,7 @@ public class ModifierDatabase {
   }
 
   private static void overrideRemoveModifierInternal(final Lookup lookup) {
-    modifiersByName.remove(lookup.type, lookup.getKey());
+    removeCachedModifiers(lookup);
   }
 
   public static final void updateItem(final int itemId, final String known) {
@@ -1691,8 +1704,8 @@ public class ModifierDatabase {
     for (String piece : pieces) {
       Modifiers mods =
           switch (type) {
-            case MUTEX_I -> getModifiers(ModifierType.ITEM, piece);
-            case MUTEX_E -> getModifiers(ModifierType.EFFECT, piece);
+            case MUTEX_I -> getCachedModifiers(new Lookup(ModifierType.ITEM, piece));
+            case MUTEX_E -> getCachedModifiers(new Lookup(ModifierType.EFFECT, piece));
             default -> null;
           };
       if (mods == null) {

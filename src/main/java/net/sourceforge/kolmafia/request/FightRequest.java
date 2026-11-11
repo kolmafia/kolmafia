@@ -99,6 +99,8 @@ import net.sourceforge.kolmafia.session.GrimstoneManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
+import net.sourceforge.kolmafia.session.LegendaryAcorndionManager;
+import net.sourceforge.kolmafia.session.LegendaryAcorndionManager.AcornZoneEffect;
 import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
@@ -274,6 +276,8 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern SHORT_ORDER_EXP_PATTERN =
       Pattern.compile("and tosses a plate of food to (.*?), who gains ([0-9,]+) exp!");
+  private static final Pattern SHORT_ORDER_DROP_PATTERN =
+      Pattern.compile("(shortbeer|shortstack|shortbutter|shortwater|shortcoffee)\\.gif");
 
   private static final Pattern RED_BUTTON_PATTERN =
       Pattern.compile("manage to find and recover all but (\\d+) of the buttons");
@@ -1812,14 +1816,10 @@ public class FightRequest extends GenericRequest {
     return text;
   }
 
-  private static String removeWordReplacements(String text) {
-    return text.replaceAll("<i title=\"([A-Za-z]+)\">[A-Za-z]+</i>", "$1");
-  }
-
   public static final boolean processResults(
       final String urlString, final String encounter, String responseText) {
     responseText = FightRequest.removeGothy(responseText);
-    responseText = FightRequest.removeWordReplacements(responseText);
+    responseText = GenericRequest.removeWordReplacements(responseText);
     // Update the dartboard before parsing combat text
     FightRequest.parseDartboard(responseText);
     FightRequest.updateCombatData(urlString, encounter, responseText);
@@ -2304,6 +2304,9 @@ public class FightRequest extends GenericRequest {
       } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("_monsterHabitatsFightsLeft", 1, 0);
+      } else if (EncounterManager.isLegendaryAcornSeaCow(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.increment("_legendaryAcornSeaCows", 1, 33);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
@@ -2334,6 +2337,10 @@ public class FightRequest extends GenericRequest {
         EncounterManager.ignoreSpecialMonsters();
       } else if (LocketManager.isLocketFight(responseText)) {
         LocketManager.parseFight(monster);
+      }
+
+      if (FightRequest.currentEncounter.contains("fungal replica of")) {
+        Preferences.increment("_legendaryAcornFungalReplicas");
       }
 
       // Increment Turtle Blessing counter
@@ -4121,11 +4128,17 @@ public class FightRequest extends GenericRequest {
         }
         case FamiliarPool.SHORT_ORDER_COOK -> {
           int charge = Preferences.getInteger("_shortOrderCookCharge");
-          if (responseText.contains("shortbeer.gif")
-              || responseText.contains("shortstack.gif")
-              || responseText.contains("shortbutter.gif")
-              || responseText.contains("shortwater.gif")
-              || responseText.contains("shortcoffee.gif")) {
+          Matcher drop = SHORT_ORDER_DROP_PATTERN.matcher(responseText);
+          if (drop.find()) {
+            String item =
+                switch (drop.group(1)) {
+                  case "shortbeer" -> "short beer";
+                  case "shortstack" -> "short stack of pancakes";
+                  case "shortbutter" -> "short stick of butter";
+                  case "shortwater" -> "short glass of water";
+                  default -> "short white";
+                };
+            Preferences.setString("shortOrderCookLastDrop", item);
             if (KoLCharacter.hasEquipped(ItemPool.BLUE_PLATE, Slot.FAMILIAR)) {
               charge = 2;
             } else {
@@ -7412,6 +7425,22 @@ public class FightRequest extends GenericRequest {
       Preferences.decrement("toxicAssetCharges");
     }
 
+    // Legendary Acorndion
+    if (str.contains(
+        "The greasy roots coming out of the woodwork shudder as they secrete various disgusting materials.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornBridgeParts");
+    }
+    if (str.contains(
+        "You pluck a fruit from one of those fruit tree roots that are sticking down through the ceiling.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornFruit");
+    }
+    if (str.contains("One of the nearby flowering plants offers up its bounty to you.")) {
+      FightRequest.logText(str, status);
+      Preferences.increment("_legendaryAcornSeaFruit");
+    }
+
     FightRequest.handleLuckyGoldRing(str, status);
 
     // Serendipity
@@ -9058,6 +9087,29 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static void handleLegendaryAcorndion(int skillId, String text) {
+    if (!KoLCharacter.hasEquipped(ItemPool.LEGENDARY_ACORNDION)) {
+      return;
+    }
+
+    if (text.contains("Your acorndion's reserve of carbon is spent for the day.")) {
+      Preferences.setInteger("_legendaryAcornsUsed", 12);
+      return;
+    }
+
+    Preferences.increment("_legendaryAcornsUsed", 1, 12);
+    for (AcornZoneEffect zoneEffect : AcornZoneEffect.forSkill(skillId)) {
+      if (text.contains(zoneEffect.fightText)) {
+        LegendaryAcorndionManager.plantAcorn(KoLAdventure.lastVisitedLocation(), zoneEffect);
+        logText("Legendary acorn planted: " + zoneEffect.fightText);
+
+        // Parse current zone effects directly from the acorndion
+        DebugDatabase.itemDescriptionText(ItemPool.LEGENDARY_ACORNDION, true);
+        return;
+      }
+    }
+  }
+
   private static void logSkillAcquisition(String skillName, final TagStatus status) {
     FightRequest.logText("You acquire a skill: " + skillName, status);
   }
@@ -9937,8 +9989,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.CLUBFOOT,
           SkillPool.SHELL_UP,
           SkillPool.TERRACOTTA_ARMY,
-          SkillPool.PARAFFIN_PRISM,
-          SkillPool.ACCORDION_BASH -> {
+          SkillPool.PARAFFIN_PRISM -> {
         singleCastsThisFight.add(skillId);
         return;
       }
@@ -11355,6 +11406,24 @@ public class FightRequest extends GenericRequest {
                 || handleMeatShieldMaidenBlessing(
                     responseText, "Sleaze", EffectPool.BLESSING_TAX_SHIELD);
         skillSuccess |= blessingAcquired;
+      }
+      case SkillPool.DISSONANT_RIFF,
+          SkillPool.IRRITATING_RIFF,
+          SkillPool.CADENZA,
+          SkillPool.BADENZA,
+          SkillPool.ACCORDION_BASH,
+          SkillPool.ACCORDION_SHOVE,
+          SkillPool.CONCERTO_DE_LOS_MUERTOS,
+          SkillPool.CHIASSO_DE_LOS_MUERTOS,
+          SkillPool.BAWDY_REFRAIN,
+          SkillPool.JUVENILE_REFRAIN,
+          SkillPool.CONE_OF_ZYDECO,
+          SkillPool.LINE_OF_ZYDECO -> {
+        if (skillId == SkillPool.ACCORDION_BASH) {
+          singleCastsThisFight.add(skillId);
+        }
+
+        handleLegendaryAcorndion(skillId, responseText);
       }
     }
 

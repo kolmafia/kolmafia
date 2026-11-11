@@ -1122,6 +1122,7 @@ user	leafletCompleted	false	roa
 user	ledCandleDropped	false	roa
 user	ledCandleMode		roa
 user	legacyPoints	0
+user	legendaryAcornsPlanted		roa
 user	legendaryNoodlesAmygdala	0	roa
 user	legendaryNoodlesSkin	0	roa
 user	legendaryNoodlesStomach	0	roa
@@ -1575,6 +1576,8 @@ user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0	roa
 user	shenQuestItem
 user	shockingLickCharges	0	roa
+user	shortOrderCookFamiliars		roa
+user	shortOrderCookLastDrop		roa
 user	showForbiddenStores	false
 user	showGainsPerUnit	false
 user	showIgnoringStorePrices	false
@@ -1808,8 +1811,6 @@ user	useCrimboToysHardcore	false
 user	useCrimboToysSoftcore	true
 user	valueOfAdventure	500
 user	valueOfInventory	1.8
-user	valueOfStill	0
-user	valueOfTome	0
 user	verboseMaximizer	false
 user	vintnerCharge	0	roa
 user	vintnerWineEffect		roa
@@ -2009,6 +2010,7 @@ user	_bczSweatEquityCasts	0
 user	_bczBloodThinnerCasts	0
 user	_bczSpinalTapasCasts	0
 user	_bczPheromoneCocktailCasts	0
+user	_blackRoseGardenReset	false
 user	_blackRoseGardenToday	false
 user	_blessingShieldColdReceived	false
 user	_blessingShieldHotReceived	false
@@ -2502,6 +2504,13 @@ user	_leafTattooCrafted	false
 user	_leafMonstersFought	0
 user	_leavesBurned	0
 user	_leavesJumped	false
+user	_legendaryAcornBridgeParts	0
+user	_legendaryAcornFruit	0
+user	_legendaryAcornFungalReplicas	0
+user	_legendaryAcornSeaCows	0
+user	_legendaryAcornSeaFruit	0
+user	_legendaryAcornsUsed	0
+user	_legendaryAcornZonesToday
 user	_legendaryBeat	false
 user	_legendaryLasagmbieMana	0
 user	_legendaryNoodlesSpleen	false
