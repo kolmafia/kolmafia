@@ -105,8 +105,7 @@ public class IntriguingPuzzleBoxManagerTest {
     }
 
     private static void open() {
-      ChoiceManager.lastItemUsed = ItemPool.get(ItemPool.INTRIGUING_PUZZLE_BOX);
-      visit(FIRST, 0);
+      try (var cleanups = visitFirstPage()) {}
     }
 
     private static void visitChain() {
