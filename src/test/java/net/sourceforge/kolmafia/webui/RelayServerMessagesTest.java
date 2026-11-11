@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import net.sourceforge.kolmafia.utilities.PendingPrompt;
+import net.sourceforge.kolmafia.session.UserPrompt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -134,7 +134,7 @@ public class RelayServerMessagesTest {
           pool.submit(() -> RelayServer.pollMessages(snapshot.head(), snapshot.refresh(), 0));
 
       Thread.sleep(100);
-      var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, "name?", List.of());
+      var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, "name?", List.of());
 
       assertThat(opening.get(5, TimeUnit.SECONDS).prompt(), sameInstance(prompt));
 

@@ -10,7 +10,6 @@ import java.util.function.BooleanSupplier;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.utilities.PendingPrompt;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -90,7 +89,7 @@ class CommandQueueManagerTest {
 
   @Test
   void promptAnswerCompletesPromptWithoutQueueing() {
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, "name?", List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, "name?", List.of());
 
     var queued = CommandQueueManager.executeCommand("promptanswer " + prompt.id + " Bob Smith");
 
@@ -101,7 +100,7 @@ class CommandQueueManagerTest {
 
   @Test
   void promptAnswerWithoutValueCancels() {
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, "name?", List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, "name?", List.of());
 
     CommandQueueManager.executeCommand("promptanswer " + prompt.id);
 

@@ -9,7 +9,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.PendingPrompt;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /** Runs CLI commands one at a time, in the order they were queued, on a background thread. */
@@ -37,7 +36,7 @@ public class CommandQueueManager {
 
     if (command.startsWith("promptanswer ")) {
       var parts = command.split(" ", 3);
-      PendingPrompt.answer(StringUtilities.parseLong(parts[1]), parts.length > 2 ? parts[2] : null);
+      UserPrompt.answer(StringUtilities.parseLong(parts[1]), parts.length > 2 ? parts[2] : null);
       return false;
     }
 

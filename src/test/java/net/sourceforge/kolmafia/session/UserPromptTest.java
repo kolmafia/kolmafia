@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.utilities;
+package net.sourceforge.kolmafia.session;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-class PendingPromptTest {
+class UserPromptTest {
   @AfterEach
   void afterEach() {
-    var prompt = PendingPrompt.current();
+    var prompt = UserPrompt.current();
     if (prompt != null) {
       prompt.complete(null);
     }
@@ -22,25 +22,25 @@ class PendingPromptTest {
 
   @Test
   void answerCompletesMatchingPrompt() {
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, "name?", List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, "name?", List.of());
 
-    assertThat(PendingPrompt.current(), sameInstance(prompt));
-    assertThat(PendingPrompt.answer(prompt.id, "Bob"), is(true));
+    assertThat(UserPrompt.current(), sameInstance(prompt));
+    assertThat(UserPrompt.answer(prompt.id, "Bob"), is(true));
     assertThat(prompt.join(), is("Bob"));
-    assertThat(PendingPrompt.current(), nullValue());
+    assertThat(UserPrompt.current(), nullValue());
   }
 
   @Test
   void answerIgnoresWrongId() {
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.CONFIRM, "sure?", List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.CONFIRM, "sure?", List.of());
 
-    assertThat(PendingPrompt.answer(prompt.id + 1, "true"), is(false));
+    assertThat(UserPrompt.answer(prompt.id + 1, "true"), is(false));
     assertThat(prompt.isDone(), is(false));
   }
 
   @Test
   void firstAnswerWins() {
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.CONFIRM, "sure?", List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.CONFIRM, "sure?", List.of());
 
     assertThat(prompt.complete("true"), is(true));
     assertThat(prompt.complete("false"), is(false));
@@ -49,30 +49,30 @@ class PendingPromptTest {
 
   @Test
   void expiredPromptCompletesWithDefault() {
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.CONFIRM, "sure?", List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.CONFIRM, "sure?", List.of());
 
     prompt.expireAfter(10, "false");
 
     assertThat(prompt.join(), is("false"));
-    assertThat(PendingPrompt.current(), nullValue());
+    assertThat(UserPrompt.current(), nullValue());
   }
 
   @Test
   void answerBeforeExpiryWins() {
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.CONFIRM, "sure?", List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.CONFIRM, "sure?", List.of());
 
     prompt.expireAfter(60_000, "false");
-    PendingPrompt.answer(prompt.id, "true");
+    UserPrompt.answer(prompt.id, "true");
 
     assertThat(prompt.join(), is("true"));
   }
 
   @Test
   void secondPromptWaitsForFirst() throws Exception {
-    var first = PendingPrompt.open(PendingPrompt.Kind.TEXT, "one", List.of());
+    var first = UserPrompt.open(UserPrompt.Kind.TEXT, "one", List.of());
     var pool = Executors.newSingleThreadExecutor();
     try {
-      var second = pool.submit(() -> PendingPrompt.open(PendingPrompt.Kind.TEXT, "two", List.of()));
+      var second = pool.submit(() -> UserPrompt.open(UserPrompt.Kind.TEXT, "two", List.of()));
 
       Thread.sleep(100);
       assertThat(second.isDone(), is(false));

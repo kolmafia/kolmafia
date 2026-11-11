@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
@@ -52,8 +53,7 @@ public class InputFieldUtilities {
 
     var pane =
         new JOptionPane(StringUtilities.basicTextWrap(message), JOptionPane.INFORMATION_MESSAGE);
-    showPrompt(
-        pane, "", PendingPrompt.open(PendingPrompt.Kind.ALERT, message, List.of()), () -> "");
+    showPrompt(pane, "", UserPrompt.open(UserPrompt.Kind.ALERT, message, List.of()), () -> "");
   }
 
   public static final boolean confirm(final String message) {
@@ -76,7 +76,7 @@ public class InputFieldUtilities {
             StringUtilities.basicTextWrap(message),
             JOptionPane.QUESTION_MESSAGE,
             JOptionPane.YES_NO_OPTION);
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.CONFIRM, message, List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.CONFIRM, message, List.of());
     if (timeoutMillis > 0) {
       prompt.expireAfter(timeoutMillis, String.valueOf(defaultValue));
     }
@@ -109,7 +109,7 @@ public class InputFieldUtilities {
             JOptionPane.QUESTION_MESSAGE,
             JOptionPane.OK_CANCEL_OPTION);
     pane.setWantsInput(true);
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, message, List.of());
+    var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, message, List.of());
     if (timeoutMillis > 0) {
       prompt.expireAfter(timeoutMillis, defaultValue);
     }
@@ -139,7 +139,7 @@ public class InputFieldUtilities {
             JOptionPane.OK_CANCEL_OPTION);
     pane.setWantsInput(true);
     pane.setInitialSelectionValue(initial);
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.TEXT, message, List.of(), initial);
+    var prompt = UserPrompt.open(UserPrompt.Kind.TEXT, message, List.of(), initial);
     return showPrompt(pane, "", prompt, () -> inputValue(pane));
   }
 
@@ -261,7 +261,7 @@ public class InputFieldUtilities {
       final List<T> inputs,
       final Supplier<String> swingAnswer) {
     var options = inputs.stream().map(String::valueOf).toList();
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.SELECT, message, options);
+    var prompt = UserPrompt.open(UserPrompt.Kind.SELECT, message, options);
     var index = options.indexOf(showPrompt(pane, title, prompt, swingAnswer));
     return index < 0 ? null : inputs.get(index);
   }
@@ -269,7 +269,7 @@ public class InputFieldUtilities {
   private static String showPrompt(
       final JOptionPane pane,
       final String title,
-      final PendingPrompt prompt,
+      final UserPrompt prompt,
       final Supplier<String> swingAnswer) {
     var dialog = pane.createDialog(InputFieldUtilities.activeWindow, title);
     dialog.addWindowListener(
@@ -346,7 +346,7 @@ public class InputFieldUtilities {
 
     var pane = new JOptionPane(panel, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
     var options = inputs.stream().map(String::valueOf).toList();
-    var prompt = PendingPrompt.open(PendingPrompt.Kind.MULTIPLE, message, options);
+    var prompt = UserPrompt.open(UserPrompt.Kind.MULTIPLE, message, options);
     var answer =
         showPrompt(
             pane,

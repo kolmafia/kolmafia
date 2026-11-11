@@ -1,11 +1,11 @@
-package net.sourceforge.kolmafia.utilities;
+package net.sourceforge.kolmafia.session;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
-public class PendingPrompt {
+public class UserPrompt {
   public enum Kind {
     ALERT,
     CONFIRM,
@@ -15,7 +15,7 @@ public class PendingPrompt {
   }
 
   private static final Object LOCK = new Object();
-  private static volatile PendingPrompt current = null;
+  private static volatile UserPrompt current = null;
   private static long lastId = 0;
 
   public final long id;
@@ -25,7 +25,7 @@ public class PendingPrompt {
   public final String initial;
   private final CompletableFuture<String> answer = new CompletableFuture<>();
 
-  private PendingPrompt(
+  private UserPrompt(
       final long id,
       final Kind kind,
       final String message,
@@ -38,14 +38,13 @@ public class PendingPrompt {
     this.initial = initial;
   }
 
-  public static PendingPrompt open(
-      final Kind kind, final String message, final List<String> options) {
+  public static UserPrompt open(final Kind kind, final String message, final List<String> options) {
     return open(kind, message, options, null);
   }
 
-  public static PendingPrompt open(
+  public static UserPrompt open(
       final Kind kind, final String message, final List<String> options, final String initial) {
-    PendingPrompt prompt;
+    UserPrompt prompt;
     synchronized (LOCK) {
       while (current != null) {
         try {
@@ -55,14 +54,14 @@ public class PendingPrompt {
           break;
         }
       }
-      prompt = new PendingPrompt(++lastId, kind, message, options, initial);
+      prompt = new UserPrompt(++lastId, kind, message, options, initial);
       current = prompt;
     }
     RelayServer.promptChanged();
     return prompt;
   }
 
-  public static PendingPrompt current() {
+  public static UserPrompt current() {
     return current;
   }
 

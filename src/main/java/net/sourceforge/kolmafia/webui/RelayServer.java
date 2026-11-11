@@ -13,8 +13,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.PendingPrompt;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -42,7 +42,7 @@ public class RelayServer implements Runnable {
   public record Event(long seq, String html) {}
 
   public record Batch(
-      long head, long refresh, long skipped, List<Event> events, PendingPrompt prompt) {}
+      long head, long refresh, long skipped, List<Event> events, UserPrompt prompt) {}
 
   private static final RelayServer INSTANCE = new RelayServer();
 
@@ -248,7 +248,7 @@ public class RelayServer implements Runnable {
       if (since == null || since > lastMessageSeq) {
         var limit = since == null ? INITIAL_LINES : CAPACITY;
         return new Batch(
-            lastMessageSeq, refreshCount, 0, messagesSince(0, limit), PendingPrompt.current());
+            lastMessageSeq, refreshCount, 0, messagesSince(0, limit), UserPrompt.current());
       }
 
       var deadline = System.currentTimeMillis() + MAX_WAIT_MS;
@@ -262,12 +262,12 @@ public class RelayServer implements Runnable {
 
       var events = messagesSince(since, CAPACITY);
       var skipped = lastMessageSeq - since - events.size();
-      return new Batch(lastMessageSeq, refreshCount, skipped, events, PendingPrompt.current());
+      return new Batch(lastMessageSeq, refreshCount, skipped, events, UserPrompt.current());
     }
   }
 
   private static long promptId() {
-    var prompt = PendingPrompt.current();
+    var prompt = UserPrompt.current();
     return prompt == null ? 0 : prompt.id;
   }
 
