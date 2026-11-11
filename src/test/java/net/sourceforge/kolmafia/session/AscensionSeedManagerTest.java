@@ -4,6 +4,7 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
@@ -205,6 +206,59 @@ public class AscensionSeedManagerTest {
         try (cleanups) {
           Criterion c = new AscensionSeedManager.Dreadscroll();
           assertThat(c.matchesSeed(seed), is(expected));
+        }
+      }
+    }
+
+    @Nested
+    class IntriguingPuzzleBox {
+      private static List<String> optionsFor(int seed) {
+        var stored =
+            AscensionSeedManager.getPropertiesForSeed(seed).get("intriguingPuzzleBoxOptions");
+        return List.of(stored.substring("0:".length()).split(","));
+      }
+
+      private static Cleanups withStores(final String options, final String outcomes) {
+        return new Cleanups(
+            withProperty("intriguingPuzzleBoxOptions", options),
+            withProperty("intriguingPuzzleBoxOutcomes", outcomes));
+      }
+
+      @Test
+      void recordedOptionsNarrowToSeed() {
+        var seed = 1062694;
+        try (var cleanups = withStores("0:" + String.join(",", optionsFor(seed)), "")) {
+          List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
+          assertThat(matches, hasItem(seed));
+        }
+      }
+
+      @Test
+      void matchesOnlyTheSeedWithTheRecordedOptions() {
+        try (var cleanups = withStores("0:FCW,PB,RCCW,LCW,KCW,PR", "")) {
+          var criterion = new AscensionSeedManager.IntriguingPuzzleBox();
+          List<Integer> seeds = AscensionSeedManager.possibleAscensionSeeds();
+          assertThat(seeds.size(), is(1));
+          assertThat(criterion.matchesSeed(seeds.getFirst()), is(true));
+          assertThat(criterion.matchesSeed(1234567), is(false));
+        }
+      }
+
+      @Test
+      void calculatesRecordedOptionsForSeed() {
+        var criterion = new AscensionSeedManager.IntriguingPuzzleBox();
+        assertThat(
+            criterion.toProperties(1234567).get("intriguingPuzzleBoxOptions"),
+            is("0:PR,FCCW,LCW,BCW,PK,LCCW"));
+      }
+
+      @Test
+      void outcomesNarrowToSeedFromFirstPage() {
+        try (var cleanups =
+            withStores(
+                "0:FCW,PB,RCCW,LCW,KCW,PR|1:FCW,TCW,TCCW,PT,FCCW,PR|2:BCW,PB,PF,RCW,BCCW,KCW",
+                "0,1:click|0,3:buzz|1,1:click")) {
+          assertThat(AscensionSeedManager.possibleAscensionSeeds(), is(List.of(2340482)));
         }
       }
     }
