@@ -71,6 +71,8 @@ public class IntriguingPuzzleBoxManagerTest {
     "push the bottom face, PB",
     "push the front face, PF",
     "push the rear face, PK",
+    "Turn the front face clockwise., FCW",
+    "Push the rear face., PK",
   })
   void parsesOptionLines(String option, String code) {
     assertThat(IntriguingPuzzleBoxManager.parseOption(option), is(code));

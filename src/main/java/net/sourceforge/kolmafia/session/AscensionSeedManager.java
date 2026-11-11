@@ -598,8 +598,8 @@ public class AscensionSeedManager {
                 IntriguingPuzzleBoxManager.ACTIONS.size(),
                 IntriguingPuzzleBoxManager.ACTIONS.size() - 6);
       }
-      // Each recorded outcome is one roll of six, so it divides by the chance of that roll. A say
-      // also picks one of eighteen values.
+      // Each recorded outcome is one roll of six, so it divides by the chance of that roll. When
+      // the box says a number, it also picks one of eighteen.
       for (var outcome : outcomes.values().stream().flatMap(s -> s.values().stream()).toList()) {
         rv *=
             switch (outcome) {

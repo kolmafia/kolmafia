@@ -21,7 +21,8 @@ public class IntriguingPuzzleBoxManager {
 
   private static final Pattern OPTION =
       Pattern.compile(
-          "(turn|push) the (left|right|top|bottom|front|rear) face(?: (clockwise|counterclockwise))?");
+          "(turn|push) the (left|right|top|bottom|front|rear) face(?: (clockwise|counterclockwise))?\\.?",
+          Pattern.CASE_INSENSITIVE);
 
   private static final Pattern SAY_PATTERN = Pattern.compile("says &quot;(\\d+)&quot;");
 
@@ -33,11 +34,11 @@ public class IntriguingPuzzleBoxManager {
   static String parseOption(final String option) {
     var m = OPTION.matcher(option);
     if (!m.matches()) return null;
-    var face = FACE_MAP.get(m.group(2));
+    var face = FACE_MAP.get(m.group(2).toLowerCase());
     var direction = m.group(3);
-    if (m.group(1).equals("push")) return direction == null ? "P" + face : null;
+    if (m.group(1).equalsIgnoreCase("push")) return direction == null ? "P" + face : null;
     if (direction == null) return null;
-    return face + (direction.equals("clockwise") ? "CW" : "CCW");
+    return face + (direction.equalsIgnoreCase("clockwise") ? "CW" : "CCW");
   }
 
   // The outcome of a decision, from the result line. Null for text we don't recognise.
@@ -83,7 +84,6 @@ public class IntriguingPuzzleBoxManager {
     return pref.isBlank() ? List.of() : List.of(pref.split("\\|"));
   }
 
-  // The option codes shown at each step, ordered by step. An entry is "step:codes".
   static TreeMap<Integer, List<String>> parseOptions() {
     return entries(Preferences.getString(OPTIONS_PREF)).stream()
         .map(entry -> entry.split(":"))
@@ -95,7 +95,6 @@ public class IntriguingPuzzleBoxManager {
                 TreeMap::new));
   }
 
-  // The recorded outcomes, by step and then decision. An entry is "step,decision:outcome".
   static TreeMap<Integer, TreeMap<Integer, String>> parseOutcomes() {
     return entries(Preferences.getString(OUTCOMES_PREF)).stream()
         .map(entry -> entry.split(":"))
@@ -114,7 +113,7 @@ public class IntriguingPuzzleBoxManager {
     var choices = ChoiceUtilities.parseChoices(responseText);
     var codes =
         choices.values().stream()
-            .map(text -> parseOption(text.replaceAll("\\.$", "").toLowerCase()))
+            .map(IntriguingPuzzleBoxManager::parseOption)
             .filter(Objects::nonNull)
             .toList();
 
