@@ -256,6 +256,7 @@ public interface KoLConstants extends UtilityConstants {
   String SORTTABLE_JS = "sorttable.2.js";
   String STATIONARYBUTTONS_CSS = "stationarybuttons.3.css";
   String STATIONARYBUTTONS_JS = "stationarybuttons.2.js";
+  String USER_PROMPT_WEB_JS = "UserPromptWeb.js";
   String VOLCANOMAZE_JS = "volcanomaze.5.js";
 
   String[] RELAY_FILES = {
@@ -274,6 +275,7 @@ public interface KoLConstants extends UtilityConstants {
     SORTTABLE_JS,
     STATIONARYBUTTONS_CSS,
     STATIONARYBUTTONS_JS,
+    USER_PROMPT_WEB_JS,
     VOLCANOMAZE_JS,
   };
 

@@ -1,108 +1,50 @@
 package net.sourceforge.kolmafia.utilities;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BiFunction;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.session.UserPrompt;
 
 public class InputFieldUtilities {
-  private static GenericFrame activeWindow = null;
-
   private InputFieldUtilities() {}
 
-  public static void setActiveWindow(GenericFrame activeWindow) {
-    InputFieldUtilities.activeWindow = activeWindow;
-  }
-
   public static final void alert(final String message) {
-    if (StaticEntity.isHeadless()) {
-      RequestLogger.printLine(message);
-      KoLmafiaCLI.DEFAULT_SHELL.getNextLine("Press enter to continue...");
-
-      return;
-    }
-
-    JOptionPane.showMessageDialog(
-        InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
+    UserPrompt.ask(new UserPrompt.Alert(message));
   }
 
   public static final boolean confirm(final String message) {
-    if (StaticEntity.isHeadless()) {
-      RequestLogger.printLine(message);
-      RequestLogger.printLine("(Y/N, leave blank to choose N)");
+    return UserPrompt.ask(new UserPrompt.Confirm(message));
+  }
 
-      String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
-
-      return reply.equalsIgnoreCase("y");
-    }
-
-    return JOptionPane.YES_OPTION
-        == JOptionPane.showConfirmDialog(
-            InputFieldUtilities.activeWindow,
-            StringUtilities.basicTextWrap(message),
-            "",
-            JOptionPane.YES_NO_OPTION);
+  public static final boolean confirm(
+      final String message, final long timeoutMillis, final boolean defaultValue) {
+    return UserPrompt.ask(new UserPrompt.Confirm(message), timeoutMillis, defaultValue);
   }
 
   public static final String input(final String message) {
-    if (StaticEntity.isHeadless()) {
-      RequestLogger.printLine(message);
+    return UserPrompt.ask(new UserPrompt.Text(message, null));
+  }
 
-      String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
-
-      return reply;
-    }
-
-    return JOptionPane.showInputDialog(
-        InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
+  public static final String input(
+      final String message, final long timeoutMillis, final String defaultValue) {
+    return UserPrompt.ask(new UserPrompt.Text(message, null), timeoutMillis, defaultValue);
   }
 
   public static final String input(final String message, final String initial) {
-    if (StaticEntity.isHeadless()) {
-      RequestLogger.printLine(message);
-      RequestLogger.printLine("(leave blank to use " + initial + ")");
-
-      String reply =
-          KoLmafiaCLI.DEFAULT_SHELL.getNextLine(
-              message + "\n(Leave blank to use " + initial + ")\n > ");
-
-      if (reply.equals("")) {
-        reply = initial;
-      }
-
-      return reply;
-    }
-
-    return JOptionPane.showInputDialog(
-        InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message), initial);
+    return UserPrompt.ask(new UserPrompt.Text(message, initial));
   }
 
   public static final <T> T input(
       final String message, final LockableListModel<T> inputs, final T initial) {
-
     return input(message, inputs, null, initial);
   }
 
@@ -111,61 +53,7 @@ public class InputFieldUtilities {
       final LockableListModel<T> inputs,
       BiFunction<Object, Boolean, String> toHTMLFunction,
       final T initial) {
-    if (StaticEntity.isHeadless()) {
-      int initialIndex = 0;
-      RequestLogger.printLine(message);
-
-      for (int i = 0; i < inputs.size(); ++i) {
-        T o = inputs.get(i);
-        RequestLogger.printLine("  " + (i + 1) + ": " + o);
-
-        if (initial != null && initial.equals(o)) {
-          initialIndex = i;
-        }
-      }
-
-      RequestLogger.printLine(
-          "(Enter a number from 1 to "
-              + inputs.size()
-              + ", leave blank to use "
-              + (initialIndex + 1)
-              + ")");
-
-      String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
-
-      if (reply.equals("")) {
-        return initial;
-      }
-
-      int selectedIndex = StringUtilities.parseInt(reply) - 1;
-
-      if (selectedIndex > -1 && selectedIndex < inputs.size()) {
-        return inputs.get(selectedIndex);
-      }
-
-      return null;
-    }
-
-    JList<T> selector = new JList<>(inputs);
-
-    if (toHTMLFunction != null) {
-      selector.setCellRenderer(ListCellRendererFactory.getDefaultRenderer(toHTMLFunction));
-    }
-
-    JPanel panel = new JPanel(new BorderLayout());
-    panel.add(new AutoFilterTextField<>(selector, initial, true), BorderLayout.NORTH);
-    panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
-
-    int option =
-        JOptionPane.showConfirmDialog(
-            InputFieldUtilities.activeWindow,
-            panel,
-            StringUtilities.basicTextWrap(message),
-            JOptionPane.OK_CANCEL_OPTION);
-
-    return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
-        ? null
-        : selector.getSelectedValue();
+    return UserPrompt.ask(new UserPrompt.Select<>(message, inputs, initial, toHTMLFunction));
   }
 
   public static final <T> T input(final String message, final LockableListModel<T> inputs) {
@@ -173,10 +61,6 @@ public class InputFieldUtilities {
   }
 
   public static final <T> T input(final String message, final T[] inputs) {
-    if (inputs == null || inputs.length == 0) {
-      return null;
-    }
-
     return InputFieldUtilities.input(message, inputs, null);
   }
 
@@ -185,22 +69,7 @@ public class InputFieldUtilities {
       return null;
     }
 
-    // Keep simple input dialog (no AutoFilterTextField) if there
-    // are only a few input choices: booleans, stats, classes, ...
-    if (inputs.length <= 12) {
-      return (T)
-          JOptionPane.showInputDialog(
-              InputFieldUtilities.activeWindow,
-              StringUtilities.basicTextWrap(message),
-              "",
-              JOptionPane.INFORMATION_MESSAGE,
-              null,
-              inputs,
-              initial);
-    }
-
-    return InputFieldUtilities.input(
-        message, new LockableListModel<>(Arrays.asList(inputs)), initial);
+    return UserPrompt.ask(new UserPrompt.Select<>(message, Arrays.asList(inputs), initial, null));
   }
 
   public static final <T> List<T> multiple(
@@ -210,64 +79,7 @@ public class InputFieldUtilities {
 
   public static final <T> List<T> multiple(
       final String message, final LockableListModel<T> inputs, final ListElementFilter filter) {
-    if (StaticEntity.isHeadless()) {
-      RequestLogger.printLine(message);
-      List<T> visibleInputs = new ArrayList<>();
-
-      for (T o : inputs) {
-        if (filter.isVisible(o)) {
-          visibleInputs.add(o);
-          RequestLogger.printLine("  " + (visibleInputs.size()) + ": " + o);
-        }
-      }
-
-      RequestLogger.printLine(
-          "(Enter a comma-delimited list of values from 1 to " + visibleInputs.size() + ")");
-
-      String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
-
-      String[] replyList = StringUtilities.splitByComma(reply);
-
-      Set<T> selectedValues = new HashSet<>();
-
-      for (int i = 0; i < replyList.length; ++i) {
-        int selectedIndex = StringUtilities.parseInt(replyList[i]) - 1;
-
-        if (selectedIndex > -1 && selectedIndex < visibleInputs.size()) {
-          selectedValues.add(visibleInputs.get(i));
-        }
-      }
-
-      return new ArrayList<>(selectedValues);
-    }
-
-    JList<T> selector = new JList<>(inputs);
-    selector.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
-    JPanel panel = new JPanel(new BorderLayout());
-    panel.add(
-        filter == null
-            ? new AutoFilterTextField<>(selector)
-            : new AutoFilterTextField<>(selector) {
-              @Override
-              public boolean isVisible(Object o) {
-                return filter.isVisible(o) && super.isVisible(o);
-              }
-            },
-        BorderLayout.NORTH);
-    inputs.updateFilter(false);
-    panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
-
-    int option =
-        JOptionPane.showConfirmDialog(
-            InputFieldUtilities.activeWindow,
-            panel,
-            StringUtilities.basicTextWrap(message),
-            JOptionPane.OK_CANCEL_OPTION);
-
-    return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
-        ? new ArrayList<>()
-        : selector.getSelectedValuesList();
+    return UserPrompt.ask(new UserPrompt.Multiple<>(message, inputs, filter));
   }
 
   /**
