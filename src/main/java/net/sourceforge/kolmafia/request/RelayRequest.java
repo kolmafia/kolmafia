@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
@@ -3558,7 +3559,11 @@ public class RelayRequest extends PasswordHashRequest {
     try {
       var since = sinceField == null ? null : Long.parseLong(sinceField);
       var refresh = since == null ? 0 : Long.parseLong(this.getFormField("refresh", false));
-      var batch = RelayServer.pollMessages(since, refresh);
+      var promptField = this.getFormField("prompt", false);
+      var batch =
+          promptField == null
+              ? RelayServer.pollMessages(since, refresh)
+              : RelayServer.pollMessages(since, refresh, Long.parseLong(promptField));
 
       var events = new JSONArray();
       for (var event : batch.events()) {
@@ -3570,6 +3575,18 @@ public class RelayRequest extends PasswordHashRequest {
       response.put("refresh", batch.refresh());
       response.put("skipped", batch.skipped());
       response.put("events", events);
+      var prompt = batch.prompt();
+      if (prompt != null) {
+        var json = new JSONObject();
+        json.put("id", prompt.id);
+        if (!String.valueOf(prompt.id).equals(promptField)) {
+          json.put("kind", prompt.request.kind());
+          json.put("message", prompt.request.message());
+          json.put("options", prompt.request.options());
+          json.put("initial", prompt.request.initial());
+        }
+        response.put("prompt", json);
+      }
 
       this.contentType = "application/json";
       this.pseudoResponse("HTTP/1.1 200 OK", JSON.toJSONString(response));
@@ -3758,6 +3775,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  private static final String PROMPT_ANSWER = "promptanswer ";
+
   private void submitCommand(String command) {
     submitCommand(command, false, true);
   }
@@ -3767,6 +3786,12 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   private void submitCommand(String command, boolean suppressUpdate, boolean waitForCompletion) {
+    var decoded = GenericRequest.decodeField(command);
+    if (decoded.startsWith(PROMPT_ANSWER)) {
+      UserPrompt.answer(decoded.substring(PROMPT_ANSWER.length()));
+      return;
+    }
+
     // Wait until any restoration scripts finish running before
     // submitting a command to the CLI
 
@@ -3774,7 +3799,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     try {
       GenericRequest.suppressUpdate(suppressUpdate);
-      CommandQueueManager.executeCommand(GenericRequest.decodeField(command));
+      CommandQueueManager.executeCommand(decoded);
 
       if (waitForCompletion) {
         this.waitForCommandCompletion();

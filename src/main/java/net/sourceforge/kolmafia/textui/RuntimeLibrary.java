@@ -231,7 +231,6 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
-import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
@@ -4410,7 +4409,9 @@ public abstract class RuntimeLibrary {
       final Value message,
       final Value timeOut,
       final Value defaultBoolean) {
-    return InterruptableDialog.confirm(message, timeOut, defaultBoolean);
+    return DataTypes.makeBooleanValue(
+        InputFieldUtilities.confirm(
+            message.toString(), timeOut.intValue(), defaultBoolean.intValue() == 1));
   }
 
   public static Value user_prompt(ScriptRuntime controller, final Value message) {
@@ -4437,7 +4438,9 @@ public abstract class RuntimeLibrary {
       final Value message,
       final Value timeOut,
       final Value defaultString) {
-    return InterruptableDialog.input(message, timeOut, defaultString);
+    var result =
+        InputFieldUtilities.input(message.toString(), timeOut.intValue(), defaultString.toString());
+    return result == null ? defaultString : DataTypes.makeStringValue(result);
   }
 
   public static Value user_notify(
