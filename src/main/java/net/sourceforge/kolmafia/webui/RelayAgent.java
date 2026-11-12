@@ -250,9 +250,10 @@ public class RelayAgent extends Thread {
     if (pwd == null) {
       // KoLmafia internal pages use only "pwd"
       if (this.path.startsWith("/KoLmafia")) {
-        RequestLogger.printLine("Missing password hash");
-        RequestLogger.printLine("Path: \"" + this.path + "\"");
-        this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
+        if (debugging) {
+          RequestLogger.updateDebugLog("Missing password hash: " + this.path);
+        }
+        this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "Missing password hash");
         return false;
       }
       pwd = this.request.getFormField("phash");
@@ -261,9 +262,10 @@ public class RelayAgent extends Thread {
     // All other pages need either no password hash
     // or a valid password hash.
     if (pwd != null && !pwd.equals(GenericRequest.passwordHash)) {
-      RequestLogger.printLine("Password hash mismatch");
-      RequestLogger.printLine("Path: \"" + this.path + "\"");
-      this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
+      if (debugging) {
+        RequestLogger.updateDebugLog("Password hash mismatch: " + this.path);
+      }
+      this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "Password hash mismatch");
       return false;
     }
 
