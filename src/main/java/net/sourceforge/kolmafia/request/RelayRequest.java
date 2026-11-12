@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.request.ResearchBenchRequest.Research;
 import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CommandHistory;
 import net.sourceforge.kolmafia.session.CommandQueueManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -3541,6 +3542,8 @@ public class RelayRequest extends PasswordHashRequest {
       this.pseudoResponse("HTTP/1.1 302 Found", "/loggedout.php");
     } else if (path.endsWith("messageUpdate")) {
       this.handleCliEvents();
+    } else if (path.endsWith("commandHistory")) {
+      this.handleCommandHistory();
     } else if (path.endsWith("lookupLocation")) {
       RelayRequest.lastSafety =
           AdventureDatabase.getAdventureByURL(
@@ -3596,6 +3599,16 @@ public class RelayRequest extends PasswordHashRequest {
       Thread.currentThread().interrupt();
       this.pseudoResponse("HTTP/1.1 503 Service Unavailable", "");
     }
+  }
+
+  private void handleCommandHistory() {
+    var command = this.getFormField("cmd");
+    if (command != null) {
+      CommandHistory.add(command);
+    }
+
+    this.contentType = "application/json";
+    this.pseudoResponse("HTTP/1.1 200 OK", JSON.toJSONString(CommandHistory.get()));
   }
 
   public boolean pollForCompletion(String type) {

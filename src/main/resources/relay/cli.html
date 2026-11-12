@@ -171,8 +171,6 @@
 <script src="UserPromptWeb.js"></script>
 <script>
 	var MAX_LOG_NODES = 2000;
-	var HISTORY_KEY = "gcli.history";
-	var HISTORY_LIMIT = 200;
 	var LONG_POLL_TIMEOUT_MS = 25000;
 
 	var log = document.getElementById( "log" );
@@ -183,32 +181,27 @@
 	var refresh = 0;
 	var failures = 0;
 
-	var commandHistory = loadHistory();
-	var historyIndex = commandHistory.length;
+	var commandHistory = [];
+	var historyIndex = -1;
 	var draft = "";
+	var historySync = Promise.resolve();
 
-	function loadHistory()
+	function syncHistory( command )
 	{
-		try
-		{
-			var saved = JSON.parse( sessionStorage.getItem( HISTORY_KEY ) );
-			return Array.isArray( saved ) ? saved : [];
-		}
-		catch ( e )
-		{
-			return [];
-		}
-	}
+		var url = "/KoLmafia/commandHistory?" + ( command ? "cmd=" + encodeURIComponent( command ) + "&" : "" ) + "MAFIAHIT";
 
-	function saveHistory()
-	{
-		try
+		historySync = historySync.then( async function()
 		{
-			sessionStorage.setItem( HISTORY_KEY, JSON.stringify( commandHistory ) );
-		}
-		catch ( e )
-		{
-		}
+			try
+			{
+				var response = await fetch( url, { cache: "no-store" } );
+				commandHistory = await response.json();
+				historyIndex = Math.min( historyIndex, commandHistory.length - 1 );
+			}
+			catch ( e )
+			{
+			}
+		} );
 	}
 
 	function isNearBottom()
@@ -310,39 +303,31 @@
 
 		var command = input.value.trim();
 		input.value = "";
-		draft = "";
+		historyIndex = -1;
 
 		if ( command == "" )
 			return;
 
-		if ( commandHistory[ commandHistory.length - 1 ] != command )
-		{
-			commandHistory.push( command );
-			if ( commandHistory.length > HISTORY_LIMIT )
-				commandHistory.shift();
-			saveHistory();
-		}
-		historyIndex = commandHistory.length;
-
+		syncHistory( command );
 		submitCommand( command );
 		input.focus();
 	} );
 
 	input.addEventListener( "keydown", function( event )
 	{
-		if ( event.key == "ArrowUp" && historyIndex > 0 )
+		if ( event.key == "ArrowUp" && historyIndex + 1 < commandHistory.length )
 		{
 			event.preventDefault();
-			if ( historyIndex == commandHistory.length )
+			if ( historyIndex == -1 )
 				draft = input.value;
-			historyIndex--;
+			historyIndex++;
 			input.value = commandHistory[ historyIndex ];
 		}
-		else if ( event.key == "ArrowDown" && historyIndex < commandHistory.length )
+		else if ( event.key == "ArrowDown" && historyIndex >= 0 )
 		{
 			event.preventDefault();
-			historyIndex++;
-			input.value = historyIndex == commandHistory.length ? draft : commandHistory[ historyIndex ];
+			historyIndex--;
+			input.value = historyIndex == -1 ? draft : commandHistory[ historyIndex ];
 		}
 		else if ( event.key == "l" && ( event.ctrlKey || event.metaKey ) )
 		{
@@ -363,6 +348,7 @@
 
 	var prompt = UserPromptWeb( document.getElementById( "promptform" ), form, input, submitCommand );
 
+	input.addEventListener( "focus", function() { syncHistory(); } );
 	input.focus();
 	pollLoop();
 </script>
