@@ -71,7 +71,8 @@
 		background: var(--bg);
 	}
 
-	input[type="text"] {
+	input[type="text"],
+	select {
 		flex: 1;
 		min-width: 0;
 		padding: 10px 8px;
@@ -106,6 +107,43 @@
 		display: none;
 	}
 
+	form[hidden] {
+		display: none;
+	}
+
+	#promptform {
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		border-top: 2px solid var(--accent);
+		background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+	}
+
+	#promptform p {
+		flex: 1 0 100%;
+		margin: 0;
+		white-space: pre-wrap;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	#promptform p::before {
+		content: "Script is waiting for an answer";
+		display: block;
+		margin-bottom: 2px;
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--accent);
+	}
+
+	#promptform button[value="OK"],
+	#promptform button[value="Yes"] {
+		color: var(--bg);
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+
 	@media (pointer: coarse) {
 		#abort {
 			display: inline-block;
@@ -128,6 +166,9 @@
 	<button type="submit">exec</button>
 </form>
 
+<form id="promptform" autocomplete="off" hidden></form>
+
+<script src="UserPromptWeb.js"></script>
 <script>
 	var MAX_LOG_NODES = 2000;
 	var HISTORY_KEY = "gcli.history";
@@ -210,7 +251,7 @@
 		{
 			var url = since === null
 				? "/KoLmafia/messageUpdate?MAFIAHIT"
-				: "/KoLmafia/messageUpdate?since=" + since + "&refresh=" + refresh + "&MAFIAHIT";
+				: "/KoLmafia/messageUpdate?since=" + since + "&refresh=" + refresh + "&prompt=" + prompt.id() + "&MAFIAHIT";
 
 			try
 			{
@@ -229,6 +270,7 @@
 				if ( data.skipped > 0 )
 					appendError( data.skipped + " lines skipped (too much output between updates)" );
 				appendLines( data.events.join( "" ) );
+				prompt.show( data.prompt );
 				if ( reloadSidebar && window.top && window.top.charpane )
 					window.top.charpane.location.reload();
 				failures = 0;
@@ -318,6 +360,8 @@
 	{
 		submitCommand( "abort" );
 	} );
+
+	var prompt = UserPromptWeb( document.getElementById( "promptform" ), form, input, submitCommand );
 
 	input.focus();
 	pollLoop();
