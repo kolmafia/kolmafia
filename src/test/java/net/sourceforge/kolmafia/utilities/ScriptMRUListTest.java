@@ -11,6 +11,9 @@ import internal.helpers.Cleanups;
 import java.io.File;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -82,6 +85,30 @@ class ScriptMRUListTest {
         var list = new ScriptMRUList("testMRUList", "testMRULength");
 
         assertThat(list.getItems(), contains("x.ash", "y.ash"));
+      }
+    }
+
+    @Test
+    void addingInParallelDoesNotClearAnAbort() throws InterruptedException {
+      try (var cleanups = withEmptyList(3)) {
+        var list = new ScriptMRUList("testMRUList", "testMRULength");
+        var script = new File(KoLConstants.SCRIPT_LOCATION, "test.ash");
+
+        KoLmafia.updateDisplay(MafiaState.ABORT, "abort");
+        try {
+          list.addItemInParallel(script);
+
+          long deadline = System.currentTimeMillis() + 10000;
+          while (!Preferences.getString("testMRUList").contains("test.ash")) {
+            assertThat(
+                "timed out waiting for the MRU list update", System.currentTimeMillis() < deadline);
+            Thread.sleep(10);
+          }
+
+          assertThat(StaticEntity.getContinuationState(), is(MafiaState.ABORT));
+        } finally {
+          KoLmafia.forceContinue();
+        }
       }
     }
   }
