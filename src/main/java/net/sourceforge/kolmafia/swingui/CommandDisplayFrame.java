@@ -8,7 +8,7 @@ public class CommandDisplayFrame extends GenericFrame {
   public CommandDisplayFrame() {
     super("Graphical CLI");
 
-    this.setCenterComponent(new CommandDisplayPanel("commandBufferGCLI"));
+    this.setCenterComponent(new CommandDisplayPanel());
   }
 
   @Override
