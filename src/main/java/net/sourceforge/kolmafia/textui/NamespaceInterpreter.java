@@ -31,7 +31,10 @@ public class NamespaceInterpreter extends AshRuntime {
       for (Entry<File, Parser> entry : imports.entrySet()) {
         File file = entry.getKey();
         long date = entry.getValue().getModificationTimestamp();
-        shouldRefresh = date != file.lastModified();
+        if (date != file.lastModified()) {
+          shouldRefresh = true;
+          break;
+        }
       }
     }
 
