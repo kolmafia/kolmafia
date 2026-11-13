@@ -90,7 +90,10 @@ public class SortedListModel<E>
 
 		try
 		{
-			super.add( this.insertionIndexOf( 0, this.size() - 1, (Comparable) o ), o );
+			synchronized ( this.actualElements )
+			{
+				super.add( this.insertionIndexOf( 0, this.size() - 1, (Comparable) o ), o );
+			}
 			return true;
 		}
 		catch ( IllegalArgumentException e1 )
@@ -129,7 +132,15 @@ public class SortedListModel<E>
 	@Override
 	public int indexOf( final Object o )
 	{
-		return o == null ? -1 : this.normalIndexOf( 0, this.size() - 1, (Comparable) o );
+		if ( o == null )
+		{
+			return -1;
+		}
+
+		synchronized ( this.actualElements )
+		{
+			return this.normalIndexOf( 0, this.size() - 1, (Comparable) o );
+		}
 	}
 
 	/**
