@@ -35,7 +35,7 @@ global	combatHotkey7
 global	combatHotkey8
 global	combatHotkey9
 global	commandBufferGCLI
-global	commandBufferTabbedChat
+global	commandBufferLimit	20
 global	commandLineNamespace
 global	compactChessboard	false
 global	copyAsHTML	false
