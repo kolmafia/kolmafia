@@ -733,6 +733,13 @@ public class RelayRequest extends PasswordHashRequest {
     this.headers.add("Expires: " + StringUtilities.formatDate(expires));
   }
 
+  // Send the file's date and nothing else: the browser quotes it back on its
+  // next request and gets a 304 when the file has not changed. No thirty-day
+  // Expires like setLastModified, since a script being edited must never be cached.
+  private void setLastModifiedOnly(final File override) {
+    this.headers.add("Last-Modified: " + StringUtilities.formatDate(override.lastModified()));
+  }
+
   private void sendLocalFile(final String filename) {
     if (!RelayRequest.overrideMap.containsKey(filename)) {
       RelayRequest.overrideMap.put(filename, RelayRequest.findRelayFile(filename));
@@ -791,6 +798,11 @@ public class RelayRequest extends PasswordHashRequest {
       } else if (!filename.endsWith(".html")) {
         setLastModified(override);
       }
+    } else if (override.exists() && (filename.endsWith(".css") || filename.endsWith(".js"))) {
+      // A user-supplied stylesheet or script. Without a Last-Modified header a
+      // browser cannot ask whether it changed and must refetch it whole. The two
+      // extensions match RelayAgent.shouldSendNotModified.
+      setLastModifiedOnly(override);
     }
 
     if (this.isChatRequest) {

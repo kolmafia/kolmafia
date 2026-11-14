@@ -341,33 +341,58 @@ public class RelayAgent extends Thread {
     }
   }
 
-  private static boolean modifiedSince(String date, File file) {
-    return file != null && file.exists() && StringUtilities.parseDate(date) < file.lastModified();
+  // Compared at second resolution, which is all an HTTP date carries: a file
+  // saved mid-second would otherwise always look newer than the copy just sent.
+  static boolean notModifiedSince(String date, File file) {
+    if (file == null || !file.exists()) {
+      return false;
+    }
+
+    long since = StringUtilities.parseDate(date);
+    if (since <= 0) {
+      return false;
+    }
+
+    return (file.lastModified() / 1000L) <= (since / 1000L);
   }
 
   private boolean shouldSendNotModified() {
     // Things in the "images" directory come from KoL's image server.
     // We set the modification date to KoL's modification date.
     if (this.path.startsWith("/images")) {
-      return RelayAgent.modifiedSince(
+      return RelayAgent.notModifiedSince(
           this.isCheckingModified, RelayRequest.findLocalImage(this.path.substring(1)));
     }
 
-    // Things in the "relay" directory are either KoLmafia builtin
-    // files or are provided by user scripts.
-    if (!this.path.startsWith("/relay")) {
+    String file = RelayAgent.staticRelayFileName(this.path);
+    if (file == null) {
       return false;
     }
 
-    // If this request has arguments, don't check
-    if (this.path.contains("?")) {
-      return false;
+    return RelayAgent.notModifiedSince(this.isCheckingModified, RelayRequest.findRelayFile(file));
+  }
+
+  // The name findRelayFile() wants for this request: the path without its leading
+  // slash or query string, or null when the request is not a static file.
+  static String staticRelayFileName(String path) {
+    // Arguments are not part of the name, so "/chit.css?v=2" and "/chit.css" are
+    // the same file.
+    int query = path.indexOf("?");
+    String bare = query < 0 ? path : path.substring(0, query);
+
+    // An explicit allow-list: the relay folder also holds pages built from a
+    // live KoL response, such as basement.php, which must not be answered from
+    // a file's modification date.
+    if (!bare.endsWith(".css") && !bare.endsWith(".js")) {
+      return null;
     }
 
-    // Otherwise, look at the modification date of the file in the
-    // file system
-    return RelayAgent.modifiedSince(
-        this.isCheckingModified, RelayRequest.findRelayFile(this.path.substring(1)));
+    // A .js asked for with relay=true is an override script, not a file.
+    if (bare.endsWith(".js") && query >= 0 && path.contains("relay=true")) {
+      return null;
+    }
+
+    return bare.substring(1);
   }
 
   private void readServerResponse() throws IOException {
@@ -523,6 +548,12 @@ public class RelayAgent extends Thread {
     this.writer = new PrintStream(this.socket.getOutputStream(), false);
     this.writer.print(this.request.statusLine);
     this.writer.print("\r\n");
+
+    // One request per connection, but HTTP/1.1 makes persistence the default, so
+    // a server that will close has to say so. Without it a browser reuses a
+    // closed socket, and the lost request line becomes "Malformed HTTP request".
+    this.writer.print("Connection: close\r\n");
+
     this.request.printHeaders(this.writer);
     this.writer.print("\r\n");
     this.writer.write(this.request.rawByteBuffer);
