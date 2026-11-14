@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
@@ -96,11 +97,13 @@ public class LoginManager {
     LoginRequest.isLoggingIn(true);
 
     try {
+      PreferenceListenerRegistry.deferPreferenceListeners(true);
       ConcoctionDatabase.deferRefresh(true);
       LoginManager.initialize(username);
     } finally {
-      ConcoctionDatabase.deferRefresh(false);
       LoginRequest.isLoggingIn(false);
+      ConcoctionDatabase.deferRefresh(false);
+      PreferenceListenerRegistry.deferPreferenceListeners(false);
     }
 
     // Abort further processing in Valhalla.
