@@ -383,6 +383,7 @@ public class OptionsFrame extends GenericFrame {
         {"cacheMallSearches", "Cache mall search terms in mall search interface"},
         {"permitScriptNotify", "Allow scripts to send a one-time thank you message to the author"},
         {"saveSettingsOnSet", "Save options to disk whenever they change"},
+        {"saveZoneInfoOnSet", "Save adventure queues to disk whenever they change"},
         {},
         {"removeMalignantEffects", "Auto-remove malignant status effects"},
         {"switchEquipmentForBuffs", "Allow equipment changing when casting buffs"},

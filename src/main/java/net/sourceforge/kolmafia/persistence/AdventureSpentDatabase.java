@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 
 /*
@@ -83,6 +84,8 @@ public class AdventureSpentDatabase implements Serializable {
       }
     }
 
+    AdventureSpentDatabase.optionalSerialize();
+
     return keyAdded;
   }
 
@@ -104,6 +107,8 @@ public class AdventureSpentDatabase implements Serializable {
     int turns = AdventureSpentDatabase.TURNS.getOrDefault(loc, 0);
     AdventureSpentDatabase.TURNS.put(loc, turns + 1);
     totalTrackedTurns = totalTrackedTurns + 1;
+
+    AdventureSpentDatabase.optionalSerialize();
   }
 
   public static void setTurns(KoLAdventure adv, final int turns) {
@@ -124,6 +129,8 @@ public class AdventureSpentDatabase implements Serializable {
     int prevTurns = AdventureSpentDatabase.TURNS.getOrDefault(loc, 0);
     AdventureSpentDatabase.TURNS.put(loc, turns);
     totalTrackedTurns = totalTrackedTurns + (turns - prevTurns);
+
+    AdventureSpentDatabase.optionalSerialize();
   }
 
   public static int getTurns(KoLAdventure adv) {
@@ -150,6 +157,12 @@ public class AdventureSpentDatabase implements Serializable {
 
   public static int getTotalTrackedTurns() {
     return totalTrackedTurns;
+  }
+
+  public static void optionalSerialize() {
+    if (Preferences.getBoolean("saveZoneInfoOnSet")) {
+      serialize();
+    }
   }
 
   public static void serialize() {

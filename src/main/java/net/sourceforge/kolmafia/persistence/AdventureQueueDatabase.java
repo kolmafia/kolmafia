@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.TrackManager;
@@ -124,6 +125,8 @@ public class AdventureQueueDatabase implements Serializable {
       }
     }
 
+    AdventureQueueDatabase.optionalSerialize();
+
     return keyAdded;
   }
 
@@ -158,6 +161,8 @@ public class AdventureQueueDatabase implements Serializable {
     }
 
     zoneQueue.add(mon.getName());
+
+    AdventureQueueDatabase.optionalSerialize();
   }
 
   public static void enqueueNoncombat(String noncombatAdventureName, String name) {
@@ -168,6 +173,8 @@ public class AdventureQueueDatabase implements Serializable {
     if (zoneQueue == null) return;
 
     zoneQueue.add(name);
+
+    AdventureQueueDatabase.optionalSerialize();
   }
 
   public static RollingLinkedList<String> getZoneQueue(KoLAdventure adv) {
@@ -184,6 +191,12 @@ public class AdventureQueueDatabase implements Serializable {
 
   public static RollingLinkedList<String> getZoneNoncombatQueue(String adv) {
     return NONCOMBAT_QUEUE.get(adv);
+  }
+
+  public static void optionalSerialize() {
+    if (Preferences.getBoolean("saveZoneInfoOnSet")) {
+      serialize();
+    }
   }
 
   public static void serialize() {

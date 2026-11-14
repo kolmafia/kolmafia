@@ -151,6 +151,7 @@ global	retryFailedNetworkRequests	true
 global	saveSettingsOnSet	true
 global	saveState
 global	saveStateActive
+global	saveZoneInfoOnSet	true
 global	scriptButtonPosition	0
 global	scriptList	restore hp | restore mp
 global	separateTitleAndMenuBar	false
