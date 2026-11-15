@@ -38,6 +38,8 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
+import net.sourceforge.kolmafia.swingui.SwingUserInterface;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -325,6 +327,11 @@ class DrinkItemRequestTest {
     }
   }
 
+  private static Cleanups withSwingUserInterface() {
+    UserInterfaceManager.setUserInterface(new SwingUserInterface());
+    return new Cleanups(() -> UserInterfaceManager.setUserInterface(null));
+  }
+
   @Test
   @DisabledIf(
       value = "java.awt.GraphicsEnvironment#isHeadless",
@@ -343,7 +350,8 @@ class DrinkItemRequestTest {
             withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
             withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"),
             withHttpClientBuilder(builder),
-            Player.withUserId(12345));
+            Player.withUserId(12345),
+            withSwingUserInterface());
     try (cleanups) {
       var frame = new GenericPanelFrame("Test Frame");
       try {
