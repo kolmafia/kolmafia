@@ -6,17 +6,13 @@ import java.util.NoSuchElementException;
 
 /** A node of a parsed custom combat script: the lookup holds strategies, which hold actions. */
 public abstract class CustomCombatNode {
-  private final Object userObject;
+  private final String name;
   private final boolean allowsChildren;
   private final List<CustomCombatNode> children = new ArrayList<>();
 
-  protected CustomCombatNode(final Object userObject, final boolean allowsChildren) {
-    this.userObject = userObject;
+  protected CustomCombatNode(final String name, final boolean allowsChildren) {
+    this.name = name;
     this.allowsChildren = allowsChildren;
-  }
-
-  public Object getUserObject() {
-    return this.userObject;
   }
 
   public boolean getAllowsChildren() {
@@ -51,6 +47,6 @@ public abstract class CustomCombatNode {
 
   @Override
   public String toString() {
-    return this.userObject == null ? "" : this.userObject.toString();
+    return this.name == null ? "" : this.name;
   }
 }

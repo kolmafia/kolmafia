@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 
 class CustomCombatNodeTest {
   private static class Node extends CustomCombatNode {
-    Node(final Object userObject, final boolean allowsChildren) {
-      super(userObject, allowsChildren);
+    Node(final String name, final boolean allowsChildren) {
+      super(name, allowsChildren);
     }
   }
 
   @Test
-  void showsItsUserObject() {
+  void showsItsName() {
     assertThat(new Node("default", true).toString(), is("default"));
     assertThat(new Node(null, true).toString(), is(""));
   }
