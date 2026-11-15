@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 
 public class WindowOpenCommand extends AbstractCommand {
@@ -10,7 +12,8 @@ public class WindowOpenCommand extends AbstractCommand {
   @Override
   public void run(final String command, final String parameters) {
     if (command.equals("chat")) {
-      UserInterfaceManager.getUserInterface().showWindow("ChatManager");
+      KoLmafia.updateDisplay("Initializing chat interface...");
+      ChatManager.initialize();
       return;
     }
 
