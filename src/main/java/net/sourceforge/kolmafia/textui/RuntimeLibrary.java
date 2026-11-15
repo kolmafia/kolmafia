@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
@@ -229,6 +230,7 @@ import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
@@ -248,7 +250,6 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.Variable;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -4409,8 +4410,8 @@ public abstract class RuntimeLibrary {
       final Value timeOut,
       final Value defaultBoolean) {
     return DataTypes.makeBooleanValue(
-        UserInterfaceManager.getUserInterface()
-            .confirm(message.toString(), timeOut.intValue(), defaultBoolean.intValue() == 1));
+        InputFieldUtilities.confirm(
+            message.toString(), timeOut.intValue(), defaultBoolean.intValue() == 1));
   }
 
   public static Value user_prompt(ScriptRuntime controller, final Value message) {
@@ -4437,15 +4438,14 @@ public abstract class RuntimeLibrary {
       final Value message,
       final Value timeOut,
       final Value defaultString) {
-    return DataTypes.makeStringValue(
-        UserInterfaceManager.getUserInterface()
-            .input(message.toString(), timeOut.intValue(), defaultString.toString()));
+    var result =
+        InputFieldUtilities.input(message.toString(), timeOut.intValue(), defaultString.toString());
+    return result == null ? defaultString : DataTypes.makeStringValue(result);
   }
 
   public static Value user_notify(
       ScriptRuntime controller, final Value message, final Value onlyShowWhenHidden) {
-    UserInterfaceManager.getUserInterface()
-        .showBalloon(message.toString(), onlyShowWhenHidden.intValue() == 1);
+    SystemTrayFrame.showBalloon(message.toString(), onlyShowWhenHidden.intValue() == 1);
     return DataTypes.VOID_VALUE;
   }
 
@@ -4850,7 +4850,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value is_dark_mode(ScriptRuntime controller) {
-    return new Value(UserInterfaceManager.getUserInterface().isDarkTheme());
+    return new Value(KoLmafiaGUI.isDarkTheme());
   }
 
   public static Value is_headless(ScriptRuntime controller) {

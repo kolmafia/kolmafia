@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
-import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1480,7 +1479,7 @@ public class GearChangePanel extends JPanel {
         return;
       }
 
-      int desired = SwingInputFieldUtilities.getValue(this, maximum);
+      int desired = InputFieldUtilities.getValue(this, maximum);
       if (desired == maximum + 1) {
         this.setValue(0);
       } else if (desired < 0 || desired > maximum) {

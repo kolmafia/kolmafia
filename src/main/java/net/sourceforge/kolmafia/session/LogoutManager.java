@@ -112,6 +112,10 @@ public class LogoutManager {
     BuffBotHome.setBuffBotActive(false);
     ChatManager.dispose();
 
+    // Serialize adventure queue data
+    AdventureQueueDatabase.serialize();
+    AdventureSpentDatabase.serialize();
+
     // It we submitted a request during rollover, we are already
     // logged out and cannot do game actions
     if (GenericRequest.sessionId != null) {
@@ -128,10 +132,6 @@ public class LogoutManager {
       KoLmafiaCLI.DEFAULT_SHELL.executeLine(
           "spade prices https://kolmafia.us/scripts/updateprices.php");
     }
-
-    // Serialize adventure queue data
-    AdventureQueueDatabase.serialize();
-    AdventureSpentDatabase.serialize();
 
     // Log the user session is ending
 

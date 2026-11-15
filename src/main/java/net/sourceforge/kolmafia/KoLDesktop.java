@@ -17,6 +17,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
@@ -99,9 +100,21 @@ public class KoLDesktop extends GenericFrame {
       KoLmafiaGUI.constructFrame(frameName);
     }
 
-    this.pack();
+    Runnable layoutTabs =
+        () -> {
+          this.pack();
 
-    this.tabs.addChangeListener(new TabFocusingListener());
+          this.tabs.addChangeListener(new TabFocusingListener());
+        };
+    try {
+      if (SwingUtilities.isEventDispatchThread()) {
+        layoutTabs.run();
+      } else {
+        SwingUtilities.invokeAndWait(layoutTabs);
+      }
+    } catch (Exception e) {
+      StaticEntity.printStackTrace(e);
+    }
 
     KoLDesktop.isInitializing = false;
   }
@@ -145,17 +158,39 @@ public class KoLDesktop extends GenericFrame {
 
   public static final KoLDesktop getInstance() {
     if (KoLDesktop.INSTANCE == null) {
-      new KoLDesktop(StaticEntity.getVersion());
-      KoLDesktop.INSTANCE.initializeTabs();
-
-      if (Preferences.getBoolean("rememberDesktopSize")) {
-        int width = Preferences.getInteger("desktopWidth");
-        int height = Preferences.getInteger("desktopHeight");
-
-        KoLDesktop.INSTANCE.setSize(width, height);
+      Runnable createDesktop = () -> new KoLDesktop(StaticEntity.getVersion());
+      try {
+        if (SwingUtilities.isEventDispatchThread()) {
+          createDesktop.run();
+        } else {
+          SwingUtilities.invokeAndWait(createDesktop);
+        }
+      } catch (Exception e) {
+        StaticEntity.printStackTrace(e);
       }
 
-      KoLDesktop.INSTANCE.setVisible(true);
+      KoLDesktop.INSTANCE.initializeTabs();
+
+      Runnable showDesktop =
+          () -> {
+            if (Preferences.getBoolean("rememberDesktopSize")) {
+              int width = Preferences.getInteger("desktopWidth");
+              int height = Preferences.getInteger("desktopHeight");
+
+              KoLDesktop.INSTANCE.setSize(width, height);
+            }
+
+            KoLDesktop.INSTANCE.setVisible(true);
+          };
+      try {
+        if (SwingUtilities.isEventDispatchThread()) {
+          showDesktop.run();
+        } else {
+          SwingUtilities.invokeAndWait(showDesktop);
+        }
+      } catch (Exception e) {
+        StaticEntity.printStackTrace(e);
+      }
     }
 
     return KoLDesktop.INSTANCE;

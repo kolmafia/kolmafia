@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -605,7 +604,7 @@ public class ItemManageFrame extends GenericFrame {
         return;
       }
 
-      int desired = SwingInputFieldUtilities.getValue(this, 0);
+      int desired = InputFieldUtilities.getValue(this, 0);
       if (desired != ConcoctionDatabase.getPullsBudgeted()) {
         this.changing = true;
         ConcoctionDatabase.setPullsBudgeted(desired);

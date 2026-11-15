@@ -31,6 +31,11 @@ class MushroomManagerTest {
         });
   }
 
+  private static Cleanups withShouldNotOpenBrowser() {
+    MushroomManager.shouldOpenBrowser = false;
+    return new Cleanups(() -> MushroomManager.shouldOpenBrowser = true);
+  }
+
   @Test
   void savedLayoutPlansElevenDays() throws IOException {
     // A plot planted with knob spores every day never runs out, so the layout stops at the
@@ -40,7 +45,7 @@ class MushroomManagerTest {
     for (String[] day : original) Arrays.fill(day, "__");
     for (String[] day : planning) Arrays.fill(day, "kb");
 
-    try (var cleanups = withPlotsFolder()) {
+    try (var cleanups = new Cleanups(withPlotsFolder(), withShouldNotOpenBrowser())) {
       MushroomManager.saveLayout("MushroomManagerTest", original, planning);
 
       String layout =
@@ -60,7 +65,7 @@ class MushroomManagerTest {
     for (String[] day : planning) Arrays.fill(day, "__");
     Arrays.fill(planning[0], "kb");
 
-    try (var cleanups = withPlotsFolder()) {
+    try (var cleanups = new Cleanups(withPlotsFolder(), withShouldNotOpenBrowser())) {
       MushroomManager.saveLayout("MushroomManagerTest", original, planning);
 
       String layout =

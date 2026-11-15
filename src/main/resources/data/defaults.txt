@@ -35,7 +35,7 @@ global	combatHotkey7
 global	combatHotkey8
 global	combatHotkey9
 global	commandBufferGCLI
-global	commandBufferTabbedChat
+global	commandBufferLimit	20
 global	commandLineNamespace
 global	compactChessboard	false
 global	copyAsHTML	false
@@ -922,6 +922,9 @@ user	implementGlitchItem	false
 user	includeCodpieceGemsInOutfits	false
 user	intangibleAssetCharges	0	roa
 user	intenseCurrents	false	roa
+user	intriguingPuzzleBoxOptions		roa
+user	intriguingPuzzleBoxOutcomes		roa
+user	intriguingPuzzleBoxStep	0	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	ironicSwagger	0
 user	isMerkinGladiatorChampion	false	roa

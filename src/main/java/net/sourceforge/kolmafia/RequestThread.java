@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -17,8 +18,8 @@ import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public abstract class RequestThread {
@@ -235,8 +236,7 @@ public abstract class RequestThread {
     Integer requestId = RequestThread.openRequestSequence(force);
 
     try {
-      if (Preferences.getBoolean("debugFoxtrotRemoval")
-          && UserInterfaceManager.getUserInterface().isUiThread()) {
+      if (Preferences.getBoolean("debugFoxtrotRemoval") && SwingUtilities.isEventDispatchThread()) {
         StaticEntity.printStackTrace("Runnable in event dispatch thread");
       }
 
@@ -301,7 +301,7 @@ public abstract class RequestThread {
 
     if (KoLmafia.getLastMessage().endsWith("...")) {
       KoLmafia.updateDisplay("Requests complete.");
-      UserInterfaceManager.getUserInterface().showBalloon("Requests complete.", true);
+      SystemTrayFrame.showBalloon("Requests complete.");
       RequestLogger.printLine();
     }
 

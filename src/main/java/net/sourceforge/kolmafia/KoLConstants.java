@@ -24,9 +24,9 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
-import net.sourceforge.kolmafia.swingui.menu.PartialMRUList;
-import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
+import net.sourceforge.kolmafia.utilities.PartialMRUList;
+import net.sourceforge.kolmafia.utilities.ScriptMRUList;
 
 public interface KoLConstants extends UtilityConstants {
   // General constants used for calculations and formatting of
@@ -256,6 +256,7 @@ public interface KoLConstants extends UtilityConstants {
   String SORTTABLE_JS = "sorttable.2.js";
   String STATIONARYBUTTONS_CSS = "stationarybuttons.3.css";
   String STATIONARYBUTTONS_JS = "stationarybuttons.2.js";
+  String USER_PROMPT_WEB_JS = "UserPromptWeb.js";
   String VOLCANOMAZE_JS = "volcanomaze.5.js";
 
   String[] RELAY_FILES = {
@@ -274,6 +275,7 @@ public interface KoLConstants extends UtilityConstants {
     SORTTABLE_JS,
     STATIONARYBUTTONS_CSS,
     STATIONARYBUTTONS_JS,
+    USER_PROMPT_WEB_JS,
     VOLCANOMAZE_JS,
   };
 

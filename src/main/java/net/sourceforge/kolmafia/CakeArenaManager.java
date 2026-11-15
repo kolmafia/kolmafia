@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
-import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.session.FamiliarTrainingManager;
 
 public class CakeArenaManager {
   private static final LockableListModel<ArenaOpponent> opponentList = new LockableListModel<>();
@@ -35,7 +35,7 @@ public class CakeArenaManager {
     for (int i = 0; i < CakeArenaManager.opponentList.size(); ++i) {
       ArenaOpponent opponent = CakeArenaManager.opponentList.get(i);
       if (target.equals(opponent.toString())) {
-        FamiliarTrainingFrame.getResults().clear();
+        FamiliarTrainingManager.getResults().clear();
 
         int opponentId = opponent.getId();
         CakeArenaRequest request = new CakeArenaRequest(opponentId, eventId);
@@ -71,7 +71,7 @@ public class CakeArenaManager {
           text.append(body);
 
           text.append("<br><br>");
-          FamiliarTrainingFrame.getResults().append(text.toString());
+          FamiliarTrainingManager.getResults().append(text.toString());
         }
 
         KoLmafia.updateDisplay("Arena battles complete.");

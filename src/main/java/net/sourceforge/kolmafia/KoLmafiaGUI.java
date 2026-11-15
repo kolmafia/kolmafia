@@ -5,6 +5,7 @@ import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -94,7 +95,16 @@ public class KoLmafiaGUI {
   }
 
   public static void intializeMainInterfaces() {
-    LoginFrame.hideInstance();
+    Runnable hideLoginFrame = LoginFrame::hideInstance;
+    try {
+      if (SwingUtilities.isEventDispatchThread()) {
+        hideLoginFrame.run();
+      } else {
+        SwingUtilities.invokeAndWait(hideLoginFrame);
+      }
+    } catch (Exception e) {
+      StaticEntity.printStackTrace(e);
+    }
 
     KoLmafiaGUI.checkFrameSettings();
     String frameSetting = Preferences.getString("initialFrames");
@@ -102,8 +112,20 @@ public class KoLmafiaGUI {
 
     // Reset all the titles on all existing frames.
 
-    SystemTrayFrame.updateToolTip();
-    KoLDesktop.updateTitle();
+    Runnable updateTitles =
+        () -> {
+          SystemTrayFrame.updateToolTip();
+          KoLDesktop.updateTitle();
+        };
+    try {
+      if (SwingUtilities.isEventDispatchThread()) {
+        updateTitles.run();
+      } else {
+        SwingUtilities.invokeAndWait(updateTitles);
+      }
+    } catch (Exception e) {
+      StaticEntity.printStackTrace(e);
+    }
 
     // Instantiate the appropriate instance of the
     // frame that should be loaded based on the mode.
@@ -139,19 +161,40 @@ public class KoLmafiaGUI {
         KoLmafiaGUI.constructFrame(initialFrame);
       }
       String lastOne = initialFrames[initialFrames.length - 1];
-      Frame[] frames = Frame.getFrames();
-      for (Frame f : frames) {
-        if (f.getClass().getName().endsWith(lastOne)) {
-          f.requestFocus();
-          break;
+      Runnable focusLastFrame =
+          () -> {
+            Frame[] frames = Frame.getFrames();
+            for (Frame f : frames) {
+              if (f.getClass().getName().endsWith(lastOne)) {
+                f.requestFocus();
+                break;
+              }
+            }
+          };
+      try {
+        if (SwingUtilities.isEventDispatchThread()) {
+          focusLastFrame.run();
+        } else {
+          SwingUtilities.invokeAndWait(focusLastFrame);
         }
+      } catch (Exception e) {
+        StaticEntity.printStackTrace(e);
       }
     }
 
     // Figure out which user interface is being
     // used -- account for minimalist loadings.
 
-    LoginFrame.disposeInstance();
+    Runnable disposeLoginFrame = LoginFrame::disposeInstance;
+    try {
+      if (SwingUtilities.isEventDispatchThread()) {
+        disposeLoginFrame.run();
+      } else {
+        SwingUtilities.invokeAndWait(disposeLoginFrame);
+      }
+    } catch (Exception e) {
+      StaticEntity.printStackTrace(e);
+    }
   }
 
   public static void constructFrame(final String frameName) {

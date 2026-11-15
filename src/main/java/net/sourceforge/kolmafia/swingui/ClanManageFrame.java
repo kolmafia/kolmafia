@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
-import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 /**
@@ -169,7 +168,7 @@ public class ClanManageFrame extends GenericFrame {
     public void actionConfirmed() {
       KoLmafia.makeRequest(
           (Runnable) this.buffField.getSelectedItem(),
-          SwingInputFieldUtilities.getValue(this.countField));
+          InputFieldUtilities.getValue(this.countField));
     }
 
     @Override
@@ -248,23 +247,23 @@ public class ClanManageFrame extends GenericFrame {
     public void actionConfirmed() {
       RequestThread.postRequest(
           new ClanWarRequest(
-              SwingInputFieldUtilities.getValue(this.goodies),
-                  SwingInputFieldUtilities.getValue(this.oatmeal),
-              SwingInputFieldUtilities.getValue(this.recliners),
-                  SwingInputFieldUtilities.getValue(this.grunts),
-              SwingInputFieldUtilities.getValue(this.flyers),
-                  SwingInputFieldUtilities.getValue(this.archers)));
+              InputFieldUtilities.getValue(this.goodies),
+                  InputFieldUtilities.getValue(this.oatmeal),
+              InputFieldUtilities.getValue(this.recliners),
+                  InputFieldUtilities.getValue(this.grunts),
+              InputFieldUtilities.getValue(this.flyers),
+                  InputFieldUtilities.getValue(this.archers)));
     }
 
     @Override
     public void actionCancelled() {
       int totalValue =
-          SwingInputFieldUtilities.getValue(this.goodies) * 1000
-              + SwingInputFieldUtilities.getValue(this.oatmeal) * 3
-              + SwingInputFieldUtilities.getValue(this.recliners) * 1500
-              + SwingInputFieldUtilities.getValue(this.grunts) * 300
-              + SwingInputFieldUtilities.getValue(this.flyers) * 500
-              + SwingInputFieldUtilities.getValue(this.archers) * 500;
+          InputFieldUtilities.getValue(this.goodies) * 1000
+              + InputFieldUtilities.getValue(this.oatmeal) * 3
+              + InputFieldUtilities.getValue(this.recliners) * 1500
+              + InputFieldUtilities.getValue(this.grunts) * 300
+              + InputFieldUtilities.getValue(this.flyers) * 500
+              + InputFieldUtilities.getValue(this.archers) * 500;
 
       InputFieldUtilities.alert("This purchase will cost " + totalValue + " meat");
     }
@@ -291,7 +290,7 @@ public class ClanManageFrame extends GenericFrame {
     @Override
     public void actionConfirmed() {
       RequestThread.postRequest(
-          new ClanStashRequest(SwingInputFieldUtilities.getValue(this.amountField)));
+          new ClanStashRequest(InputFieldUtilities.getValue(this.amountField)));
     }
 
     @Override
@@ -439,7 +438,7 @@ public class ClanManageFrame extends GenericFrame {
 
     @Override
     public void actionCancelled() {
-      if (!SwingInputFieldUtilities.finalizeTable(ClanManageFrame.this.members)) {
+      if (!InputFieldUtilities.finalizeTable(ClanManageFrame.this.members)) {
         return;
       }
 
@@ -557,12 +556,11 @@ public class ClanManageFrame extends GenericFrame {
       // generate the snapshot.
 
       int mostAscensionsBoardSize =
-          SwingInputFieldUtilities.getValue(this.mostAscensionsBoardSizeField, Integer.MAX_VALUE);
-      int mainBoardSize =
-          SwingInputFieldUtilities.getValue(this.mainBoardSizeField, Integer.MAX_VALUE);
+          InputFieldUtilities.getValue(this.mostAscensionsBoardSizeField, Integer.MAX_VALUE);
+      int mainBoardSize = InputFieldUtilities.getValue(this.mainBoardSizeField, Integer.MAX_VALUE);
       int classBoardSize =
-          SwingInputFieldUtilities.getValue(this.classBoardSizeField, Integer.MAX_VALUE);
-      int maxAge = SwingInputFieldUtilities.getValue(this.maxAgeField, Integer.MAX_VALUE);
+          InputFieldUtilities.getValue(this.classBoardSizeField, Integer.MAX_VALUE);
+      int maxAge = InputFieldUtilities.getValue(this.maxAgeField, Integer.MAX_VALUE);
 
       boolean playerMoreThanOnce = this.playerMoreThanOnceOption.isSelected();
       boolean localProfileLink = this.localProfileOption.isSelected();

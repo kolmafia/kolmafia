@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel.TransferType;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MeatManageFrame extends GenericFrame {
   public MeatManageFrame() {
@@ -68,7 +68,7 @@ public class MeatManageFrame extends GenericFrame {
         RequestThread.postRequest(
             new ShrineRequest(
                 this.heroField.getSelectedIndex() + 1,
-                SwingInputFieldUtilities.getValue(this.amountField)));
+                InputFieldUtilities.getValue(this.amountField)));
       }
     }
 

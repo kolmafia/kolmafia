@@ -112,7 +112,7 @@ DESC_ITEM	futuristic collar		_futuristicCollarModifier=mods
 DESC_ITEM	latte lovers member's mug		latteModifier=mods
 DESC_ITEM	Kremlin's Greatest Briefcase		
 DESC_ITEM	Baseball Diamond		
-DESC_ITEM	legendary acorndion	<p>(\d+) of 12 acorns generated today.	_legendaryAcornsUsed=$1
+DESC_ITEM	legendary acorndion	<p>(\d+) of 12 Activations today.	_legendaryAcornsUsed=$1
 
 DESC_SKILL	Banishing Shout	currently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
 DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=[$1/2]

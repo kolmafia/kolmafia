@@ -22,6 +22,8 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 public abstract class MushroomManager {
   public static final int MAX_FORECAST = 11;
 
+  static boolean shouldOpenBrowser = true;
+
   private static final Pattern PLOT_PATTERN =
       Pattern.compile(
           "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>");
@@ -874,9 +876,11 @@ public abstract class MushroomManager {
       return;
     }
 
-    // Now that everything has been generated, open the HTML
-    // inside of a browser.
+    if (shouldOpenBrowser) {
+      // Now that everything has been generated, open the HTML
+      // inside of a browser.
 
-    RelayLoader.openSystemBrowser(preview);
+      RelayLoader.openSystemBrowser(preview);
+    }
   }
 }

@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.SwingInputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MeatTransferPanel extends LabeledPanel {
   private final TransferType transferType;
@@ -89,7 +89,7 @@ public class MeatTransferPanel extends LabeledPanel {
 
   @Override
   public void actionConfirmed() {
-    int amountToTransfer = SwingInputFieldUtilities.getValue(this.amountField);
+    int amountToTransfer = InputFieldUtilities.getValue(this.amountField);
 
     RequestThread.postRequest(this.getRequest(amountToTransfer));
   }

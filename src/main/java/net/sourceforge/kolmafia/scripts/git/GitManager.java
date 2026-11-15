@@ -35,14 +35,17 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.BranchTrackingStatus;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.RevWalkUtils;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
@@ -129,7 +132,6 @@ public class GitManager extends ScriptManager {
     }
     var folder = folderOpt.get();
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
-    var oldRoot = getRoot(projectPath);
     Git git;
     try {
       git = Git.open(projectPath.toFile());
@@ -144,6 +146,18 @@ public class GitManager extends ScriptManager {
       AbstractTreeIterator incomingTree;
       ObjectId currCommit;
       ObjectId incomingCommit;
+      try {
+        recoverInterruptedUpdate(git);
+      } catch (IOException | GitAPIException e) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR,
+            "Failed to update project "
+                + folder
+                + ": an earlier update was interrupted. Back up any edits, then delete and re-install the project: "
+                + e);
+        return false;
+      }
+      var oldRoot = getRoot(projectPath);
       try {
         currCommit = getCurrentCommit(repo);
         currTree = getCurrentCommitTree(repo);
@@ -283,6 +297,39 @@ public class GitManager extends ScriptManager {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to add file " + path + ": " + e);
       }
     }
+  }
+
+  /** Tries to harmlessly recover repos that were broken due to an interrupted update. */
+  private static void recoverInterruptedUpdate(Git git) throws IOException, GitAPIException {
+    var repo = git.getRepository();
+
+    // Can't pull when currently rebasing
+    if (repo.getRepositoryState().isRebasing()) {
+      // If user made changes, don't destroy edits
+      if (git.status().call().hasUncommittedChanges()) {
+        throw new WrongRepositoryStateException("A rebase is in progress with uncommitted edits");
+      }
+      git.rebase().setOperation(Operation.ABORT).call();
+    }
+
+    // We're on a branch, we don't need to reattach HEAD
+    if (repo.exactRef(Constants.HEAD).isSymbolic()) return;
+
+    // If user committed while detached, reattaching would lose those commits
+    try (var walk = new RevWalk(repo)) {
+      var head = walk.parseCommit(repo.resolve(Constants.HEAD));
+      var branchesAndTags = repo.getRefDatabase().getRefsByPrefix(Constants.R_REFS);
+      if (RevWalkUtils.findBranchesReachableFrom(head, walk, branchesAndTags).isEmpty()) {
+        throw new WrongRepositoryStateException("HEAD has commits that are not on any branch");
+      }
+    }
+
+    // Only reattach if there's one branch, otherwise we may pick the wrong branch
+    var branches = repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
+    if (branches.size() != 1) {
+      throw new WrongRepositoryStateException("HEAD is detached and there is no single branch");
+    }
+    git.checkout().setName(branches.get(0).getName()).call();
   }
 
   /** Get the current commit. */
