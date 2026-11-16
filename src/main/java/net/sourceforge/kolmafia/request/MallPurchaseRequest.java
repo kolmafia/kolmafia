@@ -384,6 +384,12 @@ public class MallPurchaseRequest extends PurchaseRequest {
       Pattern.compile(
           "You may only buy ([\\d,]+) of this item per day from this store\\. You have already purchased ([\\d,]+)");
 
+  // A purchase that did not happen: the listing is gone or repriced,
+  // or the store failed to yield. Neither is a parse failure.
+  private static boolean itemNotPurchased(final String responseText) {
+    return responseText.contains("This store doesn't") || responseText.contains("failed to yield");
+  }
+
   @Override
   public void processResults() {
     MallPurchaseRequest.parseResponse(this.getURLString(), this.responseText);
@@ -441,8 +447,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     // If the person swapped the price on the item, or you got a "failed
     // to yield" message, you may wish to re-attempt the purchase.
 
-    if (this.responseText.contains("This store doesn't")
-        || this.responseText.contains("failed to yield")) {
+    if (itemNotPurchased(this.responseText)) {
       Matcher itemChangedMatcher =
           Pattern.compile(
                   "<td valign=center><b>"
@@ -547,6 +552,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
       // check available Meat before attempting a Mall Purchase.
       // The Relay Browser has no such constraints, so don't
       // bother trying to parse the response.
+      return;
+    }
+
+    if (itemNotPurchased(responseText)) {
+      // Item no longer available from this store at this price, but no error occurred.
       return;
     }
 
