@@ -774,4 +774,13 @@ class EncounterManagerTest {
     assertThat("dailyDungeonDone", isSetTo(true));
     assertThat("_lastDailyDungeonRoom", isSetTo(15));
   }
+
+  @Test
+  void isHoldHandsMonster() {
+    String html = html("request/test_fight_hold_hands_monster.html");
+
+    boolean actual = EncounterManager.isHoldHandsMonster(html);
+
+    assertThat(actual, equalTo(true));
+  }
 }
