@@ -11013,7 +11013,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.HOLD_HANDS -> {
         if (responseText.contains("stop the battle for a moment and hold hands with you")) {
           Preferences.setString("holdHandsMonster", MonsterStatusTracker.getLastMonsterName());
-          Preferences.setInteger("holdHandsMonsterCount", 3);
+          Preferences.setInteger("holdHandsMonsterCount", 5);
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
           if (lastLocation != null) {
             Preferences.setString("holdHandsLocation", lastLocation.getAdventureName());
