@@ -217,5 +217,16 @@ public class MallPurchaseRequestTest {
         assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
       }
     }
+
+    @Test
+    public void beatenToTheItemDoesNotSetError() {
+      var cleanups = withContinuationState();
+      try (cleanups) {
+        String urlString =
+            "mallstore.php?whichstore=12345&buying=1&ajax=1&whichitem=123.100&quantity=1";
+        MallPurchaseRequest.parseResponse(urlString, html("request/test_mall_beaten_to_it.html"));
+        assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      }
+    }
   }
 }
