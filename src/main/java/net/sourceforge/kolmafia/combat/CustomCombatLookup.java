@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.swing.tree.DefaultMutableTreeNode;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -15,7 +14,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class CustomCombatLookup extends DefaultMutableTreeNode {
+public class CustomCombatLookup extends CustomCombatNode {
   private final List<CombatEncounterKey> childKeys = new LinkedList<>();
   private final Map<String, CustomCombatStrategy> childLookup = new TreeMap<>();
 

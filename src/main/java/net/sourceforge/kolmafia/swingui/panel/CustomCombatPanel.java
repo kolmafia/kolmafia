@@ -30,6 +30,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -40,6 +41,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
+import net.sourceforge.kolmafia.combat.CustomCombatNode;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -138,9 +140,19 @@ public class CustomCombatPanel extends JPanel {
     this.refreshCombatTree();
   }
 
+  private static DefaultMutableTreeNode toTreeNode(final CustomCombatNode node) {
+    DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node, node.getAllowsChildren());
+
+    for (int i = 0; i < node.getChildCount(); ++i) {
+      treeNode.add(CustomCombatPanel.toTreeNode(node.getChildAt(i)));
+    }
+
+    return treeNode;
+  }
+
   /** Internal class used to handle everything related to displaying custom combat. */
   public void refreshCombatTree() {
-    this.combatModel.setRoot(CombatActionManager.getStrategyLookup());
+    this.combatModel.setRoot(CustomCombatPanel.toTreeNode(CombatActionManager.getStrategyLookup()));
     this.combatTree.setRootVisible(false);
 
     for (int i = 0; i < this.combatTree.getRowCount(); ++i) {

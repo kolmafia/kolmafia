@@ -1,9 +1,8 @@
 package net.sourceforge.kolmafia.combat;
 
 import java.io.PrintStream;
-import javax.swing.tree.DefaultMutableTreeNode;
 
-public class CustomCombatAction extends DefaultMutableTreeNode {
+public class CustomCombatAction extends CustomCombatNode {
   private final int index;
   private final String action;
   private final String indent;
