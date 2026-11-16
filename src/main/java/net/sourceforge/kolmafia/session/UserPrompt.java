@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.swingui.UserPromptDialog;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
@@ -120,7 +120,7 @@ public final class UserPrompt<R> {
     if (timeoutMillis > 0) {
       prompt.expireAfter(timeoutMillis, fallback);
     }
-    UserPromptDialog.show(prompt);
+    UserInterfaceManager.getUserInterface().showPrompt(prompt);
     return prompt.join();
   }
 
@@ -177,6 +177,16 @@ public final class UserPrompt<R> {
   public void expireAfter(final long millis, final R fallback) {
     CompletableFuture.delayedExecutor(millis, TimeUnit.MILLISECONDS)
         .execute(() -> this.complete(fallback));
+  }
+
+  public void askOnConsole() {
+    R reply = null;
+    try {
+      reply = UserPromptConsole.ask(this.request);
+    } finally {
+      // always close the prompt, or every later prompt waits forever
+      this.complete(reply);
+    }
   }
 
   public boolean isDone() {
