@@ -2309,6 +2309,8 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("_legendaryAcornSeaCows", 1, 33);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
+      } else if (EncounterManager.isHoldHandsMonster(responseText)) {
+        Preferences.decrement("holdHandsMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
         // This is earlier in the chain than the things above, but since
         // there's no message it's easiest to check it after
@@ -2316,9 +2318,6 @@ public class FightRequest extends GenericRequest {
       } else if (CrystalBallManager.isCrystalBallMonster()) {
         // This similarly has no message so can be checked at the end
         CrystalBallManager.clear();
-      } else if (EncounterManager.isHoldHandsMonster()) {
-        // there's no message for this one either
-        Preferences.decrement("holdHandsMonsterCount", 1, 0);
       } else if (EncounterManager.isRainManEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
       } else if (EncounterManager.isSpookyVHSTapeMonster(responseText, true)) {
