@@ -14,6 +14,8 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import net.sourceforge.kolmafia.ui.UserInterface;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -158,6 +160,52 @@ class UserPromptTest {
     void kindIsRecordName() {
       assertThat(new UserPrompt.Confirm("sure?").kind(), is("confirm"));
       assertThat(new UserPrompt.Multiple<>("pick", List.of(), null).kind(), is("multiple"));
+    }
+  }
+
+  @Nested
+  class Asking {
+    @AfterEach
+    void afterEach() {
+      UserInterfaceManager.setUserInterface(null);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void asksThroughTheUserInterface() {
+      UserInterfaceManager.setUserInterface(
+          new UserInterface() {
+            @Override
+            public <R> void showPrompt(final UserPrompt<R> prompt) {
+              ((UserPrompt<Boolean>) prompt).complete(true);
+            }
+          });
+
+      assertThat(UserPrompt.ask(new UserPrompt.Confirm("sure?")), is(true));
+      assertThat(UserPrompt.current(), nullValue());
+    }
+
+    @Test
+    void fallsBackWhenNobodyAnswersInTime() {
+      UserInterfaceManager.setUserInterface(
+          new UserInterface() {
+            @Override
+            public <R> void showPrompt(final UserPrompt<R> prompt) {}
+          });
+
+      assertThat(UserPrompt.ask(new UserPrompt.Text("name?", null), 10, "Bob"), is("Bob"));
+    }
+
+    @Test
+    void asksOnTheConsoleByDefault() {
+      assertThat(UserPrompt.ask(new UserPrompt.Text("name?", null)), nullValue());
+      assertThat(UserPrompt.current(), nullValue());
+    }
+
+    @Test
+    void closesAConsolePromptThatFails() {
+      assertThrows(RuntimeException.class, () -> UserPrompt.ask(new UserPrompt.Confirm("sure?")));
+      assertThat(UserPrompt.current(), nullValue());
     }
   }
 }
