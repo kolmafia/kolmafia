@@ -116,11 +116,13 @@ import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.SwingUserInterface;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -258,6 +260,10 @@ public abstract class KoLmafia {
     System.out.println("Using Java " + System.getProperty("java.version"));
     System.out.println();
     StaticEntity.setGUIRequired(true);
+
+    if (!StaticEntity.isHeadless()) {
+      UserInterfaceManager.setUserInterface(new SwingUserInterface());
+    }
 
     for (String arg : args) {
       if (arg.equalsIgnoreCase("--HELP") || arg.equalsIgnoreCase("/?")) {

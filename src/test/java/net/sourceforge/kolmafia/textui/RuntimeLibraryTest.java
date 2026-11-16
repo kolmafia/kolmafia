@@ -57,6 +57,7 @@ import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -76,6 +77,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +104,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
+import net.sourceforge.kolmafia.ui.UserInterface;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.NullStream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -3411,5 +3415,45 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertThat(output, containsString("Plants: none, Animals: hostile complex"));
     assertThat(output, containsString("Aliens: friendly -- primitive alien booze @ 21500"));
     assertThat(output, containsString("Quest: space pirates stage 3"));
+  }
+
+  @Nested
+  class UserInterfaceCalls {
+    private final List<String> balloons = new ArrayList<>();
+
+    private Cleanups withUserInterface() {
+      UserInterfaceManager.setUserInterface(
+          new UserInterface() {
+            @Override
+            public void showBalloon(final String message, final boolean onlyShowWhenHidden) {
+              balloons.add(message + " " + onlyShowWhenHidden);
+            }
+
+            @Override
+            public boolean isDarkTheme() {
+              return true;
+            }
+          });
+      return new Cleanups(() -> UserInterfaceManager.setUserInterface(null));
+    }
+
+    @Test
+    void notifies() {
+      try (var cleanups = withUserInterface()) {
+        execute("user_notify(\"Done\")");
+        execute("user_notify(\"Hidden\", true)");
+
+        assertThat(balloons, contains("Done false", "Hidden true"));
+      }
+    }
+
+    @Test
+    void reportsDarkMode() {
+      try (var cleanups = withUserInterface()) {
+        String output = execute("is_dark_mode()");
+
+        assertThat(output, containsString("Returned: true"));
+      }
+    }
   }
 }
