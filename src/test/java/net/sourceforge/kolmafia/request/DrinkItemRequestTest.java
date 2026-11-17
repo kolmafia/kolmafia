@@ -16,6 +16,7 @@ import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withUserInterface;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -39,7 +40,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
 import net.sourceforge.kolmafia.swingui.SwingUserInterface;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -327,11 +327,6 @@ class DrinkItemRequestTest {
     }
   }
 
-  private static Cleanups withSwingUserInterface() {
-    UserInterfaceManager.setUserInterface(new SwingUserInterface());
-    return new Cleanups(() -> UserInterfaceManager.setUserInterface(null));
-  }
-
   @Test
   @DisabledIf(
       value = "java.awt.GraphicsEnvironment#isHeadless",
@@ -351,7 +346,7 @@ class DrinkItemRequestTest {
             withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"),
             withHttpClientBuilder(builder),
             Player.withUserId(12345),
-            withSwingUserInterface());
+            withUserInterface(new SwingUserInterface()));
     try (cleanups) {
       var frame = new GenericPanelFrame("Test Frame");
       try {

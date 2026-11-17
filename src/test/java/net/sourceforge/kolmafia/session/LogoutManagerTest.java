@@ -1,12 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Player.withUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ui.UserInterface;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
@@ -28,9 +27,8 @@ class LogoutManagerTest {
   @Test
   void closesSessionWindowsWhenSomeoneIsLoggedIn() {
     var ui = new WindowCloser();
-    UserInterfaceManager.setUserInterface(ui);
 
-    try (var cleanups = new Cleanups(() -> UserInterfaceManager.setUserInterface(null))) {
+    try (var cleanups = withUserInterface(ui)) {
       KoLCharacter.reset("LogoutManagerTest");
       LogoutManager.prepare();
 
@@ -41,9 +39,8 @@ class LogoutManagerTest {
   @Test
   void leavesWindowsAloneWhenNobodyIsLoggedIn() {
     var ui = new WindowCloser();
-    UserInterfaceManager.setUserInterface(ui);
 
-    try (var cleanups = new Cleanups(() -> UserInterfaceManager.setUserInterface(null))) {
+    try (var cleanups = withUserInterface(ui)) {
       KoLCharacter.reset("");
       LogoutManager.prepare();
 

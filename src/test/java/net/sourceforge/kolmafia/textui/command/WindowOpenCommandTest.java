@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Player.withUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ui.UserInterface;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -22,22 +22,21 @@ public class WindowOpenCommandTest extends AbstractCommandTestBase {
     KoLCharacter.reset("WindowOpenCommandTest");
   }
 
-  private Cleanups withUserInterface() {
-    UserInterfaceManager.setUserInterface(
+  private Cleanups withWindowsRecorded() {
+    return withUserInterface(
         new UserInterface() {
           @Override
           public void showWindow(final String frameName) {
             windows.add(frameName);
           }
         });
-    return new Cleanups(() -> UserInterfaceManager.setUserInterface(null));
   }
 
   @Test
   void startsChatWithoutAWindow() {
     this.command = "chat";
 
-    try (var cleanups = withUserInterface()) {
+    try (var cleanups = withWindowsRecorded()) {
       String output = execute("");
 
       assertThat(output, containsString("Initializing chat interface..."));
@@ -49,7 +48,7 @@ public class WindowOpenCommandTest extends AbstractCommandTestBase {
   void opensTheOptionsWindow() {
     this.command = "options";
 
-    try (var cleanups = withUserInterface()) {
+    try (var cleanups = withWindowsRecorded()) {
       execute("");
 
       assertThat(windows, contains("OptionsFrame"));

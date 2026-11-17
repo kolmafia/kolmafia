@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.chat;
 
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -9,7 +10,6 @@ import internal.helpers.Cleanups;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ui.UserInterface;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -37,11 +37,7 @@ class ChatParserTest {
   @ValueSource(booleans = {true, false})
   void beepsForPrivateMessagesWhenAsked(final boolean chatBeep) {
     var ui = new BeepCounter();
-    UserInterfaceManager.setUserInterface(ui);
-    var cleanups =
-        new Cleanups(
-            withProperty("chatBeep", chatBeep),
-            new Cleanups(() -> UserInterfaceManager.setUserInterface(null)));
+    var cleanups = new Cleanups(withProperty("chatBeep", chatBeep), withUserInterface(ui));
 
     try (cleanups) {
       List<ChatMessage> messages = ChatParser.parseLines(PRIVATE_MESSAGE);
