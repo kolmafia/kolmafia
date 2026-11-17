@@ -8,7 +8,9 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -18,6 +20,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -863,6 +866,42 @@ public class ListCellRendererFactory {
       }
 
       return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+    }
+  }
+
+  public static final DefaultListCellRenderer getFamiliarDataRenderer() {
+    return new FamiliarDataRenderer();
+  }
+
+  private static class FamiliarDataRenderer extends DefaultListCellRenderer {
+    @Override
+    public Component getListCellRendererComponent(
+        final JList<?> list,
+        final Object value,
+        final int index,
+        final boolean isSelected,
+        final boolean cellHasFocus) {
+      JLabel defaultComponent =
+          (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+      if (!(value instanceof FamiliarData familiar) || familiar.getId() == -1) {
+        defaultComponent.setIcon(JComponentUtilities.getImage("debug.gif"));
+        defaultComponent.setText(
+            StaticEntity.getVersion() + ", the 0 lb. \"No Familiar Plz\" Placeholder");
+
+        defaultComponent.setVerticalTextPosition(SwingConstants.CENTER);
+        defaultComponent.setHorizontalTextPosition(SwingConstants.RIGHT);
+        return defaultComponent;
+      }
+
+      defaultComponent.setIcon(ImageIconFactory.getFamiliarImage(familiar.getId()));
+      defaultComponent.setText(
+          familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace());
+
+      defaultComponent.setVerticalTextPosition(SwingConstants.CENTER);
+      defaultComponent.setHorizontalTextPosition(SwingConstants.RIGHT);
+
+      return defaultComponent;
     }
   }
 }

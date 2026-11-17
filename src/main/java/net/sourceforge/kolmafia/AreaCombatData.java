@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.TrackManager;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1240,13 +1241,16 @@ public class AreaCombatData {
 
   public static String elementColor(final Element element) {
     return switch (element) {
-      case HOT -> (KoLmafiaGUI.isDarkTheme()) ? "#ff8a93" : "#ff0000";
-      case COLD -> (KoLmafiaGUI.isDarkTheme()) ? "#00d4ff" : "#0000ff";
-      case STENCH -> (KoLmafiaGUI.isDarkTheme()) ? "#39f0d0" : "#008000";
-      case SPOOKY -> (KoLmafiaGUI.isDarkTheme()) ? "#bebebe" : "#808080";
-      case SLEAZE -> (KoLmafiaGUI.isDarkTheme()) ? "#b980ee" : "#8a2be2";
-      case SLIME -> (KoLmafiaGUI.isDarkTheme()) ? "#1adde9" : "#006400";
-      default -> (KoLmafiaGUI.isDarkTheme()) ? "#FFFFFF" : "#000000";
+      case HOT -> (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#ff8a93" : "#ff0000";
+      case COLD -> (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#00d4ff" : "#0000ff";
+      case STENCH ->
+          (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#39f0d0" : "#008000";
+      case SPOOKY ->
+          (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#bebebe" : "#808080";
+      case SLEAZE ->
+          (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#b980ee" : "#8a2be2";
+      case SLIME -> (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#1adde9" : "#006400";
+      default -> (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#FFFFFF" : "#000000";
     };
   }
 

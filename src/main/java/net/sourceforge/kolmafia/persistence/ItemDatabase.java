@@ -20,8 +20,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import javax.swing.ImageIcon;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -1578,7 +1576,7 @@ public class ItemDatabase {
     return (location != null) ? location : "debug.gif";
   }
 
-  private static String getItemImagePath(final int itemId) {
+  public static String getItemImagePath(final int itemId) {
     String image = ItemDatabase.getItemImageLocation(itemId);
     return image.contains("/") ? image : ("itemimages/" + image);
   }
@@ -1588,14 +1586,8 @@ public class ItemDatabase {
     ItemDatabase.downloadItemImage(path);
   }
 
-  private static void downloadItemImage(final String path) {
+  public static void downloadItemImage(final String path) {
     FileUtilities.downloadImage(KoLmafia.imageServerPath() + path);
-  }
-
-  public static final ImageIcon getItemImage(final int itemId) {
-    String path = ItemDatabase.getItemImagePath(itemId);
-    ItemDatabase.downloadItemImage(path);
-    return JComponentUtilities.getImage(path);
   }
 
   public static final FoldGroup getFoldGroup(final String name) {

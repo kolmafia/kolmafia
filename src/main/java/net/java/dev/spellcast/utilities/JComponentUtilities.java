@@ -229,54 +229,12 @@ public class JComponentUtilities
 
 	public static URL getResource( final String filename )
 	{
-		return JComponentUtilities.getResource( UtilityConstants.IMAGE_DIRECTORY, filename );
+		return DataUtilities.getResource( filename );
 	}
 
 	public static URL getResource( String directory, String filename )
 	{
-		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
-		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
-
-		if ( directory.length() > 0 && !directory.endsWith( "/" ) )
-		{
-			directory += "/";
-		}
-
-		String fullname = directory + filename;
-
-		try
-		{
-			File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
-			if ( override.exists() )
-			{
-				return override.toURI().toURL();
-			}
-		}
-		catch ( Exception e )
-		{
-			// It's a malformed filename.  Just continue on
-			// with the next possibility.
-		}
-
-		URL result = JComponentUtilities.getResource( UtilityConstants.SYSTEM_CLASSLOADER, fullname );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		result = JComponentUtilities.getResource( UtilityConstants.MAINCLASS_CLASSLOADER, fullname );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// if it's gotten this far, the image icon does not exist
-		return null;
-	}
-
-	private static URL getResource( final ClassLoader loader, final String filename )
-	{
-		return loader.getResource( filename );
+		return DataUtilities.getResource( directory, filename );
 	}
 
 	private static ImageIcon getImage( final ClassLoader loader, final String filename )
