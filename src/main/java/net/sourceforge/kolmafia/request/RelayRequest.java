@@ -787,7 +787,7 @@ public class RelayRequest extends PasswordHashRequest {
       if (replyBuffer.indexOf("MAFIAHIT") != -1) {
         StringUtilities.globalStringReplace(
             replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash);
-      } else if (!filename.endsWith(".html")) {
+      } else {
         setLastModified(override);
       }
     } else {
