@@ -20,7 +20,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -202,7 +202,7 @@ public class UntinkerRequest extends GenericRequest {
       return true;
     }
 
-    if (GenericFrame.instanceExists()) {
+    if (UserInterfaceManager.getUserInterface().hasOpenWindows()) {
       if (!InputFieldUtilities.confirm(
           "KoLmafia thinks you haven't completed the screwdriver quest.  Would you like to have KoLmafia automatically complete it now?")) {
         return false;

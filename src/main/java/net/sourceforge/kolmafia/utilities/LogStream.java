@@ -6,15 +6,13 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 
-public class LogStream extends PrintStream implements Runnable {
-  private File proxy;
+public class LogStream extends PrintStream {
 
   public static PrintStream openStream(final String filename, final boolean forceNewFile) {
     return LogStream.openStream(new File(KoLConstants.ROOT_LOCATION, filename), forceNewFile);
@@ -34,10 +32,7 @@ public class LogStream extends PrintStream implements Runnable {
     }
 
     if (file.getName().startsWith("DEBUG")) {
-      if (KoLDesktop.instanceExists()) {
-        newStream.proxy = file;
-        SwingUtilities.invokeLater(newStream);
-      }
+      UserInterfaceManager.getUserInterface().debugLogOpened(file);
 
       newStream.println();
       newStream.println();
@@ -79,11 +74,6 @@ public class LogStream extends PrintStream implements Runnable {
 
   public static PrintStream openStream(final OutputStream ostream, final Charset encoding) {
     return new LogStream(ostream, encoding);
-  }
-
-  @Override
-  public void run() {
-    KoLDesktop.getInstance().getRootPane().putClientProperty("Window.documentFile", this.proxy);
   }
 
   private LogStream(final OutputStream ostream, final Charset encoding) {

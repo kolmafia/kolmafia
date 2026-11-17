@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SausageOMaticRequest extends CreateItemRequest {
@@ -119,7 +119,7 @@ public class SausageOMaticRequest extends CreateItemRequest {
   }
 
   private final boolean confirmSausages() {
-    if (!GenericFrame.instanceExists()) {
+    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
       return true;
     }
 

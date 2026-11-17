@@ -18,7 +18,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 
 public class SpleenItemRequest extends UseItemRequest {
   public SpleenItemRequest(final AdventureResult item) {
@@ -142,7 +142,7 @@ public class SpleenItemRequest extends UseItemRequest {
   }
 
   private boolean allowSpleenConsumption() {
-    if (!GenericFrame.instanceExists()) {
+    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
       return true;
     }
 
