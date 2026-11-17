@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -87,6 +92,27 @@ class RelayAgentTest {
             outputStream.toString().replaceFirst("Date: .* GMT", "Date: GMT").split("\r\n");
         assertThat(result, arrayContaining(expectedString.split("\\|")));
       }
+    }
+  }
+
+  @Test
+  void shouldSendNotModifiedForUnchangedLocalFile() throws IOException {
+    Files.createDirectories(KoLConstants.RELAY_LOCATION.toPath());
+    Path file = Files.createTempFile(KoLConstants.RELAY_LOCATION.toPath(), "relay-agent-", ".txt");
+
+    try {
+      long lastModified = 1_700_000_000_123L;
+      Files.setLastModifiedTime(file, FileTime.fromMillis(lastModified));
+      String path = "/" + file.getFileName();
+      String date = StringUtilities.formatDate(lastModified);
+
+      assertThat(RelayAgent.shouldSendNotModified(path, date), is(true));
+      assertThat(RelayAgent.shouldSendNotModified(path + "?x=1", date), is(false));
+      assertThat(
+          RelayAgent.shouldSendNotModified(path, StringUtilities.formatDate(lastModified - 2000)),
+          is(false));
+    } finally {
+      Files.deleteIfExists(file);
     }
   }
 }

@@ -341,33 +341,42 @@ public class RelayAgent extends Thread {
     }
   }
 
-  private static boolean modifiedSince(String date, File file) {
-    return file != null && file.exists() && StringUtilities.parseDate(date) < file.lastModified();
-  }
-
-  private boolean shouldSendNotModified() {
-    // Things in the "images" directory come from KoL's image server.
-    // We set the modification date to KoL's modification date.
-    if (this.path.startsWith("/images")) {
-      return RelayAgent.modifiedSince(
-          this.isCheckingModified, RelayRequest.findLocalImage(this.path.substring(1)));
-    }
-
-    // Things in the "relay" directory are either KoLmafia builtin
-    // files or are provided by user scripts.
-    if (!this.path.startsWith("/relay")) {
+  static boolean notModifiedSince(String date, File file) {
+    if (date == null || file == null || !file.isFile()) {
       return false;
     }
 
+    long lastModified = file.lastModified() / 1000L;
+    long ifModifiedSince = StringUtilities.parseDate(date) / 1000L;
+    return lastModified <= ifModifiedSince;
+  }
+
+  static boolean shouldSendNotModified(String path, String ifModifiedSince) {
     // If this request has arguments, don't check
-    if (this.path.contains("?")) {
+    if (path.contains("?")) {
+      return false;
+    }
+
+    // Things in the "images" directory come from KoL's image server.
+    // We set the modification date to KoL's modification date.
+    if (path.startsWith("/images/")) {
+      return RelayAgent.notModifiedSince(
+          ifModifiedSince, RelayRequest.findLocalImage(path.substring(1)));
+    }
+
+    if (path.endsWith(".ash") || path.endsWith(".php")) {
+      // ash files are always dynamic; php files could shadow KoL
       return false;
     }
 
     // Otherwise, look at the modification date of the file in the
     // file system
-    return RelayAgent.modifiedSince(
-        this.isCheckingModified, RelayRequest.findRelayFile(this.path.substring(1)));
+    return RelayAgent.notModifiedSince(
+        ifModifiedSince, RelayRequest.findRelayFile(path.substring(1)));
+  }
+
+  private boolean shouldSendNotModified() {
+    return RelayAgent.shouldSendNotModified(this.path, this.isCheckingModified);
   }
 
   private void readServerResponse() throws IOException {
