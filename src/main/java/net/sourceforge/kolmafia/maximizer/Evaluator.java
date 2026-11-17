@@ -1793,6 +1793,11 @@ public class Evaluator {
           }
         });
 
+    spec.requiredBooleans = EnumSet.copyOf(this.expression.booleanValue);
+    if (!spec.requiredBooleans.isEmpty()) {
+      // Expression-backed booleans may depend on slots unrelated to their source.
+      spec.requiredBooleans.removeAll(ModifierDatabase.getBooleanModifiersWithExpressions());
+    }
     spec.tryAll(
         this.expression.familiars,
         this.carriedFamiliars,

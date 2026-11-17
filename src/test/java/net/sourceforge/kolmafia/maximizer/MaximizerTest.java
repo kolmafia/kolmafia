@@ -54,15 +54,26 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -71,6 +82,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -81,10 +93,13 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -101,6 +116,7 @@ public class MaximizerTest {
             withProperty("maximizerCombinationLimit", 1))) {
       maximize("item drop");
       assertThat(Maximizer.bestChecked, is(1));
+      assertThat(Maximizer.evaluationsChecked, is(1L));
       assertThat(Maximizer.combinationLimit, is(1L));
     }
 
@@ -111,6 +127,7 @@ public class MaximizerTest {
             withProperty("maximizerCombinationLimit", 0))) {
       maximize("item drop");
       assertThat(Maximizer.combinationLimit, is(0L));
+      assertThat(Maximizer.evaluationsChecked, is((long) Maximizer.bestChecked));
     }
   }
 
@@ -4598,6 +4615,1183 @@ public class MaximizerTest {
     try (var cleanups = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
       assertTrue(maximize("empty"));
       assertThat(getBoosts(), contains(hasToString(containsString("keep hat: helmet turtle"))));
+    }
+  }
+
+  @Nested
+  class BooleanPruning {
+    @BeforeEach
+    void resetCharacter() {
+      KoLCharacter.reset("MaximizerTest");
+      KoLCharacter.reset(true);
+      Preferences.reset("MaximizerTest");
+      Maximizer.evaluationsChecked = 0;
+      Maximizer.combinationLimit = 0;
+    }
+
+    @Nested
+    class NewBehavior {
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "sea",
+            "-tie, 5.25 Meat Drop, sea",
+            "-tie, 5.25 Meat Drop, sea, -hat, -buddy-bjorn, -crown-of-thrones"
+          })
+      void prunesFamiliarEquipmentThatCannotSatisfySea(String objective) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withProperty("_roboDrinks", "drive-by shooting"),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("das boot"),
+                withEquipped(Slot.HAT, "Mer-kin scholar mask"),
+                withProperty("maximizerCombinationLimit", 100))) {
+          // The coin scores above das boot, but cannot satisfy sea. Reject it before scoring
+          // a complete outfit, while allowing budget for source discovery and partial checks.
+          assertThat(maximize(objective), is(true));
+          assertThat(Maximizer.bestChecked, is(1));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "das boot")));
+          assertThat(Maximizer.lastMaximizeSucceeded(), is(true));
+          assertThat(
+              Maximizer.best.getModifiers().getBoolean(BooleanModifier.UNDERWATER_FAMILIAR),
+              is(true));
+          assertThat(
+              Maximizer.best.getModifiers().getBoolean(BooleanModifier.ADVENTURE_UNDERWATER),
+              is(true));
+        }
+      }
+    }
+
+    @Nested
+    class WorkLimit {
+      @ParameterizedTest
+      @CsvSource({"das boot,true", "amulet coin,false"})
+      void preservesCurrentOutfitValidityWhenBudgetEndsBeforeScoring(
+          String familiarItem, boolean valid) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withEquipped(Slot.FAMILIAR, familiarItem),
+                withEquipped(Slot.HAT, "Mer-kin scholar mask"),
+                withEquippableItem("amulet coin"),
+                withProperty("maximizerCombinationLimit", 1))) {
+          assertThat(maximize("sea, meat, -tie"), is(valid));
+          assertThat(Maximizer.evaluationsChecked, is(1L));
+          assertThat(Maximizer.bestChecked, is(0));
+          assertThat(getBoosts(), hasItem(hasToString(containsString("hit maximizer limit"))));
+          assertThat(Maximizer.lastMaximizeSucceeded(), is(valid));
+          assertThat(Maximizer.best.equipment.get(Slot.FAMILIAR), is(ItemPool.get(familiarItem)));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("Mer-kin scholar mask")));
+        }
+      }
+
+      @Test
+      void retainsValidCurrentOutfitOverAHigherScoringInvalidCompleteOutfit() {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withOverrideModifiers(
+                    ModifierType.ITEM, "helmet turtle", "Never Fumble, Meat Drop: +10"),
+                withOverrideModifiers(ModifierType.ITEM, "crumpled felt fedora", "Meat Drop: +100"),
+                withEquipped(Slot.HAT, "helmet turtle"),
+                withEquippableItem("crumpled felt fedora"),
+                withOverrideModifiers(ModifierType.GENERATED, "fallback expression", ""),
+                withProperty("maximizerCombinationLimit", 1))) {
+          var expression =
+              ModifierDatabase.getModifiers(ModifierType.GENERATED, "fallback expression");
+          expression.addExpression(
+              BooleanModifier.NEVER_FUMBLE,
+              ModifierExpression.getInstance("0", "fallback expression"));
+          ModifierDatabase.overrideModifier(
+              ModifierType.GENERATED, "fallback expression", expression);
+          Maximizer.eval = new Evaluator("never fumble, meat, -tie, -current");
+          var current = new MaximizerSpeculation();
+          var currentScore = current.getScore();
+          assertThat(current.failed, is(false));
+          var invalid = current.clone();
+          invalid.equipment.put(Slot.HAT, ItemPool.get("crumpled felt fedora"));
+          invalid.setUnscored();
+          assertThat(invalid.getScore(), greaterThan(currentScore));
+          assertThat(invalid.failed, is(true));
+
+          assertThat(maximize("never fumble, meat, -tie, -current"), is(true));
+          assertThat(Maximizer.evaluationsChecked, is(1L));
+          assertThat(Maximizer.bestChecked, is(1));
+          assertThat(Maximizer.best.getScore(), is(currentScore));
+          assertThat(Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("helmet turtle")));
+          assertThat(getBoosts(), hasItem(hasToString(containsString("hit maximizer limit"))));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"1,false", "2,true"})
+      void reportsMaximumAchievedBeforeTheLimitWhenTheSameEvaluationReachesBoth(
+          int limit, boolean reachesMaximum) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withOverrideModifiers(ModifierType.ITEM, "helmet turtle", "Never Fumble"),
+                withOverrideModifiers(ModifierType.ITEM, "gold detective badge", "Meat Drop: +100"),
+                withEquipped(Slot.HAT, "helmet turtle"),
+                withEquippableItem("gold detective badge"),
+                withProperty("maximizerCombinationLimit", limit))) {
+          assertThat(maximize("199 max, meat, never fumble, -hat, -tie"), is(true));
+          assertThat(Maximizer.evaluationsChecked, is((long) limit));
+          assertThat(Maximizer.bestChecked, is(reachesMaximum ? 1 : 0));
+          assertThat(
+              getBoosts().stream().anyMatch(b -> b.toString().contains("maximum achieved")),
+              is(reachesMaximum));
+          assertThat(
+              getBoosts().stream().anyMatch(b -> b.toString().contains("hit maximizer limit")),
+              is(!reachesMaximum));
+          assertThat(Maximizer.best.getScore(), is(reachesMaximum ? 200.0 : 100.0));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"1,false", "10,false", "100,false", "100,true", "300,false", "0,false"})
+      void budgetsSourceDiscoveryPruningAndCompleteOutfits(int limit, boolean fixedOffhand)
+          throws MaximizerInterruptedException {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withSkill(SkillPool.TORSO),
+                withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY))) {
+          var possibles = new SlotList<CheckedItem>(limit == 300 ? 1 : 0);
+          var slots =
+              List.of(Slot.CONTAINER, Slot.HAT, Slot.SHIRT, Slot.PANTS, Slot.WEAPON, Slot.OFFHAND);
+          var items =
+              List.of(
+                  List.of(
+                      "Camp Scout backpack", "Cloak of Dire Shadows", "protonic accelerator pack"),
+                  List.of("helmet turtle", "crumpled felt fedora", "asbestos helmet turtle"),
+                  List.of("tuxedo shirt", "makeshift garbage shirt", "hairshirt"),
+                  List.of("old sweatpants", "Cargo Cultist Shorts", "Pantsgiving"),
+                  List.of("seal-clubbing club", "disco ball"),
+                  List.of("familiar scrapbook", "can of mixed everything"));
+          for (int s = 0; s < slots.size(); s++) {
+            var slot = slots.get(s);
+            for (int i = 0; i < items.get(s).size(); i++) {
+              var item = items.get(s).get(i);
+              cleanups.add(withEquippableItem(item));
+              cleanups.add(
+                  withOverrideModifiers(
+                      ModifierType.ITEM,
+                      item,
+                      "Meat Drop: +10"
+                          + (slot == Slot.WEAPON
+                              ? (i == 0 ? ", Never Fumble" : ", Adventure Underwater")
+                              : "")));
+              possibles
+                  .get(slot)
+                  .add(
+                      new CheckedItem(
+                          ItemPool.get(item).getItemId(),
+                          EquipScope.SPECULATE_INVENTORY,
+                          0,
+                          PriceLevel.DONT_CHECK));
+            }
+          }
+
+          var calculations = new AtomicInteger();
+          var spec =
+              new MaximizerSpeculation() {
+                @Override
+                public Modifiers calculate() {
+                  calculations.incrementAndGet();
+                  return super.calculate();
+                }
+              };
+          for (var slot : slots) spec.equipment.put(slot, null);
+          if (fixedOffhand) spec.equipment.put(Slot.OFFHAND, ItemPool.get("familiar scrapbook"));
+          spec.requiredBooleans =
+              EnumSet.of(BooleanModifier.NEVER_FUMBLE, BooleanModifier.ADVENTURE_UNDERWATER);
+          KoLmafia.forceContinue();
+          Maximizer.eval = new Evaluator("never fumble, adventure underwater, meat, -tie");
+          Maximizer.best = new MaximizerSpeculation();
+          Maximizer.best.getScore();
+          Maximizer.best.failed = true;
+          Maximizer.bestChecked = 0;
+          Maximizer.evaluationsChecked = 0;
+          Maximizer.combinationLimit = limit;
+
+          if (limit == 0) {
+            spec.tryAll(
+                List.of(),
+                List.of(),
+                Map.of(),
+                Map.of(),
+                possibles,
+                EquipmentRequest.UNEQUIP,
+                null,
+                null);
+            assertThat(calculations.get(), is(260));
+          } else {
+            assertThrows(
+                MaximizerLimitException.class,
+                () ->
+                    spec.tryAll(
+                        limit == 300
+                            ? List.of(KoLCharacter.usableFamiliar(FamiliarPool.BABY_GRAVY_FAIRY))
+                            : List.of(),
+                        List.of(),
+                        Map.of(),
+                        Map.of(),
+                        possibles,
+                        EquipmentRequest.UNEQUIP,
+                        null,
+                        null));
+            assertThat(calculations.get(), is(limit));
+            assertThat(Maximizer.evaluationsChecked, is((long) limit));
+          }
+          assertThat(Maximizer.best.failed, is(true));
+          // A fixed offhand leaves full scoring to reject the incompatible weapons.
+          // Otherwise every branch is pruned, and no complete outfit consumes the budget.
+          assertThat(Maximizer.bestChecked, is(fixedOffhand ? 85 : 0));
+        }
+      }
+    }
+
+    @Nested
+    class Traversal {
+      @ParameterizedTest
+      @ValueSource(strings = {"fixed", "empty", "single", "two-handed"})
+      void leavesBooleanValidationToScoringWhenOffhandsCannotBranch(String offhands)
+          throws MaximizerInterruptedException {
+        try (var cleanups = new Cleanups(withStats(300, 300, 300), withInteractivity(true))) {
+          var possibles = new SlotList<CheckedItem>(0);
+          var weapons =
+              offhands.equals("two-handed")
+                  ? List.of("big stick", "basic meat staff", "25-meat staff")
+                  : List.of("seal-clubbing club", "disco ball", "turtle totem");
+          for (int i = 0; i < weapons.size(); i++) {
+            var weapon = weapons.get(i);
+            cleanups.add(withEquippableItem(weapon));
+            cleanups.add(
+                withOverrideModifiers(
+                    ModifierType.ITEM,
+                    weapon,
+                    i < 2 ? "Never Fumble, Meat Drop: +" + (10 * (i + 1)) : "Meat Drop: +1000"));
+            possibles
+                .get(Slot.WEAPON)
+                .add(
+                    new CheckedItem(
+                        ItemPool.get(weapon).getItemId(),
+                        EquipScope.SPECULATE_INVENTORY,
+                        0,
+                        PriceLevel.DONT_CHECK));
+          }
+          var offhand = ItemPool.get("familiar scrapbook");
+          cleanups.add(withEquippableItem(offhand));
+          cleanups.add(
+              withOverrideModifiers(ModifierType.ITEM, offhand.getItemId(), "Meat Drop: +10"));
+          if (offhands.equals("single") || offhands.equals("two-handed")) {
+            possibles
+                .get(Slot.OFFHAND)
+                .add(
+                    new CheckedItem(
+                        offhand.getItemId(),
+                        EquipScope.SPECULATE_INVENTORY,
+                        0,
+                        PriceLevel.DONT_CHECK));
+          }
+
+          var calculations = new AtomicInteger();
+          var spec =
+              new MaximizerSpeculation() {
+                @Override
+                public void tryWeapons(SlotList<CheckedItem> possibles, AdventureResult bestCard)
+                    throws MaximizerInterruptedException {
+                  // Exclude source discovery; only weapons and offhands vary in this fixture.
+                  calculations.set(0);
+                  super.tryWeapons(possibles, bestCard);
+                }
+
+                @Override
+                public Modifiers calculate() {
+                  calculations.incrementAndGet();
+                  return super.calculate();
+                }
+              };
+          spec.equipment.put(Slot.WEAPON, null);
+          spec.equipment.put(Slot.OFFHAND, offhands.equals("fixed") ? offhand : null);
+          spec.requiredBooleans = EnumSet.of(BooleanModifier.NEVER_FUMBLE);
+          KoLmafia.forceContinue();
+          Maximizer.eval = new Evaluator("never fumble, meat, -tie");
+          Maximizer.best = new MaximizerSpeculation();
+          Maximizer.best.getScore();
+          Maximizer.best.failed = true;
+          Maximizer.bestChecked = 0;
+          Maximizer.combinationLimit = 0;
+
+          spec.tryAll(
+              List.of(),
+              List.of(),
+              Map.of(),
+              Map.of(),
+              possibles,
+              EquipmentRequest.UNEQUIP,
+              null,
+              null);
+
+          // Three weapons and the unarmed fallback require four modifier calculations in total.
+          assertThat(calculations.get(), is(4));
+          assertThat(Maximizer.best.failed, is(false));
+          assertThat(Maximizer.best.equipment.get(Slot.WEAPON), is(ItemPool.get(weapons.get(1))));
+          assertThat(
+              Maximizer.best.getModifiers().getBoolean(BooleanModifier.NEVER_FUMBLE), is(true));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.OFFHAND),
+              is(
+                  offhands.equals("empty") || offhands.equals("two-handed")
+                      ? EquipmentRequest.UNEQUIP
+                      : offhand));
+        }
+      }
+
+      @Test
+      void evaluatesEachCompleteOutfitOnceWhenOnlyWeaponsSupplyTheRequirement()
+          throws MaximizerInterruptedException {
+        try (var cleanups = new Cleanups(withStats(300, 300, 300), withInteractivity(true))) {
+          var possibles = new SlotList<CheckedItem>(0);
+          var weapons = List.of("seal-clubbing club", "disco ball");
+          var offhands =
+              List.of(
+                  "April Shower Thoughts shield", "familiar scrapbook", "can of mixed everything");
+          for (var weapon : weapons) {
+            cleanups.add(withEquippableItem(weapon));
+            cleanups.add(withOverrideModifiers(ModifierType.ITEM, weapon, "Never Fumble"));
+            possibles
+                .get(Slot.WEAPON)
+                .add(
+                    new CheckedItem(
+                        ItemPool.get(weapon).getItemId(),
+                        EquipScope.SPECULATE_INVENTORY,
+                        0,
+                        PriceLevel.DONT_CHECK));
+          }
+          for (var offhand : offhands) {
+            cleanups.add(withEquippableItem(offhand));
+            cleanups.add(withOverrideModifiers(ModifierType.ITEM, offhand, "Meat Drop: +10"));
+            possibles
+                .get(Slot.OFFHAND)
+                .add(
+                    new CheckedItem(
+                        ItemPool.get(offhand).getItemId(),
+                        EquipScope.SPECULATE_INVENTORY,
+                        0,
+                        PriceLevel.DONT_CHECK));
+          }
+
+          var completeOutfitCalculations = new HashMap<Map.Entry<Integer, Integer>, Integer>();
+          var spec =
+              new MaximizerSpeculation() {
+                @Override
+                public Modifiers calculate() {
+                  var weapon = this.equipment.get(Slot.WEAPON);
+                  var offhand = this.equipment.get(Slot.OFFHAND);
+                  if (weapon != null
+                      && weapon.getItemId() > 0
+                      && offhand != null
+                      && offhand.getItemId() > 0) {
+                    completeOutfitCalculations.merge(
+                        Map.entry(weapon.getItemId(), offhand.getItemId()), 1, Integer::sum);
+                  }
+                  return super.calculate();
+                }
+              };
+          spec.equipment.put(Slot.WEAPON, null);
+          spec.equipment.put(Slot.OFFHAND, null);
+          spec.requiredBooleans = EnumSet.of(BooleanModifier.NEVER_FUMBLE);
+          KoLmafia.forceContinue();
+          Maximizer.eval = new Evaluator("never fumble, meat, -tie");
+          Maximizer.best = new MaximizerSpeculation();
+          Maximizer.best.getScore();
+          Maximizer.best.failed = true;
+          Maximizer.bestChecked = 0;
+          Maximizer.combinationLimit = 0;
+
+          spec.tryAll(
+              List.of(),
+              List.of(),
+              Map.of(),
+              Map.of(),
+              possibles,
+              EquipmentRequest.UNEQUIP,
+              null,
+              null);
+
+          assertThat(Maximizer.best.failed, is(false));
+          assertThat(Maximizer.bestChecked, is(6));
+          // Each complete weapon/offhand pair is calculated once, during scoring.
+          var expectedCalculations = new HashMap<Map.Entry<Integer, Integer>, Integer>();
+          for (var weapon : weapons) {
+            for (var offhand : offhands) {
+              expectedCalculations.put(
+                  Map.entry(ItemPool.get(weapon).getItemId(), ItemPool.get(offhand).getItemId()),
+                  1);
+            }
+          }
+          assertThat(completeOutfitCalculations, is(expectedCalculations));
+        }
+      }
+    }
+
+    @Nested
+    class Checkpoints {
+      @ParameterizedTest
+      @CsvSource({
+        "CONTAINER,Camp Scout backpack,Cloak of Dire Shadows",
+        "HAT,helmet turtle,crumpled felt fedora",
+        "SHIRT,tuxedo shirt,hairshirt",
+        "PANTS,old sweatpants,Cargo Cultist Shorts",
+        "HOLSTER,rinky-dink sixgun,reliable sixgun"
+      })
+      void rejectsNonsupplyingBranchesBeforeScoringAndRestoresTheSlot(
+          Slot slot, String supplier, String nonsupplier) throws MaximizerInterruptedException {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withSkill(SkillPool.TORSO),
+                withEquippableItem(supplier),
+                withEquippableItem(nonsupplier),
+                withOverrideModifiers(ModifierType.ITEM, supplier, "Never Fumble, Meat Drop: +10"),
+                withOverrideModifiers(ModifierType.ITEM, nonsupplier, "Meat Drop: +100"))) {
+          var possibles = new SlotList<CheckedItem>(0);
+          for (var item : List.of(nonsupplier, supplier)) {
+            possibles
+                .get(slot)
+                .add(
+                    new CheckedItem(
+                        ItemPool.get(item).getItemId(),
+                        EquipScope.SPECULATE_INVENTORY,
+                        0,
+                        PriceLevel.DONT_CHECK));
+          }
+          var spec = new MaximizerSpeculation();
+          spec.equipment.put(slot, null);
+          spec.requiredBooleans = EnumSet.of(BooleanModifier.NEVER_FUMBLE);
+          Maximizer.eval = new Evaluator("never fumble, meat, -tie");
+          Maximizer.best = new MaximizerSpeculation();
+          Maximizer.best.getScore();
+          Maximizer.best.failed = true;
+          Maximizer.bestChecked = 0;
+          KoLmafia.forceContinue();
+
+          spec.tryAll(
+              List.of(),
+              List.of(),
+              Map.of(),
+              Map.of(),
+              possibles,
+              EquipmentRequest.UNEQUIP,
+              null,
+              null);
+
+          assertThat(Maximizer.best.failed, is(false));
+          assertThat(Maximizer.bestChecked, is(1));
+          assertThat(Maximizer.best.equipment.get(slot), is(ItemPool.get(supplier)));
+          assertThat(
+              Maximizer.best.getModifiers().getBoolean(BooleanModifier.NEVER_FUMBLE), is(true));
+          assertThat(spec.equipment.get(slot), is((AdventureResult) null));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(booleans = {false, true})
+      void tiedValidOutfitsPreferCurrentGearAfterAnEarlierBranchIsPruned(boolean reverseValidOrder)
+          throws MaximizerInterruptedException {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withOverrideModifiers(
+                    ModifierType.ITEM, "helmet turtle", "Never Fumble, Meat Drop: +10"),
+                withOverrideModifiers(
+                    ModifierType.ITEM, "crumpled felt fedora", "Never Fumble, Meat Drop: +10"),
+                withOverrideModifiers(
+                    ModifierType.ITEM, "asbestos helmet turtle", "Meat Drop: +100"),
+                withEquipped(Slot.HAT, "helmet turtle"),
+                withEquippableItem("crumpled felt fedora"),
+                withEquippableItem("asbestos helmet turtle"))) {
+          var spec = new MaximizerSpeculation();
+          spec.equipment.put(Slot.HAT, null);
+          spec.requiredBooleans = EnumSet.of(BooleanModifier.NEVER_FUMBLE);
+          var possibles = new SlotList<CheckedItem>(0);
+          var valid =
+              reverseValidOrder
+                  ? List.of("crumpled felt fedora", "helmet turtle")
+                  : List.of("helmet turtle", "crumpled felt fedora");
+          for (var item : List.of("asbestos helmet turtle", valid.get(0), valid.get(1))) {
+            possibles
+                .get(Slot.HAT)
+                .add(
+                    new CheckedItem(
+                        ItemPool.get(item).getItemId(),
+                        EquipScope.SPECULATE_INVENTORY,
+                        0,
+                        PriceLevel.DONT_CHECK));
+          }
+          Maximizer.eval = new Evaluator("never fumble, meat, -tie");
+          Maximizer.best = new MaximizerSpeculation();
+          Maximizer.best.getScore();
+          Maximizer.best.failed = true;
+          Maximizer.bestChecked = 0;
+          KoLmafia.forceContinue();
+
+          spec.tryAll(
+              List.of(),
+              List.of(),
+              Map.of(),
+              Map.of(),
+              possibles,
+              EquipmentRequest.UNEQUIP,
+              null,
+              null);
+
+          assertThat(Maximizer.bestChecked, is(2));
+          assertThat(Maximizer.best.failed, is(false));
+          assertThat(Maximizer.best.getScore(), is(110.0));
+          assertThat(Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("helmet turtle")));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(strings = {"Crown of Thrones", "Buddy Bjorn"})
+      void aLaterCarriedFamiliarDoesNotInheritThePreviousFamiliarsBoolean(String carrier)
+          throws MaximizerInterruptedException {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withEquippableItem(carrier),
+                withOverrideModifiers(
+                    ModifierType.THRONE, "Rock Lobster", "Underwater Familiar, Meat Drop: +10"),
+                withOverrideModifiers(
+                    ModifierType.THRONE, "Baby Gravy Fairy", "Meat Drop: +100"))) {
+          boolean crown = carrier.equals("Crown of Thrones");
+          var slot = crown ? Slot.HAT : Slot.CONTAINER;
+          var supplier = new FamiliarData(FamiliarPool.LOBSTER);
+          var nonsupplier = new FamiliarData(FamiliarPool.BABY_GRAVY_FAIRY);
+          var spec = new MaximizerSpeculation();
+          spec.equipment.put(slot, null);
+          spec.requiredBooleans = EnumSet.of(BooleanModifier.UNDERWATER_FAMILIAR);
+          var possibles = new SlotList<CheckedItem>(0);
+          possibles
+              .get(slot)
+              .add(
+                  new CheckedItem(
+                      ItemPool.get(carrier).getItemId(),
+                      EquipScope.SPECULATE_INVENTORY,
+                      0,
+                      PriceLevel.DONT_CHECK));
+          Maximizer.eval = new Evaluator("underwater familiar, meat, -tie");
+          Maximizer.best = new MaximizerSpeculation();
+          Maximizer.best.getScore();
+          Maximizer.best.failed = true;
+          Maximizer.bestChecked = 0;
+          KoLmafia.forceContinue();
+
+          spec.tryAll(
+              List.of(),
+              List.of(),
+              Map.of(),
+              Map.of(),
+              possibles,
+              EquipmentRequest.UNEQUIP,
+              crown ? supplier : null,
+              crown ? null : supplier);
+          assertThat(Maximizer.bestChecked, is(1));
+          var score = Maximizer.best.getScore();
+          spec.tryAll(
+              List.of(),
+              List.of(),
+              Map.of(),
+              Map.of(),
+              possibles,
+              EquipmentRequest.UNEQUIP,
+              crown ? nonsupplier : null,
+              crown ? null : nonsupplier);
+
+          assertThat(Maximizer.bestChecked, is(1));
+          assertThat(Maximizer.best.getScore(), is(score));
+          assertThat(Maximizer.best.failed, is(false));
+          assertThat(
+              crown ? Maximizer.best.getEnthroned() : Maximizer.best.getBjorned(), is(supplier));
+          assertThat(
+              Maximizer.best.getModifiers().getBoolean(BooleanModifier.UNDERWATER_FAMILIAR),
+              is(true));
+          assertThat(
+              crown ? KoLCharacter.getEnthroned() : KoLCharacter.getBjorned(),
+              is(FamiliarData.NO_FAMILIAR));
+        }
+      }
+
+      @Test
+      void interruptionAtCheckpointStopsEvenWhenNoBooleanCalculationIsDue() {
+        try (var cleanups =
+            new Cleanups(
+                withOverrideModifiers(ModifierType.ITEM, "helmet turtle", "Never Fumble"))) {
+          var calculations = new AtomicInteger();
+          var spec =
+              new MaximizerSpeculation() {
+                @Override
+                public Modifiers calculate() {
+                  calculations.incrementAndGet();
+                  return super.calculate();
+                }
+
+                @Override
+                public void tryContainers(
+                    List<FamiliarData> carried,
+                    SlotList<CheckedItem> possibles,
+                    AdventureResult bestCard,
+                    FamiliarData crown,
+                    FamiliarData bjorn)
+                    throws MaximizerInterruptedException {
+                  KoLmafia.updateDisplay(MafiaState.ABORT, "Interrupted checkpoint");
+                  super.tryContainers(carried, possibles, bestCard, crown, bjorn);
+                }
+              };
+          spec.equipment.put(Slot.HAT, null);
+          spec.requiredBooleans = EnumSet.of(BooleanModifier.NEVER_FUMBLE);
+          var possibles = new SlotList<CheckedItem>(0);
+          possibles
+              .get(Slot.HAT)
+              .add(
+                  new CheckedItem(
+                      ItemPool.HELMET_TURTLE,
+                      EquipScope.SPECULATE_INVENTORY,
+                      0,
+                      PriceLevel.DONT_CHECK));
+          Maximizer.bestChecked = 0;
+          KoLmafia.forceContinue();
+
+          assertThrows(
+              MaximizerInterruptedException.class,
+              () ->
+                  spec.tryFamiliarItems(
+                      List.of(), possibles, EquipmentRequest.UNEQUIP, null, null));
+          assertThat(calculations.get(), is(2));
+          assertThat(Maximizer.evaluationsChecked, is(2L));
+          assertThat(Maximizer.bestChecked, is(0));
+        } finally {
+          KoLmafia.forceContinue();
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"1022,false", "1023,false", "1023,true"})
+      void reportsBothCountersAtTheProgressInterval(int previousEvaluations, boolean failed)
+          throws MaximizerInterruptedException {
+        Maximizer.eval = new Evaluator("meat");
+        Maximizer.best = new MaximizerSpeculation();
+        Maximizer.best.getScore();
+        Maximizer.best.failed = failed;
+        Maximizer.evaluationsChecked = previousEvaluations;
+        Maximizer.bestChecked = 7;
+        Maximizer.bestUpdate = 0;
+        KoLmafia.forceContinue();
+        KoLmafia.updateDisplay("Waiting for progress");
+
+        MaximizerSpeculation.countEvaluation();
+
+        assertThat(Maximizer.evaluationsChecked, is(previousEvaluations + 1L));
+        assertThat(Maximizer.bestChecked, is(7));
+        if (previousEvaluations == 1022) {
+          assertThat(KoLmafia.lastMessage, is("Waiting for progress"));
+          assertThat(Maximizer.bestUpdate, is(0L));
+        } else {
+          assertThat(
+              KoLmafia.lastMessage,
+              startsWith("1024 evaluations, 7 combinations checked, best score "));
+          assertThat(KoLmafia.lastMessage.contains("(FAIL)"), is(failed));
+          assertThat(Maximizer.bestUpdate, greaterThan(0L));
+        }
+      }
+    }
+
+    @Nested
+    class PreservedBehavior {
+      @Test
+      void waitsUntilAllAccessorySlotsHaveBeenSelected() {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withEquippableItem("moss marlinspike"),
+                withEquippableItem("Mr. Screege's spectacles"),
+                withEquippableItem("cursed swash buckle"),
+                withEquippableItem("gold detective badge"),
+                withProperty("maximizerCombinationLimit", 100))) {
+          assertThat(maximize("extra pickpocket, meat, -tie"), is(true));
+          assertThat(Maximizer.best.equipment.values(), hasItem(ItemPool.get("moss marlinspike")));
+          assertThat(
+              Maximizer.best.equipment.values(), hasItem(ItemPool.get("gold detective badge")));
+          assertThat(
+              Maximizer.best.equipment.values(), hasItem(ItemPool.get("cursed swash buckle")));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(strings = {"Bloody Nora", "low tide martini"})
+      void breathingDrinkKeepsNumericallyBestFamiliarEquipment(String drink) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withProperty("_roboDrinks", "drive-by shooting," + drink),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("das boot"),
+                withEquipped(Slot.HAT, "Mer-kin scholar mask"),
+                withProperty("maximizerCombinationLimit", 100))) {
+          assertThat(maximize("sea, meat, -tie"), is(true));
+          assertThat(Maximizer.best.equipment.get(Slot.FAMILIAR), is(ItemPool.get("amulet coin")));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(booleans = {false, true})
+      void allowsAlternativeSupplyingSlots(boolean initiallyWearingSupplier) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withProperty("_roboDrinks", "drive-by shooting"),
+                withEquippableItem("crumpled felt fedora"),
+                withEquippableItem("Mer-kin scholar mask"),
+                withEquippableItem("old SCUBA tank"))) {
+          if (initiallyWearingSupplier)
+            cleanups.add(withEquipped(Slot.HAT, "Mer-kin scholar mask"));
+          assertThat(maximize("adventure underwater, meat, -tie"), is(true));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("crumpled felt fedora")));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.CONTAINER), is(ItemPool.get("old SCUBA tank")));
+        }
+      }
+
+      @Test
+      void fixedEquipmentPreservesNumericMinimumAtSmallCap() {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withEquipped(Slot.HAT, "Apriling band helmet"),
+                withEquippableItem("porquoise bracelet"),
+                withEquippableItem("Mr. Screege's spectacles"),
+                withEquippableItem("cursed swash buckle"),
+                withEquippableItem("gold detective badge"),
+                withProperty("maximizerCombinationLimit", 2))) {
+          assertThat(maximize("never fumble, meat, 230 min, -hat, -tie"), is(true));
+          // The Meat score includes the base 100% drop rate.
+          assertThat(Maximizer.best.getScore(), greaterThanOrEqualTo(230.0));
+          assertThat(
+              Maximizer.best.equipment.values(), not(hasItem(ItemPool.get("porquoise bracelet"))));
+        }
+      }
+
+      @Test
+      void retainsNumericCandidatesWhenRequirementHasMultipleSources() {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withProperty("_roboDrinks", "drive-by shooting"),
+                withEquippableItem("crumpled felt fedora"),
+                withEquippableItem("Apriling band helmet"),
+                withEquippableItem("porquoise bracelet"),
+                withEquippableItem("Mr. Screege's spectacles"),
+                withEquippableItem("cursed swash buckle"),
+                withEquippableItem("gold detective badge"))) {
+          assertThat(maximize("never fumble, meat, -tie"), is(true));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("crumpled felt fedora")));
+          assertThat(
+              Maximizer.best.equipment.values(), hasItem(ItemPool.get("porquoise bracelet")));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(strings = {"bear", "fish"})
+      void considersModeDependentBreathing(String initialMode) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withEquippableItem("The Crown of Ed the Undying"),
+                withEquippableItem("old SCUBA tank"),
+                withEquippableItem("Camp Scout backpack"),
+                withOverrideModifiers(ModifierType.ITEM, "Camp Scout backpack", "Meat Drop: +100"),
+                withProperty("edPiece", initialMode))) {
+          assertThat(maximize("sea, meat, -tie"), is(true));
+          assertThat(Maximizer.best.getModeables().get(Modeable.EDPIECE), is("fish"));
+          assertThat(Preferences.getString("edPiece"), is(initialMode));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.HAT),
+              is(ItemPool.get("The Crown of Ed the Undying")));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.CONTAINER),
+              is(ItemPool.get("Camp Scout backpack")));
+        }
+      }
+
+      @Test
+      void reevaluatesSourcesForAlternativeFamiliar() {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withFamiliarInTerrarium(FamiliarPool.DANCING_FROG),
+                withEquippableItem("amphibious tophat"),
+                withEquippableItem("Mer-kin scholar mask"))) {
+          assertThat(maximize("sea, switch Dancing Frog, -tie"), is(true));
+          assertThat(Maximizer.best.getFamiliar().getId(), is(FamiliarPool.DANCING_FROG));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.FAMILIAR), is(ItemPool.get("amphibious tophat")));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"ACCORDION_THIEF,true", "SEAL_CLUBBER,false"})
+      void considersClassDependentBoolean(AscensionClass ascensionClass, boolean supplies) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withClass(ascensionClass),
+                withEquippableItem("Operation Patriot Shield"))) {
+          assertThat(maximize("four songs, -tie"), is(supplies));
+          assertThat(
+              Maximizer.best.getModifiers().getBoolean(BooleanModifier.FOUR_SONGS), is(supplies));
+          if (!supplies) return;
+          assertThat(
+              Maximizer.best.equipment.get(Slot.OFFHAND),
+              is(ItemPool.get("Operation Patriot Shield")));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(strings = {"Crown of Thrones", "Buddy Bjorn"})
+      void considersCarriedFamiliarAsALaterSource(String carrier) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withFamiliarInTerrarium(FamiliarPool.LOBSTER),
+                withOverrideModifiers(
+                    ModifierType.THRONE, "Rock Lobster", "Underwater Familiar, Meat Drop: +100"),
+                withEquippableItem("das boot"),
+                withEquippableItem("amulet coin"),
+                withEquippableItem(carrier),
+                withProperty("maximizerCombinationLimit", 100))) {
+          assertThat(maximize("underwater familiar, meat, -tie"), is(true));
+          assertThat(Maximizer.best.equipment.get(Slot.FAMILIAR), is(ItemPool.get("amulet coin")));
+          assertThat(Maximizer.best.equipment.values(), hasItem(ItemPool.get(carrier)));
+        }
+      }
+
+      @Test
+      void considersIntrinsicEffectAsALaterSource() {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withOverrideModifiers(
+                    ModifierType.ITEM,
+                    ItemPool.HELMET_TURTLE,
+                    "Intrinsic Effect: \"Driving Waterproofly\", Meat Drop: +100"),
+                withEquippableItem("das boot"),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("helmet turtle"),
+                withProperty("maximizerCombinationLimit", 100))) {
+          assertThat(maximize("sea, meat, -tie"), is(true));
+          assertThat(Maximizer.best.equipment.get(Slot.FAMILIAR), is(ItemPool.get("amulet coin")));
+          assertThat(Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("helmet turtle")));
+        }
+      }
+
+      @Test
+      void allowsSynergyToSupplyRequirement() {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withOverrideModifiers(
+                    ModifierType.SYNERGY,
+                    "lupine sword/snarling wolf shield",
+                    "Never Fumble, Meat Drop: +100"),
+                withEquippableItem("lupine sword"),
+                withEquippableItem("snarling wolf shield"),
+                withEquippableItem("Apriling band helmet"),
+                withEquippableItem("crumpled felt fedora"),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withProperty("_roboDrinks", "drive-by shooting"))) {
+          assertThat(maximize("never fumble, meat, -tie"), is(true));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("crumpled felt fedora")));
+          assertThat(Maximizer.best.equipment.get(Slot.WEAPON), is(ItemPool.get("lupine sword")));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.OFFHAND), is(ItemPool.get("snarling wolf shield")));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"false,false", "true,false", "false,true", "true,true"})
+      void defersBooleanExpressionsWithoutDisablingStaticRequirements(
+          boolean generated, boolean staticRequirement) {
+        var type = generated ? ModifierType.GENERATED : ModifierType.EFFECT;
+        var key = generated ? "fightMods" : "Leash of Linguini";
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("das boot"),
+                withOverrideModifiers(ModifierType.ITEM, "helmet turtle", "Never Fumble"),
+                withOverrideModifiers(ModifierType.ITEM, "crumpled felt fedora", "Meat Drop: +100"),
+                withOverrideModifiers(type, key, ""),
+                withEffect("Leash of Linguini"),
+                withEquippableItem("helmet turtle"),
+                withEquippableItem("crumpled felt fedora"),
+                withEquippableItem("seal-clubbing club"),
+                withOverrideModifiers(ModifierType.ITEM, "seal-clubbing club", "Meat Drop: +10"))) {
+          var conditional = ModifierDatabase.getModifiers(type, key);
+          conditional.addExpression(
+              BooleanModifier.NEVER_FUMBLE,
+              ModifierExpression.getInstance("1-unarmed", "boolean requirements test"));
+          conditional.variable = true;
+          ModifierDatabase.overrideModifier(type, key, conditional);
+          String objective =
+              "never fumble, meat, -tie" + (staticRequirement ? ",underwater familiar" : "");
+          assertThat(maximize(objective), is(true));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("crumpled felt fedora")));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.WEAPON), is(ItemPool.get("seal-clubbing club")));
+          if (staticRequirement) {
+            assertThat(Maximizer.best.equipment.get(Slot.FAMILIAR), is(ItemPool.get("das boot")));
+            var prunedOutfits = Maximizer.bestChecked;
+            var equipment = Maximizer.best.equipment.clone();
+            var score = Maximizer.best.getScore();
+            // This generated source is not applied to the character. Its expression defers
+            // the static requirement too, providing a full-scoring comparison for the same search.
+            try (var deferred =
+                withOverrideModifiers(ModifierType.GENERATED, "boolean pruning reference", "")) {
+              var reference =
+                  ModifierDatabase.getModifiers(
+                      ModifierType.GENERATED, "boolean pruning reference");
+              reference.addExpression(
+                  BooleanModifier.UNDERWATER_FAMILIAR,
+                  ModifierExpression.getInstance("0", "boolean pruning reference"));
+              ModifierDatabase.overrideModifier(
+                  ModifierType.GENERATED, "boolean pruning reference", reference);
+              assertThat(maximize(objective), is(true));
+              assertThat(Maximizer.bestChecked, greaterThan(prunedOutfits));
+              assertThat(Maximizer.best.equipment, is(equipment));
+              assertThat(Maximizer.best.getScore(), is(score));
+            }
+          }
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(ints = {0, 2})
+      void alreadySatisfiedRequirementsPreserveTheUnconstrainedResult(int limit) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withProperty("_roboDrinks", "drive-by shooting"),
+                withEffect("Driving Waterproofly"),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("das boot"),
+                withEquippableItem("crumpled felt fedora"),
+                withEquippableItem("Mer-kin scholar mask"),
+                withProperty("maximizerCombinationLimit", limit))) {
+          assertThat(maximize("meat, -tie"), is(true));
+          assertThat(Maximizer.best.equipment.get(Slot.FAMILIAR), is(ItemPool.get("amulet coin")));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.HAT), is(ItemPool.get("crumpled felt fedora")));
+          var equipment = Maximizer.best.equipment.clone();
+          var score = Maximizer.best.getScore();
+
+          assertThat(maximize("meat, sea, -tie"), is(true));
+          assertThat(Maximizer.best.equipment, is(equipment));
+          assertThat(Maximizer.best.getScore(), is(score));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"false,1", "false,2", "true,1", "true,2"})
+      void booleanSourcesRespectSharedCopiesAndFoldGroups(boolean foldable, int copies) {
+        String supplier = foldable ? "turtle wax helmet" : "lupine sword";
+        String alternativeForm = foldable ? "turtle wax shield" : supplier;
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING),
+                withProperty("maximizerFoldables", true),
+                withEquippableItem(supplier, copies),
+                withEquippableItem("familiar scrapbook"),
+                withOverrideModifiers(ModifierType.ITEM, supplier, "Never Fumble, Meat Drop: +10"),
+                withOverrideModifiers(ModifierType.ITEM, "familiar scrapbook", "Meat Drop: +5"))) {
+          if (foldable)
+            cleanups.add(
+                withOverrideModifiers(ModifierType.ITEM, alternativeForm, "Meat Drop: +100"));
+
+          assertThat(maximize("never fumble, meat, -tie"), is(true));
+          assertThat(
+              Maximizer.best.getModifiers().getBoolean(BooleanModifier.NEVER_FUMBLE), is(true));
+          assertThat(
+              Maximizer.best.equipment.get(foldable ? Slot.HAT : Slot.WEAPON),
+              is(ItemPool.get(supplier)));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.OFFHAND),
+              is(ItemPool.get(copies == 1 ? "familiar scrapbook" : alternativeForm)));
+          long used =
+              Maximizer.best.equipment.values().stream()
+                  .filter(
+                      item ->
+                          item.equals(ItemPool.get(supplier))
+                              || item.equals(ItemPool.get(alternativeForm)))
+                  .count();
+          assertThat(used, is((long) copies));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"180, true", "210, false"})
+      void satisfyingABooleanDoesNotBypassNumericMinimum(int minimum, boolean succeeds) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withEquippableItem("helmet turtle"),
+                withEquippableItem("Mer-kin scholar mask"),
+                withEquippableItem("old SCUBA tank"),
+                withEquippableItem("Camp Scout backpack"),
+                withOverrideModifiers(ModifierType.ITEM, "helmet turtle", "Meat Drop: +100"),
+                withOverrideModifiers(
+                    ModifierType.ITEM,
+                    "Mer-kin scholar mask",
+                    "Adventure Underwater, Meat Drop: +10"),
+                withOverrideModifiers(ModifierType.ITEM, "old SCUBA tank", "Adventure Underwater"),
+                withOverrideModifiers(
+                    ModifierType.ITEM, "Camp Scout backpack", "Meat Drop: +50"))) {
+          assertThat(
+              maximize("adventure underwater, meat, " + minimum + " min, -tie"), is(succeeds));
+          if (succeeds) {
+            // The mask/backpack combination satisfies breathing, but not the numeric minimum.
+            assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+            assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "old SCUBA tank")));
+            assertThat(Maximizer.best.getScore(), is(200.0));
+          }
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(booleans = {false, true})
+      void positiveRequirementDoesNotOverrideAForbiddenModifier(boolean hasAlternative) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withEquipped(Slot.HAT, "Mer-kin scholar mask"),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("das boot"),
+                withOverrideModifiers(
+                    ModifierType.ITEM,
+                    "das boot",
+                    "Underwater Familiar, Never Fumble, Familiar Weight: -10"))) {
+          if (hasAlternative) cleanups.add(withEquippableItem("little bitty bathysphere"));
+          assertThat(maximize("sea, -never fumble, meat, -tie"), is(hasAlternative));
+          if (hasAlternative) {
+            assertThat(
+                getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "little bitty bathysphere")));
+            assertThat(
+                Maximizer.best.getModifiers().getBoolean(BooleanModifier.NEVER_FUMBLE), is(false));
+          }
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"amulet coin, false", "das boot, true"})
+      void cannotReplaceEquipmentInALockedFamiliarSlot(String item, boolean succeeds) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withEquipped(Slot.HAT, "Mer-kin scholar mask"),
+                withEquipped(Slot.FAMILIAR, item),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("das boot"))) {
+          assertThat(maximize("sea, meat, -familiar, -tie"), is(succeeds));
+          assertThat(Maximizer.best.equipment.get(Slot.FAMILIAR), is(ItemPool.get(item)));
+          assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FAMILIAR))));
+        }
+      }
+
+      @Test
+      void breathingDoesNotCarryOverWhenSwitchingFamiliars() {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withProperty("_roboDrinks", "Bloody Nora"),
+                withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY, 400),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("das boot"),
+                withEquipped(Slot.HAT, "Mer-kin scholar mask"))) {
+          assertThat(maximize("sea, item, switch Baby Gravy Fairy, -tie"), is(true));
+          assertThat(Maximizer.best.getFamiliar().getId(), is(FamiliarPool.BABY_GRAVY_FAIRY));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "das boot")));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(strings = {"0.01 modbonus Underwater Familiar", "-underwater familiar"})
+      void softAndNegativeRequirementsDoNotSpendWorkOnPositiveBooleanPruning(String requirement) {
+        try (var cleanups =
+            new Cleanups(
+                withStats(300, 300, 300),
+                withInteractivity(true),
+                withFamiliar(FamiliarPool.ROBORTENDER, 400),
+                withEquippableItem("amulet coin"),
+                withEquippableItem("das boot"),
+                withProperty("maximizerCombinationLimit", 1))) {
+          assertThat(maximize("meat, " + requirement + ", -tie"), is(true));
+          assertThat(Maximizer.evaluationsChecked, is(1L));
+          assertThat(Maximizer.bestChecked, is(1));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "amulet coin")));
+          assertThat(
+              Maximizer.best.getModifiers().getBoolean(BooleanModifier.UNDERWATER_FAMILIAR),
+              is(false));
+        }
+      }
     }
   }
 }

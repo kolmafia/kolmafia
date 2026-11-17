@@ -93,6 +93,8 @@ public class Maximizer {
 
   static MaximizerSpeculation best;
   static int bestChecked;
+  // Full outfits and boolean source/pruning calculations share the work budget.
+  static long evaluationsChecked;
   static long bestUpdate;
   static long combinationLimit;
 
@@ -188,6 +190,7 @@ public class Maximizer {
       // due to some newly-added constraint (such as +melee):
       Maximizer.best.failed = true;
       Maximizer.bestChecked = 0;
+      Maximizer.evaluationsChecked = 0;
       Maximizer.bestUpdate = System.currentTimeMillis() + 5000;
       Maximizer.combinationLimit = Preferences.getLong("maximizerCombinationLimit");
       try {
@@ -200,7 +203,7 @@ public class Maximizer {
         Maximizer.boosts.add(
             new Boost(
                 "",
-                "<font color=red>(hit combination limit, optimality not guaranteed)</font>",
+                "<font color=red>(hit maximizer limit, optimality not guaranteed)</font>",
                 Slot.NONE,
                 null,
                 0.0));
@@ -214,7 +217,9 @@ public class Maximizer {
                 null,
                 0.0));
       }
-      if (!currentEquipment.failed && Maximizer.best.getScore() < currentEquipment.getScore()) {
+      // The budget can be exhausted by boolean checks before any complete outfit is scored.
+      if (!currentEquipment.failed
+          && (Maximizer.best.failed || Maximizer.best.getScore() < currentEquipment.getScore())) {
         Maximizer.best = currentEquipment;
       }
       MaximizerSpeculation.showProgress();

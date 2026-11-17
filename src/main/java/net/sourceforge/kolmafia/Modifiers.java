@@ -449,6 +449,16 @@ public class Modifiers {
     return bools;
   }
 
+  public EnumSet<BooleanModifier> getBooleanExpressions() {
+    var result = EnumSet.noneOf(BooleanModifier.class);
+    if (this.expressions != null) {
+      for (var modifier : this.expressions.keySet()) {
+        if (modifier instanceof BooleanModifier booleanModifier) result.add(booleanModifier);
+      }
+    }
+    return result;
+  }
+
   public String getString(final Modifier modifier) {
     if (modifier == null) {
       return "";

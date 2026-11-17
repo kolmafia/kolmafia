@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -283,6 +284,31 @@ public class ModifierDatabase {
   public static final Collection<Entry<IntOrString, String>> getAllModifiersOfType(
       final ModifierType type) {
     return modifierStringsByName.getAll(type).entrySet();
+  }
+
+  /** Booleans whose expressions may depend on other equipment, including runtime overrides. */
+  public static EnumSet<BooleanModifier> getBooleanModifiersWithExpressions() {
+    var result = EnumSet.noneOf(BooleanModifier.class);
+    // Generated sources (for example fightMods) need not have a modifiers.txt entry.
+    for (var type : modifiersByName.entrySet()) {
+      for (var modifiers : type.getValue().values()) {
+        result.addAll(modifiers.getBooleanExpressions());
+      }
+    }
+    for (var type : modifierStringsByName.entrySet()) {
+      for (var entry : type.getValue().entrySet()) {
+        var cached = modifiersByName.get(type.getKey(), entry.getKey());
+        if (cached == null && entry.getValue() != null && entry.getValue().contains("[")) {
+          for (var modifier : splitModifiers(entry.getValue())) {
+            if (modifier.getValue() != null && modifier.getValue().startsWith("[")) {
+              var booleanModifier = BooleanModifier.byCaselessName(modifier.getName());
+              if (booleanModifier != null) result.add(booleanModifier);
+            }
+          }
+        }
+      }
+    }
+    return result;
   }
 
   // WARNING: Slow. Don't use in code that runs repeatedly.

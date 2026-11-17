@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.maximizer;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -39,6 +40,34 @@ public class MaximizerSpeculation extends Speculation
   public boolean failed = false;
   public CheckedItem attachment;
   private boolean foldables = false;
+  Set<BooleanModifier> requiredBooleans = Set.of();
+  private BooleanRequirements booleanRequirements;
+
+  /** Reserve one evaluation before doing the work, including checks that prune every outfit. */
+  static void countEvaluation() throws MaximizerInterruptedException {
+    if (!KoLmafia.permitsContinue()) {
+      throw new MaximizerInterruptedException();
+    }
+    if (Maximizer.combinationLimit != 0
+        && Maximizer.evaluationsChecked >= Maximizer.combinationLimit) {
+      throw new MaximizerLimitException();
+    }
+    Maximizer.evaluationsChecked++;
+    if ((Maximizer.evaluationsChecked & 0x3FF) == 0) {
+      long t = System.currentTimeMillis();
+      if (t > Maximizer.bestUpdate) {
+        MaximizerSpeculation.showProgress();
+        Maximizer.bestUpdate = t + 5000;
+      }
+    }
+  }
+
+  private boolean canCompleteBooleans(Slot assigned) throws MaximizerInterruptedException {
+    if (this.booleanRequirements != null && !KoLmafia.permitsContinue()) {
+      throw new MaximizerInterruptedException();
+    }
+    return this.booleanRequirements == null || this.booleanRequirements.possible(this, assigned);
+  }
 
   @Override
   public MaximizerSpeculation clone() {
@@ -334,6 +363,17 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    this.booleanRequirements =
+        this.requiredBooleans.isEmpty()
+            ? null
+            : new BooleanRequirements(
+                this.requiredBooleans,
+                this,
+                possibles,
+                bestCard,
+                enthronedFamiliars,
+                useCrownFamiliar,
+                useBjornFamiliar);
     var mark = this.mark();
     if (this.equipment.get(Slot.FAMILIAR) == null) {
       List<CheckedItem> possible = possibles.get(Slot.FAMILIAR);
@@ -388,6 +428,7 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (!this.canCompleteBooleans(Slot.FAMILIAR)) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.CONTAINER) == null) {
       List<CheckedItem> possible = possibles.get(Slot.CONTAINER);
@@ -445,6 +486,7 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
+    if (pos == 0 && !this.canCompleteBooleans(Slot.CONTAINER)) return;
     var mark = this.mark();
     int free = 0;
     if (this.equipment.get(Slot.ACCESSORY1) == null) ++free;
@@ -524,6 +566,7 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
+    if (!this.canCompleteBooleans(Slot.ACCESSORY1)) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.HAT) == null) {
       List<CheckedItem> possible = possibles.get(Slot.HAT);
@@ -582,6 +625,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryShirts(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (!this.canCompleteBooleans(Slot.HAT)) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.SHIRT) == null) {
       boolean any = false;
@@ -623,6 +667,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryPants(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (!this.canCompleteBooleans(Slot.SHIRT)) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.PANTS) == null) {
       List<CheckedItem> possible = possibles.get(Slot.PANTS);
@@ -662,6 +707,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void trySixguns(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (!this.canCompleteBooleans(Slot.PANTS)) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.HOLSTER) == null) {
       List<CheckedItem> possible = possibles.get(Slot.HOLSTER);
@@ -685,6 +731,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryWeapons(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (!this.canCompleteBooleans(Slot.HOLSTER)) return;
     var mark = this.mark();
     boolean chefstaffable =
         KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI) || KoLCharacter.isJarlsberg();
@@ -763,6 +810,10 @@ public class MaximizerSpeculation extends Speculation
             case RANGED -> possibles.get(Evaluator.OFFHAND_RANGED);
             default -> possibles.get(Slot.OFFHAND);
           };
+      // An unarmed outfit also tries an empty offhand. With only one completion, let
+      // normal scoring enforce the booleans instead of calculating the outfit twice.
+      boolean branches = possible.size() > 1 || (weapon <= 0 && !possible.isEmpty());
+      if (branches && !this.canCompleteBooleans(Slot.WEAPON)) return;
       boolean any = false;
 
       for (AdventureResult item : possible) {
@@ -810,17 +861,11 @@ public class MaximizerSpeculation extends Speculation
       // this isn't really what is happening but trying to understand why this is happening, first.
       throw new MaximizerLimitException();
     }
+    countEvaluation();
     if (this.compareTo(Maximizer.best) > 0) {
       Maximizer.best = this.clone();
     }
     Maximizer.bestChecked++;
-    if ((Maximizer.bestChecked & 0x3FF) == 0) {
-      long t = System.currentTimeMillis();
-      if (t > Maximizer.bestUpdate) {
-        MaximizerSpeculation.showProgress();
-        Maximizer.bestUpdate = t + 5000;
-      }
-    }
     this.restore(mark);
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();
@@ -828,7 +873,8 @@ public class MaximizerSpeculation extends Speculation
     if (this.exceeded) {
       throw new MaximizerExceededException();
     }
-    if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
+    if (Maximizer.combinationLimit != 0
+        && Maximizer.evaluationsChecked >= Maximizer.combinationLimit) {
       throw new MaximizerLimitException();
     }
   }
@@ -876,6 +922,8 @@ public class MaximizerSpeculation extends Speculation
 
   public static void showProgress() {
     StringBuilder msg = new StringBuilder();
+    msg.append(Maximizer.evaluationsChecked);
+    msg.append(" evaluations, ");
     msg.append(Maximizer.bestChecked);
     msg.append(" combinations checked, best score ");
     double score = Maximizer.best.getScore();
