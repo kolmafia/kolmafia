@@ -518,6 +518,9 @@ public class AccountRequest extends PasswordHashRequest {
     checked = flags.getIntValue("wowbar") == 1;
     Preferences.setBoolean("serverAddsCustomCombat", checked);
 
+    checked = flags.getIntValue("bothcombatinterf") == 1;
+    Preferences.setBoolean("serverAddsBothCombat", checked);
+
     int autoAttackAction = flags.getIntValue("autoattack");
     KoLCharacter.setAutoAttackAction(autoAttackAction);
 
