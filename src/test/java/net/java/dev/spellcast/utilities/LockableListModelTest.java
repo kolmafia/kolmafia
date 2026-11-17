@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class LockableListModelTest {
-  /** Records the events a list sends. */
   private static class RecordingListener implements LockableListModel.ListListener {
     final List<String> events = new ArrayList<>();
     final List<Object> sources = new ArrayList<>();

@@ -10,7 +10,7 @@ public class SwinglessUIUtils {
       Class.forName("javax.swing.ListModel", false, SwinglessUIUtils.class.getClassLoader());
       isSwingAvailable = true;
     } catch (ClassNotFoundException | LinkageError e) {
-      // if unable to find it, we are in a Swing-less environment
+      // if unable to do so, we are in a Swing-less environment
       isSwingAvailable = false;
     }
   }

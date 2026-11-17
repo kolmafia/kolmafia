@@ -30,9 +30,6 @@ public class SwingListModel<E> extends AbstractListModel<E>
     return this.list;
   }
 
-  // The list notifies this adapter only while Swing is listening, as it notified Swing directly.
-  // Events keep the list that caused them as their source, as before.
-
   @Override
   public void addListDataListener(final ListDataListener l) {
     synchronized (this) {
