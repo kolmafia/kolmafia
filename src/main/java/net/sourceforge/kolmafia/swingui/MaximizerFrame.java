@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -56,7 +57,16 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MaximizerFrame extends GenericFrame implements ListSelectionListener {
-  public static final JComboBox<String> expressionSelect = new JComboBox<>();
+  public static final JComboBox<String> expressionSelect = new JComboBox<>(new ExpressionModel());
+
+  /** Keeps the maximizer's expression in step with what is selected or typed here. */
+  private static class ExpressionModel extends DefaultComboBoxModel<String> {
+    @Override
+    public void setSelectedItem(final Object anObject) {
+      super.setSelectedItem(anObject);
+      Maximizer.setExpression((String) anObject);
+    }
+  }
 
   static { // This has to be done before the constructor runs, since the
     // CLI "maximize" command can set the selected item prior to the

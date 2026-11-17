@@ -25,4 +25,9 @@ public class SwingUserInterface implements UserInterface {
   public boolean isEventDispatchThread() {
     return SwingUtilities.isEventDispatchThread();
   }
+
+  @Override
+  public void maximizerExpressionChanged(final String expression) {
+    MaximizerFrame.expressionSelect.setSelectedItem(expression);
+  }
 }

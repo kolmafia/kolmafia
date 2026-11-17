@@ -16,4 +16,6 @@ public interface UserInterface {
   default boolean isEventDispatchThread() {
     return false;
   }
+
+  default void maximizerExpressionChanged(final String expression) {}
 }
