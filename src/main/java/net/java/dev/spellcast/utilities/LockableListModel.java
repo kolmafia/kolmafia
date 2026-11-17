@@ -218,9 +218,10 @@ public class LockableListModel<E>
 		}
 
 		this.actionListenerFired = true;
-		for ( int i = this.listListeners.size() - 1; i >= 0; --i )
+		ListListener[] listeners = this.listListeners.toArray( new ListListener[ 0 ] );
+		for ( int i = listeners.length - 1; i >= 0; --i )
 		{
-			this.listListeners.get( i ).contentsChanged( source, index0, index1 );
+			listeners[ i ].contentsChanged( source, index0, index1 );
 		}
 		this.actionListenerFired = false;
 	}
@@ -233,9 +234,10 @@ public class LockableListModel<E>
 		}
 
 		this.actionListenerFired = true;
-		for ( int i = this.listListeners.size() - 1; i >= 0; --i )
+		ListListener[] listeners = this.listListeners.toArray( new ListListener[ 0 ] );
+		for ( int i = listeners.length - 1; i >= 0; --i )
 		{
-			this.listListeners.get( i ).intervalAdded( source, index0, index1 );
+			listeners[ i ].intervalAdded( source, index0, index1 );
 		}
 		this.actionListenerFired = false;
 	}
@@ -248,9 +250,10 @@ public class LockableListModel<E>
 		}
 
 		this.actionListenerFired = true;
-		for ( int i = this.listListeners.size() - 1; i >= 0; --i )
+		ListListener[] listeners = this.listListeners.toArray( new ListListener[ 0 ] );
+		for ( int i = listeners.length - 1; i >= 0; --i )
 		{
-			this.listListeners.get( i ).intervalRemoved( source, index0, index1 );
+			listeners[ i ].intervalRemoved( source, index0, index1 );
 		}
 		this.actionListenerFired = false;
 	}
