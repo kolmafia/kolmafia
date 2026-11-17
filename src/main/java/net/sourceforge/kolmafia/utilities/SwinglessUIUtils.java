@@ -1,19 +1,16 @@
 package net.sourceforge.kolmafia.utilities;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
-
 public class SwinglessUIUtils {
 
   static boolean isSwingAvailable;
 
   static {
     try {
-      // try to instantiate a LockableListModel, which implements Swing
-      // interfaces
-      new LockableListModel<>();
+      // Swing is part of the java.desktop module, which may be missing
+      Class.forName("javax.swing.ListModel", false, SwinglessUIUtils.class.getClassLoader());
       isSwingAvailable = true;
-    } catch (NoClassDefFoundError e) {
-      // if unable to do so, we are in a Swing-less environment
+    } catch (ClassNotFoundException | LinkageError e) {
+      // if unable to find it, we are in a Swing-less environment
       isSwingAvailable = false;
     }
   }
