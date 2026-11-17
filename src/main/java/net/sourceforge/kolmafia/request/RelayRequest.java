@@ -790,6 +790,11 @@ public class RelayRequest extends PasswordHashRequest {
       } else if (!filename.endsWith(".html")) {
         setLastModified(override);
       }
+    } else {
+      if (override.isFile() && !filename.endsWith(".php")) {
+        // php files could shadow KoL
+        setLastModified(override);
+      }
     }
 
     if (this.isChatRequest) {

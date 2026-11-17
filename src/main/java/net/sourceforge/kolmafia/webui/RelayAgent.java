@@ -357,16 +357,16 @@ public class RelayAgent extends Thread {
       return false;
     }
 
+    if (path.endsWith(".ash") || path.endsWith(".php")) {
+      // ash files are always dynamic; php files could shadow KoL
+      return false;
+    }
+
     // Things in the "images" directory come from KoL's image server.
     // We set the modification date to KoL's modification date.
     if (path.startsWith("/images/")) {
       return RelayAgent.notModifiedSince(
           ifModifiedSince, RelayRequest.findLocalImage(path.substring(1)));
-    }
-
-    if (path.endsWith(".ash") || path.endsWith(".php")) {
-      // ash files are always dynamic; php files could shadow KoL
-      return false;
     }
 
     // Otherwise, look at the modification date of the file in the
