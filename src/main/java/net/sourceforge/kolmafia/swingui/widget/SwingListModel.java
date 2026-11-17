@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import javax.swing.AbstractListModel;
+import javax.swing.ListModel;
 import javax.swing.MutableComboBoxModel;
 import javax.swing.event.ListDataListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -20,7 +21,7 @@ public class SwingListModel<E> extends AbstractListModel<E>
 
   /** The list shown by a Swing model, or null if the model does not show one. */
   @SuppressWarnings("unchecked")
-  public static <E> LockableListModel<E> listOf(final Object model) {
+  public static <E> LockableListModel<E> listOf(final ListModel<?> model) {
     return model instanceof SwingListModel<?> swingModel
         ? (LockableListModel<E>) swingModel.list
         : null;

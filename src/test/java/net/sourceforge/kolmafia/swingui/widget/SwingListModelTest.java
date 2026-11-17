@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.sameInstance;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -45,7 +46,7 @@ class SwingListModelTest {
     var list = new LockableListModel<String>();
 
     assertThat(SwingListModel.listOf(SwingListModel.of(list)), sameInstance(list));
-    assertThat(SwingListModel.listOf("not a model"), nullValue());
+    assertThat(SwingListModel.listOf(new DefaultListModel<String>()), nullValue());
     assertThat(SwingListModel.of(null), nullValue());
   }
 
