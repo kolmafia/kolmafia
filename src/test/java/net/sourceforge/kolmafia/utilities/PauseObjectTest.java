@@ -1,24 +1,23 @@
 package net.sourceforge.kolmafia.utilities;
 
+import static internal.helpers.Player.withUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThan;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.ui.UserInterface;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.Test;
 
 class PauseObjectTest {
   private static Cleanups withEventDispatchThread(final boolean isEventDispatchThread) {
-    UserInterfaceManager.setUserInterface(
+    return withUserInterface(
         new UserInterface() {
           @Override
           public boolean isEventDispatchThread() {
             return isEventDispatchThread;
           }
         });
-    return new Cleanups(() -> UserInterfaceManager.setUserInterface(null));
   }
 
   @Test

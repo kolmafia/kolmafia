@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.chat;
 
-import java.awt.Toolkit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatParser {
@@ -326,7 +326,7 @@ public class ChatParser {
 
     String content = line.substring(line.indexOf(":") + 9).trim();
     if (Preferences.getBoolean("chatBeep")) {
-      Toolkit.getDefaultToolkit().beep();
+      UserInterfaceManager.getUserInterface().beep();
     }
 
     ChatMessage message = new ChatMessage(sender, recipient, content, false);

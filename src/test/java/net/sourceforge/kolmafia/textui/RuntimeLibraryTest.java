@@ -51,6 +51,7 @@ import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withUnequipped;
+import static internal.helpers.Player.withUserInterface;
 import static internal.helpers.Player.withValueOfAdventure;
 import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.CoreMatchers.both;
@@ -105,7 +106,6 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import net.sourceforge.kolmafia.ui.UserInterface;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.NullStream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -3421,8 +3421,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class UserInterfaceCalls {
     private final List<String> balloons = new ArrayList<>();
 
-    private Cleanups withUserInterface() {
-      UserInterfaceManager.setUserInterface(
+    private Cleanups withBalloonsAndDarkTheme() {
+      return withUserInterface(
           new UserInterface() {
             @Override
             public void showBalloon(final String message, final boolean onlyShowWhenHidden) {
@@ -3434,12 +3434,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               return true;
             }
           });
-      return new Cleanups(() -> UserInterfaceManager.setUserInterface(null));
     }
 
     @Test
     void notifies() {
-      try (var cleanups = withUserInterface()) {
+      try (var cleanups = withBalloonsAndDarkTheme()) {
         execute("user_notify(\"Done\")");
         execute("user_notify(\"Hidden\", true)");
 
@@ -3449,7 +3448,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void reportsDarkMode() {
-      try (var cleanups = withUserInterface()) {
+      try (var cleanups = withBalloonsAndDarkTheme()) {
         String output = execute("is_dark_mode()");
 
         assertThat(output, containsString("Returned: true"));
