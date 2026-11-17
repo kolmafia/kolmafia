@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MoodOptionsPanel extends JPanel {
@@ -70,7 +71,7 @@ public class MoodOptionsPanel extends JPanel {
 
     private class MoodComboBox extends JComboBox<Mood> {
       public MoodComboBox() {
-        super(MoodManager.getAvailableMoods());
+        super(SwingListModel.of(MoodManager.getAvailableMoods()));
 
         MoodManager.updateFromPreferences();
 

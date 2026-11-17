@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -784,7 +785,7 @@ public class GearChangePanel extends JPanel {
 
   private class EquipmentComboBox extends JComboBox<AdventureResult> {
     public EquipmentComboBox(final LockableListModel<AdventureResult> model, final Slot slot) {
-      super(model);
+      super(SwingListModel.of(model));
 
       DefaultListCellRenderer renderer = ListCellRendererFactory.getUsableEquipmentRenderer(slot);
 
@@ -810,7 +811,7 @@ public class GearChangePanel extends JPanel {
 
   private static class OutfitComboBox extends JComboBox<SpecialOutfit> {
     public OutfitComboBox(final LockableListModel<SpecialOutfit> model) {
-      super(model);
+      super(SwingListModel.of(model));
 
       this.setRenderer(ListCellRendererFactory.getDefaultRenderer());
       this.addActionListener(new ChangeOutfitListener());
@@ -860,7 +861,7 @@ public class GearChangePanel extends JPanel {
 
   private static class CarriedFamiliarComboBox extends JComboBox<FamiliarData> {
     public CarriedFamiliarComboBox(final LockableListModel<FamiliarData> model) {
-      super(model);
+      super(SwingListModel.of(model));
       DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
       this.setRenderer(renderer);
     }
@@ -902,7 +903,7 @@ public class GearChangePanel extends JPanel {
 
   private class FamiliarComboBox extends JComboBox<FamiliarData> {
     public FamiliarComboBox(final LockableListModel<FamiliarData> model) {
-      super(model);
+      super(SwingListModel.of(model));
       this.addActionListener(new ChangeFamiliarListener());
     }
 

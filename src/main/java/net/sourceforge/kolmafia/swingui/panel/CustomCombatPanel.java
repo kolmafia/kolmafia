@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -501,7 +502,7 @@ public class CustomCombatPanel extends JPanel {
 
   public class CombatComboBox extends JComboBox<String> implements Listener {
     public CombatComboBox() {
-      super(CombatActionManager.getAvailableLookups());
+      super(SwingListModel.of(CombatActionManager.getAvailableLookups()));
       this.addActionListener(this);
       PreferenceListenerRegistry.registerPreferenceListener("customCombatScript", this);
     }
