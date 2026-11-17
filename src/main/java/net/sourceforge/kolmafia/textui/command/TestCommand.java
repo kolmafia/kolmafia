@@ -84,8 +84,8 @@ import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
-import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -759,7 +759,7 @@ public class TestCommand extends AbstractCommand {
 
       var request = new GenericRequest(fileName);
       request.responseText = html;
-      ShowHTMLFrame.showRequest(request);
+      UserInterfaceManager.getUserInterface().showHTML(request);
 
       return;
     }
