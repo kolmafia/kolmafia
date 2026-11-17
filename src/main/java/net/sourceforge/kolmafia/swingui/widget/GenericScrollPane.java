@@ -1,13 +1,15 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Component;
+import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.UIResource;
 import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class GenericScrollPane extends JScrollPane {
@@ -42,7 +44,8 @@ public class GenericScrollPane extends JScrollPane {
     if (view instanceof JList) {
       if (Preferences.getString("swingLookAndFeel")
           .equals(UIManager.getCrossPlatformLookAndFeelClassName())) {
-        view.setFont(KoLGUIConstants.DEFAULT_FONT);
+        Font font = view.getFont().deriveFont(Font.PLAIN);
+        view.setFont(view.getFont() instanceof UIResource ? new FontUIResource(font) : font);
       }
     } else if (!(view instanceof JTextComponent)) {
       this.getVerticalScrollBar().setUnitIncrement(30);
