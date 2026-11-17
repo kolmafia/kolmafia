@@ -18,8 +18,8 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -267,7 +267,8 @@ public abstract class StaticEntity {
    * relative to the KoL home directory for the current session.
    */
   public static final void openDescriptionFrame(final String location) {
-    DescriptionFrame.showRequest(RequestEditorKit.extractRequest(location));
+    UserInterfaceManager.getUserInterface()
+        .showDescription(RequestEditorKit.extractRequest(location));
   }
 
   public static final boolean executeCountdown(final String message, final int seconds) {

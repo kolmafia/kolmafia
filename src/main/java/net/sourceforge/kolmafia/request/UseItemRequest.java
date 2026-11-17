@@ -71,8 +71,8 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.shop.ShopRequest;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.command.ZapCommand;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1240,7 +1240,7 @@ public class UseItemRequest extends GenericRequest {
   }
 
   public static final boolean confirmReplacement(final String name) {
-    if (!GenericFrame.instanceExists()) {
+    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
       return true;
     }
 
