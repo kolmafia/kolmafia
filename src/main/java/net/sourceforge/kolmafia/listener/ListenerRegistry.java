@@ -58,22 +58,8 @@ public class ListenerRegistry {
     }
 
     // We were deferred but are no longer deferred. Fire at Will!
-    this.fireDeferredListeners(deferredKeys);
-  }
-
-  private void fireDeferredListeners(Object[] keys) {
-    boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
-
-    for (Object key : keys) {
-      ArrayList<WeakReference<Listener>> listenerList;
-      synchronized (this.listenerMap) {
-        listenerList = this.listenerMap.get(key);
-      }
-      if (logit) {
-        int count = listenerList == null ? 0 : listenerList.size();
-        RequestLogger.updateDebugLog("Firing " + count + " listeners for \"" + key + "\"");
-      }
-      this.fireListeners(listenerList, null);
+    for (var key : deferredKeys) {
+      this.fireListener(key);
     }
   }
 
@@ -120,10 +106,10 @@ public class ListenerRegistry {
 
     boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
-    boolean deferred;
+    boolean isDeferred;
     synchronized (this.deferred) {
-      deferred = this.deferring > 0;
-      if (deferred) {
+      isDeferred = this.deferring > 0;
+      if (isDeferred) {
         this.deferred.add(key);
       }
     }
@@ -131,10 +117,10 @@ public class ListenerRegistry {
     if (logit) {
       int count = listenerList.size();
       RequestLogger.updateDebugLog(
-          (deferred ? "Deferring " : "Firing ") + count + " listeners for \"" + key + "\"");
+          (isDeferred ? "Deferring " : "Firing ") + count + " listeners for \"" + key + "\"");
     }
 
-    if (deferred) {
+    if (isDeferred) {
       return;
     }
 
@@ -144,16 +130,13 @@ public class ListenerRegistry {
   public final void fireAllListeners() {
     boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
-    Set<Object> keys;
-    synchronized (this.listenerMap) {
-      keys = new HashSet<>(this.listenerMap.keySet());
-    }
-
     synchronized (this.deferred) {
       if (this.deferring > 0) {
-        this.deferred.addAll(keys);
+        synchronized (this.listenerMap) {
+          this.deferred.addAll(this.listenerMap.keySet());
+        }
         if (logit) {
-          RequestLogger.updateDebugLog("Deferring all listeners for " + keys.size() + " keys");
+          RequestLogger.updateDebugLog("Deferring all listeners");
         }
         return;
       }
