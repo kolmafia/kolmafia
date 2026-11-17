@@ -727,10 +727,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private void setLastModified(final File override) {
     long lastModified = override.lastModified();
-    long now = (new Date()).getTime();
-    long expires = now + (1000L * 60 * 60 * 24 * 30);
     this.headers.add("Last-Modified: " + StringUtilities.formatDate(lastModified));
-    this.headers.add("Expires: " + StringUtilities.formatDate(expires));
   }
 
   private void sendLocalFile(final String filename) {
