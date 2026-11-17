@@ -24,8 +24,7 @@ final class MaximizerBranchBound {
       List.of(Slot.CONTAINER, Slot.HAT, Slot.SHIRT, Slot.PANTS);
 
   record OutfitEnvelope(
-      EnumSet<BooleanModifier> upper,
-      Map<Slot, Map<Integer, EnumSet<BooleanModifier>>> bySlot) {}
+      EnumSet<BooleanModifier> upper, Map<Slot, Map<Integer, EnumSet<BooleanModifier>>> bySlot) {}
 
   private record PreparedRole(
       Slot slot,
@@ -143,8 +142,7 @@ final class MaximizerBranchBound {
         || !Collections.disjoint(this.lower, this.forbidden);
   }
 
-  static OutfitEnvelope outfitEnvelope(
-      Map<Integer, EnumSet<BooleanModifier>> outfitUppers) {
+  static OutfitEnvelope outfitEnvelope(Map<Integer, EnumSet<BooleanModifier>> outfitUppers) {
     var upper = EnumSet.noneOf(BooleanModifier.class);
     if (outfitUppers.isEmpty()) return new OutfitEnvelope(upper, Map.of());
     var bySlot = new EnumMap<Slot, Map<Integer, EnumSet<BooleanModifier>>>(Slot.class);

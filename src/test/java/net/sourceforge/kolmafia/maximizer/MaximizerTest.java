@@ -2723,8 +2723,7 @@ public class MaximizerTest {
                   ModifierType.ITEM,
                   ItemPool.HELMET_TURTLE,
                   "Intrinsic Effect: \"Temporary Blindness\", Item Drop: +1000"),
-              withOverrideModifiers(
-                  ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +1"),
+              withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +1"),
               withProperty("maximizerCombinationLimit", 1))) {
         assertTrue(maximize("-blind, item, +current"));
         assertThat(
@@ -2777,8 +2776,7 @@ public class MaximizerTest {
           new Cleanups(
               withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
               withEquippableItem(ItemPool.HATSEAT),
-              withOverrideModifiers(
-                  ModifierType.THRONE, "Mosquito", "Blind, Item Drop: +10"))) {
+              withOverrideModifiers(ModifierType.THRONE, "Mosquito", "Blind, Item Drop: +10"))) {
         assertTrue(maximize("blind, item"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Crown of Thrones")));
         assertThat(Maximizer.best.getModifiers().getBoolean(BooleanModifier.BLIND), is(true));
