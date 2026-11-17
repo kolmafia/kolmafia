@@ -80,17 +80,15 @@ class SwingListModelTest {
   }
 
   @Test
-  void listensToTheListOnlyWhileSwingListens() {
+  void removesAListenerThroughAnyModelOfTheList() {
     var list = new LockableListModel<String>();
     var listener = new RecordingListener();
-    var model = SwingListModel.of(list);
 
-    model.addListDataListener(listener);
-    model.removeListDataListener(listener);
+    SwingListModel.of(list).addListDataListener(listener);
+    SwingListModel.of(list).removeListDataListener(listener);
     list.add("a");
 
     assertThat(listener.events, empty());
-    assertThat(model.getListDataListeners().length, is(0));
   }
 
   @Test
