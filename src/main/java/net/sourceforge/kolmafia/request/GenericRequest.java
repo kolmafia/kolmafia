@@ -80,9 +80,9 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
-import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -2548,7 +2548,7 @@ public class GenericRequest implements Runnable {
             || exceptional && Preferences.getBoolean("showExceptionalRequests");
 
     if (showRequestSync) {
-      RequestSynchFrame.showRequest(this);
+      UserInterfaceManager.getUserInterface().showRequest(this);
     }
 
     if (exceptional) {
