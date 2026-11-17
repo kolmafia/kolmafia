@@ -34,39 +34,46 @@ public class ListenerRegistry {
   public ListenerRegistry() {}
 
   public void deferListeners(boolean deferring) {
-    // If we are deferring, increment defer level
-    if (deferring) {
-      this.deferring += 1;
-      return;
-    }
+    Object[] deferredKeys;
 
-    // If we are undeferring but are not deferred, do nothing
-    if (this.deferring == 0) {
-      return;
-    }
+    synchronized (this.deferred) {
+      // If we are deferring, increment defer level
+      if (deferring) {
+        this.deferring += 1;
+        return;
+      }
 
-    // If we are undeferring and are still deferred, nothing more to do
-    if (--this.deferring > 0) {
-      return;
+      // If we are undeferring but are not deferred, do nothing
+      if (this.deferring == 0) {
+        return;
+      }
+
+      // If we are undeferring and are still deferred, nothing more to do
+      if (--this.deferring > 0) {
+        return;
+      }
+
+      deferredKeys = this.deferred.toArray();
+      this.deferred.clear();
     }
 
     // We were deferred but are no longer deferred. Fire at Will!
+    this.fireDeferredListeners(deferredKeys);
+  }
 
+  private void fireDeferredListeners(Object[] keys) {
     boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
-    synchronized (this.deferred) {
-      Object[] listenerArray = new Object[this.deferred.size()];
-      this.deferred.toArray(listenerArray);
-      this.deferred.clear();
-
-      for (Object key : listenerArray) {
-        ArrayList<WeakReference<Listener>> listenerList = this.listenerMap.get(key);
-        if (logit) {
-          int count = listenerList == null ? 0 : listenerList.size();
-          RequestLogger.updateDebugLog("Firing " + count + " listeners for \"" + key + "\"");
-        }
-        this.fireListeners(listenerList, null);
+    for (Object key : keys) {
+      ArrayList<WeakReference<Listener>> listenerList;
+      synchronized (this.listenerMap) {
+        listenerList = this.listenerMap.get(key);
       }
+      if (logit) {
+        int count = listenerList == null ? 0 : listenerList.size();
+        RequestLogger.updateDebugLog("Firing " + count + " listeners for \"" + key + "\"");
+      }
+      this.fireListeners(listenerList, null);
     }
   }
 
@@ -113,20 +120,21 @@ public class ListenerRegistry {
 
     boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
+    boolean deferred;
+    synchronized (this.deferred) {
+      deferred = this.deferring > 0;
+      if (deferred) {
+        this.deferred.add(key);
+      }
+    }
+
     if (logit) {
       int count = listenerList.size();
       RequestLogger.updateDebugLog(
-          (this.deferring > 0 ? "Deferring " : "Firing ")
-              + count
-              + " listeners for \""
-              + key
-              + "\"");
+          (deferred ? "Deferring " : "Firing ") + count + " listeners for \"" + key + "\"");
     }
 
-    if (this.deferring > 0) {
-      synchronized (this.deferred) {
-        this.deferred.add(key);
-      }
+    if (deferred) {
       return;
     }
 
@@ -136,19 +144,19 @@ public class ListenerRegistry {
   public final void fireAllListeners() {
     boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 
-    if (this.deferring > 0) {
-      Set<Object> keys = null;
-      synchronized (this.listenerMap) {
-        keys = this.listenerMap.keySet();
-      }
-      if (logit) {
-        int count = keys.size();
-        RequestLogger.updateDebugLog("Deferring all listeners for " + count + " keys");
-      }
-      synchronized (this.deferred) {
+    Set<Object> keys;
+    synchronized (this.listenerMap) {
+      keys = new HashSet<>(this.listenerMap.keySet());
+    }
+
+    synchronized (this.deferred) {
+      if (this.deferring > 0) {
         this.deferred.addAll(keys);
+        if (logit) {
+          RequestLogger.updateDebugLog("Deferring all listeners for " + keys.size() + " keys");
+        }
+        return;
       }
-      return;
     }
 
     HashSet<ArrayList<WeakReference<Listener>>> listeners = new HashSet<>();
