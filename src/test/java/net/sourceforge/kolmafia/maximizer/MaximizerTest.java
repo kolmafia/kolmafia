@@ -232,6 +232,45 @@ public class MaximizerTest {
 
   @Nested
   class Max {
+    @ParameterizedTest
+    @CsvSource({
+      "item drop, 1, 3, 0",
+      "item drop 2000 max, 1, 2, 1",
+      "item drop, 3, 3, 0",
+      "item drop 2000 max, 3, 2, 1"
+    })
+    void mallRecommendationOnlyAcquiresScoreImprovingCopies(
+        String itemObjective, int ownedBowTies, long expectedBowTies, long expectedEarrings) {
+      int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+      int earring = ItemPool.get("baconstone earring").getItemId();
+      try (var cleanups =
+          new Cleanups(
+              withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
+              withOverrideModifiers(ModifierType.ITEM, earring, "Meat Drop: +1000"),
+              withStats(10, 10, 10),
+              withItem(bowTie, ownedBowTies),
+              withItem(earring),
+              withMallPrice(bowTie, 100),
+              withMallPrice(earring, 100),
+              withMeat(1000),
+              withProperty("autoSatisfyWithMall", true),
+              withInteractivity(true))) {
+        assertThat(EquipmentManager.canEquip(earring), is(true));
+        maximizeAny(itemObjective + ", 0.1 meat drop, -tie", 100, PriceLevel.ALL);
+
+        assertThat(recommendedAccessorySlots(bowTie), is(expectedBowTies));
+        assertThat(
+            getBoosts().toString(), recommendedAccessorySlots(earring), is(expectedEarrings));
+        assertThat(
+            getBoosts().toString(),
+            getBoosts().stream()
+                .filter(boost -> boost.getItem() != null && boost.getItem().getItemId() == bowTie)
+                .filter(boost -> boost.toString().startsWith("acquire & equip acc"))
+                .count(),
+            is(Math.max(0, expectedBowTies - ownedBowTies)));
+      }
+    }
+
     @Test
     public void maxKeywordStopsCountingBeyondTarget() {
       final var cleanups =
@@ -4640,27 +4679,82 @@ public class MaximizerTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"1000, 1000, 3", "1000, 250, 2", "1000, 99, 0", "99, 1000, 0"})
+  @CsvSource({"255, 250, 2, 0", "300, 290, 1, 1"})
+  void mallRecommendationsAccountForDiminishingFamiliarReturns(
+      int earringMeatDrop,
+      int mrAccessoryMeatDrop,
+      long expectedBowTies,
+      long expectedMrAccessories) {
+    int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+    int earring = ItemPool.get("baconstone earring").getItemId();
+    int mrAccessory = ItemPool.MR_ACCESSORY;
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, bowTie, "Familiar Weight: +100"),
+            withOverrideModifiers(
+                ModifierType.ITEM, earring, "Meat Drop: +" + earringMeatDrop + ", Single Equip"),
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                mrAccessory,
+                "Meat Drop: +" + mrAccessoryMeatDrop + ", Single Equip"),
+            withFamiliar(FamiliarPool.LEPRECHAUN),
+            withStats(10, 10, 10),
+            withItem(bowTie),
+            withItem(earring),
+            withItem(mrAccessory),
+            withMallPrice(bowTie, 100),
+            withMallPrice(earring, 100),
+            withMallPrice(mrAccessory, 100),
+            withMeat(1000),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("meat drop, -tie", 100, PriceLevel.ALL);
+
+      assertThat(getBoosts().toString(), recommendedAccessorySlots(bowTie), is(expectedBowTies));
+      assertThat(recommendedAccessorySlots(earring), is(1L));
+      assertThat(recommendedAccessorySlots(mrAccessory), is(expectedMrAccessories));
+      assertThat(
+          getBoosts().stream()
+              .filter(boost -> boost.getItem() != null && boost.getItem().getItemId() == bowTie)
+              .filter(boost -> boost.toString().startsWith("acquire & equip acc"))
+              .count(),
+          is(expectedBowTies - 1));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "100, 300, 0, 3",
+    "100, 200, 1, 3",
+    "100, 100, 2, 3",
+    "100, 0, 3, 3",
+    "1000, 1000, 0, 3",
+    "1000, 250, 0, 2",
+    "1000, 99, 0, 0",
+    "99, 1000, 0, 0"
+  })
   void mallRecommendationsRespectPriceAndAvailableMeat(
-      int maxPrice, long meat, long expectedCopies) {
+      int maxPrice, long meat, int ownedCopies, long expectedCopies) {
     int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
     try (var cleanups =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
             withStats(10, 10, 10),
+            withItem(bowTie, ownedCopies),
             withMallPrice(bowTie, 100),
             withMeat(meat),
             withProperty("autoSatisfyWithMall", true),
             withInteractivity(true))) {
       maximizeAny("item drop, -tie", maxPrice, PriceLevel.ALL);
 
-      assertThat(recommendedAccessorySlots(), is(expectedCopies));
+      assertThat(recommendedAccessorySlots(bowTie), is(expectedCopies));
     }
   }
 
   @ParameterizedTest
-  @CsvSource({"1000, 3", "250, 2", "99, 0"})
-  void storageMallRecommendationsRespectAvailableMeat(long storageMeat, long expectedCopies) {
+  @CsvSource({"100, 300, 3", "99, 1000, 0", "1000, 1000, 3", "1000, 250, 2", "1000, 99, 0"})
+  void storageMallRecommendationsRespectPriceAndAvailableMeat(
+      int maxPrice, long storageMeat, long expectedCopies) {
     int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
     try (var cleanups =
         new Cleanups(
@@ -4670,15 +4764,16 @@ public class MaximizerTest {
             withMeatInStorage(storageMeat),
             withProperty("autoSatisfyWithMall", true),
             withInteractivity(false))) {
-      maximizeAny("item drop, -tie", 1000, PriceLevel.ALL);
+      maximizeAny("item drop, -tie", maxPrice, PriceLevel.ALL);
 
-      assertThat(recommendedAccessorySlots(), is(expectedCopies));
+      assertThat(recommendedAccessorySlots(bowTie), is(expectedCopies));
     }
   }
 
-  private static long recommendedAccessorySlots() {
+  private static long recommendedAccessorySlots(int itemId) {
     return getBoosts().stream()
-        .filter(boost -> boost.getCmd() != null && boost.getCmd().startsWith("equip acc"))
+        .filter(boost -> SlotSet.ACCESSORY_SLOTS.contains(boost.getSlot()))
+        .filter(boost -> boost.getItem().getItemId() == itemId)
         .count();
   }
 

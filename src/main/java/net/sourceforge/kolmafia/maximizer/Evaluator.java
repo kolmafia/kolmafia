@@ -1625,7 +1625,11 @@ public class Evaluator {
         }
       }
 
-      int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
+      boolean accessory = entry.isSlot() && entry.slot() == Slot.ACCESSORY1;
+      int useful =
+          accessory
+              ? SlotSet.ACCESSORY_SLOTS.size()
+              : entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
 
       // If slots already handled by required items, we're done with the slot
       if (useful > total) {
@@ -1714,14 +1718,14 @@ public class Evaluator {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-                total += item.getCount();
+                total += accessory ? 1 : item.getCount();
               }
             }
           } else if (total < useful) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-                total += item.getCount();
+                total += accessory ? 1 : item.getCount();
               }
             }
           }
