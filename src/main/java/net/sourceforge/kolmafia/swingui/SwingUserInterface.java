@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.SwingUtilities;
+import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -128,5 +129,11 @@ public class SwingUserInterface implements UserInterface {
   @Override
   public void beep() {
     Toolkit.getDefaultToolkit().beep();
+  }
+
+  @Override
+  public void showPlayerProfile(final String player) {
+    Object[] parameters = new Object[] {player};
+    SwingUtilities.invokeLater(new CreateFrameRunnable(ProfileFrame.class, parameters));
   }
 }

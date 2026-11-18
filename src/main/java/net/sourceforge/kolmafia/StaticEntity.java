@@ -14,10 +14,22 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.persistence.CafeDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -38,6 +50,8 @@ public abstract class StaticEntity {
 
   public static final ArrayList<ActionPanel> existingPanels = new ArrayList<>();
   private static ActionPanel[] panelArray = new GenericPanel[0];
+
+  private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
   public static String backtraceTrigger = null;
   private static Integer cachedRevisionNumber = null;
@@ -269,6 +283,61 @@ public abstract class StaticEntity {
   public static final void openDescriptionFrame(final String location) {
     UserInterfaceManager.getUserInterface()
         .showDescription(RequestEditorKit.extractRequest(location));
+  }
+
+  public static final void showGameDescription(Object item) {
+    if (item instanceof Boost) {
+      item = ((Boost) item).getItem();
+    }
+
+    if (item instanceof AdventureResult ar) {
+      if (ar.isItem()) {
+        int itemId = ar.getItemId();
+        String descId =
+            (itemId != -1)
+                ? ItemDatabase.getDescriptionId(itemId)
+                : CafeDatabase.nameToDescId(ar.getName());
+        StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
+      }
+      if (ar.isStatusEffect()) {
+        String descId = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(ar.getName()));
+        StaticEntity.openDescriptionFrame("desc_effect.php?whicheffect=" + descId);
+      }
+    } else if (item instanceof ShopRow sr) {
+      int itemId = sr.getItem().getItemId();
+      String descId = ItemDatabase.getDescriptionId(itemId);
+      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
+    } else if (item instanceof Concoction c) {
+      int itemId = c.getItemId();
+      String descId =
+          (itemId != -1)
+              ? ItemDatabase.getDescriptionId(itemId)
+              : CafeDatabase.nameToDescId(c.getName());
+      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
+    } else if (item instanceof QueuedConcoction c) {
+      int itemId = c.getItemId();
+      String descId =
+          (itemId != -1)
+              ? ItemDatabase.getDescriptionId(itemId)
+              : CafeDatabase.nameToDescId(c.getName());
+      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
+    } else if (item instanceof CreateItemRequest) {
+      StaticEntity.openDescriptionFrame(
+          "desc_item.php?whichitem="
+              + ItemDatabase.getDescriptionId(((CreateItemRequest) item).getItemId()));
+    } else if (item instanceof PurchaseRequest) {
+      StaticEntity.openDescriptionFrame(
+          "desc_item.php?whichitem="
+              + ItemDatabase.getDescriptionId(((PurchaseRequest) item).getItemId()));
+    } else if (item instanceof UseSkillRequest) {
+      StaticEntity.openDescriptionFrame(
+          "desc_skill.php?whichskill=" + ((UseSkillRequest) item).getSkillId() + "&self=true");
+    } else if (item instanceof String) {
+      Matcher playerMatcher = StaticEntity.PLAYERID_MATCHER.matcher((String) item);
+      if (playerMatcher.find()) {
+        UserInterfaceManager.getUserInterface().showPlayerProfile("#" + playerMatcher.group(1));
+      }
+    }
   }
 
   public static final boolean executeCountdown(final String message, final int seconds) {

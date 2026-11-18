@@ -42,4 +42,6 @@ public interface UserInterface {
   default void beep() {
     System.out.write(0x07);
   }
+
+  default void showPlayerProfile(final String player) {}
 }

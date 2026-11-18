@@ -5,28 +5,19 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JList;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
-import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
-import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CafeDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
@@ -41,7 +32,6 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
-import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.listener.PopupListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
@@ -54,7 +44,6 @@ public class ShowDescriptionList<E> extends JList<E> {
   public ListElementFilter filter;
 
   private final LockableListModel<E> displayModel, originalModel;
-  private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
   public ShowDescriptionList(final LockableListModel<E> displayModel) {
     this(displayModel, null, 4);
@@ -184,62 +173,6 @@ public class ShowDescriptionList<E> extends JList<E> {
     return result;
   }
 
-  public static final void showGameDescription(Object item) {
-    if (item instanceof Boost) {
-      item = ((Boost) item).getItem();
-    }
-
-    if (item instanceof AdventureResult ar) {
-      if (ar.isItem()) {
-        int itemId = ar.getItemId();
-        String descId =
-            (itemId != -1)
-                ? ItemDatabase.getDescriptionId(itemId)
-                : CafeDatabase.nameToDescId(ar.getName());
-        StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
-      }
-      if (ar.isStatusEffect()) {
-        String descId = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(ar.getName()));
-        StaticEntity.openDescriptionFrame("desc_effect.php?whicheffect=" + descId);
-      }
-    } else if (item instanceof ShopRow sr) {
-      int itemId = sr.getItem().getItemId();
-      String descId = ItemDatabase.getDescriptionId(itemId);
-      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
-    } else if (item instanceof Concoction c) {
-      int itemId = c.getItemId();
-      String descId =
-          (itemId != -1)
-              ? ItemDatabase.getDescriptionId(itemId)
-              : CafeDatabase.nameToDescId(c.getName());
-      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
-    } else if (item instanceof QueuedConcoction c) {
-      int itemId = c.getItemId();
-      String descId =
-          (itemId != -1)
-              ? ItemDatabase.getDescriptionId(itemId)
-              : CafeDatabase.nameToDescId(c.getName());
-      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
-    } else if (item instanceof CreateItemRequest) {
-      StaticEntity.openDescriptionFrame(
-          "desc_item.php?whichitem="
-              + ItemDatabase.getDescriptionId(((CreateItemRequest) item).getItemId()));
-    } else if (item instanceof PurchaseRequest) {
-      StaticEntity.openDescriptionFrame(
-          "desc_item.php?whichitem="
-              + ItemDatabase.getDescriptionId(((PurchaseRequest) item).getItemId()));
-    } else if (item instanceof UseSkillRequest) {
-      StaticEntity.openDescriptionFrame(
-          "desc_skill.php?whichskill=" + ((UseSkillRequest) item).getSkillId() + "&self=true");
-    } else if (item instanceof String) {
-      Matcher playerMatcher = ShowDescriptionList.PLAYERID_MATCHER.matcher((String) item);
-      if (playerMatcher.find()) {
-        Object[] parameters = new Object[] {"#" + playerMatcher.group(1)};
-        SwingUtilities.invokeLater(new CreateFrameRunnable(ProfileFrame.class, parameters));
-      }
-    }
-  }
-
   public static void showMallStore(Object item) {
     if (item instanceof PurchaseRequest) {
       RelayLoader.openSystemBrowser(
@@ -278,7 +211,7 @@ public class ShowDescriptionList<E> extends JList<E> {
   private class DescriptionRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      ShowDescriptionList.showGameDescription(this.item);
+      StaticEntity.showGameDescription(this.item);
     }
   }
 
