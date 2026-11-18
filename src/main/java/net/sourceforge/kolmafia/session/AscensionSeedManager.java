@@ -565,9 +565,9 @@ public class AscensionSeedManager {
       return options.entrySet().stream()
               .allMatch(
                   e ->
-                      IntriguingPuzzleBoxManager.getOptions(
-                              IntriguingPuzzleBoxManager.getOptionsSeed(seed, e.getKey()))
-                          .equals(e.getValue()))
+                      IntriguingPuzzleBoxManager.matchesOptions(
+                          IntriguingPuzzleBoxManager.getOptionsSeed(seed, e.getKey()),
+                          e.getValue()))
           && outcomes.entrySet().stream()
               .allMatch(
                   s ->
