@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.ui;
 
+import java.io.File;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
 
 public interface UserInterface {
@@ -15,6 +17,30 @@ public interface UserInterface {
 
   default boolean isEventDispatchThread() {
     return false;
+  }
+
+  default boolean hasOpenWindows() {
+    return false;
+  }
+
+  default void showWindow(final String frameName) {}
+
+  default void showMainWindows() {}
+
+  default void showLoginWindow() {}
+
+  default void showRequest(final GenericRequest request) {}
+
+  default void showDescription(final GenericRequest request) {}
+
+  default void showHTML(final GenericRequest request) {}
+
+  default void closeSessionWindows() {}
+
+  default void debugLogOpened(final File file) {}
+
+  default void beep() {
+    System.out.write(0x07);
   }
 
   default void maximizerExpressionChanged(final String expression) {}
