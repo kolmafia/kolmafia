@@ -42,6 +42,7 @@ import java.awt.LayoutManager;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.event.ListDataEvent;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 
 /**
  * One of the consequences of using a <code>JList</code> is that, in order to allow selectability, many of the
@@ -112,7 +113,7 @@ public abstract class PanelList
 			}
 
 			this.validatePanelList();
-			associatedListModel.addListDataListener( new PanelListListener() );
+			SwingListModel.of( associatedListModel ).addListDataListener( new PanelListListener() );
 		}
 	}
 

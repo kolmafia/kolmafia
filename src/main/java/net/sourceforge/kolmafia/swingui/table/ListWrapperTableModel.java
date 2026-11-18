@@ -6,6 +6,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.table.DefaultTableModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 
 public abstract class ListWrapperTableModel<E> extends DefaultTableModel
     implements ListDataListener {
@@ -38,7 +39,7 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
           }
         });
 
-    listModel.addListDataListener(this);
+    SwingListModel.of(listModel).addListDataListener(this);
   }
 
   @Override

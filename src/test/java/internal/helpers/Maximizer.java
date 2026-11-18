@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 
 public class Maximizer {
 
@@ -20,7 +19,7 @@ public class Maximizer {
   }
 
   public static void maximizeCreatable(String maximizerString) {
-    MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
+    net.sourceforge.kolmafia.maximizer.Maximizer.setExpression(maximizerString);
     net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
         EquipScope.SPECULATE_CREATABLE,
         0,
@@ -34,7 +33,7 @@ public class Maximizer {
   }
 
   public static void maximizeAny(String maximizerString, int maxPrice, PriceLevel priceLevel) {
-    MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
+    net.sourceforge.kolmafia.maximizer.Maximizer.setExpression(maximizerString);
     net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
         EquipScope.SPECULATE_ANY, maxPrice, priceLevel, false, EnumSet.allOf(filterType.class));
   }

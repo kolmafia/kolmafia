@@ -39,6 +39,7 @@ import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withUserInterface;
 import static internal.matchers.Maximizer.recommends;
 import static internal.matchers.Maximizer.recommendsEffect;
 import static internal.matchers.Maximizer.recommendsSlot;
@@ -61,6 +62,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.ArrayList;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -87,6 +89,8 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.ui.UserInterface;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -4782,6 +4786,42 @@ public class MaximizerTest {
     try (var cleanups = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
       assertTrue(maximize("empty"));
       assertThat(getBoosts(), contains(hasToString(containsString("keep hat: helmet turtle"))));
+    }
+  }
+
+  @Nested
+  class Expression {
+    @AfterEach
+    void afterEach() {
+      Maximizer.setExpression(null);
+    }
+
+    @Test
+    void remembersWhatWasMaximized() {
+      maximize("item drop");
+
+      assertThat(Maximizer.getExpression(), is("item drop"));
+    }
+
+    @Test
+    void tellsTheUserInterfaceOnlyWhenItChanges() {
+      var shown = new ArrayList<String>();
+      var cleanups =
+          withUserInterface(
+              new UserInterface() {
+                @Override
+                public void maximizerExpressionChanged(final String expression) {
+                  shown.add(expression);
+                }
+              });
+
+      try (cleanups) {
+        Maximizer.setExpression("mus");
+        Maximizer.setExpression("mus");
+        Maximizer.setExpression("mys");
+      }
+
+      assertThat(shown, contains("mus", "mys"));
     }
   }
 

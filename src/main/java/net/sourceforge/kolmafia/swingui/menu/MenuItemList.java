@@ -8,6 +8,7 @@ import javax.swing.JSeparator;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 
 public abstract class MenuItemList<E> extends JMenu implements ListDataListener {
   private final int headerCount;
@@ -63,7 +64,7 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
     // Add this as a listener to the list so that the menu gets
     // updated whenever the list updates.
 
-    model.addListDataListener(this);
+    SwingListModel.of(model).addListDataListener(this);
   }
 
   public void dispose() {
@@ -73,7 +74,7 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
     }
 
     if (this.model != null) {
-      this.model.removeListDataListener(this);
+      SwingListModel.of(this.model).removeListDataListener(this);
       this.model = null;
     }
   }
