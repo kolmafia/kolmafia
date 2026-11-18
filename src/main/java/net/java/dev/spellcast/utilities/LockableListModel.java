@@ -42,11 +42,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.swing.AbstractListModel;
-import javax.swing.ComboBoxModel;
-import javax.swing.ListModel;
-import javax.swing.MutableComboBoxModel;
 
 /**
  * Lockable aspects of this class have been removed due to incompatibilities with Swing; synchronization between two
@@ -55,12 +52,13 @@ import javax.swing.MutableComboBoxModel;
  */
 
 public class LockableListModel<E>
-	extends AbstractListModel<E>
-	implements Cloneable, List<E>, ListModel<E>, ComboBoxModel<E>, MutableComboBoxModel<E>
+	implements Cloneable, List<E>
 {
 	private static final ListElementFilter NO_FILTER = new ShowEverythingFilter();
 
 	private boolean actionListenerFired = false;
+
+	private CopyOnWriteArrayList<ListListener> listListeners = new CopyOnWriteArrayList<>();
 	
 	protected ArrayList<E> actualElements;
 	private ArrayList<E> visibleElements;
@@ -207,7 +205,6 @@ public class LockableListModel<E>
 		}
 	}
 
-	@Override
 	public void fireContentsChanged( final Object source, final int index0, final int index1 )
 	{
 		if ( index0 >= 0 && index1 < 0 )
@@ -215,39 +212,49 @@ public class LockableListModel<E>
 			return;
 		}
 
-		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
+		if ( this.actionListenerFired || this.listListeners.isEmpty() )
 		{
 			return;
 		}
 
 		this.actionListenerFired = true;
-		super.fireContentsChanged( source, index0, index1 );
+		ListListener[] listeners = this.listListeners.toArray( new ListListener[ 0 ] );
+		for ( int i = listeners.length - 1; i >= 0; --i )
+		{
+			listeners[ i ].contentsChanged( source, index0, index1 );
+		}
 		this.actionListenerFired = false;
 	}
 
-	@Override
 	public void fireIntervalAdded( final Object source, final int index0, final int index1 )
 	{
-		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
+		if ( this.actionListenerFired || this.listListeners.isEmpty() )
 		{
 			return;
 		}
 
 		this.actionListenerFired = true;
-		super.fireIntervalAdded( source, index0, index1 );
+		ListListener[] listeners = this.listListeners.toArray( new ListListener[ 0 ] );
+		for ( int i = listeners.length - 1; i >= 0; --i )
+		{
+			listeners[ i ].intervalAdded( source, index0, index1 );
+		}
 		this.actionListenerFired = false;
 	}
 
-	@Override
 	public void fireIntervalRemoved( final Object source, final int index0, final int index1 )
 	{
-		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
+		if ( this.actionListenerFired || this.listListeners.isEmpty() )
 		{
 			return;
 		}
 
 		this.actionListenerFired = true;
-		super.fireIntervalRemoved( source, index0, index1 );
+		ListListener[] listeners = this.listListeners.toArray( new ListListener[ 0 ] );
+		for ( int i = listeners.length - 1; i >= 0; --i )
+		{
+			listeners[ i ].intervalRemoved( source, index0, index1 );
+		}
 		this.actionListenerFired = false;
 	}
 
@@ -935,7 +942,7 @@ public class LockableListModel<E>
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.ListModel#getElementAt(int)} for more information regarding this function.
+	 * Please refer to {@code javax.swing.ListModel#getElementAt(int)} for more information regarding this function.
 	 */
 
 	public E getElementAt( final int index )
@@ -944,7 +951,7 @@ public class LockableListModel<E>
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.ListModel#getSize()} for more information regarding this function.
+	 * Please refer to {@code javax.swing.ListModel#getSize()} for more information regarding this function.
 	 */
 
 	public int getSize()
@@ -953,7 +960,7 @@ public class LockableListModel<E>
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.ComboBoxModel#getSelectedItem()} for more information regarding this function.
+	 * Please refer to {@code javax.swing.ComboBoxModel#getSelectedItem()} for more information regarding this function.
 	 */
 
 	public Object getSelectedItem()
@@ -975,7 +982,7 @@ public class LockableListModel<E>
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.ComboBoxModel#setSelectedItem(Object)} for more information regarding this
+	 * Please refer to {@code javax.swing.ComboBoxModel#setSelectedItem(Object)} for more information regarding this
 	 * function.
 	 */
 
@@ -996,7 +1003,7 @@ public class LockableListModel<E>
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.MutableComboBoxModel#addElement(Object)} for more information regarding this
+	 * Please refer to {@code javax.swing.MutableComboBoxModel#addElement(Object)} for more information regarding this
 	 * function.
 	 */
 
@@ -1006,7 +1013,7 @@ public class LockableListModel<E>
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.MutableComboBoxModel#insertElementAt(Object,int)} for more information
+	 * Please refer to {@code javax.swing.MutableComboBoxModel#insertElementAt(Object,int)} for more information
 	 * regarding this function.
 	 */
 
@@ -1016,7 +1023,7 @@ public class LockableListModel<E>
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.MutableComboBoxModel#removeElement(Object)} for more information regarding
+	 * Please refer to {@code javax.swing.MutableComboBoxModel#removeElement(Object)} for more information regarding
 	 * this function.
 	 */
 
@@ -1026,7 +1033,7 @@ public class LockableListModel<E>
 	}
 
 	/**
-	 * Please refer to {@link javax.swing.MutableComboBoxModel#removeElementAt(int)} for more information regarding this
+	 * Please refer to {@code javax.swing.MutableComboBoxModel#removeElementAt(int)} for more information regarding this
 	 * function.
 	 */
 
@@ -1066,10 +1073,10 @@ public class LockableListModel<E>
 			// classes is re-written to throw the exception by default.
 
 			throw new RuntimeException(
-				"AbstractListModel or one of its superclasses was rewritten to throw CloneNotSupportedException by default, call to clone() was unsuccessful" );
+				"One of the superclasses was rewritten to throw CloneNotSupportedException by default, call to clone() was unsuccessful" );
 		}
 
-		cloneCopy.listenerList = new javax.swing.event.EventListenerList();
+		cloneCopy.listListeners = new CopyOnWriteArrayList<>();
 
 		cloneCopy.actualElements = new ArrayList();
 		cloneCopy.actualElements.addAll( this.actualElements );
@@ -1083,6 +1090,30 @@ public class LockableListModel<E>
 		cloneCopy.selectedValue = null;
 
 		return cloneCopy;
+	}
+
+	/**
+	 * Listens for changes to the elements a <code>LockableListModel</code> shows. The source is the list whose
+	 * change caused the event: this list, or the list it mirrors.
+	 */
+
+	public static interface ListListener
+	{
+		public void contentsChanged( Object source, int index0, int index1 );
+
+		public void intervalAdded( Object source, int index0, int index1 );
+
+		public void intervalRemoved( Object source, int index0, int index1 );
+	}
+
+	public void addListListener( final ListListener l )
+	{
+		this.listListeners.add( l );
+	}
+
+	public void removeListListener( final ListListener l )
+	{
+		this.listListeners.remove( l );
 	}
 
 	/**
