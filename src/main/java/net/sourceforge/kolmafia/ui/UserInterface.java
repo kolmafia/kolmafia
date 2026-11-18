@@ -78,4 +78,6 @@ public interface UserInterface {
   default void deferEquipmentUpdates() {}
 
   default void resolveDeferredEquipmentUpdates() {}
+
+  default void maximizerExpressionChanged(final String expression) {}
 }

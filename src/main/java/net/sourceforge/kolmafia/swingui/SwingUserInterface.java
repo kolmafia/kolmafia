@@ -217,4 +217,9 @@ public class SwingUserInterface implements UserInterface {
   public void resolveDeferredEquipmentUpdates() {
     GearChangePanel.resolveDeferredUpdate();
   }
+
+  @Override
+  public void maximizerExpressionChanged(final String expression) {
+    MaximizerFrame.expressionSelect.setSelectedItem(expression);
+  }
 }
