@@ -54,9 +54,6 @@ public class CheckedItem extends AdventureResult {
             int foldItemId = ItemDatabase.getItemId(form);
             int count = InventoryManager.getAccessibleCount(foldItemId);
             this.foldable += count;
-            if (count > 0) {
-              this.foldItemId = foldItemId;
-            }
           }
         }
         // Cannot have more than one item from January's Garbage Tote, no matter how many you have
@@ -127,6 +124,7 @@ public class CheckedItem extends AdventureResult {
               acquisitionTarget, maxPrice, priceLevel, KoLCharacter.getAvailableMeat());
       this.buyableFlag = this.mallBuyable > 0;
     } else if (!KoLCharacter.isHardcore()
+        && !InventoryManager.canUseStorage()
         && (!KoLCharacter.inLegacyOfLoathing() || InventoryManager.pullableInLoL(itemId))
         && (!KoLCharacter.inSeaPath() || InventoryManager.pullableInSeaPath(itemId))
         && (!KoLCharacter.isThrifty()
@@ -134,15 +132,6 @@ public class CheckedItem extends AdventureResult {
                 RestrictedItemType.ITEMS, ItemDatabase.getItemName(itemId)))) {
       // consider pulling
       this.pullable = this.getCount(KoLConstants.storage);
-
-      this.pullBuyable = 0;
-      if (InventoryManager.canUseMallToStorage(itemId)) {
-        // Consider buying enough copies into storage to reach the requested target.
-        this.pullBuyable =
-            this.potentialMallQuantity(
-                acquisitionTarget, maxPrice, priceLevel, KoLCharacter.getStorageMeat());
-        this.buyableFlag = this.pullBuyable > 0;
-      }
 
       this.pullfoldable = 0;
       if (itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
@@ -155,9 +144,6 @@ public class CheckedItem extends AdventureResult {
               AdventureResult foldItem = ItemPool.get(foldItemId);
               int count = foldItem.getCount(KoLConstants.storage);
               this.pullfoldable += count;
-              if (count > 0) {
-                this.foldItemId = foldItemId;
-              }
             }
           }
           // Cannot have more than one item from January's Garbage Tote, no matter how many you
@@ -169,6 +155,15 @@ public class CheckedItem extends AdventureResult {
           }
         }
       }
+
+      this.pullBuyable = 0;
+      if (InventoryManager.canUseMallToStorage(itemId)) {
+        // Include stored foldables before estimating the remaining purchase shortage.
+        this.pullBuyable =
+            this.potentialMallQuantity(
+                acquisitionTarget, maxPrice, priceLevel, KoLCharacter.getStorageMeat());
+        this.buyableFlag = this.pullBuyable > 0;
+      }
     }
 
     // We never want to suggest turning Mr. Accessories into other items
@@ -177,6 +172,26 @@ public class CheckedItem extends AdventureResult {
             || (MrStoreRequest.UNCLE_B).equals(c.getIngredients()[0]))) {
       this.creatable = 0;
     }
+  }
+
+  AdventureResult getFoldItem(int count, boolean fromStorage) {
+    String itemName = this.getName();
+    FoldGroup group = ItemDatabase.getFoldGroup(itemName);
+    if (group != null) {
+      for (String form : group.names) {
+        if (form.equals(itemName)) continue;
+        int itemId = ItemDatabase.getItemId(form);
+        int available =
+            fromStorage
+                ? ItemPool.get(itemId).getCount(KoLConstants.storage)
+                : InventoryManager.getAccessibleCount(itemId);
+        if (count <= available) return ItemPool.get(itemId, count);
+        count -= available;
+      }
+    }
+    // Callers already counted enough foldable copies; reaching here is an accounting error.
+    throw new IllegalStateException(
+        "Internal foldable availability accounting error for " + itemName);
   }
 
   private int potentialMallQuantity(
@@ -242,14 +257,10 @@ public class CheckedItem extends AdventureResult {
   }
 
   private int affordableMallQuantity(int quantity, long availableMeat, long maxPrice) {
-    // Prefer the largest affordable quantity, but retain any smaller usable quantity.
-    while (quantity > 0) {
-      long price = MallPriceManager.getMallPrice(ItemPool.get(this.getItemId(), quantity));
-      long pricePerItem = price / quantity + (price % quantity == 0 ? 0 : 1);
-      if (price > 0 && price <= availableMeat && pricePerItem <= maxPrice) break;
-      quantity--;
-    }
-    return quantity;
+    if (quantity == 0) return 0;
+    var price = MallPriceManager.getMallPrice(this.getItemId());
+    if (price <= 0 || price > maxPrice) return 0;
+    return (int) Math.min(quantity, availableMeat / price);
   }
 
   private static int limitBuyable(final int itemId) {
@@ -277,7 +288,6 @@ public class CheckedItem extends AdventureResult {
   public int pullable;
   public int pullfoldable;
   public int pullBuyable;
-  public int foldItemId;
 
   public boolean buyableFlag;
   public boolean automaticFlag;

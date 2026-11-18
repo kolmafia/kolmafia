@@ -99,7 +99,7 @@ public class Evaluator {
               + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
               + this.relevantFamiliar(FamiliarPool.HAND);
       case OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
-      case ACCESSORY1 -> 3;
+      case ACCESSORY1 -> SlotSet.ACCESSORY_SLOTS.size();
       case FAMILIAR ->
           // Familiar items include weapons, hats and pants, make sure we have enough to consider
           // for
@@ -1611,7 +1611,7 @@ public class Evaluator {
         RequestLogger.printLine(speculationList.get(entry).toString());
       }
 
-      // Do we have any required items for the slot?
+      // Count distinct candidates, not copies: caps can make lower-ranked alternatives useful.
       int total = 0;
       for (CheckedItem item : checkedItemList) {
         if (item.requiredFlag) {
@@ -1625,11 +1625,7 @@ public class Evaluator {
         }
       }
 
-      boolean accessory = entry.isSlot() && entry.slot() == Slot.ACCESSORY1;
-      int useful =
-          accessory
-              ? SlotSet.ACCESSORY_SLOTS.size()
-              : entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
+      int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
 
       // If slots already handled by required items, we're done with the slot
       if (useful > total) {
@@ -1718,14 +1714,14 @@ public class Evaluator {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-                total += accessory ? 1 : item.getCount();
+                ++total;
               }
             }
           } else if (total < useful) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-                total += accessory ? 1 : item.getCount();
+                ++total;
               }
             }
           }
