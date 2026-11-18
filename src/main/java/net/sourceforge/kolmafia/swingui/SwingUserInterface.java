@@ -129,4 +129,9 @@ public class SwingUserInterface implements UserInterface {
   public void beep() {
     Toolkit.getDefaultToolkit().beep();
   }
+
+  @Override
+  public void maximizerExpressionChanged(final String expression) {
+    MaximizerFrame.expressionSelect.setSelectedItem(expression);
+  }
 }
