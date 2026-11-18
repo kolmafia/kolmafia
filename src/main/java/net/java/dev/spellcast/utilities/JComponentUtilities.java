@@ -227,16 +227,6 @@ public class JComponentUtilities
 		return null;
 	}
 
-	public static URL getResource( final String filename )
-	{
-		return DataUtilities.getResource( filename );
-	}
-
-	public static URL getResource( String directory, String filename )
-	{
-		return DataUtilities.getResource( directory, filename );
-	}
-
 	private static ImageIcon getImage( final ClassLoader loader, final String filename )
 	{
 		URL filenameAsURL = loader.getResource( filename );
