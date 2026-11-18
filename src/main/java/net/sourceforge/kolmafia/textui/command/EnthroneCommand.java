@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -24,29 +25,30 @@ public class EnthroneCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameters) {
-    if (parameters.length() == 0) {
+    if (parameters.isEmpty()) {
       ShowDataCommand.show("familiars");
       return;
-    } else if (parameters.equalsIgnoreCase("none") || parameters.equalsIgnoreCase("unequip")) {
+    }
+
+    if (parameters.equalsIgnoreCase("none") || parameters.equalsIgnoreCase("unequip")) {
       if (KoLCharacter.getEnthroned().equals(FamiliarData.NO_FAMILIAR)) {
         return;
       }
 
       RequestThread.postRequest(FamiliarRequest.enthroneRequest(FamiliarData.NO_FAMILIAR));
       return;
-    } else if (parameters.contains("(no change)")) {
+    }
+
+    if (parameters.contains("(no change)")) {
       return;
     }
 
-    List<FamiliarData> familiarList = KoLCharacter.usableFamiliars();
-
-    String[] familiars = new String[familiarList.size()];
-    for (int i = 0; i < familiarList.size(); ++i) {
-      FamiliarData familiar = familiarList.get(i);
-      familiars[i] = StringUtilities.getCanonicalName(familiar.getRace());
+    Map<String, FamiliarData> familiars = new TreeMap<>();
+    for (var familiar : KoLCharacter.usableFamiliars()) {
+      familiars.put(StringUtilities.getCanonicalName(familiar.getRace()), familiar);
     }
 
-    List<String> matchList = StringUtilities.getMatchingNames(familiars, parameters);
+    var matchList = StringUtilities.getMatchingNames(familiars.keySet(), parameters);
 
     if (matchList.size() > 1) {
       RequestLogger.printList(matchList);
@@ -54,14 +56,7 @@ public class EnthroneCommand extends AbstractCommand {
 
       KoLmafia.updateDisplay(MafiaState.ERROR, "[" + parameters + "] has too many matches.");
     } else if (matchList.size() == 1) {
-      String race = matchList.get(0);
-      FamiliarData change = null;
-      for (int i = 0; i < familiars.length; ++i) {
-        if (race.equals(familiars[i])) {
-          change = familiarList.get(i);
-          break;
-        }
-      }
+      var change = familiars.get(matchList.getFirst());
 
       if (change == null) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't enthrone an unknown familiar!");
@@ -84,7 +79,9 @@ public class EnthroneCommand extends AbstractCommand {
         RequestThread.postRequest(FamiliarRequest.bjornifyRequest(FamiliarData.NO_FAMILIAR));
       }
 
-      RequestThread.postRequest(new EquipmentRequest(HATSEAT, Slot.HAT));
+      if (!KoLCharacter.hasEquipped(HATSEAT, Slot.HAT)) {
+        RequestThread.postRequest(new EquipmentRequest(HATSEAT));
+      }
 
       if (KoLmafia.permitsContinue() && !KoLCharacter.getEnthroned().equals(change)) {
         RequestThread.postRequest(FamiliarRequest.enthroneRequest(change));
