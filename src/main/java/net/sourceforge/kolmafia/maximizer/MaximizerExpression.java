@@ -119,6 +119,10 @@ class MaximizerExpression {
         keyword = possibleDirective;
         if (separator != -1) {
           operand = originalKeyword.substring(separator + 1).trim();
+          if (operand.startsWith("\"")) {
+            int closingQuote = operand.indexOf('"', 1);
+            operand = operand.substring(1, closingQuote) + operand.substring(closingQuote + 1);
+          }
         }
       }
 
@@ -130,6 +134,15 @@ class MaximizerExpression {
     private ParsedTerm withModifier(Modifier modifier) {
       return new ParsedTerm(
           this.weight, this.originalKeyword, this.keyword, this.operand, modifier);
+    }
+
+    private ParsedTerm appendOperand(String suffix) {
+      return new ParsedTerm(
+          this.weight,
+          this.originalKeyword + " " + suffix,
+          this.keyword,
+          (this.operand + " " + suffix).trim(),
+          this.modifier);
     }
   }
 
@@ -236,6 +249,9 @@ class MaximizerExpression {
   }
 
   private static String canonicalize(String keyword) {
+    if (BooleanModifier.byCaselessName(keyword) != null) {
+      return keyword;
+    }
     for (var canonicalization : KEYWORD_CANONICALIZATIONS) {
       keyword =
           canonicalization.pattern().matcher(keyword).replaceAll(canonicalization.canonical());
@@ -274,7 +290,7 @@ class MaximizerExpression {
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
   private static final Pattern KEYWORD_PATTERN =
       Pattern.compile(
-          "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*");
+          "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:\"[^\"]+\"|[^-+,0-9\"]|(?<! )[-+0-9])+),?\\s*");
 
   private static List<ParsedTerm> parseTerms(String expression) {
     expression = expression.trim().toLowerCase();
@@ -282,6 +298,7 @@ class MaximizerExpression {
     List<ParsedTerm> terms = new ArrayList<>();
     boolean seenNonLimitTerm = false;
     int position = 0;
+    int previousKeywordEnd = 0;
 
     while (position < expression.length()) {
       if (!matcher.find()) {
@@ -290,19 +307,29 @@ class MaximizerExpression {
         return null;
       }
       position = matcher.end();
+      boolean canContinueOperand =
+          previousKeywordEnd > 0
+              && expression.substring(previousKeywordEnd, matcher.start(1)).isBlank()
+              && expression.charAt(previousKeywordEnd - 1) != '"';
+      previousKeywordEnd = matcher.start(3) + matcher.group(3).stripTrailing().length();
       ParsedTerm term = ParsedTerm.from(matcher);
-
-      if (DIRECTIVES.get(term.keyword()) == OperandSupport.REQUIRED && term.operand().isEmpty()) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "Directive '" + term.keyword() + "' requires an operand");
-        return null;
-      }
 
       String keyword = term.keyword();
       if (!DIRECTIVES.containsKey(keyword)
           && term.modifier() == null
           && !SlotSet.ALL_SLOTS.contains(EquipmentRequest.slotNumber(keyword))
           && BooleanModifier.byCaselessName(keyword) == null) {
+        // An unsigned number in an operand is only a weight if it introduces a keyword.
+        if (canContinueOperand
+            && matcher.group(1).isEmpty()
+            && matcher.start(2) != matcher.end(2)
+            && !terms.isEmpty()
+            && DIRECTIVES.getOrDefault(terms.getLast().keyword(), OperandSupport.NOT_SUPPORTED)
+                != OperandSupport.NOT_SUPPORTED) {
+          String suffix = expression.substring(matcher.start(1), matcher.end(3)).trim();
+          terms.set(terms.size() - 1, terms.getLast().appendOperand(suffix));
+          continue;
+        }
         KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + term.originalKeyword());
         return null;
       }
@@ -325,6 +352,14 @@ class MaximizerExpression {
       }
 
       terms.add(term);
+    }
+
+    for (var term : terms) {
+      if (DIRECTIVES.get(term.keyword()) == OperandSupport.REQUIRED && term.operand().isEmpty()) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Directive '" + term.keyword() + "' requires an operand");
+        return null;
+      }
     }
 
     return terms;
