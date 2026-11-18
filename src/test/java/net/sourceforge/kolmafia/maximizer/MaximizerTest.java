@@ -4611,6 +4611,8 @@ public class MaximizerTest {
     try (var cleanups = withEquippableItem(ItemPool.CUP_OF_13S)) {
       assertTrue(maximize(syntax + ", -tie"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "Cup of 13s")));
+    }
+  }
 
   @Nested
   class Expression {
