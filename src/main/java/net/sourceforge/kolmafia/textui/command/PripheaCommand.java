@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 
 public class PripheaCommand extends AbstractCommand {
   public PripheaCommand() {
@@ -11,9 +11,9 @@ public class PripheaCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     if (LoginRequest.completedLogin()) {
-      KoLmafiaGUI.intializeMainInterfaces();
+      UserInterfaceManager.getUserInterface().showMainWindows();
     } else {
-      KoLmafiaGUI.initializeLoginInterface();
+      UserInterfaceManager.getUserInterface().showLoginWindow();
     }
   }
 }

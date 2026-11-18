@@ -27,7 +27,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -366,7 +366,7 @@ public class EatItemRequest extends UseItemRequest {
   public static final boolean allowFoodConsumption(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName);
 
-    if (!GenericFrame.instanceExists()) {
+    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
       return true;
     }
 

@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 /**
@@ -154,7 +155,7 @@ public class ClanManageFrame extends GenericFrame {
           new Dimension(240, 20));
       this.isBuffing = false;
 
-      this.buffField = new JComboBox<>(ClanBuffRequest.getRequestList());
+      this.buffField = new JComboBox<>(SwingListModel.of(ClanBuffRequest.getRequestList()));
       this.countField = new AutoHighlightTextField();
 
       VerifiableElement[] elements = new VerifiableElement[2];

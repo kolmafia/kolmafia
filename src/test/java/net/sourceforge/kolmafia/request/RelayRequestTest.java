@@ -14,6 +14,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.equalTo;
@@ -188,7 +189,8 @@ public class RelayRequestTest {
       "sideCommand",
       "specialCommand",
       "waitSpecialCommand",
-      "parameterizedCommand"
+      "parameterizedCommand",
+      "commandHistory"
     })
     public void failsWithNoHash(String endpoint) {
       var cleanups = withPasswordHash("xxxx");
@@ -207,7 +209,8 @@ public class RelayRequestTest {
       "sideCommand",
       "specialCommand",
       "waitSpecialCommand",
-      "parameterizedCommand"
+      "parameterizedCommand",
+      "commandHistory"
     })
     public void failsWithWrongHash(String endpoint) {
       var cleanups = withPasswordHash("xxxx");
@@ -237,6 +240,35 @@ public class RelayRequestTest {
         assertThat(rr.statusLine, is(statusCode == 200 ? "HTTP/1.1 200 OK" : "HTTP/1.1 302 Found"));
         assertThat(rr.responseCode, is(statusCode));
         assertThat(output, is("\n&gt; echo hi\n\nhi\n"));
+      }
+    }
+
+    @Test
+    public void returnsHistory() {
+      var cleanups =
+          new Cleanups(
+              withPasswordHash("xxxx"), withProperty("commandBufferGCLI", "echo a#echo b"));
+      try (cleanups) {
+        var rr = new RelayRequest(false);
+        rr.constructURLString("KoLmafia/commandHistory?pwd=xxxx", false);
+        rr.run();
+
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parseArray(rr.responseText, String.class), contains("echo a", "echo b"));
+      }
+    }
+
+    @Test
+    public void addsDecodedCommand() {
+      var cleanups =
+          new Cleanups(withPasswordHash("xxxx"), withProperty("commandBufferGCLI", "echo a"));
+      try (cleanups) {
+        var rr = makeCommandRequest("commandHistory", "+echo+b%3B+echo+c+", "xxxx");
+
+        assertThat(rr.responseCode, is(200));
+        assertThat(
+            JSON.parseArray(rr.responseText, String.class), contains("echo b; echo c", "echo a"));
+        assertThat(Preferences.getString("commandBufferGCLI"), is("echo b; echo c#echo a"));
       }
     }
   }

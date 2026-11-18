@@ -67,9 +67,9 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.textui.command.AlliedRadioCommand;
 import net.sourceforge.kolmafia.textui.command.LoathingIdolCommand;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -96,7 +96,22 @@ public class Maximizer {
   static long bestUpdate;
   static long combinationLimit;
 
+  private static String expression = null;
+
   private Maximizer() {}
+
+  public static String getExpression() {
+    return Maximizer.expression;
+  }
+
+  public static void setExpression(final String expression) {
+    if (Objects.equals(Maximizer.expression, expression)) {
+      return;
+    }
+
+    Maximizer.expression = expression;
+    UserInterfaceManager.getUserInterface().maximizerExpressionChanged(expression);
+  }
 
   public static boolean lastMaximizeSucceeded() {
     return best != null && best.scored && !best.failed;
@@ -108,7 +123,7 @@ public class Maximizer {
       PriceLevel priceLevel,
       EquipScope equipScope,
       Set<filterType> filter) {
-    MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
+    Maximizer.setExpression(maximizerString);
 
     // iECOC has to be turned off before actually maximizing as
     // it would cause all item lookups during the process to just
@@ -143,7 +158,7 @@ public class Maximizer {
       boolean includeAll,
       Set<filterType> filter) {
     KoLmafia.forceContinue();
-    String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
+    String maxMe = Maximizer.getExpression();
     RequestLogger.printLine("Maximizer: " + maxMe);
     RequestLogger.updateSessionLog("Maximizer: " + maxMe);
     KoLConstants.maximizerMList.addItem(maxMe);

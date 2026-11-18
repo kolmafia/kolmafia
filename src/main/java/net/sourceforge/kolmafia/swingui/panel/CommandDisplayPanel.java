@@ -1,19 +1,16 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
-import static net.sourceforge.kolmafia.preferences.Preferences.getString;
-import static net.sourceforge.kolmafia.preferences.Preferences.setString;
-
 import java.awt.BorderLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.util.Collections;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.CommandHistory;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
@@ -21,21 +18,15 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.FindBar;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
-import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class CommandDisplayPanel extends JPanel implements FocusListener {
-  private final RollingLinkedList<String> commandHistory = new RollingLinkedList<>(20);
   private final AutoHighlightTextField entryField;
   private final JButton entryButton;
 
-  private final String preference;
-  private final String DELIMITER = "#";
+  private int commandIndex = -1;
+  private String draft = "";
 
-  private int commandIndex = 0;
-
-  public CommandDisplayPanel(String preference) {
-    this.preference = preference;
-    loadHistoryFromPreference();
+  public CommandDisplayPanel() {
     RequestPane outputDisplay = new RequestPane();
     outputDisplay.addHyperlinkListener(new HyperlinkAdapter());
 
@@ -69,20 +60,6 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     this.addFocusListener(this);
   }
 
-  private void loadHistoryFromPreference() {
-    String pref = getString(preference);
-    String[] commands = pref.split(DELIMITER);
-    if (!commands[0].trim().isEmpty()) {
-      Collections.addAll(commandHistory, commands);
-      this.commandIndex = commandHistory.size();
-    }
-  }
-
-  private void updatePreference() {
-    String newPref = String.join(DELIMITER, commandHistory);
-    setString(preference, newPref);
-  }
-
   @Override
   public void focusGained(FocusEvent e) {
     this.entryField.requestFocus();
@@ -109,20 +86,30 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
       int keyCode = getKeyCode();
 
       if (keyCode == KeyEvent.VK_UP) {
-        if (CommandDisplayPanel.this.commandIndex <= 0) {
+        var history = CommandHistory.get();
+        if (CommandDisplayPanel.this.commandIndex + 1 >= history.size()) {
           return;
         }
 
+        if (CommandDisplayPanel.this.commandIndex == -1) {
+          CommandDisplayPanel.this.draft = CommandDisplayPanel.this.entryField.getText();
+        }
+        CommandDisplayPanel.this.commandIndex++;
         CommandDisplayPanel.this.entryField.setText(
-            CommandDisplayPanel.this.commandHistory.get(--CommandDisplayPanel.this.commandIndex));
+            history.get(CommandDisplayPanel.this.commandIndex));
       } else if (keyCode == KeyEvent.VK_DOWN) {
-        if (CommandDisplayPanel.this.commandIndex + 1
-            >= CommandDisplayPanel.this.commandHistory.size()) {
+        var history = CommandHistory.get();
+        CommandDisplayPanel.this.commandIndex =
+            Math.min(CommandDisplayPanel.this.commandIndex, history.size() - 1);
+        if (CommandDisplayPanel.this.commandIndex < 0) {
           return;
         }
 
+        CommandDisplayPanel.this.commandIndex--;
         CommandDisplayPanel.this.entryField.setText(
-            CommandDisplayPanel.this.commandHistory.get(++CommandDisplayPanel.this.commandIndex));
+            CommandDisplayPanel.this.commandIndex == -1
+                ? CommandDisplayPanel.this.draft
+                : history.get(CommandDisplayPanel.this.commandIndex));
       } else if (keyCode == KeyEvent.VK_ENTER) {
         this.submitCommand();
       }
@@ -162,14 +149,8 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
       String command = CommandDisplayPanel.this.entryField.getText().trim();
       CommandDisplayPanel.this.entryField.setText("");
 
-      if (!command.isEmpty()
-          && (CommandDisplayPanel.this.commandHistory.isEmpty()
-              || !CommandDisplayPanel.this.commandHistory.getLast().equals(command))) {
-        CommandDisplayPanel.this.commandHistory.add(command);
-        updatePreference();
-      }
-
-      CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
+      CommandHistory.add(command);
+      CommandDisplayPanel.this.commandIndex = -1;
       CommandDisplayFrame.executeCommand(command);
     }
   }
