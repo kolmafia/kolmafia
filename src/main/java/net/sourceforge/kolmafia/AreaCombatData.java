@@ -1240,17 +1240,15 @@ public class AreaCombatData {
   }
 
   public static String elementColor(final Element element) {
+    boolean dark = UserInterfaceManager.getUserInterface().isDarkTheme();
     return switch (element) {
-      case HOT -> (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#ff8a93" : "#ff0000";
-      case COLD -> (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#00d4ff" : "#0000ff";
-      case STENCH ->
-          (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#39f0d0" : "#008000";
-      case SPOOKY ->
-          (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#bebebe" : "#808080";
-      case SLEAZE ->
-          (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#b980ee" : "#8a2be2";
-      case SLIME -> (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#1adde9" : "#006400";
-      default -> (UserInterfaceManager.getUserInterface().isDarkTheme()) ? "#FFFFFF" : "#000000";
+      case HOT -> dark ? "#ff8a93" : "#ff0000";
+      case COLD -> dark ? "#00d4ff" : "#0000ff";
+      case STENCH -> dark ? "#39f0d0" : "#008000";
+      case SPOOKY -> dark ? "#bebebe" : "#808080";
+      case SLEAZE -> dark ? "#b980ee" : "#8a2be2";
+      case SLIME -> dark ? "#1adde9" : "#006400";
+      default -> dark ? "#FFFFFF" : "#000000";
     };
   }
 
