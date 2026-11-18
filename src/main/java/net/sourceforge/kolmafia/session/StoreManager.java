@@ -90,7 +90,7 @@ public abstract class StoreManager {
   public static final void clearCache() {
     StoreManager.soldItemsRetrieved = false;
     StoreManager.storeLog.clear();
-    UserInterfaceManager.getUserInterface().storeEditingCancelled();
+    UserInterfaceManager.getUserInterface().cancelStoreEditing();
     StoreManager.soldItemList.clear();
     StoreManager.sortedSoldItemList.clear();
     StoreManager.potentialEarnings = 0;
@@ -306,7 +306,7 @@ public abstract class StoreManager {
       }
     }
 
-    UserInterfaceManager.getUserInterface().storeEditingCancelled();
+    UserInterfaceManager.getUserInterface().cancelStoreEditing();
 
     StoreManager.sortItemsByName = true;
     Collections.sort(newItems);
