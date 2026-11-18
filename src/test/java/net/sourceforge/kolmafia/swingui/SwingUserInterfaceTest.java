@@ -1,27 +1,26 @@
 package net.sourceforge.kolmafia.swingui;
 
+import static internal.helpers.Player.withUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 class SwingUserInterfaceTest {
   @AfterEach
   void afterEach() {
-    UserInterfaceManager.setUserInterface(null);
     Maximizer.setExpression(null);
   }
 
   @Test
   void showsTheMaximizerExpression() {
-    UserInterfaceManager.setUserInterface(new SwingUserInterface());
-
-    Maximizer.setExpression("cold res");
+    try (var cleanups = withUserInterface(new SwingUserInterface())) {
+      Maximizer.setExpression("cold res");
+    }
 
     assertThat(MaximizerFrame.expressionSelect.getSelectedItem(), is("cold res"));
   }

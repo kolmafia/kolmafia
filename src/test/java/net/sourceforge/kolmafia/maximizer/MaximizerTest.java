@@ -37,6 +37,7 @@ import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withUserInterface;
 import static internal.matchers.Maximizer.recommends;
 import static internal.matchers.Maximizer.recommendsEffect;
 import static internal.matchers.Maximizer.recommendsSlot;
@@ -86,7 +87,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.ui.UserInterface;
-import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -4609,7 +4609,6 @@ public class MaximizerTest {
   class Expression {
     @AfterEach
     void afterEach() {
-      UserInterfaceManager.setUserInterface(null);
       Maximizer.setExpression(null);
     }
 
@@ -4623,17 +4622,20 @@ public class MaximizerTest {
     @Test
     void tellsTheUserInterfaceOnlyWhenItChanges() {
       var shown = new ArrayList<String>();
-      UserInterfaceManager.setUserInterface(
-          new UserInterface() {
-            @Override
-            public void maximizerExpressionChanged(final String expression) {
-              shown.add(expression);
-            }
-          });
+      var cleanups =
+          withUserInterface(
+              new UserInterface() {
+                @Override
+                public void maximizerExpressionChanged(final String expression) {
+                  shown.add(expression);
+                }
+              });
 
-      Maximizer.setExpression("mus");
-      Maximizer.setExpression("mus");
-      Maximizer.setExpression("mys");
+      try (cleanups) {
+        Maximizer.setExpression("mus");
+        Maximizer.setExpression("mus");
+        Maximizer.setExpression("mys");
+      }
 
       assertThat(shown, contains("mus", "mys"));
     }
