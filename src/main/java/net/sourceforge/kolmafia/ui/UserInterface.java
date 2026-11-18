@@ -45,8 +45,6 @@ public interface UserInterface {
     System.out.write(0x07);
   }
 
-  // The engine's state changed, and anything showing it should refresh.
-
   default void meatChanged() {}
 
   default void familiarsChanged() {}
