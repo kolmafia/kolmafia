@@ -90,7 +90,7 @@ public abstract class StoreManager {
   public static final void clearCache() {
     StoreManager.soldItemsRetrieved = false;
     StoreManager.storeLog.clear();
-    UserInterfaceManager.getUserInterface().cancelStoreEditing();
+    UserInterfaceManager.get().cancelStoreEditing();
     StoreManager.soldItemList.clear();
     StoreManager.sortedSoldItemList.clear();
     StoreManager.potentialEarnings = 0;
@@ -109,7 +109,7 @@ public abstract class StoreManager {
       }
     }
     StoreManager.potentialEarnings = earnings;
-    UserInterfaceManager.getUserInterface().storeEarningsChanged(StoreManager.potentialEarnings);
+    UserInterfaceManager.get().storeEarningsChanged(StoreManager.potentialEarnings);
   }
 
   /**
@@ -306,7 +306,7 @@ public abstract class StoreManager {
       }
     }
 
-    UserInterfaceManager.getUserInterface().cancelStoreEditing();
+    UserInterfaceManager.get().cancelStoreEditing();
 
     StoreManager.sortItemsByName = true;
     Collections.sort(newItems);
@@ -323,7 +323,7 @@ public abstract class StoreManager {
     // Now, update the title of the store manage
     // frame to reflect the new price.
 
-    UserInterfaceManager.getUserInterface().storeEarningsChanged(StoreManager.potentialEarnings);
+    UserInterfaceManager.get().storeEarningsChanged(StoreManager.potentialEarnings);
   }
 
   public static final void parseLog(final String logText) {

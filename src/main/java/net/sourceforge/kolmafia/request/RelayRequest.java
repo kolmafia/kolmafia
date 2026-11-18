@@ -3548,7 +3548,7 @@ public class RelayRequest extends PasswordHashRequest {
       RelayRequest.lastSafety =
           AdventureDatabase.getAdventureByURL(
               "adventure.php?snarfblat=" + this.getFormField("snarfblat"));
-      UserInterfaceManager.getUserInterface().selectedAdventureChanged(RelayRequest.lastSafety);
+      UserInterfaceManager.get().selectedAdventureChanged(RelayRequest.lastSafety);
       this.handleSafety();
     } else if (path.endsWith("updateLocation")) {
       this.handleSafety();

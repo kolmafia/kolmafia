@@ -180,7 +180,7 @@ public class Preferences {
       Preferences.loadUserPreferences(username);
     }
 
-    UserInterfaceManager.getUserInterface().preferencesChanged();
+    UserInterfaceManager.get().preferencesChanged();
     CharPaneDecorator.updateFromPreferences();
     CombatActionManager.updateFromPreferences();
     MoodManager.updateFromPreferences();

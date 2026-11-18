@@ -366,7 +366,7 @@ public class EatItemRequest extends UseItemRequest {
   public static final boolean allowFoodConsumption(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName);
 
-    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
+    if (!UserInterfaceManager.get().hasOpenWindows()) {
       return true;
     }
 

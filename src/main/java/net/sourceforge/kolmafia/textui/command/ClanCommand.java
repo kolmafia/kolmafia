@@ -12,7 +12,7 @@ public class ClanCommand extends AbstractCommand {
   public void run(final String cmd, final String parameters) {
     switch (parameters) {
       case "" -> {
-        UserInterfaceManager.getUserInterface().showWindow("ClanManageFrame");
+        UserInterfaceManager.get().showWindow("ClanManageFrame");
         return;
       }
       case "snapshot" -> ClanManager.takeSnapshot(20, 10, 5, 0, false, true);

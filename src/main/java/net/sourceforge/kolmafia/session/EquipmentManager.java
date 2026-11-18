@@ -118,7 +118,7 @@ public class EquipmentManager {
     }
 
     EquipmentManager.accessories.clear();
-    UserInterfaceManager.getUserInterface().equipmentListsCleared();
+    UserInterfaceManager.get().equipmentListsCleared();
 
     EquipmentManager.equipment.clear();
 
@@ -243,7 +243,7 @@ public class EquipmentManager {
       Slot equipmentType = EquipmentManager.consumeFilterToEquipmentType(consumeType);
       if (equipmentType != Slot.NONE) {
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(equipmentType), item);
-        UserInterfaceManager.getUserInterface().equipmentSlotChanged(equipmentType);
+        UserInterfaceManager.get().equipmentSlotChanged(equipmentType);
       }
     }
 
@@ -335,7 +335,7 @@ public class EquipmentManager {
       KoLCharacter.currentFamiliar.setItem(item);
     }
     EquipmentManager.checkFamiliar(slot);
-    UserInterfaceManager.getUserInterface().equipmentSlotChanged(slot);
+    UserInterfaceManager.get().equipmentSlotChanged(slot);
 
     // Certain items provide additional skills when equipped.
     // Handle the addition / removal of those skills here.
@@ -789,7 +789,7 @@ public class EquipmentManager {
    */
   public static final void setEquipment(final Map<Slot, AdventureResult> equipment) {
     // Defer updating so that we don't regenerate every GearChangeFrame list once for each slot.
-    UserInterfaceManager.getUserInterface().deferEquipmentUpdates();
+    UserInterfaceManager.get().deferEquipmentUpdates();
     for (var slot : SlotSet.ALL_SLOTS) {
       var equipped = equipment.get(slot);
       if (equipped == null) {
@@ -799,7 +799,7 @@ public class EquipmentManager {
         setEquipment(slot, equipped);
       }
     }
-    UserInterfaceManager.getUserInterface().resolveDeferredEquipmentUpdates();
+    UserInterfaceManager.get().resolveDeferredEquipmentUpdates();
   }
 
   public static final void setCustomOutfits(final List<SpecialOutfit> newOutfits) {
@@ -902,7 +902,7 @@ public class EquipmentManager {
       curr = minTurns;
     }
     EquipmentManager.turnsRemaining.put(slot, curr);
-    UserInterfaceManager.getUserInterface()
+    UserInterfaceManager.get()
         .stickersChanged(
             EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
             EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
@@ -961,7 +961,7 @@ public class EquipmentManager {
       for (var slot : SlotSet.STICKER_SLOTS) {
         EquipmentManager.turnsRemaining.compute(slot, (k, v) -> v == null ? -1 : v - 1);
       }
-      UserInterfaceManager.getUserInterface()
+      UserInterfaceManager.get()
           .stickersChanged(
               EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
               EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),

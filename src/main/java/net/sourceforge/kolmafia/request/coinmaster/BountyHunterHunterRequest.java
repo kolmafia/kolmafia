@@ -95,7 +95,7 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       if (bountyLocation != null) {
         KoLAdventure adventure = AdventureDatabase.getAdventure(bountyLocation);
         if (adventure != null) {
-          UserInterfaceManager.getUserInterface().selectedAdventureChanged(adventure);
+          UserInterfaceManager.get().selectedAdventureChanged(adventure);
         }
       }
       return;
@@ -112,7 +112,7 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       if (bountyLocation != null) {
         KoLAdventure adventure = AdventureDatabase.getAdventure(bountyLocation);
         if (adventure != null) {
-          UserInterfaceManager.getUserInterface().selectedAdventureChanged(adventure);
+          UserInterfaceManager.get().selectedAdventureChanged(adventure);
         }
       }
       return;
@@ -129,7 +129,7 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       if (bountyLocation != null) {
         KoLAdventure adventure = AdventureDatabase.getAdventure(bountyLocation);
         if (adventure != null) {
-          UserInterfaceManager.getUserInterface().selectedAdventureChanged(adventure);
+          UserInterfaceManager.get().selectedAdventureChanged(adventure);
         }
       }
       return;

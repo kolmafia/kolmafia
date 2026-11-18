@@ -125,7 +125,7 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setRestricted(false);
       }
       CharPaneRequest.setCanInteract(interaction);
-      UserInterfaceManager.getUserInterface().meatChanged();
+      UserInterfaceManager.get().meatChanged();
     }
     if (interaction) {
       ConcoctionDatabase.setPullsRemaining(-1);
@@ -284,7 +284,7 @@ public class CharPaneRequest extends GenericRequest {
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
     LockableListFactory.sort(KoLConstants.usableSkills);
-    UserInterfaceManager.getUserInterface().charPaneRefreshed();
+    UserInterfaceManager.get().charPaneRefreshed();
 
     return true;
   }

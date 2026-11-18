@@ -2707,7 +2707,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.pullsRemaining = pullsRemaining;
 
     if (!StaticEntity.isHeadless()) {
-      UserInterfaceManager.getUserInterface().pullsRemainingChanged(pullsRemaining);
+      UserInterfaceManager.get().pullsRemainingChanged(pullsRemaining);
       NamedListenerRegistry.fireChange("(pullsremaining)");
     }
 
@@ -2728,7 +2728,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.pullsBudgeted = pullsBudgeted;
 
     if (!StaticEntity.isHeadless()) {
-      UserInterfaceManager.getUserInterface().pullsBudgetedChanged(pullsBudgeted);
+      UserInterfaceManager.get().pullsBudgetedChanged(pullsBudgeted);
     }
   }
 

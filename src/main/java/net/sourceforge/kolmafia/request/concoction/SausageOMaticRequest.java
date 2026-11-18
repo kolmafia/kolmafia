@@ -119,7 +119,7 @@ public class SausageOMaticRequest extends CreateItemRequest {
   }
 
   private final boolean confirmSausages() {
-    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
+    if (!UserInterfaceManager.get().hasOpenWindows()) {
       return true;
     }
 

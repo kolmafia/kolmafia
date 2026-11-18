@@ -4444,8 +4444,7 @@ public abstract class RuntimeLibrary {
 
   public static Value user_notify(
       ScriptRuntime controller, final Value message, final Value onlyShowWhenHidden) {
-    UserInterfaceManager.getUserInterface()
-        .showBalloon(message.toString(), onlyShowWhenHidden.intValue() == 1);
+    UserInterfaceManager.get().showBalloon(message.toString(), onlyShowWhenHidden.intValue() == 1);
     return DataTypes.VOID_VALUE;
   }
 
@@ -4850,7 +4849,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value is_dark_mode(ScriptRuntime controller) {
-    return new Value(UserInterfaceManager.getUserInterface().isDarkTheme());
+    return new Value(UserInterfaceManager.get().isDarkTheme());
   }
 
   public static Value is_headless(ScriptRuntime controller) {
