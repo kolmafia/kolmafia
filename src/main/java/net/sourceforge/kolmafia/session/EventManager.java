@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.EventMessage;
 import net.sourceforge.kolmafia.request.LoginRequest;
-import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 
 public class EventManager {
   private static final LockableListModel<String> eventTexts = new LockableListModel<>();
@@ -112,7 +112,7 @@ public class EventManager {
       // Balloon messages for whenever the person does not have
       // focus on KoLmafia.
       if (StaticEntity.usesSystemTray()) {
-        SystemTrayFrame.showBalloon(eventText);
+        UserInterfaceManager.getUserInterface().showBalloon(eventText, true);
       }
     }
 

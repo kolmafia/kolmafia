@@ -66,6 +66,7 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
         "Resources Used", new GenericScrollPane(ConcoctionDatabase.getQueuedIngredients(type), 7));
 
     JLabel test = new JLabel("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    test.setFont(this.getElementList().getFont());
 
     this.getElementList().setCellRenderer(ListCellRendererFactory.getCreationQueueRenderer());
     this.getElementList().setFixedCellHeight((int) (test.getPreferredSize().getHeight() * 2.5f));

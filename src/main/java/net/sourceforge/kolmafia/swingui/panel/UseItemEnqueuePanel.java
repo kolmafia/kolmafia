@@ -111,6 +111,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     this.setButtons(false, listenerArray);
 
     JLabel test = new JLabel("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    test.setFont(this.getElementList().getFont());
 
     this.getElementList().setFixedCellHeight((int) (test.getPreferredSize().getHeight() * 2.5f));
 

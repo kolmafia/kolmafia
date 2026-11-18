@@ -34,7 +34,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class DrinkItemRequest extends UseItemRequest {
@@ -415,7 +415,7 @@ public class DrinkItemRequest extends UseItemRequest {
       return true;
     }
 
-    if (!GenericFrame.instanceExists()) {
+    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
       return true;
     }
 
