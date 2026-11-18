@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.textui.command.SendMessageCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -240,7 +241,8 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
           KoLConstants.pulverizeQueue.remove(item);
           KoLConstants.pulverizeQueue.add(item);
           LockableListModel<AdventureResult> inv =
-              (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+              SwingListModel.<AdventureResult>listOf(
+                  PulverizePanel.this.getElementList().getModel());
           int index = inv.indexOf(item);
           inv.fireContentsChanged(inv, index, index);
         }
@@ -269,7 +271,8 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
         if (item.getCount() > 0) {
           KoLConstants.pulverizeQueue.remove(item);
           LockableListModel<AdventureResult> inv =
-              (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+              SwingListModel.<AdventureResult>listOf(
+                  PulverizePanel.this.getElementList().getModel());
           int index = inv.indexOf(item);
           inv.fireContentsChanged(inv, index, index);
         }
@@ -287,7 +290,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
     protected void execute() {
       KoLConstants.pulverizeQueue.clear();
       LockableListModel<AdventureResult> inv =
-          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+          SwingListModel.<AdventureResult>listOf(PulverizePanel.this.getElementList().getModel());
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
     }
 
@@ -313,7 +316,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
       KoLConstants.pulverizeQueue.toArray(items);
       KoLConstants.pulverizeQueue.clear();
       LockableListModel<AdventureResult> inv =
-          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+          SwingListModel.<AdventureResult>listOf(PulverizePanel.this.getElementList().getModel());
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
       for (AdventureResult item : items) {
         RequestThread.postRequest(new PulverizeRequest(item));
@@ -518,7 +521,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
       KoLConstants.pulverizeQueue.toArray(items);
       KoLConstants.pulverizeQueue.clear();
       LockableListModel<AdventureResult> inv =
-          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+          SwingListModel.<AdventureResult>listOf(PulverizePanel.this.getElementList().getModel());
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
       SendMessageCommand.send("smashbot", selected.toMessage(), items, false, true);
     }
