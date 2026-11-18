@@ -79,7 +79,9 @@ public class EnthroneCommand extends AbstractCommand {
         RequestThread.postRequest(FamiliarRequest.bjornifyRequest(FamiliarData.NO_FAMILIAR));
       }
 
-      RequestThread.postRequest(new EquipmentRequest(HATSEAT, Slot.HAT));
+      if (!KoLCharacter.hasEquipped(HATSEAT, Slot.HAT)) {
+        RequestThread.postRequest(new EquipmentRequest(HATSEAT));
+      }
 
       if (KoLmafia.permitsContinue() && !KoLCharacter.getEnthroned().equals(change)) {
         RequestThread.postRequest(FamiliarRequest.enthroneRequest(change));

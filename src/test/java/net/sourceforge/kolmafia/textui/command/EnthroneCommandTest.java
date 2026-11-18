@@ -9,7 +9,9 @@ import static internal.helpers.Player.withEnthroned;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withHatTrickHat;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -17,6 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -283,6 +286,83 @@ class EnthroneCommandTest extends AbstractCommandTestBase {
         addResponse("Crown of Thrones vacated.");
 
         execute(parameter);
+
+        assertContinueState();
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/familiar.php", "action=hatseat&famid=0&ajax=1");
+        assertThat(KoLCharacter.getEnthroned(), equalTo(FamiliarData.NO_FAMILIAR));
+      }
+    }
+  }
+
+  @Nested
+  class HatTrick {
+    @Test
+    void doesNotEquipCrownAlreadyInHatSlot() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.HAT_TRICK),
+              withHatTrickHat(ItemPool.HATSEAT),
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO));
+
+      try (cleanups) {
+        addResponse("Your Mosquito is now carried in the Crown of Thrones.");
+
+        execute("mosquito");
+
+        assertContinueState();
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/familiar.php",
+            "action=hatseat&famid=" + FamiliarPool.MOSQUITO + "&ajax=1");
+        assertThat(KoLCharacter.getEnthroned().getId(), equalTo(FamiliarPool.MOSQUITO));
+      }
+    }
+
+    @Test
+    void equipsCrownInHatSlotWhenNecessary() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.HAT_TRICK),
+              withItem(ItemPool.HATSEAT),
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO));
+
+      try (cleanups) {
+        addResponse("You equip an item.");
+        addResponse("Your Mosquito is now carried in the Crown of Thrones.");
+
+        execute("mosquito");
+
+        assertContinueState();
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.HATSEAT);
+        assertPostRequest(
+            requests.get(1),
+            "/familiar.php",
+            "action=hatseat&famid=" + FamiliarPool.MOSQUITO + "&ajax=1");
+        assertThat(KoLCharacter.getEnthroned().getId(), equalTo(FamiliarPool.MOSQUITO));
+      }
+    }
+
+    @Test
+    void vacatesThroneWithoutEquippingCrown() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.HAT_TRICK),
+              withHatTrickHat(ItemPool.HATSEAT),
+              withEnthroned(FamiliarPool.MOSQUITO));
+
+      try (cleanups) {
+        addResponse("Crown of Thrones vacated.");
+
+        execute("none");
 
         assertContinueState();
         var requests = getRequests();
