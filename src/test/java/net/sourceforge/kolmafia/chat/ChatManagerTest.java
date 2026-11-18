@@ -18,12 +18,13 @@ class ChatManagerTest {
     final List<String> calls = new ArrayList<>();
 
     @Override
-    public void chatClosed() {
-      calls.add("chatClosed");
+    public void closeChat() {
+      calls.add("closeChat");
     }
 
     @Override
-    public void showContacts(final String title, final LockableListModel<?> contacts) {
+    public void showTriviaContestants(
+        final String title, final LockableListModel<String> contestants) {
       calls.add(title);
     }
   }
@@ -53,6 +54,6 @@ class ChatManagerTest {
       ChatManager.dispose();
     }
 
-    assertThat(ui.calls, contains("chatClosed"));
+    assertThat(ui.calls, contains("closeChat"));
   }
 }

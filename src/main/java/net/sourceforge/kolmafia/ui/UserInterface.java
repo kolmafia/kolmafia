@@ -4,6 +4,7 @@ import java.io.File;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
+import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public interface UserInterface {
   default <R> void showPrompt(final UserPrompt<R> prompt) {
@@ -48,9 +49,13 @@ public interface UserInterface {
 
   default void highlightChatTab(final String bufferKey) {}
 
-  default void chatClosed() {}
+  default void closeChat() {}
 
-  default void showContacts(final String title, final LockableListModel<?> contacts) {}
+  default void showChatContacts(
+      final String title, final LockableListModel<HTMLListEntry> contacts) {}
+
+  default void showTriviaContestants(
+      final String title, final LockableListModel<String> contestants) {}
 
   default void maximizerExpressionChanged(final String expression) {}
 }

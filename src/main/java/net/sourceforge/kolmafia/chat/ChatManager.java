@@ -185,7 +185,7 @@ public abstract class ChatManager {
     ChatManager.activeChannels.clear();
     ChatManager.currentChannel = null;
 
-    UserInterfaceManager.getUserInterface().chatClosed();
+    UserInterfaceManager.getUserInterface().closeChat();
   }
 
   public static boolean isRunning() {
@@ -237,7 +237,7 @@ public abstract class ChatManager {
     ChatManager.triviaGameActive = true;
 
     UserInterfaceManager.getUserInterface()
-        .showContacts("Contestants for " + triviaGameId, ChatManager.triviaGameContacts);
+        .showTriviaContestants("Contestants for " + triviaGameId, ChatManager.triviaGameContacts);
   }
 
   public static void stopTriviaGame() {
