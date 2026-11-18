@@ -173,7 +173,7 @@ public abstract class KoLCharacter {
   }
 
   // Create this early before subsequent initializers want to look at it.
-  private static final Modifiers currentModifiers = new Modifiers();
+  private static volatile Modifiers currentModifiers = new Modifiers();
 
   // Things that cannot be changed
 
@@ -391,7 +391,7 @@ public abstract class KoLCharacter {
     KoLCharacter.totalSubpoints = new long[3];
     KoLCharacter.resetTriggers();
 
-    KoLCharacter.currentModifiers.reset();
+    KoLCharacter.currentModifiers = new Modifiers();
     // TODO: do we need to do this? Can we not just reset the passive skill cache?
     ModifierDatabase.resetModifiers();
 
@@ -2942,7 +2942,7 @@ public abstract class KoLCharacter {
     Preferences.setBoolean("breakfastCompleted", false);
 
     // Reset modifiers in case we had modifiers that no longer apply
-    // TODO: should actually be KoLCharacter.currentModifiers.reset(); + skill cache unless in TCRS?
+    // TODO: should actually be KoLCharacter.currentModifiers = new Modifiers(); + skill cache unless in TCRS?
     ModifierDatabase.resetModifiers();
 
     // If leaving a path with a unique class, finish when player picks a new class.
@@ -2986,7 +2986,7 @@ public abstract class KoLCharacter {
       InventoryManager.refresh();
       EquipmentManager.resetEquipment();
       RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
-      KoLCharacter.currentModifiers.reset();
+      KoLCharacter.currentModifiers = new Modifiers();
 
       // we lose DNA lab and maybe source terminal / witchess
       CampgroundRequest.reset();
@@ -5084,7 +5084,8 @@ public abstract class KoLCharacter {
   }
 
   public static final void recalculateAdjustments(boolean debug) {
-    KoLCharacter.currentModifiers.set(
+    var withoutAccumulators = new Modifiers();
+    withoutAccumulators.set(
         KoLCharacter.recalculateAdjustments(
             debug,
             KoLCharacter.getMindControlLevel(),
@@ -5098,6 +5099,7 @@ public abstract class KoLCharacter {
             Preferences.getString("boomBoxSong"),
             Modeable.getStateMap(),
             false));
+    KoLCharacter.currentModifiers = withoutAccumulators;
   }
 
   public static final Modifiers recalculateAdjustments(
