@@ -198,12 +198,11 @@ public class FamiliarRequest extends GenericRequest {
     if (this.enthrone) {
       FamiliarData enthroned = KoLCharacter.getEnthroned();
 
-      if (EquipmentManager.getEquipment(Slot.HAT).getItemId() != ItemPool.HATSEAT) {
+      if (!KoLCharacter.hasEquipped(ItemPool.HATSEAT, Slot.HAT)) {
         if (this.changeTo.equals(FamiliarData.NO_FAMILIAR)
             && !enthroned.equals(FamiliarData.NO_FAMILIAR)) {
           try (Checkpoint checkpoint = new Checkpoint()) {
-            RequestThread.postRequest(
-                new EquipmentRequest(ItemPool.get(ItemPool.HATSEAT, 1), Slot.HAT));
+            RequestThread.postRequest(new EquipmentRequest(ItemPool.get(ItemPool.HATSEAT, 1)));
             RequestThread.postRequest(FamiliarRequest.enthroneRequest(FamiliarData.NO_FAMILIAR));
           }
         }

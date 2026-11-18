@@ -1,139 +1,45 @@
 package net.sourceforge.kolmafia.utilities;
 
-import java.util.ArrayList;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-/**
- * {@link LockableListModel} is used to hold data, but it depends on Swing. For VMs without access
- * to Swing, a List or {@link SortedList} is used Based on forum post by xKiv: <a
- * href="http://tiny.cc/b6kw8x">http://tiny.cc/b6kw8x</a>
- *
- * @author ajoshi
- */
 public class LockableListFactory {
   private LockableListFactory() {}
 
-  /**
-   * Get an instance of LockableListModel if in a Swing environment, else get a List
-   *
-   * @param E Class
-   * @return LockableListModel<E> or an ArrayList if Swing cannot be loaded
-   */
   public static <E> List<E> getInstance(Class<E> E) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      return new LockableListModel<>();
-    }
-    return new ArrayList<>();
+    return new LockableListModel<>();
   }
 
-  /**
-   * Get an instance of SortedListModel if in a Swingless environment, else get a SortedList
-   *
-   * @param E Class
-   * @return SortedListModel<E> or an SortedList if Swing cannot be loaded
-   */
   public static <E extends Comparable<E>> List<E> getSortedInstance(Class<E> E) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      return new SortedListModel<>();
-    }
-    List<E> i = new SortedList<>();
-    return i;
+    return new SortedListModel<>();
   }
 
-  /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#getSize()} if possible, else
-   * returns list size
-   */
   public static int getsize(List<?> l) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      return ((LockableListModel<?>) l).getSize();
-    }
-    return l.size();
+    return ((LockableListModel<?>) l).getSize();
   }
 
-  /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#getSelectedIndex()} if
-   * possible, else returns 0
-   */
-  public static int getSelectedIndex(List<?> l) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      return ((LockableListModel<?>) l).getSelectedIndex();
-    }
-    return 0;
-  }
-
-  /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedIndex(int)} if
-   * possible, else no p
-   */
-  public static void setSelectedIndex(List<?> l, int index) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      ((LockableListModel<?>) l).setSelectedIndex(index);
-    }
-  }
-
-  /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedItem(Object)} if
-   * possible, else no op
-   */
   public static void setSelectedItem(List<?> l, Object selection) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      ((LockableListModel<?>) l).setSelectedItem(selection);
-    } else {
-      // noop
-    }
+    ((LockableListModel<?>) l).setSelectedItem(selection);
   }
 
-  /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#getMirrorImage()} if possible,
-   * else returns the original list
-   */
   public static <T> List<T> getMirror(List<T> l) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      return ((LockableListModel<T>) l).getMirrorImage();
-    } else {
-      return l;
-    }
+    return ((LockableListModel<T>) l).getMirrorImage();
   }
 
-  /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#fireContentsChanged(Object,
-   * int, int)} if possible, else no op
-   */
   public static void fireContentsChanged(List<?> l, int index0, int index1) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      ((LockableListModel<?>) l).fireContentsChanged(l, index0, index1);
-    } else {
-      // noop
-    }
+    ((LockableListModel<?>) l).fireContentsChanged(l, index0, index1);
   }
 
-  /** Returns the last element in a list */
   public static <E> E lastElement(List<E> l) {
     return l.isEmpty() ? null : l.get(l.size() - 1);
   }
 
-  /** Sorts the given list */
   public static void sort(List<?> l) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      ((LockableListModel<?>) l).sort();
-    } else {
-      if (l instanceof SortedList) {
-        ((SortedList<?>) l).sort();
-      } else {
-        synchronized (l) {
-          l.sort(null);
-        }
-      }
-    }
+    ((LockableListModel<?>) l).sort();
   }
 
   public static <E> E getElementAt(List<E> l, int index) {
-    if (SwinglessUIUtils.isSwingAvailable) {
-      return ((LockableListModel<E>) l).getElementAt(index);
-    }
-    return l.get(index);
+    return ((LockableListModel<E>) l).getElementAt(index);
   }
 }

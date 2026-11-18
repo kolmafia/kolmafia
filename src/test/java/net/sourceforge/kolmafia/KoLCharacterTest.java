@@ -12,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.concurrent.atomic.AtomicInteger;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -839,6 +841,34 @@ public class KoLCharacterTest {
       try (cleanups) {
         assertThat(
             KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION), equalTo(15.0));
+      }
+    }
+  }
+
+  // A script runs the maximizer while the relay browser's charpane refreshes. The refresh
+  // recalculates the character's modifiers mid-maximize.
+  @Nested
+  class ConcurrentRecalculation {
+    @Test
+    void readingModifiersDuringRecalculationNeverSeesAPartialRebuild() throws InterruptedException {
+      KoLCharacter.recalculateAdjustments();
+
+      var recalculations = new AtomicInteger();
+      var charpane =
+          new Thread(
+              () -> {
+                while (recalculations.incrementAndGet() < 500) {
+                  KoLCharacter.recalculateAdjustments();
+                }
+              });
+      charpane.start();
+      try {
+        while (recalculations.get() < 500) {
+          assertThat(
+              KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS), equalTo(0));
+        }
+      } finally {
+        charpane.join();
       }
     }
   }
