@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
-import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.jsoup.Jsoup;
@@ -1373,7 +1373,7 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
-    RequestSynchFrame.showRequest(AdventureRequest.ZONE_UNLOCK);
+    UserInterfaceManager.getUserInterface().showRequest(AdventureRequest.ZONE_UNLOCK);
     RequestLogger.printLine("Unrecognized choice.php redirect: " + redirectLocation);
     RequestLogger.updateSessionLog("Unrecognized choice.php redirect: " + redirectLocation);
     KoLmafia.updateDisplay(MafiaState.ABORT, "Unknown adventure type encountered.");

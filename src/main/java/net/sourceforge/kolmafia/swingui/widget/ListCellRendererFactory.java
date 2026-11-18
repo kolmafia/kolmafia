@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -437,7 +436,6 @@ public class ListCellRendererFactory {
 
       stringForm.append("</nobr></html>");
 
-      defaultComponent.setFont(KoLGUIConstants.DEFAULT_FONT);
       String text = stringForm.toString();
       ((JLabel) defaultComponent).setText(text);
       if (defaultComponent.getPreferredSize().width > listWidth) {
