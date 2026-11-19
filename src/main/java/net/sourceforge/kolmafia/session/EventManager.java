@@ -112,7 +112,7 @@ public class EventManager {
       // Balloon messages for whenever the person does not have
       // focus on KoLmafia.
       if (StaticEntity.usesSystemTray()) {
-        UserInterfaceManager.getUserInterface().showBalloon(eventText, true);
+        UserInterfaceManager.get().showBalloon(eventText, true);
       }
     }
 

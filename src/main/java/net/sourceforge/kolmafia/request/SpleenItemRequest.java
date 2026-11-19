@@ -142,7 +142,7 @@ public class SpleenItemRequest extends UseItemRequest {
   }
 
   private boolean allowSpleenConsumption() {
-    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
+    if (!UserInterfaceManager.get().hasOpenWindows()) {
       return true;
     }
 

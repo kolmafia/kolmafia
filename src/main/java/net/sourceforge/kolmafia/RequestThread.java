@@ -236,7 +236,7 @@ public abstract class RequestThread {
 
     try {
       if (Preferences.getBoolean("debugFoxtrotRemoval")
-          && UserInterfaceManager.getUserInterface().isEventDispatchThread()) {
+          && UserInterfaceManager.get().isEventDispatchThread()) {
         StaticEntity.printStackTrace("Runnable in event dispatch thread");
       }
 
@@ -301,7 +301,7 @@ public abstract class RequestThread {
 
     if (KoLmafia.getLastMessage().endsWith("...")) {
       KoLmafia.updateDisplay("Requests complete.");
-      UserInterfaceManager.getUserInterface().showBalloon("Requests complete.", true);
+      UserInterfaceManager.get().showBalloon("Requests complete.", true);
       RequestLogger.printLine();
     }
 

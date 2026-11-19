@@ -415,7 +415,7 @@ public class DrinkItemRequest extends UseItemRequest {
       return true;
     }
 
-    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
+    if (!UserInterfaceManager.get().hasOpenWindows()) {
       return true;
     }
 

@@ -28,7 +28,7 @@ public class LogoutManager {
       return;
     }
 
-    UserInterfaceManager.getUserInterface().closeSessionWindows();
+    UserInterfaceManager.get().closeSessionWindows();
   }
 
   public static void logout() {
