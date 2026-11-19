@@ -558,6 +558,17 @@ class ChoiceControlTest {
     }
 
     @Test
+    void handlesCapped() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mimicEggsObtained", 9),
+              withChoice(1517, html("request/test_choice_mimic_eggs_maxed.html")));
+      try (cleanups) {
+        assertThat("_mimicEggsObtained", isSetTo(11));
+      }
+    }
+
+    @Test
     void doesNotCountFailedExtracts() {
       var cleanups =
           new Cleanups(
