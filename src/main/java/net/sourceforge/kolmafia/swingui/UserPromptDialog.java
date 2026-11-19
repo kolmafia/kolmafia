@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UserPromptDialog {
@@ -98,7 +99,7 @@ public class UserPromptDialog {
     }
 
     var model = listModel(choices);
-    var selector = new JList<>(model);
+    var selector = new JList<>(SwingListModel.of(model));
     if (request.renderer() != null) {
       selector.setCellRenderer(ListCellRendererFactory.getDefaultRenderer(request.renderer()));
     }
@@ -116,7 +117,7 @@ public class UserPromptDialog {
   private static <T> Dialog<List<T>> multiple(final UserPrompt.Multiple<T> request) {
     var model = listModel(request.choices());
     var filter = request.filter();
-    var selector = new JList<>(model);
+    var selector = new JList<>(SwingListModel.of(model));
     selector.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     var panel = new JPanel(new BorderLayout());

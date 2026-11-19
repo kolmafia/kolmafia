@@ -91,7 +91,7 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
 
   public void setList(final JList<E> list) {
     this.list = list;
-    this.model = (LockableListModel<E>) list.getModel();
+    this.model = SwingListModel.listOf(list.getModel());
     this.model.setFilter(this);
     this.list.clearSelection();
   }

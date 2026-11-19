@@ -28,6 +28,7 @@ import java.io.IOException;
 import javax.swing.JList;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 
 public class JDnDList
 	extends JList
@@ -44,7 +45,7 @@ public class JDnDList
 
 	public JDnDList( final LockableListModel model, final boolean acceptsDrops )
 	{
-		super( model );
+		super( SwingListModel.of( model ) );
 
 		this.acceptsDrops = acceptsDrops;
 		this.setPrototypeCellValue( "1234567890" );
@@ -70,7 +71,7 @@ public class JDnDList
 				return;
 			}
 
-			LockableListModel model = (LockableListModel) JDnDList.this.getModel();
+			LockableListModel model = SwingListModel.listOf( JDnDList.this.getModel() );
 			Object[] selectedObjects = JDnDList.this.getSelectedValues();
 			for ( int i = 0; i < selectedObjects.length; ++i )
 			{
@@ -179,7 +180,7 @@ public class JDnDList
 			String s = (String) transferable.getTransferData( DataFlavor.stringFlavor );
 			String[] items = s.split( "\n" );
 
-			LockableListModel destination = (LockableListModel) this.getModel();
+			LockableListModel destination = SwingListModel.listOf( this.getModel() );
 
 			// If we are dragging onto ourself, move the items,
 			// otherwise just add them...

@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 import net.sourceforge.kolmafia.swingui.widget.ImageIconFactory;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
@@ -483,7 +484,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     private class ChangeComboBox extends JComboBox<FamiliarData> {
       public ChangeComboBox(final LockableListModel<FamiliarData> selector) {
-        super(selector);
+        super(SwingListModel.of(selector));
         this.addActionListener(new ChangeComboBoxListener());
       }
 

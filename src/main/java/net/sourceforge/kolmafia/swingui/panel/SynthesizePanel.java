@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SynthesizePanel extends JPanel implements ActionListener, Listener {
@@ -383,7 +384,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
     private final LockableListModel<Candy> model;
 
     public CandyTableModel(LockableListModel<Candy> listModel) {
-      super(listModel, columnNames);
+      super(SwingListModel.of(listModel), columnNames);
       this.model = listModel;
     }
 

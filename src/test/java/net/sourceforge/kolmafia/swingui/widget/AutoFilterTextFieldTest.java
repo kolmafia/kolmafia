@@ -33,7 +33,8 @@ public class AutoFilterTextFieldTest {
     assertThat(model.getSize(), equalTo(1));
 
     List<ListDataEvent> events = new ArrayList<>();
-    model.addListDataListener(
+    var swingModel = SwingListModel.of(model);
+    swingModel.addListDataListener(
         new ListDataListener() {
           @Override
           public void intervalAdded(ListDataEvent e) {}
