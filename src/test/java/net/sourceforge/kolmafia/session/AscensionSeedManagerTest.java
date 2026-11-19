@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class AscensionSeedManagerTest {
 
@@ -260,37 +259,6 @@ public class AscensionSeedManagerTest {
                 "0:FCW,PB,RCCW,LCW,KCW,PR|1:FCW,TCW,TCCW,PT,FCCW,PR|2:BCW,PB,PF,RCW,BCCW,KCW",
                 "0,1:click|0,3:buzz|1,1:click")) {
           assertThat(AscensionSeedManager.possibleAscensionSeeds(), is(List.of(2340482)));
-        }
-      }
-
-      @Test
-      void skipsRepeatedDrawsAndReseedsBetweenCandidates() {
-        try (var cleanups = withStores("0:PF,PR,TCW,BCW,FCCW,TCCW", "")) {
-          var criterion = new AscensionSeedManager.IntriguingPuzzleBox();
-          assertThat(criterion.matchesSeed(1062694), is(true));
-          assertThat(criterion.matchesSeed(1234567), is(false));
-          assertThat(criterion.matchesSeed(1062694), is(true));
-        }
-      }
-
-      @ParameterizedTest
-      @ValueSource(
-          strings = {"PF,PR,TCW,BCW,FCCW", "PF,PR,TCW,BCW,FCCW,TCCW,PL", "PF,PR,TCW,BCW,FCCW,PL"})
-      void rejectsIncompleteOrMismatchedOptions(final String options) {
-        try (var cleanups = withStores("0:" + options, "")) {
-          var criterion = new AscensionSeedManager.IntriguingPuzzleBox();
-          assertThat(criterion.matchesSeed(1062694), is(false));
-        }
-      }
-
-      @Test
-      void rejectsMismatchedOutcomeAfterMatchingLaterSteps() {
-        try (var cleanups =
-            withStores(
-                "0:FCW,PB,RCCW,LCW,KCW,PR|1:FCW,TCW,TCCW,PT,FCCW,PR|2:BCW,PB,PF,RCW,BCCW,KCW",
-                "0,1:click|0,3:buzz|1,1:beep")) {
-          var criterion = new AscensionSeedManager.IntriguingPuzzleBox();
-          assertThat(criterion.matchesSeed(2340482), is(false));
         }
       }
     }

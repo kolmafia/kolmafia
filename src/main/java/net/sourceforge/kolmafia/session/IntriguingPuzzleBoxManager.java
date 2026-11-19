@@ -16,9 +16,6 @@ public class IntriguingPuzzleBoxManager {
   static final String OUTCOMES_PREF = "intriguingPuzzleBoxOutcomes";
   private static final String STEP_PREF = "intriguingPuzzleBoxStep";
 
-  private static final ThreadLocal<PHPMTRandom> RNG =
-      ThreadLocal.withInitial(() -> new PHPMTRandom(0));
-
   private static final Map<String, String> FACE_MAP =
       Map.of("left", "L", "right", "R", "top", "T", "bottom", "B", "front", "F", "rear", "K");
 
@@ -63,14 +60,8 @@ public class IntriguingPuzzleBoxManager {
     return getOptionsSeed(seed, step) + decision;
   }
 
-  private static PHPMTRandom randomForSeed(final long seed) {
-    var rng = RNG.get();
-    rng.setSeed(seed);
-    return rng;
-  }
-
   static List<String> getOptions(final long seed) {
-    var rng = randomForSeed(seed);
+    PHPMTRandom rng = new PHPMTRandom(seed);
     return IntStream.generate(() -> rng.nextInt(0, ACTIONS.size() - 1))
         .mapToObj(ACTIONS::get)
         .distinct()
@@ -78,26 +69,8 @@ public class IntriguingPuzzleBoxManager {
         .toList();
   }
 
-  static boolean matchesOptions(final long seed, final List<String> options) {
-    if (options.size() != 6) return false;
-
-    var rng = randomForSeed(seed);
-    // A bit per action avoids allocating a set for every candidate seed.
-    int seen = 0;
-    for (var option : options) {
-      int action;
-      do {
-        action = rng.nextInt(0, ACTIONS.size() - 1);
-      } while ((seen & (1 << action)) != 0);
-
-      if (!ACTIONS.get(action).equals(option)) return false;
-      seen |= 1 << action;
-    }
-    return true;
-  }
-
   static String getOutcome(final int seed, final int decision, final int step) {
-    var rng = randomForSeed(getOutcomeSeed(seed, step, decision));
+    PHPMTRandom rng = new PHPMTRandom(getOutcomeSeed(seed, step, decision));
     int roll = rng.nextInt(1, 6);
     return switch (roll) {
       case 6 -> "buzz";
