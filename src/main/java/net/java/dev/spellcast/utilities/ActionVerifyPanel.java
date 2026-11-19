@@ -56,6 +56,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
@@ -391,8 +392,11 @@ public abstract class ActionVerifyPanel
 			component.setPreferredSize( originalPreferred );
 			component.invalidate();
 			Dimension preferred = component.getPreferredSize();
+			// Long text values should truncate within the field, not widen the entire form.
+			int width = component instanceof JTextField || component instanceof JComboBox
+				? size.width : Math.max( size.width, preferred.width );
 			JComponentUtilities.setComponentSize( component,
-				Math.max( size.width, preferred.width ), Math.max( size.height, preferred.height ) );
+				width, Math.max( size.height, preferred.height ) );
 		};
 		this.layoutRefreshers.add( refresh );
 		refresh.run();

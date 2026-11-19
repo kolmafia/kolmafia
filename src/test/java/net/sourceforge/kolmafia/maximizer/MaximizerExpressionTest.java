@@ -160,14 +160,15 @@ class MaximizerExpressionTest {
     assertThat(expression.slots, hasEntry(Slot.HAT, 2));
   }
 
-  @Test
-  void recognizesBooleanModifiers() {
+  @ParameterizedTest
+  @EnumSource(BooleanModifier.class)
+  void recognizesBooleanModifiers(BooleanModifier modifier) {
     var expression = new MaximizerExpression();
 
-    expression.parse("softcore only");
+    expression.parse(modifier.getName());
 
-    assertThat(expression.booleanMask.contains(BooleanModifier.SOFTCORE), is(true));
-    assertThat(expression.booleanValue.contains(BooleanModifier.SOFTCORE), is(true));
+    assertThat(expression.booleanMask.contains(modifier), is(true));
+    assertThat(expression.booleanValue.contains(modifier), is(true));
   }
 
   @ParameterizedTest
@@ -235,6 +236,10 @@ class MaximizerExpressionTest {
         "tie foo | Unrecognized keyword: tie foo",
         "tiebreaker foo | Unrecognized keyword: tiebreaker foo",
         "current foo | Unrecognized keyword: current foo",
+        "equip Cup of, 13s | Unrecognized keyword: s",
+        "equip Cup of +13s | Unrecognized keyword: s",
+        "equip \"Cup of\" 13s | Unrecognized keyword: s",
+        "\"equip Cup of\" 13s | Unrecognized keyword: s",
         "item,, | Unable to interpret: ,"
       })
   void reportsInvalidSyntax(String syntax, String error) {
@@ -443,11 +448,13 @@ class MaximizerExpressionTest {
     assertThat(KoLmafia.lastMessage, is("No boolean modifier found for: not a modifier"));
   }
 
-  @Test
-  void plainItemBonusPreservesModeBonuses() {
+  @ParameterizedTest
+  @ValueSource(
+      strings = {"backup camera (meat)", "\"backup camera\" (meat)", "\"backup camera (meat)\""})
+  void plainItemBonusPreservesModeBonuses(String operand) {
     var expression = new MaximizerExpression();
 
-    expression.parse("10 bonus backup camera (meat), 5 bonus backup camera");
+    expression.parse("10 bonus " + operand + ", 5 bonus backup camera");
 
     var bonus = expression.bonuses.get(ItemPool.get("backup camera"));
     assertThat(bonus.base(), is(5.0));
@@ -492,6 +499,28 @@ class MaximizerExpressionTest {
       expression.parse("plumber");
 
       assertThat(expression.posEquip.contains(ItemPool.get(ItemPool.WORK_BOOTS)), is(true));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "+equip Cup of 13s, 2mus | Cup of 13s",
+        "+equip \"Cup of 13s\", 2mus | Cup of 13s",
+        "+\"equip Cup of 13s\", 2mus | Cup of 13s",
+        "+equip Cup of 13s 2mus | Cup of 13s",
+        "+equip \"Cup of 13s\" 2mus | Cup of 13s",
+        "+equip 17-alarm Saucepan, 2mus | 17-alarm Saucepan"
+      })
+  void parsesItemOperandContainingDigits(String syntax, String itemName) {
+    try (var cleanups = withEquippableItem(itemName)) {
+      var expression = new MaximizerExpression();
+
+      expression.parse(syntax);
+
+      assertThat(expression.posEquip.contains(ItemPool.get(itemName)), is(true));
+      assertThat(expression.weight, hasEntry(DoubleModifier.MUS, 2.0));
     }
   }
 }
