@@ -562,7 +562,8 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("_mimicEggsObtained", 9),
-              withChoice(1517, html("request/test_choice_mimic_eggs_maxed.html")));
+              withPostChoice1(
+                  1517, 2, "mid=374", html("request/test_choice_mimic_eggs_maxed.html")));
       try (cleanups) {
         assertThat("_mimicEggsObtained", isSetTo(11));
       }
