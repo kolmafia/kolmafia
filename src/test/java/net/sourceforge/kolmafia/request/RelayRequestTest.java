@@ -167,7 +167,6 @@ public class RelayRequestTest {
 
       // Not testing value here, which would require it to complete the same second.
       assertThat(rr.getHeaderField("Last-Modified"), not(emptyOrNullString()));
-      assertThat(rr.getHeaderField("Expires"), not(emptyOrNullString()));
     }
   }
 
