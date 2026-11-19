@@ -7,14 +7,18 @@ import static internal.helpers.Player.withSpleenUse;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
+import java.awt.Font;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -27,6 +31,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledIf;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @DisabledIf(
     value = "java.awt.GraphicsEnvironment#isHeadless",
@@ -316,6 +322,60 @@ public class MaximizerFrameTest {
           }
         }
       }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {12, 24})
+  void longHistoryDoesNotExpandFrameOnThemeRefresh(int fontSize) throws Exception {
+    KoLCharacter.reset("MaximizerLayoutTest");
+    try (var cleanups = new Cleanups(withProperty("maximizerMRUSize", 0))) {
+      SwingUtilities.invokeAndWait(
+          () -> {
+            var expression = MaximizerFrame.expressionSelect;
+            var model = expression.getModel();
+            var font = expression.getFont();
+            var preferred = expression.isPreferredSizeSet() ? expression.getPreferredSize() : null;
+            var minimum = expression.isMinimumSizeSet() ? expression.getMinimumSize() : null;
+            var maximum = expression.isMaximumSizeSet() ? expression.getMaximumSize() : null;
+            try {
+              expression.setModel(new DefaultComboBoxModel<>(new String[] {"muscle"}));
+              expression.setFont(new Font(font.getName(), font.getStyle(), fontSize));
+              expression.setPreferredSize(null);
+              expression.setMinimumSize(null);
+              expression.setMaximumSize(null);
+              var frame = new MaximizerFrame();
+              try {
+                frame.pack();
+                var originalSize = frame.getSize();
+                expression.addItem("1 hot resistance, ".repeat(100) + "muscle");
+                SwingUtilities.updateComponentTreeUI(frame);
+                frame.repack();
+
+                assertThat(frame.getWidth(), equalTo(originalSize.width));
+                assertThat(expression.getFont().getSize(), equalTo(fontSize));
+                var bounds =
+                    SwingUtilities.convertRectangle(
+                        expression.getParent(), expression.getBounds(), frame.getContentPane());
+                assertThat(bounds.x, greaterThanOrEqualTo(0));
+                assertThat(
+                    frame.getContentPane().getWidth(),
+                    greaterThanOrEqualTo(bounds.x + bounds.width));
+                assertThat(
+                    expression.getHeight(),
+                    greaterThanOrEqualTo(
+                        expression.getFontMetrics(expression.getFont()).getHeight()));
+              } finally {
+                frame.dispose();
+              }
+            } finally {
+              expression.setModel(model);
+              expression.setFont(font);
+              expression.setPreferredSize(preferred);
+              expression.setMinimumSize(minimum);
+              expression.setMaximumSize(maximum);
+            }
+          });
     }
   }
 }
