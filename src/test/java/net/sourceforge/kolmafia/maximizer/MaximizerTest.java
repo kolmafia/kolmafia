@@ -2687,12 +2687,8 @@ public class MaximizerTest {
 
   @Nested
   public class Booleans {
-    // FIXME: Alias expansion currently makes "Negative Status Resist" unparseable.
     @ParameterizedTest
-    @EnumSource(
-        value = BooleanModifier.class,
-        names = "NEGATIVE_STATUS_RESIST",
-        mode = EnumSource.Mode.EXCLUDE)
+    @EnumSource(BooleanModifier.class)
     void prunesBooleanFailures(BooleanModifier modifier) {
       // Expression-valued flags retain ordinary traversal rather than independent boolean bounds.
       int combinationLimit =
