@@ -94,4 +94,6 @@ public interface UserInterface {
       final String title, final LockableListModel<String> contestants) {}
 
   default void maximizerExpressionChanged(final String expression) {}
+
+  default void showPlayerProfile(final String player) {}
 }
