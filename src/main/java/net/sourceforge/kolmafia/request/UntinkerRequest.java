@@ -202,7 +202,7 @@ public class UntinkerRequest extends GenericRequest {
       return true;
     }
 
-    if (UserInterfaceManager.getUserInterface().hasOpenWindows()) {
+    if (UserInterfaceManager.get().hasOpenWindows()) {
       if (!InputFieldUtilities.confirm(
           "KoLmafia thinks you haven't completed the screwdriver quest.  Would you like to have KoLmafia automatically complete it now?")) {
         return false;

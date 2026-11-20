@@ -250,9 +250,9 @@ public class LoginManager {
     ScriptManager.compileScripts();
 
     if (StaticEntity.isGUIRequired()) {
-      UserInterfaceManager.getUserInterface().showMainWindows();
+      UserInterfaceManager.get().showMainWindows();
     } else if (Preferences.getString("initialFrames").contains("LocalRelayServer")) {
-      UserInterfaceManager.getUserInterface().showWindow("LocalRelayServer");
+      UserInterfaceManager.get().showWindow("LocalRelayServer");
     }
 
     LoginManager.showCurrentHoliday();

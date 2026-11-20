@@ -32,7 +32,7 @@ public class LogStream extends PrintStream {
     }
 
     if (file.getName().startsWith("DEBUG")) {
-      UserInterfaceManager.getUserInterface().debugLogOpened(file);
+      UserInterfaceManager.get().debugLogOpened(file);
 
       newStream.println();
       newStream.println();

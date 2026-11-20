@@ -110,7 +110,7 @@ public class Maximizer {
     }
 
     Maximizer.expression = expression;
-    UserInterfaceManager.getUserInterface().maximizerExpressionChanged(expression);
+    UserInterfaceManager.get().maximizerExpressionChanged(expression);
   }
 
   public static boolean lastMaximizeSucceeded() {

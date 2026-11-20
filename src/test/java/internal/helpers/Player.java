@@ -3161,8 +3161,8 @@ public class Player {
   }
 
   public static Cleanups withUserInterface(final UserInterface ui) {
-    var old = UserInterfaceManager.getUserInterface();
-    UserInterfaceManager.setUserInterface(ui);
-    return new Cleanups(() -> UserInterfaceManager.setUserInterface(old));
+    var old = UserInterfaceManager.get();
+    UserInterfaceManager.set(ui);
+    return new Cleanups(() -> UserInterfaceManager.set(old));
   }
 }

@@ -86,11 +86,11 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
 import net.sourceforge.kolmafia.textui.javascript.ValueConverter;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -3552,7 +3552,7 @@ public class RelayRequest extends PasswordHashRequest {
       RelayRequest.lastSafety =
           AdventureDatabase.getAdventureByURL(
               "adventure.php?snarfblat=" + this.getFormField("snarfblat"));
-      AdventureFrame.updateSelectedAdventure(RelayRequest.lastSafety);
+      UserInterfaceManager.get().selectedAdventureChanged(RelayRequest.lastSafety);
       this.handleSafety();
     } else if (path.endsWith("updateLocation")) {
       this.handleSafety();
