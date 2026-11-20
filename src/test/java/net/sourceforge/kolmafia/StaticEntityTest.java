@@ -82,9 +82,9 @@ class StaticEntityTest {
       var ui = new RecordingUserInterface();
 
       try (var cleanups = withUserInterface(ui)) {
-        StaticEntity.showGameDescription("Easyfax (#2504770)");
+        StaticEntity.showGameDescription("Easyfax (#2504737)");
 
-        assertThat(ui.shown, contains("profile #2504770"));
+        assertThat(ui.shown, contains("profile #2504737"));
       }
     }
 

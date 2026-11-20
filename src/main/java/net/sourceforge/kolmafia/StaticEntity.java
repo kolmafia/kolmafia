@@ -285,8 +285,8 @@ public abstract class StaticEntity {
   }
 
   public static final void showGameDescription(Object item) {
-    if (item instanceof Boost) {
-      item = ((Boost) item).getItem();
+    if (item instanceof Boost boost) {
+      item = boost.getItem();
     }
 
     if (item instanceof AdventureResult ar) {
@@ -320,19 +320,17 @@ public abstract class StaticEntity {
               ? ItemDatabase.getDescriptionId(itemId)
               : CafeDatabase.nameToDescId(c.getName());
       StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
-    } else if (item instanceof CreateItemRequest) {
+    } else if (item instanceof CreateItemRequest cir) {
       StaticEntity.openDescriptionFrame(
-          "desc_item.php?whichitem="
-              + ItemDatabase.getDescriptionId(((CreateItemRequest) item).getItemId()));
-    } else if (item instanceof PurchaseRequest) {
+          "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId(cir.getItemId()));
+    } else if (item instanceof PurchaseRequest pr) {
       StaticEntity.openDescriptionFrame(
-          "desc_item.php?whichitem="
-              + ItemDatabase.getDescriptionId(((PurchaseRequest) item).getItemId()));
-    } else if (item instanceof UseSkillRequest) {
+          "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId(pr.getItemId()));
+    } else if (item instanceof UseSkillRequest usr) {
       StaticEntity.openDescriptionFrame(
-          "desc_skill.php?whichskill=" + ((UseSkillRequest) item).getSkillId() + "&self=true");
-    } else if (item instanceof String) {
-      Matcher playerMatcher = StaticEntity.PLAYERID_MATCHER.matcher((String) item);
+          "desc_skill.php?whichskill=" + usr.getSkillId() + "&self=true");
+    } else if (item instanceof String s) {
+      Matcher playerMatcher = StaticEntity.PLAYERID_MATCHER.matcher(s);
       if (playerMatcher.find()) {
         UserInterfaceManager.get().showPlayerProfile("#" + playerMatcher.group(1));
       }
