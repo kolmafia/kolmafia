@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
@@ -250,5 +251,11 @@ public class SwingUserInterface implements UserInterface {
   @Override
   public void maximizerExpressionChanged(final String expression) {
     MaximizerFrame.expressionSelect.setSelectedItem(expression);
+  }
+
+  @Override
+  public void showPlayerProfile(final String player) {
+    Object[] parameters = new Object[] {player};
+    SwingUtilities.invokeLater(new CreateFrameRunnable(ProfileFrame.class, parameters));
   }
 }
