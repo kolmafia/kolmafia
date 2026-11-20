@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel.TransferType;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MeatManageFrame extends GenericFrame {
@@ -52,7 +53,7 @@ public class MeatManageFrame extends GenericFrame {
       heroes.add("Statue of Jarlsberg");
       heroes.add("Statue of Sneaky Pete");
 
-      this.heroField = new JComboBox<>(heroes);
+      this.heroField = new JComboBox<>(SwingListModel.of(heroes));
       this.amountField = new AutoHighlightTextField();
 
       VerifiableElement[] elements = new VerifiableElement[2];

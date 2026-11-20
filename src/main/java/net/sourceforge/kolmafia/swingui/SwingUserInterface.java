@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.SwingUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
@@ -11,6 +12,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.ui.UserInterface;
+import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public class SwingUserInterface implements UserInterface {
   @Override
@@ -129,6 +131,38 @@ public class SwingUserInterface implements UserInterface {
   @Override
   public void beep() {
     Toolkit.getDefaultToolkit().beep();
+  }
+
+  @Override
+  public void openChatWindow(final String bufferKey, final boolean highlightOnOpen) {
+    ChatFrame.openWindow(bufferKey, highlightOnOpen);
+  }
+
+  @Override
+  public void highlightChatTab(final String bufferKey) {
+    ChatFrame.highlightChatTab(bufferKey);
+  }
+
+  @Override
+  public void closeChat() {
+    ChatFrame.closeChat();
+  }
+
+  @Override
+  public void showChatContacts(
+      final String title, final LockableListModel<HTMLListEntry> contacts) {
+    ContactListFrame.showChatContacts(title, contacts);
+  }
+
+  @Override
+  public void showTriviaContestants(
+      final String title, final LockableListModel<String> contestants) {
+    ContactListFrame.showTriviaContestants(title, contestants);
+  }
+
+  @Override
+  public void maximizerExpressionChanged(final String expression) {
+    MaximizerFrame.expressionSelect.setSelectedItem(expression);
   }
 
   @Override

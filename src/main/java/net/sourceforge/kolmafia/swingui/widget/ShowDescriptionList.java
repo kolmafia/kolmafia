@@ -132,7 +132,7 @@ public class ShowDescriptionList<E> extends JList<E> {
     this.originalModel = displayModel;
     this.displayModel =
         filter == null ? displayModel.getMirrorImage() : displayModel.getMirrorImage(filter);
-    this.setModel(this.displayModel);
+    this.setModel(SwingListModel.of(this.displayModel));
 
     this.setVisibleRowCount(visibleRowCount);
     this.setCellRenderer(ListCellRendererFactory.getDefaultRenderer());

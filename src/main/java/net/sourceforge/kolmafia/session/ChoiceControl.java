@@ -4640,6 +4640,9 @@ public abstract class ChoiceControl {
         }
       }
       case 1517 -> {
+        if (text.contains("Looks like your mimic is too tired to produce any more eggs today.")) {
+          Preferences.setInteger("_mimicEggsObtained", 11);
+        }
         // Mimic DNA Bank
         switch (ChoiceManager.lastDecision) {
           case 1 -> {

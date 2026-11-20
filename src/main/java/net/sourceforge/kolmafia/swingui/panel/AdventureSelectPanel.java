@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -90,7 +91,7 @@ public class AdventureSelectPanel extends JPanel {
     // West pane is a scroll pane which lists all of the available
     // locations -- to be included is a map on a separate tab.
 
-    this.locationSelect = new JList<>(this.matchingAdventures);
+    this.locationSelect = new JList<>(SwingListModel.of(this.matchingAdventures));
     this.locationSelect.setVisibleRowCount(4);
 
     JPanel zonePanel = new JPanel(new BorderLayout(5, 5));
@@ -304,7 +305,7 @@ public class AdventureSelectPanel extends JPanel {
 
   private class AdventureSelectListener implements ListSelectionListener, ListDataListener {
     public AdventureSelectListener() {
-      GoalManager.getGoals().addListDataListener(this);
+      SwingListModel.of(GoalManager.getGoals()).addListDataListener(this);
       AdventureSelectPanel.this.fillDefaultConditions();
     }
 
