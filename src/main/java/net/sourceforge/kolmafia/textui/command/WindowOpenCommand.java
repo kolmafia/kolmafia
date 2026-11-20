@@ -18,17 +18,17 @@ public class WindowOpenCommand extends AbstractCommand {
     }
 
     if (command.startsWith("opt")) {
-      UserInterfaceManager.getUserInterface().showWindow("OptionsFrame");
+      UserInterfaceManager.get().showWindow("OptionsFrame");
       return;
     }
 
     if (command.equals("item")) {
-      UserInterfaceManager.getUserInterface().showWindow("ItemManageFrame");
+      UserInterfaceManager.get().showWindow("ItemManageFrame");
       return;
     }
 
     if (command.equals("gear")) {
-      UserInterfaceManager.getUserInterface().showWindow("GearChangeFrame");
+      UserInterfaceManager.get().showWindow("GearChangeFrame");
       return;
     }
   }

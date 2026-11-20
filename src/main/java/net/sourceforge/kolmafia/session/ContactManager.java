@@ -74,7 +74,7 @@ public class ContactManager {
     }
 
     if (Preferences.getBoolean("useContactsFrame")) {
-      UserInterfaceManager.getUserInterface().showChatContacts(title, ContactManager.chatContacts);
+      UserInterfaceManager.get().showChatContacts(title, ContactManager.chatContacts);
     }
   }
 
