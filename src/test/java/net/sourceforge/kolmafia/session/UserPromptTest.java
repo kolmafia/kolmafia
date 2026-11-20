@@ -167,13 +167,13 @@ class UserPromptTest {
   class Asking {
     @AfterEach
     void afterEach() {
-      UserInterfaceManager.setUserInterface(null);
+      UserInterfaceManager.set(null);
     }
 
     @Test
     @SuppressWarnings("unchecked")
     void asksThroughTheUserInterface() {
-      UserInterfaceManager.setUserInterface(
+      UserInterfaceManager.set(
           new UserInterface() {
             @Override
             public <R> void showPrompt(final UserPrompt<R> prompt) {
@@ -187,7 +187,7 @@ class UserPromptTest {
 
     @Test
     void fallsBackWhenNobodyAnswersInTime() {
-      UserInterfaceManager.setUserInterface(
+      UserInterfaceManager.set(
           new UserInterface() {
             @Override
             public <R> void showPrompt(final UserPrompt<R> prompt) {}

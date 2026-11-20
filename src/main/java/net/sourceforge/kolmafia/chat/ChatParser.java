@@ -326,7 +326,7 @@ public class ChatParser {
 
     String content = line.substring(line.indexOf(":") + 9).trim();
     if (Preferences.getBoolean("chatBeep")) {
-      UserInterfaceManager.getUserInterface().beep();
+      UserInterfaceManager.get().beep();
     }
 
     ChatMessage message = new ChatMessage(sender, recipient, content, false);

@@ -267,8 +267,7 @@ public abstract class StaticEntity {
    * relative to the KoL home directory for the current session.
    */
   public static final void openDescriptionFrame(final String location) {
-    UserInterfaceManager.getUserInterface()
-        .showDescription(RequestEditorKit.extractRequest(location));
+    UserInterfaceManager.get().showDescription(RequestEditorKit.extractRequest(location));
   }
 
   public static final boolean executeCountdown(final String message, final int seconds) {

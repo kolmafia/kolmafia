@@ -28,7 +28,7 @@ public class PauseObject implements Runnable {
       return;
     }
 
-    if (UserInterfaceManager.getUserInterface().isEventDispatchThread()) {
+    if (UserInterfaceManager.get().isEventDispatchThread()) {
       if (Preferences.getBoolean("debugFoxtrotRemoval")) {
         StaticEntity.printStackTrace("Pause object in event dispatch thread");
       }

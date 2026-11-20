@@ -1373,7 +1373,7 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
-    UserInterfaceManager.getUserInterface().showRequest(AdventureRequest.ZONE_UNLOCK);
+    UserInterfaceManager.get().showRequest(AdventureRequest.ZONE_UNLOCK);
     RequestLogger.printLine("Unrecognized choice.php redirect: " + redirectLocation);
     RequestLogger.updateSessionLog("Unrecognized choice.php redirect: " + redirectLocation);
     KoLmafia.updateDisplay(MafiaState.ABORT, "Unknown adventure type encountered.");
