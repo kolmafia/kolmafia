@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.chat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.awt.Color;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +15,8 @@ public class ChatFormatterTest {
 
   @Test
   public void addHightlightTest() {
-    Color black = Color.BLACK;
-    Color white = Color.WHITE;
+    String black = "#000000";
+    String white = "#ffffff";
 
     // Here we're testing if the messages are added correctly
     ChatFormatter.addHighlighting("test case", black);
@@ -40,7 +39,7 @@ public class ChatFormatterTest {
 
   @Test
   public void removeHighlightTest() {
-    Color color = Color.BLACK;
+    String color = "#000000";
 
     // Here we're checking if the highlight is removed from the preferences correctly
     // The first message starts with the name of the highlight

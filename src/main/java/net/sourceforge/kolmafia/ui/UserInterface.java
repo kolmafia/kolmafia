@@ -96,4 +96,9 @@ public interface UserInterface {
   default void maximizerExpressionChanged(final String expression) {}
 
   default void showPlayerProfile(final String player) {}
+
+  /** A color of the current look and feel as "#rrggbb", or null if it has none. */
+  default String getLookAndFeelColor(final String key) {
+    return null;
+  }
 }

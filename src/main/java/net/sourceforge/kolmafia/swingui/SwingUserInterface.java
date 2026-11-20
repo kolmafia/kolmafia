@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia.swingui;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -257,5 +259,16 @@ public class SwingUserInterface implements UserInterface {
   public void showPlayerProfile(final String player) {
     Object[] parameters = new Object[] {player};
     SwingUtilities.invokeLater(new CreateFrameRunnable(ProfileFrame.class, parameters));
+  }
+
+  @Override
+  public String getLookAndFeelColor(final String key) {
+    Color color = UIManager.getColor(key);
+
+    if (color == null) {
+      return null;
+    }
+
+    return "#" + Integer.toHexString(color.getRGB()).substring(2);
   }
 }

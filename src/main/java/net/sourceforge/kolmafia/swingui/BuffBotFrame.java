@@ -2,10 +2,13 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -14,6 +17,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.BuffBotHome;
+import net.sourceforge.kolmafia.BuffBotHome.BuffMessage;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -66,7 +70,7 @@ public class BuffBotFrame extends GenericFrame {
           "stop",
           new JList<>(SwingListModel.of(BuffBotHome.getMessages())));
 
-      this.scrollComponent.setCellRenderer(BuffBotHome.getMessageRenderer());
+      this.scrollComponent.setCellRenderer(new BuffMessageRenderer());
     }
 
     @Override
@@ -242,6 +246,35 @@ public class BuffBotFrame extends GenericFrame {
       this.messageDisposalSelect.setSelectedIndex(Preferences.getInteger("buffBotMessageDisposal"));
       this.invalidPriceMessage.setText(Preferences.getString("invalidBuffMessage"));
       this.thanksMessage.setText(Preferences.getString("thanksMessage"));
+    }
+  }
+
+  /**
+   * An internal class which represents the renderer which should be used to display the buff
+   * messages.
+   */
+  private static class BuffMessageRenderer extends DefaultListCellRenderer {
+    public BuffMessageRenderer() {
+      this.setOpaque(true);
+    }
+
+    @Override
+    public Component getListCellRendererComponent(
+        final JList<?> list,
+        final Object value,
+        final int index,
+        final boolean isSelected,
+        final boolean cellHasFocus) {
+      Component defaultComponent =
+          super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+      if (!(value instanceof BuffMessage bm)) {
+        return defaultComponent;
+      }
+
+      ((JLabel) defaultComponent).setText(bm.getMessage());
+      defaultComponent.setForeground(JComponentUtilities.toColor(bm.getColor()));
+      return defaultComponent;
     }
   }
 }

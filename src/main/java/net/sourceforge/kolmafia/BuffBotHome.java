@@ -1,17 +1,11 @@
 package net.sourceforge.kolmafia;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.io.File;
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -21,10 +15,10 @@ public class BuffBotHome {
   private static final DateFormat TIMESTAMP_FORMAT =
       DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
-  public static final Color NOCOLOR = new Color(0, 0, 0);
-  public static final Color ERRORCOLOR = new Color(128, 0, 0);
-  public static final Color NONBUFFCOLOR = new Color(0, 0, 128);
-  public static final Color BUFFCOLOR = new Color(0, 128, 0);
+  public static final String NOCOLOR = "#000000";
+  public static final String ERRORCOLOR = "#800000";
+  public static final String NONBUFFCOLOR = "#000080";
+  public static final String BUFFCOLOR = "#008000";
 
   private static boolean isActive = false;
 
@@ -212,11 +206,10 @@ public class BuffBotHome {
    * An internal function used to indicate that something has changed with regards to the buffbot.
    * This method is used whenever no timestamp is required for a given buffbot entry.
    */
-  public static final void update(final Color c, final String entry) {
+  public static final void update(final String c, final String entry) {
     if (entry != null && BuffBotHome.hypertextLogStream != null) {
       BuffBotHome.messages.add(0, new BuffMessage(c, entry));
-      BuffBotHome.hypertextLogStream.println(
-          "<br><font color=" + DataUtilities.toHexString(c) + ">" + entry + "</font>");
+      BuffBotHome.hypertextLogStream.println("<br><font color=" + c + ">" + entry + "</font>");
       BuffBotHome.hypertextLogStream.flush();
 
       RequestLogger.printLine(entry);
@@ -230,7 +223,7 @@ public class BuffBotHome {
    * Adds a time-stamped entry to the log for the buffbot. In general, this is the preferred method
    * of modifying the buffbot. However, the standard appending procedure is still valid.
    */
-  public static final void timeStampedLogEntry(final Color c, final String entry) {
+  public static final void timeStampedLogEntry(final String c, final String entry) {
     BuffBotHome.update(c, BuffBotHome.TIMESTAMP_FORMAT.format(new Date()) + ": " + entry);
   }
 
@@ -280,51 +273,23 @@ public class BuffBotHome {
     return BuffBotHome.messages;
   }
 
-  /**
-   * Returns an instance of the cell renderer which should be used to display the buff messages
-   * inside of a list setting.
-   */
-  public static final DefaultListCellRenderer getMessageRenderer() {
-    return new BuffMessageRenderer();
-  }
-
-  /**
-   * An internal class which represents the renderer which should be used to display the buff
-   * messages.
-   */
-  private static class BuffMessageRenderer extends DefaultListCellRenderer {
-    public BuffMessageRenderer() {
-      this.setOpaque(true);
-    }
-
-    @Override
-    public Component getListCellRendererComponent(
-        final JList<?> list,
-        final Object value,
-        final int index,
-        final boolean isSelected,
-        final boolean cellHasFocus) {
-      Component defaultComponent =
-          super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-      if (!(value instanceof BuffMessage bm)) {
-        return defaultComponent;
-      }
-
-      ((JLabel) defaultComponent).setText(bm.message);
-      defaultComponent.setForeground(bm.c);
-      return defaultComponent;
-    }
-  }
-
   /** An internal class which represents the message associated with the given buff. */
-  private static class BuffMessage {
-    private final Color c;
+  public static class BuffMessage {
+    private final String c;
     private final String message;
 
-    public BuffMessage(final Color c, final String message) {
+    private BuffMessage(final String c, final String message) {
       this.c = c;
       this.message = message;
+    }
+
+    /** The color of the message, as "#rrggbb". */
+    public String getColor() {
+      return this.c;
+    }
+
+    public String getMessage() {
+      return this.message;
     }
   }
 }

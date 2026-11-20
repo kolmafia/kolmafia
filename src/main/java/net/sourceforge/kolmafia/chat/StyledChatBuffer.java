@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.chat;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
@@ -36,7 +35,7 @@ public class StyledChatBuffer extends ChatBuffer {
     String[] highlightList = highlights.split("\n+");
 
     for (int i = 0; i < highlightList.length; ++i) {
-      StyledChatBuffer.addHighlight(highlightList[i], DataUtilities.toColor(highlightList[++i]));
+      StyledChatBuffer.addHighlight(highlightList[i], highlightList[++i]);
     }
 
     return true;
@@ -51,15 +50,27 @@ public class StyledChatBuffer extends ChatBuffer {
     return searchString + "\n" + colorString;
   }
 
-  public static String addHighlight(final String searchString, final Color color) {
+  public static String addHighlight(final String searchString, final String color) {
     ++StyledChatBuffer.highlightCount;
 
-    String colorString = DataUtilities.toHexString(color);
+    String colorString = StyledChatBuffer.toHexString(color);
 
     StyledChatBuffer.searchStrings.add(searchString.toLowerCase());
     StyledChatBuffer.colorStrings.add(colorString);
 
     return searchString + "\n" + colorString;
+  }
+
+  private static String toHexString(final String color) {
+    int red = Character.digit(color.charAt(1), 16) * 16 + Character.digit(color.charAt(2), 16);
+    int green = Character.digit(color.charAt(3), 16) * 16 + Character.digit(color.charAt(4), 16);
+    int blue = Character.digit(color.charAt(5), 16) * 16 + Character.digit(color.charAt(6), 16);
+
+    if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255) {
+      throw new IllegalArgumentException("Color parameter outside of expected range: " + color);
+    }
+
+    return "#" + DataUtilities.toHexString((red << 16) | (green << 8) | blue, 6);
   }
 
   /** Appends the given message to the chat buffer. */

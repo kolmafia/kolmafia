@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,7 +9,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import javax.swing.UIManager;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -25,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest extends PurchaseRequest {
@@ -311,13 +310,14 @@ public class MallPurchaseRequest extends PurchaseRequest {
   public String color() {
     if (this.isForbidden()) {
       // Try get the color from look and feel
-      Color color = UIManager.getColor("InternalFrame.closePressedBackground");
+      String color =
+          UserInterfaceManager.get().getLookAndFeelColor("InternalFrame.closePressedBackground");
 
       if (color == null) {
         return "red";
       }
 
-      return "#" + Integer.toHexString(color.getRGB()).substring(2);
+      return color;
     }
 
     return !this.canPurchase()
