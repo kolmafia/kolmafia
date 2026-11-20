@@ -759,7 +759,7 @@ public class TestCommand extends AbstractCommand {
 
       var request = new GenericRequest(fileName);
       request.responseText = html;
-      UserInterfaceManager.getUserInterface().showHTML(request);
+      UserInterfaceManager.get().showHTML(request);
 
       return;
     }
