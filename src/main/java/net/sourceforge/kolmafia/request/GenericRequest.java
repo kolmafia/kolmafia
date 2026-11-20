@@ -2548,7 +2548,7 @@ public class GenericRequest implements Runnable {
             || exceptional && Preferences.getBoolean("showExceptionalRequests");
 
     if (showRequestSync) {
-      UserInterfaceManager.getUserInterface().showRequest(this);
+      UserInterfaceManager.get().showRequest(this);
     }
 
     if (exceptional) {

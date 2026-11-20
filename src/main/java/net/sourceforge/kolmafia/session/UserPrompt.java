@@ -120,7 +120,7 @@ public final class UserPrompt<R> {
     if (timeoutMillis > 0) {
       prompt.expireAfter(timeoutMillis, fallback);
     }
-    UserInterfaceManager.getUserInterface().showPrompt(prompt);
+    UserInterfaceManager.get().showPrompt(prompt);
     return prompt.join();
   }
 

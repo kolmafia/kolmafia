@@ -2077,7 +2077,7 @@ public abstract class InventoryManager {
   }
 
   private static boolean allowTurnConsumption(final CreateItemRequest creator) {
-    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
+    if (!UserInterfaceManager.get().hasOpenWindows()) {
       return true;
     }
 

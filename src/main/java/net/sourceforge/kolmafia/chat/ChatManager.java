@@ -185,7 +185,7 @@ public abstract class ChatManager {
     ChatManager.activeChannels.clear();
     ChatManager.currentChannel = null;
 
-    UserInterfaceManager.getUserInterface().closeChat();
+    UserInterfaceManager.get().closeChat();
   }
 
   public static boolean isRunning() {
@@ -236,7 +236,7 @@ public abstract class ChatManager {
     ChatManager.triviaGameId = "[trivia" + (++ChatManager.triviaGameIndex) + "]";
     ChatManager.triviaGameActive = true;
 
-    UserInterfaceManager.getUserInterface()
+    UserInterfaceManager.get()
         .showTriviaContestants("Contestants for " + triviaGameId, ChatManager.triviaGameContacts);
   }
 
@@ -313,7 +313,7 @@ public abstract class ChatManager {
         .equalsIgnoreCase(recipient)) {
 
       if (Preferences.getBoolean("chatBeep")) {
-        UserInterfaceManager.getUserInterface().beep();
+        UserInterfaceManager.get().beep();
       }
 
       if (ChatManager.triviaGameActive) {
@@ -645,12 +645,12 @@ public abstract class ChatManager {
     }
 
     if (ChatManager.activeWindows.contains(bufferKey)) {
-      UserInterfaceManager.getUserInterface().highlightChatTab(bufferKey);
+      UserInterfaceManager.get().highlightChatTab(bufferKey);
       return;
     }
 
     ChatManager.activeWindows.add(bufferKey);
-    UserInterfaceManager.getUserInterface().openChatWindow(bufferKey, highlightOnOpen);
+    UserInterfaceManager.get().openChatWindow(bufferKey, highlightOnOpen);
   }
 
   public static void closeWindow(String closedWindow) {

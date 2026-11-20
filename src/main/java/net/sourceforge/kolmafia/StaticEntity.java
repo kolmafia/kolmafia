@@ -281,8 +281,7 @@ public abstract class StaticEntity {
    * relative to the KoL home directory for the current session.
    */
   public static final void openDescriptionFrame(final String location) {
-    UserInterfaceManager.getUserInterface()
-        .showDescription(RequestEditorKit.extractRequest(location));
+    UserInterfaceManager.get().showDescription(RequestEditorKit.extractRequest(location));
   }
 
   public static final void showGameDescription(Object item) {
@@ -335,7 +334,7 @@ public abstract class StaticEntity {
     } else if (item instanceof String) {
       Matcher playerMatcher = StaticEntity.PLAYERID_MATCHER.matcher((String) item);
       if (playerMatcher.find()) {
-        UserInterfaceManager.getUserInterface().showPlayerProfile("#" + playerMatcher.group(1));
+        UserInterfaceManager.get().showPlayerProfile("#" + playerMatcher.group(1));
       }
     }
   }
