@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia;
 
-import java.awt.Taskbar;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -2041,13 +2040,8 @@ public abstract class KoLCharacter {
    */
   public static final void setAdventuresLeft(final int adventuresLeft) {
     if (adventuresLeft != KoLCharacter.adventuresLeft) {
-      if (Taskbar.isTaskbarSupported()) {
-        Taskbar taskbar = Taskbar.getTaskbar();
-        if ((taskbar.isSupported(Taskbar.Feature.ICON_BADGE_TEXT)
-                || taskbar.isSupported(Taskbar.Feature.ICON_BADGE_NUMBER))
-            && Preferences.getBoolean("useDockIconBadge")) {
-          taskbar.setIconBadge(String.valueOf(adventuresLeft));
-        }
+      if (Preferences.getBoolean("useDockIconBadge")) {
+        UserInterfaceManager.get().setIconBadge(String.valueOf(adventuresLeft));
       }
 
       KoLCharacter.adventuresLeft = adventuresLeft;

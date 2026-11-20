@@ -29,7 +29,6 @@ import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLGUIConstants;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -47,44 +46,44 @@ public abstract class GenericPanel extends ActionVerifyPanel {
   public GenericPanel() {
     super();
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(final Dimension left, final Dimension right) {
     super(left, right);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(final Dimension left, final Dimension right, final boolean isCenterPanel) {
     super(left, right, isCenterPanel);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(final String confirmedText) {
     super(confirmedText);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(final String confirmedText, final boolean isCenterPanel) {
     super(confirmedText, isCenterPanel);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(final String confirmedText, final String cancelledText) {
     super(confirmedText, cancelledText);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(
       final String confirmedText, final String cancelledText, final boolean isCenterPanel) {
     super(confirmedText, cancelledText, isCenterPanel);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(
@@ -94,14 +93,14 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       final boolean isCenterPanel) {
     super(confirmedText, left, right, isCenterPanel);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(
       final String confirmedText, final String cancelledText1, final String cancelledText2) {
     super(confirmedText, cancelledText1, cancelledText2);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(
@@ -111,7 +110,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       final Dimension right) {
     super(confirmedText, cancelledText, left, right);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(
@@ -122,7 +121,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       final Dimension right) {
     super(confirmedText, cancelledText1, cancelledText2, left, right);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(
@@ -133,7 +132,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       final boolean isCenterPanel) {
     super(confirmedText, cancelledText, left, right, isCenterPanel);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   public GenericPanel(
@@ -145,7 +144,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       final boolean isCenterPanel) {
     super(confirmedText, cancelledText1, cancelledText2, left, right, isCenterPanel);
     this.setListeners(CONFIRM_LISTENER, CANCEL_LISTENER);
-    StaticEntity.registerPanel(this);
+    ActionPanelRegistry.registerPanel(this);
   }
 
   @Override

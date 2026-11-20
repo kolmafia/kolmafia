@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.ui;
 import java.io.File;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
@@ -96,4 +97,36 @@ public interface UserInterface {
   default void maximizerExpressionChanged(final String expression) {}
 
   default void showPlayerProfile(final String player) {}
+
+  /** Shows text on the application's icon, such as the dock icon, where the system has one. */
+  default void setIconBadge(final String text) {}
+
+  // Startup and display state
+
+  /** Prepares the user interface's HTML views, before any are created. */
+  default void installEditorKits() {}
+
+  /** Applies the user's look and feel, tray icon and application icon. */
+  default void installLookAndFeel() {}
+
+  /** Starts the graphical interface, when KoLmafia was started with one. */
+  default void initializeGUI() {}
+
+  default void updateToolTip(final String message) {}
+
+  /** KoLmafia's state changed: show the message and enable or disable controls to match. */
+  default void updateDisplayState(final MafiaState state, final String message) {}
+
+  /** Progress through a series of requests, such as adventures. */
+  default void requestProgress(final int value, final int maximum) {}
+
+  default void validateEquipmentSelections() {}
+
+  default void showLicenses() {}
+
+  default void removeTrayIcon() {}
+
+  default boolean isSystemTraySupported() {
+    return false;
+  }
 }
