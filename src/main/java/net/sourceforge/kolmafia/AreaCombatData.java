@@ -1240,7 +1240,7 @@ public class AreaCombatData {
   }
 
   public static String elementColor(final Element element) {
-    boolean dark = UserInterfaceManager.getUserInterface().isDarkTheme();
+    boolean dark = UserInterfaceManager.get().isDarkTheme();
     return switch (element) {
       case HOT -> dark ? "#ff8a93" : "#ff0000";
       case COLD -> dark ? "#00d4ff" : "#0000ff";
