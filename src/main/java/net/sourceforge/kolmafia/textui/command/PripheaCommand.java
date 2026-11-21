@@ -11,9 +11,9 @@ public class PripheaCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     if (LoginRequest.completedLogin()) {
-      UserInterfaceManager.getUserInterface().showMainWindows();
+      UserInterfaceManager.get().showMainWindows();
     } else {
-      UserInterfaceManager.getUserInterface().showLoginWindow();
+      UserInterfaceManager.get().showLoginWindow();
     }
   }
 }

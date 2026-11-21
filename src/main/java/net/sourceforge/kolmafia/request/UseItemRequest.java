@@ -1240,7 +1240,7 @@ public class UseItemRequest extends GenericRequest {
   }
 
   public static final boolean confirmReplacement(final String name) {
-    if (!UserInterfaceManager.getUserInterface().hasOpenWindows()) {
+    if (!UserInterfaceManager.get().hasOpenWindows()) {
       return true;
     }
 
