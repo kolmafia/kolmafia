@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.ui.UserInterfaceManager;
+import net.sourceforge.kolmafia.utilities.HexColor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest extends PurchaseRequest {
@@ -310,14 +311,14 @@ public class MallPurchaseRequest extends PurchaseRequest {
   public String color() {
     if (this.isForbidden()) {
       // Try get the color from look and feel
-      String color =
+      HexColor color =
           UserInterfaceManager.get().getLookAndFeelColor("InternalFrame.closePressedBackground");
 
       if (color == null) {
         return "red";
       }
 
-      return color;
+      return color.value();
     }
 
     return !this.canPurchase()

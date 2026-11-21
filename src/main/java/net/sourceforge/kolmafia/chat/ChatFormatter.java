@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.utilities.HexColor;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -303,7 +303,7 @@ public class ChatFormatter {
   }
 
   /** A random color that is not too light, as "#rrggbb". */
-  public static String getRandomColor() {
+  public static HexColor getRandomColor() {
     int[] colors = new int[3];
 
     do {
@@ -312,7 +312,7 @@ public class ChatFormatter {
       }
     } while (colors[0] > 128 && colors[1] > 128 && colors[2] > 128);
 
-    return "#" + DataUtilities.toHexString((colors[0] << 16) | (colors[1] << 8) | colors[2], 6);
+    return new HexColor(colors[0], colors[1], colors[2]);
   }
 
   /**
@@ -333,7 +333,7 @@ public class ChatFormatter {
     addHighlighting(highlight, ChatFormatter.getRandomColor());
   }
 
-  public static void addHighlighting(String highlight, String color) {
+  public static void addHighlighting(String highlight, HexColor color) {
     if (highlight == null || highlight.isEmpty()) {
       return;
     }

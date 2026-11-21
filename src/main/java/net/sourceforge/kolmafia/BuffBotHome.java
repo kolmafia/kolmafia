@@ -9,16 +9,17 @@ import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.utilities.HexColor;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
 public class BuffBotHome {
   private static final DateFormat TIMESTAMP_FORMAT =
       DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
-  public static final String NOCOLOR = "#000000";
-  public static final String ERRORCOLOR = "#800000";
-  public static final String NONBUFFCOLOR = "#000080";
-  public static final String BUFFCOLOR = "#008000";
+  public static final HexColor NOCOLOR = new HexColor("#000000");
+  public static final HexColor ERRORCOLOR = new HexColor("#800000");
+  public static final HexColor NONBUFFCOLOR = new HexColor("#000080");
+  public static final HexColor BUFFCOLOR = new HexColor("#008000");
 
   private static boolean isActive = false;
 
@@ -206,7 +207,7 @@ public class BuffBotHome {
    * An internal function used to indicate that something has changed with regards to the buffbot.
    * This method is used whenever no timestamp is required for a given buffbot entry.
    */
-  public static final void update(final String c, final String entry) {
+  public static final void update(final HexColor c, final String entry) {
     if (entry != null && BuffBotHome.hypertextLogStream != null) {
       BuffBotHome.messages.add(0, new BuffMessage(c, entry));
       BuffBotHome.hypertextLogStream.println("<br><font color=" + c + ">" + entry + "</font>");
@@ -223,7 +224,7 @@ public class BuffBotHome {
    * Adds a time-stamped entry to the log for the buffbot. In general, this is the preferred method
    * of modifying the buffbot. However, the standard appending procedure is still valid.
    */
-  public static final void timeStampedLogEntry(final String c, final String entry) {
+  public static final void timeStampedLogEntry(final HexColor c, final String entry) {
     BuffBotHome.update(c, BuffBotHome.TIMESTAMP_FORMAT.format(new Date()) + ": " + entry);
   }
 
@@ -275,16 +276,15 @@ public class BuffBotHome {
 
   /** An internal class which represents the message associated with the given buff. */
   public static class BuffMessage {
-    private final String c;
+    private final HexColor c;
     private final String message;
 
-    private BuffMessage(final String c, final String message) {
+    private BuffMessage(final HexColor c, final String message) {
       this.c = c;
       this.message = message;
     }
 
-    /** The color of the message, as "#rrggbb". */
-    public String getColor() {
+    public HexColor getColor() {
       return this.c;
     }
 

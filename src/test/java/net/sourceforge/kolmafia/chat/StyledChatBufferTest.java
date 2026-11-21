@@ -1,15 +1,15 @@
 package net.sourceforge.kolmafia.chat;
 
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import net.sourceforge.kolmafia.utilities.HexColor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 class StyledChatBufferTest {
   @AfterEach
@@ -18,24 +18,28 @@ class StyledChatBufferTest {
     StyledChatBuffer.initializeHighlights();
   }
 
-  @ParameterizedTest
-  @CsvSource({"#ABCDEF, #abcdef", "#008000, #008000", "#ff00FF, #ff00ff"})
-  void storesHighlightColorsInLowerCase(final String color, final String stored) {
-    assertThat(StyledChatBuffer.addHighlight("Easyfax", color), is("Easyfax\n" + stored));
+  @Test
+  void storesHighlights() {
+    assertThat(
+        StyledChatBuffer.addHighlight("Easyfax", new HexColor("#008000")), is("Easyfax\n#008000"));
     int last = StyledChatBuffer.searchStrings.size() - 1;
     assertThat(StyledChatBuffer.searchStrings.get(last), is("easyfax"));
-    assertThat(StyledChatBuffer.colorStrings.get(last), is(stored));
+    assertThat(StyledChatBuffer.colorStrings.get(last), is("#008000"));
   }
 
   @Test
-  void rejectsColorsThatAreNotHexadecimal() {
-    assertThrows(
-        IllegalArgumentException.class, () -> StyledChatBuffer.addHighlight("Easyfax", "#zzzzzz"));
+  void readsHighlightsFromThePreference() {
+    try (var cleanups = withProperty("highlightList", "Easyfax\n#ABCDEF")) {
+      StyledChatBuffer.initializeHighlights();
+
+      assertThat(StyledChatBuffer.searchStrings, contains("easyfax"));
+      assertThat(StyledChatBuffer.colorStrings, contains("#abcdef"));
+    }
   }
 
   @RepeatedTest(20)
   void picksRandomHighlightColorsThatAreNotTooLight() {
-    String color = ChatFormatter.getRandomColor();
+    String color = ChatFormatter.getRandomColor().value();
 
     assertThat(color, matchesPattern("#[0-9a-f]{6}"));
     int red = Integer.parseInt(color.substring(1, 3), 16);

@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
+import net.sourceforge.kolmafia.utilities.HexColor;
 
 public interface UserInterface {
   default <R> void showPrompt(final UserPrompt<R> prompt) {
@@ -97,8 +98,8 @@ public interface UserInterface {
 
   default void showPlayerProfile(final String player) {}
 
-  /** A color of the current look and feel as "#rrggbb", or null if it has none. */
-  default String getLookAndFeelColor(final String key) {
+  /** A color of the current look and feel, or null if it has none. */
+  default HexColor getLookAndFeelColor(final String key) {
     return null;
   }
 }

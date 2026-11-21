@@ -273,7 +273,7 @@ public class BuffBotFrame extends GenericFrame {
       }
 
       ((JLabel) defaultComponent).setText(bm.getMessage());
-      defaultComponent.setForeground(JComponentUtilities.toColor(bm.getColor()));
+      defaultComponent.setForeground(JComponentUtilities.toColor(bm.getColor().value()));
       return defaultComponent;
     }
   }
