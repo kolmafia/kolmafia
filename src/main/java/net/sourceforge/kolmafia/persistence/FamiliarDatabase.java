@@ -15,12 +15,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import javax.swing.ImageIcon;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -638,38 +634,6 @@ public class FamiliarDatabase {
   public static final int getFamiliarByImageLocation(final String image) {
     Integer familiarId = FamiliarDatabase.familiarByImage.get(image);
     return familiarId == null ? -1 : familiarId;
-  }
-
-  private static ImageIcon getFamiliarIcon(final String location) {
-    if (location == null || location.equals("debug.gif")) {
-      return FamiliarDatabase.getNoFamiliarImage();
-    }
-    String path = (location.contains("/") ? "" : "itemimages/") + location;
-    String url = KoLmafia.imageServerPath() + path;
-    File file = FileUtilities.downloadImage(url);
-    if (file == null) {
-      return FamiliarDatabase.getNoFamiliarImage();
-    }
-    ImageIcon icon = JComponentUtilities.getImage(path);
-    return icon != null ? icon : FamiliarDatabase.getNoFamiliarImage();
-  }
-
-  public static final ImageIcon getNoFamiliarImage() {
-    return JComponentUtilities.getImage("debug.gif");
-  }
-
-  public static final ImageIcon getFamiliarImage(final String name) {
-    return FamiliarDatabase.getFamiliarImage(FamiliarDatabase.getFamiliarId(name));
-  }
-
-  public static final ImageIcon getFamiliarImage(final int familiarId) {
-    String location = FamiliarDatabase.getFamiliarImageLocation(familiarId);
-    return FamiliarDatabase.getFamiliarIcon(location);
-  }
-
-  public static final ImageIcon getCurrentFamiliarImage() {
-    String location = KoLCharacter.getFamiliarImage();
-    return FamiliarDatabase.getFamiliarIcon(location);
   }
 
   /**
