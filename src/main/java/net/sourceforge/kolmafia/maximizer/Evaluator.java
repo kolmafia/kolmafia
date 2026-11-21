@@ -99,7 +99,7 @@ public class Evaluator {
               + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
               + this.relevantFamiliar(FamiliarPool.HAND);
       case OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
-      case ACCESSORY1 -> 3;
+      case ACCESSORY1 -> SlotSet.ACCESSORY_SLOTS.size();
       case FAMILIAR ->
           // Familiar items include weapons, hats and pants, make sure we have enough to consider
           // for
@@ -674,7 +674,13 @@ public class Evaluator {
 
       if (!EquipmentManager.canEquip(id) && !KoLCharacter.hasEquipped(id)) continue;
       if (item == null) {
-        item = new CheckedItem(id, equipScope, maxPrice, priceLevel);
+        int acquisitionTarget =
+            slot == Slot.ACCESSORY1
+                    && !ModifierDatabase.getBooleanModifier(
+                        ModifierType.ITEM, id, BooleanModifier.SINGLE)
+                ? SlotSet.ACCESSORY_SLOTS.size()
+                : 1;
+        item = new CheckedItem(id, equipScope, maxPrice, priceLevel, acquisitionTarget);
       }
 
       if (item.getCount() == 0) {
@@ -1605,7 +1611,7 @@ public class Evaluator {
         RequestLogger.printLine(speculationList.get(entry).toString());
       }
 
-      // Do we have any required items for the slot?
+      // Count distinct candidates, not copies: caps can make lower-ranked alternatives useful.
       int total = 0;
       for (CheckedItem item : checkedItemList) {
         if (item.requiredFlag) {
@@ -1708,14 +1714,14 @@ public class Evaluator {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-                total += item.getCount();
+                ++total;
               }
             }
           } else if (total < useful) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-                total += item.getCount();
+                ++total;
               }
             }
           }

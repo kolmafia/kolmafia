@@ -5,11 +5,15 @@ import static internal.helpers.Player.*;
 import static internal.matchers.Maximizer.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -263,6 +267,34 @@ public class MaximizerCreatableTest {
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
       }
     }
+
+    @Test
+    void recommendationsCombineNpcAndStoredCopies() {
+      int itemId = ItemPool.SPHYGMAYOMANOMETER;
+      var cleanups =
+          new Cleanups(
+              withProperty("autoSatisfyWithNPCs", true),
+              withWorkshedItem(ItemPool.MAYO_CLINIC),
+              withOverrideModifiers(ModifierType.ITEM, itemId, "Muscle: +1000"),
+              withStats(100, 100, 100),
+              withMeat(2500),
+              withItemInStorage(itemId, 2),
+              withInteractivity(false),
+              withRonin(true),
+              withConcoctionRefresh());
+
+      try (cleanups) {
+        maximizeAny("muscle, -tie", 2500, PriceLevel.DONT_CHECK);
+
+        String item = "\u00B6" + itemId;
+        assertThat(
+            getBoosts(),
+            hasItems(
+                hasProperty("cmd", is("buy 1 " + item + ";equip acc1 " + item)),
+                hasProperty("cmd", is("pull " + item + ";equip acc2 " + item)),
+                hasProperty("cmd", is("pull " + item + ";equip acc3 " + item))));
+      }
+    }
   }
 
   @Nested
@@ -319,6 +351,35 @@ public class MaximizerCreatableTest {
         maximizeCreatable("stinky cheese");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "stinky cheese sword")));
       }
+    }
+  }
+
+  @Test
+  void recommendationsCombineOwnedCraftedAndStoredCopies() {
+    int itemId = ItemPool.BONERDAGON_NECKLACE;
+    var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, itemId, "Muscle: +1000"),
+            withStats(100, 100, 100),
+            withItem(itemId),
+            withItem("hemp string"),
+            withItem("vertebra of the Bonerdagon"),
+            withItem("meat paste"),
+            withItemInStorage(itemId),
+            withInteractivity(false),
+            withRonin(true),
+            withConcoctionRefresh());
+
+    try (cleanups) {
+      maximizeAny("muscle, -tie");
+
+      String item = "\u00B6" + itemId;
+      assertThat(
+          getBoosts(),
+          hasItems(
+              hasProperty("cmd", is("equip acc1 " + item)),
+              hasProperty("cmd", is("make " + item + ";equip acc2 " + item)),
+              hasProperty("cmd", is("pull " + item + ";equip acc3 " + item))));
     }
   }
 }
