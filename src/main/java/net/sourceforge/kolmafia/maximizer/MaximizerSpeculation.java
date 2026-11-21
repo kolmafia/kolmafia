@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -39,6 +40,8 @@ public class MaximizerSpeculation extends Speculation
   public boolean failed = false;
   public CheckedItem attachment;
   private boolean foldables = false;
+  private MaximizerBranchBound branchBound;
+  private boolean branchesPruned;
 
   @Override
   public MaximizerSpeculation clone() {
@@ -225,9 +228,23 @@ public class MaximizerSpeculation extends Speculation
       SlotList<CheckedItem> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
-      FamiliarData useBjornFamiliar)
+      FamiliarData useBjornFamiliar,
+      EnumSet<BooleanModifier> interactionBooleans,
+      MaximizerBranchBound.OutfitEnvelope outfitEnvelope,
+      boolean branchBoundAllowed)
       throws MaximizerInterruptedException {
     this.foldables = Preferences.getBoolean("maximizerFoldables");
+    this.branchesPruned = false;
+    var initial = branchBoundAllowed ? this.clone() : null;
+    if (branchBoundAllowed && initial == null) {
+      throw new IllegalStateException("Unable to clone speculation");
+    }
+    var initialFamiliarItems = possibles.get(Slot.FAMILIAR);
+    this.branchBound =
+        branchBoundAllowed
+            ? MaximizerBranchBound.create(
+                Maximizer.eval, this, possibles, interactionBooleans, outfitEnvelope)
+            : null;
     this.tryOutfits(
         enthronedFamiliars,
         usefulOutfits,
@@ -239,6 +256,11 @@ public class MaximizerSpeculation extends Speculation
     for (int i = 0; i < familiars.size(); ++i) {
       this.setFamiliar(familiars.get(i));
       possibles.set(Slot.FAMILIAR, possibles.getFamiliar(i));
+      this.branchBound =
+          branchBoundAllowed
+              ? MaximizerBranchBound.create(
+                  Maximizer.eval, this, possibles, interactionBooleans, outfitEnvelope)
+              : null;
       this.tryOutfits(
           enthronedFamiliars,
           usefulOutfits,
@@ -247,6 +269,23 @@ public class MaximizerSpeculation extends Speculation
           bestCard,
           useCrownFamiliar,
           useBjornFamiliar);
+    }
+    if (this.branchesPruned && Maximizer.best.failed && initial != null) {
+      // Use the remaining budget for failed recommendations, without charging pruned completions
+      // or resetting the count of outfits already evaluated.
+      possibles.set(Slot.FAMILIAR, initialFamiliarItems);
+      initial.tryAll(
+          familiars,
+          enthronedFamiliars,
+          usefulOutfits,
+          outfitPieces,
+          possibles,
+          bestCard,
+          useCrownFamiliar,
+          useBjornFamiliar,
+          interactionBooleans,
+          outfitEnvelope,
+          false);
     }
   }
 
@@ -334,6 +373,7 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.FAMILIAR) == null) {
       List<CheckedItem> possible = possibles.get(Slot.FAMILIAR);
@@ -388,6 +428,7 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.CONTAINER) == null) {
       List<CheckedItem> possible = possibles.get(Slot.CONTAINER);
@@ -445,6 +486,7 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     int free = 0;
     if (this.equipment.get(Slot.ACCESSORY1) == null) ++free;
@@ -524,6 +566,7 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.HAT) == null) {
       List<CheckedItem> possible = possibles.get(Slot.HAT);
@@ -582,6 +625,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryShirts(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.SHIRT) == null) {
       boolean any = false;
@@ -623,6 +667,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryPants(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.PANTS) == null) {
       List<CheckedItem> possible = possibles.get(Slot.PANTS);
@@ -662,6 +707,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void trySixguns(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.HOLSTER) == null) {
       List<CheckedItem> possible = possibles.get(Slot.HOLSTER);
@@ -685,6 +731,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryWeapons(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     boolean chefstaffable =
         KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI) || KoLCharacter.isJarlsberg();
@@ -745,6 +792,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryOffhands(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (this.cannotComplete()) return;
     var mark = this.mark();
     int weapon = this.equipment.get(Slot.WEAPON).getItemId();
     if (EquipmentDatabase.getHands(weapon) > 1) {
@@ -831,6 +879,12 @@ public class MaximizerSpeculation extends Speculation
     if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
       throw new MaximizerLimitException();
     }
+  }
+
+  private boolean cannotComplete() {
+    if (this.branchBound == null || !this.branchBound.cannotComplete(this)) return false;
+    this.branchesPruned = true;
+    return true;
   }
 
   private static int getMutex(AdventureResult item) {
