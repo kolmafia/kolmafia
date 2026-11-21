@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
+import net.sourceforge.kolmafia.utilities.HexColor;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public interface UserInterface {
@@ -99,6 +100,11 @@ public interface UserInterface {
   default void maximizerExpressionChanged(final String expression) {}
 
   default void showPlayerProfile(final String player) {}
+
+  /** A color of the current look and feel, or null if it has none. */
+  default HexColor getLookAndFeelColor(final String key) {
+    return null;
+  }
 
   /** Runs work in order on the user interface's thread, or on a thread of its own without one. */
   default void invokeLater(final Runnable runnable) {

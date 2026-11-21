@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.swingui;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Desktop.Action;
 import java.awt.Frame;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.net.URI;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -21,6 +23,7 @@ import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.ui.UserInterface;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
+import net.sourceforge.kolmafia.utilities.HexColor;
 
 public class SwingUserInterface implements UserInterface {
   @Override
@@ -262,6 +265,17 @@ public class SwingUserInterface implements UserInterface {
   public void showPlayerProfile(final String player) {
     Object[] parameters = new Object[] {player};
     SwingUtilities.invokeLater(new CreateFrameRunnable(ProfileFrame.class, parameters));
+  }
+
+  @Override
+  public HexColor getLookAndFeelColor(final String key) {
+    Color color = UIManager.getColor(key);
+
+    if (color == null) {
+      return null;
+    }
+
+    return new HexColor(color.getRed(), color.getGreen(), color.getBlue());
   }
 
   @Override
