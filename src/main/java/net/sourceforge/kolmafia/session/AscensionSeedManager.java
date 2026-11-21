@@ -76,9 +76,12 @@ public class AscensionSeedManager {
     public void update() {
       if (Preferences.getBoolean("ascensionSeedAutomation")) {
         if (code.equals("Manager")) {
-          // When ascension seed automation is first enabled, check whether it makes sense to start
-          // narrowing the candidates immediately.
-          incrementalReset();
+          if (Preferences.getString("ascensionSeedAutomationState").isBlank()) {
+            // When ascension seed automation is first enabled, check whether it makes sense to
+            // start narrowing the candidates immediately. If there is existing state, then this is
+            // probably triggered as the result of a login, so no need to reset everything.
+            incrementalReset();
+          }
           return;
         }
 
