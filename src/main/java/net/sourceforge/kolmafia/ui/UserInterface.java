@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.ui;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -8,6 +10,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 import net.sourceforge.kolmafia.utilities.HexColor;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public interface UserInterface {
   default <R> void showPrompt(final UserPrompt<R> prompt) {
@@ -102,4 +105,21 @@ public interface UserInterface {
   default HexColor getLookAndFeelColor(final String key) {
     return null;
   }
+
+  /** Runs work in order on the user interface's thread, or on a thread of its own without one. */
+  default void invokeLater(final Runnable runnable) {
+    UserInterfaceThread.execute(runnable);
+  }
+
+  default boolean confirmWarning(final String title, final String message) {
+    return InputFieldUtilities.confirm(message);
+  }
+
+  default void dumpDisabledSkills() {}
+
+  default boolean canBrowse() {
+    return false;
+  }
+
+  default void browse(final URI uri) throws IOException {}
 }

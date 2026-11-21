@@ -3992,6 +3992,7 @@ public class ItemPool {
   public static final int ELF_GUARD_FIELD_MANUAL_EXTORTION_USED = 11499;
   public static final int THE_ENCYCLOPEDIA_OF_FRUIT_USED = 11500;
   public static final int ELF_GUARD_FIELD_MANUAL_WILDERNESS_SLEEPING_USED = 11501;
+  public static final int CREPE_PAPER_PARACHUTE_CAPE = 11521;
   public static final int WIRED_UNDERWEAR = 11538;
   public static final int ENCRYPTED_SHURIKEN = 11539;
   public static final int MIMIC_EGG = 11542;
@@ -4137,6 +4138,7 @@ public class ItemPool {
   public static final int MEDICAL_GRUEL = 12054;
   public static final int THE_ETERNITY_CODPIECE = 12067;
   public static final int ANGELBONE_TOTEM = 12069;
+  public static final int ANGELBONE_FRAGMENTS = 12074;
   public static final int LEGENDARY_SEAL_CLUBBING_CLUB = 12134;
   public static final int HEARTSTONE = 12181;
   public static final int ARCHAEOLOGISTS_SPADE = 12184;

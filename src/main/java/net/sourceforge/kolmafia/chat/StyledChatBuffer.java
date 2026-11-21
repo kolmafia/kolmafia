@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.chat;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.HexColor;
 
 public class StyledChatBuffer extends ChatBuffer {
@@ -94,16 +94,17 @@ public class StyledChatBuffer extends ChatBuffer {
   }
 
   public void applyHighlights() {
-    SwingUtilities.invokeLater(
-        () -> {
-          String[] lines = this.getContent().split("<br>");
+    UserInterfaceManager.get()
+        .invokeLater(
+            () -> {
+              String[] lines = this.getContent().split("<br>");
 
-          this.clear();
+              this.clear();
 
-          for (String line : lines) {
-            this.append(line + "<br>");
-          }
-        });
+              for (String line : lines) {
+                this.append(line + "<br>");
+              }
+            });
   }
 
   private String applyHighlight(

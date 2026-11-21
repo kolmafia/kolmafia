@@ -5,7 +5,9 @@ import static internal.helpers.Player.withBjorned;
 import static internal.helpers.Player.withEnthroned;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withStats;
 import static internal.matchers.Maximizer.recommendsSlot;
@@ -13,24 +15,39 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import java.util.ArrayList;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class MaximizerRegressionTest {
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("MaximizerRegressionTest");
+  }
+
   @BeforeEach
   public void init() {
     KoLCharacter.reset(true);
@@ -292,6 +309,43 @@ public class MaximizerRegressionTest {
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY1))));
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "Counterclockwise Watch")));
+    }
+  }
+
+  // https://github.com/kolmafia/kolmafia/issues/3923
+  @ParameterizedTest
+  @ValueSource(ints = {FamiliarPool.ROBORTENDER, FamiliarPool.PUCK_MAN})
+  void findsUnderwaterFamiliarEquipmentBeforeCombinationLimit(int familiarId) {
+    var originalInventory = new ArrayList<>(KoLConstants.inventory);
+    var inventoryCleanup =
+        new Cleanups(
+            () -> {
+              KoLConstants.inventory.clear();
+              KoLConstants.inventory.addAll(originalInventory);
+              EquipmentManager.updateEquipmentLists();
+            });
+    try (var cleanups =
+        new Cleanups(
+            withFamiliar(familiarId),
+            withStats(1000, 1000, 1000),
+            withEquipped(Slot.FAMILIAR, ItemPool.AMULET_COIN),
+            withProperty("_roboDrinks", ""),
+            withProperty("maximizerCombinationLimit", 10000),
+            inventoryCleanup)) {
+      var equipment = new ArrayList<AdventureResult>();
+      int id = 0;
+      while ((id = EquipmentDatabase.nextEquipmentItemId(id)) != -1) {
+        equipment.add(ItemPool.get(id, 3));
+      }
+      KoLConstants.inventory.clear();
+      KoLConstants.inventory.addAll(equipment);
+      EquipmentManager.updateEquipmentLists();
+
+      assertTrue(maximize("sea"));
+      assertThat(
+          Maximizer.best.getModifiers().getBoolean(BooleanModifier.ADVENTURE_UNDERWATER), is(true));
+      assertThat(
+          Maximizer.best.getModifiers().getBoolean(BooleanModifier.UNDERWATER_FAMILIAR), is(true));
     }
   }
 }

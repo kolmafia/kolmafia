@@ -1,9 +1,14 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -271,5 +276,32 @@ public class SwingUserInterface implements UserInterface {
     }
 
     return new HexColor(color.getRed(), color.getGreen(), color.getBlue());
+  }
+
+  @Override
+  public void invokeLater(final Runnable runnable) {
+    SwingUtilities.invokeLater(runnable);
+  }
+
+  @Override
+  public boolean confirmWarning(final String title, final String message) {
+    return JOptionPane.showConfirmDialog(
+            null, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE)
+        == JOptionPane.YES_OPTION;
+  }
+
+  @Override
+  public void dumpDisabledSkills() {
+    SkillBuffFrame.dumpDisabledSkills();
+  }
+
+  @Override
+  public boolean canBrowse() {
+    return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE);
+  }
+
+  @Override
+  public void browse(final URI uri) throws IOException {
+    Desktop.getDesktop().browse(uri);
   }
 }
