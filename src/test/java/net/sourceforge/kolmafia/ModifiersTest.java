@@ -1179,10 +1179,8 @@ public class ModifiersTest {
     @Test
     public void unenchantedFamiliarSlotItemDoesNotCrash() {
       var cleanups =
-        new Cleanups(
-          withFamiliar(FamiliarPool.LEFT_HAND),
-          withEquipped(Slot.FAMILIAR, "Mylar balloon")
-        );
+          new Cleanups(
+              withFamiliar(FamiliarPool.LEFT_HAND), withEquipped(Slot.FAMILIAR, "Mylar balloon"));
 
       try (cleanups) {
         var mods = ModifierDatabase.getItemModifiersInFamiliarSlot(ItemPool.MYLAR_BALLOON);
@@ -1192,7 +1190,6 @@ public class ModifiersTest {
         assertDoesNotThrow(() -> KoLCharacter.recalculateAdjustments(false));
       }
     }
-      
 
     @Test
     public void doublesOffhandsOnFamiliar() {
