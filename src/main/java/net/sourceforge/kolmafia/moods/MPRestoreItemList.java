@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.moods;
 
 import java.util.HashMap;
-import javax.swing.JCheckBox;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -25,7 +24,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class MPRestoreItemList {
   private static boolean purchaseBasedSort = false;
@@ -161,31 +159,6 @@ public abstract class MPRestoreItemList {
 
   public static boolean contains(final AdventureResult item) {
     return restoreByName.containsKey(item.getName());
-  }
-
-  public static JCheckBox[] getCheckboxes() {
-    String mpRestoreSetting = Preferences.getString("mpAutoRecoveryItems");
-    // Automatically convert changed restorative name
-    mpRestoreSetting =
-        StringUtilities.singleStringReplace(mpRestoreSetting, "free disco rest", "free rest");
-    JCheckBox[] restoreCheckbox = new JCheckBox[MPRestoreItemList.CONFIGURES.length];
-
-    for (int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i) {
-      restoreCheckbox[i] = new JCheckBox(MPRestoreItemList.CONFIGURES[i].toString());
-      restoreCheckbox[i].setSelected(
-          mpRestoreSetting.contains(MPRestoreItemList.CONFIGURES[i].toString().toLowerCase()));
-    }
-
-    return restoreCheckbox;
-  }
-
-  public static void updateCheckboxes(final JCheckBox[] restoreCheckbox) {
-    String mpRestoreSetting = Preferences.getString("mpAutoRecoveryItems");
-
-    for (int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i) {
-      restoreCheckbox[i].setSelected(
-          mpRestoreSetting.contains(MPRestoreItemList.CONFIGURES[i].toString().toLowerCase()));
-    }
   }
 
   /**
