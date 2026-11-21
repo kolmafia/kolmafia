@@ -117,11 +117,13 @@ import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.SwingUserInterface;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -259,6 +261,10 @@ public abstract class KoLmafia {
     System.out.println("Using Java " + System.getProperty("java.version"));
     System.out.println();
     StaticEntity.setGUIRequired(true);
+
+    if (!StaticEntity.isHeadless()) {
+      UserInterfaceManager.set(new SwingUserInterface());
+    }
 
     for (String arg : args) {
       if (arg.equalsIgnoreCase("--HELP") || arg.equalsIgnoreCase("/?")) {
@@ -736,7 +742,7 @@ public abstract class KoLmafia {
 
       KoLmafia.refreshSessionData();
 
-      AdventureFrame.updateFromPreferences();
+      UserInterfaceManager.get().preferencesChanged();
 
       // It would be nice to not have to do this
       IslandManager.ensureUpdatedBigIsland();
@@ -1061,7 +1067,7 @@ public abstract class KoLmafia {
 
     // Retrieve the Terrarium
     RequestThread.postRequest(new FamiliarRequest());
-    GearChangePanel.updateFamiliars();
+    UserInterfaceManager.get().familiarsChanged();
 
     // Available stuff in Clan may have changed, so check clan
     ClanLoungeRequest.updateLounge();

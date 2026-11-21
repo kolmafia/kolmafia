@@ -4,12 +4,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginManager {
@@ -96,11 +97,13 @@ public class LoginManager {
     LoginRequest.isLoggingIn(true);
 
     try {
+      PreferenceListenerRegistry.deferPreferenceListeners(true);
       ConcoctionDatabase.deferRefresh(true);
       LoginManager.initialize(username);
     } finally {
-      ConcoctionDatabase.deferRefresh(false);
       LoginRequest.isLoggingIn(false);
+      ConcoctionDatabase.deferRefresh(false);
+      PreferenceListenerRegistry.deferPreferenceListeners(false);
     }
 
     // Abort further processing in Valhalla.
@@ -247,9 +250,9 @@ public class LoginManager {
     ScriptManager.compileScripts();
 
     if (StaticEntity.isGUIRequired()) {
-      KoLmafiaGUI.intializeMainInterfaces();
+      UserInterfaceManager.get().showMainWindows();
     } else if (Preferences.getString("initialFrames").contains("LocalRelayServer")) {
-      KoLmafiaGUI.constructFrame("LocalRelayServer");
+      UserInterfaceManager.get().showWindow("LocalRelayServer");
     }
 
     LoginManager.showCurrentHoliday();

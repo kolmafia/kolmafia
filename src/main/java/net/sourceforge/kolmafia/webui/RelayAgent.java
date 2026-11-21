@@ -250,9 +250,10 @@ public class RelayAgent extends Thread {
     if (pwd == null) {
       // KoLmafia internal pages use only "pwd"
       if (this.path.startsWith("/KoLmafia")) {
-        RequestLogger.printLine("Missing password hash");
-        RequestLogger.printLine("Path: \"" + this.path + "\"");
-        this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
+        if (debugging) {
+          RequestLogger.updateDebugLog("Missing password hash: " + this.path);
+        }
+        this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "Missing password hash");
         return false;
       }
       pwd = this.request.getFormField("phash");
@@ -261,9 +262,10 @@ public class RelayAgent extends Thread {
     // All other pages need either no password hash
     // or a valid password hash.
     if (pwd != null && !pwd.equals(GenericRequest.passwordHash)) {
-      RequestLogger.printLine("Password hash mismatch");
-      RequestLogger.printLine("Path: \"" + this.path + "\"");
-      this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
+      if (debugging) {
+        RequestLogger.updateDebugLog("Password hash mismatch: " + this.path);
+      }
+      this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "Password hash mismatch");
       return false;
     }
 
@@ -339,33 +341,42 @@ public class RelayAgent extends Thread {
     }
   }
 
-  private static boolean modifiedSince(String date, File file) {
-    return file != null && file.exists() && StringUtilities.parseDate(date) < file.lastModified();
+  static boolean notModifiedSince(String date, File file) {
+    if (date == null || file == null || !file.isFile()) {
+      return false;
+    }
+
+    long lastModified = file.lastModified() / 1000L;
+    long ifModifiedSince = StringUtilities.parseDate(date) / 1000L;
+    return lastModified <= ifModifiedSince;
   }
 
-  private boolean shouldSendNotModified() {
+  static boolean shouldSendNotModified(String path, String ifModifiedSince) {
+    // If this request has arguments, don't check
+    if (path.contains("?")) {
+      return false;
+    }
+
+    if (path.endsWith(".ash") || path.endsWith(".php")) {
+      // ash files are always dynamic; php files could shadow KoL
+      return false;
+    }
+
     // Things in the "images" directory come from KoL's image server.
     // We set the modification date to KoL's modification date.
-    if (this.path.startsWith("/images")) {
-      return RelayAgent.modifiedSince(
-          this.isCheckingModified, RelayRequest.findLocalImage(this.path.substring(1)));
-    }
-
-    // Things in the "relay" directory are either KoLmafia builtin
-    // files or are provided by user scripts.
-    if (!this.path.startsWith("/relay")) {
-      return false;
-    }
-
-    // If this request has arguments, don't check
-    if (this.path.contains("?")) {
-      return false;
+    if (path.startsWith("/images/")) {
+      return RelayAgent.notModifiedSince(
+          ifModifiedSince, RelayRequest.findLocalImage(path.substring(1)));
     }
 
     // Otherwise, look at the modification date of the file in the
     // file system
-    return RelayAgent.modifiedSince(
-        this.isCheckingModified, RelayRequest.findRelayFile(this.path.substring(1)));
+    return RelayAgent.notModifiedSince(
+        ifModifiedSince, RelayRequest.findRelayFile(path.substring(1)));
+  }
+
+  private boolean shouldSendNotModified() {
+    return RelayAgent.shouldSendNotModified(this.path, this.isCheckingModified);
   }
 
   private void readServerResponse() throws IOException {

@@ -109,12 +109,9 @@ import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.shop.ShopRequest;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.MallSearchFrame;
-import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
-import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.DataFileCache;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
@@ -173,7 +170,7 @@ public abstract class KoLCharacter {
   }
 
   // Create this early before subsequent initializers want to look at it.
-  private static final Modifiers currentModifiers = new Modifiers();
+  private static volatile Modifiers currentModifiers = new Modifiers();
 
   // Things that cannot be changed
 
@@ -391,7 +388,7 @@ public abstract class KoLCharacter {
     KoLCharacter.totalSubpoints = new long[3];
     KoLCharacter.resetTriggers();
 
-    KoLCharacter.currentModifiers.reset();
+    KoLCharacter.currentModifiers = new Modifiers();
     // TODO: do we need to do this? Can we not just reset the passive skill cache?
     ModifierDatabase.resetModifiers();
 
@@ -468,7 +465,7 @@ public abstract class KoLCharacter {
     DwarfFactoryRequest.reset();
     EquipmentManager.resetEquipment();
     EquipmentManager.resetCustomOutfits();
-    GearChangePanel.clearFamiliarList();
+    UserInterfaceManager.get().familiarListCleared();
     InventoryManager.resetInventory();
     LocketManager.clear();
     SkillDatabase.resetCasts();
@@ -532,7 +529,7 @@ public abstract class KoLCharacter {
     int battleIndex = KoLCharacter.battleSkillNames.indexOf(Preferences.getString("battleAction"));
     KoLCharacter.battleSkillNames.setSelectedIndex(battleIndex == -1 ? 0 : battleIndex);
 
-    SkillBuffFrame.update();
+    UserInterfaceManager.get().skillsChanged();
   }
 
   static final void resetPerAscensionData() {
@@ -1362,10 +1359,10 @@ public abstract class KoLCharacter {
     ChezSnooteeRequest.reset();
     MicroBreweryRequest.reset();
     HellKitchenRequest.reset();
-    GearChangePanel.clearFamiliarList();
+    UserInterfaceManager.get().familiarListCleared();
     InventoryManager.refresh();
     EquipmentManager.resetCustomOutfits();
-    SkillBuffFrame.update();
+    UserInterfaceManager.get().skillsChanged();
 
     limitmode.reset();
 
@@ -1577,14 +1574,14 @@ public abstract class KoLCharacter {
   public static final void setStorageMeat(final long storageMeat) {
     if (KoLCharacter.storageMeat != storageMeat) {
       KoLCharacter.storageMeat = storageMeat;
-      MallSearchFrame.updateMeat();
+      UserInterfaceManager.get().meatChanged();
     }
   }
 
   public static final void addStorageMeat(final long meat) {
     if (meat != 0) {
       KoLCharacter.storageMeat += meat;
-      MallSearchFrame.updateMeat();
+      UserInterfaceManager.get().meatChanged();
     }
   }
 
@@ -1628,7 +1625,7 @@ public abstract class KoLCharacter {
   public static final void setAvailableMeat(final long availableMeat) {
     if (KoLCharacter.availableMeat != availableMeat) {
       KoLCharacter.availableMeat = availableMeat;
-      MallSearchFrame.updateMeat();
+      UserInterfaceManager.get().meatChanged();
     }
   }
 
@@ -2183,9 +2180,10 @@ public abstract class KoLCharacter {
 
   /** Accessor method to retrieve the total current familiar weight adjustment */
   public static final int getFamiliarWeightAdjustment() {
+    var mods = KoLCharacter.currentModifiers;
     return (int)
-        (KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT)
-            + KoLCharacter.currentModifiers.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT));
+        (mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT)
+            + mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT));
   }
 
   public static final int getFamiliarWeightPercentAdjustment() {
@@ -2201,27 +2199,28 @@ public abstract class KoLCharacter {
   }
 
   public static final int getManaCostAdjustment(final boolean combat) {
-    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.MANA_COST)
-        + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.STACKABLE_MANA_COST)
-        + (combat
-            ? (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.COMBAT_MANA_COST)
-            : 0);
+    var mods = KoLCharacter.currentModifiers;
+    return (int) mods.getDouble(DoubleModifier.MANA_COST)
+        + (int) mods.getDouble(DoubleModifier.STACKABLE_MANA_COST)
+        + (combat ? (int) mods.getDouble(DoubleModifier.COMBAT_MANA_COST) : 0);
   }
 
   /** Accessor method to retrieve the total current combat percent adjustment */
   public static final double getCombatRateAdjustment() {
-    double rate = KoLCharacter.currentModifiers.getDouble(DoubleModifier.COMBAT_RATE);
+    var mods = KoLCharacter.currentModifiers;
+    double rate = mods.getDouble(DoubleModifier.COMBAT_RATE);
     if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
-      rate += KoLCharacter.currentModifiers.getDouble(DoubleModifier.UNDERWATER_COMBAT_RATE);
+      rate += mods.getDouble(DoubleModifier.UNDERWATER_COMBAT_RATE);
     }
     return rate;
   }
 
   /** Accessor method to retrieve the total current initiative adjustment */
   public static final double getInitiativeAdjustment() {
+    var mods = KoLCharacter.currentModifiers;
     // Penalty is constrained to be non-positive
-    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE)
-        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE_PENALTY), 0.0);
+    return mods.getDouble(DoubleModifier.INITIATIVE)
+        + Math.min(mods.getDouble(DoubleModifier.INITIATIVE_PENALTY), 0.0);
   }
 
   /** Accessor method to retrieve the total current fixed experience adjustment */
@@ -2242,9 +2241,10 @@ public abstract class KoLCharacter {
    * @return Total Current Meat Drop Percent Adjustment
    */
   public static final double getMeatDropPercentAdjustment() {
+    var mods = KoLCharacter.currentModifiers;
     // Penalty is constrained to be non-positive
-    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP)
-        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP_PENALTY), 0.0);
+    return mods.getDouble(DoubleModifier.MEATDROP)
+        + Math.min(mods.getDouble(DoubleModifier.MEATDROP_PENALTY), 0.0);
   }
 
   /**
@@ -2262,8 +2262,9 @@ public abstract class KoLCharacter {
    * @return Total Current Item Drop Percent Adjustment
    */
   public static final double getItemDropPercentAdjustment() {
-    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP)
-        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP_PENALTY), 0.0);
+    var mods = KoLCharacter.currentModifiers;
+    return mods.getDouble(DoubleModifier.ITEMDROP)
+        + Math.min(mods.getDouble(DoubleModifier.ITEMDROP_PENALTY), 0.0);
   }
 
   /**
@@ -2451,21 +2452,23 @@ public abstract class KoLCharacter {
   }
 
   public static final int getRestingHP() {
-    int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_HP);
-    double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_HP_PCT);
+    var mods = KoLCharacter.currentModifiers;
+    int rv = (int) mods.getDouble(DoubleModifier.BASE_RESTING_HP);
+    double factor = mods.getDouble(DoubleModifier.RESTING_HP_PCT);
     if (factor != 0) {
       rv = (int) (rv * (factor + 100.0) / 100.0);
     }
-    return rv + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BONUS_RESTING_HP);
+    return rv + (int) mods.getDouble(DoubleModifier.BONUS_RESTING_HP);
   }
 
   public static final int getRestingMP() {
-    int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_MP);
-    double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_MP_PCT);
+    var mods = KoLCharacter.currentModifiers;
+    int rv = (int) mods.getDouble(DoubleModifier.BASE_RESTING_MP);
+    double factor = mods.getDouble(DoubleModifier.RESTING_MP_PCT);
     if (factor != 0) {
       rv = (int) (rv * (factor + 100.0) / 100.0);
     }
-    return rv + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BONUS_RESTING_MP);
+    return rv + (int) mods.getDouble(DoubleModifier.BONUS_RESTING_MP);
   }
 
   /**
@@ -2533,8 +2536,9 @@ public abstract class KoLCharacter {
    * @return Total Current Resistance to specified element
    */
   public static final int currentBonusDamage() {
-    int weaponDamage = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.WEAPON_DAMAGE);
-    int rangedDamage = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.RANGED_DAMAGE);
+    var mods = KoLCharacter.currentModifiers;
+    int weaponDamage = (int) mods.getDouble(DoubleModifier.WEAPON_DAMAGE);
+    int rangedDamage = (int) mods.getDouble(DoubleModifier.RANGED_DAMAGE);
     return weaponDamage
         + (EquipmentManager.getWeaponType() == WeaponType.RANGED ? rangedDamage : 0);
   }
@@ -2936,13 +2940,14 @@ public abstract class KoLCharacter {
     ConcoctionDatabase.setPullsRemaining(-1);
 
     // The mall now uses Meat from inventory, not storage
-    MallSearchFrame.updateMeat();
+    UserInterfaceManager.get().meatChanged();
 
     // We may want to re-run breakfast, for various reasons
     Preferences.setBoolean("breakfastCompleted", false);
 
     // Reset modifiers in case we had modifiers that no longer apply
-    // TODO: should actually be KoLCharacter.currentModifiers.reset(); + skill cache unless in TCRS?
+    // TODO: should actually be KoLCharacter.currentModifiers = new Modifiers(); + skill cache
+    // unless in TCRS?
     ModifierDatabase.resetModifiers();
 
     // If leaving a path with a unique class, finish when player picks a new class.
@@ -2986,7 +2991,7 @@ public abstract class KoLCharacter {
       InventoryManager.refresh();
       EquipmentManager.resetEquipment();
       RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
-      KoLCharacter.currentModifiers.reset();
+      KoLCharacter.currentModifiers = new Modifiers();
 
       // we lose DNA lab and maybe source terminal / witchess
       CampgroundRequest.reset();
@@ -3034,7 +3039,7 @@ public abstract class KoLCharacter {
 
       // All familiars can now be used
       RequestThread.postRequest(new FamiliarRequest());
-      GearChangePanel.updateFamiliars();
+      UserInterfaceManager.get().familiarsChanged();
     }
 
     // If we haven't previously seen our campground, visit it.
@@ -3614,7 +3619,7 @@ public abstract class KoLCharacter {
       KoLCharacter.mindControlLevel = level;
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
-      AdventureFrame.updateSafetyDetails();
+      UserInterfaceManager.get().safetyDetailsChanged();
     }
   }
 
@@ -3627,7 +3632,7 @@ public abstract class KoLCharacter {
       KoLCharacter.radSickness = rads;
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
-      AdventureFrame.updateSafetyDetails();
+      UserInterfaceManager.get().safetyDetailsChanged();
     }
   }
 
@@ -3885,7 +3890,7 @@ public abstract class KoLCharacter {
 
     DiscoCombatHelper.initialize();
 
-    SkillBuffFrame.update();
+    UserInterfaceManager.get().skillsChanged();
   }
 
   public static final void setPermedSkills(final List<UseSkillRequest> newSkillSet) {
@@ -4702,7 +4707,7 @@ public abstract class KoLCharacter {
             || KoLCharacter.currentFamiliar.getRace().equals("Scary Death Orb");
 
     EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
-    GearChangePanel.updateFamiliars();
+    UserInterfaceManager.get().familiarsChanged();
 
     KoLCharacter.effectiveFamiliar = familiar;
 
@@ -4767,7 +4772,7 @@ public abstract class KoLCharacter {
       EquipmentManager.processResult(familiar.getItem());
     }
 
-    GearChangePanel.updateFamiliars();
+    UserInterfaceManager.get().familiarsChanged();
 
     return familiar;
   }
@@ -4793,7 +4798,7 @@ public abstract class KoLCharacter {
     }
 
     KoLCharacter.familiars.remove(familiar);
-    GearChangePanel.updateFamiliars();
+    UserInterfaceManager.get().familiarsChanged();
   }
 
   /**
@@ -5084,7 +5089,8 @@ public abstract class KoLCharacter {
   }
 
   public static final void recalculateAdjustments(boolean debug) {
-    KoLCharacter.currentModifiers.set(
+    var withoutAccumulators = new Modifiers();
+    withoutAccumulators.set(
         KoLCharacter.recalculateAdjustments(
             debug,
             KoLCharacter.getMindControlLevel(),
@@ -5098,6 +5104,7 @@ public abstract class KoLCharacter {
             Preferences.getString("boomBoxSong"),
             Modeable.getStateMap(),
             false));
+    KoLCharacter.currentModifiers = withoutAccumulators;
   }
 
   public static final Modifiers recalculateAdjustments(

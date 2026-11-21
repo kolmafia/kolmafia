@@ -4640,6 +4640,9 @@ public abstract class ChoiceControl {
         }
       }
       case 1517 -> {
+        if (text.contains("Looks like your mimic is too tired to produce any more eggs today.")) {
+          Preferences.setInteger("_mimicEggsObtained", 11);
+        }
         // Mimic DNA Bank
         switch (ChoiceManager.lastDecision) {
           case 1 -> {
@@ -7155,6 +7158,15 @@ public abstract class ChoiceControl {
   public static void visitChoice(final GenericRequest request) {
     String text = request.responseText;
     switch (ChoiceManager.lastChoice) {
+      case 525 -> {
+        AdventureResult item = ChoiceManager.lastItemUsed;
+        ChoiceManager.lastItemUsed = null;
+        IntriguingPuzzleBoxManager.visitChoice(
+            text,
+            ChoiceManager.lastDecision,
+            item != null && item.getItemId() == ItemPool.INTRIGUING_PUZZLE_BOX);
+      }
+
       case 4 -> {
         // Finger-Lickin'... Death.
         if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Teach them a lesson")) {

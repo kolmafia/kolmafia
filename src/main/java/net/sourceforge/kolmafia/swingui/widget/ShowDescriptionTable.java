@@ -348,13 +348,13 @@ public class ShowDescriptionTable<E> extends JXTable {
     private Class<?>[] classDefs;
 
     public AdaptedTableModel(LockableListModel<E> listModel, String[] columnNames) {
-      super(listModel, columnNames);
+      super(SwingListModel.of(listModel), columnNames);
       this.model = listModel;
     }
 
     public AdaptedTableModel(
         LockableListModel<E> listModel, String[] columnNames, Class<?>[] classDefs) {
-      super(listModel, columnNames);
+      super(SwingListModel.of(listModel), columnNames);
       this.model = listModel;
       this.classDefs = classDefs;
     }

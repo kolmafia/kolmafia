@@ -1,0 +1,116 @@
+<html><head>
+<script language="Javascript">
+<!--
+if (parent.frames.length == -1) location.href="game.php";
+//-->
+</script>
+<script language="Javascript" src="/images/scripts/jquery-1.5.1.js"></script>
+<script language="Javascript" src="/images/scripts/keybinds.min.2.js"></script>
+<script language="Javascript" src="/images/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/) || (link.getAttribute && link.getAttribute('id')=='againlink'))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="/images/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript"> function pop_ircm(clicked) { return false; } </script><script>
+
+var currentkey = 49;
+$(document).ready(function () {
+	$('form').each(function () {
+		var form = this;
+		defaultBind(currentkey++, NONE, function () { form.submit(); });
+		return currentkey < 58;
+	});
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="/images/styles.20230117d.css">
+<style type="text/css">
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+<script src="/stationarybuttons.2.js"></script><link rel="stylesheet" type="text/css" href="/stationarybuttons.3.css"><script src="/hotkeys.js"></script><script language="Javascript" src="/basics.js"></script><link rel="stylesheet" href="/basics.1.css"><script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script><script type="text/javascript">var jQuery_3_7_1 = $.noConflict(true);jQuery_3_7_1(document).ready(function() {jQuery_3_7_1('.searchable-select').select2();});</script></head>
+
+<body onkeyup="handleCombatHotkey(event,false);" onkeydown="handleCombatHotkey(event,true);"><div id="page"><div id="mafiabuttons"><center><table width="95%"><tbody><tr><td align="left"><div id="btnwrap"><input type="button" onclick="document.location.href='choice.php?action=auto';void(0);" value="auto">&nbsp;<input type="button" onclick="document.location.href='choice.php?whichchoice=1517&amp;option=1&amp;pwd=fcd7bf26d9cd910d4bf2f8a1f8a3b55b';void(0);" value="Donate">&nbsp;</div></td></tr></tbody></table></center></div><div class="content" id="content_" style="top: 28px;"><div id="effdiv" style="display: none;"></div><div>
+<center><table width="95%" cellspacing="0" cellpadding="0"><tbody><tr><td style="background-color: blue" align="center"><b style="color: white">Mimic DNA Bank</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tbody><tr><td><table border="0" width="100%">
+  <tbody><tr> 
+    <td><img src="/images/adventureimages/mimicdoctor.gif" height="100" width="100"></td>
+    <td>
+                               <p>Looks like your mimic is too tired to produce any more eggs today.
+                       </p><p>
+         </p><form method="post" action="choice.php">
+           Donate the egg of <select class="searchable-select select2-hidden-accessible" name="mid" data-select2-id="select2-data-1-ipxg" tabindex="-1" aria-hidden="true">
+               <option value="" data-select2-id="select2-data-3-y1u0">-- select a monster --</option>
+                                <option value="745" disabled="">unholy diver (max)</option>
+                            </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-2-47a5" style="width: 154.833px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-mid-ef-container" aria-controls="select2-mid-ef-container"><span class="select2-selection__rendered" id="select2-mid-ef-container" role="textbox" aria-readonly="true" title="-- select a monster --">-- select a monster --</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+              <input type="hidden" name="pwd" value="fcd7bf26d9cd910d4bf2f8a1f8a3b55b">
+              <input type="hidden" name="whichchoice" value="1517">
+              <input type="hidden" name="option" value="1">
+              <input type="submit" value="Donate" class="button">
+              <br><i><small>(0/3 donations made for the day)</small></i>
+            </form>
+           </td>
+  </tr>
+</tbody></table>
+<p></p><p>
+</p><center><a href="place.php?whichplace=town_right">Back to the Right Side of the Tracks</a></center>
+</td></tr></tbody></table></center></td></tr><tr><td height="4"></td></tr></tbody></table><!--faaaaaaart--></center></div></div></div><script src="/onfocus.1.js"></script></body></html>

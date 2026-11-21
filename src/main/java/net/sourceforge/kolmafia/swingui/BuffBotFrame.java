@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BuffBotFrame extends GenericFrame {
@@ -59,7 +60,11 @@ public class BuffBotFrame extends GenericFrame {
   /** Internal class used to handle everything related to operating the buffbot. */
   private static class MainBuffPanel extends ScrollablePanel<JList<?>> {
     public MainBuffPanel() {
-      super("BuffBot Activities", "start", "stop", new JList<>(BuffBotHome.getMessages()));
+      super(
+          "BuffBot Activities",
+          "start",
+          "stop",
+          new JList<>(SwingListModel.of(BuffBotHome.getMessages())));
 
       this.scrollComponent.setCellRenderer(BuffBotHome.getMessageRenderer());
     }
@@ -109,7 +114,7 @@ public class BuffBotFrame extends GenericFrame {
         }
       }
 
-      this.skillSelect = new JComboBox<>(buffSet);
+      this.skillSelect = new JComboBox<>(SwingListModel.of(buffSet));
 
       this.priceField = new AutoHighlightTextField();
       this.countField = new AutoHighlightTextField();
@@ -144,7 +149,8 @@ public class BuffBotFrame extends GenericFrame {
               "Active Buffing List", SwingConstants.CENTER, Color.black, Color.white),
           BorderLayout.NORTH);
 
-      BuffBotFrame.this.buffListDisplay = new JList<>(BuffBotManager.getBuffCostTable());
+      BuffBotFrame.this.buffListDisplay =
+          new JList<>(SwingListModel.of(BuffBotManager.getBuffCostTable()));
       BuffBotFrame.this.buffListDisplay.setSelectionMode(
           ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
       BuffBotFrame.this.buffListDisplay.setVisibleRowCount(5);
@@ -166,13 +172,13 @@ public class BuffBotFrame extends GenericFrame {
       philanthropyModeChoices.add("Disabled");
       philanthropyModeChoices.add("Once per day");
       philanthropyModeChoices.add("Clan only");
-      this.philanthropyModeSelect = new JComboBox<>(philanthropyModeChoices);
+      this.philanthropyModeSelect = new JComboBox<>(SwingListModel.of(philanthropyModeChoices));
 
       LockableListModel<String> messageDisposalChoices = new LockableListModel<>();
       messageDisposalChoices.add("Auto-save non-requests");
       messageDisposalChoices.add("Auto-delete non-requests");
       messageDisposalChoices.add("Do nothing to non-requests");
-      this.messageDisposalSelect = new JComboBox<>(messageDisposalChoices);
+      this.messageDisposalSelect = new JComboBox<>(SwingListModel.of(messageDisposalChoices));
 
       VerifiableElement[] elements = new VerifiableElement[2];
       elements[0] = new VerifiableElement("Philanthropy: ", this.philanthropyModeSelect);

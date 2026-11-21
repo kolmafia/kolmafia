@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -67,7 +68,7 @@ public class BuffRequestFrame extends GenericFrame {
       this.nameList.add(new SortedListModel<>());
     }
 
-    this.names = new JComboBox<>(this.nameList.get(0));
+    this.names = new JComboBox<>(SwingListModel.of(this.nameList.get(0)));
 
     this.types = new JComboBox<>();
     this.types.addItem("buff packs");
@@ -363,8 +364,9 @@ public class BuffRequestFrame extends GenericFrame {
 
   private void resetCard() {
     int typeId = this.types.getSelectedIndex();
-    if (typeId != -1 && this.names.getModel() != this.nameList.get(typeId)) {
-      this.names.setModel(this.nameList.get(typeId));
+    if (typeId != -1
+        && SwingListModel.<String>listOf(this.names.getModel()) != this.nameList.get(typeId)) {
+      this.names.setModel(SwingListModel.of(this.nameList.get(typeId)));
     }
 
     RequestPanel panel = this.getPanel();

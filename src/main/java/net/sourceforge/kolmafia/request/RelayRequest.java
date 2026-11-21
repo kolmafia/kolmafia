@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.request.ResearchBenchRequest.Research;
 import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CommandHistory;
 import net.sourceforge.kolmafia.session.CommandQueueManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -83,12 +84,13 @@ import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
 import net.sourceforge.kolmafia.textui.javascript.ValueConverter;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -606,6 +608,8 @@ public class RelayRequest extends PasswordHashRequest {
     } else {
       this.responseText = " ";
     }
+
+    this.headers.add("Connection: close");
   }
 
   private StringBuffer readContents(final BufferedReader reader) {
@@ -725,10 +729,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private void setLastModified(final File override) {
     long lastModified = override.lastModified();
-    long now = (new Date()).getTime();
-    long expires = now + (1000L * 60 * 60 * 24 * 30);
     this.headers.add("Last-Modified: " + StringUtilities.formatDate(lastModified));
-    this.headers.add("Expires: " + StringUtilities.formatDate(expires));
   }
 
   private void sendLocalFile(final String filename) {
@@ -786,7 +787,12 @@ public class RelayRequest extends PasswordHashRequest {
       if (replyBuffer.indexOf("MAFIAHIT") != -1) {
         StringUtilities.globalStringReplace(
             replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash);
-      } else if (!filename.endsWith(".html")) {
+      } else {
+        setLastModified(override);
+      }
+    } else {
+      if (override.isFile() && !filename.endsWith(".php")) {
+        // php files could shadow KoL
         setLastModified(override);
       }
     }
@@ -3540,11 +3546,13 @@ public class RelayRequest extends PasswordHashRequest {
       this.pseudoResponse("HTTP/1.1 302 Found", "/loggedout.php");
     } else if (path.endsWith("messageUpdate")) {
       this.handleCliEvents();
+    } else if (path.endsWith("commandHistory")) {
+      this.handleCommandHistory();
     } else if (path.endsWith("lookupLocation")) {
       RelayRequest.lastSafety =
           AdventureDatabase.getAdventureByURL(
               "adventure.php?snarfblat=" + this.getFormField("snarfblat"));
-      AdventureFrame.updateSelectedAdventure(RelayRequest.lastSafety);
+      UserInterfaceManager.get().selectedAdventureChanged(RelayRequest.lastSafety);
       this.handleSafety();
     } else if (path.endsWith("updateLocation")) {
       this.handleSafety();
@@ -3558,7 +3566,11 @@ public class RelayRequest extends PasswordHashRequest {
     try {
       var since = sinceField == null ? null : Long.parseLong(sinceField);
       var refresh = since == null ? 0 : Long.parseLong(this.getFormField("refresh", false));
-      var batch = RelayServer.pollMessages(since, refresh);
+      var promptField = this.getFormField("prompt", false);
+      var batch =
+          promptField == null
+              ? RelayServer.pollMessages(since, refresh)
+              : RelayServer.pollMessages(since, refresh, Long.parseLong(promptField));
 
       var events = new JSONArray();
       for (var event : batch.events()) {
@@ -3570,6 +3582,18 @@ public class RelayRequest extends PasswordHashRequest {
       response.put("refresh", batch.refresh());
       response.put("skipped", batch.skipped());
       response.put("events", events);
+      var prompt = batch.prompt();
+      if (prompt != null) {
+        var json = new JSONObject();
+        json.put("id", prompt.id);
+        if (!String.valueOf(prompt.id).equals(promptField)) {
+          json.put("kind", prompt.request.kind());
+          json.put("message", prompt.request.message());
+          json.put("options", prompt.request.options());
+          json.put("initial", prompt.request.initial());
+        }
+        response.put("prompt", json);
+      }
 
       this.contentType = "application/json";
       this.pseudoResponse("HTTP/1.1 200 OK", JSON.toJSONString(response));
@@ -3579,6 +3603,16 @@ public class RelayRequest extends PasswordHashRequest {
       Thread.currentThread().interrupt();
       this.pseudoResponse("HTTP/1.1 503 Service Unavailable", "");
     }
+  }
+
+  private void handleCommandHistory() {
+    var command = this.getFormField("cmd");
+    if (command != null) {
+      CommandHistory.add(command);
+    }
+
+    this.contentType = "application/json";
+    this.pseudoResponse("HTTP/1.1 200 OK", JSON.toJSONString(CommandHistory.get()));
   }
 
   public boolean pollForCompletion(String type) {
@@ -3758,6 +3792,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  private static final String PROMPT_ANSWER = "promptanswer ";
+
   private void submitCommand(String command) {
     submitCommand(command, false, true);
   }
@@ -3767,6 +3803,12 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   private void submitCommand(String command, boolean suppressUpdate, boolean waitForCompletion) {
+    var decoded = GenericRequest.decodeField(command);
+    if (decoded.startsWith(PROMPT_ANSWER)) {
+      UserPrompt.answer(decoded.substring(PROMPT_ANSWER.length()));
+      return;
+    }
+
     // Wait until any restoration scripts finish running before
     // submitting a command to the CLI
 
@@ -3774,7 +3816,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     try {
       GenericRequest.suppressUpdate(suppressUpdate);
-      CommandQueueManager.executeCommand(GenericRequest.decodeField(command));
+      CommandQueueManager.executeCommand(decoded);
 
       if (waitForCompletion) {
         this.waitForCommandCompletion();

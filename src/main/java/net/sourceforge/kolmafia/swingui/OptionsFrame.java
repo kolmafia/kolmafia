@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceIntegerTextField;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceTextArea;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -521,18 +522,18 @@ public class OptionsFrame extends GenericFrame {
     public final JList<String> elementList;
 
     public ShiftableOrderPanel(final String title, final LockableListModel<String> list) {
-      super(title, "move up", "move down", new JList<>(list));
+      super(title, "move up", "move down", new JList<>(SwingListModel.of(list)));
 
       this.elementList = this.scrollComponent;
       this.elementList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
       this.list = list;
-      list.addListDataListener(this);
+      SwingListModel.of(list).addListDataListener(this);
     }
 
     @Override
     public void dispose() {
-      this.list.removeListDataListener(this);
+      SwingListModel.of(this.list).removeListDataListener(this);
       super.dispose();
     }
 
@@ -1035,16 +1036,16 @@ public class OptionsFrame extends GenericFrame {
       this.container.add(optionPanel, BorderLayout.SOUTH);
       this.actionCancelled();
 
-      this.completeList.addListDataListener(this);
-      this.startupList.addListDataListener(this);
-      this.desktopList.addListDataListener(this);
+      SwingListModel.of(this.completeList).addListDataListener(this);
+      SwingListModel.of(this.startupList).addListDataListener(this);
+      SwingListModel.of(this.desktopList).addListDataListener(this);
     }
 
     @Override
     public void dispose() {
-      this.completeList.removeListDataListener(this);
-      this.startupList.removeListDataListener(this);
-      this.desktopList.removeListDataListener(this);
+      SwingListModel.of(this.completeList).removeListDataListener(this);
+      SwingListModel.of(this.startupList).removeListDataListener(this);
+      SwingListModel.of(this.desktopList).removeListDataListener(this);
 
       super.dispose();
     }
@@ -1457,8 +1458,8 @@ public class OptionsFrame extends GenericFrame {
       this.container.add(botPanel, BorderLayout.PAGE_END);
       this.actionCancelled();
 
-      this.builtInsList.addListDataListener(this);
-      this.deedsList.addListDataListener(this);
+      SwingListModel.of(this.builtInsList).addListDataListener(this);
+      SwingListModel.of(this.deedsList).addListDataListener(this);
       PreferenceListenerRegistry.registerPreferenceListener("dailyDeedsOptions", this);
     }
 
@@ -1485,8 +1486,8 @@ public class OptionsFrame extends GenericFrame {
 
     @Override
     public void dispose() {
-      this.builtInsList.removeListDataListener(this);
-      this.deedsList.removeListDataListener(this);
+      SwingListModel.of(this.builtInsList).removeListDataListener(this);
+      SwingListModel.of(this.deedsList).removeListDataListener(this);
 
       super.dispose();
     }
@@ -1756,7 +1757,11 @@ public class OptionsFrame extends GenericFrame {
                   KoLmafiaGUI.applyFlatLafMenuBarSettings(frame.getRootPane());
                 }
                 SwingUtilities.updateComponentTreeUI(f); // update components
-                f.pack(); // adapt container size if required
+                if (f instanceof GenericFrame frame) {
+                  frame.repack();
+                } else {
+                  f.pack();
+                }
               });
         }
 

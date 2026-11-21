@@ -92,6 +92,8 @@ import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
+import net.sourceforge.kolmafia.ui.UserInterface;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.Statics;
 import net.sourceforge.kolmafia.utilities.TestStatics;
@@ -3156,5 +3158,11 @@ public class Player {
     var old = KoLmafia.redoSkippedAdventures;
     KoLmafia.redoSkippedAdventures = redoSkippedAdventure;
     return new Cleanups(() -> KoLmafia.redoSkippedAdventures = old);
+  }
+
+  public static Cleanups withUserInterface(final UserInterface ui) {
+    var old = UserInterfaceManager.get();
+    UserInterfaceManager.set(ui);
+    return new Cleanups(() -> UserInterfaceManager.set(old));
   }
 }
