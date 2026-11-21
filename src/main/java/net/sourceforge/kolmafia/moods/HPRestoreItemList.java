@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.moods;
 
 import java.util.HashMap;
-import javax.swing.JCheckBox;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -28,7 +27,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class HPRestoreItemList {
   private static boolean purchaseBasedSort = false;
@@ -174,31 +172,6 @@ public abstract class HPRestoreItemList {
 
   public static final boolean contains(final AdventureResult item) {
     return getHealthRestored(item.getName()) != Integer.MIN_VALUE;
-  }
-
-  public static final JCheckBox[] getCheckboxes() {
-    String hpRestoreSetting = Preferences.getString("hpAutoRecoveryItems");
-    // Automatically convert changed restorative name
-    hpRestoreSetting =
-        StringUtilities.singleStringReplace(hpRestoreSetting, "free disco rest", "free rest");
-    JCheckBox[] restoreCheckbox = new JCheckBox[HPRestoreItemList.CONFIGURES.length];
-
-    for (int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i) {
-      restoreCheckbox[i] = new JCheckBox(HPRestoreItemList.CONFIGURES[i].toString());
-      restoreCheckbox[i].setSelected(
-          hpRestoreSetting.contains(HPRestoreItemList.CONFIGURES[i].toString().toLowerCase()));
-    }
-
-    return restoreCheckbox;
-  }
-
-  public static final void updateCheckboxes(final JCheckBox[] restoreCheckbox) {
-    String hpRestoreSetting = Preferences.getString("hpAutoRecoveryItems");
-
-    for (int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i) {
-      restoreCheckbox[i].setSelected(
-          hpRestoreSetting.contains(HPRestoreItemList.CONFIGURES[i].toString().toLowerCase()));
-    }
   }
 
   /**
