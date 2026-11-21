@@ -414,6 +414,8 @@ public class ModifierDatabase {
    */
   public static final Modifiers getItemModifiersInFamiliarSlot(final int id) {
     Modifiers mods = new Modifiers(getItemModifiers(id));
+    Modifiers base = getItemModifiers(id);
+    Modifiers mods = base == null ? new Modifiers(new Lookup(ModifierType.ITEM, id)) : new Modifiers(base);
 
     mods.setDouble(DoubleModifier.SLIME_HATES_IT, 0.0f);
     mods.setBitmap(BitmapModifier.BRIMSTONE, 0);
