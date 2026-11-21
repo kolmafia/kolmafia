@@ -88,9 +88,14 @@ public class SkillBuffFrame extends GenericFrame {
     this.targetSelect.setSelectedItem(recipient);
   }
 
-  public void dumpDisabledSkills() {
-    if (this.skillSelect != null) {
-      this.skillSelect.dumpDisabledItems();
+  public static void dumpDisabledSkills() {
+    for (Frame frame : Frame.getFrames()) {
+      if (frame instanceof SkillBuffFrame sbf) {
+        if (sbf.skillSelect != null) {
+          sbf.skillSelect.dumpDisabledItems();
+        }
+        return;
+      }
     }
   }
 

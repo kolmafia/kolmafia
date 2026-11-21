@@ -12,6 +12,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Player.withUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
@@ -38,11 +39,13 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.ui.UserInterface;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -1235,6 +1238,30 @@ public class AreaCombatDataTest {
       try (cleanups) {
         var data = monsterDataFor("The Outer Compound");
         assertThat(data, containsString("french guard turtle"));
+      }
+    }
+  }
+
+  @Nested
+  class ElementColor {
+    @Test
+    void usesLightColorsByDefault() {
+      assertThat(AreaCombatData.elementColor(Element.HOT), is("#ff0000"));
+    }
+
+    @Test
+    void usesDarkColorsWithADarkTheme() {
+      var cleanups =
+          withUserInterface(
+              new UserInterface() {
+                @Override
+                public boolean isDarkTheme() {
+                  return true;
+                }
+              });
+
+      try (cleanups) {
+        assertThat(AreaCombatData.elementColor(Element.HOT), is("#ff8a93"));
       }
     }
   }
