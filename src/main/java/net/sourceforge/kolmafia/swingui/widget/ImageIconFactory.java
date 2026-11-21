@@ -57,8 +57,17 @@ public class ImageIconFactory {
   }
 
   public static final ImageIcon getItemImage(final int itemId) {
-    String path = ItemDatabase.getItemImagePath(itemId);
-    ItemDatabase.downloadItemImage(path);
+    String path = ImageIconFactory.getItemImagePath(itemId);
+    ImageIconFactory.downloadItemImage(path);
     return JComponentUtilities.getImage(path);
+  }
+
+  private static String getItemImagePath(final int itemId) {
+    String image = ItemDatabase.getItemImageLocation(itemId);
+    return image.contains("/") ? image : ("itemimages/" + image);
+  }
+
+  private static void downloadItemImage(final String path) {
+    FileUtilities.downloadImage(KoLmafia.imageServerPath() + path);
   }
 }

@@ -1576,20 +1576,6 @@ public class ItemDatabase {
     return (location != null) ? location : "debug.gif";
   }
 
-  public static String getItemImagePath(final int itemId) {
-    String image = ItemDatabase.getItemImageLocation(itemId);
-    return image.contains("/") ? image : ("itemimages/" + image);
-  }
-
-  private static void downloadItemImage(final int itemId) {
-    String path = ItemDatabase.getItemImagePath(itemId);
-    ItemDatabase.downloadItemImage(path);
-  }
-
-  public static void downloadItemImage(final String path) {
-    FileUtilities.downloadImage(KoLmafia.imageServerPath() + path);
-  }
-
   public static final FoldGroup getFoldGroup(final String name) {
     if (name == null) {
       return null;
