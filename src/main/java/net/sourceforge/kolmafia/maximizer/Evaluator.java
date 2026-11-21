@@ -414,6 +414,16 @@ public class Evaluator {
     return this.expression.requireShield;
   }
 
+  EnumSet<BooleanModifier> booleanRequirements(boolean value) {
+    var requirements = this.expression.booleanMask.clone();
+    if (value) {
+      requirements.retainAll(this.expression.booleanValue);
+    } else {
+      requirements.removeAll(this.expression.booleanValue);
+    }
+    return requirements;
+  }
+
   enum Constraint {
     /** Item violates a constraint, don't use it */
     VIOLATES,
@@ -509,6 +519,11 @@ public class Evaluator {
 
   void enumerateEquipment(EquipScope equipScope, int maxPrice, PriceLevel priceLevel)
       throws MaximizerInterruptedException {
+    var branchBoundInteractions = EnumSet.noneOf(BooleanModifier.class);
+    // These tags allow expressions, whose truth need not be independent of other equipment.
+    branchBoundInteractions.add(BooleanModifier.SOFTCORE);
+    branchBoundInteractions.add(BooleanModifier.FREE_PULL);
+    var branchBoundOutfits = new HashMap<Integer, EnumSet<BooleanModifier>>();
     // Items automatically considered regardless of their score -
     // synergies, hobo power, brimstone, etc.
     SlotList<CheckedItem> automatic = new SlotList<>(this.expression.familiars.size());
@@ -523,13 +538,17 @@ public class Evaluator {
       var i = outfitEntry.getKey();
       var outfit = outfitEntry.getValue();
       if (outfit == null) continue;
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
+      if (mods != null && !this.expression.booleanMask.isEmpty()) {
+        var booleans = mods.getBooleans(this.expression.booleanMask);
+        if (!booleans.isEmpty()) branchBoundOutfits.put(i, booleans);
+      }
       if (this.expression.negOutfits.contains(outfit.getName())) continue;
       if (this.expression.posOutfits.contains(outfit.getName())) {
         usefulOutfits.put(i, true);
         continue;
       }
 
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
       if (mods == null) continue;
 
       switch (this.checkConstraints(mods)) {
@@ -550,6 +569,7 @@ public class Evaluator {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SYNERGY, entry.getKey());
       int value = entry.getValue();
       if (mods == null) continue;
+      this.addBooleanInteractions(branchBoundInteractions, mods);
       double delta = this.getScore(mods) - nullScore;
       if (delta > 0.0) usefulSynergies |= value;
     }
@@ -1793,6 +1813,27 @@ public class Evaluator {
           }
         });
 
+    if (useCard != null) {
+      this.addBooleanInteractions(
+          branchBoundInteractions, ModifierDatabase.getItemModifiers(useCard.getItemId()));
+    }
+    for (var familiar : this.carriedFamiliars) {
+      for (var type : List.of(ModifierType.THRONE, ModifierType.BJORN)) {
+        this.addBooleanInteractions(
+            branchBoundInteractions, ModifierDatabase.getModifiers(type, familiar.getRace()));
+      }
+    }
+    if (useCrownFamiliar != null) {
+      this.addBooleanInteractions(
+          branchBoundInteractions,
+          ModifierDatabase.getModifiers(ModifierType.THRONE, useCrownFamiliar.getRace()));
+    }
+    if (useBjornFamiliar != null) {
+      this.addBooleanInteractions(
+          branchBoundInteractions,
+          ModifierDatabase.getModifiers(ModifierType.BJORN, useBjornFamiliar.getRace()));
+    }
+
     spec.tryAll(
         this.expression.familiars,
         this.carriedFamiliars,
@@ -1801,7 +1842,16 @@ public class Evaluator {
         automatic,
         useCard,
         useCrownFamiliar,
-        useBjornFamiliar);
+        useBjornFamiliar,
+        branchBoundInteractions,
+        MaximizerBranchBound.outfitEnvelope(branchBoundOutfits),
+        !this.expression.booleanMask.isEmpty());
+  }
+
+  private void addBooleanInteractions(EnumSet<BooleanModifier> interactions, Modifiers modifiers) {
+    if (modifiers != null) {
+      interactions.addAll(modifiers.getBooleans(this.expression.booleanMask));
+    }
   }
 
   private boolean isCatUseful(double nullScore, String catName) {

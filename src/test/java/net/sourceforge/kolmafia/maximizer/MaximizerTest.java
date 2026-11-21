@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -93,6 +94,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class MaximizerTest {
@@ -2685,6 +2687,119 @@ public class MaximizerTest {
 
   @Nested
   public class Booleans {
+    @ParameterizedTest
+    @EnumSource(BooleanModifier.class)
+    void prunesBooleanFailures(BooleanModifier modifier) {
+      // Expression-valued flags retain ordinary traversal rather than independent boolean bounds.
+      int combinationLimit =
+          switch (modifier) {
+            case SOFTCORE, FREE_PULL -> 2;
+            default -> 1;
+          };
+      String name = modifier.getName();
+      try (var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withEquippableItem("helmet turtle"),
+              withEquippableItem("turtle wax helmet"),
+              withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +100"),
+              withOverrideModifiers(
+                  ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, name + ", Item Drop: +1"),
+              withProperty("maximizerCombinationLimit", combinationLimit))) {
+        assertTrue(maximize(name + ", item"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "turtle wax helmet")));
+        assertThat(Maximizer.best.getModifiers().getBoolean(modifier), is(true));
+        assertThat(Maximizer.bestChecked, is(combinationLimit));
+        var expected = Maximizer.best.equipment.clone();
+        try (var unlimited = withProperty("maximizerCombinationLimit", 0)) {
+          assertTrue(maximize(name + ", item"));
+          assertThat(Maximizer.best.equipment, equalTo(expected));
+        }
+      }
+    }
+
+    @Test
+    void prunesForbiddenBooleanFromIntrinsicEffect() {
+      try (var cleanups =
+          new Cleanups(
+              withEquippableItem("helmet turtle"),
+              withEquipped(Slot.HAT, ItemPool.TURTLE_WAX_HELMET),
+              withOverrideModifiers(
+                  ModifierType.ITEM,
+                  ItemPool.HELMET_TURTLE,
+                  "Intrinsic Effect: \"Temporary Blindness\", Item Drop: +1000"),
+              withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +1"),
+              withProperty("maximizerCombinationLimit", 1))) {
+        assertTrue(maximize("-blind, item, +current"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.HAT).getItemId(), is(ItemPool.TURTLE_WAX_HELMET));
+        assertThat(Maximizer.bestChecked, is(1));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "'never fumble, item', 1, helmet turtle",
+      "'blind, item, 2000 min', 0, helmet turtle",
+      "'blind, item, 2000 min', 1, turtle wax helmet"
+    })
+    void returnsFailedRecommendationsWithinBudget(
+        String expression, long combinationLimit, String expectedHat) {
+      try (var cleanups =
+          new Cleanups(
+              withEquippableItem("helmet turtle"),
+              withEquippableItem("turtle wax helmet"),
+              withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +1000"),
+              withOverrideModifiers(
+                  ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Blind, Item Drop: +1"),
+              withProperty("maximizerCombinationLimit", combinationLimit))) {
+        assertFalse(maximize(expression));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, expectedHat)));
+        if (combinationLimit != 0) assertThat(Maximizer.bestChecked, is(1));
+      }
+    }
+
+    @Test
+    void retainsBooleanGrantsFromSynergies() {
+      try (var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING),
+              withEquippableItem("cardboard katana"),
+              withEquippableItem("cardboard wakizashi"),
+              withOverrideModifiers(
+                  ModifierType.SYNERGY,
+                  "cardboard katana/cardboard wakizashi",
+                  "Weapon Damage: +20, Blind"))) {
+        assertTrue(maximize("blind, weapon damage"));
+        assertThat(Maximizer.best.getModifiers().getBoolean(BooleanModifier.BLIND), is(true));
+      }
+    }
+
+    @Test
+    void retainsBooleanGrantsFromCarriedFamiliars() {
+      try (var cleanups =
+          new Cleanups(
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+              withEquippableItem(ItemPool.HATSEAT),
+              withOverrideModifiers(ModifierType.THRONE, "Mosquito", "Blind, Item Drop: +10"))) {
+        assertTrue(maximize("blind, item"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Crown of Thrones")));
+        assertThat(Maximizer.best.getModifiers().getBoolean(BooleanModifier.BLIND), is(true));
+      }
+    }
+
+    @Test
+    void preservesBooleanRequirementsWhenSwitchingFamiliars() {
+      try (var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withFamiliarInTerrarium(FamiliarPool.CUDDLEFISH),
+              withProperty("maximizerCombinationLimit", 1))) {
+        assertTrue(maximize("underwater familiar, switch Cuddlefish"));
+        assertThat(Maximizer.best.getFamiliar().getId(), is(FamiliarPool.CUDDLEFISH));
+      }
+    }
+
     @Nested
     public class NeverFumble {
       @Test
