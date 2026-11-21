@@ -1176,6 +1176,24 @@ public class ModifiersTest {
     }
 
     @Test
+    public void unenchantedFamiliarSlotItemDoesNotCrash() {
+      var cleanups =
+        new Cleanups(
+          withFamiliar(FamiliarPool.LEFT_HAND),
+          withEquipped(Slot.FAMILIAR, "Mylar balloon")
+        );
+
+      try (cleanups) {
+        var mods = ModifierDatabase.getItemModifiersInFamiliarSlot(ItemPool.MYLAR_BALLOON);
+        assertThat(mods.getLookup(), notNullValue());
+        assertThat(mods.getLookup().type, equalTo(ModifierType.ITEM));
+        assertThat(mods.getLookup().getIntKey(), equalTo(ItemPool.MYLAR_BALLOON));
+        assertDoesNotThrow(() -> KoLCharacter.recalculateAdjustments(false));
+      }
+    }
+      
+
+    @Test
     public void doublesOffhandsOnFamiliar() {
       var cleanups =
           new Cleanups(
