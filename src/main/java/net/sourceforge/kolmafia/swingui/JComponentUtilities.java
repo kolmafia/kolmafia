@@ -32,8 +32,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.java.dev.spellcast.utilities;
+package net.sourceforge.kolmafia.swingui;
 
+import net.java.dev.spellcast.utilities.UtilityConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
