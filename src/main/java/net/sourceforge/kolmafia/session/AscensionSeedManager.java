@@ -51,6 +51,7 @@ public class AscensionSeedManager {
     CRITERIA.put("CC", CardCatalog::new);
     CRITERIA.put("DD", DailyDungeon::new);
     CRITERIA.put("DS", Dreadscroll::new);
+    CRITERIA.put("IP", IntriguingPuzzleBox::new);
     CRITERIA.put("LC", LeprecondoNeeds::new);
     CRITERIA.put("RC", RaveCombos::new);
     CRITERIA.put("SH", SeahorseName::new);
@@ -346,7 +347,7 @@ public class AscensionSeedManager {
         return candidates.size();
       }
     }
-    
+
     int totalSeeds = ASCENSION_SEED_MAX - ASCENSION_SEED_MIN + 1;
     double minReductionFactor = 1.0 / totalSeeds;
     double totalReductionFactor =
@@ -897,11 +898,40 @@ public class AscensionSeedManager {
   // decision.
   static class IntriguingPuzzleBox extends MTRandomCriterion {
     private final Map<Integer, List<String>> options;
-    private final Map<Integer, ? extends Map<Integer, String>> outcomes;
+    private final Map<Integer, Map<Integer, String>> outcomes;
 
     public IntriguingPuzzleBox() {
+      super(
+          ",,,,,;,,,,,",
+          IntriguingPuzzleBoxManager.OPTIONS_PREF,
+          IntriguingPuzzleBoxManager.OUTCOMES_PREF);
       options = IntriguingPuzzleBoxManager.parseOptions();
       outcomes = IntriguingPuzzleBoxManager.parseOutcomes();
+    }
+
+    @Override
+    public CompareResult compareStateInner(String prevState) {
+      // For the purposes of narrowing the seed, consider only the options and outcomes from step 0,
+      // because this will pretty much always fully-narrow the seed.
+      List<String> step1Options = options.getOrDefault(0, List.of("", "", "", "", "", ""));
+      final Map<Integer, String> step1OutcomesMap = outcomes.getOrDefault(0, new HashMap<>());
+      List<String> step1Outcomes =
+          IntStream.rangeClosed(1, 6).mapToObj(i -> step1OutcomesMap.getOrDefault(i, "")).toList();
+      String[] prevStateParts = prevState.split(";");
+      String[] prevOptions = prevStateParts[0].split(",", -1);
+      String[] prevOutcomes = prevStateParts[1].split(",", -1);
+
+      UpdateType type = UpdateType.EQUAL;
+      for (int i = 0; i < 6; i++) {
+        if (!prevOptions[i].equals(step1Options.get(i))) {
+          type = prevOptions[i].isBlank() ? type.narrow() : type.widen();
+        }
+        if (!prevOutcomes[i].equals(step1Outcomes.get(i))) {
+          type = prevOutcomes[i].isBlank() ? type.narrow() : type.widen();
+        }
+      }
+      String newState = String.join(",", step1Options) + ";" + String.join(",", step1Outcomes);
+      return new CompareResult(type, newState);
     }
 
     @Override

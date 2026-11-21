@@ -363,7 +363,9 @@ public class AscensionSeedManagerTest {
     class IntriguingPuzzleBox {
       private static List<String> optionsFor(int seed) {
         var stored =
-            AscensionSeedManager.getPropertiesForSeed(seed).get("intriguingPuzzleBoxOptions");
+            AscensionSeedManager.INSTANCE
+                .getPropertiesForSeed(seed)
+                .get("intriguingPuzzleBoxOptions");
         return List.of(stored.substring("0:".length()).split(","));
       }
 
@@ -377,7 +379,7 @@ public class AscensionSeedManagerTest {
       void recordedOptionsNarrowToSeed() {
         var seed = 1062694;
         try (var cleanups = withStores("0:" + String.join(",", optionsFor(seed)), "")) {
-          List<Integer> matches = AscensionSeedManager.possibleAscensionSeeds();
+          List<Integer> matches = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
           assertThat(matches, hasItem(seed));
         }
       }
@@ -386,7 +388,7 @@ public class AscensionSeedManagerTest {
       void matchesOnlyTheSeedWithTheRecordedOptions() {
         try (var cleanups = withStores("0:FCW,PB,RCCW,LCW,KCW,PR", "")) {
           var criterion = new AscensionSeedManager.IntriguingPuzzleBox();
-          List<Integer> seeds = AscensionSeedManager.possibleAscensionSeeds();
+          List<Integer> seeds = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
           assertThat(seeds.size(), is(1));
           assertThat(criterion.matchesSeed(seeds.getFirst()), is(true));
           assertThat(criterion.matchesSeed(1234567), is(false));
@@ -407,7 +409,35 @@ public class AscensionSeedManagerTest {
             withStores(
                 "0:FCW,PB,RCCW,LCW,KCW,PR|1:FCW,TCW,TCCW,PT,FCCW,PR|2:BCW,PB,PF,RCW,BCCW,KCW",
                 "0,1:click|0,3:buzz|1,1:click")) {
-          assertThat(AscensionSeedManager.possibleAscensionSeeds(), is(List.of(2340482)));
+          assertThat(AscensionSeedManager.INSTANCE.possibleAscensionSeeds(), is(List.of(2340482)));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource(
+          delimiter = '|',
+          value = {
+            "''|NARROWER",
+            "PT,RCCW,PF,PK,FCCW,BCCW;say14,,,,,|NARROWER",
+            "PT,RCCW,PF,PK,FCCW,;say14,,,,click,|NARROWER",
+            "PT,RCCW,PF,PK,FCCW,BCCW;say14,,,,click,|EQUAL",
+            "PT,RCCW,PF,PK,FCCW,BCCW;say14,,,buzz,click,|WIDER",
+            "PT,RCCW,PF,PK,FCCW,BCCW;say14,,,,buzz,|WIDER",
+            "PT,RCCW,PF,PK,FCCW,LCCW;say14,,,,click,|WIDER",
+          })
+      void handlesState(String oldState, String expectedChange) {
+        var cleanups =
+            new Cleanups(
+                withProperty(
+                    "intriguingPuzzleBoxOptions",
+                    "0:PT,RCCW,PF,PK,FCCW,BCCW|1:BCW,PK,RCCW,PT,KCW,BCCW|2:RCCW,BCW,FCW,FCCW,PB,TCW"),
+                withProperty("intriguingPuzzleBoxOutcomes", "0,1:say14|0,5:click|1,4:click"));
+
+        try (cleanups) {
+          Criterion c = new AscensionSeedManager.IntriguingPuzzleBox();
+          var result = c.compareState(oldState);
+          assertThat(result.newState(), is("PT,RCCW,PF,PK,FCCW,BCCW;say14,,,,click,"));
+          assertThat(result.type().toString(), is(expectedChange));
         }
       }
     }
