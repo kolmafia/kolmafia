@@ -28,7 +28,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import javax.swing.JOptionPane;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -37,6 +36,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.ScriptManager;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
@@ -708,13 +708,8 @@ public class SVNManager extends ScriptManager {
           "<br><b>Only click yes if you trust the author.</b>"
               + "<p>Clicking no will stop the files from being added locally. (until you checkout the project again)");
       if (Preferences.getBoolean("svnAlwaysAdd")
-          || JOptionPane.showConfirmDialog(
-                  null,
-                  message.toString(),
-                  "SVN wants to add new files",
-                  JOptionPane.YES_NO_OPTION,
-                  JOptionPane.WARNING_MESSAGE)
-              == JOptionPane.YES_OPTION) {
+          || UserInterfaceManager.get()
+              .confirmWarning("SVN wants to add new files", message.toString())) {
         skipFiles.clear();
       }
     }
@@ -810,13 +805,8 @@ public class SVNManager extends ScriptManager {
           "<br>Checking out this project will result in some local files (described above) being overwritten."
               + "<p>Click yes to overwrite them, no to skip installing them.");
       if (Preferences.getBoolean("svnAlwaysOverwrite")
-          || JOptionPane.showConfirmDialog(
-                  null,
-                  message.toString(),
-                  "SVN checkout wants to overwrite local files",
-                  JOptionPane.YES_NO_OPTION,
-                  JOptionPane.WARNING_MESSAGE)
-              == JOptionPane.YES_OPTION) {
+          || UserInterfaceManager.get()
+              .confirmWarning("SVN checkout wants to overwrite local files", message.toString())) {
         skipFiles.clear();
       }
     }

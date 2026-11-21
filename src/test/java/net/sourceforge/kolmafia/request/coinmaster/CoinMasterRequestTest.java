@@ -12,6 +12,7 @@ import static internal.helpers.Player.withoutCoinmasterBuyItem;
 import static internal.helpers.Player.withoutCoinmasterSellItem;
 import static internal.helpers.Player.withoutSkill;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -695,6 +696,22 @@ public class CoinMasterRequestTest {
         assertPostRequest(
             requests.get(1), "/shop.php", "whichshop=test&action=buyitem&whichrow=1&ajax=1");
       }
+    }
+  }
+
+  @Test
+  void correctlyHandlesStandardRewardPurchase() {
+    var cleanups = withItem(ItemPool.ANGELBONE_FRAGMENTS, 3);
+
+    try (cleanups) {
+      GenericRequest request =
+          new GenericRequest(
+              "shop.php?whichshop=armory&action=buyitem&whichrow=1677&ajax=1&pwd&quantity=1");
+      request.responseText = html("request/test_shop_armory_and_leggery_buystandard.html");
+      request.setHasResult(true);
+      request.processResponse();
+      assertThat(InventoryManager.getCount(ItemPool.CREPE_PAPER_PARACHUTE_CAPE), is(1));
+      assertThat(InventoryManager.getCount(ItemPool.ANGELBONE_FRAGMENTS), is(2));
     }
   }
 }

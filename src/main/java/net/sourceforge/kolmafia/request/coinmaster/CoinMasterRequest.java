@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinMasterRequest extends GenericRequest {
@@ -521,7 +522,11 @@ public class CoinMasterRequest extends GenericRequest {
       return null;
     }
     int row = StringUtilities.parseInt(rowMatcher.group(1));
-    return CoinmastersDatabase.getRowData(row);
+    ShopRow rv = CoinmastersDatabase.getRowData(row);
+    if (rv != null) {
+      return rv;
+    }
+    return ShopRowDatabase.getShopRow(row);
   }
 
   public static final int extractCount(final CoinmasterData data, final String urlString) {
