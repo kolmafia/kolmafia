@@ -49,13 +49,25 @@ public class PHPMTRandom extends Random {
 
   long[] state;
   int index;
+  private int initialized;
 
   @Override
   public int next(int bits) {
     if (index >= STATE_LENGTH) {
-      reload();
+      index = 0;
     }
 
+    int nextIndex = (index + 1) % STATE_LENGTH;
+    int periodIndex = (index + PERIOD) % STATE_LENGTH;
+    int needed = Math.max(nextIndex, periodIndex);
+    // Initialize seed words ahead of the twist cursor, leaving unused words uncomputed.
+    for (; initialized <= needed; initialized++) {
+      long prev = state[initialized - 1];
+      state[initialized] =
+          ((1_812_433_253L * (prev ^ (prev >> 30))) + initialized) & 4_294_967_295L;
+    }
+
+    state[index] = twist(state[periodIndex], state[index], state[nextIndex]);
     long value = state[index++];
     return (int) (temper(value) >> 1);
   }
@@ -84,22 +96,6 @@ public class PHPMTRandom extends Random {
     return list.get(nextInt(0, list.size() - 1));
   }
 
-  void initialize(final long seed) {
-    state[0] = seed & Long.MAX_VALUE;
-
-    for (int i = 1; i < STATE_LENGTH; i++) {
-      long prev = state[i - 1];
-      state[i] = ((1_812_433_253L * (prev ^ (prev >> 30))) + i) & 4_294_967_295L;
-    }
-  }
-
-  void reload() {
-    for (int i = 0; i < STATE_LENGTH; i++) {
-      state[i] = twist(state[(i + PERIOD) % STATE_LENGTH], state[i], state[(i + 1) % STATE_LENGTH]);
-    }
-    index = 0;
-  }
-
   @Override
   public synchronized void setSeed(long seed) {
     if (state == null) {
@@ -111,8 +107,9 @@ public class PHPMTRandom extends Random {
       seed += 0x100000000L;
     }
 
-    initialize(seed);
-    reload();
+    state[0] = seed & Long.MAX_VALUE;
+    initialized = 1;
+    index = 0;
   }
 
   public PHPMTRandom(long s) {
