@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia;
 
 import com.alibaba.fastjson2.JSON;
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -13,11 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.SwingConstants;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -1667,10 +1661,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return n * (n + 1) / 2;
   }
 
-  public static final DefaultListCellRenderer getRenderer() {
-    return new FamiliarRenderer();
-  }
-
   public static final void checkShrub() {
     if (KoLCharacter.usableFamiliar(FamiliarPool.CRIMBO_SHRUB) == null) {
       return;
@@ -1712,38 +1702,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
       Preferences.setString("shrubGifts", "meat");
     } else if (response.contains("Exchange random gifts")) {
       Preferences.setString("shrubGifts", "gifts");
-    }
-  }
-
-  private static class FamiliarRenderer extends DefaultListCellRenderer {
-    @Override
-    public Component getListCellRendererComponent(
-        final JList<?> list,
-        final Object value,
-        final int index,
-        final boolean isSelected,
-        final boolean cellHasFocus) {
-      JLabel defaultComponent =
-          (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-      if (!(value instanceof FamiliarData familiar) || familiar.id == -1) {
-        defaultComponent.setIcon(JComponentUtilities.getImage("debug.gif"));
-        defaultComponent.setText(
-            StaticEntity.getVersion() + ", the 0 lb. \"No Familiar Plz\" Placeholder");
-
-        defaultComponent.setVerticalTextPosition(SwingConstants.CENTER);
-        defaultComponent.setHorizontalTextPosition(SwingConstants.RIGHT);
-        return defaultComponent;
-      }
-
-      defaultComponent.setIcon(FamiliarDatabase.getFamiliarImage(familiar.id));
-      defaultComponent.setText(
-          familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace());
-
-      defaultComponent.setVerticalTextPosition(SwingConstants.CENTER);
-      defaultComponent.setHorizontalTextPosition(SwingConstants.RIGHT);
-
-      return defaultComponent;
     }
   }
 }

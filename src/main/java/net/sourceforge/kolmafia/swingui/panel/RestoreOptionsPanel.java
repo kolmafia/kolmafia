@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RestoreOptionsPanel extends JPanel implements Listener {
   private JComboBox<String> hpAutoRecoverSelect;
@@ -157,12 +158,12 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
     this.setSelectedIndex(this.hpHaltCombatSelect, "autoAbortThreshold");
     this.setSelectedIndex(this.hpAutoRecoverSelect, "hpAutoRecovery");
     this.setSelectedIndex(this.hpAutoRecoverTargetSelect, "hpAutoRecoveryTarget");
-    HPRestoreItemList.updateCheckboxes(this.hpRestoreCheckbox);
+    RestoreOptionsPanel.updateHPCheckboxes(this.hpRestoreCheckbox);
     this.setSelectedIndex(this.mpBalanceTriggerSelect, "manaBurningTrigger");
     this.setSelectedIndex(this.mpBalanceSelect, "manaBurningThreshold");
     this.setSelectedIndex(this.mpAutoRecoverSelect, "mpAutoRecovery");
     this.setSelectedIndex(this.mpAutoRecoverTargetSelect, "mpAutoRecoveryTarget");
-    MPRestoreItemList.updateCheckboxes(this.mpRestoreCheckbox);
+    RestoreOptionsPanel.updateMPCheckboxes(this.mpRestoreCheckbox);
     this.restoring = false;
   }
 
@@ -216,7 +217,7 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
               RestoreOptionsPanel.this.hpAutoRecoverTargetSelect));
       this.add(Box.createVerticalStrut(15));
 
-      RestoreOptionsPanel.this.hpRestoreCheckbox = HPRestoreItemList.getCheckboxes();
+      RestoreOptionsPanel.this.hpRestoreCheckbox = RestoreOptionsPanel.getHPCheckboxes();
       final JCheckBox[] hpRestoreCheckbox = RestoreOptionsPanel.this.hpRestoreCheckbox;
       // Assuming that each checkbox at index i is associated with HPRestoreItemList.CONFIGURES[i],
       // build an array of checkboxes for each restorer type
@@ -336,7 +337,7 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
               RestoreOptionsPanel.this.mpAutoRecoverTargetSelect));
       this.add(Box.createVerticalStrut(15));
 
-      RestoreOptionsPanel.this.mpRestoreCheckbox = MPRestoreItemList.getCheckboxes();
+      RestoreOptionsPanel.this.mpRestoreCheckbox = RestoreOptionsPanel.getMPCheckboxes();
       final JCheckBox[] mpRestoreCheckbox = RestoreOptionsPanel.this.mpRestoreCheckbox;
       // Assuming that each checkbox at index i is associated with MPRestoreItemList.CONFIGURES[i],
       // build an array of checkboxes for each restorer type
@@ -418,5 +419,55 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
     updateFromPreferences();
     this.revalidate();
     this.repaint();
+  }
+
+  private static JCheckBox[] getHPCheckboxes() {
+    String hpRestoreSetting = Preferences.getString("hpAutoRecoveryItems");
+    // Automatically convert changed restorative name
+    hpRestoreSetting =
+        StringUtilities.singleStringReplace(hpRestoreSetting, "free disco rest", "free rest");
+    JCheckBox[] restoreCheckbox = new JCheckBox[HPRestoreItemList.CONFIGURES.length];
+
+    for (int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i) {
+      restoreCheckbox[i] = new JCheckBox(HPRestoreItemList.CONFIGURES[i].toString());
+      restoreCheckbox[i].setSelected(
+          hpRestoreSetting.contains(HPRestoreItemList.CONFIGURES[i].toString().toLowerCase()));
+    }
+
+    return restoreCheckbox;
+  }
+
+  private static void updateHPCheckboxes(final JCheckBox[] restoreCheckbox) {
+    String hpRestoreSetting = Preferences.getString("hpAutoRecoveryItems");
+
+    for (int i = 0; i < HPRestoreItemList.CONFIGURES.length; ++i) {
+      restoreCheckbox[i].setSelected(
+          hpRestoreSetting.contains(HPRestoreItemList.CONFIGURES[i].toString().toLowerCase()));
+    }
+  }
+
+  private static JCheckBox[] getMPCheckboxes() {
+    String mpRestoreSetting = Preferences.getString("mpAutoRecoveryItems");
+    // Automatically convert changed restorative name
+    mpRestoreSetting =
+        StringUtilities.singleStringReplace(mpRestoreSetting, "free disco rest", "free rest");
+    JCheckBox[] restoreCheckbox = new JCheckBox[MPRestoreItemList.CONFIGURES.length];
+
+    for (int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i) {
+      restoreCheckbox[i] = new JCheckBox(MPRestoreItemList.CONFIGURES[i].toString());
+      restoreCheckbox[i].setSelected(
+          mpRestoreSetting.contains(MPRestoreItemList.CONFIGURES[i].toString().toLowerCase()));
+    }
+
+    return restoreCheckbox;
+  }
+
+  private static void updateMPCheckboxes(final JCheckBox[] restoreCheckbox) {
+    String mpRestoreSetting = Preferences.getString("mpAutoRecoveryItems");
+
+    for (int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i) {
+      restoreCheckbox[i].setSelected(
+          mpRestoreSetting.contains(MPRestoreItemList.CONFIGURES[i].toString().toLowerCase()));
+    }
   }
 }

@@ -22,11 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
-import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -411,7 +408,7 @@ public class FileUtilities {
 
     try {
       if (!localfile.exists() || localfile.length() == 0) {
-        if (JComponentUtilities.getImage(localname) != null) {
+        if (DataUtilities.getResource(localname) != null) {
           loadLibrary(KoLConstants.IMAGE_LOCATION, KoLConstants.IMAGE_DIRECTORY, localname);
         } else {
           downloadFile(filename, localfile);
@@ -425,23 +422,6 @@ public class FileUtilities {
 
       return null;
     }
-  }
-
-  /** Downloads an image from the KoL image server and returns it as an icon */
-  public static final ImageIcon downloadIcon(
-      final String image, final String container, final String defaultImage) {
-    if (image == null || image.equals("")) {
-      return JComponentUtilities.getImage(defaultImage);
-    }
-
-    String path = container == null || container.equals("") ? image : container + "/" + image;
-
-    File file = FileUtilities.downloadImage(KoLmafia.imageServerPath() + path);
-    if (file == null) {
-      return JComponentUtilities.getImage(defaultImage);
-    }
-    ImageIcon icon = JComponentUtilities.getImage(path);
-    return icon != null ? icon : JComponentUtilities.getImage(defaultImage);
   }
 
   /** Copies a file. */
