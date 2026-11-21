@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
-import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class ColorChooser extends JLabel implements MouseListener {
@@ -24,7 +24,7 @@ public class ColorChooser extends JLabel implements MouseListener {
       return;
     }
 
-    this.updatePref(this.property, DataUtilities.toHexString(c));
+    this.updatePref(this.property, JComponentUtilities.toHexString(c));
     this.setBackground(c);
     this.applyChanges();
   }
