@@ -204,6 +204,10 @@ user	antagonisticSnowmanKitCost	1000
 user	antiScientificMethod		roa
 user	arcadeGameHints	false
 user	armoryUnlocked	false
+user	ascensionSeed	0	roa
+user	ascensionSeedAutomation	false
+user	ascensionSeedAutomationState		roa
+user	ascensionSeedCandidates		roa
 user	ascensionsToday	0
 user	asolDeferredPoints	0	roa
 user	asolPointsPigSkinner	0
