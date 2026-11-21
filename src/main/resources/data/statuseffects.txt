@@ -3134,7 +3134,7 @@
 3131	Overdraft Protected	protscroll.gif	c887af6cb7b0f96df8c5d7023a1a25e6	neutral	none	use 1 circle of overdraft protection scroll
 3132	Freshly Minted	mintleaf2.gif	56eb22b41bfb6d4c971d2ecc2f8596df	neutral	none	use 1 mint
 3133	Saving Some Bondo	bondo.gif	40b3f7dc010d298d22a4ed55ffeece6f	neutral	none	use 1 savings bondo
-3134
+3134	Capped Knee	knee.gif	438afafb2c26f590de947cb257e7dc99	neutral	none
 3135	Blessing of the Heat Shield	msm_heat.gif	98f0cf9fa21878847c7bd42f045a39b4	neutral	nohookah
 3136	Blessing of the Riot Shield	msm_riot.gif	99191332a74cc05a1390cc5ce313c746	neutral	nohookah
 3137	Blessing of the Mental Shield	msm_mental.gif	a7a78e8056a539be200a6076f53fd32f	neutral	nohookah
