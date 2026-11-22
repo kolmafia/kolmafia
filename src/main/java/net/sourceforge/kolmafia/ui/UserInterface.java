@@ -105,8 +105,6 @@ public interface UserInterface {
   /** Shows text on the application's icon, such as the dock icon, where the system has one. */
   default void setIconBadge(final String text) {}
 
-  // Startup and display state
-
   /** Prepares the user interface's HTML views, before any are created. */
   default void installEditorKits() {}
 
