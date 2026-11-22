@@ -330,6 +330,12 @@ public class AccountRequest extends PasswordHashRequest {
       return;
     }
 
+    if (action.equals("flag_bothcombatinterf")) {
+      boolean checked = valueString.equals("1");
+      Preferences.setBoolean("serverAddsBothCombat", checked);
+      return;
+    }
+
     if (action.equals("autoattack")) {
       int value = Integer.parseInt(valueString);
       KoLCharacter.setAutoAttackAction(value);
