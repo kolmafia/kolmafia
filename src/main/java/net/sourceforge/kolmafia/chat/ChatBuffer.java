@@ -81,7 +81,7 @@ public class ChatBuffer {
      */
     boolean update(int removals, String added);
 
-    void flushed();
+    void runPostFlushActions();
   }
 
   /** Adds a display used to display the chat messages currently being stored in the buffer. */
@@ -324,7 +324,7 @@ public class ChatBuffer {
         displayPane.setText(htmlContent);
       }
 
-      displayPane.flushed();
+      displayPane.runPostFlushActions();
     }
   }
 

@@ -88,7 +88,7 @@ public class ChatBufferDisplay implements ChatBuffer.Display {
   }
 
   @Override
-  public void flushed() {
+  public void runPostFlushActions() {
     // Non-ASCII text sets "multiByte", which switches to a much slower bidi-aware layout.
     this.displayPane.getDocument().putProperty("multiByte", Boolean.FALSE);
   }
