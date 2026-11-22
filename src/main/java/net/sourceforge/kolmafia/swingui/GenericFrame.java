@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.swingui.listener.QuickAccessListener;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
+import net.sourceforge.kolmafia.swingui.panel.ActionPanelRegistry;
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -389,7 +390,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
    */
   @Override
   public void dispose() {
-    StaticEntity.unregisterPanels(this);
+    ActionPanelRegistry.unregisterPanels(this);
 
     if (this.isVisible()) {
       this.rememberPosition();
