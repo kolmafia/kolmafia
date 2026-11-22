@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia;
 
 import static net.sourceforge.kolmafia.KoLConstants.ConsumptionType.FAMILIAR_EQUIPMENT;
 
-import java.awt.Color;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -544,13 +543,6 @@ public interface KoLConstants extends UtilityConstants {
     NODISCOVERY, // Recipe unexpectedly does not appear in Discoveries
     MANUAL, // Recipe should never be used automatically
   }
-
-  // Colors which are used to handle the various KoLmafia states.
-  // Used when changing the display.
-
-  Color ERROR_COLOR = new Color(255, 192, 192);
-  Color ENABLED_COLOR = new Color(192, 255, 192);
-  Color DISABLED_COLOR = null;
 
   // Constants which are useful, but not necessarily used very often.
   // Includes win game text.

@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
