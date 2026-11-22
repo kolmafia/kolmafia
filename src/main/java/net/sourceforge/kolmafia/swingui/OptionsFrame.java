@@ -45,7 +45,6 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.text.DefaultCaret;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;

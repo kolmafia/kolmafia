@@ -2,10 +2,10 @@ package net.sourceforge.kolmafia.swingui.widget;
 
 import java.io.File;
 import javax.swing.ImageIcon;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 /** Loads game images (items, familiars, ...) as Swing icons. */
