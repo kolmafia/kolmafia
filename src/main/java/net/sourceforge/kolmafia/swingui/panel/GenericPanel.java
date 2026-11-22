@@ -28,7 +28,7 @@ import javax.swing.text.JTextComponent;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLGUIConstants;
+import net.sourceforge.kolmafia.swingui.KoLGUIConstants;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;

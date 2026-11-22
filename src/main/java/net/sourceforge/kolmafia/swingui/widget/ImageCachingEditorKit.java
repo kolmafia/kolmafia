@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui.widget;
 
 import java.io.File;
 import java.io.IOException;

@@ -10,10 +10,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.KoLGUIConstants;
 
 public class PreferenceCheckBox extends JPanel implements Listener {
   private final String pref;

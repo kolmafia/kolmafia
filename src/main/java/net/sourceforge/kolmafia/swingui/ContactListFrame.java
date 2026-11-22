@@ -12,7 +12,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
