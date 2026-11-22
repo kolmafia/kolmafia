@@ -60,6 +60,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -4762,6 +4763,38 @@ public class MaximizerTest {
       }
 
       assertThat(shown, contains("mus", "mys"));
+    }
+  }
+
+  @Nested
+  class NegEquip {
+    @Test
+    void swapsOutForbiddenEquipment() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY2, ItemPool.MR_ACCESSORY_JR),
+              withEquippableItem(ItemPool.LUCKY_RABBIT_FOOT, 3));
+      try (cleanups) {
+        assertTrue(maximize("items,-equip Mr. Accessory Jr."));
+
+        List<Boost> boosts = getBoosts();
+        assertThat(boosts, hasItem(recommendsSlot(Slot.ACCESSORY1, "lucky rabbit's foot")));
+        assertThat(boosts, hasItem(recommendsSlot(Slot.ACCESSORY2, "lucky rabbit's foot")));
+        assertThat(boosts, hasItem(recommendsSlot(Slot.ACCESSORY3, "lucky rabbit's foot")));
+      }
+    }
+
+    @Test
+    void swapsOutForbiddenEquipmentForNothing() {
+      var cleanups = new Cleanups(withEquipped(Slot.ACCESSORY2, ItemPool.PERIDOT_OF_PERIL));
+      try (cleanups) {
+        assertTrue(maximize("items,-equip Peridot of Peril"));
+
+        List<Boost> boosts = getBoosts();
+        assertThat(boosts, not(hasItem(recommendsSlot(Slot.ACCESSORY1, "Peridot of Peril"))));
+        assertThat(boosts, hasItem(hasProperty("cmd", startsWith("unequip acc2"))));
+        assertThat(boosts, not(hasItem(recommendsSlot(Slot.ACCESSORY3, "Peridot of Peril"))));
+      }
     }
   }
 }
