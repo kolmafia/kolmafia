@@ -402,6 +402,11 @@ public class OptionsFrame extends GenericFrame {
           "Stop automation, or show relay warning, when Wandering monsters with fixed turn are due"
         },
         {"stopForUltraRare", "Stop automation when encountering an Ultra-Rare monster"},
+        {},
+        {
+          "ascensionSeedAutomation",
+          "Automatically calculate ascension seed. NOTE: May occasionally cause a pause that lasts several seconds."
+        }
       };
 
       this.setOptions(options);
