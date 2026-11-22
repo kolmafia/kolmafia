@@ -934,7 +934,8 @@ public class CampgroundRequest extends GenericRequest {
     if (this.action.equals("rest")
         && KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP()
         && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP()
-        && !KoLConstants.activeEffects.contains(KoLAdventure.BEATEN_UP)) {
+        && !KoLConstants.activeEffects.contains(KoLAdventure.BEATEN_UP)
+        && !Preferences.getBoolean("allowRestWhenFull")) {
       KoLmafia.updateDisplay(MafiaState.PENDING, "You don't need to rest.");
       return;
     }

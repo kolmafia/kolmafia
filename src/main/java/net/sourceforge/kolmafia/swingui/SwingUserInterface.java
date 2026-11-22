@@ -22,7 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -373,6 +372,21 @@ public class SwingUserInterface implements UserInterface {
     }
   }
 
+  private static void installLookAndFeel(Map<String, String> looks) {
+    for (Entry<String, String> entry : looks.entrySet()) {
+      String key = entry.getKey();
+      String value = entry.getValue();
+      try {
+        // try to load the class to confirm it exists
+        Class.forName(value);
+      } catch (ClassNotFoundException e) {
+        RequestLogger.printLine("Failed to load class " + value + " for Theme " + key);
+        continue;
+      }
+      UIManager.installLookAndFeel(key, value);
+    }
+  }
+
   @Override
   public void initializeGUI() {
     KoLmafiaGUI.initialize();
@@ -410,7 +424,7 @@ public class SwingUserInterface implements UserInterface {
   }
 
   @Override
-  public void requestProgress(final int value, final int maximum) {
+  public void progressAdventureMeter(final int value, final int maximum) {
     AdventureFrame.updateRequestMeter(value, maximum);
   }
 
@@ -432,21 +446,6 @@ public class SwingUserInterface implements UserInterface {
   @Override
   public boolean isSystemTraySupported() {
     return SystemTray.isSupported();
-  }
-
-  private static void installLookAndFeel(Map<String, String> looks) {
-    for (Entry<String, String> entry : looks.entrySet()) {
-      String key = entry.getKey();
-      String value = entry.getValue();
-      try {
-        // try to load the class to confirm it exists
-        Class.forName(value);
-      } catch (ClassNotFoundException e) {
-        RequestLogger.printLine("Failed to load class " + value + " for Theme " + key);
-        continue;
-      }
-      UIManager.installLookAndFeel(key, value);
-    }
   }
 
   @Override

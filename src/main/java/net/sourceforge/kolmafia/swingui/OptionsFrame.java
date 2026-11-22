@@ -45,7 +45,6 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.text.DefaultCaret;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -401,6 +400,11 @@ public class OptionsFrame extends GenericFrame {
           "Stop automation, or show relay warning, when Wandering monsters with fixed turn are due"
         },
         {"stopForUltraRare", "Stop automation when encountering an Ultra-Rare monster"},
+        {},
+        {
+          "ascensionSeedAutomation",
+          "Automatically calculate ascension seed. NOTE: May occasionally cause a pause that lasts several seconds."
+        }
       };
 
       this.setOptions(options);
