@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.SwingConstants;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 
 public abstract class LabeledPanel extends GenericPanel {
   private final String panelTitle;

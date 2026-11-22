@@ -198,12 +198,17 @@ user	addingScrolls	1
 user	adventurerMeatsWorldPoints	0
 user	affirmationCookiesEaten	0	roa
 user	afterAdventureScript
+user	allowRestWhenFull	false
 user	aminoAcidsUsed	0	roa
 user	antagonisticSnowmanKitAvailable	true
 user	antagonisticSnowmanKitCost	1000
 user	antiScientificMethod		roa
 user	arcadeGameHints	false
 user	armoryUnlocked	false
+user	ascensionSeed	0	roa
+user	ascensionSeedAutomation	false
+user	ascensionSeedAutomationState		roa
+user	ascensionSeedCandidates		roa
 user	ascensionsToday	0
 user	asolDeferredPoints	0	roa
 user	asolPointsPigSkinner	0
