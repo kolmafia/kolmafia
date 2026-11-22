@@ -4,16 +4,21 @@ import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_DARK_LOOKS;
 import static net.sourceforge.kolmafia.KoLGUIConstants.FLATMAP_LIGHT_LOOKS;
 
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.awt.Frame;
 import java.awt.SystemTray;
 import java.awt.Taskbar;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.ActionPanel;
@@ -37,6 +42,7 @@ import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.ui.UserInterface;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
+import net.sourceforge.kolmafia.utilities.HexColor;
 
 public class SwingUserInterface implements UserInterface {
   @Override
@@ -444,5 +450,43 @@ public class SwingUserInterface implements UserInterface {
       }
       UIManager.installLookAndFeel(key, value);
     }
+  }
+
+  @Override
+  public HexColor getLookAndFeelColor(final String key) {
+    Color color = UIManager.getColor(key);
+
+    if (color == null) {
+      return null;
+    }
+
+    return new HexColor(color.getRed(), color.getGreen(), color.getBlue());
+  }
+
+  @Override
+  public void invokeLater(final Runnable runnable) {
+    SwingUtilities.invokeLater(runnable);
+  }
+
+  @Override
+  public boolean confirmWarning(final String title, final String message) {
+    return JOptionPane.showConfirmDialog(
+            null, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE)
+        == JOptionPane.YES_OPTION;
+  }
+
+  @Override
+  public void dumpDisabledSkills() {
+    SkillBuffFrame.dumpDisabledSkills();
+  }
+
+  @Override
+  public boolean canBrowse() {
+    return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE);
+  }
+
+  @Override
+  public void browse(final URI uri) throws IOException {
+    Desktop.getDesktop().browse(uri);
   }
 }

@@ -227,58 +227,6 @@ public class JComponentUtilities
 		return null;
 	}
 
-	public static URL getResource( final String filename )
-	{
-		return JComponentUtilities.getResource( UtilityConstants.IMAGE_DIRECTORY, filename );
-	}
-
-	public static URL getResource( String directory, String filename )
-	{
-		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
-		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
-
-		if ( directory.length() > 0 && !directory.endsWith( "/" ) )
-		{
-			directory += "/";
-		}
-
-		String fullname = directory + filename;
-
-		try
-		{
-			File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
-			if ( override.exists() )
-			{
-				return override.toURI().toURL();
-			}
-		}
-		catch ( Exception e )
-		{
-			// It's a malformed filename.  Just continue on
-			// with the next possibility.
-		}
-
-		URL result = JComponentUtilities.getResource( UtilityConstants.SYSTEM_CLASSLOADER, fullname );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		result = JComponentUtilities.getResource( UtilityConstants.MAINCLASS_CLASSLOADER, fullname );
-		if ( result != null )
-		{
-			return result;
-		}
-
-		// if it's gotten this far, the image icon does not exist
-		return null;
-	}
-
-	private static URL getResource( final ClassLoader loader, final String filename )
-	{
-		return loader.getResource( filename );
-	}
-
 	private static ImageIcon getImage( final ClassLoader loader, final String filename )
 	{
 		URL filenameAsURL = loader.getResource( filename );
@@ -307,5 +255,44 @@ public class JComponentUtilities
 	{
 		component.registerKeyboardAction(
 			listener, KeyStroke.getKeyStroke( event, modifier ), JComponent.WHEN_IN_FOCUSED_WINDOW );
+	}
+
+	/**
+	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
+	 * hexadecimal strings. This function is used to create that hexadecimal string from a color object. Note that the
+	 * traditional pound symbol will also be part of the string.
+	 * 
+	 * @param c The color to be translated to a hexadecimal string.
+	 * @return The hexadecimal string representation of the color
+	 */
+
+	public static String toHexString( final Color c )
+	{
+		if ( c == null )
+		{
+			return "#000000";
+		}
+
+		StringBuffer hexString = new StringBuffer( 7 );
+		hexString.append( '#' );
+		int bitmask = ( 1 << 24 ) - 1;
+		hexString.append( DataUtilities.toHexString( c.getRGB() & bitmask, 6 ) );
+		return hexString.toString();
+	}
+
+	/**
+	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
+	 * hexadecimal strings. This function is used to create a color object from such a hexadecimal string.
+	 * 
+	 * @param hexString The hexadecimal string (with # prefix) to be translated to a color
+	 * @return The color represented by this hexadecimal string
+	 */
+
+	public static Color toColor( final String hexString )
+	{
+		return new Color( Character.digit( hexString.charAt( 1 ), 16 ) * 16 + Character.digit(
+			hexString.charAt( 2 ), 16 ), Character.digit( hexString.charAt( 3 ), 16 ) * 16 + Character.digit(
+			hexString.charAt( 4 ), 16 ), Character.digit( hexString.charAt( 5 ), 16 ) * 16 + Character.digit(
+			hexString.charAt( 6 ), 16 ) );
 	}
 }
