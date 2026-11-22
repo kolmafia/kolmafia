@@ -18,7 +18,6 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.JTextComponent;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;

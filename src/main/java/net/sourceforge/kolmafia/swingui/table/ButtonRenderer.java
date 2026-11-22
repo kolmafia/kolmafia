@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 
 public class ButtonRenderer implements TableCellRenderer {
   @Override

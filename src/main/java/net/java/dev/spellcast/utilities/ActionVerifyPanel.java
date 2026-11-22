@@ -34,6 +34,7 @@
 
 package net.java.dev.spellcast.utilities;
 
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;

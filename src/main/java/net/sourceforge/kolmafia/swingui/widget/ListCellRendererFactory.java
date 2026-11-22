@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -41,6 +40,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
