@@ -34,7 +34,6 @@
 
 package net.java.dev.spellcast.utilities;
 
-import java.awt.Color;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -390,45 +389,6 @@ public class DataUtilities
 			e.printStackTrace();
 			return DataUtilities.MEMORY_OUTPUT_STREAM;
 		}
-	}
-
-	/**
-	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
-	 * hexadecimal strings. This function is used to create that hexadecimal string from a color object. Note that the
-	 * traditional pound symbol will also be part of the string.
-	 * 
-	 * @param c The color to be translated to a hexadecimal string.
-	 * @return The hexadecimal string representation of the color
-	 */
-
-	public static String toHexString( final Color c )
-	{
-		if ( c == null )
-		{
-			return "#000000";
-		}
-
-		StringBuffer hexString = new StringBuffer( 7 );
-		hexString.append( '#' );
-		int bitmask = ( 1 << 24 ) - 1;
-		hexString.append( DataUtilities.toHexString( c.getRGB() & bitmask, 6 ) );
-		return hexString.toString();
-	}
-
-	/**
-	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
-	 * hexadecimal strings. This function is used to create a color object from such a hexadecimal string.
-	 * 
-	 * @param hexString The hexadecimal string (with # prefix) to be translated to a color
-	 * @return The color represented by this hexadecimal string
-	 */
-
-	public static Color toColor( final String hexString )
-	{
-		return new Color( Character.digit( hexString.charAt( 1 ), 16 ) * 16 + Character.digit(
-			hexString.charAt( 2 ), 16 ), Character.digit( hexString.charAt( 3 ), 16 ) * 16 + Character.digit(
-			hexString.charAt( 4 ), 16 ), Character.digit( hexString.charAt( 5 ), 16 ) * 16 + Character.digit(
-			hexString.charAt( 6 ), 16 ) );
 	}
 
 	/**
