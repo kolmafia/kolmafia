@@ -26,7 +26,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -92,6 +91,7 @@ import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.session.AscensionSeedManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -116,6 +116,7 @@ import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.SwingUserInterface;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
@@ -333,6 +334,7 @@ public abstract class KoLmafia {
 
     FlaggedItems.initializeLists();
     VolcanoMazeManager.downloadImages();
+    AscensionSeedManager.initialize();
 
     // Now run the main routines for each, so that
     // you have an interface.
