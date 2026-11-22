@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;

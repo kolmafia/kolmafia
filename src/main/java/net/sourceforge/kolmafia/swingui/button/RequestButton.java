@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.swingui.button;
 
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 
 public class RequestButton extends ThreadedButton {
   public RequestButton(final String title, final GenericRequest request) {
