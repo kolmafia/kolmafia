@@ -366,7 +366,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                   @Override
                   public void run() {
                     SaveListener.this.output =
-                        InputFieldUtilities.chooseOutputFile(
+                        SwingInputFieldUtilities.chooseOutputFile(
                             KoLConstants.DATA_LOCATION, FamiliarTrainingFrame.this);
                     SaveListener.this.content =
                         FamiliarTrainingManager.getResults().getHTMLContent();

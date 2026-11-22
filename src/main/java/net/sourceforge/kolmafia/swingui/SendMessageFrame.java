@@ -194,7 +194,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
 
     attachmentsArray[this.attachments.size()] =
         new AdventureResult(
-            AdventureResult.MEAT, InputFieldUtilities.getValue(this.attachedMeat, 0));
+            AdventureResult.MEAT, SwingInputFieldUtilities.getValue(this.attachedMeat, 0));
 
     String[] recipients =
         ContactManager.extractTargets((String) this.recipientEntry.getSelectedItem());

@@ -601,7 +601,7 @@ public class OptionsFrame extends GenericFrame {
     private class AddScriptListener implements ActionListener {
       @Override
       public void actionPerformed(final ActionEvent e) {
-        File input = InputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
+        File input = SwingInputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
         if (input == null) {
           return;
         }
@@ -932,7 +932,8 @@ public class OptionsFrame extends GenericFrame {
     private static class AddFileBookmarkRunnable implements Runnable {
       @Override
       public void run() {
-        File bookmark = InputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
+        File bookmark =
+            SwingInputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
 
         if (bookmark == null) {
           return;
