@@ -1,9 +1,9 @@
 package net.sourceforge.kolmafia.swingui.button;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 
 /**
  * An internal class used to handle requests to open a new frame using a local panel inside of the
