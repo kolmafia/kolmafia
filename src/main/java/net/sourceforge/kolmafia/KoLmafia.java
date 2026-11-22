@@ -1209,7 +1209,7 @@ public abstract class KoLmafia {
     }
 
     if (isAdventure) {
-      UserInterfaceManager.get().requestProgress(1, 1);
+      UserInterfaceManager.get().progressAdventureMeter(1, 1);
     }
 
     // If you've completed the requests, make sure to update
@@ -1291,7 +1291,7 @@ public abstract class KoLmafia {
     }
 
     if (!wasAdventuring) {
-      UserInterfaceManager.get().requestProgress(currentIteration - 1, totalIterations);
+      UserInterfaceManager.get().progressAdventureMeter(currentIteration - 1, totalIterations);
     }
 
     RequestLogger.printLine();

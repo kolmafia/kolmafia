@@ -120,7 +120,7 @@ public interface UserInterface {
   default void updateDisplayState(final MafiaState state, final String message) {}
 
   /** Progress through a series of requests, such as adventures. */
-  default void requestProgress(final int value, final int maximum) {}
+  default void progressAdventureMeter(final int value, final int maximum) {}
 
   default void validateEquipmentSelections() {}
 
