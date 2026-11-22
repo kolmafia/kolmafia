@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 import net.sourceforge.kolmafia.swingui.panel.ActionPanelRegistry;
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
+import net.sourceforge.kolmafia.swingui.widget.ChatBufferDisplay;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
@@ -124,7 +125,8 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     this.frameName = this.frameName.substring(this.frameName.lastIndexOf(".") + 1);
 
     if (this.shouldAddStatusBar()) {
-      JScrollPane statusBar = KoLConstants.commandBuffer.addStatusLine(new RequestPane());
+      JScrollPane statusBar =
+          ChatBufferDisplay.addStatusLine(KoLConstants.commandBuffer, new RequestPane());
       JComponentUtilities.setComponentSize(statusBar, new Dimension(200, 50));
 
       JSplitPane doublePane =
