@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.swingui.listener;
 
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
-import net.sourceforge.kolmafia.CreateFrameRunnable;
+import net.sourceforge.kolmafia.swingui.CreateFrameRunnable;
 import net.sourceforge.kolmafia.swingui.panel.VersionDataPanel;
 
 public class LicenseDisplayListener extends ThreadedListener {
