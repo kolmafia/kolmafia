@@ -2428,9 +2428,9 @@ soused tosspot	2534	tosspot.gif	Scale: 5 Cap: 1000 Floor: ? Init: -10000 P: dude
 knight in lightweight armor	2533	lightknight.gif	Scale: 10 Cap: 1000 Floor: ? Init: -10000 P: dude Article: a	flimsy plastic breastplate (c3)	flimsy plastic helmet (c3)	flimsy plastic greaves (c3)	flimsy plastic shield (c3)	single-use sword (10)
 neckbearded wizard	2531	neckbeardwizard.gif	Scale: 20 Cap: 1000 Floor: ? Init: -10000 P: dude Article: a	flash paperwad (10)	The Wizard's Android (c0.03)
 performative peasant	2532	juggler.gif	Scale: 1 Cap: 1000 Floor: ? Init: -10000 P: dude Article: a	wooden juggling ball (10)	tactical jester's cap (f0.1)
-Open Mic Knight	2536	openmicknight.gif	Scale: 15 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
-Poker Knight	2537	pokerknight.gif	Scale: 30 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
-Wedding Knight	2538	weddingknight.gif	Scale: 30 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
+Open Mic Knight	2536	openmicknight.gif	Scale: 15 Cap: 1000 Floor: ? Init: -10000 P: dude Article: the
+Poker Knight	2537	pokerknight.gif	Scale: 30 Cap: 1000 Floor: ? Init: -10000 P: dude Article: the
+Wedding Knight	2538	weddingknight.gif	Scale: 30 Cap: 1000 Floor: ? Init: -10000 P: dude Article: the
 visiting space soldier	2535	stormtrooper.gif	NOCOPY NOMANUEL ULTRARARE Atk: 1000 Def: 1000 Init: 0 Phys: 100	Space Soldier Helmet (n100)
 
 # Old Events
