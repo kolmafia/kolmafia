@@ -1,10 +1,11 @@
-package net.sourceforge.kolmafia.preferences;
+package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class PreferenceListenerCheckBox extends JCheckBox implements ActionListener, Listener {
   private final String property;

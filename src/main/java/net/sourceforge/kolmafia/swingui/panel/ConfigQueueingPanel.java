@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import net.sourceforge.kolmafia.KoLGUIConstants;
+import net.sourceforge.kolmafia.swingui.KoLGUIConstants;
 
 public class ConfigQueueingPanel extends JPanel {
   private List<Component> componentQueue = new ArrayList<>();

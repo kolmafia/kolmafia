@@ -14,8 +14,11 @@ import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRedoSkippedAdventure;
 import static internal.helpers.Player.withResponses;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
@@ -37,8 +40,10 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.ui.UserInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -341,6 +346,50 @@ public class KoLmafiaTest {
                 .toList();
         assertThat(adventures, hasSize(1));
         assertPostRequest(adventures.get(0), "/adventure.php", containsString("snarfblat=112"));
+      }
+    }
+  }
+
+  @Nested
+  class ShowHTML {
+    private static class RecordingUserInterface implements UserInterface {
+      private final boolean openWindows;
+      private final List<String> shown = new ArrayList<>();
+
+      RecordingUserInterface(final boolean openWindows) {
+        this.openWindows = openWindows;
+      }
+
+      @Override
+      public boolean hasOpenWindows() {
+        return this.openWindows;
+      }
+
+      @Override
+      public void showDescription(final GenericRequest request) {
+        this.shown.add(request.getURLString() + " " + request.responseText);
+      }
+    }
+
+    @Test
+    void showsHTMLInADescriptionWindowWhenWindowsAreOpen() {
+      var ui = new RecordingUserInterface(true);
+
+      try (var cleanups = withUserInterface(ui)) {
+        KoLmafia.showHTML("desc_item.php?whichitem=617818041", "<b>seal tooth</b>");
+
+        assertThat(ui.shown, contains("desc_item.php?whichitem=617818041 <b>seal tooth</b>"));
+      }
+    }
+
+    @Test
+    void leavesHTMLToTheCommandLineWithoutWindows() {
+      var ui = new RecordingUserInterface(false);
+
+      try (var cleanups = withUserInterface(ui)) {
+        KoLmafia.showHTML("desc_item.php?whichitem=617818041", "<b>seal tooth</b>");
+
+        assertThat(ui.shown, empty());
       }
     }
   }
