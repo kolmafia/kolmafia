@@ -376,9 +376,9 @@ public class KoLmafiaTest {
       var ui = new RecordingUserInterface(true);
 
       try (var cleanups = withUserInterface(ui)) {
-        KoLmafia.showHTML("desc_item.php?whichitem=1", "<b>seal tooth</b>");
+        KoLmafia.showHTML("desc_item.php?whichitem=617818041", "<b>seal tooth</b>");
 
-        assertThat(ui.shown, contains("desc_item.php?whichitem=1 <b>seal tooth</b>"));
+        assertThat(ui.shown, contains("desc_item.php?whichitem=617818041 <b>seal tooth</b>"));
       }
     }
 
@@ -387,7 +387,7 @@ public class KoLmafiaTest {
       var ui = new RecordingUserInterface(false);
 
       try (var cleanups = withUserInterface(ui)) {
-        KoLmafia.showHTML("desc_item.php?whichitem=1", "<b>seal tooth</b>");
+        KoLmafia.showHTML("desc_item.php?whichitem=617818041", "<b>seal tooth</b>");
 
         assertThat(ui.shown, empty());
       }
