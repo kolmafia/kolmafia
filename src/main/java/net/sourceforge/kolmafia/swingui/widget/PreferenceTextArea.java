@@ -2,9 +2,9 @@ package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Dimension;
 import javax.swing.JTextArea;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.swingui.KoLGUIConstants;
 
 public abstract class PreferenceTextArea extends JTextArea implements Listener {
   public PreferenceTextArea(String... prefs) {
