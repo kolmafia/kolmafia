@@ -39,7 +39,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Segment;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.listener.StickyListener;
 
 public class FindBar extends JPanel {

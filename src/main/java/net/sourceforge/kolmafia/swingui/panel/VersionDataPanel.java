@@ -5,9 +5,9 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 
 /**
  * An internal class which displays KoLmafia's current version information. This is passed to the

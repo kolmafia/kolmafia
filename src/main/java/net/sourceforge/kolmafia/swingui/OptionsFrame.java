@@ -45,7 +45,6 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.text.DefaultCaret;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -361,7 +360,7 @@ public class OptionsFrame extends GenericFrame {
       if (color.equals("blue")) {
         this.colorChanger.setBackground(Color.blue);
       } else {
-        this.colorChanger.setBackground(DataUtilities.toColor(color));
+        this.colorChanger.setBackground(JComponentUtilities.toColor(color));
       }
 
       super.actionCancelled();
@@ -403,6 +402,11 @@ public class OptionsFrame extends GenericFrame {
           "Stop automation, or show relay warning, when Wandering monsters with fixed turn are due"
         },
         {"stopForUltraRare", "Stop automation when encountering an Ultra-Rare monster"},
+        {},
+        {
+          "ascensionSeedAutomation",
+          "Automatically calculate ascension seed. NOTE: May occasionally cause a pause that lasts several seconds."
+        }
       };
 
       this.setOptions(options);
@@ -2533,10 +2537,10 @@ public class OptionsFrame extends GenericFrame {
         this.awesome.setBackground(Color.blue);
       }
       if (this.epic.getClientProperty("set") == null) {
-        this.epic.setBackground(DataUtilities.toColor("#8a2be2")); // purple..ish
+        this.epic.setBackground(JComponentUtilities.toColor("#8a2be2")); // purple..ish
       }
       if (this.memento.getClientProperty("set") == null) {
-        this.memento.setBackground(DataUtilities.toColor("#808000")); // olive
+        this.memento.setBackground(JComponentUtilities.toColor("#808000")); // olive
       }
       if (this.junk.getClientProperty("set") == null) {
         this.junk.setBackground(Color.gray);
@@ -2556,12 +2560,12 @@ public class OptionsFrame extends GenericFrame {
       } catch (Exception e) {
         try {
           // maybe the pref was a hex code
-          label.setBackground(DataUtilities.toColor(it));
+          label.setBackground(JComponentUtilities.toColor(it));
         } catch (Exception f) {
           // olive color is not an acceptable label, but is recognized by HTML parser
           // just hardcode it, whatever
           if (it.equals("olive")) {
-            label.setBackground(DataUtilities.toColor("#808000"));
+            label.setBackground(JComponentUtilities.toColor("#808000"));
           }
           // else fall through, invalid color format
         }
