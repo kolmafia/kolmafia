@@ -2,9 +2,9 @@ package net.sourceforge.kolmafia.swingui;
 
 import javax.swing.JFrame;
 import javax.swing.ToolTipManager;
-import net.sourceforge.kolmafia.ImageCachingEditorKit;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.swingui.widget.ImageCachingEditorKit;
 
 public class DescriptionFrame extends RequestFrame {
   private static DescriptionFrame INSTANCE = null;

@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.chat;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,6 +9,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.utilities.HexColor;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -302,7 +302,8 @@ public class ChatFormatter {
     ChatFormatter.chatColors.put(sender, color);
   }
 
-  public static Color getRandomColor() {
+  /** A random color that is not too light, as "#rrggbb". */
+  public static HexColor getRandomColor() {
     int[] colors = new int[3];
 
     do {
@@ -311,7 +312,7 @@ public class ChatFormatter {
       }
     } while (colors[0] > 128 && colors[1] > 128 && colors[2] > 128);
 
-    return new Color(colors[0], colors[1], colors[2]);
+    return new HexColor(colors[0], colors[1], colors[2]);
   }
 
   /**
@@ -332,7 +333,7 @@ public class ChatFormatter {
     addHighlighting(highlight, ChatFormatter.getRandomColor());
   }
 
-  public static void addHighlighting(String highlight, Color color) {
+  public static void addHighlighting(String highlight, HexColor color) {
     if (highlight == null || highlight.isEmpty()) {
       return;
     }

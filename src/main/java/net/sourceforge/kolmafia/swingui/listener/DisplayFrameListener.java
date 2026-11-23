@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.swingui.listener;
 
 import java.awt.Frame;
-import net.sourceforge.kolmafia.KoLDesktop;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.KoLDesktop;
+import net.sourceforge.kolmafia.swingui.KoLmafiaGUI;
 
 public class DisplayFrameListener extends ThreadedListener {
   private final String frameClass;

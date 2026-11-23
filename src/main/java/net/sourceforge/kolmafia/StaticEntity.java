@@ -1,14 +1,11 @@
 package net.sourceforge.kolmafia;
 
-import java.awt.Container;
-import java.awt.SystemTray;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -16,7 +13,6 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.maximizer.Boost;
@@ -30,7 +26,6 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -47,9 +42,6 @@ public abstract class StaticEntity {
   private static boolean isGUIRequired = false;
   private static final boolean isHeadless =
       System.getProperty("java.awt.headless", "").equals("true");
-
-  public static final ArrayList<ActionPanel> existingPanels = new ArrayList<>();
-  private static ActionPanel[] panelArray = new GenericPanel[0];
 
   private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
@@ -191,61 +183,6 @@ public abstract class StaticEntity {
     return StaticEntity.isGUIRequired && !StaticEntity.isHeadless;
   }
 
-  public static final void registerPanel(final ActionPanel panel) {
-    synchronized (StaticEntity.existingPanels) {
-      StaticEntity.existingPanels.add(panel);
-      StaticEntity.getExistingPanels();
-    }
-  }
-
-  public static final void unregisterPanel(final ActionPanel panel) {
-    synchronized (StaticEntity.existingPanels) {
-      StaticEntity.existingPanels.remove(panel);
-      StaticEntity.getExistingPanels();
-    }
-  }
-
-  public static final void unregisterPanels(final Container container) {
-    boolean removedPanel = false;
-
-    synchronized (StaticEntity.existingPanels) {
-      Iterator<ActionPanel> panelIterator = StaticEntity.existingPanels.iterator();
-
-      while (panelIterator.hasNext()) {
-        ActionPanel panel = panelIterator.next();
-
-        if (container.isAncestorOf(panel)) {
-          panel.dispose();
-          panelIterator.remove();
-          removedPanel = true;
-        }
-      }
-    }
-
-    if (removedPanel) {
-      StaticEntity.getExistingPanels();
-    }
-  }
-
-  public static final ActionPanel[] getExistingPanels() {
-    synchronized (StaticEntity.existingPanels) {
-      boolean needsRefresh = StaticEntity.panelArray.length != StaticEntity.existingPanels.size();
-
-      if (!needsRefresh) {
-        for (int i = 0; i < StaticEntity.panelArray.length && !needsRefresh; ++i) {
-          needsRefresh = StaticEntity.panelArray[i] != StaticEntity.existingPanels.get(i);
-        }
-      }
-
-      if (needsRefresh) {
-        StaticEntity.panelArray = new ActionPanel[StaticEntity.existingPanels.size()];
-        StaticEntity.existingPanels.toArray(StaticEntity.panelArray);
-      }
-
-      return StaticEntity.panelArray;
-    }
-  }
-
   public static final boolean isHeadless() {
     return StaticEntity.isHeadless;
   }
@@ -256,7 +193,7 @@ public abstract class StaticEntity {
 
       boolean useTrayIcon = Preferences.getBoolean("useSystemTrayIcon");
 
-      if (!SystemTray.isSupported()) {
+      if (!UserInterfaceManager.get().isSystemTraySupported()) {
         useTrayIcon = false;
       }
 
