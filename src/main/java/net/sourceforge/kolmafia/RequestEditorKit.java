@@ -2418,6 +2418,10 @@ public class RequestEditorKit {
             + "\">play ball!</a>");
   }
 
+  /**
+   * Utility method used to determine the GenericRequest that should be sent, given the appropriate
+   * location.
+   */
   public static final GenericRequest extractRequest(String location) {
     if (location.contains("pics.communityofloathing.com")) {
       FileUtilities.downloadImage(location);

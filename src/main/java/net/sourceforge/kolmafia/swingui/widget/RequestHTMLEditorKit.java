@@ -237,9 +237,4 @@ public class RequestHTMLEditorKit extends HTMLEditorKit {
       return null;
     }
   }
-
-  /**
-   * Utility method used to determine the GenericRequest that should be sent, given the appropriate
-   * location.
-   */
 }
