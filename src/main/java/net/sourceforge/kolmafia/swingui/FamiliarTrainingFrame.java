@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.CakeArenaManager.ArenaOpponent;
@@ -35,6 +34,7 @@ import net.sourceforge.kolmafia.session.FamiliarTrainingManager.Goal;
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
+import net.sourceforge.kolmafia.swingui.widget.ChatBufferDisplay;
 import net.sourceforge.kolmafia.swingui.widget.ImageIconFactory;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -475,7 +475,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
         this.setLayout(new BorderLayout(10, 10));
 
         RequestPane resultsDisplay = new RequestPane();
-        JScrollPane scroller = FamiliarTrainingManager.getResults().addDisplay(resultsDisplay);
+        JScrollPane scroller =
+            ChatBufferDisplay.addDisplay(FamiliarTrainingManager.getResults(), resultsDisplay);
         JComponentUtilities.setComponentSize(scroller, 400, 400);
 
         this.add(scroller, BorderLayout.CENTER);

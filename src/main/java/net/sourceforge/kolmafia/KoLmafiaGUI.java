@@ -55,7 +55,7 @@ public class KoLmafiaGUI {
    * The main method. Currently, it instantiates a single instance of the <code>KoLmafia</code>after
    * setting the default look and feel of all <code>JFrame</code> objects to decorated.
    */
-  static void initialize() {
+  public static void initialize() {
     KoLmafiaGUI.initializeLoginInterface();
 
     // All that completed, check to see if there is an auto-login

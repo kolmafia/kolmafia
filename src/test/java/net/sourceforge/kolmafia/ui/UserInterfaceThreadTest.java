@@ -5,13 +5,16 @@ import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.chat.ChatBuffer;
 import org.junit.jupiter.api.Test;
 
 class UserInterfaceThreadTest {
@@ -62,5 +65,30 @@ class UserInterfaceThreadTest {
 
       assertThat(ran.get(), is(true));
     }
+  }
+
+  @Test
+  void keepsChatMessagesFromManyThreads() throws Exception {
+    var buffer = new ChatBuffer("test");
+
+    List<Thread> writers = new ArrayList<>();
+    for (int w = 0; w < 4; w++) {
+      int writer = w;
+      writers.add(
+          new Thread(
+              () -> {
+                for (int i = 0; i < 100; i++) {
+                  buffer.append("w" + writer + "m" + i + "<br>");
+                }
+              }));
+    }
+    writers.forEach(Thread::start);
+    for (Thread writer : writers) {
+      writer.join();
+    }
+    drain();
+
+    assertThat(buffer.getContent().split("<br>").length, is(400));
+    buffer.dispose();
   }
 }
