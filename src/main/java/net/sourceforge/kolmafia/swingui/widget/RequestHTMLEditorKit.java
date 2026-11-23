@@ -31,7 +31,7 @@ public class RequestHTMLEditorKit extends HTMLEditorKit {
   private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
   /**
-   * Returns an extension of the standard <code>HTMLFacotry</code> which intercepts some of the form
+   * Returns an extension of the standard <code>HTMLFactory</code> which intercepts some of the form
    * handling to ensure that <code>GenericRequest</code> objects are instantiated on form submission
    * rather than the <code>HttpRequest</code> objects created by the default HTML editor kit.
    */
@@ -40,10 +40,6 @@ public class RequestHTMLEditorKit extends HTMLEditorKit {
     return RequestHTMLEditorKit.DEFAULT_FACTORY;
   }
 
-  /**
-   * Registers thethat is supposed to be used for handling data submission to the Kingdom of
-   * Loathing server.
-   */
   private static class RequestViewFactory extends HTMLFactory {
     @Override
     public View create(final Element elem) {
