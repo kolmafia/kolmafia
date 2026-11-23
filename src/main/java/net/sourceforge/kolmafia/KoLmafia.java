@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
-import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -101,8 +100,6 @@ import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
-import net.sourceforge.kolmafia.swingui.DescriptionFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SwingUserInterface;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.ui.UserInterfaceManager;
@@ -1409,14 +1406,14 @@ public abstract class KoLmafia {
 
   /** Show an HTML string to the user */
   public static void showHTML(String location, String text) {
-    if (!GenericFrame.instanceExists()) {
+    if (!UserInterfaceManager.get().hasOpenWindows()) {
       KoLmafiaCLI.showHTML(text);
       return;
     }
 
     GenericRequest request = new GenericRequest(location);
     request.responseText = text;
-    DescriptionFrame.showRequest(request);
+    UserInterfaceManager.get().showDescription(request);
   }
 
   /**
@@ -1762,7 +1759,7 @@ public abstract class KoLmafia {
 
     QuitRunnable quitRunnable = new QuitRunnable();
 
-    if (SwingUtilities.isEventDispatchThread()) {
+    if (UserInterfaceManager.get().isEventDispatchThread()) {
       KoLmafia.updateDisplay("Logout in progress (interface will be unresponsive)...");
       KoLmafia.allowDisplayUpdate = false;
 
