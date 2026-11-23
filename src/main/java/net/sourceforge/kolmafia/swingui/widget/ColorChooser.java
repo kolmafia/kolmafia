@@ -5,8 +5,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 
 public class ColorChooser extends JLabel implements MouseListener {
   protected String property;

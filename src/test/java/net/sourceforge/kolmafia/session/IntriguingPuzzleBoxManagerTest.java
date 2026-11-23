@@ -47,7 +47,7 @@ public class IntriguingPuzzleBoxManagerTest {
     @Test
     void narrowsToOneSeed() {
       try (var cleanups = visitFirstPage()) {
-        List<Integer> seeds = AscensionSeedManager.possibleAscensionSeeds();
+        List<Integer> seeds = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
         assertThat(seeds.size(), is(1));
       }
     }

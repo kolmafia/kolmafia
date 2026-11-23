@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.chat;
+package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Rectangle;
 import java.awt.event.FocusEvent;

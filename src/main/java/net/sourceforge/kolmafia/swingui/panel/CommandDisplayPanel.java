@@ -7,15 +7,16 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.CommandHistory;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.ChatBufferDisplay;
 import net.sourceforge.kolmafia.swingui.widget.FindBar;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
@@ -30,7 +31,8 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     RequestPane outputDisplay = new RequestPane();
     outputDisplay.addHyperlinkListener(new HyperlinkAdapter());
 
-    JScrollPane scrollPane = KoLConstants.commandBuffer.addDisplay(outputDisplay);
+    JScrollPane scrollPane =
+        ChatBufferDisplay.addDisplay(KoLConstants.commandBuffer, outputDisplay);
     JComponentUtilities.setComponentSize(scrollPane, 400, 300);
 
     JPanel entryPanel = new JPanel(new BorderLayout());

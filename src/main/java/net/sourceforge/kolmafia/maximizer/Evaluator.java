@@ -371,6 +371,14 @@ public class Evaluator {
       }
     }
     if (!this.failed) {
+      for (AdventureResult item : this.expression.negEquip) {
+        if (KoLCharacter.hasEquipped(equipment, item)) {
+          this.failed = true;
+          break;
+        }
+      }
+    }
+    if (!this.failed) {
       String outfit = mods.getString(StringModifier.OUTFIT);
       if (this.expression.negOutfits.contains(outfit)) {
         this.failed = true;
@@ -379,8 +387,6 @@ public class Evaluator {
             this.expression.posOutfits.contains(outfit) || this.expression.posOutfits.isEmpty();
       }
     }
-    // negEquip is not checked, since enumerateEquipment should make it
-    // impossible for such items to be chosen.
     if (!outfitSatisfied || !equipSatisfied) {
       this.failed = true;
     }
