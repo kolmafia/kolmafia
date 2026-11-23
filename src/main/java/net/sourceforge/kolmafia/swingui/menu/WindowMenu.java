@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import javax.swing.JComponent;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLGUIConstants;
+import net.sourceforge.kolmafia.swingui.KoLGUIConstants;
 
 public class WindowMenu extends MenuItemList<String> {
   public WindowMenu() {

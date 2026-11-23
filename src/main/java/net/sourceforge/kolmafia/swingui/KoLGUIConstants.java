@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui;
 
 import java.awt.Color;
 import java.awt.Font;

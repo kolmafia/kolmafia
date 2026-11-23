@@ -4,9 +4,9 @@ import java.awt.Dimension;
 import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.KoLGUIConstants;
 import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
 
 /**

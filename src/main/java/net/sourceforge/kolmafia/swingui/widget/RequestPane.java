@@ -18,7 +18,6 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import javax.swing.text.html.InlineView;
-import net.sourceforge.kolmafia.ImageCachingEditorKit;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

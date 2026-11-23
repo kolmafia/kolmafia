@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 
 public class CreationSettingCheckBox extends PreferenceListenerCheckBox {
   public CreationSettingCheckBox(final String property) {

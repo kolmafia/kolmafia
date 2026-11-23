@@ -1796,7 +1796,7 @@ public abstract class KoLmafia {
   }
 
   public static void preferences() {
-    KoLmafiaGUI.constructFrame("OptionsFrame");
+    UserInterfaceManager.get().showWindow("OptionsFrame");
   }
 
   public static void preferencesThreaded() {
@@ -1806,7 +1806,7 @@ public abstract class KoLmafia {
   private static class PreferencesRunnable implements Runnable {
     @Override
     public void run() {
-      KoLmafiaGUI.constructFrame("OptionsFrame");
+      UserInterfaceManager.get().showWindow("OptionsFrame");
     }
   }
 }
