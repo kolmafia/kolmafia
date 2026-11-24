@@ -5,8 +5,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 
+import internal.helpers.Cleanups;
 import java.util.ArrayList;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -15,6 +17,8 @@ import net.sourceforge.kolmafia.ui.UserInterface;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ChatManagerTest {
   private static class RecordingUserInterface implements UserInterface {
@@ -65,21 +69,37 @@ class ChatManagerTest {
     assertThat(ui.calls, contains("closeChat"));
   }
 
-  @Test
-  void filesAPrivateMessageUnderItsSenderWhenMyNameHasSpaces() {
-    UserInterface ui =
+  private static Cleanups withImmediateUserInterface() {
+    return withUserInterface(
         new UserInterface() {
           @Override
           public void invokeLater(final Runnable runnable) {
             runnable.run();
           }
-        };
+        });
+  }
 
-    try (var cleanups = withUserInterface(ui)) {
-      // KoL's JSON chat names the recipient with spaces, not underscores
-      ChatManager.processMessage(new ChatMessage("Other Player", "Testy McTest", "hi", false));
+  // KoL's JSON chat names the recipient with spaces; ChatPoller fills it in with underscores
+  @ParameterizedTest
+  @ValueSource(strings = {"Testy McTest", "Testy_McTest"})
+  void filesAPrivateMessageToMeUnderItsSender(final String recipient) {
+    try (var cleanups = withImmediateUserInterface()) {
+      ChatManager.processMessage(new ChatMessage("Other Player", recipient, recipient, false));
 
-      assertThat(ChatManager.getBuffer("other player").getContent(), containsString("hi"));
+      assertThat(ChatManager.getBuffer("other player").getContent(), containsString(recipient));
+    }
+  }
+
+  @Test
+  void filesAPrivateMessageToAPlayerWithASimilarNameUnderThatPlayer() {
+    try (var cleanups = withImmediateUserInterface()) {
+      ChatManager.processMessage(
+          new ChatMessage("Testy McTest", "Testy McTester", "to McTester", false));
+
+      assertThat(
+          ChatManager.getBuffer("testy mctester").getContent(), containsString("to McTester"));
+      assertThat(
+          ChatManager.getBuffer("other player").getContent(), not(containsString("to McTester")));
     }
   }
 }
