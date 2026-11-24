@@ -9,6 +9,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withSwingUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -31,17 +32,26 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.session.FamiliarTrainingManager.Goal;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class FamiliarTrainingManagerTest {
+  private Cleanups cleanups;
+
   @BeforeAll
   static void beforeAll() {
     KoLCharacter.reset("FamiliarTrainingManagerTest");
   }
 
+  @BeforeEach
+  void beforeEach() {
+    this.cleanups = withSwingUserInterface();
+  }
+
   @AfterEach
   void afterEach() {
+    this.cleanups.close();
     KoLmafia.forceContinue();
   }
 

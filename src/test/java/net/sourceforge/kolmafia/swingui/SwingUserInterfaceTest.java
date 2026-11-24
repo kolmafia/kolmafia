@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.swingui;
 
-import static internal.helpers.Player.withUserInterface;
+import static internal.helpers.Player.withSwingUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -18,7 +18,7 @@ class SwingUserInterfaceTest {
 
   @Test
   void showsTheMaximizerExpression() {
-    try (var cleanups = withUserInterface(new SwingUserInterface())) {
+    try (var cleanups = withSwingUserInterface()) {
       Maximizer.setExpression("cold res");
     }
 
