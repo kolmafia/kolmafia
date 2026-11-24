@@ -1,8 +1,12 @@
 package net.sourceforge.kolmafia.chat;
 
+import static internal.helpers.Player.withUserId;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.alibaba.fastjson2.JSON;
+import java.util.LinkedList;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ChatPollerTest {
@@ -50,5 +54,97 @@ public class ChatPollerTest {
     assertEquals(0L, ChatPoller.parseMid("pm1786471290_1197090_0"));
     assertEquals(0L, ChatPoller.parseMid(null));
     assertEquals(0L, ChatPoller.parseMid(""));
+  }
+
+  private static final String TESTUSERNAME = "ChatPollerTest User";
+  private static final int TESTUSERID = 1234567;
+
+  @BeforeEach
+  public void beforeEach() {
+    ChatPoller.reset();
+  }
+
+  private static String poll(final String msg, final int format) {
+    return """
+        {"msgs":[{"msg":%s,"type":"public","mid":"1573109300",
+        "who":{"name":"%s","id":"%d","color":"black"},
+        "format":"%d","channel":"clan","time":"1786471300"}],
+        "last":"1573109300","delay":3000}"""
+        .formatted(JSON.toJSONString(msg), TESTUSERNAME, TESTUSERID, format);
+  }
+
+  private static final String NAME_THEN_BOLD =
+      """
+      <i><b><a target=mainpane href="showplayer.php?who=%d"><font color=black>%s</font></a></b>"""
+          .formatted(TESTUSERID, TESTUSERNAME);
+
+  private static final String BOLD_THEN_NAME =
+      """
+      <b><i><a target=mainpane href="showplayer.php?who=%d"><font color=black>%s</b></font></a>"""
+          .formatted(TESTUSERID, TESTUSERNAME);
+
+  // What submitnewchat.php returns for a line sent to clan
+  private static String sent(final String line) {
+    return """
+        <font color=green>[clan]</font> <b><a target=mainpane href="showplayer.php?who=%d">\
+        <font color=black>%s</font></b></a>: %s<br>"""
+        .formatted(TESTUSERID, TESTUSERNAME, line);
+  }
+
+  private static List<ChatMessage> pollOwn(final String response) {
+    List<ChatMessage> messages = new LinkedList<>();
+    ChatPoller.parseNewChat(messages, JSON.parseObject(response), "", 0, false);
+    return messages;
+  }
+
+  @Test
+  public void itShouldReadActionWhoseNameEndsInBold() {
+    List<ChatMessage> messages =
+        ChatPoller.parseNewChat(poll(NAME_THEN_BOLD + " goes to bed</i>", 1));
+    assertEquals(1, messages.size());
+    assertEquals("goes to bed", messages.get(0).getContent());
+  }
+
+  @Test
+  public void itShouldReadActionWhoseNameEndsInLink() {
+    List<ChatMessage> messages =
+        ChatPoller.parseNewChat(poll(BOLD_THEN_NAME + " goes to bed</i>", 1));
+    assertEquals(1, messages.size());
+    assertEquals("goes to bed", messages.get(0).getContent());
+  }
+
+  @Test
+  public void itShouldKeepEscapedTextInAnAction() {
+    List<ChatMessage> messages =
+        ChatPoller.parseNewChat(poll(NAME_THEN_BOLD + " &lt;3 fish &amp; chips</i>", 1));
+    assertEquals("&lt;3 fish &amp; chips", messages.get(0).getContent());
+  }
+
+  @Test
+  public void itShouldSkipOwnActionAlreadyShownWhenSent() {
+    try (var cleanups = withUserId(TESTUSERID)) {
+      // submitnewchat.php's reply to "/me goes to bed" in clan
+      ChatPoller.addSentEntry(
+          "<font color=green>[clan]</font> " + NAME_THEN_BOLD + " goes to bed</i><br>", true);
+      assertTrue(pollOwn(poll(NAME_THEN_BOLD + " goes to bed</i>", 1)).isEmpty());
+    }
+  }
+
+  @Test
+  public void itShouldSkipOwnLineAlreadyShownWhenSentWithAWordBreak() {
+    try (var cleanups = withUserId(TESTUSERID)) {
+      ChatPoller.addSentEntry(sent("see https://example.com/ LongWord"), true);
+      assertTrue(pollOwn(poll("see https://example.com/LongWord", 0)).isEmpty());
+    }
+  }
+
+  @Test
+  public void itShouldShowOwnLineThatDiffersFromTheSentOneInASpace() {
+    try (var cleanups = withUserId(TESTUSERID)) {
+      ChatPoller.addSentEntry(sent("test 1"), true);
+      List<ChatMessage> messages = pollOwn(poll("test1", 0));
+      assertEquals(1, messages.size());
+      assertEquals("test1", messages.get(0).getContent());
+    }
   }
 }
