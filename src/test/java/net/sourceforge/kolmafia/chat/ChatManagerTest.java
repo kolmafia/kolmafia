@@ -21,6 +21,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ChatManagerTest {
+  private static final String TESTUSERNAME = "ChatManager TestUser";
+
   private static class RecordingUserInterface implements UserInterface {
     final List<String> calls = new ArrayList<>();
 
@@ -38,7 +40,7 @@ class ChatManagerTest {
 
   @BeforeEach
   void beforeEach() {
-    KoLCharacter.reset("Testy McTest");
+    KoLCharacter.reset(TESTUSERNAME);
   }
 
   @AfterEach
@@ -81,7 +83,7 @@ class ChatManagerTest {
 
   // KoL's JSON chat names the recipient with spaces; ChatPoller fills it in with underscores
   @ParameterizedTest
-  @ValueSource(strings = {"Testy McTest", "Testy_McTest"})
+  @ValueSource(strings = {TESTUSERNAME, "ChatManager_TestUser"})
   void filesAPrivateMessageToMeUnderItsSender(final String recipient) {
     try (var cleanups = withImmediateUserInterface()) {
       ChatManager.processMessage(new ChatMessage("Other Player", recipient, recipient, false));
@@ -94,12 +96,14 @@ class ChatManagerTest {
   void filesAPrivateMessageToAPlayerWithASimilarNameUnderThatPlayer() {
     try (var cleanups = withImmediateUserInterface()) {
       ChatManager.processMessage(
-          new ChatMessage("Testy McTest", "Testy McTester", "to McTester", false));
+          new ChatMessage(TESTUSERNAME, TESTUSERNAME + "s", "to similar name", false));
 
       assertThat(
-          ChatManager.getBuffer("testy mctester").getContent(), containsString("to McTester"));
+          ChatManager.getBuffer("chatmanager testusers").getContent(),
+          containsString("to similar name"));
       assertThat(
-          ChatManager.getBuffer("other player").getContent(), not(containsString("to McTester")));
+          ChatManager.getBuffer("other player").getContent(),
+          not(containsString("to similar name")));
     }
   }
 }
