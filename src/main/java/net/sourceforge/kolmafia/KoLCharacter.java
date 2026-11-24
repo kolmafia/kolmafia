@@ -5718,7 +5718,7 @@ public abstract class KoLCharacter {
       newModifiers.addDouble(
           DoubleModifier.ITEMDROP,
           ShrunkenHeadDatabase.getCurrentModifier("Item Drop Bonus"),
-          ModifierType.ITEM,
+          ModifierType.EFFECT,
           EffectPool.STEELY_EYED_SQUINT);
     }
     if (Modifiers.currentZone.equals("Shadow Rift")) {
