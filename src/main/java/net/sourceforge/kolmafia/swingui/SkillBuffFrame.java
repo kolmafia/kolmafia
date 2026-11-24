@@ -218,7 +218,7 @@ public class SkillBuffFrame extends GenericFrame {
 
       int buffCount =
           !maxBuff
-              ? InputFieldUtilities.getValue(SkillBuffFrame.this.amountField, 1)
+              ? SwingInputFieldUtilities.getValue(SkillBuffFrame.this.amountField, 1)
               : Integer.MAX_VALUE;
       if (buffCount == 0) {
         return;
