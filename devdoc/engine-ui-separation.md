@@ -6,8 +6,7 @@ run headless, in tests, or behind another frontend.
 ## The rule
 
 Only `net.sourceforge.kolmafia.swingui` may use Swing, AWT or the Swing-only libraries. Drawing on
-in-memory images (`java.awt.Graphics`, `java.awt.image`,
-`javax.imageio`) is fine anywhere.
+in-memory images (`java.awt.Graphics`, `java.awt.image`, `javax.imageio`) is fine anywhere.
 
 Checkstyle enforces this on imports (`config/checkstyle/import-control.xml`). The one exception is
 `KoLmafia.main` installing `SwingUserInterface`.
