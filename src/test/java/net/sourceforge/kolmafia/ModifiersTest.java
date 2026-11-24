@@ -463,6 +463,72 @@ public class ModifiersTest {
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(400.0));
       }
     }
+
+    @Test
+    void squintDoublesCodpiece() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY2, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE3, ItemPool.MASSIVE_GEMSTONE),
+              withEffect(EffectPool.STEELY_EYED_SQUINT),
+              withAdjustmentsRecalculated());
+
+      try (cleanups) {
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(20.0));
+      }
+    }
+
+    @Test
+    void champagneDoublesCodpiece() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withEquipped(Slot.ACCESSORY2, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE3, ItemPool.MASSIVE_GEMSTONE),
+              withProperty("garbageChampagneCharge", 11),
+              withAdjustmentsRecalculated());
+
+      try (cleanups) {
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(20.0));
+      }
+    }
+
+    @Test
+    void squintDoublesShrunkenHead() {
+      var cleanups =
+          new Cleanups(
+              withProperty("shrunkenHeadZombieHP", 3),
+              withProperty(
+                  "shrunkenHeadZombieAbilities",
+                  "Item Drop Bonus (38%), Meat Drop Bonus (31%), Stench Attack (31%)"),
+              withEffect(EffectPool.STEELY_EYED_SQUINT),
+              withAdjustmentsRecalculated());
+
+      try (cleanups) {
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(76.0));
+      }
+    }
+
+    @Test
+    void champangeDoesntDoubleShrunkenHead() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 11),
+              withProperty("shrunkenHeadZombieHP", 3),
+              withProperty(
+                  "shrunkenHeadZombieAbilities",
+                  "Item Drop Bonus (38%), Meat Drop Bonus (31%), Stench Attack (31%)"),
+              withAdjustmentsRecalculated());
+
+      try (cleanups) {
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(38.0));
+      }
+    }
   }
 
   @Nested
