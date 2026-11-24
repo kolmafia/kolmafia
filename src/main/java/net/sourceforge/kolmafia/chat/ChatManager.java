@@ -310,7 +310,7 @@ public abstract class ChatManager {
       // Allow chatbot scripts to process talkie messages
       ChatManager.processCommand(sender, content, recipient);
     } else if (StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
-        .equalsIgnoreCase(recipient)) {
+        .equalsIgnoreCase(StringUtilities.globalStringReplace(recipient, " ", "_"))) {
 
       if (Preferences.getBoolean("chatBeep")) {
         UserInterfaceManager.get().beep();
