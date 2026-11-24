@@ -1,8 +1,12 @@
 package net.sourceforge.kolmafia.chat;
 
+import static internal.helpers.Player.withUserId;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.alibaba.fastjson2.JSON;
+import java.util.LinkedList;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ChatPollerTest {
@@ -50,5 +54,74 @@ public class ChatPollerTest {
     assertEquals(0L, ChatPoller.parseMid("pm1786471290_1197090_0"));
     assertEquals(0L, ChatPoller.parseMid(null));
     assertEquals(0L, ChatPoller.parseMid(""));
+  }
+
+  @BeforeEach
+  public void beforeEach() {
+    ChatPoller.reset();
+  }
+
+  private static String emote(String msg) {
+    return "{\"msgs\":[{\"msg\":\""
+        + msg.replace("\"", "\\\"")
+        + "\",\"type\":\"public\",\"mid\":\"1573109300\","
+        + "\"who\":{\"name\":\"Testy McTest\",\"id\":\"1234567\",\"color\":\"black\"},"
+        + "\"format\":\"1\",\"channel\":\"clan\",\"time\":\"1786471300\"}],"
+        + "\"last\":\"1573109300\",\"delay\":3000}";
+  }
+
+  @Test
+  public void itShouldReadActionWhoseNameEndsInBold() {
+    String response =
+        emote(
+            "<i><b><a target=mainpane href=\"showplayer.php?who=1234567\"><font color=black>Testy McTest</font></a></b> goes to bed</i>");
+    List<ChatMessage> messages = ChatPoller.parseNewChat(response);
+    assertEquals(1, messages.size());
+    assertEquals("goes to bed", messages.get(0).getContent());
+  }
+
+  @Test
+  public void itShouldReadActionWhoseNameEndsInLink() {
+    String response =
+        emote(
+            "<b><i><a target=mainpane href=\"showplayer.php?who=1234567\"><font color=black>Testy McTest</b></font></a> goes to bed</i>");
+    List<ChatMessage> messages = ChatPoller.parseNewChat(response);
+    assertEquals(1, messages.size());
+    assertEquals("goes to bed", messages.get(0).getContent());
+  }
+
+  @Test
+  public void itShouldSkipOwnActionAlreadyShownWhenSent() {
+    var cleanups = withUserId(1234567);
+    try (cleanups) {
+      // submitnewchat.php's reply to "/me goes to bed" in clan
+      ChatPoller.addSentEntry(
+          "<font color=green>[clan]</font> <i><b><a target=mainpane href=\"showplayer.php?who=1234567\"><font color=black>Testy McTest</font></a></b> goes to bed</i><br>",
+          true);
+      String response =
+          emote(
+              "<i><b><a target=mainpane href=\"showplayer.php?who=1234567\"><font color=black>Testy McTest</font></a></b> goes to bed</i>");
+      List<ChatMessage> messages = new LinkedList<>();
+      ChatPoller.parseNewChat(messages, JSON.parseObject(response), "", 0, false);
+      assertTrue(messages.isEmpty());
+    }
+  }
+
+  @Test
+  public void itShouldSkipOwnLineAlreadyShownWhenSentWithDifferentWordBreaks() {
+    var cleanups = withUserId(1234567);
+    try (cleanups) {
+      ChatPoller.addSentEntry(
+          "<font color=green>[clan]</font> <b><a target=mainpane href=\"showplayer.php?who=1234567\"><font color=black>Testy McTest</font></b></a>: see https://example.com/a/ LongWord<br>",
+          true);
+      String response =
+          "{\"msgs\":[{\"msg\":\"see https://example.com/a/LongWord\",\"type\":\"public\","
+              + "\"mid\":\"1573109301\",\"who\":{\"name\":\"Testy McTest\",\"id\":\"1234567\","
+              + "\"color\":\"black\"},\"format\":\"0\",\"channel\":\"clan\","
+              + "\"time\":\"1786471301\"}],\"last\":\"1573109301\",\"delay\":3000}";
+      List<ChatMessage> messages = new LinkedList<>();
+      ChatPoller.parseNewChat(messages, JSON.parseObject(response), "", 0, false);
+      assertTrue(messages.isEmpty());
+    }
   }
 }

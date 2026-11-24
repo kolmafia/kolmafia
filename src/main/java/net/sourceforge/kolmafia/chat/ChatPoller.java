@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -314,13 +315,33 @@ public class ChatPoller extends Thread {
     return ChatPoller.rightClickMenu;
   }
 
+  // The player's name ends in closing tags, "</b></font></a> " or "</font></a></b> " depending on
+  // the message, and the whole action is wrapped in <i></i>.
+  private static final Pattern ACTION_NAME_END = Pattern.compile("^(?:</[^>]+>)*\\s?");
+
+  static String actionText(final String content) {
+    int nameEnd = content.indexOf("</a>");
+    String text = nameEnd == -1 ? content : content.substring(nameEnd + 4);
+    text = ACTION_NAME_END.matcher(text).replaceFirst("");
+    return text.endsWith("</i>") ? text.substring(0, text.length() - 4) : text;
+  }
+
+  // KoL breaks long words with spaces, but not in the same places in what it returns for a sent
+  // line and in the polled copy of it.
+  private static boolean sameText(final String a, final String b) {
+    return SPACES.matcher(a).replaceAll("").equals(SPACES.matcher(b).replaceAll(""));
+  }
+
+  private static final Pattern SPACES = Pattern.compile("\\s+");
+
   private static boolean messageAlreadySeen(
       final String recipient, final String content, final long localLastSeen) {
     synchronized (ChatPoller.chatHistoryEntries) {
       for (HistoryEntry entry : ChatPoller.chatHistoryEntries) {
         if (entry instanceof SentMessageEntry && entry.getLocalLastSeen() > localLastSeen) {
           for (ChatMessage message : entry.getChatMessages()) {
-            if (recipient.equals(message.getRecipient()) && content.equals(message.getContent())) {
+            if (recipient.equals(message.getRecipient())
+                && ChatPoller.sameText(content, message.getContent())) {
               return true;
             }
           }
@@ -468,8 +489,7 @@ public class ChatPoller extends Thread {
       boolean isAction = format == 1;
 
       if (isAction) {
-        // username ends with "</b></font></a> "; remove trailing </i>
-        content = content.substring(content.indexOf("</a>") + 5, content.length() - 4);
+        content = ChatPoller.actionText(content);
       }
 
       if (pub && mine && ChatPoller.messageAlreadySeen(recipient, content, localLastSeen)) {
