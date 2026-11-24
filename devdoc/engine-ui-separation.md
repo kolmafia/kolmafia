@@ -19,12 +19,12 @@ method has a default that works without a display: prompts ask on the console an
 `SwingUserInterface` implements them for the desktop.
 
 To add one, give it a headless default and implement it in `SwingUserInterface`. Name it after what
-happened in the engine (`meatChanged`), not after the window that shows it. If a listener registry
+the engine did (`changeMeat`), not after the window that shows it. If a listener registry
 (`NamedListenerRegistry`, `PreferenceListenerRegistry`) already carries the event, use that instead.
 
 ## Keep Swing types out of engine data
 
-- Colors are `"#rrggbb"` strings and images are file paths.
+- Colors are `HexColor`s wrapping `#rrggbb` strings, and images are file paths.
 - Lists are `LockableListModel`; `SwingListModel.of(list)` shows one in a Swing component.
 - State lives in the engine, not in a widget. A widget writes its value to the engine.
 
