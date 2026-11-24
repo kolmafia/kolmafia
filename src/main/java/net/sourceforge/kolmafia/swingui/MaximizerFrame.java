@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.swingui.widget.SmartButtonGroup;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MaximizerFrame extends GenericFrame implements ListSelectionListener {
@@ -166,7 +165,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
   public void maximize() {
     Maximizer.maximize(
         EquipScope.byIndex(this.equipmentSelect.getSelectedIndex()),
-        InputFieldUtilities.getValue(this.maxPriceField),
+        SwingInputFieldUtilities.getValue(this.maxPriceField),
         PriceLevel.byIndex(this.mallSelect.getSelectedIndex()),
         Preferences.getBoolean("maximizerIncludeAll"),
         this.activeFilters);

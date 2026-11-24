@@ -603,7 +603,7 @@ public class ItemManageFrame extends GenericFrame {
         return;
       }
 
-      int desired = InputFieldUtilities.getValue(this, 0);
+      int desired = SwingInputFieldUtilities.getValue(this, 0);
       if (desired != ConcoctionDatabase.getPullsBudgeted()) {
         this.changing = true;
         ConcoctionDatabase.setPullsBudgeted(desired);

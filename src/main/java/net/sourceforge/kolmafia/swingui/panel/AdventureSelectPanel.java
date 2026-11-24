@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.JComponentUtilities;
+import net.sourceforge.kolmafia.swingui.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -59,7 +60,6 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -400,7 +400,7 @@ public class AdventureSelectPanel extends JPanel {
 
       int requestCount =
           Math.min(
-              InputFieldUtilities.getValue(AdventureSelectPanel.this.countField, 1),
+              SwingInputFieldUtilities.getValue(AdventureSelectPanel.this.countField, 1),
               KoLCharacter.getAdventuresLeft());
 
       AdventureSelectPanel.this.countField.setValue(requestCount);
@@ -457,7 +457,7 @@ public class AdventureSelectPanel extends JPanel {
         return false;
       }
 
-      if (InputFieldUtilities.getValue(AdventureSelectPanel.this.countField) == 0) {
+      if (SwingInputFieldUtilities.getValue(AdventureSelectPanel.this.countField) == 0) {
         AdventureSelectPanel.this.countField.setValue(KoLCharacter.getAdventuresLeft());
       }
 
@@ -648,7 +648,7 @@ public class AdventureSelectPanel extends JPanel {
         return;
       }
 
-      int desired = InputFieldUtilities.getValue(this, maximum);
+      int desired = SwingInputFieldUtilities.getValue(this, maximum);
       if (desired == maximum + 1) {
         this.setValue(1);
       } else if (desired <= 0 || desired > maximum) {
