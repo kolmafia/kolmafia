@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-/** Reads numbers from Swing input fields, finishes table edits and chooses files. */
+/** Swing-specific code dealing with the GUI. */
 public class SwingInputFieldUtilities {
   private SwingInputFieldUtilities() {}
 
