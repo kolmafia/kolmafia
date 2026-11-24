@@ -23,7 +23,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -176,7 +175,7 @@ public class MallSearchFrame extends GenericPanelFrame {
 
     @Override
     public void actionConfirmed() {
-      int searchCount = InputFieldUtilities.getValue(this.countField, 0);
+      int searchCount = SwingInputFieldUtilities.getValue(this.countField, 0);
       if (searchCount > 0) {
         Preferences.setInteger("defaultLimit", searchCount);
       }

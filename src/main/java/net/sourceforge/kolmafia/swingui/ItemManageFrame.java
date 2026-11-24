@@ -17,7 +17,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -604,7 +603,7 @@ public class ItemManageFrame extends GenericFrame {
         return;
       }
 
-      int desired = InputFieldUtilities.getValue(this, 0);
+      int desired = SwingInputFieldUtilities.getValue(this, 0);
       if (desired != ConcoctionDatabase.getPullsBudgeted()) {
         this.changing = true;
         ConcoctionDatabase.setPullsBudgeted(desired);

@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui;
 
 import java.awt.Desktop;
 import java.awt.Frame;
@@ -15,14 +15,10 @@ import java.util.stream.IntStream;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.swingui.ChatFrame;
-import net.sourceforge.kolmafia.swingui.ContactListFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.LoginFrame;
-import net.sourceforge.kolmafia.swingui.SendMessageFrame;
-import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
-import net.sourceforge.kolmafia.swingui.TabbedChatFrame;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 
 public class CreateFrameRunnable implements Runnable {

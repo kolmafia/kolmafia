@@ -34,7 +34,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
@@ -59,6 +58,8 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.swingui.KoLmafiaGUI;
+import net.sourceforge.kolmafia.swingui.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -1480,7 +1481,7 @@ public class GearChangePanel extends JPanel {
         return;
       }
 
-      int desired = InputFieldUtilities.getValue(this, maximum);
+      int desired = SwingInputFieldUtilities.getValue(this, maximum);
       if (desired == maximum + 1) {
         this.setValue(0);
       } else if (desired < 0 || desired > maximum) {

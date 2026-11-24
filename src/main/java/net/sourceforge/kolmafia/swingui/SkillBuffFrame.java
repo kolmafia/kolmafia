@@ -88,9 +88,14 @@ public class SkillBuffFrame extends GenericFrame {
     this.targetSelect.setSelectedItem(recipient);
   }
 
-  public void dumpDisabledSkills() {
-    if (this.skillSelect != null) {
-      this.skillSelect.dumpDisabledItems();
+  public static void dumpDisabledSkills() {
+    for (Frame frame : Frame.getFrames()) {
+      if (frame instanceof SkillBuffFrame sbf) {
+        if (sbf.skillSelect != null) {
+          sbf.skillSelect.dumpDisabledItems();
+        }
+        return;
+      }
     }
   }
 
@@ -213,7 +218,7 @@ public class SkillBuffFrame extends GenericFrame {
 
       int buffCount =
           !maxBuff
-              ? InputFieldUtilities.getValue(SkillBuffFrame.this.amountField, 1)
+              ? SwingInputFieldUtilities.getValue(SkillBuffFrame.this.amountField, 1)
               : Integer.MAX_VALUE;
       if (buffCount == 0) {
         return;

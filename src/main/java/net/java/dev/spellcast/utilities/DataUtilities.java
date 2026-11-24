@@ -34,7 +34,6 @@
 
 package net.java.dev.spellcast.utilities;
 
-import java.awt.Color;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -393,45 +392,6 @@ public class DataUtilities
 	}
 
 	/**
-	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
-	 * hexadecimal strings. This function is used to create that hexadecimal string from a color object. Note that the
-	 * traditional pound symbol will also be part of the string.
-	 * 
-	 * @param c The color to be translated to a hexadecimal string.
-	 * @return The hexadecimal string representation of the color
-	 */
-
-	public static String toHexString( final Color c )
-	{
-		if ( c == null )
-		{
-			return "#000000";
-		}
-
-		StringBuffer hexString = new StringBuffer( 7 );
-		hexString.append( '#' );
-		int bitmask = ( 1 << 24 ) - 1;
-		hexString.append( DataUtilities.toHexString( c.getRGB() & bitmask, 6 ) );
-		return hexString.toString();
-	}
-
-	/**
-	 * In a lot of HTML documents and still others, colors are represented using the RGB values, concatenated as
-	 * hexadecimal strings. This function is used to create a color object from such a hexadecimal string.
-	 * 
-	 * @param hexString The hexadecimal string (with # prefix) to be translated to a color
-	 * @return The color represented by this hexadecimal string
-	 */
-
-	public static Color toColor( final String hexString )
-	{
-		return new Color( Character.digit( hexString.charAt( 1 ), 16 ) * 16 + Character.digit(
-			hexString.charAt( 2 ), 16 ), Character.digit( hexString.charAt( 3 ), 16 ) * 16 + Character.digit(
-			hexString.charAt( 4 ), 16 ), Character.digit( hexString.charAt( 5 ), 16 ) * 16 + Character.digit(
-			hexString.charAt( 6 ), 16 ) );
-	}
-
-	/**
 	 * The static <code>getHexString()</code> method found in the <code>Long</code> class has the advantage of
 	 * converting a value to a hexadecimal string. However, it does not fix this hexadecimal string to any length. Thus,
 	 * the purpose of this function is to convert a given long to a zero-filled hexadecimal string of given length.
@@ -494,4 +454,56 @@ public class DataUtilities
 
 	public static ByteArrayInputStream EMPTY_STREAM = new ByteArrayInputStream( new byte[ 0 ] );
 	private static ByteArrayOutputStream MEMORY_OUTPUT_STREAM = new ByteArrayOutputStream();
+
+	public static URL getResource( final String filename )
+	{
+		return DataUtilities.getResource( UtilityConstants.IMAGE_DIRECTORY, filename );
+	}
+
+	private static URL getResource( String directory, String filename )
+	{
+		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+
+		if ( directory.length() > 0 && !directory.endsWith( "/" ) )
+		{
+			directory += "/";
+		}
+
+		String fullname = directory + filename;
+
+		try
+		{
+			File override = new File( UtilityConstants.ROOT_LOCATION, fullname );
+			if ( override.exists() )
+			{
+				return override.toURI().toURL();
+			}
+		}
+		catch ( Exception e )
+		{
+			// It's a malformed filename.  Just continue on
+			// with the next possibility.
+		}
+
+		URL result = DataUtilities.getResource( UtilityConstants.SYSTEM_CLASSLOADER, fullname );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		result = DataUtilities.getResource( UtilityConstants.MAINCLASS_CLASSLOADER, fullname );
+		if ( result != null )
+		{
+			return result;
+		}
+
+		// if it's gotten this far, the image icon does not exist
+		return null;
+	}
+
+	private static URL getResource( final ClassLoader loader, final String filename )
+	{
+		return loader.getResource( filename );
+	}
 }

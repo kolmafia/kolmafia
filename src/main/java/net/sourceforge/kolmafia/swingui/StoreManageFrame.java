@@ -30,7 +30,6 @@ import javax.swing.SwingConstants;
 import javax.swing.event.CellEditorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -96,7 +95,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
   public static final void cancelTableEditing() {
     if (StoreManageFrame.INSTANCE != null) {
-      InputFieldUtilities.cancelTableEditing(StoreManageFrame.INSTANCE.manageTable);
+      SwingInputFieldUtilities.cancelTableEditing(StoreManageFrame.INSTANCE.manageTable);
     }
   }
 
@@ -135,7 +134,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
     @Override
     public void actionConfirmed() {
-      if (!InputFieldUtilities.finalizeTable(StoreManageFrame.this.manageTable)) {
+      if (!SwingInputFieldUtilities.finalizeTable(StoreManageFrame.this.manageTable)) {
         return;
       }
 

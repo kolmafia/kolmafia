@@ -6004,6 +6004,7 @@ Effect	Cancer Rising	Maximum MP Percent: +100
 Effect	Candied Devil	Familiar Weight: +5, Familiar Experience: +5, Monster Level: +25
 Effect	Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
 Effect	Candied Teeth	Candy Drop: +50
+Effect	Capped Knee	Muscle: -30, Mysticality: -30, Moxie: -30
 Effect	Capricorn Rising	Item Drop: +5
 Effect	Car-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, Item Drop: +100, Meat Drop: +100, MP Regen Min: 5, MP Regen Max: 10
 Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1, Damage Absorption: +20, Damage Reduction: 3

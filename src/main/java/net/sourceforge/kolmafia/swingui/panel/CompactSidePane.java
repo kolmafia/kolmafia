@@ -25,14 +25,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -59,9 +57,12 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
+import net.sourceforge.kolmafia.swingui.KoLmafiaGUI;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
+import net.sourceforge.kolmafia.swingui.widget.ImageIconFactory;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
@@ -666,7 +667,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       super(fam.getRace(), new FamiliarListener(fam));
 
       if (iconVersion) {
-        ImageIcon icon = new CenteredIcon(FamiliarDatabase.getFamiliarImage(fam.getId()));
+        ImageIcon icon = new CenteredIcon(ImageIconFactory.getFamiliarImage(fam.getId()));
         this.setIcon(icon);
         this.setText("");
         this.setToolTipText(fam.getRace());
@@ -711,7 +712,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   private static class InstrumentMenuItem extends ThreadedMenuItem {
     public InstrumentMenuItem(final AdventureResult item) {
       super(item.getName(), new UseItemListener(item));
-      ImageIcon icon = ItemDatabase.getItemImage(item.getItemId());
+      ImageIcon icon = ImageIconFactory.getItemImage(item.getItemId());
       this.setIcon(icon);
       icon.setImageObserver(this);
     }
@@ -733,7 +734,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   private static class ServantMenuItem extends ThreadedMenuItem {
     public ServantMenuItem(final EdServantData servant) {
       super(servant.getType(), new ChangeServantListener(servant));
-      ImageIcon icon = FileUtilities.downloadIcon(servant.getImage(), "itemimages", "debug.gif");
+      ImageIcon icon = ImageIconFactory.downloadIcon(servant.getImage(), "itemimages", "debug.gif");
       this.setIcon(icon);
       icon.setImageObserver(this);
     }
@@ -1167,7 +1168,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   }
 
   private class FamiliarLabel extends JLabel implements Listener {
-    private final ImageIcon noFamiliarImage = FamiliarDatabase.getNoFamiliarImage();
+    private final ImageIcon noFamiliarImage = ImageIconFactory.getNoFamiliarImage();
 
     public FamiliarLabel() {
       super(" ", null, SwingConstants.CENTER);
@@ -1303,7 +1304,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
       this.setToolTipText(nextFamiliarOwner + "'s " + nextFamiliarRace);
 
-      ImageIcon icon = FamiliarDatabase.getFamiliarImage(nextFamiliarRace);
+      ImageIcon icon = ImageIconFactory.getFamiliarImage(nextFamiliarRace);
       ImageIcon scaled =
           new ImageIcon(icon.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
       this.setIcon(scaled);

@@ -26,8 +26,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import net.sourceforge.kolmafia.CreateFrameRunnable;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -47,6 +45,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.widget.ChatBufferDisplay;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -313,7 +312,7 @@ public class ChatFrame extends GenericFrame {
       entryPanel.add(entryButton, BorderLayout.EAST);
 
       ChatBuffer buffer = ChatManager.getBuffer(associatedContact);
-      JScrollPane scroller = buffer.addDisplay(this.chatDisplay);
+      JScrollPane scroller = ChatBufferDisplay.addDisplay(buffer, this.chatDisplay);
       this.add(scroller, BorderLayout.CENTER);
 
       this.add(entryPanel, BorderLayout.SOUTH);

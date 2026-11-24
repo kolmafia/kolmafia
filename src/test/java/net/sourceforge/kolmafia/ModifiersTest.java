@@ -22,6 +22,7 @@ import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withThrall;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -1172,6 +1173,21 @@ public class ModifiersTest {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void unenchantedFamiliarSlotItemDoesNotCrash() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.LEFT_HAND), withEquipped(Slot.FAMILIAR, "Mylar balloon"));
+
+      try (cleanups) {
+        var mods = ModifierDatabase.getItemModifiersInFamiliarSlot(ItemPool.MYLAR_BALLOON);
+        assertThat(mods.getLookup(), notNullValue());
+        assertThat(mods.getLookup().type, equalTo(ModifierType.ITEM));
+        assertThat(mods.getLookup().getIntKey(), equalTo(ItemPool.MYLAR_BALLOON));
+        assertDoesNotThrow(() -> KoLCharacter.recalculateAdjustments(false));
       }
     }
 
