@@ -318,6 +318,7 @@ public class ChatPoller extends Thread {
   // The player's name ends in closing tags, "</b></font></a> " or "</font></a></b> " depending on
   // the message, and the whole action is wrapped in <i></i>.
   private static final Pattern ACTION_NAME_END = Pattern.compile("^(?:</[^>]+>)*\\s?");
+  private static final Pattern SPACES = Pattern.compile("\\s+");
 
   static String actionText(final String content) {
     int nameEnd = content.indexOf("</a>");
@@ -331,8 +332,6 @@ public class ChatPoller extends Thread {
   private static boolean sameText(final String a, final String b) {
     return SPACES.matcher(a).replaceAll("").equals(SPACES.matcher(b).replaceAll(""));
   }
-
-  private static final Pattern SPACES = Pattern.compile("\\s+");
 
   private static boolean messageAlreadySeen(
       final String recipient, final String content, final long localLastSeen) {
