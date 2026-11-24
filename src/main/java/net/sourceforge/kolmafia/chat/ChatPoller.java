@@ -19,6 +19,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 public class ChatPoller extends Thread {
   // The most recent HistoryEntries we processed
@@ -315,22 +317,24 @@ public class ChatPoller extends Thread {
     return ChatPoller.rightClickMenu;
   }
 
-  // The player's name ends in closing tags, "</b></font></a> " or "</font></a></b> " depending on
-  // the message, and the whole action is wrapped in <i></i>.
-  private static final Pattern ACTION_NAME_END = Pattern.compile("^(?:</[^>]+>)*\\s?");
-  private static final Pattern SPACES = Pattern.compile("\\s+");
-
   static String actionText(final String content) {
-    int nameEnd = content.indexOf("</a>");
-    String text = nameEnd == -1 ? content : content.substring(nameEnd + 4);
-    text = ACTION_NAME_END.matcher(text).replaceFirst("");
-    return text.endsWith("</i>") ? text.substring(0, text.length() - 4) : text;
+    Element body = Jsoup.parseBodyFragment(content).body();
+    body.ownerDocument().outputSettings().prettyPrint(false);
+    Element name = body.selectFirst("a[href*=showplayer.php]");
+    if (name != null) {
+      name.remove();
+    }
+    // The action and the player's name are wrapped in <i> and <b>, nested either way round
+    body.select("i, b").unwrap();
+    return body.html().trim();
   }
 
-  // KoL breaks long words with spaces, but not in the same places in what it returns for a sent
-  // line and in the polled copy of it.
+  // KoL breaks words longer than 20 characters with a space, in what it returns for a sent line
+  // but not in the polled copy of it.
+  private static final Pattern WORD_BREAK = Pattern.compile("(?<=\\S{20})\\s");
+
   private static boolean sameText(final String a, final String b) {
-    return SPACES.matcher(a).replaceAll("").equals(SPACES.matcher(b).replaceAll(""));
+    return WORD_BREAK.matcher(a).replaceAll("").equals(WORD_BREAK.matcher(b).replaceAll(""));
   }
 
   private static boolean messageAlreadySeen(
