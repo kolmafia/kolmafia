@@ -21,7 +21,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ChatManagerTest {
-  private static final String TESTUSERNAME = "ChatManager TestUser";
+  private static final String TESTUSERNAME = "ChatManagerTest User";
 
   private static class RecordingUserInterface implements UserInterface {
     final List<String> calls = new ArrayList<>();
@@ -83,7 +83,7 @@ class ChatManagerTest {
 
   // KoL's JSON chat names the recipient with spaces; ChatPoller fills it in with underscores
   @ParameterizedTest
-  @ValueSource(strings = {TESTUSERNAME, "ChatManager_TestUser"})
+  @ValueSource(strings = {TESTUSERNAME, "ChatManagerTest_User"})
   void filesAPrivateMessageToMeUnderItsSender(final String recipient) {
     try (var cleanups = withImmediateUserInterface()) {
       ChatManager.processMessage(new ChatMessage("Other Player", recipient, recipient, false));
@@ -99,7 +99,7 @@ class ChatManagerTest {
           new ChatMessage(TESTUSERNAME, TESTUSERNAME + "s", "to similar name", false));
 
       assertThat(
-          ChatManager.getBuffer("chatmanager testusers").getContent(),
+          ChatManager.getBuffer("chatmanagertest users").getContent(),
           containsString("to similar name"));
       assertThat(
           ChatManager.getBuffer("other player").getContent(),
