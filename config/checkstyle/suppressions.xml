@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<!--
+    The one place the engine names the desktop UI: main() installs it (see
+    devdoc/engine-ui-separation.md). Do not add new entries.
+ -->
+
+<suppressions>
+  <suppress checks="ImportControl" files="net[\\/]sourceforge[\\/]kolmafia[\\/]KoLmafia\.java$" message="swingui\.SwingUserInterface"/>
+</suppressions>
