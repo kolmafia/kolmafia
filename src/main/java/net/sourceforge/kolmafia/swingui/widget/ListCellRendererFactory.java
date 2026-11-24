@@ -8,6 +8,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -15,9 +16,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -39,6 +40,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -434,7 +436,6 @@ public class ListCellRendererFactory {
 
       stringForm.append("</nobr></html>");
 
-      defaultComponent.setFont(KoLGUIConstants.DEFAULT_FONT);
       String text = stringForm.toString();
       ((JLabel) defaultComponent).setText(text);
       if (defaultComponent.getPreferredSize().width > listWidth) {
@@ -863,6 +864,42 @@ public class ListCellRendererFactory {
       }
 
       return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+    }
+  }
+
+  public static final DefaultListCellRenderer getFamiliarDataRenderer() {
+    return new FamiliarDataRenderer();
+  }
+
+  private static class FamiliarDataRenderer extends DefaultListCellRenderer {
+    @Override
+    public Component getListCellRendererComponent(
+        final JList<?> list,
+        final Object value,
+        final int index,
+        final boolean isSelected,
+        final boolean cellHasFocus) {
+      JLabel defaultComponent =
+          (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+      if (!(value instanceof FamiliarData familiar) || familiar.getId() == -1) {
+        defaultComponent.setIcon(JComponentUtilities.getImage("debug.gif"));
+        defaultComponent.setText(
+            StaticEntity.getVersion() + ", the 0 lb. \"No Familiar Plz\" Placeholder");
+
+        defaultComponent.setVerticalTextPosition(SwingConstants.CENTER);
+        defaultComponent.setHorizontalTextPosition(SwingConstants.RIGHT);
+        return defaultComponent;
+      }
+
+      defaultComponent.setIcon(ImageIconFactory.getFamiliarImage(familiar.getId()));
+      defaultComponent.setText(
+          familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace());
+
+      defaultComponent.setVerticalTextPosition(SwingConstants.CENTER);
+      defaultComponent.setHorizontalTextPosition(SwingConstants.RIGHT);
+
+      return defaultComponent;
     }
   }
 }

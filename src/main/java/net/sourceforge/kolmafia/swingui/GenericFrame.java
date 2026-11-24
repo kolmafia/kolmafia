@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
@@ -37,14 +38,10 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.sourceforge.kolmafia.CreateFrameRunnable;
+import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLDesktop;
-import net.sourceforge.kolmafia.KoLGUIConstants;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.CharacterListener;
@@ -60,7 +57,9 @@ import net.sourceforge.kolmafia.swingui.listener.QuickAccessListener;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
+import net.sourceforge.kolmafia.swingui.panel.ActionPanelRegistry;
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
+import net.sourceforge.kolmafia.swingui.widget.ChatBufferDisplay;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
@@ -122,7 +121,8 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     this.frameName = this.frameName.substring(this.frameName.lastIndexOf(".") + 1);
 
     if (this.shouldAddStatusBar()) {
-      JScrollPane statusBar = KoLConstants.commandBuffer.addStatusLine(new RequestPane());
+      JScrollPane statusBar =
+          ChatBufferDisplay.addStatusLine(KoLConstants.commandBuffer, new RequestPane());
       JComponentUtilities.setComponentSize(statusBar, new Dimension(200, 50));
 
       JSplitPane doublePane =
@@ -388,7 +388,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
    */
   @Override
   public void dispose() {
-    StaticEntity.unregisterPanels(this);
+    ActionPanelRegistry.unregisterPanels(this);
 
     if (this.isVisible()) {
       this.rememberPosition();
@@ -652,6 +652,24 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     if (!(this instanceof ChatFrame) && !packedOnce) {
       super.pack();
       packedOnce = true;
+    }
+  }
+
+  public void repack() {
+    recalculateLayout(this);
+    this.packedOnce = false;
+    this.pack();
+  }
+
+  private static void recalculateLayout(final Component component) {
+    if (component instanceof Container container) {
+      for (Component child : container.getComponents()) {
+        recalculateLayout(child);
+      }
+    }
+    component.invalidate();
+    if (component instanceof ActionVerifyPanel panel) {
+      panel.recalculateLayout();
     }
   }
 

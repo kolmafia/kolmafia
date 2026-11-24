@@ -34,7 +34,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
@@ -59,10 +58,13 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.swingui.KoLmafiaGUI;
+import net.sourceforge.kolmafia.swingui.SwingInputFieldUtilities;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -784,7 +786,7 @@ public class GearChangePanel extends JPanel {
 
   private class EquipmentComboBox extends JComboBox<AdventureResult> {
     public EquipmentComboBox(final LockableListModel<AdventureResult> model, final Slot slot) {
-      super(model);
+      super(SwingListModel.of(model));
 
       DefaultListCellRenderer renderer = ListCellRendererFactory.getUsableEquipmentRenderer(slot);
 
@@ -810,7 +812,7 @@ public class GearChangePanel extends JPanel {
 
   private static class OutfitComboBox extends JComboBox<SpecialOutfit> {
     public OutfitComboBox(final LockableListModel<SpecialOutfit> model) {
-      super(model);
+      super(SwingListModel.of(model));
 
       this.setRenderer(ListCellRendererFactory.getDefaultRenderer());
       this.addActionListener(new ChangeOutfitListener());
@@ -860,7 +862,7 @@ public class GearChangePanel extends JPanel {
 
   private static class CarriedFamiliarComboBox extends JComboBox<FamiliarData> {
     public CarriedFamiliarComboBox(final LockableListModel<FamiliarData> model) {
-      super(model);
+      super(SwingListModel.of(model));
       DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
       this.setRenderer(renderer);
     }
@@ -902,7 +904,7 @@ public class GearChangePanel extends JPanel {
 
   private class FamiliarComboBox extends JComboBox<FamiliarData> {
     public FamiliarComboBox(final LockableListModel<FamiliarData> model) {
-      super(model);
+      super(SwingListModel.of(model));
       this.addActionListener(new ChangeFamiliarListener());
     }
 
@@ -1479,7 +1481,7 @@ public class GearChangePanel extends JPanel {
         return;
       }
 
-      int desired = InputFieldUtilities.getValue(this, maximum);
+      int desired = SwingInputFieldUtilities.getValue(this, maximum);
       if (desired == maximum + 1) {
         this.setValue(0);
       } else if (desired < 0 || desired > maximum) {

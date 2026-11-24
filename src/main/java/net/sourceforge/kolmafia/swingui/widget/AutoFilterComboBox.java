@@ -38,7 +38,7 @@ public class AutoFilterComboBox<E> extends DisabledItemsComboBox<E> implements L
   }
 
   public void setModel(final LockableListModel<E> model) {
-    super.setModel(model);
+    super.setModel(SwingListModel.of(model));
     this.model = model;
     this.model.setFilter(this);
   }

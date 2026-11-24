@@ -34,6 +34,7 @@
 
 package net.java.dev.spellcast.utilities;
 
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -59,6 +60,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 
 public class LicenseDisplay
 	extends JFrame
@@ -88,7 +90,7 @@ public class LicenseDisplay
 		this.content = new JPanel( this.cards );
 
 		LockableListModel model = new LockableListModel();
-		this.listing = new JList( model );
+		this.listing = new JList( SwingListModel.of( model ) );
 
 		if ( versionData != null )
 		{

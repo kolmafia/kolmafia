@@ -34,13 +34,17 @@
 
 package net.java.dev.spellcast.utilities;
 
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -53,6 +57,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
@@ -75,6 +80,7 @@ public abstract class ActionVerifyPanel
 	private VerifyButtonPanel buttonPanel;
 	private final boolean isCenterPanel;
 	private final Dimension left, right;
+	private final List<Runnable> layoutRefreshers = new ArrayList<>();
 
 	private static final Dimension DEFAULT_LEFT = new Dimension( 100, 20 );
 	private static final Dimension DEFAULT_RIGHT = new Dimension( 165, 20 );
@@ -298,8 +304,8 @@ public abstract class ActionVerifyPanel
 				}
 				else
 				{
-					JComponentUtilities.setComponentSize( label, isInputPreceding ? this.right : this.left );
-					JComponentUtilities.setComponentSize( inputField, isInputPreceding ? this.left : this.right );
+					this.sizeToFit( label, isInputPreceding ? this.right : this.left );
+					this.sizeToFit( inputField, isInputPreceding ? this.left : this.right );
 
 					currentContainer.add( isInputPreceding ? inputField : label );
 					currentContainer.add( isInputPreceding ? label : inputField );
@@ -310,8 +316,8 @@ public abstract class ActionVerifyPanel
 			{
 				if ( shouldResize )
 				{
-					JComponentUtilities.setComponentSize( label, isInputPreceding ? this.right : this.left );
-					JComponentUtilities.setComponentSize( inputField, isInputPreceding ? this.left : this.right );
+					this.sizeToFit( label, isInputPreceding ? this.right : this.left );
+					this.sizeToFit( inputField, isInputPreceding ? this.left : this.right );
 				}
 
 
@@ -378,6 +384,42 @@ public abstract class ActionVerifyPanel
 		holder.add( mainContainer, BorderLayout.NORTH );
 
 		return holder;
+	}
+
+	private void sizeToFit( final JComponent component, final Dimension size )
+	{
+		Dimension originalPreferred = component.isPreferredSizeSet() ? component.getPreferredSize() : null;
+		Runnable refresh = () -> {
+			component.setPreferredSize( originalPreferred );
+			component.invalidate();
+			Dimension preferred = component.getPreferredSize();
+			// Long text values should truncate within the field, not widen the entire form.
+			int width = component instanceof JTextField || component instanceof JComboBox
+				? size.width : Math.max( size.width, preferred.width );
+			JComponentUtilities.setComponentSize( component,
+				width, Math.max( size.height, preferred.height ) );
+		};
+		this.layoutRefreshers.add( refresh );
+		refresh.run();
+	}
+
+	public void recalculateLayout()
+	{
+		this.layoutRefreshers.forEach( Runnable::run );
+		if ( this.mainContainer != null )
+		{
+			for ( Component component : this.mainContainer.getComponents() )
+			{
+				Container grid = component instanceof HideablePanel hideable
+					? hideable.getContentPane() : (Container) component;
+				if ( grid.getLayout() instanceof SpringLayout )
+				{
+					grid.setLayout( new SpringLayout() );
+					SpringUtilities.makeCompactGrid( grid, grid.getComponentCount() / 2, 2, 5, 5, 5, 5 );
+				}
+			}
+		}
+		this.invalidate();
 	}
 
 	public void hideOrShowElements()

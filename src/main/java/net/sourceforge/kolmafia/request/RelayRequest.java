@@ -86,11 +86,11 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UserPrompt;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
 import net.sourceforge.kolmafia.textui.javascript.ValueConverter;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -608,6 +608,8 @@ public class RelayRequest extends PasswordHashRequest {
     } else {
       this.responseText = " ";
     }
+
+    this.headers.add("Connection: close");
   }
 
   private StringBuffer readContents(final BufferedReader reader) {
@@ -727,10 +729,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private void setLastModified(final File override) {
     long lastModified = override.lastModified();
-    long now = (new Date()).getTime();
-    long expires = now + (1000L * 60 * 60 * 24 * 30);
     this.headers.add("Last-Modified: " + StringUtilities.formatDate(lastModified));
-    this.headers.add("Expires: " + StringUtilities.formatDate(expires));
   }
 
   private void sendLocalFile(final String filename) {
@@ -788,7 +787,12 @@ public class RelayRequest extends PasswordHashRequest {
       if (replyBuffer.indexOf("MAFIAHIT") != -1) {
         StringUtilities.globalStringReplace(
             replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash);
-      } else if (!filename.endsWith(".html")) {
+      } else {
+        setLastModified(override);
+      }
+    } else {
+      if (override.isFile() && !filename.endsWith(".php")) {
+        // php files could shadow KoL
         setLastModified(override);
       }
     }
@@ -3548,7 +3552,7 @@ public class RelayRequest extends PasswordHashRequest {
       RelayRequest.lastSafety =
           AdventureDatabase.getAdventureByURL(
               "adventure.php?snarfblat=" + this.getFormField("snarfblat"));
-      AdventureFrame.updateSelectedAdventure(RelayRequest.lastSafety);
+      UserInterfaceManager.get().selectedAdventureChanged(RelayRequest.lastSafety);
       this.handleSafety();
     } else if (path.endsWith("updateLocation")) {
       this.handleSafety();

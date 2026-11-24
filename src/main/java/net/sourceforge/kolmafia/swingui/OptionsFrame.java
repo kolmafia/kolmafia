@@ -45,14 +45,11 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.text.DefaultCaret;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLGUIConstants;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -80,6 +77,7 @@ import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceIntegerTextField;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceTextArea;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -360,7 +358,7 @@ public class OptionsFrame extends GenericFrame {
       if (color.equals("blue")) {
         this.colorChanger.setBackground(Color.blue);
       } else {
-        this.colorChanger.setBackground(DataUtilities.toColor(color));
+        this.colorChanger.setBackground(JComponentUtilities.toColor(color));
       }
 
       super.actionCancelled();
@@ -402,6 +400,11 @@ public class OptionsFrame extends GenericFrame {
           "Stop automation, or show relay warning, when Wandering monsters with fixed turn are due"
         },
         {"stopForUltraRare", "Stop automation when encountering an Ultra-Rare monster"},
+        {},
+        {
+          "ascensionSeedAutomation",
+          "Automatically calculate ascension seed. NOTE: May occasionally cause a pause that lasts several seconds."
+        }
       };
 
       this.setOptions(options);
@@ -516,18 +519,18 @@ public class OptionsFrame extends GenericFrame {
     public final JList<String> elementList;
 
     public ShiftableOrderPanel(final String title, final LockableListModel<String> list) {
-      super(title, "move up", "move down", new JList<>(list));
+      super(title, "move up", "move down", new JList<>(SwingListModel.of(list)));
 
       this.elementList = this.scrollComponent;
       this.elementList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
       this.list = list;
-      list.addListDataListener(this);
+      SwingListModel.of(list).addListDataListener(this);
     }
 
     @Override
     public void dispose() {
-      this.list.removeListDataListener(this);
+      SwingListModel.of(this.list).removeListDataListener(this);
       super.dispose();
     }
 
@@ -600,7 +603,7 @@ public class OptionsFrame extends GenericFrame {
     private class AddScriptListener implements ActionListener {
       @Override
       public void actionPerformed(final ActionEvent e) {
-        File input = InputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
+        File input = SwingInputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
         if (input == null) {
           return;
         }
@@ -931,7 +934,8 @@ public class OptionsFrame extends GenericFrame {
     private static class AddFileBookmarkRunnable implements Runnable {
       @Override
       public void run() {
-        File bookmark = InputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
+        File bookmark =
+            SwingInputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
 
         if (bookmark == null) {
           return;
@@ -1030,16 +1034,16 @@ public class OptionsFrame extends GenericFrame {
       this.container.add(optionPanel, BorderLayout.SOUTH);
       this.actionCancelled();
 
-      this.completeList.addListDataListener(this);
-      this.startupList.addListDataListener(this);
-      this.desktopList.addListDataListener(this);
+      SwingListModel.of(this.completeList).addListDataListener(this);
+      SwingListModel.of(this.startupList).addListDataListener(this);
+      SwingListModel.of(this.desktopList).addListDataListener(this);
     }
 
     @Override
     public void dispose() {
-      this.completeList.removeListDataListener(this);
-      this.startupList.removeListDataListener(this);
-      this.desktopList.removeListDataListener(this);
+      SwingListModel.of(this.completeList).removeListDataListener(this);
+      SwingListModel.of(this.startupList).removeListDataListener(this);
+      SwingListModel.of(this.desktopList).removeListDataListener(this);
 
       super.dispose();
     }
@@ -1452,8 +1456,8 @@ public class OptionsFrame extends GenericFrame {
       this.container.add(botPanel, BorderLayout.PAGE_END);
       this.actionCancelled();
 
-      this.builtInsList.addListDataListener(this);
-      this.deedsList.addListDataListener(this);
+      SwingListModel.of(this.builtInsList).addListDataListener(this);
+      SwingListModel.of(this.deedsList).addListDataListener(this);
       PreferenceListenerRegistry.registerPreferenceListener("dailyDeedsOptions", this);
     }
 
@@ -1480,8 +1484,8 @@ public class OptionsFrame extends GenericFrame {
 
     @Override
     public void dispose() {
-      this.builtInsList.removeListDataListener(this);
-      this.deedsList.removeListDataListener(this);
+      SwingListModel.of(this.builtInsList).removeListDataListener(this);
+      SwingListModel.of(this.deedsList).removeListDataListener(this);
 
       super.dispose();
     }
@@ -1751,7 +1755,11 @@ public class OptionsFrame extends GenericFrame {
                   KoLmafiaGUI.applyFlatLafMenuBarSettings(frame.getRootPane());
                 }
                 SwingUtilities.updateComponentTreeUI(f); // update components
-                f.pack(); // adapt container size if required
+                if (f instanceof GenericFrame frame) {
+                  frame.repack();
+                } else {
+                  f.pack();
+                }
               });
         }
 
@@ -2528,10 +2536,10 @@ public class OptionsFrame extends GenericFrame {
         this.awesome.setBackground(Color.blue);
       }
       if (this.epic.getClientProperty("set") == null) {
-        this.epic.setBackground(DataUtilities.toColor("#8a2be2")); // purple..ish
+        this.epic.setBackground(JComponentUtilities.toColor("#8a2be2")); // purple..ish
       }
       if (this.memento.getClientProperty("set") == null) {
-        this.memento.setBackground(DataUtilities.toColor("#808000")); // olive
+        this.memento.setBackground(JComponentUtilities.toColor("#808000")); // olive
       }
       if (this.junk.getClientProperty("set") == null) {
         this.junk.setBackground(Color.gray);
@@ -2551,12 +2559,12 @@ public class OptionsFrame extends GenericFrame {
       } catch (Exception e) {
         try {
           // maybe the pref was a hex code
-          label.setBackground(DataUtilities.toColor(it));
+          label.setBackground(JComponentUtilities.toColor(it));
         } catch (Exception f) {
           // olive color is not an acceptable label, but is recognized by HTML parser
           // just hardcode it, whatever
           if (it.equals("olive")) {
-            label.setBackground(DataUtilities.toColor("#808000"));
+            label.setBackground(JComponentUtilities.toColor("#808000"));
           }
           // else fall through, invalid color format
         }

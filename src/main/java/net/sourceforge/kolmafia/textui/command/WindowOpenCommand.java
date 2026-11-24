@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaGUI;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 
 public class WindowOpenCommand extends AbstractCommand {
   public WindowOpenCommand() {
@@ -10,22 +12,23 @@ public class WindowOpenCommand extends AbstractCommand {
   @Override
   public void run(final String command, final String parameters) {
     if (command.equals("chat")) {
-      KoLmafiaGUI.constructFrame("ChatManager");
+      KoLmafia.updateDisplay("Initializing chat interface...");
+      ChatManager.initialize();
       return;
     }
 
     if (command.startsWith("opt")) {
-      KoLmafiaGUI.constructFrame("OptionsFrame");
+      UserInterfaceManager.get().showWindow("OptionsFrame");
       return;
     }
 
     if (command.equals("item")) {
-      KoLmafiaGUI.constructFrame("ItemManageFrame");
+      UserInterfaceManager.get().showWindow("ItemManageFrame");
       return;
     }
 
     if (command.equals("gear")) {
-      KoLmafiaGUI.constructFrame("GearChangeFrame");
+      UserInterfaceManager.get().showWindow("GearChangeFrame");
       return;
     }
   }

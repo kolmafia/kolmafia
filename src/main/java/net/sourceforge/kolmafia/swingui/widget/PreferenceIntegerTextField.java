@@ -13,11 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.swingui.KoLGUIConstants;
+import net.sourceforge.kolmafia.swingui.SwingInputFieldUtilities;
 
 public class PreferenceIntegerTextField extends JPanel implements Listener, FocusListener {
   private final String pref;
@@ -75,7 +75,7 @@ public class PreferenceIntegerTextField extends JPanel implements Listener, Focu
   }
 
   public void actionConfirmed() {
-    Preferences.setInteger(this.pref, InputFieldUtilities.getValue(this.field, 0));
+    Preferences.setInteger(this.pref, SwingInputFieldUtilities.getValue(this.field, 0));
   }
 
   public void actionCancelled() {

@@ -16,6 +16,7 @@ import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withSwingUserInterface;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.allOf;
@@ -343,7 +344,8 @@ class DrinkItemRequestTest {
             withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
             withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"),
             withHttpClientBuilder(builder),
-            Player.withUserId(12345));
+            Player.withUserId(12345),
+            withSwingUserInterface());
     try (cleanups) {
       var frame = new GenericPanelFrame("Test Frame");
       try {

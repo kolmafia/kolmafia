@@ -179,6 +179,8 @@ public class AccountRequest extends PasswordHashRequest {
     CharPaneRequest.compactCharacterPane = checked;
     checked = AccountRequest.getCheckbox("flag_swapfam", responseText);
     CharPaneRequest.familiarBelowEffects = checked;
+    checked = AccountRequest.getCheckbox("flag_allowrestwhenfull", responseText);
+    Preferences.setBoolean("allowRestWhenFull", checked);
   }
 
   private static void parseInventoryOptions(final String responseText) {
@@ -302,6 +304,12 @@ public class AccountRequest extends PasswordHashRequest {
       return;
     }
 
+    if (action.equals("flag_allowrestwhenfull")) {
+      boolean checked = valueString.equals("1");
+      Preferences.setBoolean("allowRestWhenFull", checked);
+      return;
+    }
+
     // Inventory options
 
     if (action.equals("flag_sellstuffugly")) {
@@ -327,6 +335,12 @@ public class AccountRequest extends PasswordHashRequest {
     if (action.equals("flag_wowbar")) {
       boolean checked = valueString.equals("1");
       Preferences.setBoolean("serverAddsCustomCombat", checked);
+      return;
+    }
+
+    if (action.equals("flag_bothcombatinterf")) {
+      boolean checked = valueString.equals("1");
+      Preferences.setBoolean("serverAddsBothCombat", checked);
       return;
     }
 
@@ -517,6 +531,9 @@ public class AccountRequest extends PasswordHashRequest {
 
     checked = flags.getIntValue("wowbar") == 1;
     Preferences.setBoolean("serverAddsCustomCombat", checked);
+
+    checked = flags.getIntValue("bothcombatinterf") == 1;
+    Preferences.setBoolean("serverAddsBothCombat", checked);
 
     int autoAttackAction = flags.getIntValue("autoattack");
     KoLCharacter.setAutoAttackAction(autoAttackAction);

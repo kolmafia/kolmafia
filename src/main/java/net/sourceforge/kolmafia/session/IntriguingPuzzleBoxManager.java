@@ -95,7 +95,7 @@ public class IntriguingPuzzleBoxManager {
                 TreeMap::new));
   }
 
-  static TreeMap<Integer, TreeMap<Integer, String>> parseOutcomes() {
+  static Map<Integer, Map<Integer, String>> parseOutcomes() {
     return entries(Preferences.getString(OUTCOMES_PREF)).stream()
         .map(entry -> entry.split(":"))
         .collect(

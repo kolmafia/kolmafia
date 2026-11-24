@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.webui;
 
-import java.awt.Desktop;
-import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +8,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LoginManager;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class RelayLoader extends Thread {
@@ -75,7 +74,7 @@ public class RelayLoader extends Thread {
       location = "http://127.0.0.1:" + RelayServer.getPort() + this.location;
     }
 
-    if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Action.BROWSE)) {
+    if (!UserInterfaceManager.get().canBrowse()) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR,
           "Cannot launch a browser in this environment. "
@@ -87,7 +86,7 @@ public class RelayLoader extends Thread {
 
     try {
       URI uri = new URI(location);
-      Desktop.getDesktop().browse(uri);
+      UserInterfaceManager.get().browse(uri);
     } catch (URISyntaxException e) {
       KoLmafia.updateDisplay("Exception: " + e.getMessage());
     } catch (IOException e) {

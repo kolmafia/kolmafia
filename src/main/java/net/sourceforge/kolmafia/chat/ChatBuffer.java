@@ -6,37 +6,22 @@
 
 package net.sourceforge.kolmafia.chat;
 
-import java.awt.event.HierarchyEvent;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Element;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.swingui.listener.StickyListener;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 
 /**
  * A multi-purpose message buffer which stores all sorts of the messages that can either be
@@ -53,9 +38,9 @@ public class ChatBuffer {
   private final Deque<String> entries = new ArrayDeque<>();
   private int contentLength = 0;
 
-  private final Set<JEditorPane> displayPanes = ChatBuffer.weakSet();
-  private final Set<JEditorPane> stalePanes = ChatBuffer.weakSet();
-  private final Set<JEditorPane> statusLines = ChatBuffer.weakSet();
+  private final Set<Display> displayPanes = ChatBuffer.weakSet();
+  private final Set<Display> stalePanes = ChatBuffer.weakSet();
+  private final Set<Display> statusLines = ChatBuffer.weakSet();
 
   private int pendingCount = 0;
   private int pendingRemovals = 0;
@@ -80,54 +65,38 @@ public class ChatBuffer {
     this.title = title;
   }
 
-  /** Adds a chat display used to display the chat messages currently being stored in the buffer. */
-  public JScrollPane addDisplay(final JEditorPane displayPane) {
-    return this.addDisplay(displayPane, false);
+  /**
+   * Where a chat buffer is shown. The buffer calls these on the user interface's thread when it
+   * flushes new content.
+   */
+  public interface Display {
+    boolean isDisplayable();
+
+    /** Replaces everything shown with the given HTML. */
+    void setText(String html);
+
+    /**
+     * Removes the oldest entries and appends the newly added ones, keeping the reader's place.
+     * Returns false if the display has to be redrawn with setText instead.
+     */
+    boolean update(int removals, String added);
+
+    void runPostFlushActions();
   }
 
-  public JScrollPane addStatusLine(final JEditorPane displayPane) {
-    return this.addDisplay(displayPane, true);
-  }
+  /** Adds a display used to display the chat messages currently being stored in the buffer. */
+  public void addDisplay(final Display displayPane, final boolean statusLine) {
+    UserInterfaceManager.get()
+        .invokeLater(
+            () -> {
+              this.displayPanes.add(displayPane);
 
-  private JScrollPane addDisplay(final JEditorPane displayPane, final boolean statusLine) {
-    if (displayPane == null) {
-      return null;
-    }
+              if (statusLine) {
+                this.statusLines.add(displayPane);
+              }
 
-    displayPane.setContentType("text/html");
-    displayPane.setEditable(false);
-    displayPane.addHierarchyListener(
-        e -> {
-          if ((e.getChangeFlags() & HierarchyEvent.DISPLAYABILITY_CHANGED) != 0
-              && displayPane.isDisplayable()) {
-            SwingUtilities.invokeLater(() -> this.markStale(displayPane));
-          }
-        });
-
-    JScrollPane scroller =
-        new JScrollPane(
-            displayPane,
-            statusLine
-                ? ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER
-                : ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-    var stickyListener = new StickyListener(scroller.getVerticalScrollBar());
-    displayPane.putClientProperty(StickyListener.class, stickyListener);
-    displayPane.setCaret(new ChatCaret(stickyListener));
-
-    SwingUtilities.invokeLater(
-        () -> {
-          this.displayPanes.add(displayPane);
-
-          if (statusLine) {
-            this.statusLines.add(displayPane);
-          }
-
-          this.markStale(displayPane);
-        });
-
-    return scroller;
+              this.markStale(displayPane);
+            });
   }
 
   /** Sets the log file used to actively record messages that are being stored in the buffer. */
@@ -169,11 +138,12 @@ public class ChatBuffer {
 
   /** Closes the buffer. */
   public void dispose() {
-    SwingUtilities.invokeLater(
-        () -> {
-          this.displayPanes.clear();
-          this.stalePanes.clear();
-        });
+    UserInterfaceManager.get()
+        .invokeLater(
+            () -> {
+              this.displayPanes.clear();
+              this.stalePanes.clear();
+            });
 
     if (this.logWriter != null) {
       this.logWriter.close();
@@ -182,26 +152,16 @@ public class ChatBuffer {
     this.clear();
   }
 
-  private static void printHTML(final HTMLDocument doc) {
-    HTMLEditorKit kit = new HTMLEditorKit();
-    StringWriter writer = new StringWriter();
-    try {
-      kit.write(writer, doc, 0, doc.getLength());
-    } catch (Exception e) {
-    }
-    String s = writer.toString();
-    System.out.println("HTML = \"" + s + "\"");
-  }
-
   /** Clears the current buffer content. */
   public void clear() {
-    SwingUtilities.invokeLater(
-        () -> {
-          this.entries.clear();
-          this.contentLength = 0;
+    UserInterfaceManager.get()
+        .invokeLater(
+            () -> {
+              this.entries.clear();
+              this.contentLength = 0;
 
-          this.requestReset();
-        });
+              this.requestReset();
+            });
   }
 
   public File getLogFile() {
@@ -211,7 +171,7 @@ public class ChatBuffer {
   /** Appends the given contents to the chat buffer. */
   public void append(String newContents) {
     if (newContents == null) {
-      SwingUtilities.invokeLater(this::requestReset);
+      UserInterfaceManager.get().invokeLater(this::requestReset);
       return;
     }
 
@@ -225,7 +185,7 @@ public class ChatBuffer {
       this.logWriter.println(entry);
     }
 
-    SwingUtilities.invokeLater(() -> this.addEntry(entry));
+    UserInterfaceManager.get().invokeLater(() -> this.addEntry(entry));
   }
 
   private void addEntry(final String entry) {
@@ -283,11 +243,12 @@ public class ChatBuffer {
     return html.toString();
   }
 
-  private static Set<JEditorPane> weakSet() {
+  private static Set<Display> weakSet() {
     return Collections.newSetFromMap(new WeakHashMap<>());
   }
 
-  private void markStale(final JEditorPane displayPane) {
+  /** Redraws the whole buffer in the given display at the next flush. */
+  public void markStale(final Display displayPane) {
     this.stalePanes.add(displayPane);
     this.scheduleFlush();
   }
@@ -327,7 +288,7 @@ public class ChatBuffer {
     }
 
     this.flushScheduled = true;
-    SwingUtilities.invokeLater(this::flush);
+    UserInterfaceManager.get().invokeLater(this::flush);
   }
 
   private void flush() {
@@ -342,7 +303,7 @@ public class ChatBuffer {
     this.pendingCount = 0;
     this.flushScheduled = false;
 
-    for (JEditorPane displayPane : this.displayPanes) {
+    for (Display displayPane : this.displayPanes) {
       if (!displayPane.isDisplayable()) {
         continue;
       }
@@ -355,12 +316,7 @@ public class ChatBuffer {
         }
 
         displayPane.setText(statusLineContent);
-      } else if (stale
-          || !ChatBuffer.update(
-              displayPane,
-              (StickyListener) displayPane.getClientProperty(StickyListener.class),
-              removals,
-              added)) {
+      } else if (stale || !displayPane.update(removals, added)) {
         if (htmlContent == null) {
           htmlContent = this.getHTMLContent();
         }
@@ -368,72 +324,7 @@ public class ChatBuffer {
         displayPane.setText(htmlContent);
       }
 
-      // Non-ASCII text sets "multiByte", which switches to a much slower bidi-aware layout.
-      displayPane.getDocument().putProperty("multiByte", Boolean.FALSE);
-    }
-  }
-
-  private static boolean update(
-      final JEditorPane displayPane,
-      final StickyListener stickyListener,
-      final int removals,
-      final String added) {
-    HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-    Element body =
-        currentHTML.getElement(
-            currentHTML.getDefaultRootElement(), StyleConstants.NameAttribute, HTML.Tag.BODY);
-
-    if (body == null) {
-      return false;
-    }
-
-    List<Element> entryElements = new ArrayList<>();
-
-    for (int i = 0; i < body.getElementCount() && entryElements.size() <= removals; i++) {
-      Element child = body.getElement(i);
-
-      if (child.getAttributes().getAttribute(StyleConstants.NameAttribute) == HTML.Tag.DIV) {
-        entryElements.add(child);
-      }
-    }
-
-    if (entryElements.size() <= removals) {
-      return false;
-    }
-
-    int removedHeight =
-        removals > 0 && stickyListener.keepsPosition()
-            ? ChatBuffer.top(displayPane, entryElements.get(removals))
-                - ChatBuffer.top(displayPane, entryElements.get(0))
-            : 0;
-
-    try {
-      for (int i = 0; i < removals; i++) {
-        currentHTML.removeElement(entryElements.get(i));
-      }
-
-      if (!added.isEmpty()) {
-        currentHTML.insertBeforeEnd(body, added);
-      }
-    } catch (BadLocationException | IOException e) {
-      return false;
-    }
-
-    if (removedHeight > 0) {
-      stickyListener.contentRemovedAbove(removedHeight);
-    }
-
-    // ChatBuffer.printHTML( currentHTML );
-
-    return true;
-  }
-
-  private static int top(final JEditorPane displayPane, final Element element) {
-    try {
-      var bounds = displayPane.modelToView2D(element.getStartOffset());
-      return bounds == null ? 0 : (int) bounds.getY();
-    } catch (BadLocationException e) {
-      return 0;
+      displayPane.runPostFlushActions();
     }
   }
 

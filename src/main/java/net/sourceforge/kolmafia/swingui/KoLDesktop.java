@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.swingui;
 
 import com.sun.java.forums.CloseableTabbedPane;
 import java.awt.Dimension;
@@ -18,15 +18,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.ChatFrame;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.swingui.SendMessageFrame;
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
 import net.sourceforge.kolmafia.swingui.listener.TabFocusingListener;
+import net.sourceforge.kolmafia.swingui.panel.ActionPanelRegistry;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
@@ -125,7 +124,7 @@ public class KoLDesktop extends GenericFrame {
 
   @Override
   public void dispose() {
-    StaticEntity.unregisterPanels(this.tabs);
+    ActionPanelRegistry.unregisterPanels(this.tabs);
 
     this.removeWindowListener(minimizeListener);
 

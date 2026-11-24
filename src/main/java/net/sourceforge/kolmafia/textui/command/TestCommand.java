@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.awt.Frame;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -84,8 +83,7 @@ import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
-import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
-import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -114,15 +112,6 @@ public class TestCommand extends AbstractCommand {
       w.flush();
     } catch (Exception e) {
     }
-  }
-
-  private static Frame findFrame(final Class<?> type) {
-    for (Frame frame : Frame.getFrames()) {
-      if (frame.getClass() == type) {
-        return frame;
-      }
-    }
-    return null;
   }
 
   private String load(String fileName) {
@@ -294,11 +283,7 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("dump_disabled_skills")) {
-      Frame frame = TestCommand.findFrame(SkillBuffFrame.class);
-      if (frame != null) {
-        SkillBuffFrame sbf = (SkillBuffFrame) frame;
-        sbf.dumpDisabledSkills();
-      }
+      UserInterfaceManager.get().dumpDisabledSkills();
       return;
     }
 
@@ -759,7 +744,7 @@ public class TestCommand extends AbstractCommand {
 
       var request = new GenericRequest(fileName);
       request.responseText = html;
-      ShowHTMLFrame.showRequest(request);
+      UserInterfaceManager.get().showHTML(request);
 
       return;
     }

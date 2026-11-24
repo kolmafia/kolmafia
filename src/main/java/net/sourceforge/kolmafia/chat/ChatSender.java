@@ -9,13 +9,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.session.CommandQueueManager;
 import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChatSender {
@@ -164,7 +164,7 @@ public class ChatSender {
     AdventureResult result = ItemFinder.getFirstMatchingItem(item, false, Match.ANY);
 
     if (result != null) {
-      ShowDescriptionList.showGameDescription(result);
+      StaticEntity.showGameDescription(result);
     } else {
       EventMessage message = new EventMessage("Unable to find a unique match for " + item, "green");
       ChatManager.broadcastEvent(message);

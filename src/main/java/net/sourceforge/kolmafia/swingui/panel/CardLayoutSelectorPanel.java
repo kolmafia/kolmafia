@@ -20,19 +20,20 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 
 public class CardLayoutSelectorPanel extends JPanel {
   private final String indexPreference;
 
   public final LockableListModel<Object> panelNames = new LockableListModel<>();
   private final ArrayList<Object> originalPanelNames = new ArrayList<>();
-  private final JList<Object> panelList = new JList<>(this.panelNames);
+  private final JList<Object> panelList = new JList<>(SwingListModel.of(this.panelNames));
   public final ArrayList<JComponent> panels = new ArrayList<>();
   private final CardLayout panelCards = new CardLayout();
   private final JPanel mainPanel = new JPanel(this.panelCards);

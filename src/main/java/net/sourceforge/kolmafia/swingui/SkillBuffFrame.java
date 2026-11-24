@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SkillBuffFrame extends GenericFrame {
@@ -87,9 +88,14 @@ public class SkillBuffFrame extends GenericFrame {
     this.targetSelect.setSelectedItem(recipient);
   }
 
-  public void dumpDisabledSkills() {
-    if (this.skillSelect != null) {
-      this.skillSelect.dumpDisabledItems();
+  public static void dumpDisabledSkills() {
+    for (Frame frame : Frame.getFrames()) {
+      if (frame instanceof SkillBuffFrame sbf) {
+        if (sbf.skillSelect != null) {
+          sbf.skillSelect.dumpDisabledItems();
+        }
+        return;
+      }
     }
   }
 
@@ -212,7 +218,7 @@ public class SkillBuffFrame extends GenericFrame {
 
       int buffCount =
           !maxBuff
-              ? InputFieldUtilities.getValue(SkillBuffFrame.this.amountField, 1)
+              ? SwingInputFieldUtilities.getValue(SkillBuffFrame.this.amountField, 1)
               : Integer.MAX_VALUE;
       if (buffCount == 0) {
         return;
@@ -257,31 +263,34 @@ public class SkillBuffFrame extends GenericFrame {
             switch (SkillTypeComboBox.this.getSelectedIndex()) {
               case 0 ->
                   // All skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills;
+                  SwingListModel.of((LockableListModel<UseSkillRequest>) KoLConstants.usableSkills);
               case 1 ->
                   // Summoning skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.summoningSkills;
+                  SwingListModel.of(
+                      (LockableListModel<UseSkillRequest>) KoLConstants.summoningSkills);
               case 2 ->
                   // Remedy skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.remedySkills;
+                  SwingListModel.of((LockableListModel<UseSkillRequest>) KoLConstants.remedySkills);
               case 3 ->
                   // Self-only skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.selfOnlySkills;
+                  SwingListModel.of(
+                      (LockableListModel<UseSkillRequest>) KoLConstants.selfOnlySkills);
               case 4 ->
                   // Buff skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.buffSkills;
+                  SwingListModel.of((LockableListModel<UseSkillRequest>) KoLConstants.buffSkills);
               case 5 ->
                   // Song skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.songSkills;
+                  SwingListModel.of((LockableListModel<UseSkillRequest>) KoLConstants.songSkills);
               case 6 ->
                   // Expression skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.expressionSkills;
+                  SwingListModel.of(
+                      (LockableListModel<UseSkillRequest>) KoLConstants.expressionSkills);
               case 7 ->
                   // Walk skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.walkSkills;
+                  SwingListModel.of((LockableListModel<UseSkillRequest>) KoLConstants.walkSkills);
               case 8 ->
                   // Shanty skills
-                  (LockableListModel<UseSkillRequest>) KoLConstants.shantySkills;
+                  SwingListModel.of((LockableListModel<UseSkillRequest>) KoLConstants.shantySkills);
               default -> oldModel;
             };
         if (newModel != oldModel) {

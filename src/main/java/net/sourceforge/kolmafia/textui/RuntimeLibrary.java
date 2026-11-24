@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
@@ -230,7 +229,6 @@ import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
-import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
@@ -250,6 +248,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.Variable;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -4256,6 +4255,10 @@ public abstract class RuntimeLibrary {
 
     params = List.of();
     functions.add(
+        new LibraryFunction("ascension_seed_properties", DataTypes.STRING_TO_STRING_TYPE, params));
+
+    params = List.of();
+    functions.add(
         new LibraryFunction("estimated_ascension_seed_possibilities", DataTypes.INT_TYPE, params));
   }
 
@@ -4445,7 +4448,7 @@ public abstract class RuntimeLibrary {
 
   public static Value user_notify(
       ScriptRuntime controller, final Value message, final Value onlyShowWhenHidden) {
-    SystemTrayFrame.showBalloon(message.toString(), onlyShowWhenHidden.intValue() == 1);
+    UserInterfaceManager.get().showBalloon(message.toString(), onlyShowWhenHidden.intValue() == 1);
     return DataTypes.VOID_VALUE;
   }
 
@@ -4850,7 +4853,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value is_dark_mode(ScriptRuntime controller) {
-    return new Value(KoLmafiaGUI.isDarkTheme());
+    return new Value(UserInterfaceManager.get().isDarkTheme());
   }
 
   public static Value is_headless(ScriptRuntime controller) {
@@ -12837,7 +12840,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value possible_ascension_seeds(ScriptRuntime controller) {
-    List<Integer> seeds = AscensionSeedManager.possibleAscensionSeeds();
+    List<Integer> seeds = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
     return new ArrayValue(
         new AggregateType(DataTypes.INT_TYPE, DataTypes.INT_TYPE),
         seeds.stream().map(DataTypes::makeIntValue).toList());
@@ -12845,11 +12848,22 @@ public abstract class RuntimeLibrary {
 
   public static Value ascension_seed_properties(ScriptRuntime controller, Value seedValue) {
     int seed = (int) seedValue.intValue();
-    Map<String, String> properties = AscensionSeedManager.getPropertiesForSeed(seed);
+    Map<String, String> properties = AscensionSeedManager.INSTANCE.getPropertiesForSeed(seed);
+    return DataTypes.makeStringToStringValue(properties);
+  }
+
+  public static Value ascension_seed_properties(ScriptRuntime controller) {
+    List<Integer> seeds = AscensionSeedManager.INSTANCE.possibleAscensionSeeds();
+    if (seeds.size() != 1) {
+      throw controller.runtimeException("Could not uniquely identify ascension seed");
+    }
+    Map<String, String> properties =
+        AscensionSeedManager.INSTANCE.getPropertiesForSeed(seeds.getFirst());
     return DataTypes.makeStringToStringValue(properties);
   }
 
   public static Value estimated_ascension_seed_possibilities(ScriptRuntime controller) {
-    return DataTypes.makeIntValue(AscensionSeedManager.estimatedAscensionSeedPossibilities());
+    return DataTypes.makeIntValue(
+        AscensionSeedManager.INSTANCE.estimatedAscensionSeedPossibilities());
   }
 }

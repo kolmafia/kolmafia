@@ -30,23 +30,26 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
+import net.sourceforge.kolmafia.combat.CustomCombatNode;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.JComponentUtilities;
+import net.sourceforge.kolmafia.swingui.KoLGUIConstants;
 import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -138,9 +141,19 @@ public class CustomCombatPanel extends JPanel {
     this.refreshCombatTree();
   }
 
+  private static DefaultMutableTreeNode toTreeNode(final CustomCombatNode node) {
+    DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(node, node.getAllowsChildren());
+
+    for (int i = 0; i < node.getChildCount(); ++i) {
+      treeNode.add(CustomCombatPanel.toTreeNode(node.getChildAt(i)));
+    }
+
+    return treeNode;
+  }
+
   /** Internal class used to handle everything related to displaying custom combat. */
   public void refreshCombatTree() {
-    this.combatModel.setRoot(CombatActionManager.getStrategyLookup());
+    this.combatModel.setRoot(CustomCombatPanel.toTreeNode(CombatActionManager.getStrategyLookup()));
     this.combatTree.setRootVisible(false);
 
     for (int i = 0; i < this.combatTree.getRowCount(); ++i) {
@@ -489,7 +502,7 @@ public class CustomCombatPanel extends JPanel {
 
   public class CombatComboBox extends JComboBox<String> implements Listener {
     public CombatComboBox() {
-      super(CombatActionManager.getAvailableLookups());
+      super(SwingListModel.of(CombatActionManager.getAvailableLookups()));
       this.addActionListener(this);
       PreferenceListenerRegistry.registerPreferenceListener("customCombatScript", this);
     }

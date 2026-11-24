@@ -26,7 +26,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -46,6 +45,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.widget.ChatBufferDisplay;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -57,6 +57,8 @@ public class ChatFrame extends GenericFrame {
   private static final GenericRequest PVP_LOGGER = new GenericRequest("");
   private static final SimpleDateFormat MARK_TIMESTAMP =
       new SimpleDateFormat("HH:mm:ss", Locale.US);
+
+  private static TabbedChatFrame tabbedFrame = null;
 
   private ChatPanel mainPanel;
   private JComboBox<String> nameClickSelect;
@@ -213,6 +215,38 @@ public class ChatFrame extends GenericFrame {
     super.dispose();
   }
 
+  public static void openWindow(final String bufferKey, final boolean highlightOnOpen) {
+    if (Preferences.getBoolean("useTabbedChatFrame")) {
+      if (ChatFrame.tabbedFrame == null) {
+        CreateFrameRunnable creator = new CreateFrameRunnable(TabbedChatFrame.class);
+        boolean appearsInTab = GenericFrame.appearsInTab("ChatManager");
+        ChatFrame.tabbedFrame = (TabbedChatFrame) creator.createFrame(appearsInTab);
+      }
+
+      ChatFrame.tabbedFrame.addTab(bufferKey);
+
+      if (highlightOnOpen) {
+        ChatFrame.tabbedFrame.highlightTab(bufferKey);
+      }
+
+      return;
+    }
+
+    ChatFrame frame = new ChatFrame(bufferKey);
+    CreateFrameRunnable.decorate(frame);
+    frame.setVisible(true);
+  }
+
+  public static void highlightChatTab(final String bufferKey) {
+    if (ChatFrame.tabbedFrame != null) {
+      ChatFrame.tabbedFrame.highlightTab(bufferKey);
+    }
+  }
+
+  public static void closeChat() {
+    ChatFrame.tabbedFrame = null;
+  }
+
   public static void runChatPlayerScript(final String playerName, final String playerId) {
     String scriptName = Preferences.getString("chatPlayerScript");
 
@@ -278,7 +312,7 @@ public class ChatFrame extends GenericFrame {
       entryPanel.add(entryButton, BorderLayout.EAST);
 
       ChatBuffer buffer = ChatManager.getBuffer(associatedContact);
-      JScrollPane scroller = buffer.addDisplay(this.chatDisplay);
+      JScrollPane scroller = ChatBufferDisplay.addDisplay(buffer, this.chatDisplay);
       this.add(scroller, BorderLayout.CENTER);
 
       this.add(entryPanel, BorderLayout.SOUTH);

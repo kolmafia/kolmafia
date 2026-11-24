@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,7 +9,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import javax.swing.UIManager;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -25,6 +23,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
+import net.sourceforge.kolmafia.utilities.HexColor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest extends PurchaseRequest {
@@ -311,13 +311,14 @@ public class MallPurchaseRequest extends PurchaseRequest {
   public String color() {
     if (this.isForbidden()) {
       // Try get the color from look and feel
-      Color color = UIManager.getColor("InternalFrame.closePressedBackground");
+      HexColor color =
+          UserInterfaceManager.get().getLookAndFeelColor("InternalFrame.closePressedBackground");
 
       if (color == null) {
         return "red";
       }
 
-      return "#" + Integer.toHexString(color.getRGB()).substring(2);
+      return color.value();
     }
 
     return !this.canPurchase()
@@ -384,6 +385,12 @@ public class MallPurchaseRequest extends PurchaseRequest {
       Pattern.compile(
           "You may only buy ([\\d,]+) of this item per day from this store\\. You have already purchased ([\\d,]+)");
 
+  // A purchase that did not happen: the listing is gone or repriced,
+  // or the store failed to yield. Neither is a parse failure.
+  private static boolean itemNotPurchased(final String responseText) {
+    return responseText.contains("This store doesn't") || responseText.contains("failed to yield");
+  }
+
   @Override
   public void processResults() {
     MallPurchaseRequest.parseResponse(this.getURLString(), this.responseText);
@@ -441,8 +448,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     // If the person swapped the price on the item, or you got a "failed
     // to yield" message, you may wish to re-attempt the purchase.
 
-    if (this.responseText.contains("This store doesn't")
-        || this.responseText.contains("failed to yield")) {
+    if (itemNotPurchased(this.responseText)) {
       Matcher itemChangedMatcher =
           Pattern.compile(
                   "<td valign=center><b>"
@@ -547,6 +553,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
       // check available Meat before attempting a Mall Purchase.
       // The Relay Browser has no such constraints, so don't
       // bother trying to parse the response.
+      return;
+    }
+
+    if (itemNotPurchased(responseText)) {
+      // Item no longer available from this store at this price, but no error occurred.
       return;
     }
 

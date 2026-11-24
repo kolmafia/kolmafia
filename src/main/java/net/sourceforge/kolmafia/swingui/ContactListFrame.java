@@ -10,16 +10,18 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.widget.SwingListModel;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
 
 public class ContactListFrame extends GenericFrame {
+  private static ContactListFrame chatContactsFrame = null;
+  private static ContactListFrame triviaContestantsFrame = null;
+
   private final LockableListModel contacts;
   private final JList contactsDisplay;
 
@@ -32,7 +34,7 @@ public class ContactListFrame extends GenericFrame {
 
     this.contacts = contacts;
 
-    this.contactsDisplay = new JList(contacts);
+    this.contactsDisplay = new JList(SwingListModel.of(contacts));
     this.contactsDisplay.setVisibleRowCount(25);
     this.contactsDisplay.setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     this.contactsDisplay.addMouseListener(new SendInstantMessageAdapter());
@@ -42,6 +44,26 @@ public class ContactListFrame extends GenericFrame {
 
     // Choose an appropriate size based on what is in the contact list
     this.pack();
+  }
+
+  public static void showChatContacts(
+      final String title, final LockableListModel<HTMLListEntry> contacts) {
+    if (ContactListFrame.chatContactsFrame == null) {
+      ContactListFrame.chatContactsFrame = new ContactListFrame(contacts);
+    }
+
+    ContactListFrame.chatContactsFrame.setTitle(title);
+    ContactListFrame.chatContactsFrame.setVisible(true);
+  }
+
+  public static void showTriviaContestants(
+      final String title, final LockableListModel<String> contestants) {
+    if (ContactListFrame.triviaContestantsFrame == null) {
+      ContactListFrame.triviaContestantsFrame = new ContactListFrame(contestants);
+    }
+
+    ContactListFrame.triviaContestantsFrame.setTitle(title);
+    ContactListFrame.triviaContestantsFrame.setVisible(true);
   }
 
   @Override

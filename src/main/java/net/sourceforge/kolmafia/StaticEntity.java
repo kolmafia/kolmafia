@@ -1,25 +1,32 @@
 package net.sourceforge.kolmafia;
 
-import java.awt.Container;
-import java.awt.SystemTray;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
-import net.java.dev.spellcast.utilities.ActionPanel;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.persistence.CafeDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.swingui.DescriptionFrame;
-import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -36,8 +43,7 @@ public abstract class StaticEntity {
   private static final boolean isHeadless =
       System.getProperty("java.awt.headless", "").equals("true");
 
-  public static final ArrayList<ActionPanel> existingPanels = new ArrayList<>();
-  private static ActionPanel[] panelArray = new GenericPanel[0];
+  private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
   public static String backtraceTrigger = null;
   private static Integer cachedRevisionNumber = null;
@@ -177,61 +183,6 @@ public abstract class StaticEntity {
     return StaticEntity.isGUIRequired && !StaticEntity.isHeadless;
   }
 
-  public static final void registerPanel(final ActionPanel panel) {
-    synchronized (StaticEntity.existingPanels) {
-      StaticEntity.existingPanels.add(panel);
-      StaticEntity.getExistingPanels();
-    }
-  }
-
-  public static final void unregisterPanel(final ActionPanel panel) {
-    synchronized (StaticEntity.existingPanels) {
-      StaticEntity.existingPanels.remove(panel);
-      StaticEntity.getExistingPanels();
-    }
-  }
-
-  public static final void unregisterPanels(final Container container) {
-    boolean removedPanel = false;
-
-    synchronized (StaticEntity.existingPanels) {
-      Iterator<ActionPanel> panelIterator = StaticEntity.existingPanels.iterator();
-
-      while (panelIterator.hasNext()) {
-        ActionPanel panel = panelIterator.next();
-
-        if (container.isAncestorOf(panel)) {
-          panel.dispose();
-          panelIterator.remove();
-          removedPanel = true;
-        }
-      }
-    }
-
-    if (removedPanel) {
-      StaticEntity.getExistingPanels();
-    }
-  }
-
-  public static final ActionPanel[] getExistingPanels() {
-    synchronized (StaticEntity.existingPanels) {
-      boolean needsRefresh = StaticEntity.panelArray.length != StaticEntity.existingPanels.size();
-
-      if (!needsRefresh) {
-        for (int i = 0; i < StaticEntity.panelArray.length && !needsRefresh; ++i) {
-          needsRefresh = StaticEntity.panelArray[i] != StaticEntity.existingPanels.get(i);
-        }
-      }
-
-      if (needsRefresh) {
-        StaticEntity.panelArray = new ActionPanel[StaticEntity.existingPanels.size()];
-        StaticEntity.existingPanels.toArray(StaticEntity.panelArray);
-      }
-
-      return StaticEntity.panelArray;
-    }
-  }
-
   public static final boolean isHeadless() {
     return StaticEntity.isHeadless;
   }
@@ -242,7 +193,7 @@ public abstract class StaticEntity {
 
       boolean useTrayIcon = Preferences.getBoolean("useSystemTrayIcon");
 
-      if (!SystemTray.isSupported()) {
+      if (!UserInterfaceManager.get().isSystemTraySupported()) {
         useTrayIcon = false;
       }
 
@@ -267,7 +218,60 @@ public abstract class StaticEntity {
    * relative to the KoL home directory for the current session.
    */
   public static final void openDescriptionFrame(final String location) {
-    DescriptionFrame.showRequest(RequestEditorKit.extractRequest(location));
+    UserInterfaceManager.get().showDescription(RequestEditorKit.extractRequest(location));
+  }
+
+  public static final void showGameDescription(Object item) {
+    if (item instanceof Boost boost) {
+      item = boost.getItem();
+    }
+
+    if (item instanceof AdventureResult ar) {
+      if (ar.isItem()) {
+        int itemId = ar.getItemId();
+        String descId =
+            (itemId != -1)
+                ? ItemDatabase.getDescriptionId(itemId)
+                : CafeDatabase.nameToDescId(ar.getName());
+        StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
+      }
+      if (ar.isStatusEffect()) {
+        String descId = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(ar.getName()));
+        StaticEntity.openDescriptionFrame("desc_effect.php?whicheffect=" + descId);
+      }
+    } else if (item instanceof ShopRow sr) {
+      int itemId = sr.getItem().getItemId();
+      String descId = ItemDatabase.getDescriptionId(itemId);
+      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
+    } else if (item instanceof Concoction c) {
+      int itemId = c.getItemId();
+      String descId =
+          (itemId != -1)
+              ? ItemDatabase.getDescriptionId(itemId)
+              : CafeDatabase.nameToDescId(c.getName());
+      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
+    } else if (item instanceof QueuedConcoction c) {
+      int itemId = c.getItemId();
+      String descId =
+          (itemId != -1)
+              ? ItemDatabase.getDescriptionId(itemId)
+              : CafeDatabase.nameToDescId(c.getName());
+      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
+    } else if (item instanceof CreateItemRequest cir) {
+      StaticEntity.openDescriptionFrame(
+          "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId(cir.getItemId()));
+    } else if (item instanceof PurchaseRequest pr) {
+      StaticEntity.openDescriptionFrame(
+          "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId(pr.getItemId()));
+    } else if (item instanceof UseSkillRequest usr) {
+      StaticEntity.openDescriptionFrame(
+          "desc_skill.php?whichskill=" + usr.getSkillId() + "&self=true");
+    } else if (item instanceof String s) {
+      Matcher playerMatcher = StaticEntity.PLAYERID_MATCHER.matcher(s);
+      if (playerMatcher.find()) {
+        UserInterfaceManager.get().showPlayerProfile("#" + playerMatcher.group(1));
+      }
+    }
   }
 
   public static final boolean executeCountdown(final String message, final int seconds) {
