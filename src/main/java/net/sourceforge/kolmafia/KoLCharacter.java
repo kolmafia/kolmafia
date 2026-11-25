@@ -1316,10 +1316,18 @@ public abstract class KoLCharacter {
       case BATMAN -> BatManager.setCombatSkills();
     }
 
+    LimitMode previous = KoLCharacter.limitMode;
     KoLCharacter.limitMode = limitmode;
+
+    if (previous != limitmode) {
+      // Passive skill bonuses depend on it: Ed's organs can't grow in the Underworld
+      Modifiers.availableSkillsChanged();
+    }
 
     if (resetAfter) {
       KoLmafia.resetAfterLimitmode();
+    } else if (previous != limitmode) {
+      KoLCharacter.recalculateAdjustments();
     }
   }
 

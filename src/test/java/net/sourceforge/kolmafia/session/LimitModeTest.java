@@ -3,12 +3,16 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdjustmentsRecalculated;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -20,11 +24,14 @@ import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -822,6 +829,49 @@ class LimitModeTest {
         assertGetRequest(requests.get(1), "/choice.php", null);
         assertPostRequest(requests.get(2), "/choice.php", "whichchoice=277&option=1");
         assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class Underworld {
+    private Cleanups withEdsOrgans() {
+      return new Cleanups(
+          withPath(Path.ACTUALLY_ED_THE_UNDYING),
+          withClass(AscensionClass.ED),
+          withSkill(SkillPool.REPLACEMENT_STOMACH),
+          withSkill(SkillPool.REPLACEMENT_LIVER),
+          withSkill(SkillPool.EXTRA_SPLEEN),
+          withSkill(SkillPool.ANOTHER_EXTRA_SPLEEN),
+          withAdjustmentsRecalculated());
+    }
+
+    @Test
+    void edKeepsHisOrgansAfterLearningASkillInTheUnderworld() {
+      try (var cleanups = new Cleanups(withEdsOrgans(), withLimitMode(LimitMode.NONE))) {
+        KoLCharacter.setLimitMode(LimitMode.ED);
+        ResponseTextParser.learnSkill("Upgraded Spine");
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(0));
+
+        KoLCharacter.setLimitMode(LimitMode.NONE);
+
+        assertThat(KoLCharacter.getStomachCapacity(), is(5));
+        assertThat(KoLCharacter.getLiverCapacity(), is(4));
+        // 5 + Extra Spleen 5 + Another Extra Spleen 5
+        assertThat(KoLCharacter.getSpleenLimit(), is(15));
+      }
+    }
+
+    @Test
+    void edKeepsHisOrgansAfterATripToTheUnderworld() {
+      try (var cleanups = new Cleanups(withEdsOrgans(), withLimitMode(LimitMode.NONE))) {
+        KoLCharacter.setLimitMode(LimitMode.ED);
+        KoLCharacter.setLimitMode(LimitMode.NONE);
+
+        assertThat(KoLCharacter.getStomachCapacity(), is(5));
+        assertThat(KoLCharacter.getLiverCapacity(), is(4));
+        assertThat(KoLCharacter.getSpleenLimit(), is(15));
       }
     }
   }
