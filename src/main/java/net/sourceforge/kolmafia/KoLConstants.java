@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
@@ -632,7 +633,7 @@ public interface KoLConstants extends UtilityConstants {
   List<UseSkillRequest> walkSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> shantySkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> availableSkills = LockableListFactory.getInstance(UseSkillRequest.class);
-  Set<Integer> availableSkillsSet = new HashSet<>();
+  Set<Integer> availableSkillsSet = ConcurrentHashMap.newKeySet();
   // The list of combat skills displayed in skills dropdown from the current (last) fight.php
   List<Integer> availableCombatSkillsList = new ArrayList<>();
   Set<Integer> availableCombatSkillsSet = new HashSet<>();
