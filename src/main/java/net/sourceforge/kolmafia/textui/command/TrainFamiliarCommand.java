@@ -27,7 +27,7 @@ public class TrainFamiliarCommand extends AbstractCommand {
 
     switch (typeString) {
       case "base" -> type = Goal.BASE;
-      case "buff" -> type = Goal.BUFFED;
+      case "buff", "buffed" -> type = Goal.BUFFED;
       case "turns" -> type = Goal.TURNS;
     }
 

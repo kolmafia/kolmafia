@@ -4,12 +4,15 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class TrainFamiliarCommandTest extends AbstractCommandTestBase {
   public TrainFamiliarCommandTest() {
@@ -47,6 +50,19 @@ public class TrainFamiliarCommandTest extends AbstractCommandTestBase {
       assertErrorState();
       assertThat(output, containsString("No familiar selected to train."));
       assertThat(builder.client.getRequests(), empty());
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"buff", "buffed"})
+  void acceptsBothSpellingsOfBuffed(final String type) {
+    var builder = new FakeHttpClientBuilder();
+
+    try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+      String output = execute(type + " 20");
+
+      assertThat(output, not(containsString("Unknown training type")));
+      assertThat(output, containsString("No familiar selected to train."));
     }
   }
 }
