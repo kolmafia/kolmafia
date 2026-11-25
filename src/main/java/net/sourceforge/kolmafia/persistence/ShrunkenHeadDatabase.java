@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 
@@ -62,5 +63,23 @@ public class ShrunkenHeadDatabase {
     return weightList.stream()
         .map(abilities::get)
         .collect(Collectors.toMap(Function.identity(), s -> 1, Integer::sum));
+  }
+
+  public static int getCurrentModifier(String getAbility) {
+    String currentAbilities = Preferences.getString("shrunkenHeadZombieAbilities");
+    if (Preferences.getInteger("shrunkenHeadZombieHP") <= 0
+        || !currentAbilities.contains(getAbility)) {
+      return 0;
+    }
+
+    for (var ability : currentAbilities.split(", ")) {
+      if (ability.startsWith(getAbility)) {
+        var start = ability.indexOf('(') + 1;
+        var end = ability.indexOf('%');
+        String num = ability.substring(start, end);
+        return Integer.parseInt(num);
+      }
+    }
+    return 0;
   }
 }

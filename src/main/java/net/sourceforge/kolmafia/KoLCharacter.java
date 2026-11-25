@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.ShrunkenHeadDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceModifiers;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -5514,31 +5515,16 @@ public abstract class KoLCharacter {
                 ModifierType.ENSORCEL, ensorcelee.getPhylum().toString()));
       }
     }
-
-    if (Preferences.getInteger("shrunkenHeadZombieHP") > 0) {
-      var abilities = Preferences.getString("shrunkenHeadZombieAbilities");
-      for (var ability : abilities.split(", ")) {
-        if (ability.contains("Item Drop Bonus")) {
-          var start = ability.indexOf('(') + 1;
-          var end = ability.indexOf('%');
-          String num = ability.substring(start, end);
-          newModifiers.addDouble(
-              DoubleModifier.ITEMDROP,
-              Double.parseDouble(num),
-              ModifierType.SHRUNKEN_HEAD,
-              "shrunken head zombie");
-        } else if (ability.contains("Meat Drop Bonus")) {
-          var start = ability.indexOf('(') + 1;
-          var end = ability.indexOf('%');
-          String num = ability.substring(start, end);
-          newModifiers.addDouble(
-              DoubleModifier.MEATDROP,
-              Double.parseDouble(num),
-              ModifierType.SHRUNKEN_HEAD,
-              "shrunken head zombie");
-        }
-      }
-    }
+    newModifiers.addDouble(
+        DoubleModifier.ITEMDROP,
+        ShrunkenHeadDatabase.getCurrentModifier("Item Drop Bonus"),
+        ModifierType.SHRUNKEN_HEAD,
+        "shrunken head zombie");
+    newModifiers.addDouble(
+        DoubleModifier.MEATDROP,
+        ShrunkenHeadDatabase.getCurrentModifier("Meat Drop Bonus"),
+        ModifierType.SHRUNKEN_HEAD,
+        "shrunken head zombie");
 
     if (KoLCharacter.inRobocore()) {
       YouRobotManager.addRobotModifiers(newModifiers);
@@ -5728,6 +5714,12 @@ public abstract class KoLCharacter {
             ModifierType.ITEM,
             EffectPool.STEELY_EYED_SQUINT);
       }
+      // Shrunken head zombie is doubled by squint but not champagne
+      newModifiers.addDouble(
+          DoubleModifier.ITEMDROP,
+          ShrunkenHeadDatabase.getCurrentModifier("Item Drop Bonus"),
+          ModifierType.EFFECT,
+          EffectPool.STEELY_EYED_SQUINT);
     }
     if (Modifiers.currentZone.equals("Shadow Rift")) {
       newModifiers.addDouble(
