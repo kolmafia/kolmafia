@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
+import net.sourceforge.kolmafia.swingui.SwingUserInterface;
 import net.sourceforge.kolmafia.ui.UserInterface;
 import net.sourceforge.kolmafia.ui.UserInterfaceManager;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -3164,5 +3165,9 @@ public class Player {
     var old = UserInterfaceManager.get();
     UserInterfaceManager.set(ui);
     return new Cleanups(() -> UserInterfaceManager.set(old));
+  }
+
+  public static Cleanups withSwingUserInterface() {
+    return withUserInterface(new SwingUserInterface());
   }
 }
