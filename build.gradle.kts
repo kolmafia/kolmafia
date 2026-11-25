@@ -396,7 +396,7 @@ tasks.jpackage {
 
   linux {
     type = ImageType.DEB
-    icon = file("src/main/resources/icons/KoLmafia.ico")
+    icon = file("src/main/resources/images/app_icon256.png")
     javaOptions = listOf("--enable-native-access=ALL-UNNAMED")
   }
   mac {
