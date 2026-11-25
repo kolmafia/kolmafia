@@ -39,7 +39,7 @@ class GearChangePanelTest {
 
     @BeforeEach
     void beforeEach() {
-      cleanups = withUserInterface(new SwingUserInterface());
+      cleanups = withSwingUserInterface();
       GearChangePanel.updateSlot(Slot.HAT);
     }
 

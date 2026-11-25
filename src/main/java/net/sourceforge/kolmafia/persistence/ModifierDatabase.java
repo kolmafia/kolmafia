@@ -166,7 +166,8 @@ public class ModifierDatabase {
           ModifierType.SYNERGY,
           ModifierType.THRONE,
           ModifierType.UNBREAKABLE_UMBRELLA,
-          ModifierType.PASSIVES);
+          ModifierType.PASSIVES,
+          ModifierType.ETERNITY_CODPIECE);
 
   // In general these are the modifiers which cannot be read from the item description. Iteration
   // order is sorted by name (not JVM-randomized like Set.of) so consumers that emit these in order

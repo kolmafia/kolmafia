@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.swingui;
 
-import static internal.helpers.Player.withUserInterface;
+import static internal.helpers.Player.withSwingUserInterface;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
@@ -23,7 +23,7 @@ class CommandDisplayFrameTest {
   @ValueSource(strings = {"clear", "cls", "reset"})
   void clearWorksAfterAbort(String command) throws Exception {
     // The buffer updates on the user interface's thread; with Swing's, invokeAndWait waits for them
-    try (var cleanups = withUserInterface(new SwingUserInterface())) {
+    try (var cleanups = withSwingUserInterface()) {
       KoLConstants.commandBuffer.append("KoLmafia declares world peace.");
       KoLmafia.updateDisplay(MafiaState.ABORT, "KoLmafia declares world peace.");
 
