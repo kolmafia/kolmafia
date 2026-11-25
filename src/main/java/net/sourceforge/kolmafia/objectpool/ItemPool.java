@@ -2036,6 +2036,7 @@ public class ItemPool {
   public static final int MENACING_SILENCE_RECORD_USED = 5976;
   public static final int SLICE_OF_PIZZA = 5978;
   public static final int BOTTLE_OF_WINE = 5990;
+  public static final int MASSIVE_GEMSTONE = 5995;
   public static final int BOSS_HELM = 6002;
   public static final int BOSS_CLOAK = 6003;
   public static final int BOSS_SWORD = 6004;

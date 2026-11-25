@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -18,6 +19,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 public class ChatPoller extends Thread {
   // The most recent HistoryEntries we processed
@@ -314,13 +317,34 @@ public class ChatPoller extends Thread {
     return ChatPoller.rightClickMenu;
   }
 
+  static String actionText(final String content) {
+    Element body = Jsoup.parseBodyFragment(content).body();
+    body.ownerDocument().outputSettings().prettyPrint(false);
+    Element name = body.selectFirst("a[href*=showplayer.php]");
+    if (name != null) {
+      name.remove();
+    }
+    // The action and the player's name are wrapped in <i> and <b>, nested either way round
+    body.select("i, b").unwrap();
+    return body.html().trim();
+  }
+
+  // KoL breaks words longer than 20 characters with a space, in what it returns for a sent line
+  // but not in the polled copy of it.
+  private static final Pattern WORD_BREAK = Pattern.compile("(?<=\\S{20})\\s");
+
+  private static boolean sameText(final String a, final String b) {
+    return WORD_BREAK.matcher(a).replaceAll("").equals(WORD_BREAK.matcher(b).replaceAll(""));
+  }
+
   private static boolean messageAlreadySeen(
       final String recipient, final String content, final long localLastSeen) {
     synchronized (ChatPoller.chatHistoryEntries) {
       for (HistoryEntry entry : ChatPoller.chatHistoryEntries) {
         if (entry instanceof SentMessageEntry && entry.getLocalLastSeen() > localLastSeen) {
           for (ChatMessage message : entry.getChatMessages()) {
-            if (recipient.equals(message.getRecipient()) && content.equals(message.getContent())) {
+            if (recipient.equals(message.getRecipient())
+                && ChatPoller.sameText(content, message.getContent())) {
               return true;
             }
           }
@@ -468,8 +492,7 @@ public class ChatPoller extends Thread {
       boolean isAction = format == 1;
 
       if (isAction) {
-        // username ends with "</b></font></a> "; remove trailing </i>
-        content = content.substring(content.indexOf("</a>") + 5, content.length() - 4);
+        content = ChatPoller.actionText(content);
       }
 
       if (pub && mine && ChatPoller.messageAlreadySeen(recipient, content, localLastSeen)) {
