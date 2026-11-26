@@ -1320,7 +1320,6 @@ public abstract class KoLCharacter {
     KoLCharacter.limitMode = limitmode;
 
     if (previous != limitmode) {
-      // Passive skill bonuses depend on it: Ed's organs can't grow in the Underworld
       Modifiers.availableSkillsChanged();
     }
 
