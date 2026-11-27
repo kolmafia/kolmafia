@@ -31,8 +31,10 @@ import internal.helpers.Player;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -200,6 +202,49 @@ public class ModifiersTest {
     }
     // Remove liver from passive skill cache.
     mods.applyPassiveModifiers(/* debug= */ true);
+  }
+
+  @Test
+  public void passivesAreNeverSeenHalfRebuilt() throws InterruptedException {
+    var cleanups =
+        new Cleanups(
+            withSkill(SkillPool.STEEL_LIVER),
+            withSkill(SkillPool.STEEL_STOMACH),
+            withSkill(SkillPool.STEEL_SPLEEN),
+            withSkill(SkillPool.GLUTTONY),
+            withSkill(SkillPool.HOLLOW_LEG),
+            withSkill(SkillPool.DRINKING_TO_DRINK),
+            withSkill(SkillPool.LEGENDARY_APPETITE),
+            withSkill(SkillPool.INSATIABLE_HUNGER),
+            withSkill(SkillPool.EXTRA_SPLEEN),
+            withSkill(SkillPool.ANOTHER_EXTRA_SPLEEN));
+    try (cleanups) {
+      var rebuilding = new AtomicBoolean(true);
+      var rebuilder =
+          new Thread(
+              () -> {
+                while (rebuilding.get()) {
+                  Modifiers.availableSkillsChanged();
+                  new Modifiers().applyPassiveModifiers(false);
+                }
+              });
+      rebuilder.start();
+
+      var livers = new HashSet<Double>();
+      try {
+        for (int i = 0; i < 20_000; i++) {
+          var mods = new Modifiers();
+          mods.applyPassiveModifiers(false);
+          livers.add(mods.getDouble(DoubleModifier.LIVER_CAPACITY));
+        }
+      } finally {
+        rebuilding.set(false);
+        rebuilder.join();
+      }
+
+      // Liver of Steel, Hollow Leg and Drinking to Drink: 5 + 1 + 1
+      assertThat(livers, contains(7.0));
+    }
   }
 
   public static Stream<Arguments> getsRightModifiersNakedHatrack() {
