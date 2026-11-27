@@ -361,6 +361,14 @@ public abstract class ChoiceControl {
           RequestLogger.updateSessionLog(message);
         }
       }
+
+      case 1637 -> { // The Black Rose Garden
+        if (ChoiceManager.lastDecision == 1) {
+          String message = "[" + KoLAdventure.getAdventureCount() + "] The Black Rose Garden";
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
+        }
+      }
     }
   }
 
