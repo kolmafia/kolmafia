@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -11,13 +12,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayAgent;
 
 public class LoginRequest extends GenericRequest {
-  private static boolean completedLogin = false;
+  private static volatile boolean completedLogin = false;
+  private static final AtomicInteger logins = new AtomicInteger();
 
   private static LoginRequest lastRequest = null;
   private static long lastLoginAttempt = 0;
 
   private static boolean isLoggingIn;
   private static boolean isTimingIn = false;
+  private static final Object TIME_IN_LOCK = new Object();
 
   private final String username;
   private final String password;
@@ -148,25 +151,35 @@ public class LoginRequest extends GenericRequest {
 
   public static final boolean executeTimeInRequest(
       final String requestLocation, final String redirectLocation) {
-    if (LoginRequest.lastRequest == null || LoginRequest.isTimingIn) {
+    // The login itself can be redirected to login.php
+    if (LoginRequest.lastRequest == null || Thread.holdsLock(LoginRequest.TIME_IN_LOCK)) {
       return false;
     }
 
-    // If it's been less than 30 seconds since the last login
-    // attempt, we could be responding to the flurry of login.php
-    // redirects KoL gives us when the Relay Browser tries to open
-    // game.php, topmenu.php, chatlaunch.php, etc.
+    // Scripts, chat and the Relay Browser can all find the session timed out at once. One thread
+    // logs in again; the others wait here and retry on its session rather than logging in again.
+    int loginsBefore = LoginRequest.logins.get();
+    synchronized (LoginRequest.TIME_IN_LOCK) {
+      if (LoginRequest.logins.get() != loginsBefore) {
+        return LoginRequest.completedLogin;
+      }
 
-    if (System.currentTimeMillis() - 30000 < LoginRequest.lastLoginAttempt) {
-      return LoginRequest.completedLogin;
+      // If it's been less than 30 seconds since the last login
+      // attempt, we could be responding to the flurry of login.php
+      // redirects KoL gives us when the Relay Browser tries to open
+      // game.php, topmenu.php, chatlaunch.php, etc.
+
+      if (System.currentTimeMillis() - 30000 < LoginRequest.lastLoginAttempt) {
+        return LoginRequest.completedLogin;
+      }
+
+      if (LoginRequest.isInstanceRunning()) {
+        StaticEntity.printStackTrace(requestLocation + " => " + redirectLocation);
+        KoLmafia.quit();
+      }
+
+      return LoginRequest.retimein();
     }
-
-    if (LoginRequest.isInstanceRunning()) {
-      StaticEntity.printStackTrace(requestLocation + " => " + redirectLocation);
-      KoLmafia.quit();
-    }
-
-    return LoginRequest.retimein();
   }
 
   public static final boolean retimein() {
@@ -174,11 +187,16 @@ public class LoginRequest extends GenericRequest {
       return false;
     }
 
-    LoginRequest.isTimingIn = true;
-    RequestThread.postRequest(LoginRequest.lastRequest);
-    LoginRequest.isTimingIn = false;
+    synchronized (LoginRequest.TIME_IN_LOCK) {
+      LoginRequest.isTimingIn = true;
+      try {
+        RequestThread.postRequest(LoginRequest.lastRequest);
+      } finally {
+        LoginRequest.isTimingIn = false;
+      }
 
-    return LoginRequest.completedLogin;
+      return LoginRequest.completedLogin;
+    }
   }
 
   public static final void isLoggingIn(final boolean isLoggingIn) {
@@ -199,6 +217,16 @@ public class LoginRequest extends GenericRequest {
     LoginRequest.lastLoginAttempt = 0;
   }
 
+  static void setLoggedIn() {
+    LoginRequest.completedLogin = true;
+    LoginRequest.logins.incrementAndGet();
+    NamedListenerRegistry.fireChange("(login)");
+  }
+
+  static void setLastRequest(final LoginRequest request) {
+    LoginRequest.lastRequest = request;
+  }
+
   public static final void processLoginRequest(final GenericRequest request) {
     if (request.redirectLocation == null) {
       return;
@@ -210,8 +238,7 @@ public class LoginRequest extends GenericRequest {
     // the way it used to be, but enforce the redirect.  If this
     // happens, then validate here.
 
-    LoginRequest.completedLogin = true;
-    NamedListenerRegistry.fireChange("(login)");
+    LoginRequest.setLoggedIn();
 
     // If login is successful, notify client of success.
 
