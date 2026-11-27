@@ -2147,7 +2147,7 @@ public class CampgroundRequest extends GenericRequest {
       }
       case "rosegarden" -> {
         KoLAdventure.clearLocation();
-        message = "[" + KoLAdventure.getAdventureCount() + "] Black Rose Garden";
+        message = "Visiting The Black Rose Garden";
       }
       default -> {
         // Unknown action.
