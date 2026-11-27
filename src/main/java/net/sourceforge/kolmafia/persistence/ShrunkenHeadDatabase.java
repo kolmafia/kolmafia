@@ -62,7 +62,7 @@ public class ShrunkenHeadDatabase {
 
     return weightList.stream()
         .map(abilities::get)
-        .collect(Collectors.toMap(Function.identity(), s -> 1, Integer::sum));
+        .collect(Collectors.toMap(Function.identity(), _ -> 1, Integer::sum));
   }
 
   public static int getCurrentModifier(String getAbility) {

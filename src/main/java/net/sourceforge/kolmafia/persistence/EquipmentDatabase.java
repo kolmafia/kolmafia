@@ -314,13 +314,13 @@ public class EquipmentDatabase {
       ConsumptionType type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
-        case HAT -> hats.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
-        case PANTS -> pants.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
-        case SHIRT -> shirts.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
-        case WEAPON -> weapons.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
-        case OFFHAND -> offhands.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
-        case ACCESSORY -> accessories.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
-        case CONTAINER -> containers.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case HAT -> hats.computeIfAbsent(name, _ -> new ArrayList<>()).add(key);
+        case PANTS -> pants.computeIfAbsent(name, _ -> new ArrayList<>()).add(key);
+        case SHIRT -> shirts.computeIfAbsent(name, _ -> new ArrayList<>()).add(key);
+        case WEAPON -> weapons.computeIfAbsent(name, _ -> new ArrayList<>()).add(key);
+        case OFFHAND -> offhands.computeIfAbsent(name, _ -> new ArrayList<>()).add(key);
+        case ACCESSORY -> accessories.computeIfAbsent(name, _ -> new ArrayList<>()).add(key);
+        case CONTAINER -> containers.computeIfAbsent(name, _ -> new ArrayList<>()).add(key);
       }
     }
 

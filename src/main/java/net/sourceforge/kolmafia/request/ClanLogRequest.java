@@ -130,7 +130,7 @@ public class ClanLogRequest extends GenericRequest {
             if (startReading) {
               if (line.startsWith(" ")) {
                 currentMember = line.substring(1, line.length() - 1);
-                entryList = this.stashMap.computeIfAbsent(currentMember, k -> new ArrayList<>());
+                entryList = this.stashMap.computeIfAbsent(currentMember, _ -> new ArrayList<>());
               } else if (line.length() > 0 && !line.startsWith("<")) {
                 entry = new StashLogEntry(line);
                 if (!entryList.contains(entry)) {

@@ -34,7 +34,7 @@ public class PreferenceButtonGroup extends JPanel implements Listener {
     this.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
     PreferenceListenerRegistry.registerPreferenceListener(pref, this);
     this.group.setActionListener(
-        e -> {
+        _ -> {
           int index = this.group.getSelectedIndex();
           if (this.settingUsesButtons) {
             Preferences.setString(pref, buttons[index]);

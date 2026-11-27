@@ -530,7 +530,7 @@ public class GitManager extends ScriptManager {
         var files = getPermissibleFiles(root, false);
         for (var f : files) {
           var relPath = root.relativize(f);
-          projectsSyncPaths.computeIfAbsent(relPath, k -> new HashSet<>()).add(folder);
+          projectsSyncPaths.computeIfAbsent(relPath, _ -> new HashSet<>()).add(folder);
         }
       } catch (IOException e) {
         continue;

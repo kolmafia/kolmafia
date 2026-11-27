@@ -2415,13 +2415,13 @@ public class OptionsFrame extends GenericFrame {
 
       JButton defaultButton = new JButton("Default Color Set");
       defaultButton.addActionListener(
-          e -> {
+          _ -> {
             Preferences.resetToDefault("textColors");
             update();
           });
       JButton darkDefaultButton = new JButton("Dark Color Set");
       darkDefaultButton.addActionListener(
-          e -> {
+          _ -> {
             Preferences.setString(
                 "textColors",
                 "crappy:#999999|good:#00bf00|awesome:#7f7fff|epic:#cc00ff|junk:gray|memento:olive|notavailable:gray|decent:#cccccc");

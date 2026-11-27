@@ -27,7 +27,7 @@ public class IntriguingPuzzleBoxManagerTest {
   private static Cleanups visitFirstPage() {
     ChoiceManager.lastItemUsed = ItemPool.get(ItemPool.INTRIGUING_PUZZLE_BOX);
     return Player.withChoice(
-        (url, req) -> ChoiceControl.visitChoice(req),
+        (_, req) -> ChoiceControl.visitChoice(req),
         525,
         0,
         null,
@@ -97,7 +97,7 @@ public class IntriguingPuzzleBoxManagerTest {
     private static void visit(final String page, final int decision) {
       try (var cleanups =
           Player.withChoice(
-              (url, req) -> ChoiceControl.visitChoice(req),
+              (_, req) -> ChoiceControl.visitChoice(req),
               525,
               decision,
               null,

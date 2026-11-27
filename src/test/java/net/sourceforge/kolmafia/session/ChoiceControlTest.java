@@ -960,7 +960,7 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
-              withChoice((url, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
+              withChoice((_, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
 
       try (cleanups) {
         assertThat("_trickOrTreatBlock", isSetTo("DLdLLLDLLDDL"));
@@ -977,7 +977,7 @@ class ChoiceControlTest {
               withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
               withLastLocation(AdventureDatabase.getAdventureByName("Shadow Rift (Desert Beach)")),
               withChoice(
-                  (url, req) -> ChoiceControl.preChoice(req),
+                  (_, req) -> ChoiceControl.preChoice(req),
                   804,
                   3,
                   "whichhouse=2",
@@ -993,7 +993,7 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
-              withChoice((url, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
+              withChoice((_, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
 
       try (cleanups) {
         assertThat(KoLAdventure.lastVisitedLocation, nullValue());

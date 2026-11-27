@@ -4771,7 +4771,7 @@ public abstract class ChoiceControl {
             .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
     // Update the map
-    map.compute(mid, (k, v) -> (v == null ? 0 : v) + increment);
+    map.compute(mid, (_, v) -> (v == null ? 0 : v) + increment);
 
     // Encode the map back into a string, removing any monsters for whom we have fewer than one eggs
     var updated =

@@ -113,10 +113,10 @@ public class FindBar extends JPanel {
               @Override
               public void changedUpdate(DocumentEvent e) {}
             });
-    this.field.addActionListener(e -> this.next());
+    this.field.addActionListener(_ -> this.next());
     JComponentUtilities.addHotKey(
-        this.field, KeyEvent.VK_ENTER, InputEvent.SHIFT_DOWN_MASK, e -> this.previous());
-    JComponentUtilities.addHotKey(this.field, KeyEvent.VK_ESCAPE, e -> this.close());
+        this.field, KeyEvent.VK_ENTER, InputEvent.SHIFT_DOWN_MASK, _ -> this.previous());
+    JComponentUtilities.addHotKey(this.field, KeyEvent.VK_ESCAPE, _ -> this.close());
 
     this.setVisible(false);
   }
@@ -126,7 +126,7 @@ public class FindBar extends JPanel {
     button.putClientProperty(FlatClientProperties.STYLE_CLASS, "inTextField");
     button.setToolTipText(tooltip);
     button.setFocusable(false);
-    button.addActionListener(e -> action.run());
+    button.addActionListener(_ -> action.run());
     return button;
   }
 
@@ -135,7 +135,7 @@ public class FindBar extends JPanel {
         root,
         KeyEvent.VK_F,
         Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx(),
-        e -> this.open());
+        _ -> this.open());
   }
 
   public void open() {

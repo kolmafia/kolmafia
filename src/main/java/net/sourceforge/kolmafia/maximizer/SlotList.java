@@ -33,7 +33,7 @@ public class SlotList<T> {
   }
 
   public List<T> get(Slot key) {
-    return slotList.computeIfAbsent(key, k -> new ArrayList<>());
+    return slotList.computeIfAbsent(key, _ -> new ArrayList<>());
   }
 
   public List<T> getFamiliar(int key) {

@@ -167,7 +167,7 @@ public class FakeHttpClient extends HttpClient {
 
     @Override
     public HttpHeaders headers() {
-      return HttpHeaders.of(this.headers, (x, y) -> true);
+      return HttpHeaders.of(this.headers, (_, _) -> true);
     }
 
     @Override

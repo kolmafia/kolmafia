@@ -161,7 +161,7 @@ final class MaximizerBranchBound {
         bySlot
             .get(slot)
             .computeIfAbsent(
-                required.getOrDefault(slot, -1), ignored -> EnumSet.noneOf(BooleanModifier.class))
+                required.getOrDefault(slot, -1), _ -> EnumSet.noneOf(BooleanModifier.class))
             .addAll(entry.getValue());
       }
     }
