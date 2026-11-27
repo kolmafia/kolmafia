@@ -1316,10 +1316,17 @@ public abstract class KoLCharacter {
       case BATMAN -> BatManager.setCombatSkills();
     }
 
+    LimitMode previous = KoLCharacter.limitMode;
     KoLCharacter.limitMode = limitmode;
+
+    if (previous != limitmode) {
+      Modifiers.availableSkillsChanged();
+    }
 
     if (resetAfter) {
       KoLmafia.resetAfterLimitmode();
+    } else if (previous != limitmode) {
+      KoLCharacter.recalculateAdjustments();
     }
   }
 
