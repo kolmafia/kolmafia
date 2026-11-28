@@ -183,7 +183,7 @@ public class StandardRequest extends GenericRequest {
       while (objectMatcher.find()) {
         String object = objectMatcher.group(1).trim().toLowerCase();
         if (object.length() > 0) {
-          map.computeIfAbsent(itemType, k -> new HashSet<>()).add(object);
+          map.computeIfAbsent(itemType, _ -> new HashSet<>()).add(object);
         }
       }
     }

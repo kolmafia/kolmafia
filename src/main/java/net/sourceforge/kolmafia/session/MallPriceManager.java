@@ -742,7 +742,7 @@ public abstract class MallPriceManager {
         continue;
       }
 
-      List<PurchaseRequest> results = itemResults.computeIfAbsent(itemId, k -> new ArrayList<>());
+      List<PurchaseRequest> results = itemResults.computeIfAbsent(itemId, _ -> new ArrayList<>());
 
       results.addAll(NPCStoreDatabase.getAvailablePurchaseRequests(itemId));
       results.addAll(CoinmastersDatabase.getAllPurchaseRequests(itemId));

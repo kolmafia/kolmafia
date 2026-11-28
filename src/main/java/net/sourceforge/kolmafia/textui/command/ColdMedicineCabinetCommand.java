@@ -79,7 +79,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
    */
   private static Map<Character, Integer> getCounts() {
     return getCharacters()
-        .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(i -> 1)));
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(_ -> 1)));
   }
 
   public static AdventureResult guessNextPill() {

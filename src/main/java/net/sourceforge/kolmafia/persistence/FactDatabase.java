@@ -488,7 +488,7 @@ public class FactDatabase {
   }
 
   private static void addToDatabase(Phylum phylum, Fact fact) {
-    facts.computeIfAbsent(phylum, p -> new ArrayList<>()).add(fact);
+    facts.computeIfAbsent(phylum, _ -> new ArrayList<>()).add(fact);
   }
 
   private static boolean isPhylumEffect(final Path path, final Phylum phylum, final int seed) {

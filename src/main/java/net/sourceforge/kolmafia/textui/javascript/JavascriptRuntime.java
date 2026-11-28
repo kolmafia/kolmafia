@@ -159,7 +159,7 @@ public class JavascriptRuntime extends AbstractRuntime {
     // Storage is sandboxed per script file. CLI scripts share a session.
     var storage =
         storedSessions.computeIfAbsent(
-            scriptFile == null ? null : scriptFile.getAbsolutePath(), k -> new Storage());
+            scriptFile == null ? null : scriptFile.getAbsolutePath(), _ -> new Storage());
 
     var wrapFactory = cx.getWrapFactory();
     wrapFactory.setJavaPrimitiveWrap(false);
@@ -239,7 +239,7 @@ public class JavascriptRuntime extends AbstractRuntime {
       } else {
         return (Value)
             ScriptRuntime.doTopCall(
-                (cx1, scope1, thisObj, args) -> executeRun(functionName, arguments, scope, true),
+                (_, _, _, _) -> executeRun(functionName, arguments, scope, true),
                 cx,
                 scope,
                 null,

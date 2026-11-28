@@ -283,7 +283,7 @@ public class TrackManager {
   }
 
   public static void resetAscension() {
-    resetIf(x -> true);
+    resetIf(_ -> true);
   }
 
   public static void recalculate() {

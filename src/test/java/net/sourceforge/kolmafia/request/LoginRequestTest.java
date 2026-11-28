@@ -52,7 +52,7 @@ class LoginRequestTest {
                   threads
                       .when(() -> RequestThread.postRequest(any(GenericRequest.class)))
                       .thenAnswer(
-                          invocation -> {
+                          _ -> {
                             logins.incrementAndGet();
                             loggingIn.countDown();
                             finishLogin.await(10, TimeUnit.SECONDS);

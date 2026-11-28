@@ -552,7 +552,7 @@ public class TCRSDatabase {
     for (var m : rawModifiers(itemId)) {
       var mod = resolveModifier(m);
       if (mod != null && CARRIED_OVER.contains(mod)) {
-        byModifier.computeIfAbsent(mod, k -> new ArrayList<>()).add(m);
+        byModifier.computeIfAbsent(mod, _ -> new ArrayList<>()).add(m);
       }
     }
     var carried = new ArrayList<ModifierValue>();
@@ -1259,23 +1259,23 @@ public class TCRSDatabase {
         switch (data[0]) {
           case "Food Size" ->
               FOOD_SIZE_DESCRIPTORS
-                  .computeIfAbsent(Integer.parseInt(data[1]), k -> new ArrayList<>())
+                  .computeIfAbsent(Integer.parseInt(data[1]), _ -> new ArrayList<>())
                   .add(data[2]);
           case "Booze Size" ->
               BOOZE_SIZE_DESCRIPTORS
-                  .computeIfAbsent(Integer.parseInt(data[1]), k -> new ArrayList<>())
+                  .computeIfAbsent(Integer.parseInt(data[1]), _ -> new ArrayList<>())
                   .add(data[2]);
           case "Food Quality" ->
               FOOD_QUALITY_DESCRIPTORS
-                  .computeIfAbsent(ConsumableQuality.valueOf(data[1]), k -> new ArrayList<>())
+                  .computeIfAbsent(ConsumableQuality.valueOf(data[1]), _ -> new ArrayList<>())
                   .add(data[2]);
           case "Booze Quality" ->
               BOOZE_QUALITY_DESCRIPTORS
-                  .computeIfAbsent(ConsumableQuality.valueOf(data[1]), k -> new ArrayList<>())
+                  .computeIfAbsent(ConsumableQuality.valueOf(data[1]), _ -> new ArrayList<>())
                   .add(data[2]);
           case "Equipment Enchant" -> EQUIPMENT_MODIFIERS.add(Map.entry(data[1], data[2]));
           // Every other tag is a simple ordered word list keyed by the tag.
-          default -> STRINGS.computeIfAbsent(data[0], k -> new ArrayList<>()).add(data[1]);
+          default -> STRINGS.computeIfAbsent(data[0], _ -> new ArrayList<>()).add(data[1]);
         }
       }
     } catch (IOException e) {
@@ -1314,7 +1314,7 @@ public class TCRSDatabase {
     for (var mv : modifiers) {
       var modifier = ModifierDatabase.getModifierByName(mv.getName());
       if (modifier != null && modifier.isEnchantment() && isEnchantableValue(mv.getValue())) {
-        present.computeIfAbsent(modifier, key -> new HashSet<>()).add(mv.getValue());
+        present.computeIfAbsent(modifier, _ -> new HashSet<>()).add(mv.getValue());
       }
     }
 

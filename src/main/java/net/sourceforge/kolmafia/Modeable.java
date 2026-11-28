@@ -190,6 +190,6 @@ public enum Modeable {
   }
 
   public static Map<Modeable, Boolean> getBooleanMap() {
-    return getBooleanMap(m -> false);
+    return getBooleanMap(_ -> false);
   }
 }

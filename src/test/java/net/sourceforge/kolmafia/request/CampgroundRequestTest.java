@@ -92,7 +92,7 @@ public class CampgroundRequestTest {
     mocked
         .when(() -> ApiRequest.updateStatus())
         .thenAnswer(
-            invocation -> {
+            _ -> {
               // UseSkillRequest just cares that MP is updated.
               KoLCharacter.setMP(500, 1000, 1000);
               return null;

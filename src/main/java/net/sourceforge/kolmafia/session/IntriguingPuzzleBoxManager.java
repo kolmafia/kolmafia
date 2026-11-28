@@ -91,7 +91,7 @@ public class IntriguingPuzzleBoxManager {
             Collectors.toMap(
                 parts -> Integer.parseInt(parts[0]),
                 parts -> List.of(parts[1].split(",")),
-                (a, b) -> a,
+                (a, _) -> a,
                 TreeMap::new));
   }
 
@@ -105,7 +105,7 @@ public class IntriguingPuzzleBoxManager {
                 Collectors.toMap(
                     parts -> Integer.parseInt(parts[0].split(",")[1]),
                     parts -> parts[1],
-                    (a, b) -> a,
+                    (a, _) -> a,
                     TreeMap::new)));
   }
 
@@ -140,7 +140,7 @@ public class IntriguingPuzzleBoxManager {
         // Without the outcome we can't tell what step comes next, so stop recording steps.
         step = -1;
       } else {
-        outcomes.computeIfAbsent(step, s -> new TreeMap<>()).putIfAbsent(decision, outcome);
+        outcomes.computeIfAbsent(step, _ -> new TreeMap<>()).putIfAbsent(decision, outcome);
         step = outcome.equals("buzz") ? 0 : step + 1;
       }
     }

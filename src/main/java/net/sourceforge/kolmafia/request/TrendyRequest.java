@@ -123,7 +123,7 @@ public class TrendyRequest extends GenericRequest {
       String[] splits = objects.split(", ");
       for (String split : splits) {
         String object = split.trim().toLowerCase();
-        map.computeIfAbsent(itemType, k -> new HashMap<>()).put(object, available);
+        map.computeIfAbsent(itemType, _ -> new HashMap<>()).put(object, available);
       }
     }
 

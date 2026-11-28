@@ -2583,7 +2583,7 @@ public class Player {
   public static Cleanups withNotAllowedInStandard(final RestrictedItemType type, final String key) {
     var lcKey = key.toLowerCase();
     var map = StandardRequest.getRestrictionMap();
-    map.computeIfAbsent(type, k -> new HashSet<>()).add(lcKey);
+    map.computeIfAbsent(type, _ -> new HashSet<>()).add(lcKey);
 
     return new Cleanups(
         () -> {

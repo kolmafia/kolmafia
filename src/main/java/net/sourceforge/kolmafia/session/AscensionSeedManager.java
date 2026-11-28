@@ -1403,7 +1403,7 @@ public class AscensionSeedManager {
 
     public VioletFog() {
       super(
-          IntStream.range(0, 69).mapToObj(i -> "0").collect(Collectors.joining(",")),
+          IntStream.range(0, 69).mapToObj(_ -> "0").collect(Collectors.joining(",")),
           "violetFogLayout");
       String layoutString = Preferences.getString("violetFogLayout");
       if (layoutString.isBlank()) {

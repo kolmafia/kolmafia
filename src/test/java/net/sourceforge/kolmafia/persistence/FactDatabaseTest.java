@@ -77,7 +77,7 @@ class FactDatabaseTest {
                 () ->
                     FileUtilities.getVersionedReader(
                         "bookoffacts.txt", KoLConstants.BOOKOFFACTS_VERSION))
-            .thenAnswer(invocation -> new BufferedReader(new StringReader(input)));
+            .thenAnswer(_ -> new BufferedReader(new StringReader(input)));
         RequestLogger.openCustom(out);
         FactDatabase.reset();
         RequestLogger.closeCustom();

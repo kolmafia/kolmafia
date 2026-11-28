@@ -1672,7 +1672,7 @@ public class MonsterData extends AdventureResult {
   public Element getAttackElement() {
     // For backwards compatibility. If multiple attack elements, which one to return?
     // The last one, I guess.
-    return this.attackElements.stream().reduce((first, second) -> second).orElse(Element.NONE);
+    return this.attackElements.stream().reduce((_, second) -> second).orElse(Element.NONE);
   }
 
   public Element getDefenseElement() {

@@ -959,7 +959,7 @@ public class EquipmentManager {
   public static final void decrementTurns() {
     if (usingStickerWeapon()) {
       for (var slot : SlotSet.STICKER_SLOTS) {
-        EquipmentManager.turnsRemaining.compute(slot, (k, v) -> v == null ? -1 : v - 1);
+        EquipmentManager.turnsRemaining.compute(slot, (_, v) -> v == null ? -1 : v - 1);
       }
       UserInterfaceManager.get()
           .stickersChanged(

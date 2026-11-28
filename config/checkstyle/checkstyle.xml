@@ -40,6 +40,7 @@
       <property name="allowStaticMemberImports" value="true"/>
     </module>
     <module name="UnnecessarySemicolonInTryWithResources"/>
+    <module name="UnusedLambdaParameterShouldBeUnnamed"/>
     <module name="ImportControl">
       <property name="file" value="${config_loc}/import-control.xml"/>
       <property name="path" value="^.*[\\/]src[\\/]main[\\/]java[\\/]net[\\/]sourceforge[\\/]kolmafia[\\/].*$"/>
