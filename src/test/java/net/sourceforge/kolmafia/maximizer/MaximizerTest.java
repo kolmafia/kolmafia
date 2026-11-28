@@ -24,7 +24,9 @@ import static internal.helpers.Player.withItemInStash;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
+import static internal.helpers.Player.withMallPrice;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withMeatInStorage;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
 import static internal.helpers.Player.withNotAllowedInStandard;
@@ -48,6 +50,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
@@ -236,6 +239,45 @@ public class MaximizerTest {
 
   @Nested
   class Max {
+    @ParameterizedTest
+    @CsvSource({
+      "item drop, 1, 3, 0",
+      "item drop 2000 max, 1, 2, 1",
+      "item drop, 3, 3, 0",
+      "item drop 2000 max, 3, 2, 1"
+    })
+    void mallRecommendationOnlyAcquiresScoreImprovingCopies(
+        String itemObjective, int ownedBowTies, long expectedBowTies, long expectedEarrings) {
+      int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+      int earring = ItemPool.get("baconstone earring").getItemId();
+      try (var cleanups =
+          new Cleanups(
+              withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
+              withOverrideModifiers(ModifierType.ITEM, earring, "Meat Drop: +1000"),
+              withStats(10, 10, 10),
+              withItem(bowTie, ownedBowTies),
+              withItem(earring),
+              withMallPrice(bowTie, 100),
+              withMallPrice(earring, 100),
+              withMeat(1000),
+              withProperty("autoSatisfyWithMall", true),
+              withInteractivity(true))) {
+        assertThat(EquipmentManager.canEquip(earring), is(true));
+        maximizeAny(itemObjective + ", 0.1 meat drop, -tie", 100, PriceLevel.ALL);
+
+        assertThat(recommendedAccessorySlots(bowTie), is(expectedBowTies));
+        assertThat(
+            getBoosts().toString(), recommendedAccessorySlots(earring), is(expectedEarrings));
+        assertThat(
+            getBoosts().toString(),
+            getBoosts().stream()
+                .filter(boost -> boost.getItem() != null && boost.getItem().getItemId() == bowTie)
+                .filter(boost -> boost.toString().startsWith("acquire & equip acc"))
+                .count(),
+            is(Math.max(0, expectedBowTies - ownedBowTies)));
+      }
+    }
+
     @Test
     public void maxKeywordStopsCountingBeyondTarget() {
       final var cleanups =
@@ -4714,6 +4756,148 @@ public class MaximizerTest {
   }
 
   @Test
+  void mallRecommendationAcquiresCopiesForEveryAccessorySlot() {
+    int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
+            withStats(10, 10, 10),
+            withItem(bowTie),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("item drop, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItems(
+              hasProperty("cmd", is("equip acc1 \u00B6" + bowTie)),
+              hasToString(startsWith("acquire & equip acc2 polka-dot bow tie")),
+              hasProperty("cmd", is("equip acc2 \u00B6" + bowTie)),
+              hasToString(startsWith("acquire & equip acc3 polka-dot bow tie")),
+              hasProperty("cmd", is("equip acc3 \u00B6" + bowTie))));
+    }
+  }
+
+  @Test
+  void mallRecommendationAcquiresOneCopyOfSingleEquipAccessory() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                ItemPool.get("polka-dot bow tie").getItemId(),
+                "Item Drop: +1000, Single Equip"),
+            withStats(10, 10, 10),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("item drop, -tie");
+
+      assertThat(
+          getBoosts(), hasItem(hasToString(startsWith("acquire & equip acc1 polka-dot bow tie"))));
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2, "polka-dot bow tie"))));
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY3, "polka-dot bow tie"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"255, 250, 2, 0", "300, 290, 1, 1"})
+  void mallRecommendationsAccountForDiminishingFamiliarReturns(
+      int earringMeatDrop,
+      int mrAccessoryMeatDrop,
+      long expectedBowTies,
+      long expectedMrAccessories) {
+    int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+    int earring = ItemPool.get("baconstone earring").getItemId();
+    int mrAccessory = ItemPool.MR_ACCESSORY;
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, bowTie, "Familiar Weight: +100"),
+            withOverrideModifiers(
+                ModifierType.ITEM, earring, "Meat Drop: +" + earringMeatDrop + ", Single Equip"),
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                mrAccessory,
+                "Meat Drop: +" + mrAccessoryMeatDrop + ", Single Equip"),
+            withFamiliar(FamiliarPool.LEPRECHAUN),
+            withStats(10, 10, 10),
+            withItem(bowTie),
+            withItem(earring),
+            withItem(mrAccessory),
+            withMallPrice(bowTie, 100),
+            withMallPrice(earring, 100),
+            withMallPrice(mrAccessory, 100),
+            withMeat(1000),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("meat drop, -tie", 100, PriceLevel.ALL);
+
+      assertThat(getBoosts().toString(), recommendedAccessorySlots(bowTie), is(expectedBowTies));
+      assertThat(recommendedAccessorySlots(earring), is(1L));
+      assertThat(recommendedAccessorySlots(mrAccessory), is(expectedMrAccessories));
+      assertThat(
+          getBoosts().stream()
+              .filter(boost -> boost.getItem() != null && boost.getItem().getItemId() == bowTie)
+              .filter(boost -> boost.toString().startsWith("acquire & equip acc"))
+              .count(),
+          is(expectedBowTies - 1));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "100, 300, 0, 3",
+    "100, 200, 1, 3",
+    "100, 100, 2, 3",
+    "100, 0, 3, 3",
+    "1000, 1000, 0, 3",
+    "1000, 250, 0, 2",
+    "1000, 99, 0, 0",
+    "99, 1000, 0, 0"
+  })
+  void mallRecommendationsRespectPriceAndAvailableMeat(
+      int maxPrice, long meat, int ownedCopies, long expectedCopies) {
+    int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
+            withStats(10, 10, 10),
+            withItem(bowTie, ownedCopies),
+            withMallPrice(bowTie, 100),
+            withMeat(meat),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("item drop, -tie", maxPrice, PriceLevel.ALL);
+
+      assertThat(recommendedAccessorySlots(bowTie), is(expectedCopies));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"100, 300, 3", "99, 1000, 0", "1000, 1000, 3", "1000, 250, 2", "1000, 99, 0"})
+  void storageMallRecommendationsRespectPriceAndAvailableMeat(
+      int maxPrice, long storageMeat, long expectedCopies) {
+    int bowTie = ItemPool.get("polka-dot bow tie").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, bowTie, "Item Drop: +1000"),
+            withStats(10, 10, 10),
+            withMallPrice(bowTie, 100),
+            withMeatInStorage(storageMeat),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(false))) {
+      maximizeAny("item drop, -tie", maxPrice, PriceLevel.ALL);
+
+      assertThat(recommendedAccessorySlots(bowTie), is(expectedCopies));
+    }
+  }
+
+  private static long recommendedAccessorySlots(int itemId) {
+    return getBoosts().stream()
+        .filter(boost -> SlotSet.ACCESSORY_SLOTS.contains(boost.getSlot()))
+        .filter(boost -> boost.getItem().getItemId() == itemId)
+        .count();
+  }
+
+  @Test
   void emptyKeywordRecommendsKeepingOccupiedSlots() {
     try (var cleanups = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
       assertTrue(maximize("empty"));
@@ -4795,6 +4979,238 @@ public class MaximizerTest {
         assertThat(boosts, hasItem(hasProperty("cmd", startsWith("unequip acc2"))));
         assertThat(boosts, not(hasItem(recommendsSlot(Slot.ACCESSORY3, "Peridot of Peril"))));
       }
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"false, false", "false, true", "true, false", "true, true"})
+  void storageMallRecommendationsBuyEveryCopyIntoStorage(boolean ronin, boolean foldables) {
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 10, 10),
+            withMallPrice(ItemPool.SHINY_RING, 100),
+            withMeatInStorage(1000),
+            withProperty("autoSatisfyWithMall", true),
+            withProperty("maximizerFoldables", foldables),
+            withInteractivity(false),
+            withRonin(ronin))) {
+      maximizeAny("mys", 1000, PriceLevel.ALL);
+
+      String item = "\u00B6" + ItemPool.SHINY_RING;
+      for (var slot : SlotSet.ACCESSORY_SLOTS) {
+        assertThat(
+            getBoosts(),
+            hasItem(
+                hasProperty(
+                    "cmd",
+                    is(
+                        "buy using storage 1 "
+                            + item
+                            + ";pull "
+                            + item
+                            + ";equip "
+                            + slot.phpName
+                            + " "
+                            + item))));
+      }
+    }
+  }
+
+  @Test
+  void storageMallRecommendationsUseOwnedAndStoredCopiesBeforeBuying() {
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 10, 10),
+            withItem(ItemPool.SHINY_RING),
+            withItemInStorage(ItemPool.SHINY_RING),
+            withMallPrice(ItemPool.SHINY_RING, 100),
+            withMeatInStorage(1000),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(false),
+            withRonin(true))) {
+      maximizeAny("mys", 1000, PriceLevel.ALL);
+
+      String item = "\u00B6" + ItemPool.SHINY_RING;
+      assertThat(
+          getBoosts(),
+          hasItems(
+              hasProperty("cmd", is("equip acc1 " + item)),
+              hasProperty("cmd", is("pull " + item + ";equip acc2 " + item)),
+              hasProperty(
+                  "cmd",
+                  is("buy using storage 1 " + item + ";pull " + item + ";equip acc3 " + item))));
+    }
+  }
+
+  @Test
+  void retainsDistinctDualWieldCandidatesForCappedModifiers() {
+    int club = ItemPool.get("seal-clubbing club").getItemId();
+    int totem = ItemPool.get("turtle totem").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, club, "Hot Resistance: +10"),
+            withOverrideModifiers(ModifierType.ITEM, totem, "Cold Resistance: +9"),
+            withEquippableItem(club, 2),
+            withEquippableItem(totem),
+            withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING))) {
+      assertTrue(maximize("hot res, 10 max, cold res, -tie"));
+
+      assertEquals(10, modFor(DoubleModifier.HOT_RESISTANCE), 0.01, getBoosts().toString());
+      assertEquals(9, modFor(DoubleModifier.COLD_RESISTANCE), 0.01, getBoosts().toString());
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2})
+  void storageRecommendationsUseFoldableCopiesBeforeBuying(int foldableCopies) {
+    int eye = ItemPool.STINKY_CHEESE_EYE;
+    int diaper = ItemPool.STINKY_CHEESE_DIAPER;
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 10, 10),
+            withOverrideModifiers(ModifierType.ITEM, eye, "Mysticality: +1000"),
+            withItemInStorage(eye),
+            withItemInStorage(diaper, foldableCopies),
+            withProperty("maximizerFoldables", true),
+            withProperty("autoSatisfyWithMall", true),
+            withMallPrice(eye, 100),
+            withMeatInStorage(1000),
+            withInteractivity(false),
+            withRonin(true))) {
+      maximizeAny("mys, -tie", 100, PriceLevel.ALL);
+
+      String item = "\u00B6" + eye;
+      String pullFold = "pull 1 \u00B6" + diaper + ";fold " + item + ";";
+      String lastSource =
+          foldableCopies == 2 ? pullFold : "buy using storage 1 " + item + ";pull " + item + ";";
+      assertThat(
+          getBoosts(),
+          hasItems(
+              hasProperty("cmd", is("pull " + item + ";equip acc1 " + item)),
+              hasProperty("cmd", is(pullFold + "equip acc2 " + item)),
+              hasProperty("cmd", is(lastSource + "equip acc3 " + item))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"0, 1, 2", "1, 1, 1", "1, 2, 0"})
+  void recommendationsCombineOwnedFoldableAndStoredCopies(
+      int ownedCopies, int foldableCopies, int storedCopies) {
+    int eye = ItemPool.STINKY_CHEESE_EYE;
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 10, 10),
+            withOverrideModifiers(ModifierType.ITEM, eye, "Mysticality: +1000"),
+            withItem(eye, ownedCopies),
+            withItem(ItemPool.STINKY_CHEESE_DIAPER, foldableCopies),
+            withItemInStorage(eye, storedCopies),
+            withProperty("maximizerFoldables", true),
+            withInteractivity(false),
+            withRonin(true))) {
+      maximizeAny("mys, -tie");
+
+      String item = "\u00B6" + eye;
+      for (int slot = 1; slot <= 3; slot++) {
+        String source =
+            slot <= ownedCopies
+                ? ""
+                : slot <= ownedCopies + foldableCopies
+                    ? "fold " + item + ";"
+                    : "pull " + item + ";";
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", is(source + "equip acc" + slot + " " + item))));
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  void recommendationsDoNotDoubleCountAccessibleStorage(boolean foldable) {
+    int eye = ItemPool.STINKY_CHEESE_EYE;
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 10, 10),
+            withOverrideModifiers(ModifierType.ITEM, eye, "Mysticality: +1000"),
+            withItem(eye),
+            withItemInStorage(foldable ? ItemPool.STINKY_CHEESE_DIAPER : eye),
+            withProperty("maximizerFoldables", true),
+            withProperty("autoSatisfyWithMall", false),
+            withProperty("autoSatisfyWithStorage", true),
+            withInteractivity(true),
+            withRonin(false))) {
+      maximizeAny("mys, -tie");
+
+      assertThat(recommendedAccessorySlots(eye), is(2L));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  void recommendationsUseEachAvailableFoldForm(boolean storage) {
+    int eye = ItemPool.STINKY_CHEESE_EYE;
+    int diaper = ItemPool.STINKY_CHEESE_DIAPER;
+    int wheel = ItemPool.STINKY_CHEESE_WHEEL;
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 10, 10),
+            withOverrideModifiers(ModifierType.ITEM, eye, "Mysticality: +1000"),
+            withItem(eye),
+            storage ? withItemInStorage(diaper) : withItem(diaper),
+            storage ? withItemInStorage(wheel) : withItem(wheel),
+            withProperty("maximizerFoldables", true),
+            withProperty("autoSatisfyWithMall", false),
+            withInteractivity(false),
+            withRonin(true))) {
+      maximizeAny("mys, -tie");
+
+      String item = "\u00B6" + eye;
+      assertThat(
+          getBoosts(),
+          hasItems(
+              hasProperty("cmd", is("equip acc1 " + item)),
+              hasProperty(
+                  "cmd",
+                  is(
+                      (storage ? "pull 1 \u00B6" + diaper + ";" : "")
+                          + "fold "
+                          + item
+                          + ";equip acc2 "
+                          + item)),
+              hasProperty(
+                  "cmd",
+                  is(
+                      (storage ? "pull 1 \u00B6" + wheel + ";" : "")
+                          + "fold "
+                          + item
+                          + ";equip acc3 "
+                          + item))));
+    }
+  }
+
+  @Test
+  void recommendationsKeepAccessibleAndStoredFoldSourcesSeparate() {
+    int eye = ItemPool.STINKY_CHEESE_EYE;
+    int wheel = ItemPool.STINKY_CHEESE_WHEEL;
+    try (var cleanups =
+        new Cleanups(
+            withStats(10, 10, 10),
+            withOverrideModifiers(ModifierType.ITEM, eye, "Mysticality: +1000"),
+            withItem(ItemPool.STINKY_CHEESE_DIAPER),
+            withItemInStorage(wheel, 2),
+            withProperty("maximizerFoldables", true),
+            withProperty("autoSatisfyWithMall", false),
+            withInteractivity(false),
+            withRonin(true))) {
+      maximizeAny("mys, -tie");
+
+      String item = "\u00B6" + eye;
+      String pullFold = "pull 1 \u00B6" + wheel + ";fold " + item + ";";
+      assertThat(
+          getBoosts(),
+          hasItems(
+              hasProperty("cmd", is("fold " + item + ";equip acc1 " + item)),
+              hasProperty("cmd", is(pullFold + "equip acc2 " + item)),
+              hasProperty("cmd", is(pullFold + "equip acc3 " + item))));
     }
   }
 }

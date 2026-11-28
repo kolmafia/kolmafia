@@ -1846,8 +1846,6 @@ public class Maximizer {
       }
       text = text + " (";
 
-      CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
-
       long price = 0L;
 
       // How many have been needed so far to make this maximization set?
@@ -1874,6 +1872,9 @@ public class Maximizer {
         }
       }
 
+      CheckedItem checkedItem =
+          new CheckedItem(itemId, equipScope, maxPrice, priceLevel, count + 1);
+
       // We might want to fold for a new Garbage item, even if we already have it, to reset it
       if ((itemId == ItemPool.BROKEN_CHAMPAGNE
               && Preferences.getInteger("garbageChampagneCharge") == 0)
@@ -1889,6 +1890,13 @@ public class Maximizer {
           cmd = "unequip " + slotname + ";" + cmd;
         }
       }
+
+      // Each threshold includes all sources preferred over it.
+      int creatableTotal = checkedItem.initial + checkedItem.creatable;
+      int npcBuyableTotal = creatableTotal + checkedItem.npcBuyable;
+      int foldableTotal = npcBuyableTotal + checkedItem.foldable;
+      int pullableTotal = foldableTotal + checkedItem.pullable;
+      int pullfoldableTotal = pullableTotal + checkedItem.pullfoldable;
 
       // The "initial" quantity comes from InventoryManager.getAccessibleCount.
       // It can include inventory, closet, and storage.  However, anything that
@@ -1915,19 +1923,17 @@ public class Maximizer {
               case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
               default -> cmd;
             };
-      } else if (checkedItem.creatable + checkedItem.initial > count) {
+      } else if (creatableTotal > count) {
         text = "make & " + text;
         cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
         price = ConcoctionPool.get(item).price;
-      } else if (checkedItem.npcBuyable + checkedItem.initial > count) {
+      } else if (npcBuyableTotal > count) {
         text = "buy & " + text;
         cmd = "buy 1 \u00B6" + item.getItemId() + ";" + cmd;
         price = ConcoctionPool.get(item).price;
-      } else if (checkedItem.foldable + checkedItem.initial > count) {
-        // We assume that there is only one available fold item type of the right group.
-        // Not always right, but will do for now.
-        String method =
-            InventoryManager.simRetrieveItem(ItemPool.get(checkedItem.foldItemId, count + 1));
+      } else if (foldableTotal > count) {
+        AdventureResult foldItem = checkedItem.getFoldItem(count + 1 - npcBuyableTotal, false);
+        String method = InventoryManager.simRetrieveItem(foldItem);
         if (method.equals("have") || method.equals("remove")) {
           text = "fold & " + text;
           cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
@@ -1935,27 +1941,22 @@ public class Maximizer {
           text = method + " & fold & " + text;
           cmd =
               "acquire 1 \u00B6"
-                  + checkedItem.foldItemId
+                  + foldItem.getItemId()
                   + ";fold \u00B6"
                   + item.getItemId()
                   + ";"
                   + cmd;
         }
-      } else if (checkedItem.pullable + checkedItem.initial > count) {
+      } else if (pullableTotal > count) {
         text = "pull & " + text;
         cmd = "pull \u00B6" + item.getItemId() + ";" + cmd;
-      } else if (checkedItem.pullfoldable + checkedItem.initial > count) {
-        // We assume that there is only one available fold item type of the right group.
-        // Not always right, but will do for now.
+      } else if (pullfoldableTotal > count) {
+        AdventureResult foldItem = checkedItem.getFoldItem(count + 1 - pullableTotal, true);
         text = "pull & fold & " + text;
         cmd =
-            "pull 1 \u00B6"
-                + checkedItem.foldItemId
-                + ";fold \u00B6"
-                + item.getItemId()
-                + ";"
-                + cmd;
-      } else if (checkedItem.pullBuyable + checkedItem.initial > count) {
+            "pull 1 \u00B6" + foldItem.getItemId() + ";fold \u00B6" + item.getItemId() + ";" + cmd;
+      } else if (checkedItem.pullBuyable > 0) {
+        // Purchase estimates are the remaining shortage, not a cumulative source total.
         text = "buy & pull & " + text;
         cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
         if (priceLevel != PriceLevel.DONT_CHECK) {

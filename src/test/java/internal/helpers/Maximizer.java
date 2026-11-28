@@ -29,9 +29,13 @@ public class Maximizer {
   }
 
   public static void maximizeAny(String maximizerString) {
+    maximizeAny(maximizerString, 0, PriceLevel.DONT_CHECK);
+  }
+
+  public static void maximizeAny(String maximizerString, int maxPrice, PriceLevel priceLevel) {
     net.sourceforge.kolmafia.maximizer.Maximizer.setExpression(maximizerString);
     net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
-        EquipScope.SPECULATE_ANY, 0, PriceLevel.DONT_CHECK, false, EnumSet.allOf(filterType.class));
+        EquipScope.SPECULATE_ANY, maxPrice, priceLevel, false, EnumSet.allOf(filterType.class));
   }
 
   public static double modFor(Modifier modifier) {
