@@ -115,7 +115,7 @@ public class MushroomPlotPanel extends JPanel {
                       KoLConstants.SCRIPT_LOCATION, MushroomPlotPanel.this);
             }
           });
-    } catch (Exception ie) {
+    } catch (Exception _) {
     }
 
     if (output == null) {
@@ -126,7 +126,7 @@ public class MushroomPlotPanel extends JPanel {
 
     try {
       outputPath = output.getCanonicalPath();
-    } catch (IOException e) {
+    } catch (IOException _) {
       return;
     }
 

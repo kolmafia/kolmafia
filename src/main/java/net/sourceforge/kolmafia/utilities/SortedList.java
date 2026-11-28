@@ -38,9 +38,9 @@ public class SortedList<E extends Comparable<E>> extends ArrayList<E> {
     try {
       super.add(this.insertionIndexOf(0, this.size() - 1, o), o);
       return true;
-    } catch (IllegalArgumentException e1) {
+    } catch (IllegalArgumentException _) {
       return false;
-    } catch (ClassCastException e2) {
+    } catch (ClassCastException _) {
       return false;
     }
   }

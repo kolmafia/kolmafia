@@ -70,7 +70,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
       } else {
         SwingUtilities.invokeAndWait(add);
       }
-    } catch (Exception e) {
+    } catch (Exception _) {
       // This should not happen.  However, skip it
       // since nothing bad really happened.
     }

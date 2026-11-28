@@ -135,7 +135,7 @@ public class ChatBufferDisplay implements ChatBuffer.Display {
       if (!added.isEmpty()) {
         currentHTML.insertBeforeEnd(body, added);
       }
-    } catch (BadLocationException | IOException e) {
+    } catch (BadLocationException | IOException _) {
       return false;
     }
 
@@ -150,7 +150,7 @@ public class ChatBufferDisplay implements ChatBuffer.Display {
     try {
       var bounds = displayPane.modelToView2D(element.getStartOffset());
       return bounds == null ? 0 : (int) bounds.getY();
-    } catch (BadLocationException e) {
+    } catch (BadLocationException _) {
       return 0;
     }
   }

@@ -98,7 +98,7 @@ public class ChatMessage {
         object.put("msg", this.content);
         object.put("time", this.date.getTime() / 1000);
         return object;
-      } catch (JSONException e) {
+      } catch (JSONException _) {
         return null;
       }
     }

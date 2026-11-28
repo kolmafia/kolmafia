@@ -7052,7 +7052,7 @@ public abstract class ChoiceAdventures {
           MonsterDatabase.registerMonster(name, monsterId);
         }
       }
-    } catch (StringIndexOutOfBoundsException ignored) {
+    } catch (StringIndexOutOfBoundsException _) {
       // sometimes throws an error, probably https://bugs.openjdk.org/browse/JDK-8238652
     }
   }
@@ -9201,7 +9201,7 @@ public abstract class ChoiceAdventures {
             } else {
               result[0] = new ChoiceOption("get cocktail ingredients");
             }
-          } catch (ParseException ex) {
+          } catch (ParseException _) {
             result[0] =
                 new ChoiceOption("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
             KoLmafia.updateDisplay("Unable to parse " + lastUMDDateString);

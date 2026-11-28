@@ -260,7 +260,7 @@ public class RequestLogger extends NullStream {
   public static void closeStream(final PrintStream stream) {
     try {
       stream.close();
-    } catch (Exception e) {
+    } catch (Exception _) {
     }
   }
 

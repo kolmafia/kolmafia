@@ -188,9 +188,9 @@ public class AdventureSpentDatabase implements Serializable {
 
       // set totalTrackedTurns to the combined total of all zones
       totalTrackedTurns = AdventureSpentDatabase.TURNS.values().stream().reduce(0, Integer::sum);
-    } catch (FileNotFoundException e) {
+    } catch (FileNotFoundException _) {
       AdventureSpentDatabase.resetTurns(false);
-    } catch (ClassNotFoundException | ClassCastException e) {
+    } catch (ClassNotFoundException | ClassCastException _) {
       // Found the file, but the contents did not contain a properly-serialized treemap or
       // old version of the combat queue handling.
       // Wipe the bogus file.

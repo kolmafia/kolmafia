@@ -40,7 +40,7 @@ public class PageRegistry {
           PageRegistry.class.getPackageName() + "." + path.substring(0, path.length() - 4);
 
       pageClass = Class.forName(className);
-    } catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException _) {
     }
 
     if (pageClass == null) {
@@ -53,7 +53,7 @@ public class PageRegistry {
       page = (Page) pageClass.getDeclaredConstructor().newInstance();
 
       pagesByLocation.put(path, page);
-    } catch (Exception e) {
+    } catch (Exception _) {
     }
 
     return page;

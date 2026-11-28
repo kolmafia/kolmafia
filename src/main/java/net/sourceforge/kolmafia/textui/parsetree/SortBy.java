@@ -79,7 +79,7 @@ public class SortBy extends Command {
 
     try {
       Arrays.sort(values);
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException _) {
       interpreter.setLineAndFile(this.fileName, this.lineNumber);
       throw interpreter.runtimeException("Illegal argument exception during sort");
     }

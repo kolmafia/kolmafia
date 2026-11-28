@@ -451,7 +451,7 @@ public class ChatBufferTest {
               var caret = pane.modelToView2D(0).getBounds();
               var view = scroller.getViewport().getViewRect();
               caretVisible[0] = caret.y >= view.y && caret.y + caret.height <= view.y + view.height;
-            } catch (BadLocationException e) {
+            } catch (BadLocationException _) {
               caretVisible[0] = false;
             }
           });
@@ -526,7 +526,7 @@ public class ChatBufferTest {
             var offset = pane.viewToModel2D(scroller.getViewport().getViewPosition());
             try {
               line[0] = pane.getDocument().getText(offset, 8);
-            } catch (BadLocationException e) {
+            } catch (BadLocationException _) {
               line[0] = null;
             }
           });

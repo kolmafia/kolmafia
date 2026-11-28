@@ -14,7 +14,7 @@ public class ByteBufferUtilities {
   public static byte[] read(File file) {
     try {
       return Files.readAllBytes(file.toPath());
-    } catch (IOException e) {
+    } catch (IOException _) {
       return EMPTY_BYTE_ARRAY;
     }
   }
@@ -26,7 +26,7 @@ public class ByteBufferUtilities {
 
     try (istream) {
       return istream.readAllBytes();
-    } catch (IOException e) {
+    } catch (IOException _) {
       return EMPTY_BYTE_ARRAY;
     }
   }
@@ -37,7 +37,7 @@ public class ByteBufferUtilities {
     }
     try (istream) {
       istream.transferTo(ostream);
-    } catch (IOException e) {
+    } catch (IOException _) {
       // do nothing
     }
   }

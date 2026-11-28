@@ -148,7 +148,7 @@ public class Preferences {
     try {
       assert istream != null;
       istream.close();
-    } catch (Exception e) {
+    } catch (Exception _) {
       // The stream is already closed, go ahead
       // and ignore this error.
     }

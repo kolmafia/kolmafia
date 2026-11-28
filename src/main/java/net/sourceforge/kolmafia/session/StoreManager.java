@@ -748,7 +748,7 @@ public abstract class StoreManager {
       Collections.sort(StoreManager.soldItemList);
       StoreManager.sortItemsByName = false;
       Collections.sort(StoreManager.sortedSoldItemList);
-    } catch (JSONException e) {
+    } catch (JSONException _) {
       RequestLogger.printLine("JSON failure while updating prices.");
       return;
     }

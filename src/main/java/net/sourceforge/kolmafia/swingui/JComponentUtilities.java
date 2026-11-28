@@ -186,7 +186,7 @@ public class JComponentUtilities {
     if (override.exists()) {
       try {
         return new ImageIcon(override.getCanonicalPath());
-      } catch (IOException e) {
+      } catch (IOException _) {
       }
     }
 

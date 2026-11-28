@@ -123,7 +123,7 @@ public class DebugDatabase {
     URI uri;
     try {
       uri = new URI(url.replace("\"", "%22"));
-    } catch (URISyntaxException e) {
+    } catch (URISyntaxException _) {
       return "";
     }
 
@@ -132,7 +132,7 @@ public class DebugDatabase {
     HttpResponse<String> response;
     try {
       response = client.send(request, BodyHandlers.ofString(StandardCharsets.UTF_8));
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException | InterruptedException _) {
       return "";
     }
 
@@ -2332,7 +2332,7 @@ public class DebugDatabase {
           reader.readLine();
         }
       }
-    } catch (Exception e) {
+    } catch (Exception _) {
       // This shouldn't happen, but if it does, go ahead and
       // fall through.  You're done parsing.
     }
@@ -2569,7 +2569,7 @@ public class DebugDatabase {
     URI uri;
     try {
       uri = new URI(url);
-    } catch (URISyntaxException e) {
+    } catch (URISyntaxException _) {
       return new JSONArray();
     }
 
@@ -2579,7 +2579,7 @@ public class DebugDatabase {
     HttpResponse<String> response;
     try {
       response = client.send(request, BodyHandlers.ofString(StandardCharsets.UTF_8));
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException | InterruptedException _) {
       return new JSONArray();
     }
 

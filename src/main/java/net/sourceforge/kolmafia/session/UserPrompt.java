@@ -130,7 +130,7 @@ public final class UserPrompt<R> {
       while (current != null) {
         try {
           LOCK.wait();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException _) {
           Thread.currentThread().interrupt();
           throw new CancellationException("Interrupted while waiting to prompt");
         }

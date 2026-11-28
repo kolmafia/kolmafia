@@ -49,7 +49,7 @@ public class ShopDatabase {
     try {
       SHOP shopType = Enum.valueOf(SHOP.class, type.toUpperCase());
       return shopType;
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException _) {
       return SHOP.NONE;
     }
   }
@@ -113,7 +113,7 @@ public class ShopDatabase {
             try {
               CraftingType craftingType = Enum.valueOf(CraftingType.class, craftingTypeName);
               registerShop(shopId, shopName, craftingType);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException _) {
               RequestLogger.printLine(
                   "shopId "
                       + shopId

@@ -229,9 +229,9 @@ public class AdventureQueueDatabase implements Serializable {
       // after successfully loading, check if there were new zones added that aren't yet in the
       // TreeMap.
       AdventureQueueDatabase.checkZones();
-    } catch (FileNotFoundException e) {
+    } catch (FileNotFoundException _) {
       AdventureQueueDatabase.resetQueue(false);
-    } catch (ClassNotFoundException | EOFException | ClassCastException e) {
+    } catch (ClassNotFoundException | EOFException | ClassCastException _) {
       // Found the file, but the contents did not contain a properly-serialized treemap or
       // old version of the combat queue handling or some other kind of malformed data.
       // Wipe the bogus file.

@@ -72,7 +72,7 @@ public class RequestHTMLEditorKit extends HTMLEditorKit {
 
       try {
         return imageFile.toURI().toURL();
-      } catch (IOException e) {
+      } catch (IOException _) {
         return null;
       }
     }

@@ -141,7 +141,7 @@ public class RecoveryManager {
   private static Method getKoLCharacterMethod(String name) {
     try {
       return KoLCharacter.class.getMethod(name);
-    } catch (NoSuchMethodException e) {
+    } catch (NoSuchMethodException _) {
       System.out.println("Cannot find method KoLCharacter." + name + "()");
       return null;
     }

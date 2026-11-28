@@ -617,7 +617,7 @@ public class OptionsFrame extends GenericFrame {
 
           ScriptButtonPanel.this.list.add("call " + scriptPath);
           ScriptButtonPanel.this.saveSettings();
-        } catch (IOException ioe) {
+        } catch (IOException _) {
         }
       }
     }
@@ -1763,7 +1763,7 @@ public class OptionsFrame extends GenericFrame {
               });
         }
 
-      } catch (Exception Ex) {
+      } catch (Exception _) {
         // This is probably a case of a bad Laf option.  Try not to have one...
         // currently just fails here if it gets UnsupportedLookAndFeelException...
         // System.out.println("Something went wrong\n"+Ex.getMessage());
@@ -2556,11 +2556,11 @@ public class OptionsFrame extends GenericFrame {
         Color color = (Color) field.get(null);
 
         label.setBackground(color);
-      } catch (Exception e) {
+      } catch (Exception _) {
         try {
           // maybe the pref was a hex code
           label.setBackground(JComponentUtilities.toColor(it));
-        } catch (Exception f) {
+        } catch (Exception _) {
           // olive color is not an acceptable label, but is recognized by HTML parser
           // just hardcode it, whatever
           if (it.equals("olive")) {
@@ -2586,7 +2586,7 @@ public class OptionsFrame extends GenericFrame {
 
         // Reload font color prefs (in case they changed)
         readFromPref();
-      } catch (Exception Ex) {
+      } catch (Exception _) {
         // This is probably a case of a bad Laf option.  Try not to have one...
         // currently just fails silently if we get an UnsupportedLookAndFeelException...
         // System.out.println("Something went wrong\n"+Ex.getMessage());

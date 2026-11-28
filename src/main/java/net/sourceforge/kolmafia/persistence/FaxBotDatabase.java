@@ -530,7 +530,7 @@ public class FaxBotDatabase {
         byte[] data = Files.readAllBytes(file.toPath());
         byte[] hash = MessageDigest.getInstance("SHA-256").digest(data);
         checksum = HexFormat.of().formatHex(hash);
-      } catch (Exception e) {
+      } catch (Exception _) {
         checksum = NOHASH;
       }
       return checksum;

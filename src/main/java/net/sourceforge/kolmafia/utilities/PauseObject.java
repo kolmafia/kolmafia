@@ -17,7 +17,7 @@ public class PauseObject implements Runnable {
       synchronized (this) {
         this.wait();
       }
-    } catch (InterruptedException e) {
+    } catch (InterruptedException _) {
       // We expect this to happen only when we are
       // interrupted.  Fall through.
     }
@@ -42,7 +42,7 @@ public class PauseObject implements Runnable {
       synchronized (this) {
         this.wait(milliseconds);
       }
-    } catch (InterruptedException e) {
+    } catch (InterruptedException _) {
       // We expect this to happen only when we are
       // interrupted.  Fall through.
     }

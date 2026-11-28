@@ -2638,7 +2638,7 @@ public class FightRequest extends GenericRequest {
     try {
       responseText = macroMatcher.group();
     } catch (
-        IllegalStateException e) { // page structure is botched - should have already been reported
+        IllegalStateException _) { // page structure is botched - should have already been reported
       return;
     }
 

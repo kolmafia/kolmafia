@@ -40,7 +40,7 @@ public class SVNCommand extends AbstractCommand {
       SVNURL repo;
       try {
         repo = SVNURL.parseURIEncoded(params);
-      } catch (SVNException e1) {
+      } catch (SVNException _) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Invalid SVN URL");
         return;
       }
@@ -53,7 +53,7 @@ public class SVNCommand extends AbstractCommand {
         SVNURL repo;
         try {
           repo = SVNURL.parseURIEncoded(params);
-        } catch (SVNException e1) {
+        } catch (SVNException _) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Invalid SVN URL");
           return;
         }

@@ -24,7 +24,7 @@ class ListenerRegistryTest {
           other.start();
           try {
             other.join(2000);
-          } catch (InterruptedException e) {
+          } catch (InterruptedException _) {
             Thread.currentThread().interrupt();
           }
           otherThreadFinished.set(!other.isAlive());

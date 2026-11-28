@@ -473,7 +473,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         try {
           maxUses = Integer.parseInt(deedsString[3]);
           isMulti = true;
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
           // not sure what you did.  Possibly used the wrong number of arguments, or specified a
           // non-integer max
           return;
@@ -568,7 +568,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         }
 
         this.add(new CommandDaily(displayText, pref, command, maxPref));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Command deeds require an int for the fifth parameter.");
       }
@@ -588,7 +588,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         }
 
         this.add(new CommandDaily(displayText, pref, command, maxPref, toolTip));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Command deeds require an int for the fifth parameter.");
       }
@@ -612,7 +612,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         }
 
         this.add(new CommandDaily(displayText, pref, command, maxPref, toolTip, compMessage));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Command deeds require an int for the fifth parameter.");
       }
@@ -674,7 +674,7 @@ public class DailyDeedsPanel extends Box implements Listener {
           maxUses = Integer.parseInt(maxString);
         }
 
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Item deeds require an int for the fifth parameter.");
         return;
@@ -766,7 +766,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         this.add(
             new SkillDaily(
                 displayText, pref, skillNames.get(0), "cast " + skillNames.get(0), maxCasts));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Skill deeds require an int for the fifth parameter.");
       }
@@ -790,7 +790,7 @@ public class DailyDeedsPanel extends Box implements Listener {
                 "cast " + skillNames.get(0),
                 maxCasts,
                 toolTip));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Skill deeds require an int for the fifth parameter.");
       }
@@ -824,7 +824,7 @@ public class DailyDeedsPanel extends Box implements Listener {
                 maxCasts,
                 toolTip,
                 compMessage));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Skill deeds require an int for the fifth parameter.");
       }
@@ -866,7 +866,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         int maxPref = Integer.parseInt(deedsString[3]);
 
         this.add(new SimpleDaily(displayText, command, maxPref, sCount));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Simple deeds require an int for the fourth parameter.");
       }
@@ -887,7 +887,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         }
 
         this.add(new SimpleDaily(displayText, command, maxPref, sCount, tooltip, compMessage));
-      } catch (NumberFormatException e) {
+      } catch (NumberFormatException _) {
         RequestLogger.printLine(
             "Daily Deeds error: Simple deeds require an int for the fourth parameter.");
       }
@@ -1290,7 +1290,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       } else {
         try {
           prefToInt = Integer.parseInt(pref);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
       }
       this.setEnabled(prefToInt < this.maxPref);
@@ -1311,7 +1311,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         } else {
           try {
             prefToInt = Integer.parseInt(pref);
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException _) {
           }
         }
         this.box.setDisabledIndex(i, prefToInt > 0);
@@ -1410,7 +1410,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       } else {
         try {
           prefToInt = Integer.parseInt(pref);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
       }
       this.setEnabled(true);
@@ -1549,7 +1549,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       } else {
         try {
           prefToInt = Integer.parseInt(pref);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
       }
       this.setEnabled(true);
@@ -1704,7 +1704,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       } else {
         try {
           prefToInt = Integer.parseInt(pref);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
       }
       this.setShown(prefToInt > 0 || haveItem);
@@ -1853,7 +1853,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       } else {
         try {
           prefToInt = Integer.parseInt(pref);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
         }
       }
       this.setShown(KoLCharacter.hasSkill(this.skill));

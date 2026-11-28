@@ -437,7 +437,7 @@ public class GitManager extends ScriptManager {
         }
         Files.delete(absPath);
         KoLmafia.updateDisplay(shortPath + " => DELETED");
-      } catch (IOException e) {
+      } catch (IOException _) {
         KoLmafia.updateDisplay(shortPath + " failed to delete");
         errored = true;
       }
@@ -532,7 +532,7 @@ public class GitManager extends ScriptManager {
           var relPath = root.relativize(f);
           projectsSyncPaths.computeIfAbsent(relPath, _ -> new HashSet<>()).add(folder);
         }
-      } catch (IOException e) {
+      } catch (IOException _) {
         continue;
       }
     }
@@ -630,7 +630,7 @@ public class GitManager extends ScriptManager {
     Git git;
     try {
       git = Git.open(projectPath.toFile());
-    } catch (IOException e) {
+    } catch (IOException _) {
       return Optional.empty();
     }
 
@@ -650,7 +650,7 @@ public class GitManager extends ScriptManager {
         return Optional.of(
             new GitInfo(url, branch, ObjectId.toString(lastCommitId), getAuthor(author), datetime));
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       // all or nothing
       return Optional.empty();
     }
@@ -663,7 +663,7 @@ public class GitManager extends ScriptManager {
     try {
       var git = Git.open(projectPath.toFile());
       git.close();
-    } catch (IOException e) {
+    } catch (IOException _) {
       return false;
     }
     return true;
@@ -675,7 +675,7 @@ public class GitManager extends ScriptManager {
     Git git;
     try {
       git = Git.open(projectPath.toFile());
-    } catch (IOException e) {
+    } catch (IOException _) {
       return false;
     }
 
@@ -685,7 +685,7 @@ public class GitManager extends ScriptManager {
       var bts = BranchTrackingStatus.of(repo, branch);
       var behind = bts.getBehindCount();
       return behind == 0;
-    } catch (IOException e) {
+    } catch (IOException _) {
       return false;
     }
   }
@@ -735,7 +735,7 @@ public class GitManager extends ScriptManager {
     URI uri;
     try {
       uri = new URI(repoUrl);
-    } catch (URISyntaxException e) {
+    } catch (URISyntaxException _) {
       return (repoUrl + dashBranch).replaceAll("https?://", "").replaceAll("/", "-");
     }
     String uuid = getProjectIdentifier(uri.getHost(), uri.getPath());
@@ -767,7 +767,7 @@ public class GitManager extends ScriptManager {
     JSONObject json;
     try {
       json = JSON.parseObject(Files.readString(manifest));
-    } catch (IOException | JSONException e) {
+    } catch (IOException | JSONException _) {
       return Optional.empty();
     }
     return Optional.of(json);
@@ -823,7 +823,7 @@ public class GitManager extends ScriptManager {
       var repo = git.getRepository();
       return new RepoDetails(
           repo.getConfig().getString("remote", "origin", "url"), repo.getBranch());
-    } catch (IOException e) {
+    } catch (IOException _) {
       // not a git repo
       return null;
     }

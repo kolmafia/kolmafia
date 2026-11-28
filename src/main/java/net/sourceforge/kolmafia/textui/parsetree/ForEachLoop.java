@@ -103,7 +103,7 @@ public class ForEachLoop extends Loop {
       try {
         key = keys.next();
         interpreter.iterators.set(stackPos, key);
-      } catch (ConcurrentModificationException e) {
+      } catch (ConcurrentModificationException _) {
         interpreter.setLineAndFile(this.fileName, this.lineNumber);
         throw interpreter.runtimeException("Map modified within foreach");
       }

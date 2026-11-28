@@ -372,7 +372,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                         FamiliarTrainingManager.getResults().getHTMLContent();
                   }
                 });
-          } catch (Exception ie) {
+          } catch (Exception _) {
           }
 
           if (output == null) {
