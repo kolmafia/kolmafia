@@ -202,7 +202,7 @@ public abstract class KoLmafia {
       KoLmafia.SESSION_HOLDER = null;
       KoLmafia.SESSION_CHANNEL.close();
       KoLmafia.SESSION_FILE.delete();
-    } catch (Exception e) {
+    } catch (Exception _) {
       // That means the file either doesn't exist or
       // the session holder was somehow closed.
       // Ignore and fall through.

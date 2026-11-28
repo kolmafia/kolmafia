@@ -53,7 +53,7 @@ public class MaximizerSpeculation extends Speculation
         copy.mods = new Modifiers(this.mods);
       }
       return copy;
-    } catch (CloneNotSupportedException e) {
+    } catch (CloneNotSupportedException _) {
       return null;
     }
   }

@@ -144,7 +144,7 @@ public class FindBar extends JPanel {
       this.pane.getDocument().addDocumentListener(this.outputListener);
       try {
         this.highlight = this.pane.getHighlighter().addHighlight(0, 0, this.painter);
-      } catch (BadLocationException e) {
+      } catch (BadLocationException _) {
       }
     }
 
@@ -224,7 +224,7 @@ public class FindBar extends JPanel {
     var text = new Segment();
     try {
       this.pane.getDocument().getText(start, end - start, text);
-    } catch (BadLocationException e) {
+    } catch (BadLocationException _) {
       return found;
     }
 
@@ -300,7 +300,7 @@ public class FindBar extends JPanel {
       } else {
         scroll.run();
       }
-    } catch (BadLocationException e) {
+    } catch (BadLocationException _) {
     }
   }
 

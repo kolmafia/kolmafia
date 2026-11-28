@@ -14,7 +14,7 @@ public class GraphicsUtilities {
   public static BufferedImage readImage(File f) {
     try {
       return ImageIO.read(f);
-    } catch (IOException x) {
+    } catch (IOException _) {
       return null;
     }
   }
@@ -61,7 +61,7 @@ public class GraphicsUtilities {
       File f = FileUtilities.imageFile(path);
       f.createNewFile();
       ImageIO.write(image, "PNG", f);
-    } catch (IOException x) {
+    } catch (IOException _) {
     }
   }
 }

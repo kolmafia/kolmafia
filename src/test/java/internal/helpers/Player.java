@@ -2968,7 +2968,7 @@ public class Player {
       // root/data is not in git, so a fresh checkout has no such folder until something makes it
       Files.createDirectories(destinationFile.toPath().getParent());
       Files.copy(sourceFile.toPath(), destinationFile.toPath());
-    } catch (FileAlreadyExistsException e) {
+    } catch (FileAlreadyExistsException _) {
       // Do nothing.  No message needed.
     } catch (IOException e) {
       System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");

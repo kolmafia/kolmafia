@@ -6738,7 +6738,7 @@ public abstract class ChoiceControl {
             var monsterName = MonsterDatabase.getMonsterName(Integer.parseInt(monsterIdString));
             Preferences.setInteger("bodyguardCharge", 0);
             Preferences.setString("bodyguardChatMonster", monsterName);
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException _) {
             break;
           }
         }
@@ -6751,7 +6751,7 @@ public abstract class ChoiceControl {
           String item = request.getFormField("a");
           try {
             ResultProcessor.removeItem(Integer.parseInt(item));
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException _) {
             break;
           }
         }
@@ -6763,7 +6763,7 @@ public abstract class ChoiceControl {
           String item = request.getFormField("iid");
           try {
             ResultProcessor.removeItem(Integer.parseInt(item));
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException _) {
             break;
           }
         }

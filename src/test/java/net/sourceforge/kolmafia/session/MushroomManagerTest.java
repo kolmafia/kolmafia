@@ -26,7 +26,7 @@ class MushroomManagerTest {
           if (existed) return;
           try (Stream<Path> files = Files.walk(plots.toPath())) {
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
-          } catch (IOException ignored) {
+          } catch (IOException _) {
           }
         });
   }

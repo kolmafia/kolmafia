@@ -107,7 +107,7 @@ public class SwingUserInterface implements UserInterface {
       ResetGUIRunnable resetGUIRunnable = new ResetGUIRunnable();
       try {
         SwingUtilities.invokeAndWait(resetGUIRunnable);
-      } catch (Exception e) {
+      } catch (Exception _) {
       }
     }
   }
@@ -342,7 +342,7 @@ public class SwingUserInterface implements UserInterface {
       UIManager.setLookAndFeel(lookAndFeel);
       KoLmafiaGUI.applyFlatLafMenuBarSettings();
       JFrame.setDefaultLookAndFeelDecorated(System.getProperty("os.name").startsWith("Mac"));
-    } catch (Exception e) {
+    } catch (Exception _) {
       // Should not happen, as we checked to see if
       // the look and feel was installed first.
 
@@ -379,7 +379,7 @@ public class SwingUserInterface implements UserInterface {
       try {
         // try to load the class to confirm it exists
         Class.forName(value);
-      } catch (ClassNotFoundException e) {
+      } catch (ClassNotFoundException _) {
         RequestLogger.printLine("Failed to load class " + value + " for Theme " + key);
         continue;
       }

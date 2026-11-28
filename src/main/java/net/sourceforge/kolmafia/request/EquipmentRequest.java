@@ -999,7 +999,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       if (buffer.hasRemaining()) {
         throw new IllegalArgumentException();
       }
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException _) {
       RequestLogger.printLine("Invalid Codpiece outfit configuration.");
       return true;
     }

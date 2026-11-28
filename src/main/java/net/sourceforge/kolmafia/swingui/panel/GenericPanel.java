@@ -398,7 +398,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
     public void setText(String text) {
       try {
         text = this.getRelativePath(text);
-      } catch (IOException e) {
+      } catch (IOException _) {
 
       }
 
@@ -486,7 +486,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
           }
 
           this.setText(input.getCanonicalPath());
-        } catch (IOException e1) {
+        } catch (IOException _) {
 
         }
       }

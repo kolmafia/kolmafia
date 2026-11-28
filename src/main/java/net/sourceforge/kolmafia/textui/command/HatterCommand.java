@@ -40,7 +40,7 @@ public class HatterCommand extends AbstractCommand {
       int len = Integer.parseInt(parameters);
 
       RabbitHoleManager.getHatBuff(len);
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException _) {
       List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(Slot.HAT);
       AdventureResult[] matches = ItemFinder.getMatchingItemList(hat, false, hats);
 

@@ -285,7 +285,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     try {
       return Integer.parseInt(this.adventureId);
-    } catch (NumberFormatException e) {
+    } catch (NumberFormatException _) {
       return -1;
     }
   }

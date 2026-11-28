@@ -1136,7 +1136,7 @@ public class MonsterData extends AdventureResult {
         monster.physicalResistance = Math.max(physRes, monsterPhysRes);
       }
       return monster;
-    } catch (CloneNotSupportedException e) {
+    } catch (CloneNotSupportedException _) {
       // This should not happen. Hope for the best.
       return this;
     }
@@ -1154,7 +1154,7 @@ public class MonsterData extends AdventureResult {
     MonsterData monster;
     try {
       monster = (MonsterData) this.clone();
-    } catch (CloneNotSupportedException e) {
+    } catch (CloneNotSupportedException _) {
       // This should not happen. Hope for the best.
       return this;
     }
@@ -2074,7 +2074,7 @@ public class MonsterData extends AdventureResult {
     MonsterData monster;
     try {
       monster = (MonsterData) this.clone();
-    } catch (CloneNotSupportedException e) {
+    } catch (CloneNotSupportedException _) {
       // This should not happen. Hope for the best.
       return this;
     }

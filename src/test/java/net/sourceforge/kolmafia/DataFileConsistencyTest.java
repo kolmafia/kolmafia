@@ -358,7 +358,7 @@ public class DataFileConsistencyTest {
         String zone = fields[0];
         assertTrue(AdventureDatabase.validateAdventureArea(zone), "Problem with " + zone);
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from combats.txt");
     }
   }
@@ -385,7 +385,7 @@ public class DataFileConsistencyTest {
             iFreq,
             lessThanOrEqualTo(100));
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from combats.txt");
     }
   }
@@ -416,7 +416,7 @@ public class DataFileConsistencyTest {
               monster, "Problem with monster " + name + " on line beginning with " + fields[0]);
         }
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from combats.txt");
     }
   }
@@ -564,7 +564,7 @@ public class DataFileConsistencyTest {
             default -> fail("unrecognised identifier " + identifier);
           }
         }
-      } catch (IOException e) {
+      } catch (IOException _) {
         fail("Couldn't read from " + file);
       }
     }
@@ -598,7 +598,7 @@ public class DataFileConsistencyTest {
             }
           }
         }
-      } catch (IOException e) {
+      } catch (IOException _) {
         fail("Couldn't read from " + file);
       }
     }
@@ -641,7 +641,7 @@ public class DataFileConsistencyTest {
           assertModCountEqual(mods, element, "Effect", "Effect Duration");
           assertModCountEqual(mods, element, "Rollover Effect", "Rollover Effect Duration");
         }
-      } catch (IOException e) {
+      } catch (IOException _) {
         fail("Couldn't read from " + file);
       }
     }
@@ -669,7 +669,7 @@ public class DataFileConsistencyTest {
           var data = FamiliarDatabase.getFamiliarRaceData(id);
           allFamiliars.remove(data);
         }
-      } catch (IOException e) {
+      } catch (IOException _) {
         fail("Couldn't read from " + file);
       }
 
@@ -703,7 +703,7 @@ public class DataFileConsistencyTest {
               seen.add(key),
               is(true));
         }
-      } catch (IOException e) {
+      } catch (IOException _) {
         fail("Couldn't read from " + file);
       }
     }
@@ -734,7 +734,7 @@ public class DataFileConsistencyTest {
           default -> fail("unrecognised identifier " + identifier);
         }
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from " + file);
     }
   }
@@ -758,7 +758,7 @@ public class DataFileConsistencyTest {
           fail("unrecognised item " + item);
         }
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from " + file);
     }
   }
@@ -802,7 +802,7 @@ public class DataFileConsistencyTest {
           }
         }
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from " + file);
     }
   }
@@ -855,7 +855,7 @@ public class DataFileConsistencyTest {
           }
         }
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from " + file);
     }
   }
@@ -883,7 +883,7 @@ public class DataFileConsistencyTest {
             data[0].equals("*") || AdventureDatabase.validateAdventureArea(data[0]),
             is(true));
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from encounters.txt");
     }
   }
@@ -915,7 +915,7 @@ public class DataFileConsistencyTest {
               notNullValue());
         }
       }
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail("Couldn't read from monsters.txt");
     }
   }

@@ -58,7 +58,7 @@ public class SafeRequire extends Require {
                     try {
                       return f.getCanonicalPath()
                           .startsWith(KoLConstants.ROOT_LOCATION.getCanonicalPath());
-                    } catch (IOException e) {
+                    } catch (IOException _) {
                       KoLmafia.updateDisplay(
                           MafiaState.ERROR, "Could not resolve path " + f.getPath());
                       return false;

@@ -78,7 +78,7 @@ public abstract class StaticEntity {
             }
           }
         }
-      } catch (IOException e) {
+      } catch (IOException _) {
       }
     }
 
@@ -115,7 +115,7 @@ public abstract class StaticEntity {
         if (buildRevision != null && StringUtilities.isNumeric(buildRevision)) {
           try {
             StaticEntity.cachedRevisionNumber = Integer.parseInt(buildRevision);
-          } catch (NumberFormatException e) {
+          } catch (NumberFormatException _) {
             // fall through
           }
         }

@@ -365,7 +365,7 @@ public class JavascriptRuntime extends AbstractRuntime {
     try {
       var stack = ScriptableObject.getProperty(scriptable, "stack");
       return stack instanceof String text && !text.isBlank() ? text : null;
-    } catch (RuntimeException e) {
+    } catch (RuntimeException _) {
       return null;
     }
   }
